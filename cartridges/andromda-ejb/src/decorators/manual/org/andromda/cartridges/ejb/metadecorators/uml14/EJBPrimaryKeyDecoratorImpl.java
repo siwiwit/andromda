@@ -47,21 +47,17 @@ public class EJBPrimaryKeyDecoratorImpl extends EJBPrimaryKeyDecorator {
 	 *         there is none or the class has a complex primary key.
 	 */
 	private AttributeDecorator getSimplePkField() {
+		AttributeDecorator primaryKey = null;
 		Collection primaryKeys =
 			((EJBEntityDecorator) this.getOwner()).getPrimaryKeyFields();
-		if (primaryKeys.size() != 1) {
-			return null;
-		} else {
+		if (primaryKeys.size() == 1) {
 			AttributeDecorator pkField =
 				(AttributeDecorator) primaryKeys.iterator().next();
-			if (EJBProfile
-				.STEREOTYPE_PRIMARY_KEY
-				.equals(pkField.getStereotypeName())) {
-				return pkField;
-			} else {
-				return null;
+			if (pkField.hasStereotype(EJBProfile.STEREOTYPE_PRIMARY_KEY)) {
+				primaryKey = pkField;
 			}
 		}
+		return primaryKey;
 	}
 
 	// ------------- relations ------------------

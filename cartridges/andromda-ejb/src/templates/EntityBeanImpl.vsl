@@ -22,7 +22,7 @@ public abstract class ${entityname}BeanImpl extends ${entityname}Bean
     // abstract in class ${entityname}Bean ...
 
 #foreach ( $op in $class.operations)
-#if ($op.stereotypeName != "FinderMethod")
+#if (!$op.hasStereotype("FinderMethod"))
 #set ($returntype = $op.getType.fullyQualifiedName)
 #set ($msig = $op.signature)
 #set ($visibility = $op.visibility.toString())
