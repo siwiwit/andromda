@@ -60,15 +60,13 @@
     </target>
 
     <target name="dist" depends="clean,init"
-            description="Builds core, cartridges, samples and website">
+            description="Builds cartridges">
 
         <antcall target="buildCartridge">
           <param name="cartridge.name" value="andromda-meta"/>
         </antcall>
-        <move file="${dist.dir}/andromda-meta/metadecorators.jar"
-              todir="../dist/andromda-core/lib" 
-        />
-        <antcall target="buildCartridge">
+
+   <!--     <antcall target="buildCartridge">
           <param name="cartridge.name" value="andromda-ejb"/>
         </antcall>
         <antcall target="buildCartridge">
@@ -82,7 +80,7 @@
         </antcall>
         <antcall target="buildCartridge">
             <param name="cartridge.name" value="andromda-bpm4struts"/>
-        </antcall>
+        </antcall> -->
     </target>
 
 </project>

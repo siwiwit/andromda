@@ -24,7 +24,7 @@ public class AssociationFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.AssociationFacade#handleGetAssociationEnds()
+     * @see org.andromda.metafacades.uml14.AssociationFacade#handleGetAssociationEnds()
      */
     public java.util.Collection handleGetAssociationEnds()
     {
@@ -32,7 +32,7 @@ public class AssociationFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.ModelElementFacade#getName()
+     * @see org.andromda.metafacades.uml14.ModelElementFacade#getName()
      */
     public String getRelationName() {
         Collection ends = this.getAssociationEnds();

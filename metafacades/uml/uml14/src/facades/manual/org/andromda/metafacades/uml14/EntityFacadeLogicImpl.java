@@ -32,7 +32,7 @@ public class EntityFacadeLogicImpl
     // ------------- relations ------------------
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.EntityFacade#getFinders
+     * @see org.andromda.metafacades.uml14.EntityFacade#getFinders
      */
     public java.util.Collection getFinders() {
         final String methodName = "EntityFacadeImpl.getFinders";
@@ -52,7 +52,7 @@ public class EntityFacadeLogicImpl
     }   
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.EntityFacade#getIdentifiers()
+     * @see org.andromda.metafacades.uml14.EntityFacade#getIdentifiers()
      */
     public java.util.Collection getIdentifiers() {
         final String methodName = "EntityFacadeImpl.getIdentifiers";
@@ -79,7 +79,7 @@ public class EntityFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.EntityFacade#getTableName()
+     * @see org.andromda.metafacades.uml14.EntityFacade#getTableName()
      */
     public String getTableName() {
         return EntityMetafacadeUtils.getSqlNameFromTaggedValue(
@@ -89,7 +89,7 @@ public class EntityFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.EntityFacade#getAttributesAsList(boolean, boolean)
+     * @see org.andromda.metafacades.uml14.EntityFacade#getAttributesAsList(boolean, boolean)
      */
     public String getAttributesAsList(boolean withTypeNames, boolean withIdentifiers) {
         StringBuffer buffer = new StringBuffer();

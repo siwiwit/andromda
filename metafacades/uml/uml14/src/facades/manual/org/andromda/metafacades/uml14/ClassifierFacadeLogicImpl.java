@@ -172,14 +172,14 @@ public class ClassifierFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#isAbstract()
+     * @see org.andromda.metafacades.uml14.ClassifierFacade#isAbstract()
      */
     public boolean isAbstract() {
         return this.metaObject.isAbstract();
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#getStaticAttributes()
+     * @see org.andromda.metafacades.uml14.ClassifierFacade#getStaticAttributes()
      */
     public Collection getStaticAttributes() {
         Collection attributes = this.getAttributes();
@@ -193,7 +193,7 @@ public class ClassifierFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#getInstanceAttributes()
+     * @see org.andromda.metafacades.uml14.ClassifierFacade#getInstanceAttributes()
      */
     public java.util.Collection getInstanceAttributes() {
         Collection attributes = this.getAttributes();
@@ -207,7 +207,7 @@ public class ClassifierFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#getAbstractions()
+     * @see org.andromda.metafacades.uml14.ClassifierFacade#getAbstractions()
      */
     public Collection getAbstractions() {
         Collection clientDependencies =

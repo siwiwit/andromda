@@ -161,7 +161,7 @@ public class ModelElementFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.ModelElementFacade#getStereotypeNames()
+     * @see org.andromda.metafacades.uml14.ModelElementFacade#getStereotypeNames()
      */
     public java.util.Collection getStereotypeNames() {
         Collection stereotypeNames = new ArrayList();
@@ -297,7 +297,7 @@ public class ModelElementFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#handleGetRootPackage()
+     * @see org.andromda.metafacades.uml14.ModelElementDecorator#handleGetRootPackage()
      */
     protected Object handleGetRootPackage() 
     {
