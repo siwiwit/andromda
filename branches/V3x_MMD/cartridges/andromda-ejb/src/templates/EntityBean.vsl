@@ -310,9 +310,19 @@ public abstract class ${entityname}Bean
 #if ($assoc.isOne2Many() || $assoc.isMany2Many() || $assoc.otherEnd.findTaggedValue("@andromda.jboss.autoKeyFields") == "true")
     * @jboss.auto-key-fields
 #else
+#set ($identifiers = $assoc.otherEnd.type.identifiers)
+#if (!$identifiers.empty)
+#foreach ($identifier in $identifiers)
+#if ($identifiers.size() == 1)
+#set ($identifierName = $identifier.name)
+#else
+#set ($identifierName = "$assoc.otherEnd.type.name")
+#end
     * @jboss.relation 
     *     fk-column = "${assoc.otherEnd.columnName}"
-    *     related-pk-field = "${assoc.otherEnd.name}"
+    *     related-pk-field = "${identifierName}"
+#end
+#end
 #end
     */
     public abstract $targetTypeName get$TargetRoleName();
