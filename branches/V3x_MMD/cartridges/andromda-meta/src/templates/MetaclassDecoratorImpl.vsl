@@ -1,7 +1,7 @@
 #set ($packagename = $class.package.fullyQualifiedName)
 package $packagename;
 
-#set ($decoratedMetaclass = $transform.getMetaclass($class.metaObject))
+#set ($decoratedMetaclass = $class.metaclass)
 #set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
 
 /**

@@ -2,18 +2,14 @@
 package $packagename;
 
 ## calculate metaclass and superclass
-#set ($decoratedMetaclass = $transform.getMetaclass($class.metaObject))
+#set ($decoratedMetaclass = $class.metaclass)
 #set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
 ##
 #set ($superclass = $class.superclass)
 #if ($superclass)
     #set ($superclassName = "${superclass.fullyQualifiedName}Impl")
 #else
-    #if ($decoratedMetaclassTypeName != "org.omg.uml.foundation.core.ModelElement" && $decoratedMetaclassTypeName != "org.omg.uml.UmlPackage")
-    	#set ($superclassName = "org.andromda.core.metadecorators.uml14.ModelElementDecoratorImpl")
-    #else
-    	#set ($superclassName = "DecoratorBase")
-    #end
+    #set ($superclassName = $class.implSuperclass)
 #end
 ##
 /**
@@ -66,7 +62,6 @@ $att.getDocumentation("    ")
 $op.getDocumentation("    ")
     *
     */
-//$op.type
     $op.visibility abstract $op.type.fullyQualifiedName ${op.signature};
     
 #end
