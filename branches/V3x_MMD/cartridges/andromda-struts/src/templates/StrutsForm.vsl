@@ -11,31 +11,15 @@ import org.apache.struts.action.ActionMapping;
 import org.andromda.cartridges.struts.FormFieldMapper;
 import java.text.ParseException;
 
-#macro ( generateDocumentation $item $indent)
-#foreach ( $tgv in $item.taggedValues )
-#if ($tgv.name == "documentation")
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tgv.value))
-#foreach ( $par in $paras )
-${indent}*
-${indent}* <p>
-#foreach ( $line in $par.lines )
-${indent}* $line
-#end
-${indent}* </p>
-#end
-#end
-#end
-#end
-
 #if ($class.hasIdentifiers())
 #set ($primKey = $class.identifiers.iterator().next())
 #end
 #set ($primKeyTypeName = $primKey.type.fullyQualifiedName)
 
-#foreach ( $assocLink in $class.associationLinks )
-    #set ($adata = $transform.getAssociationData($assocLink))
-#if ($adata.target.navigable == "true")
-    #set ($class2 = $adata.target.type)
+#foreach ( $associationEnd in $class.associationEnds)
+#set($target = $associationEnd.otherEnd)
+#if ($target.navigable)
+    #set ($class2 = $target.type)
     #if ($class2)
         #set ($class2packagename = $class2.type.packageName)
         #if ($class2packagename != $packagename)
@@ -56,7 +40,7 @@ import $class2.type.fullyQualifiedName;
 #end
 
 /**
-#generateDocumentation ($class " ")
+$class.getDocumentation(" ")
  *
  * @struts:form name="$class.name"
  *
@@ -94,7 +78,7 @@ public class ${class.name} extends ActionForm
 #end
 
    /**
-#generateDocumentation ($att "    ")
+$att.getDocumentation("    ")
     *
     */
 #if ($attfqtypename != "java.util.Collection")

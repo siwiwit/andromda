@@ -2,7 +2,7 @@ package org.andromda.core.uml14;
 
 /**
  * Contains the common UML AndroMDA profile.  That is, it contains
- * elements "common" to all AndroMDA compoents (tagged values, and stereotypes).
+ * elements "common" to all AndroMDA components (tagged values, and stereotypes).
  * 
  * @author Chad Brandon
  */

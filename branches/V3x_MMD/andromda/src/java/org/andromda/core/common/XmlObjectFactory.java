@@ -105,7 +105,7 @@ public class XmlObjectFactory {
             // can happen by running ant inside eclipse for example)
             // Comment out until I figure out a clean way to ignore 
             // validation if the underlying parser doesn't support it.  
-            //factory.setValidating(true);
+            factory.setValidating(true);
             factoryCache.put(objectClass, factory);
         }
         
@@ -149,7 +149,6 @@ public class XmlObjectFactory {
                 this.digester.setValidating(true);
                 this.digester.setSchema(this.schemaUri.toString());
                 this.digester.setErrorHandler(new XmlObjectValidator());
-                this.digester.setEntityResolver(new Resolver());
             } catch (Exception ex) {
                 logger.warn("WARNING! Your parser does NOT support the " 
                     + " schema validation continuing in non validation mode", ex);
@@ -233,14 +232,6 @@ public class XmlObjectFactory {
         }
 
     }
-    
-    protected class Resolver implements EntityResolver {
-        public InputSource resolveEntity(String publicId, String systemId) {
-            System.out.println("publicId --> " + publicId);
-            System.out.println("systemId --> " + systemId);
-            InputSource source = new InputSource("test");
-            return source;
-        }
-    }
+
     
 }

@@ -422,7 +422,6 @@ public class AndroMDAGenTask extends MatchingTask
                 new CodeGenerationContext(
                     repository,
                     model,
-                    null, // <-- no default script helper, yet!
                     lastModifiedCheck,
                     packages,
                     userProperties);

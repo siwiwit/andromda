@@ -1,6 +1,5 @@
 package org.andromda.cartridges.bpm4struts;
 
-import org.andromda.core.uml14.UMLDefaultHelper;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 import org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState;
 import org.omg.uml.behavioralelements.statemachines.FinalState;
@@ -13,7 +12,7 @@ import org.omg.uml.foundation.datatypes.PseudostateKindEnum;
  *
  * @author <a href="mailto:draftdog@users.sourceforge.net">Wouter Zoons</a>
  */
-public final class StrutsScriptHelper extends UMLDefaultHelper
+public final class StrutsScriptHelper
 {
     public boolean isActionState(Object object)
     {

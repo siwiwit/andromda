@@ -5,23 +5,8 @@
 #set ($packagename = $class.packageName)
 package $packagename;
 
-#macro ( generateDocumentation $item $indent)
-#foreach ( $tgv in $item.taggedValues )
-#if ($tgv.name == "documentation")
-#set ($paras = $tgv.formatHTMLStringAsParagraphs())
-#foreach ( $par in $paras )
-${indent}*
-${indent}* <p>
-#foreach ( $line in $par.lines )
-${indent}* $line
-#end
-${indent}* </p>
-#end
-#end
-#end
-#end
 /**
-#generateDocumentation ($class " ")
+$class.getDocumentation(" ")
  *
 #foreach ( $tgv in $class.taggedValues )
 #if ($tgv.name != "documentation")
@@ -66,7 +51,7 @@ public class ${class.name} implements java.io.Serializable
 #foreach ( $att in $class.attributes )
 #set ($atttypename = $att.type.fullyQualifiedName)
    /**
-#generateDocumentation ($att "    ")
+$att.getDocumentation(" ")
     *
     */
     public $atttypename ${att.getterName}()

@@ -1,7 +1,6 @@
 package org.andromda.core.anttasks;
 
 import org.andromda.core.common.RepositoryFacade;
-import org.andromda.core.common.ScriptHelper;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
@@ -127,48 +126,6 @@ public class RepositoryConfiguration
             throw new BuildException(
                 "unable to access repository constructor "
                     + repositoryClass
-                    + "()");
-        }
-
-        return instance;
-    }
-
-    /**
-     * Creates an instance of the object model Transfomer.
-     * 
-     * @return ScriptHelper
-     */
-    public ScriptHelper createTransform()
-    {
-        ScriptHelper instance = null;
-
-        try
-        {
-            if (scriptHelperClass == null)
-            {
-                // use the default script helper implementation
-                scriptHelperClass =
-                    Class.forName(DEFAULT_SCRIPT_HELPER_CLASSNAME);
-            }
-            instance = (ScriptHelper) scriptHelperClass.newInstance();
-        }
-        catch (ClassNotFoundException cnfe)
-        {
-            throw new BuildException(
-                DEFAULT_SCRIPT_HELPER_CLASSNAME
-                    + " class could not be found",
-                cnfe);
-        }
-        catch (InstantiationException ie)
-        {
-            throw new BuildException(
-                "could not instantiate transform " + scriptHelperClass);
-        }
-        catch (IllegalAccessException iae)
-        {
-            throw new BuildException(
-                "unable to access transform constructor "
-                    + scriptHelperClass
                     + "()");
         }
 
