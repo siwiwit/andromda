@@ -194,26 +194,6 @@
     </template>
 
     <template
-        sheet="templates/StrutsXDocletMergeWebEjbRefs.vsl"
-        outputPattern="web-ejbrefs.xml"
-        outlet="xdoclet-merge"
-        overWrite="true">
-        <modelElements variable="class">
-            <modelElement stereotype="FrontEndApplication"/>
-        </modelElements>
-    </template>
-
-    <template
-        sheet="templates/StrutsXDocletMergeWebEjbRefsLocal.vsl"
-        outputPattern="web-ejbrefs-local.xml"
-        outlet="xdoclet-merge"
-        overWrite="true">
-        <modelElements variable="class">
-            <modelElement stereotype="FrontEndApplication"/>
-        </modelElements>
-    </template>
-
-    <template
         sheet="templates/StrutsLoginFormJsp.vsl"
         outputPattern="login-form.jsp"
         outlet="pages"
