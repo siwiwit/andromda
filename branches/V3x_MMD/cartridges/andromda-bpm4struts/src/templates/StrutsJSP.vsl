@@ -13,15 +13,13 @@
 #if ($roles != "")
 ${indent}<logic:present role="$roles">
 #end
-#set ($mapName = "map")
+#set ($mapName = "$str.toJavaMethodName($triggerKey)Parameters")
 ${indent}<%
 ${indent}  java.util.Map $mapName = new java.util.HashMap();
 ${indent}  pageContext.setAttribute("$mapName", $mapName, pageContext.PAGE_SCOPE);
 ${indent}%>
 ${indent}<table>
 #foreach ($parameter in $parameters)
-${indent}   <tr>
-${indent}       <td>
 #if ($parameter.hasBackingList())
 ${indent}  <logic:iterate id="$parameter.name" name="$formBeanName" property="$parameter.backingListName" scope="page">
 ${indent}     <%
@@ -33,16 +31,18 @@ ${indent}        ${mapName}.put("$parameter.name", ${formBeanName}.${parameter.g
 ${indent}     %>
 #end
 #end
-${indent}      <html:link action="$action.actionPath" titleKey="${action.messageKey}.$triggerKey" name="$mapName" scope="page">
-${indent}         <bean:message key="${action.messageKey}.$triggerKey"/>:
-${indent}         <bean:write name="map" scope="page"/>
-${indent}      </html:link>
+${indent}   <tr>
+${indent}       <td>
+${indent}           <html:link action="$action.actionPath" titleKey="${action.messageKey}.$triggerKey" name="$mapName" scope="page">
+${indent}               <bean:message key="${action.messageKey}.$triggerKey"/>:
+${indent}               <bean:write name="$mapName" scope="page"/>
+${indent}           </html:link>
+${indent}       </td>
+${indent}   </tr>
 #foreach ($parameter in $parameters)
 #if ($parameter.hasBackingList())
 ${indent}  </logic:iterate>
 #end
-${indent}       </td>
-${indent}   </tr>
 #end
 ${indent}</table>
 #if ($roles != "")
