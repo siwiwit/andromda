@@ -43,6 +43,10 @@
     <category name="org.andromda">
       <priority value="info" />
     </category>
+    
+    <category name="org.andromda.core.mdr">
+      <priority value="debug" />
+    </category>
 
   	<!-- ======================= -->
   	<!-- Setup the Root category -->
