@@ -29,7 +29,7 @@ public class UseCaseDecoratorImpl extends UseCaseDecorator
     // concrete business methods that were declared
     // abstract in class UseCaseDecorator ...
 
-    public java.util.Collection getStateMachines()
+    protected Collection handleGetStateMachines()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
@@ -42,7 +42,7 @@ public class UseCaseDecoratorImpl extends UseCaseDecorator
         return getSubGraphs(filter);
     }
 
-    public java.util.Collection getActivityGraphs()
+    protected Collection handleGetActivityGraphs()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
@@ -51,13 +51,13 @@ public class UseCaseDecoratorImpl extends UseCaseDecorator
                 return object instanceof ActionState;
             }
         };
-        
+
         return getSubGraphs(filter);
     }
 
-    protected Collection getSubGraphs(CollectionFilter collectionFilter)
+    private Collection getSubGraphs(CollectionFilter collectionFilter)
     {
-        return filter(metaObject.getOwnedElement(), collectionFilter);
+        return filter(getOwnedElement(), collectionFilter);
     }
 
     private Collection filter(Collection collection, CollectionFilter collectionFilter)
