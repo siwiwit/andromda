@@ -1,15 +1,15 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
-import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecoratorImpl;
-import org.omg.uml.foundation.core.AssociationEnd;
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
+import org.andromda.core.metadecorators.uml14.AttributeDecorator;
+import org.omg.uml.foundation.core.Attribute;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 
 /**
@@ -49,15 +49,19 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
      */
     public java.util.Collection handleGetInputFields()
     {
+        final Collection attributes = getAttributes();
         final Collection inputFields = new LinkedList();
-        final Collection associationEnds = getAssociationEnds();
-        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+
+        for (Iterator iterator = attributes.iterator(); iterator.hasNext();)
         {
-            AssociationEnd associationEnd = (AssociationEnd) iterator.next();
-            ClassifierDecorator participant = new ClassifierDecoratorImpl(associationEnd.getParticipant());
-            if (participant.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_INPUTFIELD).booleanValue())
-                inputFields.add(participant);
+            Attribute attribute = (Attribute) iterator.next();
+            AttributeDecorator attributeDecorator = (AttributeDecorator)DecoratorBase.decoratedElement(attribute);
+            if (attributeDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_INPUTFIELD).booleanValue())
+            {
+                inputFields.add(attribute);
+            }
         }
+
         return inputFields;
     }
 
