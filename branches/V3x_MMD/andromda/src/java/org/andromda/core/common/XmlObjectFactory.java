@@ -9,11 +9,13 @@ import java.util.Map;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.log4j.Logger;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * Creates and returns Objects based on the a set of 
+ * Creates and returns Objects based on a set of 
  * Apache Digester rules.
  * 
  * @author Chad Brandon
@@ -73,7 +75,16 @@ public class XmlObjectFactory {
             factory = new XmlObjectFactory(objectRulesXml);
             factory.objectClass = objectClass;
             factory.objectRulesXml = objectRulesXml;
-            factory.setValidating(true);
+            // TODO: Allow graceful way to ignore schema validation if
+            // the underlying parser doesn't support it.
+            // If the underlying parser doesn't support schema validation 
+            // it fails by trying to validate against a non existent DTD (this
+            // can happen by running ant inside eclipse for example)
+            // Comment out until I figure out a clean way to ignore 
+            // validation if the underlying parser doesn't support it.  
+            // And maybe XStream will have better support of this...
+            // if we decide to use that instead of the digester.
+            //factory.setValidating(true);
             factoryCache.put(objectClass, factory);
         }
         
@@ -117,6 +128,7 @@ public class XmlObjectFactory {
                 this.digester.setValidating(true);
                 this.digester.setSchema(this.schemaUri.toString());
                 this.digester.setErrorHandler(new XmlObjectValidator());
+                this.digester.setEntityResolver(new Resolver());
             } catch (Exception ex) {
                 logger.warn("WARNING! Your parser does NOT support the " 
                     + " schema validation continuing in non validation mode", ex);
@@ -199,6 +211,15 @@ public class XmlObjectFactory {
         	logger.warn("WARNING!: " + exception.toString());   
         }
 
+    }
+    
+    protected class Resolver implements EntityResolver {
+        public InputSource resolveEntity(String publicId, String systemId) {
+            System.out.println("publicId --> " + publicId);
+            System.out.println("systemId --> " + systemId);
+            InputSource source = new InputSource("test");
+            return source;
+        }
     }
     
 }
