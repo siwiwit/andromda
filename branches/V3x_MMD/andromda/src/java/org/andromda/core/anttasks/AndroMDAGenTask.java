@@ -74,12 +74,6 @@ public class AndroMDAGenTask extends MatchingTask
     private File velocityPropertiesFile = null;
 
     /**
-     * True/false whether we should process
-     * all packages contained within the model.
-     */
-    private boolean processAllModelPackages = true;
-
-    /**
      * A Packages object which specify
      * whether or not packages should be processed.
      */
