@@ -1,26 +1,26 @@
 package org.andromda.cartridges.bpm4struts;
 
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActionStateDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsCheckBoxDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsComboBoxDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsControllerDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsEventDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsFinalStateDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsGuardDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsListDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsModelDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsMultiBoxDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsObjectFlowStateDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPasswordDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPseudostateDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsRadioButtonDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsSimpleStateDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsStateMachineDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextAreaDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTransitionDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsUseCaseDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsViewDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextAreaDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsCheckBoxDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsRadioButtonDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsComboBoxDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsListDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsMultiBoxDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPasswordDecoratorImpl;
 import org.andromda.cartridges.interfaces.DefaultAndroMDACartridge;
 import org.andromda.core.metadecorators.uml14.DecoratorFactory;
 
@@ -41,29 +41,14 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
          *
          */
         df.registerDecoratorClass(
-            "org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl",
-            null,
-            StrutsActionStateDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.statemachines.Event$Impl",
             null,
             StrutsEventDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
-            "org.omg.uml.behavioralelements.activitygraphs.FinalState$Impl",
-            null,
-            StrutsFinalStateDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.statemachines.Guard$Impl",
             null,
             StrutsGuardDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState$Impl",
-            null,
-            StrutsObjectFlowStateDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.statemachines.Pseudostate$Impl",
@@ -75,6 +60,11 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             null,
             StrutsSimpleStateDecoratorImpl.class.getName());
 
+        df.registerDecoratorClass(
+            "org.omg.uml.behavioralelements.statemachines.Transition$Impl",
+            null,
+            StrutsTransitionDecoratorImpl.class.getName());
+
 /*
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.statemachines.StateMachine$Impl",
@@ -83,14 +73,24 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
 */
 
         df.registerDecoratorClass(
+            "org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl",
+            null,
+            StrutsActionStateDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.behavioralelements.activitygraphs.FinalState$Impl",
+            null,
+            StrutsFinalStateDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState$Impl",
+            null,
+            StrutsObjectFlowStateDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl",
             null,
             StrutsStateMachineDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.behavioralelements.activitygraphs.Transition$Impl",
-            null,
-            StrutsTransitionDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.usecases.UseCase$Impl",
