@@ -33,7 +33,7 @@ public class StrutsFinalStateLogicImpl
             {
                 UseCaseFacade useCase = (UseCaseFacade) iterator.next();
                 if (useCase instanceof StrutsUseCase)
-                    return ((StrutsUseCase)useCase).getFullPath();
+                    return ((StrutsUseCase)useCase).getActionPath();
             }
         }
 
