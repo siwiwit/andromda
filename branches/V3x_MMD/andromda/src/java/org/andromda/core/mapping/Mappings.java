@@ -120,53 +120,55 @@ public class Mappings {
 		}
 	}
 	
-	/**
-	 * Returns the to mapping for the given <code>from</code> mapping.
-	 *
-	 * @param from the <code>from</code> mapping, this is the type/identifier
-	 *        that is in the model.
-	 * @return String to the <code>to</code> mapping (this is the mapping that
-	 *         can be retrieved if a corresponding <code>from</code> is found).
-	 */
+    /**
+    * Returns the <code>to</code> mapping from a given <code>from</code>
+    * mapping.
+    *
+    * @param from the <code>from</code> mapping, this is the type/identifier
+    *        that is in the model.
+    * @return String to the <code>to</code> mapping (this is the mapping that
+    *         can be retrieved if a corresponding 'from' is found.
+    */
 	public String getTo(String from) {
-		from = StringUtils.deleteWhitespace(from);
-		
-		String to = null;
-		
-		String arraySuffix = "[]";
-		//if the type is an array suffix, then strip the array off
-		//so we can find the mapping
-		int suffixIndex = from.indexOf(arraySuffix);
-		if (suffixIndex != -1) {
-			from = StringUtils.replace(from, arraySuffix, "");
-		}
-		
-		Mapping mapping = this.getMapping(from);
-		
-		if (mapping != null) {
-			StringBuffer buf = new StringBuffer(mapping.getTo());
-			
-			if (suffixIndex != -1) {
-				//append the suffix back to the return value;
-				buf.append(arraySuffix);
-			}
-			to = buf.toString();	
-		}
-		
-		if (to == null) {
-			if (logger.isDebugEnabled())
-				logger.debug("no mapping for type '" 
-						+ from 
-						+ "' found, using default name --> '" + from + "'");
-			to = from;
-		} else {
-			if (logger.isDebugEnabled())
-				logger.debug("mapping for type '" 
-						+ from
-						+ "' found, using found mapping --> '" + to + "'");
-		}	
-		
-		return StringUtils.trimToEmpty(to);
+        from = StringUtils.deleteWhitespace(from);
+        String initialFrom = from;
+        
+        String to = null;
+            
+        String arraySuffix = "[]";
+        //if the type is an array suffix, then strip the array off
+        //so we can find the mapping
+        int suffixIndex = from.indexOf(arraySuffix);
+        if (suffixIndex != -1) {
+            from = StringUtils.replace(from, arraySuffix, "");
+        }
+        
+        Mapping mapping = this.getMapping(from);
+        
+        if (mapping != null) {
+            StringBuffer buf = new StringBuffer(mapping.getTo());
+        
+            if (suffixIndex != -1) {
+                //append the suffix back to the return value;
+                buf.append(arraySuffix);
+            }
+            to = buf.toString();    
+        }
+        
+        if (to == null) {
+            if (logger.isDebugEnabled())
+                logger.debug("no mapping for type '" 
+                        + from 
+                        + "' found, using default name --> '" + from + "'");
+            to = initialFrom;
+        } else {
+            if (logger.isDebugEnabled())
+                logger.debug("mapping for type '" 
+                        + from
+                        + "' found, using found mapping --> '" + to + "'");
+        }   
+        
+        return StringUtils.trimToEmpty(to);
 	}
 	
 	/**
