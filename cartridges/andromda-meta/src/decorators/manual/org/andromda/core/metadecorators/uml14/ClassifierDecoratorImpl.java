@@ -196,6 +196,13 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
     {
         return metaObject.getNamespace();
     }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#isAbstract()
+     */
+    public boolean isAbstract() {
+    	return this.metaObject.isAbstract();
+    }
 
     /**
      * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getStaticAttributes()
