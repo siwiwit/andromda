@@ -10,7 +10,6 @@ import org.andromda.core.uml14.UMLProfile;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Comment;
 import org.omg.uml.foundation.core.ModelElement;
-import org.omg.uml.foundation.core.Stereotype;
 import org.omg.uml.foundation.core.TaggedValue;
 import org.omg.uml.foundation.datatypes.VisibilityKind;
 import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
@@ -115,37 +114,12 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getStereotypeName()
-     */
-    public String getStereotypeName()
-    {
-        Collection stereotypes = metaObject.getStereotype();
-        if (stereotypes == null || stereotypes.size() == 0)
-        {
-            return null;
-        }
-
-        ModelElement stereotype =
-            (ModelElement) stereotypes.iterator().next();
-        return stereotype.getName();
-    }
-
-    /* (non-Javadoc)
     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#hasStereotype(String)
     */
-    public Boolean hasStereotype(String stereotypeName)
+    public boolean hasStereotype(String stereotypeName)
     {
-        if (stereotypeName == null) return Boolean.FALSE;
-
-        final Collection stereotypes = metaObject.getStereotype();
-        for (Iterator iterator = stereotypes.iterator(); iterator.hasNext();)
-        {
-            Stereotype stereotype = (Stereotype) iterator.next();
-            if (stereotypeName.equals(stereotype.getName()))
-                return Boolean.TRUE;
-        }
-
-        return Boolean.FALSE;
+    	return this.getStereotypeNames().contains(
+    		StringUtils.trimToEmpty(stereotypeName));
     }
     // -------------------- business methods ----------------------
 
@@ -179,9 +153,10 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     	Collection stereotypeNames = new ArrayList();
 
     	Collection stereotypes = metaObject.getStereotype();
-    	for (Iterator i = stereotypes.iterator(); i.hasNext();) {
-    		ModelElement stereotype = (ModelElement) i.next();
-    		stereotypeNames.add(stereotype.getName());
+    	for (Iterator stereotypeIt = stereotypes.iterator(); 
+    		 stereotypeIt.hasNext();) {
+    		ModelElement stereotype = (ModelElement) stereotypeIt.next();
+    		stereotypeNames.add(StringUtils.trimToEmpty(stereotype.getName()));
     	}
     	return stereotypeNames;
     }	
