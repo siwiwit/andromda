@@ -9,9 +9,7 @@ import org.apache.commons.lang.StringUtils;
 
 
 /**
- * <p>
- *  Represents an EJB finder method.
- * </p>
+ * @see org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodFacade
  *
  * Metaclass facade implementation.
  *
