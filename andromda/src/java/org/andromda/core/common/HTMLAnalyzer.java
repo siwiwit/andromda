@@ -118,14 +118,6 @@ public class HTMLAnalyzer
             }
         }
         
-        private void appendText(String string)
-        {
-            if (currentParagraph != null)
-            {
-                currentParagraph.appendText(string);
-            }
-        }
-        
         private void appendText(char[] text)
         {
             if (currentParagraph != null)

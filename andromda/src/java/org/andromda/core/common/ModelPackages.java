@@ -21,10 +21,6 @@ public class ModelPackages {
 	
 	private boolean processAllModelPackages = true;
 	
-	private boolean process = true;
-	
-	private String packageName;
-	
 	private Map modelPackages;
 	
 	private Collection initCollection = new ArrayList();

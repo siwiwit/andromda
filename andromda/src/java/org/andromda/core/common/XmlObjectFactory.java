@@ -196,8 +196,7 @@ public class XmlObjectFactory {
 
 		Object object = null;
 		try {
-			object =
-				(Object) this.digester.parse(objectXml.openStream());
+			object = this.digester.parse(objectXml.openStream());
 			if (object == null) {
 				String errMsg = 
 					"Was not able to instantiate an object using objectRulesXml '" 
