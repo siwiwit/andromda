@@ -8,7 +8,7 @@
 ##
 ## Specific to this class
 ##
-#set ($className = $str.toJavaClassName($class.name))
+#set ($className = $class.name)
 #set ($formBean = $class.formBean)
 #set ($formBeanType = $formBean.name)
 #if (!$formBeanType)
@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @struts.action
 #if ($formBean)
- *        name="${formBean.formBeanName}"
+ *        name="${formBean.formName}"
 #end
  *        path="/${class.servletName}"
  *       scope="request"
@@ -47,7 +47,7 @@ import javax.servlet.http.HttpServletResponse;
  *        name="$forwardTransition.forwardName"
 #if ($transform.isFinalState($forwardTransition.finalTarget.metaObject))
 #set ($servletName = $forwardTransition.finalTarget.useCase.servlet.servletName)
- *        path="/${servletName}.do"
+ *        path="/${class.servletName}.do"
 #else## in this case we are dealing with an action state
 #set ($jsp = $forwardTransition.finalTarget.jsp)
  *        path="${jsp.fullPathName}.jsp"
@@ -72,7 +72,7 @@ import javax.servlet.http.HttpServletResponse;
 public final class $className extends ${className}Abstract
 {
 #foreach ($choice in $choices)
-#set ($choiceMethodName = "$str.toJavaMethodName($choice.name)")
+#set ($choiceMethodName = "$choice.actionMethodName")
     protected int ${choiceMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
         return 1; // source is compilable this way
@@ -80,7 +80,7 @@ public final class $className extends ${className}Abstract
 
 #end
 #foreach ($objectFlowState in $objectFlowStates)
-#set ($stateMethodName = "$str.toJavaMethodName($objectFlowState.name)")
+#set ($stateMethodName = "$objectFlowState.actionMethodName")
     protected void ${stateMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
 #foreach ($inputField in $formBean.inputFields)

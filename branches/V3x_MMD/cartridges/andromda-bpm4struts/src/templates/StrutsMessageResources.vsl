@@ -20,7 +20,7 @@ errors.email={0} is an invalid e-mail address.
 
 #foreach ($useCase in $class.useCases)
 #set ($formBean = $useCase.servlet.formBean)
-# form-bean: $formBean.formBeanName /${str.separate($formBean.packageName, "/")}/${formBean.name}.java
+# form-bean: $formBean.formName /${str.separate($formBean.packageName, "/")}/${formBean.name}.java
 #foreach ($inputField in $formBean.inputFields)
 ${inputField.validatorMsgKey}=$inputField.messageValue
 #end
@@ -50,14 +50,16 @@ ${inputField.validatorMsgKey}=$inputField.messageValue
 # JSP: $jsp.actionState.name ${jsp.fullPathName}.jsp
 $jsp.titleMessageKey=$jsp.titleMessageValue
 ## handle each view's input field
-#foreach ($inputField in $jsp.inputFields)
-${inputField.messageKey}=$inputField.messageValue
-${inputField.messageKey}.title=$inputField.messageValue
+#foreach ($request in $jsp.requests)
+#foreach ($parameter in $request.parameters)
+$parameter.messageKey=$parameter.messageValue
+$parameter.titleMessageKey=$parameter.titleMessageValue
 #end
 ## Handle each view's trigger transition
-#foreach ($trigger in $jsp.triggers)
-${jsp.messageKey}.${trigger.messageKey}=${trigger.messageValue}
-${jsp.messageKey}.${trigger.titleMessageKey}=${trigger.titleMessageValue}
+#foreach ($trigger in $request.triggerTransitions)
+$trigger.messageKey=$trigger.messageValue
+$trigger.titleMessageKey=$trigger.titleMessageValue
+#end
 #end
 
 #end
