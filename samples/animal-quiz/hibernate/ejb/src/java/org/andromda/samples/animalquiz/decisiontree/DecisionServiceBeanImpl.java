@@ -6,18 +6,12 @@ import javax.ejb.EJBException;
 
 import net.sf.hibernate.HibernateException;
 
-public class DecisionServiceBeanImpl
-    extends DecisionServiceBean
-    implements javax.ejb.SessionBean {
+public class DecisionServiceBeanImpl extends DecisionServiceBean implements javax.ejb.SessionBean {
     // concrete business methods that were declared
     // abstract in class DecisionServiceBean ...
 
-    protected org
-        .andromda
-        .samples
-        .animalquiz
-        .decisiontree
-        .VODecisionItem handleGetFirstQuestion(net.sf.hibernate.Session sess)
+    protected org.andromda.samples.animalquiz.decisiontree.VODecisionItem handleGetFirstQuestion(
+        net.sf.hibernate.Session sess)
         throws DecisionException {
         try {
             Collection dItems = DecisionItemFactory.findRoot(sess);
@@ -36,19 +30,17 @@ public class DecisionServiceBeanImpl
         }
     }
 
-    protected org
-        .andromda
-        .samples
-        .animalquiz
-        .decisiontree
-        .VODecisionItem handleGetNextQuestion(
-            net.sf.hibernate.Session sess,
-            java.lang.String itemId)
+    protected org.andromda.samples.animalquiz.decisiontree.VODecisionItem handleGetNextQuestion(
+        net.sf.hibernate.Session sess,
+        java.lang.String itemId)
         throws DecisionException {
-        // TODO: put your implementation here.
-
-        // Dummy return value, just that the file compiles
-        return null;
+        try {
+            DecisionItem di = DecisionItemFactory.findByPrimaryKey(sess, itemId);
+            return di.getVO();
+        }
+        catch (HibernateException e) {
+            throw new EJBException(e);
+        }
     }
 
     protected java.lang.String handleAddNewAnimalWithQuestion(
