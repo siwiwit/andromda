@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.metafacades.uml.AttributeFacade;
+import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.omg.uml.UmlPackage;
@@ -94,6 +95,19 @@ public class ClassifierFacadeLogicImpl
                 || "float".equals(name)
                 || "double".equals(name)
                 || "boolean".equals(name));
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#getAttributes(boolean)
+     */
+    public Collection getAttributes(boolean follow) {
+        Collection attributes = this.getAttributes();
+        for (ClassifierFacade superClass = (ClassifierFacade) getGeneralization();
+	    	superClass != null && follow;
+	    	superClass = (ClassifierFacade) superClass.getGeneralization()) {
+            attributes.addAll(superClass.getAttributes(follow));
+        }   
+        return attributes;
     }
 
     /**
