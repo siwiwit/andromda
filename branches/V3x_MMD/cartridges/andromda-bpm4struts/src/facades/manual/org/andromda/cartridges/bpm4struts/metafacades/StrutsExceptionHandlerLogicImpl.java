@@ -29,7 +29,8 @@ public class StrutsExceptionHandlerLogicImpl
      */
     public java.lang.String getExceptionKey()
     {
-        return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_EXCEPTION_KEY);
+        final String key = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_EXCEPTION_KEY);
+        return (key == null) ? "" : key;
     }
 
     /**
