@@ -3,7 +3,6 @@
 <project>
   	<extend>../project.xml</extend>
   	<id>andromda-car-rental-sample-web</id>
-  	<groupId>andromda</groupId>
   	<name>Car Rental Sample Web</name>
   	<shortDescription>Car Rental Sample Web</shortDescription>
   	<description>

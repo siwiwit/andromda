@@ -3,7 +3,6 @@
 <project>
   	<extend>../project.xml</extend>
   	<id>andromda-car-rental-sample-ejb</id>
-  	<groupId>andromda</groupId>
   	<name>Car Rental Sample EJB</name>
   	<shortDescription>The Car Rental Sample EJB component</shortDescription>
   	<description>

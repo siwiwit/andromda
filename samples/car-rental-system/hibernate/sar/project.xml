@@ -3,7 +3,6 @@
 <project>
   	<extend>../../project.xml</extend>
   	<id>andromda-car-rental-sample-hibernate-sar</id>
-  	<groupId>andromda</groupId>
   	<name>Car Rental Sample Hibernate Sar</name>
   	<shortDescription>The Car Rental Sample Hibernate Sar Component</shortDescription>
   	<description>
