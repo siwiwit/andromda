@@ -20,11 +20,11 @@ import java.util.Set;
  *
  *
  */
-public class StateMachineDecoratorImpl extends StateMachineDecorator
+public class ActivityGraphDecoratorImpl extends ActivityGraphDecorator
 {
     // ---------------- constructor -------------------------------
 
-    public StateMachineDecoratorImpl(org.omg.uml.behavioralelements.statemachines.StateMachine metaObject)
+    public ActivityGraphDecoratorImpl(org.omg.uml.behavioralelements.activitygraphs.ActivityGraph metaObject)
     {
         super(metaObject);
     }
@@ -35,7 +35,7 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
     // abstract in class StateMachineDecorator ...
 
     // ------------- relations ------------------
-    protected Collection handleGetInitialStates()
+    public Collection handleGetInitialStates()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
@@ -48,7 +48,7 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
         return getSubvertices(filter);
     }
 
-    protected Collection handleGetPseudostates()
+    public Collection handleGetPseudostates()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
@@ -60,7 +60,7 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
         return getSubvertices(filter);
     }
 
-    protected Collection handleGetActionStates()
+    public Collection handleGetActionStates()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
@@ -72,7 +72,7 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
         return getSubvertices(filter);
     }
 
-    protected Collection handleGetObjectFlowStates()
+    public Collection handleGetObjectFlowStates()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
@@ -84,7 +84,7 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
         return getSubvertices(filter);
     }
 
-    protected Collection handleGetFinalStates()
+    public Collection handleGetFinalStates()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
