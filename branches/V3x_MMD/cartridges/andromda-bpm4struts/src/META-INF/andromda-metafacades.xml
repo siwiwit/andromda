@@ -5,10 +5,6 @@
 
 	<!-- behavioral elements -->
 	<metafacade
-		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Event$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsEventDecoratorImpl">
-	</metafacade>
-	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Guard$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsGuardDecoratorImpl">
 	</metafacade>
@@ -62,24 +58,29 @@
 	<!-- core model elements -->
 	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsModelDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsFormBeanDecoratorImpl">
 		<stereotype>FrontEndModel</stereotype>
 	</metafacade>
 	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsViewDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsJspDecoratorImpl">
 		<stereotype>FrontEndView</stereotype>
 	</metafacade>
 	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsControllerDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsServletDecoratorImpl">
 		<stereotype>FrontEndController</stereotype>
 	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActionExceptionDecoratorImpl">
-		<stereotype>FrontEndException</stereotype>
-	</metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActionExceptionDecoratorImpl">
+        <stereotype>FrontEndException</stereotype>
+    </metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsMessageDecoratorImpl">
+        <stereotype>FrontEndMessage</stereotype>
+    </metafacade>
 	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldDecoratorImpl">
@@ -122,7 +123,7 @@
 	</metafacade>
 	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsParameterDecoratorImpl">
 	</metafacade>
 
 </metafacades>
