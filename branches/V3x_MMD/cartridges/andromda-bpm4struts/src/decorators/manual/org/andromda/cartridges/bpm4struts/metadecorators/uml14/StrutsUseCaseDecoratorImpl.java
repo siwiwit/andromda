@@ -113,7 +113,7 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
         {
             ActionState actionState = (ActionState) iterator.next();
             DecoratorBase decoratedActionState = decoratedElement(actionState);
-            if (decoratedActionState instanceof StrutsUseCaseDecorator)
+            if (decoratedActionState instanceof StrutsActionStateDecorator)
             {
                 StrutsActionStateDecorator strutsActionStateDecorator = (StrutsActionStateDecorator)decoratedActionState;
                 if (useCaseName.equalsIgnoreCase(strutsActionStateDecorator.getName()))
