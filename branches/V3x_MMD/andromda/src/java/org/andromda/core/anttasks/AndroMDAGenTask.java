@@ -104,12 +104,6 @@ public class AndroMDAGenTask extends MatchingTask
     private URL modelURL = null;
 
     /**
-     * Temporary list of mappings from the &lt;outlet&gt; subtask.
-     * Will be transferred to the outletDictionary before execution starts.
-     */
-    private ArrayList outletMappingList = new ArrayList();
-
-    /**
      * Default properties for the Velocity scripting engine.
      */
     private Properties velocityProperties;
