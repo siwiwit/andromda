@@ -33,12 +33,13 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @struts.action
 #if ($formBean)
- *        name="$formBean.formBeanName"
+ *        name="${formBean.formBeanName}"
 #end
- *        path="/$class.servletName"
+ *        path="/${class.servletName}"
  *       scope="request"
- *   parameter="$class.dispatchParameter"
- *  validation="true"
+ *       input="/${class.servletName}.do"
+ *    validate="true"
+ *   parameter="${class.dispatchParameter}"
  *
 #foreach ($forwardTransition in $forwardTransitions)
 #set ($forwardTransitionName = $forwardTransition.triggerName)
