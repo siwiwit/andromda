@@ -3,9 +3,9 @@ package org.andromda.cartridges.hibernate;
 import org.andromda.core.uml14.UMLProfile;
 
 /**
- * The EJB profile. Contains
+ * The Hibernate profile. Contains
  * the profile information (tagged values, and stereotypes) 
- * for the EJB cartridge.
+ * for the Hibernate cartridge.
  * 
  * @author Chad Brandon
  */
