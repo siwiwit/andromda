@@ -5,8 +5,9 @@
 ##
 ##
 #macro ( renderHyperlink $action $indent )
-${indent}<html:link forward="${action.forwardName}" titleKey="${triggerKey}" paramName="request" paramProperty="parameterMap">
-${indent}    <bean:message key="${triggerKey}"/>
+#set ($triggerKey = $action.triggerKey)
+${indent}<html:link forward="$action.forwardName" titleKey="$triggerKey" paramName="request" paramProperty="parameterMap">
+${indent}    <bean:message key="$triggerKey"/>
 ${indent}</html:link>
 #end
 ##
