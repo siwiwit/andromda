@@ -10,9 +10,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
- * Finds and loads metafacade-impl.propeties files on the classpath.  
+ * Finds and loads metafacade-impl.properties files on the classpath.  
  * These files are used to map metafacades and their associated 
- * implementation classes in a simple manner
+ * implementation classes in a simple manner.
  * 
  * @author Chad Brandon
  */
