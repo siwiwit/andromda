@@ -5,19 +5,13 @@
     <stereotype name="FrontEndView"/>
     <stereotype name="FrontEndModel"/>
     <stereotype name="FrontEndController"/>
+    <stereotype name="FrontEndWorkflow"/>
 
     <outlet name="pages"/>
     <outlet name="forms"/>
     <outlet name="actions"/>
     <outlet name="messages"/>
-
-    <template
-        stereotype="FrontEndController"
-        sheet="templates/StrutsMessageResources.vsl"
-        outputPattern="{0}/{1}.properties"
-        outlet="messages"
-        overWrite="true"
-        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+    <outlet name="xdoclet-merge"/>
 
     <template
         stereotype="FrontEndController"
@@ -48,6 +42,70 @@
         sheet="templates/StrutsJSP.vsl"
         outputPattern="{0}/{1}.jsp"
         outlet="pages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsIndexJsp.vsl"
+        outputPattern="index.jsp"
+        outlet="pages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsMessageResources.vsl"
+        outputPattern="application-resources.properties"
+        outlet="messages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsXDocletMergeMessageResources.vsl"
+        outputPattern="struts-message-resources.xml"
+        outlet="xdoclet-merge"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsXDocletMergePlugins.vsl"
+        outputPattern="struts-plugins.xml"
+        outlet="xdoclet-merge"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsXDocletMergeServletMapping.vsl"
+        outputPattern="servlet-mappings.xml"
+        outlet="xdoclet-merge"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsXDocletMergeServlets.vsl"
+        outputPattern="servlets.xml"
+        outlet="xdoclet-merge"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsXDocletMergeTagLibs.vsl"
+        outputPattern="taglibs.xml"
+        outlet="xdoclet-merge"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsXDocletMergeWelcomeFiles.vsl"
+        outputPattern="welcomefiles.xml"
+        outlet="xdoclet-merge"
         overWrite="true"
         transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
 
