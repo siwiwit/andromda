@@ -43,7 +43,7 @@ public class StrutsJspLogicImpl
      */
     public java.lang.String getFullPathName()
     {
-        return '/' + (getPackageName() + '.' + StringUtilsHelper.toWebFileName(getName())).replace('.', '/');
+        return '/' + (getPackageName() + '.' + StringUtilsHelper.toWebFileName(getName())).replace('.', '/') + ".jsp";
     }
 
     public boolean hasForms()
