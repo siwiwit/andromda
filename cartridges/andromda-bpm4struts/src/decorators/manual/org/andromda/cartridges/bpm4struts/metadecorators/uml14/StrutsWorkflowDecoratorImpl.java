@@ -35,6 +35,11 @@ public class StrutsWorkflowDecoratorImpl extends StrutsWorkflowDecorator
     // concrete business methods that were declared
     // abstract in class StrutsWorkflowDecorator ...
 
+    public String getContextPath()
+    {
+        return '/' + getPackageName().replace('.','/');
+    }
+
     // ------------- relations ------------------
 
    /**
