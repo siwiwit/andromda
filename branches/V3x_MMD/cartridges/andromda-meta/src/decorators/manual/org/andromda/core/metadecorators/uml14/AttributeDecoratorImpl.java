@@ -37,6 +37,11 @@ public class AttributeDecoratorImpl extends AttributeDecorator
             + StringUtilsHelper.upperCaseFirstLetter(metaObject.getName());
     }
 
+    public Object getDefaultValue()
+    {
+        return getInitialValue().getBody();
+    }
+
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#handleGetType()
      */
@@ -44,15 +49,15 @@ public class AttributeDecoratorImpl extends AttributeDecorator
     {
         return metaObject.getType();
     }
-    
+
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isReadOnly()
      */
-    public boolean isReadOnly() 
+    public boolean isReadOnly()
 	{
     	return ChangeableKindEnum.CK_FROZEN.equals(metaObject.getChangeability());
     }
-    
+
 
     // ------------- relations ------------------
 
