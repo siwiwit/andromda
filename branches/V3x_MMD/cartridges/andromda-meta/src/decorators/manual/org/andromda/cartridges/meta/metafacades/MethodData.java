@@ -212,6 +212,16 @@ public class MethodData implements Comparable
         documentation = string;
     }
 
+    /**
+     * Tells if this method returns something.
+     * 
+     * @return boolean
+     */
+    public boolean hasReturnType()
+    {
+        return returnTypeName != null && !returnTypeName.equals("void"); 
+    }
+    
     /* (non-Javadoc)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
