@@ -27,7 +27,7 @@
                 transactionStrategy="net.sf.hibernate.transaction.JTATransactionFactory"
                 userTransactionName="java:/UserTransaction"
                 jndiname="java:/hibernate/SessionFactory"
-                servicename="AnimalQuaizSessionFactory"
+                servicename="AnimalQuizSessionFactory"
                 dialect="net.sf.hibernate.dialect.HSQLDialect"
                 datasource="java:/DefaultDS"
                 showSql="true"
