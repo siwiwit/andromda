@@ -226,7 +226,7 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
         </logic:messagesPresent>
 
         <logic:messagesPresent message="true">
-            <html:messages id="message">
+            <html:messages id="message" message="true">
                 MESSAGE: <bean:write name="message"/> <br/>
             </html:messages>
         </logic:messagesPresent>
