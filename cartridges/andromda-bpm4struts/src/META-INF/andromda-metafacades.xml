@@ -4,6 +4,12 @@
 <metafacades namespace="bpm4struts">
 
     <metafacade
+		metaobjectClass="org.omg.uml.modelmanagement.Model$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsApplicationLogicImpl">
+        <stereotype>FrontEndApplication</stereotype>
+    </metafacade>
+
+    <metafacade
         metaobjectClass="org.omg.uml.behavioralelements.usecases.Actor$Impl"
         metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsUserLogicImpl">
         <stereotype>FrontEndUser</stereotype>
