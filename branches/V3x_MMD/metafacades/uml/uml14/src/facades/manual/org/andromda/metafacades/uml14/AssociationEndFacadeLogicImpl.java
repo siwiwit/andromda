@@ -7,7 +7,6 @@ import org.andromda.core.mapping.Mappings;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.AssociationEnd;
-import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.AggregationKindEnum;
 import org.omg.uml.foundation.datatypes.ChangeableKindEnum;
 import org.omg.uml.foundation.datatypes.Multiplicity;
@@ -96,8 +95,7 @@ public class AssociationEndFacadeLogicImpl
      */
     public boolean isOne2Many()
     {
-        return !isMany(metaObject)
-            && isMany((AssociationEnd) getOtherEnd().getMetaObject());
+        return !this.isMany() && this.getOtherEnd().isMany();
     }
 
     /* (non-Javadoc)
@@ -105,8 +103,8 @@ public class AssociationEndFacadeLogicImpl
      */
     public boolean isMany2Many()
     {
-        return isMany(metaObject)
-            && isMany((AssociationEnd) getOtherEnd().getMetaObject());
+        return this.isMany()
+            && this. getOtherEnd().isMany();
     }
 
     /* (non-Javadoc)
@@ -114,8 +112,8 @@ public class AssociationEndFacadeLogicImpl
      */
     public boolean isOne2One()
     {
-        return !isMany(metaObject)
-            && !isMany((AssociationEnd) getOtherEnd().getMetaObject());
+        return !this.isMany()
+            && this.getOtherEnd().isMany();
     }
 
     /* (non-Javadoc)
@@ -123,38 +121,39 @@ public class AssociationEndFacadeLogicImpl
      */
     public boolean isMany2One()
     {
-        return isMany(metaObject)
-            && !isMany((AssociationEnd) getOtherEnd().getMetaObject());
+        return this.isMany()
+            && !this.getOtherEnd().isMany();
     }
 
-    static protected boolean isMany(AssociationEnd ae)
-    {
-        Multiplicity multiplicity = ae.getMultiplicity();
-        if (multiplicity == null)
-        {
-            return false; // no multiplicity means multiplicity "1"
-        }
-
-        Collection ranges = multiplicity.getRange();
-
-        for (Iterator i = ranges.iterator(); i.hasNext();)
-        {
-            MultiplicityRange range = (MultiplicityRange) i.next();
-            if (range.getUpper() > 1)
-            {
-                return true;
+    /**
+     * @see edu.duke.dcri.mda.model.metafacade.AssociationEndFacade#isMany()
+     */
+    public boolean isMany() {
+        boolean isMultiple = false;
+        Multiplicity multiplicity = this.metaObject.getMultiplicity();
+        //we'll say a null multiplicity is 1
+        if (multiplicity != null) {
+            Collection ranges = multiplicity.getRange();
+            if (ranges != null && !ranges.isEmpty()) {
+                Iterator rangeIt = ranges.iterator();
+                while (rangeIt.hasNext()) {
+                    MultiplicityRange multiplicityRange =
+                        (MultiplicityRange) rangeIt.next();
+                    int upper = multiplicityRange.getUpper();
+                    int lower = multiplicityRange.getLower();
+                    int rangeSize = upper - lower;
+                    if (upper > 1) {
+                        isMultiple = true;
+                    } else if (rangeSize < 0) {
+                        isMultiple = true;
+                    } else {
+                        isMultiple = false;
+                    }
+                }
             }
-
-            int rangeSize = range.getUpper() - range.getLower();
-            if (rangeSize < 0)
-            {
-                return true;
-            }
-
         }
-
-        return false;
-    }
+        return isMultiple;
+    }   
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#isOrdered()
