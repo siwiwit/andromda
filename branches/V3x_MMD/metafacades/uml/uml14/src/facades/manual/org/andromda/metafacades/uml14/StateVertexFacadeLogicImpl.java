@@ -2,8 +2,6 @@ package org.andromda.metafacades.uml14;
 
 import java.util.Collection;
 
-import org.omg.uml.behavioralelements.statemachines.StateVertex;
-
 
 /**
  * MetafacadeLogic implementation.
@@ -23,8 +21,7 @@ public class StateVertexFacadeLogicImpl
 
     protected Object handleGetActivityGraph()
     {
-        StateVertex stateVertex = metaObject;
-        return stateVertex.getContainer().getStateMachine();
+        return metaObject.getContainer().getStateMachine();
     }
 
     protected Collection handleGetIncoming()
