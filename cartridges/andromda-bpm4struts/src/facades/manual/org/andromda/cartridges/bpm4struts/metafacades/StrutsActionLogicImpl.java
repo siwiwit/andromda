@@ -128,7 +128,7 @@ public class StrutsActionLogicImpl
 
     public java.lang.String getActionRoles()
     {
-        final Collection users = getActivityGraph().getUseCase().getUsers();
+        final Collection users = getActivityGraph().getUseCase().getAllUsers();
         StringBuffer rolesBuffer = new StringBuffer();
         for (Iterator userIterator = users.iterator(); userIterator.hasNext();)
         {
