@@ -45,7 +45,7 @@
     </category>
     
     <category name="org.andromda.core.mdr">
-      <priority value="debug" />
+      <priority value="info" />
     </category>
 
   	<!-- ======================= -->

@@ -1,5 +1,8 @@
 package org.andromda.core.metadecorators.uml14;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 
 
 /**
@@ -15,24 +18,25 @@ public class AssociationDecoratorImpl extends AssociationDecorator
     {
         super (metaObject);
     }
-
-    // -------------------- business methods ----------------------
-
-    // concrete business methods that were declared
-    // abstract in class AssociationDecorator ...
-
-    // ------------- relations ------------------
     
-   /**
-    * Since Magic Draw doesn't seem to set 'ordered' correctly 
-    * (or MDR doesn't load the XMI correctly) name the association
-    * end to associationEnds.  When this issue is fixed, the association
-    * should be named back to 'connection'.
-    */
+    /**
+     * @see org.andromda.core.metadecorators.uml14.AssociationDecorator#handleGetAssociationEnds()
+     */
     public java.util.Collection handleGetAssociationEnds()
     {
-        // TODO: add your implementation here!
         return metaObject.getConnection();
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getName()
+     */
+    public String getRelationName() {
+    	Collection ends = this.getAssociationEnds();
+    	Iterator endIt = ends.iterator();
+		AssociationEndDecorator firstEnd = (AssociationEndDecorator)endIt.next();
+		AssociationEndDecorator secondEnd = (AssociationEndDecorator)endIt.next();
+		String relationName = MetafacadeUtils.toRelationName(firstEnd.getName(), secondEnd.getName(), "-");
+    	return relationName;
     }
 
     // ------------------------------------------------------------

@@ -1,7 +1,5 @@
 package org.andromda.core.metadecorators.uml14;
 
-import org.andromda.core.uml14.UMLProfile;
-import org.apache.commons.lang.StringUtils;
 
 
 
@@ -26,11 +24,9 @@ public class EntityFinderMethodDecoratorImpl extends EntityFinderMethodDecorator
     // abstract in class EntityFinderMethodDecorator ...
 
     public java.lang.String getQuery() {
-		//first see if there is a query stored as a tagged value
-		String queryString =
-			StringUtils.trimToNull(
-				this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_QUERY));
-		return queryString;
+		//right now this method does nothing,
+    	//eventually it will return an OCL query.
+    	return null;
     }
 
     // ------------- relations ------------------

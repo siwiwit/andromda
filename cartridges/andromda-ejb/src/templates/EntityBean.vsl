@@ -199,7 +199,7 @@ public abstract class ${entityname}Bean
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
 #remainingJavadocParagraphs($att "     ")
      *
-#if ($att.hasStereotype("PrimaryKey"))
+#if ($att.identifier)
      * @ejb.pk-field
 #end
      * @ejb.persistence
@@ -241,8 +241,8 @@ public abstract class ${entityname}Bean
 #if ($class.abstract)
 #foreach ( $assoc in $class.entityRelations) )
 #if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
-#set ($assocname = $assoc.relationName)
-#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.name)})
+#set ($assocname = $assoc.association.relationName)
+#set ($TargetRoleName = $assoc.otherEnd.name)
 #set ($targetTypeName = $assoc.relationType)
 
    /**
@@ -267,7 +267,7 @@ public abstract class ${entityname}Bean
 #foreach ( $assoc in $class.allEntityRelations )
 ## relations not flagged as CMR are generated below under business methods
 #if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
-#set ($assocname = $assoc.relationName)
+#set ($assocname = $assoc.association.relationName)
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.name)})
 #set ($transactionType = $assoc.association.findTaggedValue("@andromda.ejb.transactionType"))
 #set ($targetTypeName = $assoc.relationType)

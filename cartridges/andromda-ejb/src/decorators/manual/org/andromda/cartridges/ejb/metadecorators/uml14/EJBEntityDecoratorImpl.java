@@ -78,7 +78,6 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 			identifiers.add(attr);
 			return identifiers;
 		}
-		System.out.println("after has identifers!!!!!!!!!!!!!!!!");
 
 		// Still nothing found - recurse up the inheritance tree
 		EJBEntityDecorator decorator =
@@ -161,7 +160,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	}
 	
 	/**
-	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getViewType()
+	 * @see org.andromda.cartridges.hibernate.metadecorators.uml14.EJBEntityDecorator#getViewType()
 	 */
 	public String getViewType() {
 		if (this.hasStereotype(UMLProfile.STEREOTYPE_ENTITY)) {
@@ -198,7 +197,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 					&& !"false".equalsIgnoreCase(generateCmr)) {
 					throw new IllegalStateException(
 						"Relation '"
-							+ assoc.getRelationName()
+							+ assoc.getAssociation().getName()
 							+ "' has the abstract target '"
 							+ target.getName()
 							+ "'. Abstract targets are not allowed in EJB.");
@@ -211,7 +210,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	}
 	
 	/**
-	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getAllInstanceAttributes()
+	 * @see org.andromda.cartridges.hibernate.metadecorators.uml14.EJBEntityDecorator#getAllInstanceAttributes()
 	 */
 	public List getAllInstanceAttributes() {
 		List retval = this.getInheritedInstanceAttributes();
@@ -220,7 +219,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	}
 	
 	/**
-	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getInheritedInstanceAttributes()
+	 * @see org.andromda.cartridges.hibernate.metadecorators.uml14.EJBEntityDecorator#getInheritedInstanceAttributes()
 	 */
 	public List getInheritedInstanceAttributes() {
 		EJBEntityDecorator current = (EJBEntityDecorator)this.getSuperclass();
@@ -233,7 +232,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	}
 	
 	/**
-	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getCreateMethods(boolean)
+	 * @see org.andromda.cartridges.hibernate.metadecorators.uml14.EJBEntityDecorator#getCreateMethods(boolean)
 	 */
 	public Collection getCreateMethods(boolean all) {
 		Collection retval = new ArrayList();
@@ -256,7 +255,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	}
 
 	/**
-	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getSelectMethods(boolean)
+	 * @see org.andromda.cartridges.hibernate.metadecorators.uml14.EJBEntityDecorator#getSelectMethods(boolean)
 	 */
 	public Collection getSelectMethods(boolean all) {
 		Collection retval = new ArrayList();
