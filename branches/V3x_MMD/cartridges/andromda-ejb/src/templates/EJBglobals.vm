@@ -30,12 +30,6 @@
 ##    "java.lang.String"
 ##    Empty if the current class is a <<Service>>
 ##
-## $pkfieldname
-##    set to the name of the attribute stereotyped <<PrimaryKey>> if the primary
-##    key class has been defined from such an attribute. If not, this property
-##    is not set.
-##    Empty if the current class is a <<Service>>
-##
 ## $beanparentclass
 ##    the fully qualified classname of the parent class for the generated
 ##    bean class. If this entity has a parent class in the UML model, this is

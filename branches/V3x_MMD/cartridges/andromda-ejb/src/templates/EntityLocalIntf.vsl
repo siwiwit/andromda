@@ -82,8 +82,8 @@ extends $parentInterface
 
     // ------------- relations ------------------
 
-#foreach ( $assoc in $transform.getEntityRelations($class) )
-#set ($assocname = $transform.findEjbRelationName($assoc, $entityname))
+#foreach ( $assoc in $class.entityRelations) )
+#set ($assocname = $assoc.relationName)
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.target.roleName)})
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
 

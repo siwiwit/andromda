@@ -121,7 +121,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
      */
     public ${entityname} create($transform.getAttributesAsList2($allAttributes, true, true))
            throws javax.ejb.CreateException;
-#set ($relations = $transform.findEntityRelationsForSource($class))
+#set ($relations = $class.allEntityRelations)
 #if (!$relations.isEmpty())
 
     /**

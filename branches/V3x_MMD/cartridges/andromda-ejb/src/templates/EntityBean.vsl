@@ -2,7 +2,7 @@
 ## Include global definitions. ##
 #parse("templates/EJBglobals.vm")
 ## Define project specific properties and macros ##
-#set ($tablename = $str.toDatabaseAttributeName($entityname, '_'))
+#set ($tablename = $str.toDatabaseAttributeName($class.name, '_'))
 ##
 
 ##################################################################################
@@ -23,8 +23,11 @@ package $packagename;
  *     type="CMP" cmp-version="2.x"
  *     view-type="local"
  *     local-jndi-name = "#ejbRefName($class)/Local"
-#if (!$transform.hasComplexPrimaryKey($class))
- *     primkey-field = "$transform.getSimplePkField($class).name"
+##if (!$transform.hasComplexPrimaryKey($class))
+## *     primkey-field = "$transform.getSimplePkField($class).name"
+###end
+#if (!$class.primaryKeyAttribute.complex)
+*     primkey-field = "$class.primaryKeyAttribute.name"
 #end
  *
  * @ejb.interface generate="false" local-class="${packagename}.${entityname}"
@@ -259,9 +262,9 @@ public abstract class ${entityname}Bean
 ## If the class is abstract, generate abstract methods for all CMR relations so that they
 ## are accessible in the *BeanImpl class
 #if ($class.isAbstract())
-#foreach ( $assoc in $transform.getEntityRelations($class) )
+#foreach ( $assoc in $class.entityRelations) )
 #if(!($transform.findTagValue($assoc.source.association, "@andromda.ejb.generateCMR") == "false"))
-#set ($assocname = $transform.findEjbRelationName($assoc, $entityname))
+#set ($assocname = $assoc.relationName)
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.target.roleName)})
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
 
@@ -284,10 +287,10 @@ public abstract class ${entityname}Bean
 
 #end
 ## Generate the real CMR methods.
-#foreach ( $assoc in $transform.findEntityRelationsForSource($class) )
+#foreach ( $assoc in $class.allEntityRelations )
 ## relations not flagged as CMR are generated below under business methods
 #if(!($transform.findTagValue($assoc.source.association, "@andromda.ejb.generateCMR") == "false"))
-#set ($assocname = $transform.findEjbRelationName($assoc, $entityname))
+#set ($assocname = $assoc.relationName)
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.target.roleName)})
 #set ($transactionType = $transform.findTagValue($assoc.source.association, "@andromda.ejb.transactionType"))
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
@@ -348,7 +351,7 @@ public abstract class ${entityname}Bean
     // ---------------- business and select methods  ----------------------
 ## Generate business methods for relations flagged as non-CMR even when the class
 ## is abstract. That way, we can implement them in the base class
-#foreach ( $assoc in $transform.getEntityRelations($class) )
+#foreach ( $assoc in $class.entityRelations) )
 #if($transform.findTagValue($assoc.source.association, "@andromda.ejb.generateCMR") == "false")
 #set ($transactionType = $transform.findTagValue($assoc.source.association, "@andromda.ejb.transactionType"))
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
@@ -516,8 +519,9 @@ public abstract class ${entityname}Bean
 ## breaking usability of the PIM with the Hibernate cartridge.
 ## (Matthias Bohlen)
 ##
-#if (!$transform.hasComplexPrimaryKey($class))
-#set ($primKey = $transform.getSimplePkField($class))
+##if (!$transform.hasComplexPrimaryKey($class))
+#if (!$class.primaryKeyAttribute.complex)
+#set ($primKey = $class.primaryKeyAttribute)
 #if ($transform.getFullyQualifiedName($primKey.type) == "java.lang.String")
         if ($primKey.name == null) {
             $primKey.name = new java.rmi.server.UID().toString();
@@ -559,7 +563,7 @@ public abstract class ${entityname}Bean
         super.ejbPostCreate($transform.getAttributesAsList2($inheritedAttributes, false, true));
 #end
     }
-#set ($relations = $transform.findEntityRelationsForSource($class))
+#set ($relations = $class.allEntityRelations)
 #if (!$relations.isEmpty())
 #if (!$class.isAbstract() && !$transform.findTagValue($class, "@andromda.ejb.noSyntheticCreateMethod"))
     /**
