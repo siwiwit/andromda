@@ -68,7 +68,7 @@
     <target name="clean">
         <delete dir="${output.dir}"/>
         <delete dir="${dist.dir}"/>
-        <delete dir="${build.dir}/WEB-INF/classes"/>
+        <delete dir="${build.dir}"/>
         <antcall target="init"/>
     </target>
 
@@ -200,8 +200,8 @@
              everyone is happy.
          -->
         <replace file="${hibernate.build.dir}/stage/META-INF/ejb-jar.xml" >
-            <replacetoken><![CDATA[ServiceBean</hibernate-class>]]></replacetoken>
-            <replacevalue><![CDATA[ServiceBeanImpl</hibernate-class>]]></replacevalue>
+            <replacetoken><![CDATA[ServiceBean</ejb-class>]]></replacetoken>
+            <replacevalue><![CDATA[ServiceBeanImpl</ejb-class>]]></replacevalue>
         </replace>
 
     </target>
