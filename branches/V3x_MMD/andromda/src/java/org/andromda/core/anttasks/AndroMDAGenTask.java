@@ -497,7 +497,10 @@ public class AndroMDAGenTask extends MatchingTask
         throws BuildException
     {
         String name = context.getModelFacade().getName(modelElement);
-        StdoutLogger.debug("processModelElement: " + name);
+        
+        if (!"org.omg.uml.foundation.core.Comment$Impl".equals(modelElement.getClass().getName()))
+            StdoutLogger.debug("processModelElement: name=" + name);
+            
         Collection stereotypeNames =
             context.getModelFacade().getStereotypeNames(modelElement);
 
