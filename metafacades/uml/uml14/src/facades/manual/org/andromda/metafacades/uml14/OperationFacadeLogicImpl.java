@@ -139,14 +139,14 @@ public class OperationFacadeLogicImpl
     {
         StringBuffer sb = new StringBuffer();
         
-        Iterator it = this.getParameters().iterator();
+        Iterator it = metaObject.getParameter().iterator();
         
         boolean commaNeeded = false;
         while (it.hasNext())
         {
-            ParameterFacade p = (ParameterFacade) it.next();
+            Parameter p = (Parameter) it.next();
             
-            if (!ParameterDirectionKindEnum.PDK_RETURN.equals(((Parameter)p.getMetaObject()).getKind()))
+            if (!ParameterDirectionKindEnum.PDK_RETURN.equals(p.getKind()))
             {
                 if (commaNeeded)
                 {
