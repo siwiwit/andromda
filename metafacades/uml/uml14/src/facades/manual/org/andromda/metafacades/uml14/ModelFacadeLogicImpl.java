@@ -49,4 +49,8 @@ public class ModelFacadeLogicImpl
 
     // ------------------------------------------------------------
 
+    protected Collection handleGetAllUseCases()
+    {
+        return metaObject.getUseCases().getUseCase().refAllOfType();
+    }
 }
