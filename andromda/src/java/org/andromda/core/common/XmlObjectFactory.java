@@ -25,12 +25,12 @@ import org.xml.sax.SAXParseException;
  * It seperates each concern into one file, for example: to configure and perform validation on
  * the MetafacadeMappings class, we need 3 files 1.) the java object (MetafacadeMappings.java),
  * 2.) the rules file which tells the apache digester how to populate the java object from the
- * XML configuration file, and 3.) the XSD schema validation file (Metafacades.xsd).  Note
- * that each file is based on the name of the java object: 'java object name'.xsd 
- * and'java object name'-Rules.xml'.  After you have these three files then you just
- * need to call the method #getInstance(java.net.URL objectClass) in this class from
- * the java object you want to configure.  This keeps the dependency to digester (or whatever
- * XML configuration tool we are using at the time) to this single file.
+ * XML configuration file (MetafacadeMappings-Rules.xml), and 3.) the XSD schema validation 
+ * file (MetafacadeMappings.xsd).  Note that each file is based on the name of the java 
+ * object: 'java object name'.xsd  and'java object name'-Rules.xml'.  After you have these 
+ * three files then you just need to call the method #getInstance(java.net.URL objectClass) 
+ * in this class from the java object you want to configure.  This keeps the dependency 
+ * to digester (or whatever XML configuration tool we are using at the time) to this single file.
  * 
  * In order to add/modify an existing element/attribute in your configuration file, first 
  * add make the modification in your java object, then modify it's rules file 
