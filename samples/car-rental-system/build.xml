@@ -45,11 +45,11 @@
 
 
     <!-- Physical source directories -->
-    <property name="src.app.dir"             value="src/app" />
-    <property name="src.common.dir"          value="src/common" />
-    <property name="src.ejb.dir"             value="src/ejb" />
-    <property name="src.hibernate.dir"       value="src/hibernate" />
-    <property name="src.web.dir"             value="src/web" />
+    <property name="src.app.dir"             value="${basedir}/src/app" />
+    <property name="src.common.dir"          value="${basedir}/src/common" />
+    <property name="src.ejb.dir"             value="${basedir}/src/ejb" />
+    <property name="src.hibernate.dir"       value="${basedir}/src/hibernate" />
+    <property name="src.web.dir"             value="${basedir}/src/web" />
     <property name="src.servlet.dir"         value="${src.web.dir}/servlet" />
     <property name="src.webpages.dir"        value="${src.web.dir}/pages" />
     <property name="src.webconfig.dir"       value="${src.web.dir}/config" />
@@ -151,21 +151,34 @@
         <andromda basedir="build/model/unzipped"
                  includes="CarRentalSystem20.xmi"
                  lastModifiedCheck="false"
-                 typeMappings="${andromda-core.home}/src/xml/TypeMapping.xml"
-        >
-            <userProperty name="foreignKeySuffix" value="_FK" />
+         >
 
-            <outlet cartridge="java"      outlet="value-objects"  dir="${andromda.ejb.generated.dir}" />
+			<namespace name="default">
+				<!-- set the language mappings for the default namespace -->			
+				<property name="languageMappings" value="file:/${basedir}/conf/mappings/JavaMappings.xml"/>	
+				<property name="jdbcTypeMappings" value="file:/${basedir}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlTypeMappings" value="file:/${basedir}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="foreignKeySuffix" value="_FK"/>
+			</namespace>
 
-            <outlet cartridge="ejb"       outlet="entity-beans"   dir="${andromda.ejb.generated.dir}" />
-            <outlet cartridge="ejb"       outlet="session-beans"  dir="${andromda.ejb.generated.dir}" />
-            <outlet cartridge="ejb"       outlet="entity-impls"   dir="${andromda.ejb.manual.dir}" />
-            <outlet cartridge="ejb"       outlet="session-impls"  dir="${andromda.ejb.manual.dir}" />
-
-            <outlet cartridge="struts"    outlet="forms"   dir="${andromda.web.form.dir}" />
-            <outlet cartridge="struts"    outlet="actions" dir="${andromda.web.action.dir}" />
-            <outlet cartridge="struts"    outlet="pages"   dir="${andromda.web.page.dir}" />
-            <outlet cartridge="struts"    outlet="config"  dir="${src.webconfig.dir}/generated" />
+			<namespace name="java">
+				<!-- define output location -->
+				<property name="value-objects" value="${andromda.ejb.generated.dir}"/>				
+			</namespace>
+			<namespace name="ejb">
+				<!-- define output locations -->
+				<property name="entity-beans" value="${andromda.ejb.generated.dir}"/>	
+				<property name="session-beans" value="${andromda.ejb.generated.dir}"/>	
+				<property name="entity-impls" value="${andromda.ejb.manual.dir}"/>	
+				<property name="session-impls" value="${andromda.ejb.manual.dir}"/>		
+			</namespace>
+			<namespace name="struts">
+				<!-- define output location -->
+				<property name="forms" value="${andromda.web.form.dir}"/>		
+				<property name="actions" value="${andromda.web.action.dir}"/>	
+				<property name="pages" value="${andromda.web.page.dir}"/>
+				<property name="config" value="${src.webconfig.dir}/generated"/>		
+			</namespace>
 
         </andromda>
     </target>
@@ -181,16 +194,26 @@
         <andromda basedir="build/model/unzipped"
                  includes="CarRentalSystem20.xmi"
                  lastModifiedCheck="false"
-                 typeMappings="${andromda-core.home}/src/xml/TypeMapping.xml"
         >
-            <userProperty name="foreignKeySuffix" value="_FK" />
+			<namespace name="default">
+				<!-- set the language mappings for the default namespace -->			
+				<property name="languageMappings" value="file:/${basedir}/conf/mappings/JavaMappings.xml"/>	
+				<property name="jdbcTypeMappings" value="file:/${basedir}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlTypeMappings" value="file:/${basedir}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="foreignKeySuffix" value="_FK"/>
+			</namespace>
 
-            <outlet cartridge="java"      outlet="value-objects"  dir="${andromda.hibernate.generated.dir}" />
-
-            <outlet cartridge="hibernate" outlet="entities"       dir="${andromda.hibernate.generated.dir}" />
-            <outlet cartridge="hibernate" outlet="entity-impls"   dir="${andromda.hibernate.manual.dir}" />
-            <outlet cartridge="hibernate" outlet="session-beans"  dir="${andromda.hibernate.generated.dir}" />
-            <outlet cartridge="hibernate" outlet="session-impls"  dir="${andromda.hibernate.manual.dir}" />
+			<namespace name="java">
+				<!-- define output location -->
+				<property name="value-objects" value="${andromda.hibernate.generated.dir}"/>				
+			</namespace>
+			<namespace name="hibernate">
+				<!-- define output locations -->
+				<property name="entities" value="${andromda.hibernate.generated.dir}"/>	
+				<property name="entity-impls" value="${andromda.hibernate.manual.dir}"/>	
+				<property name="session-beans" value="${andromda.hibernate.generated.dir}"/>	
+				<property name="session-impls" value="${andromda.hibernate.manual.dir}"/>	
+			</namespace>
 
         </andromda>
     </target>
