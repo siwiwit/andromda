@@ -1,7 +1,5 @@
 package org.andromda.core.metafacade;
 
-import java.util.Collection;
-
 import org.andromda.core.common.ExceptionUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -9,6 +7,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
+import java.util.Collection;
 
 /**
  * Base class for all metaclass facades.
@@ -22,6 +22,23 @@ public class MetafacadeBase
     {
         this.metaObject = metaObject;
         this.context = context;
+    }
+
+    // ---------------- essential overrides -----------------------
+
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof MetafacadeBase)
+        {
+            MetafacadeBase that = (MetafacadeBase)obj;
+            return this.metaObject.equals(that.metaObject);
+        }
+        return false;
+    }
+
+    public int hashCode()
+    {
+        return metaObject.hashCode();
     }
 
     /**
