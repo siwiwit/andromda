@@ -53,4 +53,14 @@ public class ModelFacadeLogicImpl
     {
         return metaObject.getUseCases().getUseCase().refAllOfType();
     }
+
+    protected Collection handleGetAllActors()
+    {
+        return metaObject.getUseCases().getActor().refAllOfType();
+    }
+
+    protected Collection handleGetAllActionStates()
+    {
+        return metaObject.getActivityGraphs().getActionState().refAllOfType();
+    }
 }
