@@ -1,14 +1,13 @@
 package org.andromda.samples.animalquiz.guess;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.andromda.samples.animalquiz.decisiontree.DecisionService;
 import org.andromda.samples.animalquiz.decisiontree.DecisionServiceHome;
 import org.andromda.samples.animalquiz.decisiontree.DecisionServiceUtil;
 import org.andromda.samples.animalquiz.decisiontree.VODecisionItem;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public final class GuessController implements GuessControllerInterface
 {
