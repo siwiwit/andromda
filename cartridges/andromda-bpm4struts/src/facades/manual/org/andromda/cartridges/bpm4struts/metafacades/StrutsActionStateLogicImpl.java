@@ -39,16 +39,21 @@ public class StrutsActionStateLogicImpl
 
     // ------------- relations ------------------
 
-    public Collection handleGetControllerCalls()
+    protected Collection handleGetControllerCalls()
     {
         final Collection controllerCalls = new LinkedList();
         final Collection deferrableEvents = getDeferrableEvents();
         for (Iterator iterator = deferrableEvents.iterator(); iterator.hasNext();)
         {
             EventFacade event = (EventFacade) iterator.next();
+            System.out.println("event = " + event);
             if (event instanceof CallEventFacade)
             {
                 controllerCalls.add(((CallEventFacade)event).getOperation());
+            }
+            else if (event instanceof StrutsTrigger)
+            {
+                controllerCalls.add(((StrutsTrigger)event).getControllerCall());
             }
         }
         return controllerCalls;
@@ -57,7 +62,7 @@ public class StrutsActionStateLogicImpl
     /**
      * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsActionState#getForward()
      */
-    public java.lang.Object handleGetForward()
+    protected java.lang.Object handleGetForward()
     {
         final Collection outgoing = getOutgoing();
         for (Iterator iterator = outgoing.iterator(); iterator.hasNext();)
@@ -72,9 +77,9 @@ public class StrutsActionStateLogicImpl
     /**
      * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsActionState#getExceptions()
      */
-    public java.util.Collection handleGetExceptions()
+    protected java.util.Collection handleGetExceptions()
     {
-        final Map exceptionsMap = new HashMap(4);
+        final Map exceptionsMap = new HashMap();
         final Collection outgoing = getOutgoing();
         for (Iterator iterator = outgoing.iterator(); iterator.hasNext();)
         {
