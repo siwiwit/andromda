@@ -1,9 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
-import org.andromda.metafacades.uml.EventFacade;
-import org.andromda.metafacades.uml.TransitionFacade;
-import org.andromda.metafacades.uml.ParameterFacade;
+import org.andromda.metafacades.uml.*;
 
 import java.util.*;
 
@@ -100,7 +98,14 @@ public class StrutsUseCaseLogicImpl
     {
         final Collection users = new LinkedList();
 
-        // todo: only collect those users that have been associated with this use-case
+        final Collection associationEnds = getAssociationEnds();
+        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+        {
+            AssociationEndFacade associationEnd = (AssociationEndFacade) iterator.next();
+            ClassifierFacade classifier = associationEnd.getType();
+            if (classifier instanceof StrutsUser)
+                users.add(classifier);
+        }
 
         return users;
     }
