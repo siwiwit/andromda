@@ -10,7 +10,7 @@
 #if ( $parentStereotype == "Service")
 ## Extend the component interface of the super type if the super type 
 ## is a <<Service>>
-#set ($parentInterface = "${transform.findFullyQualifiedName($parentClass)}LocalHome")
+#set ($parentInterface = "${parentClass.fullyQualifiedName}LocalHome")
 #end
 #end
 #if (!$parentInterface)
@@ -37,7 +37,7 @@ public interface ${servicename}LocalHome  extends $parentInterface {
 
     // ---------------- create methods --------------------
 ## Handle explicitly defined create methods.
-#foreach ( $op in $transform.getAllCreateMethods($class.id))
+#foreach ( $op in $class.getCreateMethods(true))
 
     /**
 #generateDocumentation ($op "    ")

@@ -29,7 +29,7 @@ package $packagename;
  */
 public interface ${entityname} 
 extends $parentInterface 
-        #foreach($intf in $transform.getAbstractions($class.id)),
+        #foreach($intf in $class.abstractions),
         $intf.fullyQualifiedName#end
 
 {
@@ -57,7 +57,7 @@ extends $parentInterface
 
     // ------------- attributes ----------------
     
-#foreach ( $att in $transform.getInstanceAttributes($class))
+#foreach ( $att in $class.instanceAttributes)
 #set ($visibility = $att.visibility)
 ## Only expose the method to the component interface if it is public.
 #if($visibility == "public")
@@ -106,7 +106,7 @@ extends $parentInterface
 #set ($visibility = $op.visibility)
 ## Only expose public, nonstatic methods (public static methods go on the home
 ## interface)
-#if ($visibility == "public" && !$transform.isStatic($op)) 
+#if ($visibility == "public" && !$op.static) 
 #set ($msig = $op.signature)
 #set ($exceptions = $op.findTaggedValue("@andromda.java.throws"))
 #if (!$exceptions)

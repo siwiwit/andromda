@@ -5,7 +5,7 @@
 ##
 ## ---------------- macro ejbRefName -----------------
 ##
-#macro(ejbRefName $class)ejb/${transform.replace($transform.findPackageName(${class.package}), '.', '/')}/${class.name}#end
+#macro(ejbRefName $class)ejb/${class.packageName}/${class.name}#end
 ##
 ## ---------------- macro firstJavadocParagraph -----------------
 ##
