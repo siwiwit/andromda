@@ -2,6 +2,9 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.PseudostateDecoratorImpl;
+import org.andromda.core.metadecorators.uml14.PseudostateDecorator;
+import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
 import org.omg.uml.behavioralelements.statemachines.StateVertex;
 import org.omg.uml.behavioralelements.statemachines.Transition;
@@ -42,12 +45,17 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
         Transition transition = this;
         StateVertex target = transition.getTarget();
 
-        while ( (target instanceof Pseudostate) &&
-                (new PseudostateDecoratorImpl((Pseudostate)target).isMergePoint().booleanValue()) )
+        boolean isMergePoint = true;
+        while ( (target instanceof Pseudostate) && (isMergePoint) )
         {
+            PseudostateDecorator pseudostate = (PseudostateDecorator)DecoratorBase.decoratedElement(target);
+            isMergePoint = pseudostate.isMergePoint().booleanValue();
 
-            transition = (Transition)target.getOutgoing().iterator().next();
-            target = transition.getTarget();
+            if (isMergePoint)
+            {
+                transition = (Transition)target.getOutgoing().iterator().next();
+                target = transition.getTarget();
+            }
         }
 
         return target;

@@ -1,6 +1,6 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
-import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
@@ -62,7 +62,8 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
         // 2. take all the targets of the final states in this state machine (lookup in workflow)
         final UseCase contextUseCase = (UseCase)getContext();
         // find this use-case in the workflow (as a state)
-        final State useCaseState = MetaDecoratorUtil.findUseCaseInWorkflow(contextUseCase); // todo
+        StrutsUseCaseDecorator useCaseDecorator = (StrutsUseCaseDecorator)DecoratorBase.decoratedElement(contextUseCase);
+        final State useCaseState = useCaseDecorator.findAsWorkflowState();
 
         forwardTransitions.addAll(useCaseState.getOutgoing());
         // 2. done ------------------------------------------------------------------------------
