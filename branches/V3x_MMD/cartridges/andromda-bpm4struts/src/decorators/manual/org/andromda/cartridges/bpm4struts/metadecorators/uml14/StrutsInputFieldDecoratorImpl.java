@@ -31,32 +31,6 @@ public class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDecorator
     // abstract in class StrutsInputFieldDecorator ...
 
 
-    public java.lang.Boolean isReadOnly()
-    {
-        final String readOnlyValue = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_READONLY);
-        return makeBoolean(readOnlyValue);
-    }
-
-    public java.lang.Integer getMaximumLength()
-    {
-        final String maximumLengthValue = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_MAXLENGTH);
-        Integer maxLength = null;
-
-        if (maximumLengthValue!=null)
-        {
-            try
-            {
-                maxLength = new Integer(maximumLengthValue.trim());
-            }
-            catch(NumberFormatException nfe)
-            {
-                maxLength = null;
-            }
-        }
-
-        return maxLength;
-    }
-
     public java.lang.Boolean isRequired()
     {
         final String requiredValue = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_REQUIRED);
@@ -76,6 +50,11 @@ public class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDecorator
         {
             return Boolean.TRUE;
         }
+    }
+
+    public String getMaskPattern()
+    {
+        return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_PATTERN);
     }
 
     // ------------- relations ------------------
