@@ -35,8 +35,8 @@
     </head>
     <body>
 
-<h2><bean:message key="$class.titleMessageKey"/></h2>
-<p>
+        <h2><bean:message key="$class.titleMessageKey"/></h2>
+        <p>
 ##
 ##  In case no model has been specified we assume no parameter needed to be posted
 ##  and we use a hyperlink
