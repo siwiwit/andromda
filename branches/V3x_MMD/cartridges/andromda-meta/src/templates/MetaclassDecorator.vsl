@@ -18,7 +18,7 @@ ${indent}* </p>
 #end
 
 ## calculate metaclass and superclass
-#set ($decoratedMetaclass = $transform.getMetaclass($class))
+#set ($decoratedMetaclass = $transform.getMetaclass($class.metaObject))
 #set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
 ##
 #set ($superclass = $class.superclass)
@@ -51,7 +51,6 @@ ${indent}* </p>
  */
 public abstract class ${class.name}
        extends    $superclassName
-       implements $decoratedMetaclassTypeName
 {
     // -------- link to decorated metaobject ----------
     
@@ -62,8 +61,7 @@ public abstract class ${class.name}
         super (metaObject);
         this.metaObject = metaObject;
     }
-    
-#set ($allMethods = $transform.getMethodMap($decoratedMetaclassTypeName))
+
 ##
     // --------------- attributes ---------------------
 #foreach ( $att in $class.attributes )
@@ -74,7 +72,6 @@ public abstract class ${class.name}
     *
     */
     public abstract $atttypename ${att.getterName}();
-#set ($allMethods = $transform.excludeSimpleGetter($allMethods, $atttypename, $att.name))
 #end
 
 
@@ -87,7 +84,6 @@ public abstract class ${class.name}
     */
     $op.visibility abstract $op.type.fullyQualifiedName ${op.signature};
     
-#set ($allMethods = $transform.excludeUMLOperation($allMethods, $op))
 #end
     // ------------- relations ------------------
     
@@ -96,17 +92,6 @@ public abstract class ${class.name}
 ##
 #set ($sourcetype = $assocEnd.type)
 #set ($targettype = $assocEnd.otherEnd.type)
-#if ($targettype.stereotypeName == "Decorator")
-## if a decorator is the target of the association, replace by decorated interface type!
-## this will make it possible to override methods in the base interface.
-#foreach ( $dep in $targettype.dependencies )
-    #set ($class2 = $dep.targetType)
-    #if ($class2.stereotypeName == "metaclass")
-        #set ($targettype = $class2)
-    #end
-#end
-#end
-
 #set ($targettypename = $targettype.fullyQualifiedName)
 ##
 #set ($trn = $assocEnd.otherEnd.roleName)
@@ -130,7 +115,6 @@ public abstract class ${class.name}
     {
         return decoratedElements(handleGet${utrn}());
     }
-#set ($allMethods = $transform.excludeSimpleGetter($allMethods, "java.util.Collection", $trn))
 #end
 #if ($assocEnd.isOne2One() || $assocEnd.isMany2One())
     protected abstract org.omg.uml.foundation.core.ModelElement handleGet${utrn}();
@@ -145,7 +129,6 @@ public abstract class ${class.name}
     {
         return (${targettypename}) decoratedElement(handleGet${utrn}());
     }
-#set ($allMethods = $transform.excludeSimpleGetter($allMethods, $targettypename, $trn))
 #end
 
     // ------------------------------------------------------------
@@ -153,34 +136,4 @@ public abstract class ${class.name}
 #end
 #end
 
-## superclass should already implement the decorating methods.
-## we need not repeat them here!
-#if ($superclass)
-    // decorating methods not implemented here. 
-    // they are already in ${superclassName}
-    // or in a superclass of that.
-#else
-    // ---------------- decorating methods ----------------------
-    
-##
-## The calls to "transform.exclude..." above have excluded all those
-## methods from the list that shall not delegate to the metaobject 
-## but shall be implemented in this decorator itself.
-##
-## So, now we can generate the source code for delegation in a quite
-## straightforward way.
-##
-#foreach ($dm in $transform.sortMethodsFlat($allMethods))
-    // from $dm.parentInterfaceName
-    $dm.getDeclaration(true)
-    {
-#if ($dm.hasReturnType())
-        return metaObject.${dm.getMethodCall()};
-#else
-        metaObject.${dm.getMethodCall()};
-#end    
-    }
-
-#end
-#end
 }

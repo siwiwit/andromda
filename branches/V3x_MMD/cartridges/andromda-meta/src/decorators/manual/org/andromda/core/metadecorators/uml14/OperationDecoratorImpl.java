@@ -140,7 +140,7 @@ public class OperationDecoratorImpl extends OperationDecorator
     	{
     		ParameterDecorator p = (ParameterDecorator) it.next();
     		
-    		if (!ParameterDirectionKindEnum.PDK_RETURN.equals(p.getKind()))
+    		if (!ParameterDirectionKindEnum.PDK_RETURN.equals(((Parameter)p.getMetaObject()).getKind()))
     		{
     			if (commaNeeded)
     			{

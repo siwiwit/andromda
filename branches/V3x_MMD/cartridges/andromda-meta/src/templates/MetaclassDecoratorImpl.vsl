@@ -17,7 +17,7 @@ ${indent}* </p>
 #end
 #end
 
-#set ($decoratedMetaclass = $transform.getMetaclass($class))
+#set ($decoratedMetaclass = $transform.getMetaclass($class.metaObject))
 #set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
 
 /**

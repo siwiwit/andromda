@@ -32,7 +32,7 @@ public class ActionStateDecoratorImpl extends ActionStateDecorator
     public org.omg.uml.foundation.core.ModelElement handleGetStateMachine()
     {
         StateMachine stateMachine = null;
-        CompositeState compositeState = getContainer();
+        CompositeState compositeState = metaObject.getContainer();
 
         if (compositeState != null)
         {

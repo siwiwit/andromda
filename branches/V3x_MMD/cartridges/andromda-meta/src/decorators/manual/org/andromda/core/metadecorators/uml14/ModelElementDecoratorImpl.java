@@ -136,7 +136,7 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     {
         if (stereotypeName == null) return Boolean.FALSE;
 
-        final Collection stereotypes = getStereotype();
+        final Collection stereotypes = metaObject.getStereotype();
         for (Iterator iterator = stereotypes.iterator(); iterator.hasNext();)
         {
             Stereotype stereotype = (Stereotype) iterator.next();
@@ -228,6 +228,22 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     		logger.error(errMsg, th);
     	}
     	return documentation.toString();
+    }
+
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getName()
+     */
+    public String getName()
+    {
+        return metaObject.getName();
+    }
+
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getMetaObject()
+     */
+    public ModelElement getMetaObject()
+    {
+        return metaObject;
     }
 
 }
