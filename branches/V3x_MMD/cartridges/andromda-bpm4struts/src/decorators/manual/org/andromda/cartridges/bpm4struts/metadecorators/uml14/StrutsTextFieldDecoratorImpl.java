@@ -43,7 +43,7 @@ public class StrutsTextFieldDecoratorImpl extends StrutsTextFieldDecorator
         }
     }
 
-    public String getFieldType()
+    public String getWidgetType()
     {
         return "text";
     }

@@ -21,7 +21,7 @@ public class StrutsMultiBoxDecoratorImpl extends StrutsMultiBoxDecorator
     // concrete business methods that were declared
     // abstract in class StrutsMultiBoxDecorator ...
 
-    public String getFieldType()
+    public String getWidgetType()
     {
         return "multibox";
     }

@@ -21,7 +21,7 @@ public class StrutsRadioButtonDecoratorImpl extends StrutsRadioButtonDecorator
     // concrete business methods that were declared
     // abstract in class StrutsRadioButtonDecorator ...
 
-    public String getFieldType()
+    public String getWidgetType()
     {
         return "radio";
     }
