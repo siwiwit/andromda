@@ -78,27 +78,21 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
 
         if (isRequired()) validatorTypes.add("required");
 
+        if (isValidatorByte(type)) validatorTypes.add("byte");
+        else if (isValidatorShort(type)) validatorTypes.add("short");
+        else if (isValidatorLong(type)) validatorTypes.add("long");
+        else if (isValidatorInteger(type)) validatorTypes.add("integer");
+        else if (isValidatorFloat(type)) validatorTypes.add("float");
+        else if (isValidatorDouble(type)) validatorTypes.add("double");
+        else if (isValidatorDate(type)) validatorTypes.add("date");
+
         if (format != null)
         {
-            final boolean isRangeFormat = isRangeFormat(format);
-            if (isValidatorByte(type)) validatorTypes.add("byte");
-            else if (isValidatorShort(type)) validatorTypes.add("short");
-            else if (isValidatorLong(type)) validatorTypes.add("long");
-            else if (isValidatorDate(type)) validatorTypes.add("date");
-            else if (isValidatorInteger(type))
+            if (isRangeFormat(format))
             {
-                validatorTypes.add("integer");
-                if (isRangeFormat) validatorTypes.add("intRange");
-            }
-            else if (isValidatorFloat(type))
-            {
-                validatorTypes.add("float");
-                if (isRangeFormat) validatorTypes.add("floatRange");
-            }
-            else if (isValidatorDouble(type))
-            {
-                validatorTypes.add("double");
-                if (isRangeFormat) validatorTypes.add("doubleRange");
+                if (isValidatorInteger(type)) validatorTypes.add("intRange");
+                if (isValidatorFloat(type)) validatorTypes.add("floatRange");
+                if (isValidatorDouble(type)) validatorTypes.add("doubleRange");
             }
             else if (isValidatorString(type))
             {
