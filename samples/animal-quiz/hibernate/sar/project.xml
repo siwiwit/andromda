@@ -3,7 +3,6 @@
 <project>
   	<extend>../../project.xml</extend>
   	<id>andromda-animal-quiz-sample-hibernate-sar</id>
-  	<groupId>andromda</groupId>
   	<name>Animal Quiz Sample Hibernate Sar</name>
   	<shortDescription>The Animal Quiz Sample Hibernate Sar Component</shortDescription>
   	<description>
@@ -11,27 +10,37 @@
   	</description>
 	<dependencies>      
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-animal-quiz-sample-mda</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-animal-quiz-sample-hibernate-ejb</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-animal-quiz-sample-common</artifactId>
 			<version>${pom.currentVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>3.0</version>
 		</dependency>	
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.0</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -47,8 +56,8 @@
   		<dependency>
      		<groupId>hibernate</groupId>
       		<artifactId>hibernate</artifactId>
-        	<version>2.1.1</version>
-    	</dependency>    	
+        	<version>2.0.3</version>
+    	</dependency>   	
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
