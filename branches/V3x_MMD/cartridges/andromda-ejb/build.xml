@@ -94,11 +94,15 @@
         <andromda basedir="."
            modelURL="${model}"
            lastModifiedCheck="false"
-           typeMappings="${andromda-core.home}/src/xml/TypeMapping.xml"
            processAllModelPackages="false">
 
-            <outlet cartridge="meta" outlet="decorators"       dir="${src.dec.gen.dir}" />
-            <outlet cartridge="meta" outlet="decorator-impls"  dir="${src.dec.man.dir}" />
+			<namespace name="meta">
+				<!-- define the outlet locations -->
+				<property name="decorators" value="${src.dec.gen.dir}"/>
+				<property name="decorator-impls" value="${src.dec.man.dir}"/>	
+				<!-- define the language mappings -->
+				<property name="languageMappings" value="file:/${basedir}/conf/mappings/JavaMappings.xml"/>			
+			</namespace>
             
             <modelPackage name="org.andromda.cartridges.ejb.metadecorators.uml14" shouldProcess="true"/>
 
