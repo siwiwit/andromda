@@ -1,0 +1,113 @@
+#set ($packagename = $class.package.fullyQualifiedName)
+package $packagename;
+
+#set ($shieldedMetaclass = $class.metaclass)
+#set ($shieldedMetaclassTypeName = $shieldedMetaclass.fullyQualifiedName)
+
+/**
+$class.getDocumentation(" ")
+ *
+ * Metaclass facade implementation.
+ *
+ */
+public class ${class.name}Impl
+       extends ${class.name}
+       implements ${class.fullyQualifiedInterfaceName}
+{
+    // ---------------- constructor -------------------------------
+    
+    public ${class.name}Impl ($shieldedMetaclassTypeName metaObject)
+    {
+        super (metaObject);
+    }
+#set ($atts = $class.attributes)
+#if ($atts.size() > 0)
+
+    // --------------- attributes ---------------------
+#foreach ( $att in $atts )
+#set ($returnTypeName = $att.type.fullyQualifiedName)
+
+   /**
+$att.getDocumentation("    ")
+    *
+    */
+    public $returnTypeName ${att.getterName}() {
+        // TODO: put your implementation here.
+#if ("void" != $returnTypeName)
+
+        // Dummy return value, just that the file compiles
+#if (!$op.type.primitiveType)
+        return null;
+#elseif ("boolean" == $returnTypeName)
+        return false;
+#else
+        return ($returnTypeName)0;
+#end
+#end
+    }
+#end
+#end
+##
+#set ($ops = $class.operations)
+#if ($ops.size() > 0)
+
+    // -------------------- business methods ----------------------
+
+    // concrete business methods that were declared
+    // abstract in class ${class.name} ...
+
+#foreach ( $op in $ops)
+#set ($msig = $op.signature)
+#set ($returnTypeName = $op.type.fullyQualifiedName)
+#if ($defaultException)
+    $op.visibility $returnTypeName ${msig}
+        throws $defaultException.name {
+#else
+    $op.visibility $returnTypeName ${msig} {
+#end
+        // TODO: put your implementation here.
+#if ("void" != $returnTypeName)
+
+        // Dummy return value, just that the file compiles
+#if (!$op.type.primitiveType)
+        return null;
+#elseif ("boolean" == $returnTypeName)
+        return false;
+#else
+        return ($returnTypeName)0;
+#end
+#end
+    }
+
+#end
+#end
+##
+#set ($assocEnds = $class.associationEnds)
+#if ($assocEnds.size() > 0)
+    // ------------- relations ------------------
+    
+#foreach ( $assocEnd in $assocEnds )
+#if ($assocEnd.otherEnd.navigable)
+##
+#set ($trn = $assocEnd.otherEnd.name)
+#set ($utrn = $str.upperCaseFirstLetter($trn))
+##
+#if ($assocEnd.one2Many || $assocEnd.many2Many)
+#set ($returnTypeName = $assocEnd.getterSetterTypeName)
+#else
+#set ($returnTypeName = "java.lang.Object")
+#end
+   /**
+$assocEnd.otherEnd.getDocumentation("    ")
+    *
+    */
+    public $returnTypeName handleGet${utrn}()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+
+#end
+#end
+#end
+}

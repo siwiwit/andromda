@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="src/decorators/manual"/>
+    <classpathentry kind="src" path="src/decorators/generated"/>
+    <classpathentry kind="src" path="src/java"/>
+    <classpathentry kind="lib" path="lib/struts-1.1.jar"/>
+    <classpathentry kind="lib" path="lib/servletapi-2.3.jar"/>
+    <classpathentry kind="lib" path="lib/commons-validator.jar"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="src" path="/andromda3"/>
+    <classpathentry kind="src" path="/andromda3-meta"/>
+    <classpathentry kind="lib" path="/andromda3/lib/jmi.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/jmiuml14di.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/junit.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/log4j-1.2.8.jar"/>
+    <classpathentry kind="output" path="eclipsebuild"/>
+</classpath>

@@ -1,0 +1,54 @@
+##
+## Package declaration and imports
+##
+package $class.packageName;
+
+#set ($parentClassName = $class.jsp.formBean.fullyQualifiedName)
+/**
+$class.getDocumentation(" ")
+ * <p>
+ * This class extends <code>$parentClassName</code>, is serves
+ * only to present a view on that class. The struts validator framework can use
+ * this view to determine which dynamic javascript snippet to generate
+ * (we need a form bean declaration in struts-config.xml for that).
+ *
+ * @struts.form
+ *        name="$class.name"
+ */
+public final class $class.name extends $parentClassName
+{
+#foreach ($parameter in $class.parameters)
+    /**
+#foreach ($validatorType in $parameter.validatorTypes)
+     * @struts.validator
+     *          type="$validatorType"
+     *  arg0resource="$parameter.validatorMsgKey"
+#foreach ($validatorArg in $parameter.getValidatorArgs($validatorType))
+     *     arg${velocityCount}value="$validatorArg"
+#end
+     *
+#end
+#if ($parameter.validWhen)
+     * @struts.validator
+     *       type="validwhen"
+     *  arg0value="$parameter.validatorMsgKey"
+     *
+#end
+#foreach ($validatorVar in $parameter.validatorVars)
+     * @struts.validator-var
+     *          name="$validatorVar.get(0)"
+     *         value="$validatorVar.get(1)"
+#end
+#if ($parameter.validWhen)
+     * @struts.validator-var
+     *          name="test"
+     *         value="$parameter.validWhen"
+#end
+     */
+    public void ${parameter.setterName}($parameter.type.fullyQualifiedName $parameter.name)
+    {
+        super.${parameter.setterName}($parameter.name);
+    }
+
+#end
+}
