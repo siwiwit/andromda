@@ -1,28 +1,23 @@
+#set ($generatedFile = "${class.fullPathName}.jsp")
+
+#parse("templates/StrutsJSP.vm")
+
 <%@ taglib uri="struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="struts-html.tld" prefix="html" %>
 <%@ taglib uri="struts-logic.tld" prefix="logic" %>
 
-#set (${actions} = ${class.actions})
+#set ($actions = $class.actions)
 
 <html:html xhtml="true">
 
     <head>
         <title><bean:message key="$class.titleKey"/></title>
 #if ($class.hasForms())
-#foreach (${action} in ${actions})
-#if (${action.isFormAction()}
-        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="${class.fullPathName}JS.jsp"/>"></script>
+#foreach ($action in $actions)
+#if ($action.isFormAction())
+        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="${action.fullPathName}JS.jsp"/>"></script>
 #end
 #end
-        <script type="text/javascript" language="Javascript1.1">
-        <!--
-            function submitForm(form,trigger)
-            {
-                form.trigger.value = trigger;
-                if (${class.formValidationMethodName}(form)) form.submit();
-            }
-        //-->
-        </script>
 #end
     </head>
 
@@ -30,40 +25,40 @@
 
         <logic:messagesPresent>
             <html:messages id="error">
-                ERR: <bean:write name="error"/> <br>
+                ERR: <bean:write name="error"/> <br/>
             </html:messages>
         </logic:messagesPresent>
 
         <logic:messagesPresent message="true">
             <html:messages id="message">
-                MSG: <bean:write name="message"/> <br>
+                MSG: <bean:write name="message"/> <br/>
             </html:messages>
         </logic:messagesPresent>
 
-#foreach (${action} in ${actions})
-#if (${action.isHyperlinkAction()})
-#renderHyperlink(${action})
-#elseif (${action.isFormAction()})
-        <html:form forward="${class.forwardName}">
+#foreach ($action in $actions)
+#if ($action.isHyperlinkAction())
+#renderHyperlink($action "        ")
+#elseif ($action.isFormAction())
+        <html:form forward="$action.forwardName">
             <table cellpadding="5" cellspacing="5" border="0">
-#foreach (${field} in ${class.actionParameters})
+#foreach ($field in $class.actionParameters)
                 <tr>
-                    <td><bean:message key="${field.messageKey}"/></td>
+                    <td><bean:message key="$field.messageKey"/></td>
                     <td>
-#renderFormField($field "                        ")
+##renderFormField($field "                        ")
                     </td>
                 </tr>
 #end
                 <tr>
                     <td>
-#renderFormButtons($class "                        ")
+##renderFormButtons($class "                        ")
                     </td>
                 </tr>
             </table>
         </html:form>
 #end
-#end
 
+#end
     </body>
 
 </html:html>

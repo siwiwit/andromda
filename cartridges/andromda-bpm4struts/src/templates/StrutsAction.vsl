@@ -1,4 +1,7 @@
-#parse("/templates/StrutsAction.vm")
+#set ($generatedFile = "${class.fullPathName}.java")
+
+#parse("templates/StrutsAction.vm")
+
 
 #set (${actionPackage} = ${class.actionPackageName})
 #set (${actionClassName} = ${class.actionClassName})
