@@ -107,21 +107,20 @@ public class MetafacadeFactory
         final String methodName = "MetafacadeFactory.internalCreateMetafacade";
 
         ExceptionUtils.checkNull(methodName, "metaobject", metaobject);
-
-        MetafacadeBase metafacade = 
-            (MetafacadeBase)this.metafacadeCache.get(metaobject);
+        
+        //if the metaobject ALREADY IS a metafacade
+        //return the metaobject since we don't want to try and create a
+        //metafacade from a metafacade.
+        if (metaobject instanceof MetafacadeBase)
+        {
+            return (MetafacadeBase)metaobject;
+        }
+        
+        MetafacadeBase metafacade = this.getFromMetafacadeCache(metaobject);
         
         // only create if it hasn't already been created
         if (metafacade == null) {
-        
-	        //if the metaobject ALREADY IS a metafacade
-	        //return the metaobject since we don't want to try and create a
-	        //metafacade from a metafacade.
-	        if (metaobject instanceof MetafacadeBase)
-	        {
-	            return (MetafacadeBase)metaobject;
-	        }
-	
+        	
 	        Class metaobjectClass = null;
 	        try
 	        {
@@ -239,10 +238,46 @@ public class MetafacadeFactory
 	            throw new MetafacadeFactoryException(errMsg, th);
 	        }
 	        
-	        this.metafacadeCache.put(metaobject, metafacade);
+	        this.addToMetafacadeCache(metaobject, metafacade);
         }
 	        
         return metafacade;
+    }
+    
+    /**
+     * Returns the metafacade from the currently
+     * active namespace cache (if one can be found), 
+     * otherwise returns null.
+     * @param metaobject
+     * @return MetafacadeBase stored in the cache.
+     */
+    private MetafacadeBase getFromMetafacadeCache(Object metaobject) {
+        MetafacadeBase metafacade = null;
+        Map namespaceMetafacadeCache = (Map)
+        	this.metafacadeCache.get(this.getActiveNamespace());
+        if (namespaceMetafacadeCache != null) {
+            metafacade = (MetafacadeBase)namespaceMetafacadeCache.get(metaobject);
+        }
+        return metafacade;
+    }
+    
+    /**
+     * Adds the metafacade to the cache for the currently
+     * active namespace.
+     * 
+     * @param metaobject the metaobject for which to store
+     * @param metafacade
+     */
+    private void addToMetafacadeCache(Object metaobject, MetafacadeBase metafacade) {
+        Map namespaceMetafacadeCache = (Map)
+            this.metafacadeCache.get(this.getActiveNamespace());
+        if (namespaceMetafacadeCache == null) {
+            namespaceMetafacadeCache = new HashMap();
+        }
+        namespaceMetafacadeCache.put(metaobject, metafacade);
+        this.metafacadeCache.put(
+            this.getActiveNamespace(), 
+            namespaceMetafacadeCache);
     }
 
     /**
@@ -275,42 +310,33 @@ public class MetafacadeFactory
         ExceptionUtils.checkEmpty(methodName, "interfaceName", interfaceName);
         ExceptionUtils.checkNull(methodName, "metaObject", metaObject);
 
-        MetafacadeBase metafacade = (MetafacadeBase)
-        this.metafacadeCache.get(metaObject);
-               
-        // only construct a new one, if we haven't already 
-        // constructed one previously
-        if (metafacade == null) {
-            Class metafacadeClass = null;
-	        try
-	        {
-	                                    
-	            metafacadeClass = 
-	                MetafacadeImpls.instance().getMetafacadeImplClass(
-	                    interfaceName);
-	            
-	            metafacade = 
-	                this.internalCreateMetafacade(
-	                        metaObject,
-	                        contextName,
-	                        metafacadeClass);  
-	            
-	            this.metafacadeCache.put(metaObject, metafacade);
-	            
-	        }
-	        catch (Throwable th)
-	        {
-	            String errMsg =
-	                "Failed to construct a meta facade of type '"
-	                    + metafacadeClass
-	                    + "' with metaobject of type --> '"
-	                    + metaObject.getClass().getName()
-	                    + "'";
-	            internalGetLogger().error(errMsg, th);
-	            throw new MetafacadeFactoryException(errMsg, th);
-	        }
+        Class metafacadeClass = null;
+        try
+        {
+                                    
+            metafacadeClass = 
+                MetafacadeImpls.instance().getMetafacadeImplClass(
+                    interfaceName);
+            
+            MetafacadeBase metafacade = 
+                this.internalCreateMetafacade(
+                        metaObject,
+                        contextName,
+                        metafacadeClass);  
+            
+            return metafacade;   
         }
-        return metafacade;
+        catch (Throwable th)
+        {
+            String errMsg =
+                "Failed to construct a meta facade of type '"
+                    + metafacadeClass
+                    + "' with metaobject of type --> '"
+                    + metaObject.getClass().getName()
+                    + "'";
+            internalGetLogger().error(errMsg, th);
+            throw new MetafacadeFactoryException(errMsg, th);
+        }
     }
 
     /**
