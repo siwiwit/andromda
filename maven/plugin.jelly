@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+
+<project xmlns:j="jelly:core"
+         xmlns:ant="jelly:ant"
+         xmlns:util="jelly:util"
+         xmlns:maven="jelly:maven">
+
+    <!-- ===================================================================
+         Call AndroMDA to generate code from the model                             
+         =================================================================== -->
+    <goal name="andromda:run">
+        <ant:echo>+--------------------------------------------+</ant:echo>
+        <ant:echo>|      R u n n i n g    A n d r o M D A      |</ant:echo>
+        <ant:echo>+--------------------------------------------+</ant:echo> 
+  
+		<ant:path id="andromda.classpath">
+            <ant:path refid="maven.dependency.classpath"/>
+			<ant:pathelement path="${plugin.dependencyClasspath}"/>  
+		</ant:path>
+  		<ant:taskdef
+            name="andromda"
+            classname="org.andromda.core.anttasks.AndroMDAGenTask"
+            classpathref="andromda.classpath"/>
+            
+        <andromda modelURL="${maven.andromda.model.uri}"
+                  basedir="${maven.andromda.src.dir}"
+                  includes="${maven.andromda.src.includes}"
+                  lastModifiedCheck="${maven.andromda.src.lastModifiedCheck}"
+                  processAllModelPackages="${maven.andromda.processAllModelPackages}">
+             	
+            <!-- set the maximum number of cartridges, and packages that may be set, 
+                 this can always be increased later, but not sure we would ever need to -->
+            <j:set var="maximum" value="30"/>
+
+            <!-- set the modelPackages -->  
+            <j:set var="index" value="0"/>
+            <j:forEach begin="0" end="${maximum}" indexVar="index">
+                <j:set var="indexVarName" value="maven.andromda.modelPackage.${index}.name"/>
+                <j:if test="${context.getVariable(indexVarName) != null}">
+                
+                    <modelPackage>
+                    
+                        <!-- set the name -->
+                        <ant:setProperty 
+                            name="name" 
+                            value="${context.getVariable(indexVarName)}"/>
+                        <!-- set shouldProcess -->
+                        <j:set 
+                            var="indexVarName" 
+                            value="maven.andromda.modelPackage.${index}.shouldProcess"/>
+                        <ant:setProperty 
+                            name="shouldProcess" 
+                            value="${context.getVariable(indexVarName)}"/>         
+                                           
+                    </modelPackage>
+                    
+                </j:if>
+            </j:forEach>        	
+  
+   			<!-- define the modelProcessor context elements -->     		
+            <j:set var="index" value="0"/>
+            <j:forEach begin="0" end="${maximum}" indexVar="index">
+              	<j:set var="indexVarName" value="maven.andromda.namespace.${index}.name"/>
+              	<j:if test="${context.getVariable(indexVarName) != null}">
+              	
+                	<namespace>
+                	
+                        <ant:setProperty 
+                        	name="name" 
+                        	value="${context.getVariable(indexVarName)}"/>
+                        
+                        <j:set var="nestedIndex" value="0"/>
+			            <j:forEach begin="0" end="10" indexVar="nestedIndex">
+			              	<j:set 
+			              		var="nestedVarName" 
+			              		value="maven.andromda.namespace.${index}.property.${nestedIndex}.name"/>
+			              	<j:if test="${context.getVariable(nestedVarName) != null}">
+			                	<property>
+			                        <ant:setProperty 
+			                        	name="name" 
+			                        	value="${context.getVariable(nestedVarName)}"/>      
+			                        <j:set 
+			                        	var="nestedVarName" 
+			                        	value="maven.andromda.namespace.${index}.property.${nestedIndex}.value"/>
+			                        <ant:setProperty 
+			                        	name="value" 
+			                        	value="${context.getVariable(nestedVarName)}"/>	   	
+			                        <j:set 
+			                        	var="nestedVarName" 
+			                        	value="maven.andromda.namespace.${index}.property.${nestedIndex}.ignore"/>
+			                        <ant:setProperty 
+			                        	name="ignore" 
+			                        	value="${context.getVariable(nestedVarName)}"/>					                        	
+			                	</property>
+			              	</j:if>
+			            </j:forEach>
+			            
+                	</namespace>
+                	
+              	</j:if>
+            </j:forEach>
+            
+            <!-- set the repository module search path -->
+            <repository>
+				    <moduleSearchPath>
+                        <j:set var="index" value="0"/>
+                        <j:forEach begin="0" end="${maximum}" indexVar="index">
+                            <j:set var="indexVarName" value="maven.andromda.repository.moduleSearchPath.location.${index}"/>
+                            <j:set var="location" value="${context.getVariable(indexVarName)}"/>
+                            <j:if test="${location != null}">
+                            
+                                <ant:pathelement>
+                                    <ant:setProperty 
+                                        name="location" 
+                                        value="${location}"/>                                        
+                                </ant:pathelement>
+                                 
+                            </j:if>
+                        </j:forEach>
+                    </moduleSearchPath>
+			</repository>
+
+        </andromda>
+      	
+	</goal>
+
+</project>
