@@ -11,6 +11,8 @@ import org.omg.uml.foundation.core.Classifier;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 
 /**
@@ -41,7 +43,7 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         {
             AssociationEnd associationEnd = (AssociationEnd) iterator.next();
             Classifier participant = associationEnd.getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
+            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
             if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_CONTROLLER).booleanValue())
                 controllerClasses.add(participant);
         }
@@ -68,13 +70,53 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         return beanName;
     }
 
+    public Set getInputFields()
+    {
+        final Set inputFields = new LinkedHashSet();
+        final Collection views = getViews();
+        for (Iterator iterator = views.iterator(); iterator.hasNext();)
+        {
+            Classifier view = (Classifier) iterator.next();
+            StrutsViewDecorator viewDecorator = (StrutsViewDecorator)DecoratorBase.decoratedElement(view);
+            inputFields.addAll(viewDecorator.getInputFields());
+        }
+        return inputFields;
+    }
+
+    public Set getResetInputFields()
+    {
+        final Set resetInputFields = new LinkedHashSet();
+        final Collection views = getViews();
+        for (Iterator iterator = views.iterator(); iterator.hasNext();)
+        {
+            Classifier view = (Classifier) iterator.next();
+            StrutsViewDecorator viewDecorator = (StrutsViewDecorator)DecoratorBase.decoratedElement(view);
+            resetInputFields.addAll(viewDecorator.getResetInputFields());
+        }
+        return resetInputFields;
+    }
     // ------------- relations ------------------
+
+    protected Collection handleGetViews()
+    {
+        final Collection views = new LinkedList();
+        final Collection associationEnds = getAssociationEnds();
+        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+        {
+            AssociationEnd associationEnd = (AssociationEnd) iterator.next();
+            Classifier participant = associationEnd.getParticipant();
+            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
+            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_VIEW).booleanValue())
+                views.add(participant);
+        }
+        return views;
+    }
 
     public void validate() throws DecoratorValidationException
     {
         // the name must not be empty
         final String name = getName();
-        if ( (name==null) || (name.trim().length()==0) )
+        if ((name == null) || (name.trim().length() == 0))
             throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
 
         // the name must be unique
