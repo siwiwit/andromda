@@ -2,6 +2,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
+import org.andromda.core.common.StringUtilsHelper;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.ModelElement;
@@ -30,6 +31,12 @@ public class StrutsActionStateDecoratorImpl extends StrutsActionStateDecorator
     // concrete business methods that were declared
     // abstract in class StrutsActionStateDecorator ...
 
+    public String getDispatchMethodName()
+    {
+        return StringUtilsHelper.toJavaMethodName(metaObject.getName());
+    }
+
+
     // ------------- relations ------------------
     protected Collection handleGetTriggerTransitions()
     {
@@ -46,11 +53,11 @@ public class StrutsActionStateDecoratorImpl extends StrutsActionStateDecorator
             Classifier undercoratedClassifier = (Classifier) iterator.next();
             DecoratorBase classifier = decoratedElement(undercoratedClassifier);
 
-            if (classifier instanceof StrutsViewDecorator)
+            if (classifier instanceof StrutsJspDecorator)
             {
-                StrutsViewDecorator view = (StrutsViewDecorator)classifier;
+                StrutsJspDecorator jsp = (StrutsJspDecorator)classifier;
                 // todo: find a more stable way
-                if (view.getActionState().getName().equalsIgnoreCase(metaObject.getName()))
+                if (jsp.getActionState().getName().equalsIgnoreCase(metaObject.getName()))
                 {
                     return undercoratedClassifier;
                 }
