@@ -1,5 +1,6 @@
 <cartridge name="meta">
     <stereotype name="Decorator" />
+    <stereotype name="metafacade" />
 
 <!-- the outlet names -->
     <outlet name="decorators" />
@@ -17,6 +18,24 @@
 
     <template
         stereotype="Decorator"
+        sheet="templates/MetaclassDecoratorImpl.vsl"
+        outputPattern="{0}/{1}Impl.java"
+        outlet="decorator-impls"
+        overWrite="false"
+        transformClass="org.andromda.cartridges.meta.MetaScriptHelper"
+    />
+
+    <template
+        stereotype="metafacade"
+        sheet="templates/MetaclassDecorator.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="decorators"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.meta.MetaScriptHelper"
+    />
+
+    <template
+        stereotype="metafacade"
         sheet="templates/MetaclassDecoratorImpl.vsl"
         outputPattern="{0}/{1}Impl.java"
         outlet="decorator-impls"
