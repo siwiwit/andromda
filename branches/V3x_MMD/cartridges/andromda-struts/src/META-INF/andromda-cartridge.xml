@@ -37,9 +37,12 @@
       sheet="templates/StrutsConfig.vsl"
       outputPattern="struts-config.xml"
       outlet="config"
-      overWrite="true">
-        <modelElements variable="class">
-            <modelElement stereotype="WebAppConfig"/>  
+      overWrite="true"
+      outputToSingleFile="true">
+        <modelElements variable="classes">
+            <modelElement 
+                stereotype="WebForm" variable="webForms"/>
+            <modelElement stereotype="WebAction" variable="webActions"/>
         </modelElements>  
     </template>
 
