@@ -143,18 +143,6 @@ public class AndroMDAGenTask extends MatchingTask
     }
 
     /**
-     * Adds a mapping for a cartridge outlet to a physical directory.
-     * Example from a build.xml file:
-     * &lt;outlet cartridge="ejb" outlet="beans" dir="${my.beans.dir}" /&gt;
-     * 
-     * @param om the outlet mapping javabean supplied by Ant
-     */
-    public void addOutlet(OutletMapping om)
-    {
-        outletMappingList.add(om);
-    }
-
-    /**
      *  <p>
      *
      *  Sets the base directory from which the object model files are read. This
