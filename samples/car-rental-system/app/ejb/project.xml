@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../../project.xml</extend>
-	<id>car-rental-sample-ejb-application</id>
+	<id>car-rental-sample-ejb-app</id>
 	<name>Car Rental Sample EJB Application</name>
 	<shortDescription>
 		The AndromMDA Car Rental System Sample using 
