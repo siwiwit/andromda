@@ -1,6 +1,8 @@
 package org.andromda.metafacades.uml14;
 
 
+
+
 /**
  * 
  *
@@ -18,5 +20,9 @@ public class ActionStateFacadeLogicImpl
         super (metaObject, context);
     }
     // ------------- relations ------------------
-    
+
+    protected Object handleGetEntry()
+    {
+        return metaObject.getEntry();
+    }
 }
