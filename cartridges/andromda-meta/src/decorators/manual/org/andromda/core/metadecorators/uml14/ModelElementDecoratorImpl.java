@@ -15,6 +15,7 @@ import org.omg.uml.foundation.core.TaggedValue;
 import org.omg.uml.foundation.datatypes.VisibilityKind;
 import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 import org.omg.uml.modelmanagement.Model;
+import org.omg.uml.modelmanagement.UmlPackage;
 
 /**
  *
@@ -299,6 +300,19 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     protected ModelElement handleGetPackage()
     {
         return metaObject.getNamespace();
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#handleGetRootPackage()
+     */
+    protected ModelElement handleGetRootPackage() 
+    {
+        Collection rootPackages = 
+            DecoratorFactory
+                .getInstance()
+                .getModel()
+                .getModelManagement().refAllPackages();
+        return (ModelElement) rootPackages.iterator().next();
     }
 
 }
