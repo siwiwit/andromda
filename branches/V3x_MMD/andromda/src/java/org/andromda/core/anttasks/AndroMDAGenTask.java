@@ -364,7 +364,6 @@ public class AndroMDAGenTask extends MatchingTask
      */
     private List initCartridges() throws BuildException
     {
-        CartridgeFinder.initClasspath(getClass());
         try
         {
             List cartridges = CartridgeFinder.findCartridges();
