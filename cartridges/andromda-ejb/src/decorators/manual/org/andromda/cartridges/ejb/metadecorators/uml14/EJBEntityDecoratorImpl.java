@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.metadecorators.uml14.AssociationDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
+import org.andromda.core.uml14.UMLProfile;
+import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.Dependency;
@@ -92,8 +95,6 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		return decorator.getPrimaryKeyFields();
 	}
 
-	// ------------- relations ------------------
-
 	/**
 	 * Gets all associations that define relations to other entities.
 	 * <p>
@@ -167,6 +168,18 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		}
 		return result;
 	}
+	
+	/**
+	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getViewType()
+	 */
+	public String getViewType() {
+		if (UMLProfile.STEREOTYPE_ENTITY.equals(
+			StringUtils.trimToEmpty(this.getStereotypeName()))) {
+			return "local";
+		}
+
+		return "remote";
+	}
 
 	/**
 	 * Get the associations that define relations to other entities. This is
@@ -211,6 +224,28 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getAllInstanceAttributes()
+	 */
+	public List getAllInstanceAttributes() {
+		List retval = this.getInheritedInstanceAttributes();
+		retval.addAll(this.getInstanceAttributes());
+		return retval;		
+	}
+	
+	/**
+	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getInheritedInstanceAttributes()
+	 */
+	public List getInheritedInstanceAttributes() {
+		EJBEntityDecorator current = (EJBEntityDecorator)this.getSuperclass();
+		if (current == null) {
+			return new ArrayList();
+		} else {
+			List retval = current.getInheritedInstanceAttributes();
+			return retval;
+		}
 	}
 
 }
