@@ -59,6 +59,11 @@ public class StrutsJspLogicImpl
         return getOutgoing();
     }
 
+    protected Object handleGetForward()
+    {
+        return getOutgoing().iterator().next();    
+    }
+
     protected Collection handleGetPageVariables()
     {
         final Collection variables = new LinkedList();
