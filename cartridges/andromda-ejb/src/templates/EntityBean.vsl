@@ -283,9 +283,9 @@ $assoc.otherEnd.getDocumentation("    ")
     *    name="$assocname"
     *    role-name="$assocname:$assoc.name"
     *    target-ejb="$assoc.otherEnd.type.name"
-#if ($assoc.navigable == "false")
+#if (!$assoc.navigable)
     *    target-role-name="$assocname:$assoc.otherEnd.name"
-#if ($assoc.isMany2One() || $assoc.isMany2Many())
+#if ($assoc.many2One || $assoc.many2Many)
     *    target-multiple="true"
 #end
 #end
