@@ -90,10 +90,11 @@
         />
 
 		<!-- copy the base model over so that it can be referenced from the EJB model -->
-        <copy todir="${uml.dir}">
+        <copy todir="${uml.dir}"  
+              overwrite="true">
             <fileset 
             	dir="${base.model.uml.dir}" 
-            	includes="MetadecoratorModel.xml.zip" />
+            	includes="MetadecoratorModel.xml.zip"/>
         </copy>
         
         <property 
