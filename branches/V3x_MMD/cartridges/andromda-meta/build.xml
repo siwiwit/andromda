@@ -132,6 +132,7 @@
 				<property name="facades" 				 value="${src.fac.gen.dir}" />
 				<property name="facade-logics"           value="${src.fac.gen.dir}"/>
 				<property name="facade-logic-impls"      value="${src.fac.man.dir}"/>
+				<property name="facades-to-impls"        value="${src.fac.gen.dir}"/>
 				<property name="languageMappingsUri"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
             
@@ -167,9 +168,9 @@
 		
         <jar jarfile="${build.dir}/andromda-meta.jar">
             <fileset dir="${src.dir}" includes="templates/*" />
-            <fileset dir="${src.dir}" includes="META-INF/*cartridge.xml" />
-            <fileset dir="${build.cart.dir}" includes="META-INF/andromda-metafacades.xml" />
+            <fileset dir="${src.dir}" includes="META-INF/*" />
             <fileset dir="${build.cart.dir}" includes="**/*.class" />
+            <fileset dir="${src.fac.gen.dir}" includes="**/*.properties" />            
         </jar>
         <copy todir="${dist.dir}" >
             <fileset dir="${build.dir}" includes="andromda-meta.jar" />
