@@ -2,15 +2,20 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
-import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.omg.uml.UmlPackage;
+import org.omg.uml.behavioralelements.activitygraphs.ActionState;
+import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.Attribute;
+import org.omg.uml.foundation.core.Classifier;
+import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 
 /**
@@ -43,7 +48,54 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         return fileName;
     }
 
+    public Collection getTriggerNames()
+    {
+        final Collection triggers = DecoratorBase.decoratedElements(getActionState().getOutgoing());
+        final Collection triggerNames = new LinkedList();
+        for (Iterator iterator = triggers.iterator(); iterator.hasNext();)
+        {
+            StrutsTransitionDecorator transition = (StrutsTransitionDecorator)iterator.next();
+            triggerNames.add(transition.getTriggerName());
+        }
+        return triggerNames;
+    }
+
+    public String getViewName()
+    {
+        return this.getFullyQualifiedJspFilename();
+    }
+
     // ------------- relations ------------------
+    public ActionState getActionState()
+    {
+        final String actionStateName = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_STATE);
+        final UmlPackage model = MetaDecoratorUtil.getModel(this);
+
+        final Collection allActionStates = model.getUseCases().getUseCase().refAllOfType();
+        for (Iterator iterator = allActionStates.iterator(); iterator.hasNext();)
+        {
+            ActionState actionState = (ActionState) iterator.next();
+            if (actionStateName.equalsIgnoreCase(actionState.getName()))
+                return actionState;
+        }
+
+        return null;
+    }
+
+
+    protected ModelElement handleGetModel()
+    {
+        final Collection associationEnds = getAssociationEnds();
+        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+        {
+            AssociationEnd associationEnd = (AssociationEnd) iterator.next();
+            Classifier participant = associationEnd.getParticipant();
+            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
+            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
+                return participant;
+        }
+        return null;
+    }
 
     /**
      *
@@ -64,11 +116,6 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         }
 
         return inputFields;
-    }
-
-    public String getViewName()
-    {
-        return this.getFullyQualifiedJspFilename();
     }
 
     protected Collection handleGetResetInputFields()
