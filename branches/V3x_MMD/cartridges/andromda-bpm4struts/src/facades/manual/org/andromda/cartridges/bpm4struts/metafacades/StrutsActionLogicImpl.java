@@ -1,15 +1,8 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
-import org.andromda.metafacades.uml.AssociationEndFacade;
-import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.*;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
-import org.omg.uml.behavioralelements.statemachines.*;
-import org.omg.uml.behavioralelements.usecases.UseCase;
-import org.omg.uml.behavioralelements.activitygraphs.ActionState;
-import org.omg.uml.behavioralelements.commonbehavior.Action;
-import org.omg.uml.behavioralelements.commonbehavior.CallAction;
-import org.omg.uml.foundation.core.Classifier;
 
 import java.util.*;
 
@@ -23,8 +16,6 @@ public class StrutsActionLogicImpl
         extends StrutsActionLogic
         implements org.andromda.cartridges.bpm4struts.metafacades.StrutsAction
 {
-    private Transition transition = null;
-
     private final Collection effectTransitions = new HashSet();
     private final Collection forwardActionTransitions = new HashSet();
     private final Collection decisionTransitions = new HashSet();
@@ -34,27 +25,26 @@ public class StrutsActionLogicImpl
     public StrutsActionLogicImpl(Object metaObject, String context)
     {
         super(metaObject, context);
-        this.transition = (Transition)metaObject;
-
-        collectTransitions(transition);
+        collectTransitions(this);
     }
 
-    private void collectTransitions(Transition transition)
+    private void collectTransitions(TransitionFacade transition)
     {
         if (transition.getEffect()!=null && !effectTransitions.contains(transition))
         {
             effectTransitions.add(transition);
         }
 
-        StateVertex target = transition.getTarget();
+        StateVertexFacade target = transition.getTarget();
         Collection outcomes = target.getOutgoing();
 
-        if ( (target instanceof Pseudostate) && (outcomes.size() > 1) )
+        if (target instanceof PseudostateFacade)
         {
-            decisionTransitions.add(transition);
+            if ( ((PseudostateFacade)target).isDecisionPoint() )
+                decisionTransitions.add(transition);
         }
 
-        if (target instanceof FinalState || target instanceof ActionState)
+        if (target instanceof FinalStateFacade || target instanceof ActionStateFacade)
         {
             forwardActionTransitions.add(transition);
         }
@@ -62,7 +52,7 @@ public class StrutsActionLogicImpl
         {
             for (Iterator iterator = outcomes.iterator(); iterator.hasNext();)
             {
-                Transition outcome = (Transition) iterator.next();
+                TransitionFacade outcome = (TransitionFacade) iterator.next();
                 collectTransitions(outcome);
             }
         }
@@ -75,13 +65,12 @@ public class StrutsActionLogicImpl
 
     public String getActionName()
     {
-        return '/' + StringUtilsHelper.toJavaClassName(transition.getSource().getName() + ' ' + transition.getTrigger().getName());
+        return '/' + StringUtilsHelper.toJavaClassName(getSource().getName() + ' ' + getTrigger().getName());
     }
 
     private ClassifierFacade getContextClass()
     {
-        Classifier contextClass = (Classifier)transition.getStateMachine().getContext();
-        return (ClassifierFacade)shieldedElement(contextClass);
+        return null; // todo
     }
 
     /**
@@ -147,11 +136,6 @@ public class StrutsActionLogicImpl
         return getActionClassName() + "Form";
     }
 
-    public Transition getActionTransition()
-    {
-        return transition;
-    }
-
     public String getFormName()
     {
         return StringUtilsHelper.lowerCaseFirstLetter(getFormBeanClassName());
@@ -189,7 +173,7 @@ public class StrutsActionLogicImpl
 
     public String getTriggerValue()
     {
-        Event trigger = transition.getTrigger();
+        EventFacade trigger = getTrigger();
         return StringUtilsHelper.toPhrase(trigger.getName());
     }
 
@@ -217,7 +201,7 @@ public class StrutsActionLogicImpl
     {
         Collection users = new LinkedHashSet();
 
-        UseCase useCase = (UseCase)transition.getStateMachine().getNamespace();
+        UseCaseFacade useCase = (UseCaseFacade)getActivityGraph().getNameSpace();
         final Collection associationEnds = ((ClassifierFacade)shieldedElement(useCase)).getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
@@ -239,7 +223,7 @@ public class StrutsActionLogicImpl
      */
     public java.lang.Object handleGetInput()
     {
-        return transition.getSource();
+        return getSource();
     }
 
     /**
@@ -281,12 +265,12 @@ public class StrutsActionLogicImpl
 
     protected Collection handleGetActionParameters()
     {
-        Action effect = transition.getEffect();
+        ActionFacade effect = getEffect();
 
-        if (effect instanceof CallAction)
+        if (effect instanceof CallActionFacade)
         {
-            CallAction callAction = (CallAction)effect;
-            return callAction.getOperation().getParameter();
+            CallActionFacade callAction = (CallActionFacade)effect;
+            return callAction.getOperation().getParameters();
         }
         else
         {
