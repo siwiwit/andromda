@@ -3,14 +3,15 @@ package org.andromda.cartridges.bpm4struts.metafacades;
 import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
-import org.omg.uml.behavioralelements.statemachines.Transition;
+import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
+import org.omg.uml.behavioralelements.statemachines.*;
 import org.omg.uml.behavioralelements.usecases.UseCase;
+import org.omg.uml.behavioralelements.activitygraphs.ActionState;
+import org.omg.uml.behavioralelements.commonbehavior.Action;
+import org.omg.uml.behavioralelements.commonbehavior.CallAction;
 import org.omg.uml.foundation.core.Classifier;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 
 /**
@@ -24,12 +25,47 @@ public class StrutsActionLogicImpl
 {
     private Transition transition = null;
 
+    private final Collection effectTransitions = new HashSet();
+    private final Collection forwardActionTransitions = new HashSet();
+    private final Collection decisionTransitions = new HashSet();
+
     // ---------------- constructor -------------------------------
     
-    public StrutsActionLogicImpl(java.lang.Object metaObject)
+    public StrutsActionLogicImpl(Object metaObject, String context)
     {
-        super(metaObject);
+        super(metaObject, context);
         this.transition = (Transition)metaObject;
+
+        collectTransitions(transition);
+    }
+
+    private void collectTransitions(Transition transition)
+    {
+        if (transition.getEffect()!=null && !effectTransitions.contains(transition))
+        {
+            effectTransitions.add(transition);
+        }
+
+        StateVertex target = transition.getTarget();
+        Collection outcomes = target.getOutgoing();
+
+        if ( (target instanceof Pseudostate) && (outcomes.size() > 1) )
+        {
+            decisionTransitions.add(transition);
+        }
+
+        if (target instanceof FinalState || target instanceof ActionState)
+        {
+            forwardActionTransitions.add(transition);
+        }
+        else
+        {
+            for (Iterator iterator = outcomes.iterator(); iterator.hasNext();)
+            {
+                Transition outcome = (Transition) iterator.next();
+                collectTransitions(outcome);
+            }
+        }
     }
 
     // -------------------- business methods ----------------------
@@ -37,9 +73,9 @@ public class StrutsActionLogicImpl
     // concrete business methods that were declared
     // abstract in class StrutsAction ...
 
-    private String getActionName()
+    public String getActionName()
     {
-        return transition.getSource().getName() + ' ' + transition.getTrigger().getName();
+        return '/' + StringUtilsHelper.toJavaClassName(transition.getSource().getName() + ' ' + transition.getTrigger().getName());
     }
 
     private ClassifierFacade getContextClass()
@@ -49,23 +85,12 @@ public class StrutsActionLogicImpl
     }
 
     /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getType()()
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getActionType()
      */
-    public java.lang.String getType()
+    public java.lang.String getActionType()
     {
         ClassifierFacade context = getContextClass();
         return context.getPackageName() + '.' + StringUtilsHelper.toJavaClassName(getActionName());
-    }
-
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getForwardNamesToPathsMap()()
-     */
-    public java.util.Map getForwardNamesToPathsMap()
-    {
-// TODO: put your implementation here.
-
-// Dummy return value, just that the file compiles
-        return null;
     }
 
     /**
@@ -78,17 +103,17 @@ public class StrutsActionLogicImpl
     }
 
     /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getPath()()
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getActionPath()()
      */
-    public java.lang.String getPath()
+    public java.lang.String getActionPath()
     {
-        return '/' + StringUtilsHelper.toJavaClassName(getActionName());
+        return '/' + getActionClassName();
     }
 
     /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getRoles()()
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getActionRoles()
      */
-    public java.lang.String getRoles()
+    public java.lang.String getActionRoles()
     {
         Collection users = getUsers();
 
@@ -100,6 +125,87 @@ public class StrutsActionLogicImpl
         }
 
         return StringUtilsHelper.separate(rolesBuffer.toString(), ",");
+    }
+
+    public String getFormBeanPackageName()
+    {
+        return getController().getPackageName();
+    }
+
+    public String getActionPackageName()
+    {
+        return getController().getPackageName();
+    }
+
+    public String getActionClassName()
+    {
+        return StringUtilsHelper.toJavaClassName(getActionName());
+    }
+
+    public String getFormBeanClassName()
+    {
+        return getActionClassName() + "Form";
+    }
+
+    public Transition getActionTransition()
+    {
+        return transition;
+    }
+
+    public String getFormName()
+    {
+        return StringUtilsHelper.lowerCaseFirstLetter(getFormBeanClassName());
+    }
+
+    public String getFormValidationMethodName()
+    {
+        return "validate" + getFormBeanClassName();
+    }
+
+    public boolean isFormAction()
+    {
+        String type = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE);
+        if (type == null)
+        {
+            type = Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE_FORM;
+        }
+        return Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE_HYPERLINK.equalsIgnoreCase(type);
+    }
+
+    public boolean isHyperlinkAction()
+    {
+        return !isFormAction();
+    }
+
+    public String getFullPathName()
+    {
+        return '/' + getActionType().replace('.', '/');
+    }
+
+    public String getTriggerKey()
+    {
+        return StringUtilsHelper.toResourceMessageKey(getTriggerValue());
+    }
+
+    public String getTriggerValue()
+    {
+        Event trigger = transition.getTrigger();
+        return StringUtilsHelper.toPhrase(trigger.getName());
+    }
+
+    public boolean hasSuccesMessage()
+    {
+        return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_SUCCES_MESSAGE);
+    }
+
+    public String getSuccessMessageKey()
+    {
+        return getTriggerKey() + ".success";
+    }
+
+    public String getSuccessMessageValue()
+    {
+        return '[' + getTriggerValue() + "] succesfully executed on " + getInput().getTitleValue();
     }
 
     // ------------- relations ------------------
@@ -153,4 +259,38 @@ public class StrutsActionLogicImpl
          return exceptionHandlers;
     }
 
+    protected Object handleGetController()
+    {
+        return getContextClass();
+    }
+
+    protected Collection handleGetForwardActionTransitions()
+    {
+        return forwardActionTransitions;
+    }
+
+    protected Collection handleGetDecisionTransitions()
+    {
+        return decisionTransitions;
+    }
+
+    protected Collection handleGetEffectTransitions()
+    {
+        return effectTransitions;
+    }
+
+    protected Collection handleGetActionParameters()
+    {
+        Action effect = transition.getEffect();
+
+        if (effect instanceof CallAction)
+        {
+            CallAction callAction = (CallAction)effect;
+            return callAction.getOperation().getParameter();
+        }
+        else
+        {
+            return Collections.EMPTY_LIST;
+        }
+    }
 }
