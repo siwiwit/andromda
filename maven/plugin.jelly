@@ -3,7 +3,8 @@
 <project xmlns:j="jelly:core"
          xmlns:ant="jelly:ant"
          xmlns:util="jelly:util"
-         xmlns:maven="jelly:maven">
+         xmlns:maven="jelly:maven"
+         xmlns:deploy="deploy">
 
     <!-- ===================================================================
          Call AndroMDA to generate code from the model                             
@@ -124,4 +125,50 @@
       	
 	</goal>
 
+    <!-- ===================================================================
+         Install a bootrap version to the local repository                            
+         =================================================================== -->
+	<goal name="andromda:bootstrap-install" 
+	    description="Installs a bootstrap jar to the local repository">
+	    <attainGoal name="jar:jar"/>
+        <ant:property 
+            name="libLocation" 
+            value="${maven.repo.local}/${pom.artifactDirectory}/jars"/>
+        <ant:copy
+            file="${maven.build.dir}/${maven.final.name}.jar"
+            tofile="${libLocation}/${maven.andromda.bootstrap.name}.jar"
+            overwrite="true"/>
+	</goal>
+	
+    <!-- ===================================================================
+         Deploys a bootrap version to the remote repository                           
+         =================================================================== -->
+	<goal name="andromda:bootstrap-deploy"
+	      description="Deploys a bootstrap jar to the remote repository">
+	      
+        <maven:user-check user="${maven.username}"/>
+	    <attainGoal name="jar:jar"/>
+        <ant:copy
+            file="${maven.build.dir}/${maven.final.name}.jar"
+            tofile="${maven.build.dir}/${maven.andromda.bootstrap.name}.jar"
+            overwrite="true"/>
+
+        <ant:property name="maven.jar.to.deploy" value="${maven.andromda.bootstrap.name}.jar"/>
+        
+        <j:set var="sl" value="/"/>
+        <util:replace var="jarToDeploy" oldChar="\" newChar="/">${maven.build.dir}/${maven.jar.to.deploy}</util:replace>
+        <util:replace var="forwardSlashBaseDir" oldChar="\" newChar="/" value="${basedir}"/>
+        <j:if test="${!forwardSlashBaseDir.endsWith('/')}">
+          <j:set var="base" value="${forwardSlashBaseDir}/" />
+        </j:if>
+        <j:set var="relativePath">${jarToDeploy.substring(base.length())}</j:set>
+    
+        <deploy:artifact
+          artifact="${relativePath}"
+          type="jars"
+          assureDirectoryCommand="mkdir -p"
+          siteCommand="cd @deployDirectory@; chmod g+w ${maven.jar.to.deploy}; chgrp ${maven.remote.group} ${maven.jar.to.deploy}"/>
+
+	</goal>
+	
 </project>
