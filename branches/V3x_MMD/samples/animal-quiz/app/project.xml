@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../project.xml</extend>
-	<id>animal-quiz-sample-application</id>
+	<id>animal-quiz-sample-app</id>
 	<name>Animal Quiz Sample Application</name>
 	<shortDescription>
 		The AndromMDA Animal Quiz Sample featuring BPM4Struts.
