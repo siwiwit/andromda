@@ -55,6 +55,13 @@ public class XmlObjectFactory {
     private URL schemaUri = null;
     
     /**
+     * Whether or not validation should be turned
+     * on by default when using this factory to load 
+     * XML configuration files.
+     */
+    private static boolean defaultValidating = true;
+    
+    /**
      * Cache containing XmlObjectFactory instances
      * which have already been configured for given
      * objectRulesXml
@@ -103,12 +110,25 @@ public class XmlObjectFactory {
             // can happen by running ant inside eclipse for example)
             // Comment out until I figure out a clean way to ignore 
             // validation if the underlying parser doesn't support it.  
-            factory.setValidating(true);
+            factory.setValidating(defaultValidating);
             factoryCache.put(objectClass, factory);
         }
         
         return factory;    
     }
+    
+    /**
+     * Allows us to set default validation to true/false for all instances
+     * of objects instantiated by this factory.  This is necessary
+     * in some cases where the underlying parser doesn't support
+     * schema validation (such as when performing JUnit tests)
+     * 
+     * @param validate true/false
+     */
+    public static void setDefaultValidating(boolean validating) {
+        defaultValidating = validating;
+    }
+    
     
     /**
      * Sets whether or not the XmlObjectFactory
@@ -120,36 +140,37 @@ public class XmlObjectFactory {
      * @param validating true/false 
      */
     public void setValidating(boolean validating) {
-        final String methodName = "XmlObjectFactory.setValidating";
-        
-        if (this.schemaUri == null) {
-            String schemaLocation = 
-                '/' + this.objectClass.getName().replace('.', '/') + SCHEMA_SUFFIX;
-            this.schemaUri =
-                XmlObjectFactory.class.getResource(schemaLocation);
-            try {
-                if (this.schemaUri != null) {
-                    InputStream stream = this.schemaUri.openStream();
-                    stream.close();
-                }
-            } catch (IOException ex) {
-                this.schemaUri = null;
-            }
+        final String methodName = "XmlObjectFactory.setValidating";     
+        this.digester.setValidating(validating);
+        if (validating) {
             if (this.schemaUri == null) {
-                logger.warn("WARNING! Was not able to find schemaUri --> '" 
-                    + schemaLocation
-                    + "' continuing in non validating mode");
+                String schemaLocation = 
+                    '/' + this.objectClass.getName().replace('.', '/') + SCHEMA_SUFFIX;
+                this.schemaUri =
+                    XmlObjectFactory.class.getResource(schemaLocation);
+                try {
+                    if (this.schemaUri != null) {
+                        InputStream stream = this.schemaUri.openStream();
+                        stream.close();
+                    }
+                } catch (IOException ex) {
+                    this.schemaUri = null;
+                }
+                if (this.schemaUri == null) {
+                    logger.warn("WARNING! Was not able to find schemaUri --> '" 
+                        + schemaLocation
+                        + "' continuing in non validating mode");
+                }
             }
-        }
-       
-        if (this.schemaUri != null) { 
-            try {
-                this.digester.setValidating(true);
-                this.digester.setSchema(this.schemaUri.toString());
-                this.digester.setErrorHandler(new XmlObjectValidator());
-            } catch (Exception ex) {
-                logger.warn("WARNING! Your parser does NOT support the " 
-                    + " schema validation continuing in non validation mode", ex);
+           
+            if (this.schemaUri != null) { 
+                try {
+                    this.digester.setSchema(this.schemaUri.toString());
+                    this.digester.setErrorHandler(new XmlObjectValidator());
+                } catch (Exception ex) {
+                    logger.warn("WARNING! Your parser does NOT support the " 
+                        + " schema validation continuing in non validation mode", ex);
+                }
             }
         }
     }
