@@ -213,4 +213,24 @@
         </modelElements>
     </template>
 
+    <template
+        sheet="templates/StrutsLoginFormJsp.vsl"
+        outputPattern="login-form.jsp"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        sheet="templates/StrutsLoginErrorJsp.vsl"
+        outputPattern="login-error.jsp"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
 </cartridge>
