@@ -30,7 +30,7 @@ import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
  * Transform class for the EJB cartridge.
  * @author Richard Kunze
  */
-public class EjbScriptHelper extends SimpleOOHelper {
+public class EJBScriptHelper extends SimpleOOHelper {
 
     /**
      * Find the primary key type name for <code>obj</code>.
