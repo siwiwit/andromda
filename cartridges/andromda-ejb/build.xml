@@ -4,6 +4,8 @@
     <!--               Directory settings                              -->
     <!-- ============================================================= -->
 
+	<property name="andromda-meta.dir" value="../andromda-meta"/>
+
     <property name="src.dir"          value="${basedir}/src" />
     <property name="src.cart.dir"     value="${src.dir}/java" />
     <property name="src.dec.gen.dir"  value="${src.dir}/decorators/generated" />
@@ -11,7 +13,7 @@
     <!-- <property name="uml.dir"          value="${src.dir}/uml" /> -->
     <!-- temporarily point to the andromda-meta cartrige since we need to use 
          that model until the HREF enabling is done -->
-    <property name="uml.dir"          value="${basedir}/../andromda-meta/src/uml" />
+    <property name="uml.dir"          value="${basedir}/${andromda-meta.dir}/src/uml" />
     <property name="src.test.dir"     value="${src.dir}/test/" />
 
     <property name="build.dir"              value="build" />
@@ -28,7 +30,9 @@
     <property name="andromda-ejb.home" location="dist"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
-    <property file="andromda-ejb.properties"/>
+    
+    <property name="andromda-meta.home" value="${andromda-meta.dir}/dist"/>
+    <property file="${andromda-meta.dir}/andromda-meta.properties"/>
 
     <path id="andromda.classpath">
        <pathelement location="${andromda-core.home}/andromda.jar"/>
@@ -72,45 +76,20 @@
     <!-- ============================================================= -->
     <!--               Internal tasks                                  -->
     <!-- ============================================================= -->
-
-    <target name="compile" depends="genjava"
-            description="Builds the cartridge objects from the sources">
-        <javac destdir="${build.cart.dir}" includes="**/*.java"
-               includeAntRuntime="false">
-            <classpath>
-               <path refid="generate.classpath"/>
- 			   <pathelement path="${andromda-ejb.classpath}"/>           
-            </classpath>
-            <src path="${src.cart.dir}" />
-            <src path="${src.dec.gen.dir}" />
-            <src path="${src.dec.man.dir}" />
-        </javac>
-
-        <jar jarfile="${build.dir}/andromda-ejb.jar">
-            <fileset dir="${src.dir}" includes="templates/*" />
-            <fileset dir="${src.dir}" includes="META-INF/*" />
-            <fileset dir="${build.cart.dir}" includes="**/*.class" />
-            <fileset dir="${build.dec.dir}" includes="**/*.class" />
-        </jar>
-        <copy todir="${dist.dir}" >
-            <fileset dir="${build.dir}" includes="andromda-ejb.jar" />
-            <fileset dir="." includes="andromda-ejb.properties" />
-        </copy>
-    </target>
-
+    
     <target name="genjava" depends="init">    
         <path id="generate.classpath">
            <path refid="andromda.classpath" />
-           <pathelement path="${andromda-ejb.classpath}"/>
+           <pathelement path="${andromda-meta.classpath}"/>
         </path>
+    
+        <property name="g.cp" refid="generate.classpath"/>
+        <echo message="generate.classpath = ${g.cp}"/>
     
         <taskdef name="andromda"
                  classname="org.andromda.core.anttasks.AndroMDAGenTask"
                  classpathref="generate.classpath"
         />
-
-        <property name="g.cp" refid="generate.classpath"/>
-        <echo message="generate.classpath = ${g.cp}"/>
 
         <!-- <property name="model" value="jar:file:${uml.dir}/EJBMetadecoratorModel.xml.zip!/EJBMetadecoratorModel.xml"/> -->
         <property name="model" value="jar:file:${uml.dir}/MetadecoratorModel.xml.zip!/MetadecoratorModel.xml"/>
@@ -127,6 +106,31 @@
             <modelPackage name="org.andromda.cartridges.ejb.metadecorators.uml14" shouldProcess="true"/>
 
         </andromda>
+    </target>
+
+    <target name="compile" depends="genjava"
+            description="Builds the cartridge objects from the sources">
+        <javac destdir="${build.cart.dir}" includes="**/*.java"
+               includeAntRuntime="false">
+            <classpath>
+               <path refid="generate.classpath"/>
+ 			   <pathelement path="${andromda-meta.classpath}"/>           
+            </classpath>
+            <src path="${src.cart.dir}" />
+            <src path="${src.dec.gen.dir}" />
+            <src path="${src.dec.man.dir}" />
+        </javac>
+
+        <jar jarfile="${build.dir}/andromda-ejb.jar">
+            <fileset dir="${src.dir}" includes="templates/*" />
+            <fileset dir="${src.dir}" includes="META-INF/*" />
+            <fileset dir="${build.cart.dir}" includes="**/*.class" />
+            <fileset dir="${build.dec.dir}" includes="**/*.class" />
+        </jar>
+        <copy todir="${dist.dir}" >
+            <fileset dir="${build.dir}" includes="andromda-ejb.jar" />
+            <fileset dir="." includes="andromda-ejb.properties" />
+        </copy>
     </target>
 
     <target name="test" depends="compile">
