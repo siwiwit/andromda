@@ -29,7 +29,7 @@
  			value="${multiproject.build.excludes}"/>
 		<attainGoal name="multiproject:deploy"/>	  		
   	</goal>
-  
+  	
   	<!-- ==================================================================
   			 Clean                                                     
   		 ================================================================== -->
@@ -51,4 +51,26 @@
 		</ant:delete>
   	</goal> 
   	
+  	<!-- =================================================================
+  	         Install all bootstrap artifacts to the local repository
+  	     ================================================================= -->
+  	<goal name="bootstrap-install">
+ 		<maven:reactor
+     		basedir="${basedir}"
+      		includes="${bootstrap.modules}"
+      		goals="andromda:bootstrap-install"
+      		ignoreFailures="false"/>  	  	    
+  	</goal>
+  	
+  	<!-- =================================================================
+  	         Deploys all bootstrap artifacts to the remote repository
+  	     ================================================================= -->
+  	<goal name="boostrap-deploy">
+ 		<maven:reactor
+     		basedir="${basedir}"
+      		includes="${bootstrap.modules}"
+      		goals="andromda:bootstrap-deploy"
+      		ignoreFailures="false"/>  	  	    
+  	</goal>
+    	
 </project>

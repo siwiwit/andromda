@@ -45,6 +45,7 @@
             <roles>
                 <role>Project Admin</role>
                 <role>Developer</role>
+                <role>Documentation</role>                
             </roles>
     	</developer>
     	<developer>
