@@ -200,11 +200,7 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
     }
 
     /**
-     * Gets the static attributes of the specified Classifier object.
-     * 
-     * @param object
-     *            Classifier object
-     * @return Collection of org.omg.uml.foundation.core.Attribute
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getStaticAttributes()
      */
     public Collection getStaticAttributes() {
     	Collection attributes = this.getAttributes();
@@ -217,6 +213,9 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
     	return attributes;
     }
     
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getInstanceAttributes()
+     */
     public java.util.Collection getInstanceAttributes() {
     	Collection attributes = this.getAttributes();
     	class StaticAttributeFilter implements Predicate {
