@@ -33,10 +33,10 @@ import org.xml.sax.SAXParseException;
  * to digester (or whatever XML configuration tool we are using at the time) to this single file.
  * 
  * In order to add/modify an existing element/attribute in your configuration file, first 
- * add make the modification in your java object, then modify it's rules file 
- * to instruct the digester on how to configure your new attribute, method in the java object, 
- * and then modify your XSD file to provide correct validation.  Please see 
- * the org.andromda.core.metafacade.MetafacadeMappings* files for an example on how
+ * make the modification in your java object, then modify it's rules file 
+ * to instruct the digester on how to configure your new attribute/method in the java object, 
+ * and then modify your XSD file to provide correct validation for this new method/attribute.  
+ * Please see the org.andromda.core.metafacade.MetafacadeMappings* files for an example on how
  * to do this.
  * 
  * @author Chad Brandon
@@ -108,8 +108,6 @@ public class XmlObjectFactory {
             // If the underlying parser doesn't support schema validation 
             // it fails by trying to validate against a non existent DTD (this
             // can happen by running ant inside eclipse for example)
-            // Comment out until I figure out a clean way to ignore 
-            // validation if the underlying parser doesn't support it.  
             factory.setValidating(defaultValidating);
             factoryCache.put(objectClass, factory);
         }
