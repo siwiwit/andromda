@@ -58,7 +58,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
         
         if (ve == null) {
             ve = new VelocityEngine();
-    
+
             ExtendedProperties ep = null;
             if (properties != null) {
                 // Tell VelocityTemplateEngine it should also use the classpath when searching for templates
@@ -173,7 +173,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
      */
     public void addMacroLibrary(String libraryName)
     {
-        this.addMacroLibrary(libraryName);
+        this.macrolibs.add(libraryName);
     }
     
     /**

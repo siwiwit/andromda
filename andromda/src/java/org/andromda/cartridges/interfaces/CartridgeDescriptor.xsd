@@ -5,8 +5,8 @@
 		<xs:complexType>
 			<xs:sequence>
                 <xs:element ref="class" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="templateEngine" minOccurs="0" maxOccurs="1"/>
 				<xs:element ref="templateObject" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="macrolibrary" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="template" minOccurs="1" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
@@ -88,5 +88,15 @@
         <xs:complexType>
             <xs:attribute name="name" type="xs:string" use="required"/>
         </xs:complexType>
+	</xs:element>	
+	<!-- you configure the template engine through here -->
+	<xs:element name="templateEngine">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="macrolibrary" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<!-- the class of the TemplateEngine implementation (must have a default constructor) -->
+			<xs:attribute name="className" type="xs:string" use="optional"/>
+		</xs:complexType>
 	</xs:element>	
 </xs:schema>
