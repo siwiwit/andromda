@@ -86,7 +86,7 @@
         <mkdir dir="build/hibernatestage"/>
         <mkdir dir="build/hibernateservice"/>
         <mkdir dir="build/webstage/WEB-INF/classes"/>
-        <mkdir dir="build/webstage/WEB-INF/lib/tlds"/>
+        <mkdir dir="build/webstage/WEB-INF/tld"/>
     </target>
 
     <!-- Remove directory structure structure -->
@@ -433,8 +433,8 @@
             <fileset dir="${andromda-struts.home}/lib/" includes="struts.jar"/>
             <fileset dir="${andromda-struts.home}" includes="andromda-struts.jar"/>
         </copy>
-        <copy todir="build/webstage/WEB-INF/lib/tlds/">
-            <fileset dir="${andromda-struts.home}/lib/tld/" includes="struts*.tld"/>
+        <copy todir="build/webstage/WEB-INF/tld">
+            <fileset dir="${andromda-struts.home}/lib/tld" includes="struts*.tld"/>
         </copy>
 
         <!-- Copy the hibernate libraries -->
