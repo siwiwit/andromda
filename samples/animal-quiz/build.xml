@@ -107,13 +107,18 @@
             </fileset>
         </copy>
         <copy todir="${build.dir}/WEB-INF/tld">
-            <fileset dir="${output.dir}">
+            <fileset dir="${lib.dir}">
                 <include name="struts-*.tld"/>
             </fileset>
         </copy>
         <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/struts-1.1.jar"/>
         <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/servletapi-2.3.jar"/>
         <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/commons-validator.jar"/>
+        <copy todir="${build.dir}/WEB-INF/lib" >
+            <fileset dir="${andromda-core.home}/lib">
+                <include name="commons-*.jar"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="dist" depends="build">
@@ -123,6 +128,12 @@
                 <exclude name="WEB-INF/web.xml"/>
             </fileset>
         </war>
+    </target>
+
+    <target name="deploy">
+        <echo message="JBoss.home = ${jboss.home}" />
+        <copy file="${dist.dir}/${sample.name}.war" 
+              todir="${jboss.home}/server/default/deploy" />
     </target>
 
 </project>
