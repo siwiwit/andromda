@@ -4,7 +4,10 @@ import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.metafacades.uml.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Collections;
 
 
 /**
@@ -16,9 +19,9 @@ public class StrutsActionLogicImpl
         extends StrutsActionLogic
         implements org.andromda.cartridges.bpm4struts.metafacades.StrutsAction
 {
-    private Collection effectTransitions = null;
-    private Collection forwardActionTransitions = null;
-    private Collection decisionTransitions = null;
+    private Collection actionStates = null;
+    private Collection actionForwards = null;
+    private Collection decisionPoints = null;
 
     // ---------------- constructor -------------------------------
     
@@ -29,9 +32,9 @@ public class StrutsActionLogicImpl
 
     private void initializeCollections()
     {
-        effectTransitions = new HashSet();
-        forwardActionTransitions = new HashSet();
-        decisionTransitions = new HashSet();
+        actionStates = new HashSet();
+        actionForwards = new HashSet();
+        decisionPoints = new HashSet();
         collectTransitions(this, new HashSet());
     }
 
@@ -46,26 +49,30 @@ public class StrutsActionLogicImpl
             processedTransitions.add(transition);
         }
 
-        if (transition.getEffect()!=null && !effectTransitions.contains(transition))
-        {
-            effectTransitions.add(transition);
-        }
+        StateVertexFacade target = getTarget();
 
-        StateVertexFacade target = transition.getTarget();
-        Collection outcomes = target.getOutgoing();
-
-        if (target instanceof PseudostateFacade)
+        if ( (target instanceof StrutsJsp) || (target instanceof StrutsFinalState) )
         {
-            if ( ((PseudostateFacade)target).isDecisionPoint() )
-                decisionTransitions.add(transition);
+            actionForwards.add(transition);
         }
-
-        if (target instanceof FinalStateFacade || target instanceof ActionStateFacade)
+        else if ( (target instanceof PseudostateFacade) && ((PseudostateFacade)target).isDecisionPoint() )
         {
-            forwardActionTransitions.add(transition);
+            decisionPoints.add(target);
+            Collection outcomes = target.getOutgoing();
+            for (Iterator iterator = outcomes.iterator(); iterator.hasNext();)
+            {
+                TransitionFacade outcome = (TransitionFacade) iterator.next();
+                collectTransitions(outcome, processedTransitions);
+            }
         }
-        else
+        else  if (target instanceof StrutsActionState)
         {
+            actionStates.add(target);
+            collectTransitions( ((StrutsActionState)target).getForward(), processedTransitions );
+        }
+        else    // all the rest is ignored but outgoing transitions are further processed
+        {
+            Collection outcomes = target.getOutgoing();
             for (Iterator iterator = outcomes.iterator(); iterator.hasNext();)
             {
                 TransitionFacade outcome = (TransitionFacade) iterator.next();
@@ -97,6 +104,28 @@ public class StrutsActionLogicImpl
         return '/' + StringUtilsHelper.toJavaClassName(name);
     }
 
+    public String getActionInput()
+    {
+        final StateVertexFacade source = getSource();
+        return (source instanceof StrutsJsp) ? ((StrutsJsp)source).getFullPath() : "";
+    }
+
+    public boolean isFormPost()
+    {
+        return !isHyperlink();
+    }
+
+    public boolean isHyperlink()
+    {
+       return Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE_HYPERLINK.equalsIgnoreCase(
+               findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE));
+    }
+
+    public boolean hasSuccessMessage()
+    {
+        return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_SUCCES_MESSAGE);
+    }
+
     private ClassifierFacade getContextClass()
     {
         ModelElementFacade contextElement = getSource().getActivityGraph().getContextElement();
@@ -105,38 +134,14 @@ public class StrutsActionLogicImpl
             : null;
     }
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getActionType()
-     */
-    public java.lang.String getActionType()
-    {
-        ClassifierFacade context = getContextClass();
-        return context.getPackageName() + getActionName().replace('/','.');
-    }
-
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getFormBeanType()()
-     */
-    public java.lang.String getFormBeanType()
-    {
-        ClassifierFacade context = getContextClass();
-        return context.getPackageName() + '.' + StringUtilsHelper.toJavaClassName(getActionName()) + "Form";
-    }
-
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getActionPath()()
-     */
     public java.lang.String getActionPath()
     {
         return '/' + getActionClassName();
     }
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getActionRoles()
-     */
     public java.lang.String getActionRoles()
     {
-        final Collection users = getUsers();
+        final Collection users = getActivityGraph().getUseCase().getUsers();
         StringBuffer rolesBuffer = new StringBuffer();
         for (Iterator userIterator = users.iterator(); userIterator.hasNext();)
         {
@@ -146,19 +151,15 @@ public class StrutsActionLogicImpl
         return StringUtilsHelper.separate(rolesBuffer.toString(), ",");
     }
 
-    public String getFormBeanPackageName()
-    {
-        return getController().getPackageName();
-    }
-
-    public String getActionPackageName()
-    {
-        return getController().getPackageName();
-    }
-
     public String getActionClassName()
     {
-        return StringUtilsHelper.toJavaClassName(getActionName());
+        return StringUtilsHelper.toJavaClassName(getName() + ' ' + getTriggerName());
+    }
+
+    private String getTriggerName()
+    {
+        EventFacade trigger = getTrigger();
+        return (trigger == null) ? getTarget().getName() : trigger.getName();
     }
 
     public String getFormBeanClassName()
@@ -166,7 +167,7 @@ public class StrutsActionLogicImpl
         return getActionClassName() + "Form";
     }
 
-    public String getFormName()
+    public String getFormBeanName()
     {
         return StringUtilsHelper.lowerCaseFirstLetter(getFormBeanClassName());
     }
@@ -176,31 +177,6 @@ public class StrutsActionLogicImpl
         return "validate" + getFormBeanClassName();
     }
 
-    public boolean isFormAction()
-    {
-        String type = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE);
-        if (type == null)
-        {
-            type = Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE_FORM;
-        }
-        return !Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE_HYPERLINK.equalsIgnoreCase(type);
-    }
-
-    public boolean isHyperlinkAction()
-    {
-        return !isFormAction();
-    }
-
-    public String getFormFullPathName()
-    {
-        return getActionFullPathName() + "Form";
-    }
-
-    public String getActionFullPathName()
-    {
-        return '/' + getActionType().replace('.', '/');
-    }
-
     public String getTriggerKey()
     {
         return StringUtilsHelper.toResourceMessageKey(getActionClassName());
@@ -208,13 +184,7 @@ public class StrutsActionLogicImpl
 
     public String getTriggerValue()
     {
-        EventFacade trigger = getTrigger();
-        return StringUtilsHelper.toPhrase(trigger.getName());
-    }
-
-    public boolean hasSuccesMessage()
-    {
-        return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_SUCCES_MESSAGE);
+        return StringUtilsHelper.toPhrase(getTriggerName());
     }
 
     public String getSuccessMessageKey()
@@ -227,140 +197,57 @@ public class StrutsActionLogicImpl
         return '[' + getTriggerValue() + "] succesfully executed on " + getInput().getTitleValue();
     }
 
-    public String getEffectMethodName()
+    public String getPackageName()
     {
-        ActionFacade effect = getEffect();
-
-        if (effect instanceof CallActionFacade)
-        {
-            CallActionFacade callAction = (CallActionFacade)effect;
-            return callAction.getOperation().getName();
-        }
-        else
-        {
-            return null;
-        }
+        return getContextClass().getPackageName();
     }
-
-    public String getDecisionMethodName()
-    {
-        return (isTargettingDecisionPoint()) ? StringUtilsHelper.toJavaMethodName(getActionClassName()) : null;
-    }
-
-    public String getTriggerMethodName()
-    {
-        EventFacade event = getTrigger();
-        if (event instanceof CallEventFacade)
-        {
-            CallEventFacade callEvent = (CallEventFacade)event;
-            return callEvent.getOperation().getName();
-        }
-        return null;
-    }
-
     // ------------- relations ------------------
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getUsers()
-     */
-    public java.util.Collection handleGetUsers()
+    protected Collection handleGetActionForwards()
     {
-        Collection users = new LinkedHashSet();
-        UseCaseFacade useCase = getActivityGraph().getUseCase();
-        final Collection associationEnds = useCase.getAssociationEnds();
-        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
-        {
-            final AssociationEndFacade associationEnd = (AssociationEndFacade)iterator.next();
-            final ClassifierFacade otherEnd = associationEnd.getOtherEnd().getType();
-            if (otherEnd instanceof StrutsUser)
-            {
-                StrutsUser user = (StrutsUser)otherEnd;
-                users.add(user);
-                users.addAll(user.getGeneralizedUsers());
-            }
-        }
-        return users;
+        if (actionForwards == null) initializeCollections();
+        return actionForwards;
     }
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getInput()
-     */
-    public java.lang.Object handleGetInput()
+    protected Collection handleGetDecisionPoints()
+    {
+        if (decisionPoints == null) initializeCollections();
+        return decisionPoints;
+    }
+
+    protected Collection handleGetActionStates()
+    {
+        if (actionStates == null) initializeCollections();
+        return actionStates;
+    }
+
+    protected Collection handleGetActionExceptions()
+    {
+        final Collection exceptions = new HashSet();
+
+        final Collection actionStates = getActionStates();
+        for (Iterator iterator = actionStates.iterator(); iterator.hasNext();)
+        {
+            StrutsActionState actionState = (StrutsActionState)iterator.next();
+            exceptions.addAll(actionState.getExceptions());
+        }
+
+        return exceptions;
+    }
+
+    protected java.lang.Object handleGetInput()
     {
         return getSource();
     }
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsAction#getExceptionHandlers()
-     */
-    public java.util.Collection handleGetExceptionHandlers()
+    protected Collection handleGetInputFields()
     {
-        final Collection exceptionHandlers = new LinkedList();
-         final Collection associationEnds = getContextClass().getAssociationEnds();
-         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
-         {
-             final AssociationEndFacade associationEnd = (AssociationEndFacade)iterator.next();
-             final ClassifierFacade otherEnd = associationEnd.getOtherEnd().getType();
-             if (otherEnd instanceof StrutsJsp)
-                 exceptionHandlers.add(otherEnd);
-         }
-         return exceptionHandlers;
-    }
-
-    protected Object handleGetController()
-    {
-        return getContextClass();
-    }
-
-    protected Collection handleGetForwardActionTransitions()
-    {
-        if (forwardActionTransitions == null)
-        {
-            initializeCollections();
-        }
-        return forwardActionTransitions;
-    }
-
-    protected Collection handleGetDecisionTransitions()
-    {
-        if (decisionTransitions == null)
-        {
-            initializeCollections();
-        }
-        return decisionTransitions;
-    }
-
-    protected Collection handleGetEffectTransitions()
-    {
-        if (effectTransitions == null)
-        {
-            initializeCollections();
-        }
-        return effectTransitions;
-    }
-
-    protected Collection handleGetActionParameters()
-    {
-        ActionFacade effect = getEffect();
-
-        if (effect instanceof CallActionFacade)
-        {
-            CallActionFacade callAction = (CallActionFacade)effect;
-            return callAction.getOperation().getParameters();
-        }
-        else
-        {
-            return Collections.EMPTY_LIST;
-        }
+        EventFacade trigger = getTrigger();
+        return (trigger == null) ? Collections.EMPTY_LIST : trigger.getParameters();
     }
 
     protected Object handleGetActivityGraph()
     {
-        return (StrutsActivityGraph)getSource().getActivityGraph();
-    }
-
-    public boolean isUseCaseStart()
-    {
-        return getSource().getIncoming().size() == 0;
+        return getSource().getActivityGraph();
     }
 }
