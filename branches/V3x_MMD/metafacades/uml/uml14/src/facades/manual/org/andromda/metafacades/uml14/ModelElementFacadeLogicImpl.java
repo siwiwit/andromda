@@ -7,15 +7,12 @@ import java.util.Iterator;
 import org.andromda.core.common.HTMLAnalyzer;
 import org.andromda.core.common.HTMLParagraph;
 import org.andromda.core.mapping.Mappings;
-import org.andromda.core.metadecorators.uml14.JavaVisibilityEnum;
 import org.andromda.core.uml14.UMLProfile;
 import org.andromda.metafacades.uml.TaggedValueFacade;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Comment;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.TaggedValue;
-import org.omg.uml.foundation.datatypes.VisibilityKind;
-import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 import org.omg.uml.modelmanagement.Model;
 
 
@@ -148,24 +145,17 @@ public class ModelElementFacadeLogicImpl
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.ModelElementFacade#getVisibility()
      */
-    public VisibilityKind getVisibility()
+    public String getVisibility()
     {
-        VisibilityKind visibility = metaObject.getVisibility();
-
-        if (VisibilityKindEnum.VK_PRIVATE.equals(visibility))
-        {
-            return JavaVisibilityEnum.PRIVATE;
+        StringBuffer visibility = new StringBuffer();
+        String visibilityString = metaObject.getVisibility().toString();
+        visibility.append(
+                visibilityString.substring(3, visibilityString.length()));
+        if (this.getLanguageMappings() != null) {
+            visibility = new StringBuffer(
+                this.getLanguageMappings().getTo(visibility.toString()));
         }
-        else if (VisibilityKindEnum.VK_PROTECTED.equals(visibility))
-        {
-            return JavaVisibilityEnum.PROTECTED;
-        }
-        else if (VisibilityKindEnum.VK_PUBLIC.equals(visibility))
-        {
-            return JavaVisibilityEnum.PUBLIC;
-        }
-
-        return JavaVisibilityEnum.PACKAGE;
+        return visibility.toString();
     }
     
     /**
