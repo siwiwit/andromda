@@ -45,7 +45,7 @@
 #end
 #if ($class.stereotypeName == "Service")
 #set ($servicename = $class.name)
-#if (${transform.getAllInstanceAttributes(${class.id}).empty})
+#if ($class.allInstanceAttributes.empty)
 #set ($servicetype = "Stateless")
 #else 
 #set ($servicetype = "Stateful")
@@ -54,7 +54,7 @@
 ## 
 ## Find the default exception class
 #foreach ( $dep in $class.dependencies )
-#set ($class2 = $transform.findClassById($dep.targetType))
+#set ($class2 = $dep.targetType)
 #if ($dep.stereotypeName == "Exception")
 #set ($defaultException = $class2)
 #end

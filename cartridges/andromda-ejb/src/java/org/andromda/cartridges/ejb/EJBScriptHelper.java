@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
+import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
 import org.andromda.core.simpleuml.UMLClassifier;
 import org.andromda.core.uml14.DirectionalAssociationEnd;
@@ -27,32 +27,6 @@ import org.omg.uml.foundation.datatypes.ScopeKindEnum;
  * @author Richard Kunze
  */
 public class EJBScriptHelper extends UMLStaticHelper {
-    
-    /** Get the target type for a relation. If the relation target has
-     * a multiplicity of 0..1 or 1, this is the fully qualified type name of
-     * the target. If it has a multiplicity of >1, this is the string
-     * "java.util.Collection" 
-     * @param rel the relation
-     * @return the type name for the target end
-     */ 
-    public String getRelationTargetType(DirectionalAssociationEnd rel) {
-        if (rel.isMany2Many() || rel.isOne2Many()) {
-            return "java.util.Collection"; 
-        } else {
-            return ((ClassifierDecorator)rel.getTarget().getParticipant()).getFullyQualifiedName();
-        }
-    }
-
-    /** Get the target type for a relation. If the relation target has
-     * a multiplicity of 0..1 or 1, this is the fully qualified type name of
-     * the target. If it has a multiplicity of >1, this is the string
-     * "java.util.Collection" 
-     * @param rel the relation
-     * @return the type name for the target end
-     */
-    public String getRelationTargetType(AssociationEnd rel) {
-        return getRelationTargetType(getAssociationData(rel));    
-    }
     
     /** 
      * Get the EJB relation name for <code>assoc</code>.
@@ -431,11 +405,11 @@ public class EJBScriptHelper extends UMLStaticHelper {
     	String separator = "";
 
     	for (Iterator it = attributes.iterator(); it.hasNext();) {
-    		Attribute attr = (Attribute)it.next();
+    		AttributeDecorator attr = (AttributeDecorator)it.next();
     		sb.append(separator);
     		separator = ", ";
     		if (includeTypes) {
-    			sb.append(((ClassifierDecorator)attr.getType()).getFullyQualifiedName());
+    			sb.append(attr.getType().getFullyQualifiedName());
     			sb.append(" ");
     		}
     		if (includeNames) {
@@ -455,8 +429,8 @@ public class EJBScriptHelper extends UMLStaticHelper {
     public Collection filterByVisibility(Collection list, String visibility) { 
         Collection retval = new ArrayList(list.size());
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-            ModelElement elem = (ModelElement)iter.next();
-            if (visibility.equals(((ModelElementDecorator)elem).getVisibility().toString())) {
+            ModelElementDecorator elem = (ModelElementDecorator)iter.next();
+            if (visibility.equals(elem.getVisibility().toString())) {
                 retval.add(elem);
             }
         }

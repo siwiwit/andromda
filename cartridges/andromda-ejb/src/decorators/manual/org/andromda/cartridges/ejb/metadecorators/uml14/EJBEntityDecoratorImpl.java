@@ -7,15 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.andromda.cartridges.ejb.EJBProfile;
-import org.andromda.core.metadecorators.uml14.AssociationDecorator;
 import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
 import org.andromda.core.metadecorators.uml14.OperationDecorator;
 import org.andromda.core.uml14.UMLProfile;
 import org.apache.commons.lang.StringUtils;
-import org.omg.uml.foundation.core.Attribute;
-import org.omg.uml.foundation.core.GeneralizableElement;
 
 /**
  * Metaclass decorator implementation for
@@ -71,7 +68,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 					dep.getTargetType().getInstanceAttributes();
 				Collection publicAttrib = new ArrayList();
 				for (Iterator i = allAttrib.iterator(); i.hasNext();) {
-					Attribute att = (Attribute) i.next();
+					AttributeDecorator att = (AttributeDecorator) i.next();
 					if ("public".equals(att.getVisibility())) {
 						publicAttrib.add(att);
 					}
@@ -153,14 +150,17 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		}
 
 		Collection result = new ArrayList();
+		System.out.println("before getEntityRelations()");
 		result.addAll(getEntityRelations());
 
+		System.out.println("after getEntityRelations()");
 		ClassifierDecorator classifier = this.getSuperclass();
 		while (classifier != null
 			&& classifier instanceof EJBEntityDecorator
 			&& classifier.isAbstract()) {
 
 			EJBEntityDecorator entity = (EJBEntityDecorator) classifier;
+			System.out.println("after (EJBEntityDecorator) classifier");
 			result.add(entity.getEntityRelations());
 			classifier = this.getSuperclass();
 		}
@@ -188,7 +188,6 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	 * integrity constraint
 	 */
 	public java.util.Collection getEntityRelations() {
-		GeneralizableElement entity;
 
 		Collection result = new ArrayList();
 
@@ -197,17 +196,12 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 			EJBAssociationEndDecorator assoc =
 				(EJBAssociationEndDecorator) i.next();
 			ClassifierDecorator target = assoc.getOtherEnd().getType();
-
 			if (target instanceof EJBEntityDecorator
 				&& assoc.getOtherEnd().isNavigable()) {
 				// Check the integrity constraint
 				String generateCmr =
-					(
-						(AssociationDecorator) assoc
-							.getOtherEnd()
-							.getAssociation())
-							.findTaggedValue(
-						EJBProfile.TAGGEDVALUE_GENERATE_CMR);
+					assoc.getOtherEnd().getAssociation().findTaggedValue(
+					  EJBProfile.TAGGEDVALUE_GENERATE_CMR);
 				if (target.isAbstract()
 					&& !"false".equalsIgnoreCase(generateCmr)) {
 					throw new IllegalStateException(

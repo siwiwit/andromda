@@ -76,6 +76,19 @@ public class EJBAssociationEndDecoratorImpl extends EJBAssociationEndDecorator
     	}
     }
     
+    /**
+     * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBAssociationEndDecorator#getRelationType()
+     */
+    public String getRelationType() {
+    	String targetType;
+	    if (this.isMany2Many() || this.isOne2Many()) {
+	    	targetType = "java.util.Collection"; 
+	    } else {
+	    	targetType = this.getType().getFullyQualifiedName();
+	    }
+	    return targetType;
+    }
+    
     // ------------- relations ------------------
     
 }
