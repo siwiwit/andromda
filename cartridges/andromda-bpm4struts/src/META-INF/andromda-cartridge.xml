@@ -44,6 +44,16 @@
     </template>
 
     <template
+        sheet="templates/StrutsControllerInterface.vsl"
+        outputPattern="$generatedFile"
+        outlet="actions"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndController"/>
+        </modelElements>
+    </template>
+
+    <template
         sheet="templates/StrutsJSP.vsl"
         outputPattern="$generatedFile"
         outlet="pages"
