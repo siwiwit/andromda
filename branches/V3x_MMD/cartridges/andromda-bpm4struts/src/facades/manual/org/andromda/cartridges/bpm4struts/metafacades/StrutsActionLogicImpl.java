@@ -112,7 +112,7 @@ public class StrutsActionLogicImpl
 
     public boolean hasSuccessMessage()
     {
-        return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_SUCCES_MESSAGE);
+        return isTrue(findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_SUCCES_MESSAGE));
     }
 
     public java.lang.String getActionPath()
@@ -197,7 +197,13 @@ public class StrutsActionLogicImpl
 
     public boolean isResettable()
     {
-        return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_RESETTABLE);
+        return isTrue(findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_RESETTABLE));
+    }
+
+    private boolean isTrue(String string)
+    {
+        return "yes".equalsIgnoreCase(string) || "true".equalsIgnoreCase(string) ||
+               "on".equalsIgnoreCase(string)  || "1".equalsIgnoreCase(string);
     }
 
     public boolean isUseCaseStart()
