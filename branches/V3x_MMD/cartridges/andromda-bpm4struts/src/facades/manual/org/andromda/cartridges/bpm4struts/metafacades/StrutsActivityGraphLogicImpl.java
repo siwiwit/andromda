@@ -1,6 +1,8 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.metafacades.uml.PseudostateFacade;
+import org.andromda.metafacades.uml.ModelElementFacade;
+import org.andromda.metafacades.uml.ClassifierFacade;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -45,5 +47,11 @@ public class StrutsActivityGraphLogicImpl
             }
         }
         return null;
+    }
+
+    protected Object handleGetController()
+    {
+        final ModelElementFacade contextElement = getContextElement();
+        return (contextElement instanceof ClassifierFacade) ? contextElement : null;
     }
 }
