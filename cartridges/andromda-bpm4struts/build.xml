@@ -51,8 +51,6 @@
             <fileset dir="${build.dir}"/>
             <fileset dir="${src.dec.gen.dir}"/>
         </delete>
-        <!-- cleanup the copied base model -->
-        <delete file="${uml.dir}/MetadecoratorModel.xml.zip"/>
     </target>
 
     <!-- ============================================================= -->
@@ -89,13 +87,6 @@
             classpathref="generate.classpath"
             />
 
-		<!-- copy the base model over so that it can be referenced from the bpm4struts model -->
-        <copy todir="${uml.dir}" overwrite="true">
-            <fileset
-            	dir="${base.model.uml.dir}"
-            	includes="MetadecoratorModel.xml.zip" />
-        </copy>
-
         <property
         	name="model"
         	value="jar:file:${uml.dir}/BPM4StrutsMetadecoratorModel.xml.zip!/BPM4StrutsMetadecoratorModel.xml"/>
@@ -110,6 +101,12 @@
             <outlet cartridge="meta" outlet="decorator-impls"  dir="${src.dec.man.dir}" />
 
             <modelPackage name="org.andromda.cartridges.bpm4struts.metadecorators.uml14" shouldProcess="true"/>
+            
+			<repository>
+				<moduleSearchPath>
+					<pathelement location="${base.model.uml.dir}" />
+				</moduleSearchPath>
+			</repository>
 
         </andromda>
     </target>
