@@ -5,18 +5,18 @@
 
     <metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
-        metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsApplicationLogicImpl">
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsUseCaseLogicImpl">
         <stereotype>FrontEndApplication</stereotype>
-    </metafacade>
-
-    <metafacade
-        metaobjectClass="org.omg.uml.behavioralelements.usecases.Actor$Impl"
-        metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsUserLogicImpl">
     </metafacade>
 
     <metafacade
         metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
         metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsUseCaseLogicImpl">
+    </metafacade>
+
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.usecases.Actor$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsUserLogicImpl">
     </metafacade>
 
 	<metafacade
@@ -33,6 +33,11 @@
 	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsActivityGraphLogicImpl">
+	</metafacade>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsActionStateLogicImpl">
 	</metafacade>
 
 	<metafacade
@@ -68,47 +73,24 @@
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsPseudostateLogicImpl">
 	</metafacade>
 
-<!--
-
 	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldImpl">
-		<stereotype>FrontEndViewTextField</stereotype>
-	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextAreaImpl">
-		<stereotype>FrontEndViewTextArea</stereotype>
-	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsCheckBoxImpl">
-		<stereotype>FrontEndViewTextCheckBox</stereotype>
-	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsRadioButtonImpl">
-		<stereotype>FrontEndViewRadioButton</stereotype>
-	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsComboBoxImpl">
-		<stereotype>FrontEndViewComboBox</stereotype>
-	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsListImpl">
-		<stereotype>FrontEndViewList</stereotype>
-	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPasswordImpl">
-		<stereotype>FrontEndViewPassword</stereotype>
-	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsStringImpl">
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.TimeEvent$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsTriggerLogicImpl">
 	</metafacade>
 
--->
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.ChangeEvent$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsTriggerLogicImpl">
+	</metafacade>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.SignalEvent$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsTriggerLogicImpl">
+	</metafacade>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.CallEvent$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsTriggerLogicImpl">
+	</metafacade>
+
 </metafacades>
