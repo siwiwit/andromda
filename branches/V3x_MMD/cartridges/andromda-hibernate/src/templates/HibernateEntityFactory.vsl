@@ -31,7 +31,8 @@ public abstract class ${class.name}Factory {
    /**
     * Creates a(n) ${class.name} object.
     *
-#foreach ( $att in $class.attributes)
+#set ($attributes = $class.getAttributes(true))
+#foreach ( $att in $attributes)
 #if (!$att.identifier)
     * @param ${att.name}
 #end
@@ -42,7 +43,7 @@ public abstract class ${class.name}Factory {
     {
         ${class.name} object = new ${class.name}Impl();
         
-#foreach ( $att in $class.getAttributes(true))
+#foreach ( $att in $attributes)
 #if (!$att.identifier)
         object.${att.setterName} (${att.name});
 #end
@@ -70,7 +71,7 @@ public abstract class ${class.name}Factory {
         return object;
     }
     
-#foreach ( $finder in $class.finders)
+#foreach ( $finder in $class.getFinders(true))
 #set ($returntype = $finder.type.fullyQualifiedName)
 ##
 #set ($parameterList = $finder.typedParameterList)

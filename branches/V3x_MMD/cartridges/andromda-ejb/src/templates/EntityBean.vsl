@@ -97,7 +97,7 @@ $class.getDocumentation(" ")
 #end
 #end
 #end
-#foreach ( $finder in $class.finders)
+#foreach ( $finder in $class.getFinders(true))
 #if($finder.findTaggedValue("@andromda.ejb.query.dialect") == "JBossQL")
  *
  * @ejb.finder signature="${finder.type.fullyQualifiedName} ${finder.signature}"
@@ -534,7 +534,7 @@ $op.getDocumentation("    ")
     public void ejbPostCreate($transform.getAttributesAsList($allAttributes, true, true))
            throws javax.ejb.CreateException
     {
-#if(!$inheritedAttributes.isEmpty())
+#if(!$inheritedAttributes.empty)
         // Call postCreate method for the super type
         super.ejbPostCreate($transform.getAttributesAsList($inheritedAttributes, false, true));
 #end
