@@ -16,8 +16,10 @@ import org.apache.log4j.xml.DOMConfigurator;
  */
 public class StdoutLogger
 {
-    private static Logger logger = Logger.getLogger("andromda");
+    private static final String DEFAULT_LOGGER_NAME = "andromda";
     
+    private static Logger logger = Logger.getLogger(DEFAULT_LOGGER_NAME);
+        
     /**
      * Configures logging for the AndroMDA application
      * from the the xml resource "log4j.xml" found within
@@ -51,6 +53,23 @@ public class StdoutLogger
     		ex.printStackTrace();
     		BasicConfigurator.configure();
     	}
+    }
+
+    /**
+     * Allows us to set the logger to a new name.
+     * 
+     * @param name
+     */
+    public static void setLogger(String name) 
+    {
+        logger = Logger.getLogger(name);
+    }
+    
+    /**
+     * Resets the logger to the default name.
+     */
+    public static void reset() {
+    	logger = Logger.getLogger(DEFAULT_LOGGER_NAME);
     }
     
     public static void debug (Object o)
