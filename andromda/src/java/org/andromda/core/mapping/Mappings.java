@@ -69,7 +69,7 @@ public class Mappings {
 	public static Mappings getInstance(URL mappingsUri) {
 		final String methodName = "Mappings.getInstance";
 		ExceptionUtils.checkNull(methodName, "mappingsUri", mappingsUri);
-		Mappings mappings = (Mappings)XmlObjectFactory.getInstance(Mappings.class, mappingsUri);
+		Mappings mappings = (Mappings)XmlObjectFactory.getInstance(Mappings.class).getObject(mappingsUri);
 		mappings.resource = mappingsUri;
 		return mappings;
 	}

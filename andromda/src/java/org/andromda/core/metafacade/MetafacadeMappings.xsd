@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- This schema defines andromda-metafacades.xml configuration file -->
+<!-- This schema defines metafacades.xml configuration file -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 	<!-- Used for mapping contexts.  An example for a context is: An entity is a 
 	     context for its attributes. So, the metaclass "Attribute" would be mapped to 
@@ -29,9 +29,8 @@
 	<xs:element name="metafacades">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="property"/>
-
-				<xs:element ref="default"/>
+				<xs:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="default" minOccurs="0" maxOccurs="1"/>
 				<xs:element ref="metafacade" minOccurs="1" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<!-- each grouping of metafacades is identified by this namespaces -->
@@ -42,7 +41,7 @@
  		 through bean properties -->
 	<xs:element name="property">
 		<xs:complexType>
-			<xs:attribute name="reference" type="xs:string" use="required">
+			<xs:attribute name="reference" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="stereotype" type="xs:string"/>

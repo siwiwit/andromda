@@ -405,11 +405,11 @@ public class AndroMDAGenTask extends MatchingTask
         try
         {
             //-- command line status
-            StdoutLogger.info("Input:  " + url);
+            StdoutLogger.info("Input model --> '" + url + "'");
 
             // configure repository
             RepositoryConfiguration rc = createRepository();
-            RepositoryFacade repository = rc.createRepository();
+            RepositoryFacade repository = rc.createRepository();   
             repository.open();
             repository.readModel(url, rc.createModuleSearchPath().list());
 
@@ -422,10 +422,10 @@ public class AndroMDAGenTask extends MatchingTask
                         lastModifiedCheck,
                         packages,
                         userProperties);
-
+   
             // process all model elements
             Collection elements = model.getModelElements();
-            StdoutLogger.debug("Model elements read: " + elements.size());
+            StdoutLogger.debug("Model elements read: '" + elements.size() + "'");
             for (Iterator it = elements.iterator(); it.hasNext();)
             {
                 processModelElement(context, it.next());
@@ -434,12 +434,12 @@ public class AndroMDAGenTask extends MatchingTask
         }
         catch (FileNotFoundException fnfe)
         {
-            throw new BuildException("Model file not found: " + modelURL);
+            throw new BuildException("Model file not found --> '" + modelURL + "'");
         }
         catch (IOException ioe)
         {
             throw new BuildException(
-                "Exception encountered while processing: " + modelURL);
+                "Exception encountered while processing model --> '" + modelURL + "'");
         }
         catch (RepositoryReadException mdre)
         {

@@ -101,7 +101,7 @@ public class MetafacadeMappings {
 		ExceptionUtils.checkNull(methodName, "mappingsUri", mappingsUri);
 		MetafacadeMappings mappings = 
 			(MetafacadeMappings)XmlObjectFactory.getInstance(
-				MetafacadeMappings.class, mappingsUri);
+				MetafacadeMappings.class).getObject(mappingsUri);
 		mappings.resource = mappingsUri;
 		return mappings;
 	}
