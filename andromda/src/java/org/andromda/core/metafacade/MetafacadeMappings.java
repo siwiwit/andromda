@@ -300,42 +300,6 @@ public class MetafacadeMappings {
 		} 
 		return this.mappings;
 	}
-    
-    /**
-     * Finds all MetafacadeMapping instances that have the 
-     * given <code>metafacadeClass</code>
-     * 
-     * @param metafacadeClass the class of the metafacade on which we'll search.th
-     * @return the Collection of found MetafacadeMapping instances.
-     */
-    protected Collection findMappingsWithMetafacadeClass(String namespace, final Class metafacadeClass) {
-        final String methodName = "MetafacadeMappings.findMappingsWithMetafacadeClass";
-        ExceptionUtils.checkNull(methodName, "metafacadeClass", metafacadeClass);
-    	Map mappingsMap = this.getMappings(namespace);
-
-    	class MapTransformer implements Transformer {
-    		public Object transform(Object object) {
-    			return ((Map.Entry)object).getValue();
-            }
-        }
-        Collection mappings = 
-            CollectionUtils.collect(
-                mappingsMap.entrySet().iterator(), 
-                new MapTransformer());
-        
-        // filters out mappings have the given metafacadeClass
-        class MetafacadeClassFilter implements Predicate {
-        	public boolean evaluate(Object object) {
-        		MetafacadeMapping mapping = (MetafacadeMapping)object;
-                return mapping != null &&
-                       mapping.getMetafacadeClass() == metafacadeClass;
-            }
-        }
-        CollectionUtils.filter(mappings, new MetafacadeClassFilter());
-        if (logger.isDebugEnabled()) 
-            logger.debug("completed " + methodName + " with mappings --> '" + mappings + "'");
-        return mappings;
-    }
 	
 	/**
 	 * Attempts to get the MetafacadeMapping identified by the

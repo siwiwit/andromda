@@ -100,7 +100,7 @@ public class MetafacadeFactory
     {
         // TODO: the source code for this class looks complicated and has to be refactored.
 
-        final String methodName = "MetafacadeFactory.createMetafacade";
+        final String methodName = "MetafacadeFactory.internalCreateMetafacade";
 
         ExceptionUtils.checkNull(methodName, "metaobject", metaobject);
 
@@ -125,19 +125,21 @@ public class MetafacadeFactory
                 model.getStereotypeNames(metaobject);
             MetafacadeMapping mapping = null;
 
+            if (this.internalGetLogger().isDebugEnabled())
+                this.internalGetLogger().debug(
+                    "metaobject stereotype names --> '"
+                        + stereotypeNames
+                        + "'");
+            mapping =
+                mappings.getMetafacadeMapping(
+                    metaobjectClassName,
+                    stereotypeNames,
+                    this.getActiveNamespace(),
+                    contextName);
+                
             if (metafacadeClass == null)
             {
-                if (this.internalGetLogger().isDebugEnabled())
-                    this.internalGetLogger().debug(
-                        "metaobject stereotype names --> '"
-                            + stereotypeNames
-                            + "'");
-                mapping =
-                    mappings.getMetafacadeMapping(
-                        metaobjectClassName,
-                        stereotypeNames,
-                        this.getActiveNamespace(),
-                        contextName);
+            
                 if (mapping != null)
                 {
                     metafacadeClass = mapping.getMetafacadeClass();
@@ -236,11 +238,13 @@ public class MetafacadeFactory
      * 
      * @param interfaceName the name of the interface that the implementation object has to implement 
      * @param metaObject the metaobject for which a facade shall be created
+     * @param context the context which to set to allow 
      * @return MetafacadeBase the metafacade
      */
     public MetafacadeBase createFacadeImpl(
         String interfaceName,
-        Object metaObject)
+        Object metaObject,
+        String context)
     {
         final String methodName = "MetafacadeFactory.createFacadeImpl";
         ExceptionUtils.checkEmpty(methodName, "interfaceName", interfaceName);
@@ -267,21 +271,9 @@ public class MetafacadeFactory
                 this.internalCreateMetafacade(
                         metaObject,
                         null,
-                        metafacadeClass);
+                        metafacadeClass);    
             
-            // Populate any property references that this facade impl might have 
-            // (we need to do this so that any sub metafacade that inherit from 
-            // one of these metafacades, can inherit its properties
-            MetafacadeMappings metafacadeMappings = MetafacadeMappings.instance();
-            Collection mappings = 
-                metafacadeMappings.findMappingsWithMetafacadeClass(
-                	this.getActiveNamespace(), 
-                    metafacadeClass);
-            Iterator mappingIt = mappings.iterator();
-            while (mappingIt.hasNext()) {
-            	MetafacadeMapping mapping = (MetafacadeMapping)mappingIt.next();
-                this.populatePropertyReferences(metafacade, mapping.getPropertyReferences());
-            }
+            metafacade.setContext(context);
             
             return metafacade;
         }
