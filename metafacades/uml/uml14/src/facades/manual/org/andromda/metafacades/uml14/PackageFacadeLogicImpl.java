@@ -24,7 +24,7 @@ public class PackageFacadeLogicImpl
         super (metaObject, context);
     }
     /**
-     * @see org.andromda.metafacades.uml14.PackageDecorator#handleGetClasses()
+     * @see org.andromda.metafacades.uml.PackageDecorator#handleGetClasses()
      */
     public java.util.Collection handleGetClasses()
     {
@@ -38,7 +38,7 @@ public class PackageFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.PackageDecorator#handleGetSubPackages()
+     * @see org.andromda.metafacades.uml.PackageDecorator#handleGetSubPackages()
      */
     protected Collection handleGetSubPackages()
     {
@@ -52,7 +52,7 @@ public class PackageFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.metafacades.uml14.PackageDecorator#handleGetModelElements()
+     * @see org.andromda.metafacades.uml.PackageDecorator#handleGetModelElements()
      */
     protected Collection handleGetModelElements() {
         return ((UmlPackage)MetafacadeFactory.getInstance().getModel().getModel())

@@ -11,6 +11,7 @@
     <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
     <property name="src.fac.man.dir"  value="${src.dir}/facades/manual" />
     <property name="uml.dir"          value="${src.dir}/uml" /> 
+    <property name="lib.dir"          value="lib" />
 
 	<!-- the model which our model extends -->
     <property name="uml.common.model.dir" value="${basedir}/../../metafacades/uml/common/src/uml"/>
@@ -69,6 +70,9 @@
       <copy todir="${dist.dir}" >
           <fileset dir="${build.dir}" includes="*.jar" />
           <fileset dir="." includes="andromda-hibernate.properties" />
+      </copy>
+      <copy todir="${dist.dir}/lib" >
+          <fileset dir="${lib.dir}" includes="**/*" />
       </copy>
     </target>
 

@@ -33,7 +33,7 @@ public class AssociationEndFacadeLogicImpl
     } 
 
     /*** 
-     * @see org.andromda.metafacades.uml14.AssociationEndFacadeLogic#handleGetOtherEnd()
+     * @see org.andromda.metafacades.uml.AssociationEndFacadeLogic#handleGetOtherEnd()
      */
     public Object handleGetOtherEnd()
     {
@@ -53,7 +53,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.ModelElementFacade#getName()
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
      */
     public String getName()
     {
@@ -70,7 +70,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.AssociationEndFacadeLogic#handleGetType()
+     * @see org.andromda.metafacades.uml.AssociationEndFacadeLogic#handleGetType()
      */
     public Object handleGetType()
     {
@@ -187,7 +187,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.AssociationEndFacade#isNavigable()
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isNavigable()
      */
     public boolean isNavigable()
     {
@@ -195,7 +195,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.AssociationEndFacade#getGetterName()
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#getGetterName()
      */
     public java.lang.String getGetterName()
     {
@@ -203,7 +203,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.AssociationEndFacade#getSetterName()
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#getSetterName()
      */
     public java.lang.String getSetterName()
     {
@@ -213,7 +213,7 @@ public class AssociationEndFacadeLogicImpl
     // relations
 
     /**
-     * @see org.andromda.metafacades.uml14.AssociationEndFacade#handleGetAssociation()
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#getAssociation()
      */
     protected Object handleGetAssociation()
     {
@@ -221,7 +221,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#getGetterSetterTypeName()
+     * @see org.andromda.core.metadecorators.uml.AssociationEndFacade#getGetterSetterTypeName()
      */
     public String getGetterSetterTypeName()
     {
