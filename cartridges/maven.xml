@@ -2,7 +2,7 @@
   		 xmlns:ant="jelly:ant"
   		 xmlns:maven="jelly:maven">
   		 
-  	<j:set var="andromda.metafacade.generated.dir" value="${maven.build.src}/meta"/>
+  	<j:set var="andromda.metafacade.generated.dir" value="${maven.build.src}/andromda/meta"/>
   	<j:set var="andromda.metafacade.manual.dir" value="${maven.src.dir}/facades/manual"/>
   		 
     <preGoal name="java:compile"> 

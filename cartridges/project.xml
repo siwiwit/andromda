@@ -52,7 +52,7 @@
 	        	</excludes>
 	  		</resource>
 	  		<resource>
-				<directory>target/src/meta</directory>
+				<directory>target/src/andromda/meta</directory>
 	        	<excludes>
 	        		<exclude>**/*.java</exclude>
 	        	</excludes>

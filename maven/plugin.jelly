@@ -10,7 +10,7 @@
          Performs intialization.  Mainly handles the adding of the
          the andromda dependencies to the andromda.classpath, this is necessary 
          because of the fact that AndroMDA uses the 'andromda:run' goal
-         to build much of itself, such as the metafacades.  This also
+         to build some of its components, such as the metafacades.  This also
          allows us to swich back and forth between normal and 'bootstrap' mode.
          If the '-Dbootstrap=true' option is set, then this cartridge will be
          run in bootstrap mode using the AndroMDA bootstrap dependencies instead
@@ -31,9 +31,22 @@
             <ant:path refid="maven.dependency.classpath"/>
             <j:forEach var="artifactId" items="${artifactIds}">
 				<j:choose>
+					<j:set 
+						var="bootstrapArtifactName" 
+						value="${artifactId}-bootstrap-${version}.jar"/>
 					<j:when test="${bootstrapMode}">
-							<ant:pathelement 
-								location="${artifactLocation}/${artifactId}-bootstrap-${version}.jar"/>
+						<!-- make sure we get the bootstrap version since it isn't
+							 a normal maven dependency (but only try to download 
+							 if we are online) -->
+						<j:if test="${context.online}">
+							<ant:get 
+								dest="${artifactLocation}/${bootstrapArtifactName}" 
+								usetimestamp="true" 
+								ignoreerrors="true" 
+								src="${maven.andromda.bootstrap.dependencies.location}/${bootstrapArtifactName}"/>
+					    </j:if>
+						<ant:pathelement 
+							location="${artifactLocation}/${bootstrapArtifactName}"/>
 					</j:when>
 					<j:otherwise>
 						<ant:pathelement 
