@@ -2,6 +2,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.core.metadecorators.uml14.*;
+import org.andromda.core.common.StringUtilsHelper;
 import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.ModelElement;
 
@@ -33,7 +34,7 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         String beanName = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_FORM_BEAN_NAME);
         if (beanName == null)
         {
-            beanName = getName();
+            beanName = StringUtilsHelper.lowerCaseFirstLetter(getName());
         }
         return beanName;
     }
@@ -61,6 +62,12 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         }
         return resetInputFields;
     }
+
+    public String getValidationMethodName()
+    {
+        return "validate" + StringUtilsHelper.upperCaseFirstLetter(getFormBeanName());
+    }
+
     // ------------- relations ------------------
 
     protected Collection handleGetServlets()
