@@ -364,9 +364,11 @@ public class AndroMDAGenTask extends MatchingTask
             {
                 AndroMDACartridge cartridge = (AndroMDACartridge)cartridgeIt.next();
                 
+                String cartridgeName = 
+                    cartridge.getDescriptor().getCartridgeName();
+                
                 Namespace namespace = 
-                    Namespaces.instance().findNamespace(
-                    	cartridge.getDescriptor().getCartridgeName());
+                    Namespaces.instance().findNamespace(cartridgeName);
                 
                 // make sure we ignore the cartridge if the namespace
                 // is set to 'ignore'
@@ -375,6 +377,8 @@ public class AndroMDAGenTask extends MatchingTask
                     cartridge.init(templateEngineProperties);
                     cartridge.processModelElements(context);
                     cartridge.shutdown();
+                } else {
+                	StdoutLogger.info("ignoring namespace --> '" + cartridgeName + "'");
                 }
             }
             repository.close();
