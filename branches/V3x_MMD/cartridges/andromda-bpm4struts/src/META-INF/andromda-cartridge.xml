@@ -40,6 +40,14 @@
 
     <template
         stereotype="FrontEndView"
+        sheet="templates/StrutsFormValidationDynamicJavascript.vsl"
+        outputPattern="{0}/{1}JS.jsp"
+        outlet="pages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndView"
         sheet="templates/StrutsJSP.vsl"
         outputPattern="{0}/{1}.jsp"
         outlet="pages"
@@ -56,7 +64,7 @@
 
     <template
         stereotype="FrontEndWorkflow"
-        sheet="templates/StrutsFormValidationJavascript.vsl"
+        sheet="templates/StrutsFormValidationStaticJavascript.vsl"
         outputPattern="{0}/form-validation.jsp"
         outlet="pages"
         overWrite="true"
