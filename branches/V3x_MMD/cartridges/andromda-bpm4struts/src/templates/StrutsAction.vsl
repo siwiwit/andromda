@@ -35,6 +35,11 @@ import org.apache.struts.action.ActionForward;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+#if ($class.hasSuccessMessage())
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+
+#end
 /**
 $class.getDocumentation(" ")
  *
@@ -76,8 +81,7 @@ public final class $class.actionClassName extends Action
 #if ($class.hasSuccessMessage())
 
         ActionMessages messages = new ActionMessages();
-        ActionMessage message = new ActionMessage($class.successMessageKey);
-        messages.add(ActionMessages.GLOBAL_MESSAGE, message);
+        messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("$class.successMessageKey"));
         saveMessages(request, messages);
 
 #end
