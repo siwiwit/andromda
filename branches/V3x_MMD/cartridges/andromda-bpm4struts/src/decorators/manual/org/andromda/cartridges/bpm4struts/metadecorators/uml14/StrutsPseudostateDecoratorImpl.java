@@ -1,6 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.core.common.StringUtilsHelper;
 
 import java.util.Collection;
 
@@ -24,6 +25,11 @@ public class StrutsPseudostateDecoratorImpl extends StrutsPseudostateDecorator
 
     // concrete business methods that were declared
     // abstract in class StrutsPseudostateDecorator ...
+
+    public String getActionMethodName()
+    {
+        return StringUtilsHelper.toJavaMethodName(metaObject.getName());
+    }
 
     // from org.omg.uml.behavioralelements.statemachines.StateVertex
     public Collection getOutgoing()
