@@ -41,7 +41,7 @@ public class MDRepositoryFacade implements RepositoryFacade
             "org.netbeans.mdr.persistence.memoryimpl.StorageFactoryImpl");
         // set the logging so output does not go to standard out
         System.setProperty("org.netbeans.lib.jmi.Logger.fileName", "mdr.log");
-    };
+    }
 
     protected URL metaModelURL;
     protected URL modelURL;
