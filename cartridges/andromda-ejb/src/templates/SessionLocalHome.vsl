@@ -29,8 +29,8 @@ $class.getDocumentation(" ")
 public interface ${servicename}LocalHome  extends $parentInterface {
 #if (!$class.abstract)
     // -- JNDI entries
-	public static final String COMP_NAME="java:comp/env/#ejbRefName($class)/Local";
-	public static final String JNDI_NAME="#ejbRefName($class)/Local";
+	public static final String COMP_NAME="java:comp/env/${ejbRefName}/Local";
+	public static final String JNDI_NAME="${ejbRefName}/Local";
 
 
     // ---------------- create methods --------------------

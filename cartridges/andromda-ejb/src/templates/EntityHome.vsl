@@ -29,8 +29,8 @@ public interface ${entityname}LocalHome  extends $parentInterface {
 ## Only expose JNDI names on concrete EJBs.
 #if (!$class.isAbstract())
     // -- accessors for environment entries and constants --
-	public static final String COMP_NAME="java:comp/env/#ejbRefName($class)/Local";
-	public static final String JNDI_NAME="#ejbRefName($class)/Local";
+	public static final String COMP_NAME="java:comp/env/${ejbRefName}/Local";
+	public static final String JNDI_NAME="${ejbRefName}/Local";
 #end
 
 #foreach($att in $class.staticAttributes)

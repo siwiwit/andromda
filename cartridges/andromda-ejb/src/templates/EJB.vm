@@ -3,13 +3,6 @@
 ################################################################
 ##
 ##
-## ---------------- macro ejbRefName -----------------
-##
-#macro(ejbRefName $class)ejb/${class.packageName}/${class.name}#end
-##
-## ---------------- macro firstJavadocParagraph -----------------
-##
-##
 ## ---------------- macro copyTaggedValues ----------------
 ##
 #macro (copyTaggedValues $item $indent $exclude)

@@ -73,4 +73,5 @@
 #else
 #set ($beanparentclass = 'java.lang.Object')
 #end
+#set ($ejbRefName = "ejb/${class.packageName}/${class.name}")
 ##
