@@ -1,7 +1,9 @@
 package org.andromda.core.metadecorators.uml14;
 
+import org.omg.uml.behavioralelements.statemachines.CompositeState;
+import org.omg.uml.behavioralelements.statemachines.StateMachine;
+import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.PseudostateKindEnum;
-import org.omg.uml.behavioralelements.statemachines.Pseudostate;
 
 
 /**
@@ -86,6 +88,32 @@ public class PseudostateDecoratorImpl extends PseudostateDecorator
 
         return (isMergePoint) ? Boolean.TRUE : Boolean.FALSE;
     }
+
     // ------------- relations ------------------
 
+    protected ModelElement handleGetChoiceStateMachine()
+    {
+        StateMachine stateMachine = null;
+        CompositeState compositeState = getContainer();
+
+        if (compositeState != null)
+        {
+            while (compositeState != null)
+            {
+                stateMachine = compositeState.getStateMachine();
+                compositeState = compositeState.getContainer();
+            }
+        }
+        else
+        {
+            stateMachine = compositeState.getStateMachine();
+        }
+
+        return stateMachine;
+    }
+
+    protected ModelElement handleGetInitialStateMachine()
+    {
+        return handleGetChoiceStateMachine();
+    }
 }

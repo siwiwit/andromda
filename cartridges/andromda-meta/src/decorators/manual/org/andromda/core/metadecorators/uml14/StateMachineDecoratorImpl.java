@@ -6,7 +6,9 @@ import org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState;
 import org.omg.uml.behavioralelements.statemachines.CompositeState;
 import org.omg.uml.behavioralelements.statemachines.FinalState;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
+import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.datatypes.PseudostateKindEnum;
+import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,20 +36,7 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
     // concrete business methods that were declared
     // abstract in class StateMachineDecorator ...
 
-    public java.util.Collection getActionStates()
-    {
-        final CollectionFilter filter = new CollectionFilter()
-        {
-            public boolean accept(Object object)
-            {
-                return object instanceof ActionState;
-            }
-        };
-
-        return getSubvertices(filter);
-    }
-
-    public java.util.Collection getChoicePseudostates()
+    protected Collection handleGetChoicePseudostates()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
@@ -57,24 +46,34 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
                     (PseudostateKindEnum.PK_CHOICE.equals(((Pseudostate)(object)).getKind()));
             }
         };
-
         return getSubvertices(filter);
     }
 
-    public java.util.Collection getFinalStates()
+    protected Collection handleGetActionStates()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
             public boolean accept(Object object)
             {
-                return object instanceof FinalState;
+                return object instanceof ActionState;
             }
         };
-
         return getSubvertices(filter);
     }
 
-    public java.util.Collection getInitialStates()
+    protected Collection handleGetObjectFlowStates()
+    {
+        final CollectionFilter filter = new CollectionFilter()
+        {
+            public boolean accept(Object object)
+            {
+                return object instanceof ObjectFlowState;
+            }
+        };
+        return getSubvertices(filter);
+    }
+
+    protected ModelElement handleGetInitialState()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
@@ -84,24 +83,29 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
                     (PseudostateKindEnum.PK_INITIAL.equals(((Pseudostate)(object)).getKind()));
             }
         };
-
-        return getSubvertices(filter);
+        Collection initialStates = getSubvertices(filter);
+        return (initialStates.isEmpty()) ? null : (Pseudostate)initialStates.iterator().next();
     }
 
-    public java.util.Collection getObjectFlowStates()
+    protected Collection handleGetFinalStates()
     {
         final CollectionFilter filter = new CollectionFilter()
         {
             public boolean accept(Object object)
             {
-                return object instanceof ObjectFlowState;
+                return object instanceof FinalState;
             }
         };
-
         return getSubvertices(filter);
     }
 
-    protected Collection getSubvertices(CollectionFilter collectionFilter)
+    protected ModelElement handleGetUseCaseContainer()
+    {
+        ModelElement context = getContext();
+        return (context instanceof UseCase) ? context : null;
+    }
+
+    private Collection getSubvertices(CollectionFilter collectionFilter)
     {
         CompositeState compositeState = (CompositeState) metaObject.getTop();
         return filter(compositeState.getSubvertex(), collectionFilter);
