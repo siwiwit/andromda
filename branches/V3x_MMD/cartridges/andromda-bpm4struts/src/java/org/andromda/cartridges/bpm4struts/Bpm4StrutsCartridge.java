@@ -67,14 +67,14 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             StrutsTransitionDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
+            "org.omg.uml.behavioralelements.statemachines.FinalState$Impl",
+            null,
+            StrutsFinalStateDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl",
             null,
             StrutsActionStateDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.behavioralelements.activitygraphs.FinalState$Impl",
-            null,
-            StrutsFinalStateDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState$Impl",
