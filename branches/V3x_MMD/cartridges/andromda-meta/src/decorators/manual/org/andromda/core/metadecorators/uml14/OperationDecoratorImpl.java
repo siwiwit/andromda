@@ -93,13 +93,16 @@ public class OperationDecoratorImpl extends OperationDecorator
         StringBuffer sb = new StringBuffer();
         sb.append(metaObject.getName());
         sb.append("(");
-        sb.append(getOperationParameterNames());
+        sb.append(getParameterNames());
         sb.append(")");
 
         return sb.toString();
     }
 
-    private String getOperationParameterNames()
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#getParameterNames()
+     */
+    public String getParameterNames()
     {
         StringBuffer sb = new StringBuffer();
 
@@ -121,6 +124,33 @@ public class OperationDecoratorImpl extends OperationDecorator
             }
         }
         return sb.toString();
+    }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#getParameterTypeNames()
+     */
+    public String getParameterTypeNames()
+	{
+    	StringBuffer sb = new StringBuffer();
+    	
+    	Iterator it = this.getParameters().iterator();
+    	
+    	boolean commaNeeded = false;
+    	while (it.hasNext())
+    	{
+    		ParameterDecorator p = (ParameterDecorator) it.next();
+    		
+    		if (!ParameterDirectionKindEnum.PDK_RETURN.equals(p.getKind()))
+    		{
+    			if (commaNeeded)
+    			{
+    				sb.append(", ");
+    			}
+    			sb.append(((ClassifierDecorator)p.getType()).getFullyQualifiedName());
+    			commaNeeded = true;
+    		}
+    	}
+    	return sb.toString();
     }
 
     /* (non-Javadoc)
