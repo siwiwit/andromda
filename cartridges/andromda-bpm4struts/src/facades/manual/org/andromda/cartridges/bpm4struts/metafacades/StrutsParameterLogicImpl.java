@@ -67,7 +67,8 @@ public class StrutsParameterLogicImpl
      */
     public java.lang.String getMessageKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(getNameSpace().getName() + ' ' + getName());
+        // todo: prefix with the action message key
+        return StringUtilsHelper.toResourceMessageKey(getName());
     }
 
     /**
