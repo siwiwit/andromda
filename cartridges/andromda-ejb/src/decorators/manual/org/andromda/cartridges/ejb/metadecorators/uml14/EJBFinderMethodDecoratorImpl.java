@@ -1,4 +1,4 @@
-package org.andromda.core.metadecorators.ejb;
+package org.andromda.cartridges.ejb.metadecorators.uml14;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -71,17 +71,5 @@ public class EJBFinderMethodDecoratorImpl extends EJBFinderMethodDecorator
     }
 
     // ------------- relations ------------------
-    
-    /*
-1) The <<Entity>> should be able to find its <<FinderMethod>>s. 
-    Let's assign this to EntityDecorator because this step is not EJB-specific 
-    but is valid for other persistence mechanisms, too. 
-2) The operation should be able to determine its viewtype. The notion "viewtype"
-   is clearly EJB-specific, so let's assign this to EJBFinderMethodDecorator 
-   which extends OperationDecorator. 
-3)The operation should also be able to determine its EJB-QL query. 
-  This is EJB-specific, too, that's why we assign this also to the 
-  EJBFinderMethodDecorator class. 
-*/
     
 }
