@@ -79,11 +79,11 @@ ${indent}</logic:present>
 #if ($roles != "")
 ${indent}<logic:notPresent role="$roles">
 ${indent}   <html:submit titleKey="${messageKey}.$trigger.notAllowedTitleKey" disabled="true">
-${indent}       <bean:message key="${messageKey}.$trigger.notAllowedKey"/>
+${indent}       <bean:message key="${messageKey}.$trigger.triggerKey"/>
 ${indent}   </html:submit>
 #if ($action.isResettable())
 ${indent}   <html:reset titleKey="${messageKey}.$trigger.resetNotAllowedTitleKey" disabled="true">
-${indent}       <bean:message key="${messageKey}.$trigger.resetNotAllowedKey"/>
+${indent}       <bean:message key="${messageKey}.$trigger.resetMessageKey"/>
 ${indent}   </html:reset>
 #end
 ${indent}</logic:notPresent>
