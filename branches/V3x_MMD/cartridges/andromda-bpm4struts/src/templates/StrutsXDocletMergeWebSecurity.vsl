@@ -1,6 +1,6 @@
 #set ($useCases = $class.allUseCases)
 
-<!--
+<!-- TEMPORARILY COMMENTED OUT TO MAKE APPS WORK IN DEVELOPMENT 
 #foreach ($useCase in $useCases)
   <security-constraint>
     <web-resource-collection>
