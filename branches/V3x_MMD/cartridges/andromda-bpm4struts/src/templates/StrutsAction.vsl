@@ -1,16 +1,29 @@
 ##
 ## Some global invariants
 ##
-#set ($activityGraph = $class.useCase.stateMachine)
-#set ($localForwardTransitions = $activityGraph.forwardTransitions)
-#set ($choices = $activityGraph.choices)
-#set ($objectFlowStates = $activityGraph.objectFlowStates)
+#set ($stateMachine = $class.useCase.stateMachine)
+#set ($forwardTransitionNames = $stateMachine.forwardTransitionNames)
+#set ($choices = $stateMachine.decisionPoints)
+#set ($objectFlowStates = $stateMachine.objectFlowStates)
+##
+## Specific to this class
+##
+#set ($className = $str.toJavaClassName($class.name))
+#set ($formBeanType = $class.formBean.name)
+#if (!$formBeanType)
+#set ($formBeanType = "ActionForm")
+#end
 ##
 ## Package declaration and imports
 ##
 package $class.packageName;
 
+#if ($formBeanType == "ActionForm")
 import org.apache.struts.action.ActionForm;
+#elseif ($class.packageName != $class.formBean.packageName)
+import $class.formBean.fullyQualifiedName;
+
+#end
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
@@ -19,32 +32,33 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @struts.action
- *        name="$class.formBean.formBeanName"
- *        path="$class.controllerName"
+ *        name="$str.toJavaMethodName($class.formBean.name)"
+ *        path="/$str.toJavaClassName($class.servletName)"
  *       scope="request"
- *       input="!!!still needs to be done!!!"
  *   parameter="$class.dispatchParameter"
  *  validation="true"
  *
-#foreach ($localForwardTransition in $localForwardTransitions)
+#foreach ($forwardTransitionName in $forwardTransitionNames)
  * @struts.action-forward
- *        name="$localForwardTransition.triggerName"
- *        path="$localForwardTransition.triggerName"
+ *        name="$str.separate($forwardTransitionName, ".").toLowerCase()"
+ *        path="/$str.separate($class.packageName, "/")/${str.toWebFileName($forwardTransitionName)}.jsp"
  *    redirect="false"
  *
 #end
  */
-public final class $class.controllerImplementationClassName extends $class.controllerAbstractClassName
+public final class $className extends ${className}Abstract
 {
 #foreach ($choice in $choices)
-    protected final int $choice.implementationMethodName(ActionMapping mapping, $class.formBean.fullyQualifiedName form, HttpServletRequest request, HttpServletResponse response)
+#set ($choiceMethodName = "$str.toJavaMethodName($choice.name)")
+    protected final int ${choiceMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
-        return 0; // source is compilable this way
+        return 1; // source is compilable this way
     }
 
 #end
 #foreach ($objectFlowState in $objectFlowStates)
-    protected final void $objectFlowState.implementationMethodName(ActionMapping mapping, $class.formBean.fullyQualifiedName form, HttpServletRequest request, HttpServletResponse response)
+#set ($stateMethodName = "$str.toJavaMethodName($objectFlowState.name)")
+    protected final void ${stateMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
     }
 
