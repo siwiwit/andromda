@@ -1,24 +1,49 @@
 package org.andromda.samples.animalquiz.decisiontree;
 
-                        
+import java.util.Collection;
+
+import javax.ejb.EJBException;
+
+import net.sf.hibernate.HibernateException;
+
 public class DecisionServiceBeanImpl
     extends DecisionServiceBean
-    implements javax.ejb.SessionBean
-{
+    implements javax.ejb.SessionBean {
     // concrete business methods that were declared
     // abstract in class DecisionServiceBean ...
 
-
-
-    protected org.andromda.samples.animalquiz.decisiontree.VODecisionItem handleGetFirstQuestion (net.sf.hibernate.Session sess)
+    protected org
+        .andromda
+        .samples
+        .animalquiz
+        .decisiontree
+        .VODecisionItem handleGetFirstQuestion(net.sf.hibernate.Session sess)
         throws DecisionException {
-        return new VODecisionItem("Is it an elephant?", "dummy1", "dummy2"); // just for testing whether this string appears on the screen!
+        try {
+            Collection dItems = DecisionItemFactory.findRoot(sess);
+            DecisionItem dItem;
+            if (dItems.isEmpty()) {
+                dItem = AnimalFactory.create("elephant", true);
+                sess.save(dItem);
+            }
+            else {
+                dItem = (DecisionItem) dItems.iterator().next();
+            }
+            return dItem.getVO();
+        }
+        catch (HibernateException e) {
+            throw new EJBException(e);
+        }
     }
 
-
-
-
-    protected org.andromda.samples.animalquiz.decisiontree.VODecisionItem handleGetNextQuestion (net.sf.hibernate.Session sess, java.lang.String itemId)
+    protected org
+        .andromda
+        .samples
+        .animalquiz
+        .decisiontree
+        .VODecisionItem handleGetNextQuestion(
+            net.sf.hibernate.Session sess,
+            java.lang.String itemId)
         throws DecisionException {
         // TODO: put your implementation here.
 
@@ -26,40 +51,35 @@ public class DecisionServiceBeanImpl
         return null;
     }
 
-
-
-
-    protected java.lang.String handleAddNewAnimalWithQuestion (net.sf.hibernate.Session sess, java.lang.String animalName, java.lang.String promptForYes, java.lang.String idOfLastNoDecision)
+    protected java.lang.String handleAddNewAnimalWithQuestion(
+        net.sf.hibernate.Session sess,
+        java.lang.String animalName,
+        java.lang.String promptForYes,
+        java.lang.String idOfLastNoDecision)
         throws DecisionException {
         // TODO: put your implementation here.
 
         // Dummy return value, just that the file compiles
         return null;
     }
-
-
 
     // ---------- the usual session bean stuff... ------------
 
-    public void setSessionContext(javax.ejb.SessionContext ctx)
-    {
+    public void setSessionContext(javax.ejb.SessionContext ctx) {
         //Log.trace("DecisionServiceBean.setSessionContext...");
-        super.setSessionContext (ctx);
+        super.setSessionContext(ctx);
     }
 
-    public void ejbRemove()
-    {
+    public void ejbRemove() {
         //Log.trace(
         //    "DecisionServiceBean.ejbRemove...");
     }
 
-    public void ejbPassivate()
-    {
+    public void ejbPassivate() {
         //Log.trace("DecisionServiceBean.ejbPassivate...");
     }
 
-    public void ejbActivate()
-    {
+    public void ejbActivate() {
         //Log.trace("DecisionServiceBean.ejbActivate...");
     }
 }
