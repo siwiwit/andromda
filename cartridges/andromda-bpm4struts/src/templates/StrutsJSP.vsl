@@ -6,16 +6,51 @@
 ##
 ##
 #macro ( renderHyperlink $action $indent )
-#set ($triggerKey = $action.triggerKey)
 #set ($roles = $action.actionRoles)
+#set ($triggerKey = $action.actionTrigger.triggerKey)
+#set ($parameters = $action.actionParameters)
+#set ($formBeanName = $action.activityGraph.useCase.formBeanName)
+#if ($roles != "")
 ${indent}<logic:present role="$roles">
-${indent}   <html:link forward="$action.forwardName" titleKey="${action.messageKey}.$triggerKey" paramName="request" paramProperty="parameterMap">
-${indent}       <bean:message key="${action.messageKey}.$triggerKey"/>
-${indent}   </html:link>
+#end
+#set ($mapName = "map")
+${indent}<%
+${indent}  java.util.Map $mapName = new java.util.HashMap();
+${indent}  pageContext.setAttribute("$mapName", $mapName, pageContext.PAGE_SCOPE);
+${indent}%>
+${indent}<table>
+#foreach ($parameter in $parameters)
+${indent}   <tr>
+${indent}       <td>
+#if ($parameter.hasBackingList())
+${indent}  <logic:iterate id="$parameter.name" name="$formBeanName" property="$parameter.backingListName" scope="page">
+${indent}     <%
+${indent}        ${mapName}.put("$parameter.name", $parameter.name);
+${indent}     %>
+#else
+${indent}     <%
+${indent}        ${mapName}.put("$parameter.name", ${formBeanName}.${parameter.getterName}());
+${indent}     %>
+#end
+#end
+${indent}      <html:link action="$action.actionPath" titleKey="${action.messageKey}.$triggerKey" name="$mapName" scope="page">
+${indent}         <bean:message key="${action.messageKey}.$triggerKey"/>:
+${indent}         <bean:write name="map" scope="page"/>
+${indent}      </html:link>
+#foreach ($parameter in $parameters)
+#if ($parameter.hasBackingList())
+${indent}  </logic:iterate>
+#end
+${indent}       </td>
+${indent}   </tr>
+#end
+${indent}</table>
+#if ($roles != "")
 ${indent}</logic:present>
 ${indent}<logic:notPresent role="$roles">
 ${indent}   <bean:message key="${action.messageKey}.$triggerKey"/>
 ${indent}</logic:notPresent>
+#end
 #end
 ##
 ##
@@ -131,22 +166,25 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
 ##  CONSTANTS
 ##
 #set ($actions = $class.actions)
-#set ($formBeanName = $class.useCase.formBeanName)
+#set ($useCase = $class.useCase)
+#set ($formBeanName = $useCase.formBeanName)
+#set ($formBeanType = $useCase.formBeanType)
 ##
 ##  START TEMPLATE
 ##
 
+<bean:define id="$formBeanName" name="$formBeanName" type="$formBeanType" scope="request" toScope="page"/>
+
 #foreach ($variable in $class.pageVariables)
 #set ($variableName = $variable.name)
 #set ($variableType = $variable.type.fullyQualifiedName)
-<bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variableType" scope="request" toScope="page"/>
+<bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variableType" scope="page" toScope="page"/>
 #if ($variable.hasBackingList())
 #set ($variableName = $variable.backingListName)
-<bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variable.backingListType" scope="request" toScope="page"/>
+<bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variable.backingListType" scope="page" toScope="page"/>
 #end
 #end
-
-<html:html xhtml="true">
+<html:html>
 
     <head>
         <title><bean:message key="$class.titleKey"/></title>
