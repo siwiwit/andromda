@@ -34,7 +34,7 @@
 	</metafacade>			
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.core.metafacades.EntityAttributeFacadeLogicImpl">
+		metafacadeClass="org.andromda.metafacades.uml14.EntityAttributeFacadeLogicImpl">
 		<context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacadeLogicImpl</context>
 		<property reference="sqlMappings"/>
 		<property reference="jdbcMappings"/>
