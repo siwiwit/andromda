@@ -37,7 +37,7 @@
 #if ($target.guard)
 ${indent}return $str.toJavaMethodName($target.name)(mapping, form, request, response);
 #elseif ($transform.isActionState($target) || $transform.isFinalState($target))
-${indent}return mapping.findForward("$str.separate($triggerName,".").toLowerCase()");
+${indent}return mapping.findForward("$transition.forwardName");
 #elseif ($transform.isObjectFlowState($target) || $transform.isDecisionPoint($target))
 ${indent}return ${str.toJavaMethodName($target.name)}Abstract(mapping, form, request, response);
 #else
@@ -93,10 +93,8 @@ $actionState.getDocumentation("     ")
         String trigger = request.getParameter("trigger");
         if (trigger != null)
             trigger = trigger.toLowerCase();
-#set ($keyPrefix = $str.separate($actionState.jsp.name, ".").toLowerCase())
 #foreach ($triggerTransition in $actionState.triggerTransitions)
-#set ($key = $str.separate(${triggerTransition.triggerName}, ".").toLowerCase())
-        if ("${keyPrefix}.${key}".equals(trigger))
+        if ("${triggerTransition.messageKey}".equals(trigger))
 #processTransition ( $triggerTransition "            " )
 #end
 
