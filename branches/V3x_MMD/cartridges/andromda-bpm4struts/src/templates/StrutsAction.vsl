@@ -2,14 +2,15 @@
 ## Some global invariants
 ##
 #set ($stateMachine = $class.useCase.stateMachine)
-#set ($forwardTransitionNames = $stateMachine.forwardTransitionNames)
+#set ($forwardTransitions = $stateMachine.forwardTransitions)
 #set ($choices = $stateMachine.decisionPoints)
 #set ($objectFlowStates = $stateMachine.objectFlowStates)
 ##
 ## Specific to this class
 ##
 #set ($className = $str.toJavaClassName($class.name))
-#set ($formBeanType = $class.formBean.name)
+#set ($formBean = $class.formBean)
+#set ($formBeanType = $formBean.name)
 #if (!$formBeanType)
 #set ($formBeanType = "ActionForm")
 #end
@@ -37,10 +38,17 @@ import javax.servlet.http.HttpServletResponse;
  *   parameter="$class.dispatchParameter"
  *  validation="true"
  *
-#foreach ($forwardTransitionName in $forwardTransitionNames)
+#foreach ($forwardTransition in $forwardTransitions)
+#set ($forwardTransitionName = $forwardTransition.triggerName)
  * @struts.action-forward
  *        name="$str.separate($forwardTransitionName, ".").toLowerCase()"
- *        path="/$str.separate($class.packageName, "/")/${str.toWebFileName($forwardTransitionName)}.jsp"
+#if ($transform.isFinalState($forwardTransition.finalTarget.metaObject))
+#set ($servletName = $forwardTransition.finalTarget.useCase.servlet.servletName)
+ *        path="/${str.toJavaClassName($servletName)}.do"
+#else## in this case we are dealing with an action state
+#set ($jsp = $forwardTransition.finalTarget.jsp)
+ *        path="/${str.separate($jsp.packageName, "/")}/${jsp.name}.jsp"
+#end
  *    redirect="false"
  *
 #end
@@ -72,6 +80,11 @@ public final class $className extends ${className}Abstract
 #set ($stateMethodName = "$str.toJavaMethodName($objectFlowState.name)")
     protected void ${stateMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
+#foreach ($inputField in $formBean.inputFields)
+#if ($inputField.backingPropertyName)
+        form.set$str.upperCaseFirstLetter($inputField.backingPropertyName) (java.util.Arrays.asList(new String[] { "$inputField.name test-1", "$inputField.name test-2", "$inputField.name test-3" } ));
+#end
+#end
     }
 
 #end
