@@ -332,10 +332,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
 
         if (tc.getOutputPattern().charAt(0) == '$')
         {
-            outFile =
-                outputFileFromVelocityContext(
-                    velocityContext,
-                    tc);
+            outFile = outputFileFromVelocityContext(velocityContext, tc);
         }
         else
         {
@@ -346,57 +343,62 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                     tc);
         }
 
-        byte[] result = content.toByteArray();
-        if (result.length > 0 || tc.isGenerateEmptyFiles())
+        if (outFile != null)
         {
-            try
+            byte[] result = content.toByteArray();
+            if (result.length > 0 || tc.isGenerateEmptyFiles())
             {
-                long modelLastModified =
-                    context.getRepository().getLastModified();
+                try
+                {
+                    long modelLastModified =
+                        context.getRepository().getLastModified();
 
-                // do not overwrite already generated file,
-                // if that is a file that the user wants to edit.
-                boolean writeOutputFile =
-                    !outFile.exists() || tc.isOverwrite();
-                // only process files that have changed
-                if (writeOutputFile
-                    && (!context.isLastModifiedCheck()
-                        || modelLastModified > outFile.lastModified()
-                    /*
-                *  || styleSheetLastModified > outFile.lastModified()
-                */
-                    ))
-                {
-                    ensureDirectoryFor(outFile);
-                    OutputStream out = new FileOutputStream(outFile);
-                    out.write(result);
-                    out.flush();
-                    out.close();
-                    logger.info("Output: " + outFile);
-                    StdoutLogger.info("Output: " + outFile);
+                    // do not overwrite already generated file,
+                    // if that is a file that the user wants to edit.
+                    boolean writeOutputFile =
+                        !outFile.exists() || tc.isOverwrite();
+                    // only process files that have changed
+                    if (writeOutputFile
+                        && (!context.isLastModifiedCheck()
+                            || modelLastModified > outFile.lastModified()
+                        /*
+                    *  || styleSheetLastModified > outFile.lastModified()
+                    */
+                        ))
+                    {
+                        ensureDirectoryFor(outFile);
+                        OutputStream out = new FileOutputStream(outFile);
+                        out.write(result);
+                        out.flush();
+                        out.close();
+                        logger.info("Output: " + outFile);
+                        StdoutLogger.info("Output: " + outFile);
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                StdoutLogger.error(e);
-                throw new CartridgeException(
-                    "Error writing output file " + outFile.getName(),
-                    e);
-            }
-        }
-        else
-        {
-            if (outFile.exists())
-            {
-                if (!outFile.delete())
+                catch (Exception e)
                 {
-                    logger.error(
-                        "Error removing output file " + outFile.getName());
+                    StdoutLogger.error(e);
                     throw new CartridgeException(
-                        "Error removing output file " + outFile.getName());
+                        "Error writing output file " + outFile.getName(),
+                        e);
                 }
-                logger.info("Removed: " + outFile);
-                StdoutLogger.info("Removed: " + outFile);
+            }
+            else
+            {
+                if (outFile.exists())
+                {
+                    if (!outFile.delete())
+                    {
+                        logger.error(
+                            "Error removing output file "
+                                + outFile.getName());
+                        throw new CartridgeException(
+                            "Error removing output file "
+                                + outFile.getName());
+                    }
+                    logger.info("Removed: " + outFile);
+                    StdoutLogger.info("Removed: " + outFile);
+                }
             }
         }
     }
