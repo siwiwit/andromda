@@ -1,0 +1,18 @@
+## Only generate the controller factory if there are operations defined
+#set ($generatedFile = "${class.fullPath}Factory.java")
+#if (!$class.operations.empty)
+##
+##  START TEMPLATE
+##
+package $class.packageName;
+
+public class ${class.name}Factory
+{
+    private final static ${class.name} INSTANCE = new ${class.name}();
+
+    public final static ${class.name}Interface get${class.name}Instance()
+    {
+        return INSTANCE;
+    }
+}
+#end

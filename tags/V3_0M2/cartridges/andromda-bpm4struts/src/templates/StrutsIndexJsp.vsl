@@ -1,0 +1,3 @@
+<%@ taglib uri="struts-logic.tld" prefix="logic" %>
+
+<logic:redirect action="${class.actionPath}"/> 

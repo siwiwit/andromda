@@ -1,0 +1,52 @@
+/**
+ * This class is only generated once! It will never be overwritten.
+ * You can (and have to!) safely modify it by hand.
+ */
+package $class.packageName;
+
+#set ($superclass = $class.generalization)
+/**
+ * @hibernate.subclass
+ *    discriminator-value="${class.name}Impl"
+ */
+#if ($class.abstract)
+public abstract class ${class.name}Impl
+#else
+public class ${class.name}Impl
+#end
+    extends ${class.name}
+{
+    // concrete business methods that were declared
+    // abstract in class ${class.name} ...
+
+#foreach ( $operation in $class.businessOperations)
+#set ($msig = $operation.signature)
+#set ($returnType = $operation.returnType.fullyQualifiedName)
+#if ($operation.hasException())
+#set ($throws = " throws $operation.exceptionList")
+#else
+#set ($throws = "")
+#end
+#if ($operation.abstract)
+    $operation.visibility abstract $returnType ${msig}$throws;
+
+#else
+    $operation.visibility $returnType ${msig}$throws
+    {
+        // TODO: put your implementation here.
+#if ("void" != $returnType)
+
+        // Dummy return value, just that the file compiles
+#if (!$returnType.primitiveType)
+        return null;
+#elseif ("boolean" == $returnType)
+        return false;
+#else
+        return ($returnType)0;
+#end
+#end
+    }
+
+#end
+#end
+}

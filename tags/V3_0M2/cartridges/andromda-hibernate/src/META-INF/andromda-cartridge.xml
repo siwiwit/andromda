@@ -1,0 +1,72 @@
+<cartridge name="hibernate">
+    
+    <!-- define the template objects that are made availble to the template -->
+    <templateObject name="str" className="org.apache.commons.lang.StringUtils"/>
+	
+	<property reference="customTypesPackage" default="org.andromda.persistence.hibernate"/>
+
+    <template
+        path="templates/hibernate/HibernateEntity.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="entities"
+        overwrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="Entity"/>  
+        </modelElements>  
+    </template>
+
+    <template
+        path="templates/hibernate/HibernateEntityImpl.vsl"
+        outputPattern="{0}/{1}Impl.java"
+        outlet="entity-impls"
+        overwrite="false">
+        <modelElements variable="class">
+            <modelElement stereotype="Entity"/>  
+        </modelElements>  
+    </template>
+
+    <template
+        path="templates/hibernate/HibernateEntityFactory.vsl"
+        outputPattern="{0}/{1}Factory.java"
+        outlet="entities"
+        overwrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="Entity"/>   
+        </modelElements> 
+    </template>
+	
+	<template 
+		path="templates/hibernate/HibernateByteBlobType.vsl" 
+		outputPattern="$generatedFile" 
+		outlet="entities" 
+		overwrite="true"
+		required="false"/>
+	
+	<template 
+		path="templates/hibernate/HibernateStringClobType.vsl" 
+		outputPattern="$generatedFile" 
+		outlet="entities" 
+		overwrite="true"
+		required="false"/>
+
+    <template
+        path="templates/hibernate/HibernateSessionBean.vsl"
+        outputPattern="{0}/{1}Bean.java"
+        outlet="session-beans"
+        overwrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="Service"/>
+        </modelElements>             
+    </template>
+
+    <template
+        path="templates/hibernate/HibernateSessionBeanImpl.vsl"
+        outputPattern="{0}/{1}BeanImpl.java"
+        outlet="session-impls"
+        overwrite="false">
+        <modelElements variable="class">
+            <modelElement stereotype="Service"/>
+        </modelElements>    
+    </template>
+
+</cartridge>

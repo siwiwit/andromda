@@ -1,0 +1,10 @@
+<project>
+  	
+  	<!-- ==================================================================
+  		     Run the translation tests                                                    
+  		 ================================================================== -->
+  	<preGoal name="test:test">  		
+        <attainGoal name="androdev:test-translation"/>
+  	</preGoal> 
+  	  	
+</project>

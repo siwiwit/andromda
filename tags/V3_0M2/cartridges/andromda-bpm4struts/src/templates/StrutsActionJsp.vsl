@@ -1,0 +1,148 @@
+#parse("templates/StrutsJSP.vm")
+#set ($generatedFile = "${class.fullTilePath}.jsp")
+##
+##
+#set ($action = $class)
+#if (!$action.useCaseStart)## we don't generate tiles for events that do not have an input page
+##
+#set ($useCase = $action.input.useCase)
+#set ($formBeanName = $useCase.formBeanName)
+#set ($formBeanType = $useCase.formBeanType)## this will be the name of the form, as used in this page
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="struts-html.tld" prefix="html" %>
+<%@ taglib uri="struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="struts-logic.tld" prefix="logic" %>
+
+#if ($xhtml == "true")
+<html:xhtml/>
+
+#end
+<bean:define id="$formBeanName" name="$formBeanName" type="$formBeanType" scope="session" toScope="page"/>
+
+#set ($messageKey = $action.messageKey)
+#set ($actionTrigger = $action.actionTrigger)
+<div class="action">
+    <h3><bean:message key="${messageKey}.${actionTrigger.triggerKey}"/></h3>
+    <div class="trigger">
+#if ($action.isHyperlink())
+#renderHyperlink($action "        ")
+#elseif ($action.isFormPost())
+#set ($nonTabbedActionParameters = $action.nonTabbedActionParameters)
+#if ($action.validationRequired)
+#set ($onsubmit = "return ${action.formValidationMethodName}(this);")
+#else
+#set ($onsubmit = "")
+#end
+        <form name="${action.formBeanName}" action="<html:rewrite action="${action.actionPath}"/>"
+              method="post" onsubmit="$onsubmit">
+
+#if ($action.tabbed)
+#set ($tabSwitchFunction = "select${actionTrigger.name}FieldTab")
+#set ($tabMap = $action.tabMap)
+        <div class="tabs">
+#foreach ($tab in $tabMap.keySet())
+            <div id="fieldtab.${tab}" class="tab">
+                <div class="tab-header">
+#foreach ($tabTitle in $tabMap.keySet())
+#if ($tab == $tabTitle)
+                    <div class="selected-tab"><bean:message key="${class.messageKey}.tab.${tabTitle}"/></div>
+#else
+                    <div class="unselected-tab"><a href="javascript:${tabSwitchFunction}(${tabTitle})"><bean:message key="${class.messageKey}.tab.${tabTitle}"/></a></div>
+#end
+#end
+                </div>
+                <div class="tab-body">
+                    <table>
+                        <tbody>
+#foreach ($tabField in $tabMap.get($tab))
+#if ($tabField.widgetType == "hidden")
+#renderFormField($action $tabField "            ")
+#else
+                            <tr>
+                                <td>
+                                    <bean:message key="${messageKey}.$tabField.messageKey"/>
+                                </td>
+                                <td>
+#renderFormField($action $tabField "                                    ")
+                                </td>
+                            </tr>
+#end
+#end
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+#end
+        </div>
+#end
+##
+## process non-tabbed fields and buttons here
+##
+
+#foreach ($field in $nonTabbedActionParameters)
+#if ($field.widgetType == "hidden")
+#renderFormField($action $field "            ")
+#end
+#end
+            <table>
+                <tbody>
+#foreach ($field in $nonTabbedActionParameters)
+#if ($field.widgetType != "hidden")
+                    <tr>
+                        <td>
+                            <bean:message key="${messageKey}.$field.messageKey"/>
+                        </td>
+                        <td>
+#renderFormField($action $field "                           ")
+                        </td>
+                    </tr>
+#end
+#end
+                    <tr>
+                        <td>
+#renderFormButtons($action "                           ")
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+#end
+    </div>
+    <div class="triggerdoc">
+        <bean:message key="$action.documentationKey"/>
+    </div>
+
+#if ($action.tabbed)
+        <script type="text/javascript">
+#if ($xhtml == "true")
+        //<![CDATA[
+#else
+        //<!--
+#end
+#set ($tabSwitchArray = "${actionTrigger.name}FieldTab")
+            var ${tabSwitchArray} = new Array($action.tabCount);
+#set ($tabMap = $action.tabMap)
+#foreach ($tab in $tabMap.keySet())
+#set ($tabIndex = $velocityCount - 1)
+            ${tabSwitchArray}[$tabIndex] = getDiv('fieldtab.$tab');
+#end
+
+            function ${tabSwitchFunction}(tabIndex)
+            {
+                if (isNaN(tabIndex) || tabIndex<0 || tabIndex>=${tabSwitchArray}.length) return;
+                for (var i=0; i<${tabSwitchArray}.length; i++) ${tabSwitchArray}[i].style.display = 'none';
+                ${tabSwitchArray}[tabIndex].style.display = 'block';
+            }
+            this.${tabSwitchFunction}(0);
+#if ($xhtml == "true")
+        //]]>
+#else
+        //-->
+#end
+        </script>
+#end
+
+</div>
+
+<br class="clr"/>
+#end

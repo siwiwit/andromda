@@ -1,0 +1,31 @@
+<cartridge name="andromda-test-cartridge">
+	
+    <!-- define template external properties -->
+    <property reference="propertyReferenceWithDefault" default="aDefaultValue"/>
+    <property reference="propertyReferenceNoDefault"/>
+    
+    <!-- define the template objects that are made available to the template -->
+    <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
+
+    <template
+        path="EntityBean.vsl"
+        outputPattern="{0}/{1}Bean.java"
+        outlet="beans"
+        overwrite="true">
+        <modelElements variable="entity">
+            <modelElement stereotype="Entity"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="EntityBeanImpl.vsl"
+        outputPattern="{0}/{1}BeanImpl.java"
+        outlet="impls"
+        overwrite="false"
+        generateEmptyFiles="true">
+        <modelElements variable="entity">
+            <modelElement stereotype="Entity"/>
+        </modelElements>
+    </template>
+    
+</cartridge>

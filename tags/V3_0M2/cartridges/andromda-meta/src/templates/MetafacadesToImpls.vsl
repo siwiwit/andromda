@@ -1,0 +1,4 @@
+# Attention: generated code (by MetafacadesToImpls.vsl) - do not modify!
+#foreach ( $metafacade in $metafacades )
+${metafacade.fullyQualifiedName}=${metafacade.getFullyQualifiedLogicImplName(${metamodelVersionPackage})}
+#end

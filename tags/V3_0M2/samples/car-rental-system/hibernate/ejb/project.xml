@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  	<extend>../project.xml</extend>
+  	<id>car-rental-sample-hibernate-ejb</id>
+  	<name>Car Rental Sample Hibernate EJB</name>
+  	<shortDescription>The Car Rental Sample Hibernate EJB Component</shortDescription>
+  	<description>
+  		Contains the car rental sample hibernate ejb module.
+  	</description>
+  	<build>
+    	<sourceDirectory>src/java</sourceDirectory>
+  	</build>
+</project>

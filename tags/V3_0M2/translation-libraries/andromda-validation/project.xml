@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  	<extend>../project.xml</extend>
+  	<id>andromda-validation-library</id>
+  	<name>Validation Translation-Library</name>
+  	<shortDescription>Validation Translation-Library</shortDescription>
+  	<description>
+  		Translates OCL into validation code for any platform.
+  	</description>
+	<package>org.andromda.translation.validation</package>
+  	<developers>
+    	<developer>
+      		<name>Wouter Zoons</name>
+      		<id>draftdog</id>
+      		<email>draftdog@users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+                <role>Documentation</role>
+            </roles>
+            <timezone>1</timezone>
+    	</developer>
+    	<developer>
+      		<name>Chad Brandon</name>
+      		<id>cwbrandon</id>
+      		<email>cwbrandon@users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+    	</developer>
+    </developers>
+	<dependencies>
+    	<dependency>
+	      	<groupId>andromda</groupId>
+	      	<artifactId>maven-androdev-plugin</artifactId>
+	      	<version>${pom.currentVersion}</version>
+	      	<type>plugin</type>
+	    </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+    	<dependency>
+    		<groupId>log4j</groupId>
+      		<artifactId>log4j</artifactId>
+     		<version>1.2.8</version>
+    	</dependency>
+	</dependencies>
+</project>

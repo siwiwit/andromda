@@ -1,0 +1,114 @@
+#set ($generatedFile = $metafacade.getLogicImplFile($metamodelVersionPackage))
+#set ($packageName = $metafacade.getLogicPackageName($metamodelVersionPackage))
+#if ($packageName)
+package $packageName;
+#end
+
+#if ($metafacade.metaclassDirectDependency)
+#set ($shieldedMetaclassTypeName = $metafacade.metaclass.fullyQualifiedName)
+#else
+#set ($shieldedMetaclassTypeName = "Object")
+#end
+
+/**
+ * MetafacadeLogic implementation for $metafacade.fullyQualifiedName.
+ *
+ * @see $metafacade.fullyQualifiedName
+ */
+public class ${metafacade.logicImplName}
+       extends ${metafacade.name}Logic
+       implements ${metafacade.fullyQualifiedName}
+{
+    // ---------------- constructor -------------------------------
+
+    public ${metafacade.logicImplName} ($shieldedMetaclassTypeName metaObject, String context)
+    {
+        super (metaObject, context);
+    }
+#set ($attributes = $metafacade.attributes)
+#if (!$attributes.empty)
+
+    // --------------- attributes ---------------------
+#foreach ( $attribute in $attributes )
+#set ($methodName = $attribute.getterName)
+#set ($handleMethodName = "handle$str.capitalize($methodName)")
+#set ($typedArgumentList = "")
+#set ($returnTypeName = $attribute.type.fullyQualifiedName)
+    /**
+     * @see ${metafacade.fullyQualifiedName}#${attribute.getterName}()
+     */
+    public $returnTypeName ${handleMethodName}($typedArgumentList) 
+    {
+        // TODO: put your implementation here.
+
+        // Dummy return value, just that the file compiles
+#if (!$atttribute.type.primitiveType)
+        return null;
+#elseif ("boolean" == $returnTypeName)
+        return false;
+#else
+        return ($returnTypeName)0;
+#end
+    }
+#end
+#end
+##
+#if (!$metafacade.operations.empty)
+
+    // -------------------- business methods ----------------------
+#foreach ( $operation in $metafacade.operations)
+#set ($methodName = $operation.name)
+#set ($handleMethodName = "handle$str.capitalize($methodName)")
+#set ($typedArgumentList = $operation.typedArgumentList)
+#set ($returnTypeName = $operation.returnType.fullyQualifiedName)
+#if ($defaultException)
+    $operation.visibility $returnTypeName ${handleMethodName}($typedArgumentList)
+        throws $defaultException.name {
+#else
+    /**
+     * @see ${metafacade.fullyQualifiedName}#${operation.name}(${operation.argumentTypeNames})
+     */
+    $operation.visibility $returnTypeName ${handleMethodName}($typedArgumentList) 
+    {
+#end
+        // TODO: put your implementation here.
+#if ($operation.hasReturnType())
+
+        // Dummy return value, just that the file compiles
+#if (!$operation.returnType.primitiveType)
+        return null;
+#elseif ("boolean" == $returnTypeName)
+        return false;
+#else
+        return ($returnTypeName)0;
+#end
+#end
+    }
+
+#end
+#end
+##
+#if (!$metafacade.associationEnds.empty)
+    // ------------- relations ------------------
+
+#foreach ( $associationEnd in $metafacade.associationEnds )
+#if ($associationEnd.otherEnd.navigable)
+#set ($memberTypeName = $associationEnd.getterSetterTypeName)
+#set ($methodName = $associationEnd.otherEnd.getterName)
+#set ($handleMethodName = "handle$str.capitalize($methodName)")
+#set ($typedArgumentList = "")
+#if ($associationEnd.otherEnd.many)
+#set ($returnTypeName = $associationEnd.getterSetterTypeName)
+#else
+#set ($returnTypeName = "java.lang.Object")
+#end
+    public $returnTypeName ${handleMethodName}($typedArgumentList)
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+
+#end
+#end
+#end
+}

@@ -1,0 +1,15 @@
+application.id=$applicationId
+application.name=$applicationName
+application.version=$applicationVersion
+application.author=$author
+
+# set this property if you want to precompile the jsps during development
+precompile.jsp=false
+
+# use these properties to set the name and the type of data-source
+datasource.jndi=java:/DefaultDS
+datasource.type=HypersonicSql
+datasource.jboss.mapping=Hypersonic SQL
+#if ($persistenceType == 'hibernate')
+datasource.hibernate.dialect=net.sf.hibernate.dialect.HSQLDialect
+#end

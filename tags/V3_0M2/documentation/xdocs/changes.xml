@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<document>
+    <properties>
+        <author email="draftdog@users.sourceforge.net">Wouter Zoons</author>
+        <author email="cwbrandon@users.sourceforge.net">Chad Brandon</author>
+        <title>Recent AndroMDA changes</title>
+        <gennews>no</gennews>
+    </properties>
+    <body>
+        <section name="Latest changes">
+            <p class="std">
+			  This section describes the most recent changes to the AndroMDA codebase.
+            </p>
+            <table border="1" cellpadding="2" cellspacing="0">
+                <tr>
+                    <th class="std">Date</th>
+                    <th class="std">Description</th>
+                    <th class="std">Details</th>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">Aug 08, 2004</td>
+                    <td valign="top" class="std">New Core Feature</td>
+                    <td valign="top" class="std">
+                        Cartridges now allow generation based on metafacade 
+                        type (and optionally its properties), in addition to stereotypes.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">Aug 06, 2004</td>
+                    <td valign="top" class="std">Bpm4Struts improvement</td>
+                    <td valign="top" class="std">
+                        It is now possible to create a hyperlink from a final state to a use-case
+                        and have the cartridge interpret it as the next use-case to navigate to.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">Aug 03, 2004</td>
+                    <td valign="top" class="std">build update</td>
+                    <td valign="top" class="std">
+                        The maven build has been changed
+                        <ul>
+                            <li>
+                                All artifacts now reside in the 'andromda' groupId of the maven
+                                repository.  This means for those using Maven for their projects,
+                                they'll need to specify 'andromda' as the groupId (for dependencies)
+                                instead of the old 'andromda-cartridges' for cartridges and
+                                'andromda-translation-libraries' for translation-libraries.
+                            </li>
+                            <li>
+                               Bootstrap dependencies are now stored in CVS. They are renamed
+                               to the current version and copied to the remote repository during the build (
+                               they used to be stored remotely).
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 26, 2004</td>
+                    <td valign="top" class="std">andromda Ant task update</td>
+                    <td valign="top" class="std">
+                        The <![CDATA[<andromda/>]]> Ant task was changed to
+						allow multiple models to be specified using a URL.
+						This included adding a new <![CDATA[<model/>]]> element
+						and eliminating the modelURL attribute from the <![CDATA[<andromda/>]]>
+						task.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 21, 2004</td>
+                    <td valign="top" class="std">new Bpm4Struts feature</td>
+                    <td valign="top" class="std">
+                        Enabled support for tools that do not allow putting graphs inside use-cases. It is now
+                        sufficient to put the <code>@andromda.struts.usecase.activity</code>
+                        tagged value on the use-case and assign it the name of an activity graph.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 21, 2004</td>
+                    <td valign="top" class="std">new Bpm4Struts feature</td>
+                    <td valign="top" class="std">
+                        Enabled support for tools that do not allow assigning model elements to classifiers.
+                        It is now possible to put a <code>@andromda.struts.controller.usecase</code> tagged value
+                        on the controller and assigning it the name of a use-case.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 11, 2004</td>
+                    <td valign="top" class="std">andromda-cartridge.xml update</td>
+                    <td valign="top" class="std">
+                        Tagged value prefix of "@andromda" was added back to
+						all tagged values.  It was causing naming conflicts
+						with XDoclet tags when it was just "@".
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 04, 2004</td>
+                    <td valign="top" class="std">andromda-cartridge.xml update</td>
+                    <td valign="top" class="std">
+                        Added new resource element to the andromda-cartridge.xml
+						that allows non template resources (like images, jars, etc) 
+						to be included and output from a cartridge.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 04, 2004</td>
+                    <td valign="top" class="std">bpm4struts moved to XHTML mode</td>
+                    <td valign="top" class="std">
+                        All JSPs have been updated to render XHTML 1.0 compatible content,
+                        the content-type declaration has been updated and any HTML
+                        comment has been changed to comply to the XHTML standard.
+                        You will need an XHTML compatible browser to properly
+                        view the pages.
+                        By default bpm4struts generates HTML 4.0 compliant JSPs but
+                        by setting the 'xhtml' namespace property to 'true' it will
+                        render XHTML.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 03, 2004</td>
+                    <td valign="top" class="std">andromda-cartridge.xml update</td>
+                    <td valign="top" class="std">
+                        The 'sheet' attribute in the template element has been
+                        renamed to 'path'.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 03, 2004</td>
+                    <td valign="top" class="std">bpm4struts andromda-cartridge.xml update</td>
+                    <td valign="top" class="std">
+                        In bpm4struts there is a new namesapce property: xhtml. The property
+                        'securityEnabled' has been renamed to 'security'.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 03, 2004</td>
+                    <td valign="top" class="std">andromda-cartridge.xml update</td>
+                    <td valign="top" class="std">
+                        The 'overWrite' attribute in the template element has been
+                        renamed to 'overwrite'.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">July 01, 2004</td>
+                    <td valign="top" class="std">schema2xmi</td>
+                    <td valign="top" class="std">
+                        A new feature has been added that will allow users to import legacy database
+                        schemas and have an XMI file generated from them. This will make it easier to port
+                        development of legacy systems to AndroMDA.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">June, 2004</td>
+                    <td valign="top" class="std">web-services cartridge</td>
+                    <td valign="top" class="std">
+                        A new cartridge is available for publishing services
+                        as web-services, this cartridge is to be used in
+                        combination with either the EJB, Hibernate,
+						or Java cartridge.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">June, 2004</td>
+                    <td valign="top" class="std">bpm4struts supports displaytag</td>
+                    <td valign="top" class="std">
+                        Tabular data can now automatically be displayed using paging,
+                        sorting and exporting features, the displaytag tag-library is
+                        used.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" class="std">May, 2004</td>
+                    <td valign="top" class="std">OCL support</td>
+                    <td valign="top" class="std">
+                        OCL support provides the following features:
+                        <ul>
+                            <li>Metamodels will now have their constraints
+                                validated during code generation.</li>
+                            <li>Finder queries for persisted entities
+                                can now be expressed using OCL.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </body>
+</document>

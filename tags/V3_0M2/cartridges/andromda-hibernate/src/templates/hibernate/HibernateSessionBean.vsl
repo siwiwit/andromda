@@ -1,0 +1,268 @@
+package $class.packageName;
+
+import javax.ejb.EJBException;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.SessionFactory;
+
+#foreach ( $serviceRef in $class.serviceReferences )
+import ${serviceRef.targetElement.fullyQualifiedName}Home;
+#end
+##
+#if ($class.attributes.size() > 0)
+#set ($stateful = true)
+#else
+#set ($stateful = false)
+#end
+##
+/**
+$class.getDocumentation(" * ")
+ *
+ * @ejb.bean 
+ *        name="$class.name"
+#if ($stateful)
+ *        type="Stateful"
+#else
+ *        type="Stateless"
+#end
+ *        jndi-name="${class.jndiName}"
+ *        local-jndi-name="${class.jndiName}/Local"
+ *        view-type="both"
+ * @ejb.interface 
+ *        generate="local,remote"
+ *        remote-class="${class.packageName}.${class.name}"
+ *        local-class="${class.packageName}.${class.name}Local"
+ * @ejb.home 
+ *        generate="local,remote"
+ *        remote-class="${class.packageName}.${class.name}Home"
+ *        local-class="${class.packageName}.${class.name}LocalHome"
+ * @ejb.util generate="physical"
+#foreach ( $serviceRef in $class.serviceReferences )
+ #set ($service = $serviceRef.targetElement)
+ * @ejb.ejb-ref 
+ *        ejb-name="$service.name" 
+ *        view-type="$sevice.viewType" 
+ *        ref-name="ejb/${service.name}BeanRef"
+#end
+#foreach ( $tgv in $class.taggedValues )
+#if ($tgv.name != "documentation")
+#if ($tgv.name == "---")
+    #set ($tag = "")
+#else
+    #set ($tag = $tgv.name)
+#end
+ * $tag    $tgv.value
+#end
+#end
+ */
+public abstract class ${class.name}Bean implements javax.ejb.SessionBean {
+
+#if ($stateful)
+    // --------------- attributes ---------------------
+#foreach ( $attribute in $class.attributes )
+#set ($attributeTypeName = $attribute.type.fullyQualifiedName)
+
+   protected $attributeTypeName $attribute.name;
+
+   /**
+$attribute.getDocumentation("     * ")
+    *
+    * @ejb.interface-method view-type="both"
+    * @ejb.transaction      type="Required"
+    *
+    */
+    public $attributeTypeName ${attribute.getterName}() 
+    {
+        return ${attribute.name};
+    }
+   /**
+    * @ejb.interface-method view-type="both"
+    * @ejb.transaction      type="Required"
+    */
+    public void ${attribute.setterName}($attributeTypeName newValue) 
+    {
+        $attribute.name = newValue;
+    }
+
+#end
+#end
+    // ---------------- business methods  ----------------------
+
+#foreach ($operation in $class.operations)
+#set ($msig = $operation.signature)
+
+##
+##  Add one additional parameter to the list of parameters:
+##  a reference to the open Hibernate session.
+##
+#set ($parameterList = $operation.typedArgumentList)
+#if ($parameterList.length() == 0)
+#set ($parameters = "net.sf.hibernate.Session session")
+#else
+#set ($parameters = "net.sf.hibernate.Session session, ${parameterList}")
+#end
+
+#if ($operation.hasExceptions())
+    protected abstract $operation.returnType.fullyQualifiedName handle${str.capitalize(${operation.name})} ($parameters)
+        throws $operation.exceptionList;
+#else
+    protected abstract $operation.returnType.fullyQualifiedName handle${str.capitalize(${operation.name})} ($parameters);
+#end
+
+    /**
+$operation.getDocumentation("     * ")
+     *
+     * @ejb.interface-method view-type="both"
+     * @ejb.transaction type="Required"
+     */
+#if ($operation.hasExceptions())
+    $operation.visibility $operation.returnType.fullyQualifiedName $msig
+        throws $operation.exceptionList
+#else
+    $operation.visibility $operation.returnType.fullyQualifiedName $msig
+#end
+    {
+        Session session = null;
+        try
+        {
+            session = getSession();
+##
+##  Add one additional parameter to the list of parameters:
+##  a reference to the open Hibernate session.
+##
+#set ($parameterList = $operation.argumentNames)
+#if ($parameterList.length() == 0)
+#set ($parameters = "session")
+#else
+#set ($parameters = "session, ${parameterList}")
+#end
+##
+#if ("void" != $operation.returnType.fullyQualifiedName)
+            return handle${str.capitalize($operation.name)}($parameters);
+#else
+            handle${str.capitalize($operation.name)}($parameters);
+#end
+        }
+#foreach ( $exception in $operation.exceptions )
+        catch ($exception.fullyQualifiedName e)
+        {
+           _ctx.setRollbackOnly();
+           throw e;
+        }
+#end
+        catch (Throwable th)
+        {
+            throw new EJBException("${class.name}Bean.${operation.name}: " + th.toString());
+        }
+        finally
+        {
+            if (session != null)
+            {
+                try
+                {
+                    session.flush();
+                    session.close();
+                }
+                catch (HibernateException he)
+                {
+                    throw new EJBException("${class.name}Bean.${operation.name}: " + he.getMessage());
+                }
+            }
+        }
+    }
+#end
+
+   // ---------------- create methods -------------------------
+
+   /**
+    * @ejb.create-method
+    * @ejb.transaction type="Required"
+    */
+    public void ejbCreate ()
+           throws javax.ejb.CreateException
+    {
+    }
+
+    public void ejbPostCreate ()
+           throws javax.ejb.CreateException
+    {
+    }
+
+#if ($stateful)
+   // ---------------- create methods with separate attributes --------------------
+
+   /**
+    * @ejb.create-method
+    * @ejb.transaction type="Required"
+    */
+    public void ejbCreate $class.getAttributesAsList(true)
+           throws javax.ejb.CreateException
+    {
+#foreach ( $attribute in $class.attributes)
+        ${attribute.setterName} (${attribute.name});
+#end
+    }
+
+    public void ejbPostCreate $class.getAttributesAsList(true)
+           throws javax.ejb.CreateException
+    {
+    }
+
+#end
+   // ---------------- Hibernate helpers -------------------------
+
+    protected javax.ejb.SessionContext _ctx = null;
+
+    private SessionFactory _sessionFactory = null;
+
+    public void setSessionContext( javax.ejb.SessionContext ctx )
+    {
+        _ctx = ctx;
+        _sessionFactory = null;
+    }
+
+    private SessionFactory getSessionFactory() throws NamingException
+    {
+        if( _sessionFactory == null )
+        {
+            InitialContext ic = new InitialContext();
+
+            _sessionFactory = ( SessionFactory )
+                              ic.lookup( "java:/hibernate/SessionFactory" );
+        }
+
+        return _sessionFactory;
+    }
+
+    private Session getSession() throws HibernateException, NamingException
+    {
+        return getSessionFactory().openSession();
+    }
+
+    // ---------------- accessor methods for (session!) bean references ---------------
+
+#foreach ( $serviceRef in $class.serviceReferences )
+   #set ($service = $serviceRef.targetElement)
+   #set ($homeInterfaceName = "${service.name}Home")
+   /**
+    * This is to get the reference to the ${service.name} bean.
+    * Obtains local home interface from default initial context
+    * @return Local home interface for ${service.name}. Lookup using bean ref name.
+    */
+    protected static ${homeInterfaceName} get${homeInterfaceName}() throws NamingException
+    {
+        InitialContext initialContext = new InitialContext();
+        try {
+            // Local homes shouldn't be narrowed, as there is no RMI involved.
+            ${homeInterfaceName} home = (${homeInterfaceName}) initialContext.lookup("java:comp/env/ejb/${service.name}BeanRef");
+            return home;
+        } finally {
+            initialContext.close();
+        }
+    }
+
+#end
+}
