@@ -36,5 +36,38 @@
 		metafacadeClass="org.andromda.core.metadecorators.uml14.OperationDecoratorImpl"/>			
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.core.metadecorators.uml14.AttributeDecoratorImpl"/>												
+		metafacadeClass="org.andromda.core.metadecorators.uml14.AttributeDecoratorImpl"/>		
+		
+	<!-- Entity  metafacades -->
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.Classifier$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.EntityDecoratorImpl">
+		<stereotype>Entity</stereotype>
+		<property reference="maxSqlNameLength"/>
+	</metafacade>	
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.EntityDecoratorImpl">
+		<stereotype>Entity</stereotype>
+		<property reference="maxSqlNameLength"/>
+	</metafacade>	
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.Interface$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.EntityDecoratorImpl">
+		<stereotype>Entity</stereotype>
+	</metafacade>		
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.EntityAttributeDecoratorImpl">
+		<context>edu.duke.dcri.mda.model.metafacade.EntityDecoratorImpl</context>
+		<property reference="sqlMappings"/>
+		<property reference="jdbcMappings"/>
+	</metafacade>
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.EntityAssociationEndDecoratorImpl">
+		<context>edu.duke.dcri.mda.model.metafacade.EntityDecoratorImpl</context>
+		<property reference="foreignKeySuffix"/>
+	</metafacade>
+												
 </metafacades>

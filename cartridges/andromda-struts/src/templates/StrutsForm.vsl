@@ -27,7 +27,9 @@ ${indent}* </p>
 #end
 #end
 
-#set ($primKey = $class.primaryKeyAttribute)
+#if ($class.hasIdentifiers())
+#set ($primKey = $class.identifiers.iterator().next())
+#end
 #set ($primKeyTypeName = $primKey.type.fullyQualifiedName)
 
 #foreach ( $assocLink in $class.associationLinks )
