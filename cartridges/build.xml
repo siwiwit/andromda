@@ -18,7 +18,10 @@
         <delete includeEmptyDirs="true" quiet="true">
             <fileset dir="${dist.dir}"/>
         </delete>
-        
+       
+        <antcall target="cleanCartridge">
+          <param name="cartridge.name" value="andromda-meta"/>
+        </antcall> 
         <antcall target="cleanCartridge">
           <param name="cartridge.name" value="andromda-java"/>
         </antcall>
@@ -56,6 +59,9 @@
     <target name="dist" depends="clean,init"
             description="Builds core, cartridges, samples and website">
 
+        <antcall target="buildCartridge">
+          <param name="cartridge.name" value="andromda-meta"/>
+        </antcall> 
         <antcall target="buildCartridge">
           <param name="cartridge.name" value="andromda-java"/>
         </antcall>
