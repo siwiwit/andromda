@@ -7,8 +7,6 @@ import java.util.Iterator;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
-import org.omg.uml.foundation.datatypes.VisibilityKind;
-import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 
 /**
  *
@@ -161,35 +159,6 @@ public class OperationDecoratorImpl extends OperationDecorator
 
         return ret;
     }
-
-    // -------------------- business methods ----------------------
-
-    // concrete business methods that were declared
-    // abstract in class OperationDecorator ...
-
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#getVisibility()
-     */
-    public VisibilityKind getVisibility()
-    {
-        VisibilityKind visibility = metaObject.getVisibility();
-        
-        if (VisibilityKindEnum.VK_PRIVATE.equals(visibility))
-        {
-            return JavaVisibilityEnum.PRIVATE;
-        }
-        else if (VisibilityKindEnum.VK_PROTECTED.equals(visibility))
-        {
-            return JavaVisibilityEnum.PROTECTED;
-        }
-        else if (VisibilityKindEnum.VK_PUBLIC.equals(visibility))
-        {
-            return JavaVisibilityEnum.PUBLIC;
-        }
-
-        return JavaVisibilityEnum.PACKAGE;
-    }
-
 
     // ------------- relations ------------------
 
