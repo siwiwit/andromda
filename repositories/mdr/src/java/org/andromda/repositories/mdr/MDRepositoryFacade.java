@@ -11,7 +11,7 @@ import javax.jmi.reflect.RefPackage;
 import javax.jmi.xmi.MalformedXMIException;
 
 import org.andromda.core.common.ComponentContainer;
-import org.andromda.core.metafacade.MetafacadeModel;
+import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.repository.RepositoryFacade;
 import org.andromda.core.repository.RepositoryFacadeException;
 import org.apache.log4j.Logger;
@@ -33,7 +33,7 @@ public class MDRepositoryFacade implements RepositoryFacade
 	
     protected final static String META_PACKAGE = "UML";
     
-    private MetafacadeModel modelFacade = null;
+    private ModelAccessFacade modelFacade = null;
 
     static {
         // configure MDR to use an in-memory storage implementation
@@ -151,16 +151,16 @@ public class MDRepositoryFacade implements RepositoryFacade
     /**
      * @see org.andromda.core.repository.RepositoryFacade#getModel()
      */
-    public MetafacadeModel getModel()
+    public ModelAccessFacade getModel()
     {
         if (this.modelFacade == null) 
         {
             try {
                 
             	this.modelFacade = 
-                    (MetafacadeModel)
+                    (ModelAccessFacade)
             	        ComponentContainer.instance().findComponent(
-            	            MetafacadeModel.class);
+            	            ModelAccessFacade.class);
             	this.modelFacade.setModel(this.model);
             } catch (Throwable th) {
             	String errMsg = "Error performing getModel";
