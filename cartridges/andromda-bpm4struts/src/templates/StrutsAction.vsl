@@ -85,6 +85,7 @@ public final class $className extends ${className}Abstract
     {
 #foreach ($inputField in $formBean.inputFields)
 #if ($inputField.backingPropertyName)
+        // we add some default values, you may remove this line but make sure you initialize it too
         form.set$str.upperCaseFirstLetter($inputField.backingPropertyName) (java.util.Arrays.asList(new String[] { "$inputField.name test-1", "$inputField.name test-2", "$inputField.name test-3" } ));
 #end
 #end
