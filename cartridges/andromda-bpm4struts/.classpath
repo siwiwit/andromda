@@ -13,5 +13,5 @@
     <classpathentry kind="lib" path="/andromda3/lib/jmiuml14di.jar"/>
     <classpathentry kind="lib" path="/andromda3/lib/junit.jar"/>
     <classpathentry kind="lib" path="/andromda3/lib/log4j-1.2.8.jar"/>
-    <classpathentry kind="output" path="bin"/>
+    <classpathentry kind="output" path="eclipsebuild"/>
 </classpath>
