@@ -80,19 +80,19 @@ extends $parentInterface
 
 #foreach ( $assoc in $class.entityRelations)
 #set ($assocname = $assoc.relationName)
-#set ($targetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.roleName)})
+#set ($targetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.name)})
 #set ($targetTypeName = $assoc.relationType)
 
    /**
-    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
 #remainingJavadocParagraphs($assoc.otherEnd "    ")
     */
     public $targetTypeName get$targetRoleName();
 
    /**
-    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
     */
-    public void set$targetRoleName($targetTypeName ${assoc.otherEnd.roleName});
+    public void set$targetRoleName($targetTypeName ${assoc.otherEnd.name});
 #end ## foreach
 
     // ---------------- business methods  ----------------------

@@ -129,10 +129,10 @@ public interface ${entityname}LocalHome  extends $parentInterface {
      * @param $att.name Value for #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
 #end
 #foreach ($rel in $relations)
-     * @param $rel.otherEnd.roleName Value for #firstJavadocParagraph(${rel.target} "lower" "the ${rel.otherEnd.roleName} relation role")
+     * @param $rel.otherEnd.name Value for #firstJavadocParagraph(${rel.target} "lower" "the ${rel.otherEnd.name} relation role")
 #end
      */
-    public ${entityname} create(${transform.getAttributesAsList($allAttributes, true, true)}#foreach ($rel in $relations), ${rel.relationType} $rel.otherEnd.roleName#end)
+    public ${entityname} create(${transform.getAttributesAsList($allAttributes, true, true)}#foreach ($rel in $relations), ${rel.relationType} $rel.otherEnd.name#end)
            throws javax.ejb.CreateException;
 #end
 #end

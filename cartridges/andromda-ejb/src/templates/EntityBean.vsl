@@ -261,23 +261,23 @@ public abstract class ${entityname}Bean
 #foreach ( $assoc in $class.entityRelations) )
 #if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
 #set ($assocname = $assoc.relationName)
-#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.roleName)})
+#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.name)})
 #set ($targetTypeName = $assoc.relationType)
 
    /**
-    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
 #remainingJavadocParagraphs($assoc.otherEnd "    ")
     * @ejb.interface-method 
     */
     public abstract $targetTypeName get$TargetRoleName();
 
    /**
-    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
 #if(!$assoc.otherEnd.readOnly)
     * @ejb.interface-method 
 #end
     */
-    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.roleName});
+    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.name});
 #end
 #end ## foreach
 
@@ -287,21 +287,21 @@ public abstract class ${entityname}Bean
 ## relations not flagged as CMR are generated below under business methods
 #if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
 #set ($assocname = $assoc.relationName)
-#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.roleName)})
+#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.name)})
 #set ($transactionType = $assoc.association.findTaggedValue("@andromda.ejb.transactionType"))
 #set ($targetTypeName = $assoc.relationType)
 
    /**
-    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
 #remainingJavadocParagraphs($assoc.otherEnd "    ")
     *
     * @ejb.interface-method 
     * @ejb.relation
     *    name="$assocname"
-    *    role-name="$assocname:$assoc.source.roleName"
-    *    target-ejb="$assoc.otherEnd.participant.name"
-#if ($assoc.source.navigable == "false")
-    *    target-role-name="$assocname:$assoc.otherEnd.roleName"
+    *    role-name="$assocname:$assoc.name"
+    *    target-ejb="$assoc.otherEnd.type.name"
+#if ($assoc.navigable == "false")
+    *    target-role-name="$assocname:$assoc.otherEnd.name"
 #if ($assoc.isMany2One() || $assoc.isMany2Many())
     *    target-multiple="true"
 #end
@@ -318,9 +318,9 @@ public abstract class ${entityname}Bean
 #if (!$pkfields.isEmpty())
 #foreach ($pkfield in $pkfields)
 #if ($pkfieldCount == 1)
-#set ($fkName = $assoc.otherEnd.roleName)
+#set ($fkName = $assoc.otherEnd.name)
 #else
-#set ($fkName = "${assoc.otherEnd.roleName}${str.upperCaseFirstLetter($pkfield.name)}")
+#set ($fkName = "${assoc.otherEnd.name}${str.upperCaseFirstLetter($pkfield.name)}")
 #end
     * @jboss.relation 
     *     fk-column = "${str.toDatabaseAttributeName($fkName, "_")}"
@@ -332,7 +332,7 @@ public abstract class ${entityname}Bean
     public abstract $targetTypeName get$TargetRoleName();
 
    /**
-    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
 #if(!$assoc.otherEnd.readOnly)
     * @ejb.interface-method 
 #end
@@ -340,7 +340,7 @@ public abstract class ${entityname}Bean
     * @ejb.transaction type="$transactionType"
 #end
     */
-    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.roleName});
+    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.name});
 #end
 #end ## foreach 
 
@@ -351,10 +351,10 @@ public abstract class ${entityname}Bean
 #if($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false")
 #set ($transactionType = $assoc.association.findTaggedValue("@andromda.ejb.transactionType"))
 #set ($targetTypeName = $assoc.relationType)
-#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.roleName)})
+#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.name)})
 
    /**
-    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
 #remainingJavadocParagraphs($assoc.otherEnd "    ")
     *
     * @ejb.interface-method 
@@ -365,13 +365,13 @@ public abstract class ${entityname}Bean
     public abstract $targetTypeName get$TargetRoleName();
 
    /**
-    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
     * @ejb.interface-method 
 #if ($transactionType)
     * @ejb.transaction type="$transactionType"
 #end
     */
-    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.roleName});
+    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.name});
 #end
 #end ## foreach 
 
@@ -566,14 +566,14 @@ public abstract class ${entityname}Bean
      * @param $att.name Value for #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
 #end
 #foreach ($rel in $relations)
-     * @param $rel.otherEnd.roleName Value for #firstJavadocParagraph(${rel.otherEnd} "lower" "the ${rel.otherEnd.roleName} relation role")
+     * @param $rel.otherEnd.name Value for #firstJavadocParagraph(${rel.otherEnd} "lower" "the ${rel.otherEnd.name} relation role")
 #end
      * @ejb.create-method
      * @ejb.transaction type="Required"
      * @return <code>null</code> as required by the EJB specification for CMP 
      *         (chapter 10.5.2, "Bean Provider's entity bean instance's view")
      */
-    public $pkclassname ejbCreate($transform.getAttributesAsList($allAttributes, true, true)#if(!$allAttributes.isEmpty()), #end#foreach ($rel in $relations)${rel.relationType} $rel.otherEnd.roleName#if($velocityCount != $relations.size()), #end#end)
+    public $pkclassname ejbCreate($transform.getAttributesAsList($allAttributes, true, true)#if(!$allAttributes.isEmpty()), #end#foreach ($rel in $relations)${rel.relationType} $rel.otherEnd.name#if($velocityCount != $relations.size()), #end#end)
            throws javax.ejb.CreateException
     {
         // Call ejbCreate method for the CMP attributes
@@ -582,14 +582,14 @@ public abstract class ${entityname}Bean
         return null;
     }
 
-    public void ejbPostCreate($transform.getAttributesAsList($allAttributes, true, true)#if(!$allAttributes.isEmpty()), #end#foreach ($rel in $relations)${rel.relationType} $rel.otherEnd.roleName#if($velocityCount != $relations.size()), #end#end)
+    public void ejbPostCreate($transform.getAttributesAsList($allAttributes, true, true)#if(!$allAttributes.isEmpty()), #end#foreach ($rel in $relations)${rel.relationType} $rel.otherEnd.name#if($velocityCount != $relations.size()), #end#end)
            throws javax.ejb.CreateException
     {
         // Call postCreate method for the CMP attributes
         ejbPostCreate($transform.getAttributesAsList($allAttributes, false, true));
         // Set the CMR relations
 #foreach ($rel in $relations)
-        set${str.upperCaseFirstLetter($rel.otherEnd.roleName)}($rel.otherEnd.roleName);
+        set${str.upperCaseFirstLetter($rel.otherEnd.name)}($rel.otherEnd.name);
 #end
     }
 #end
