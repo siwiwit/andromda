@@ -22,7 +22,7 @@ errors.email={0} is an invalid e-mail address.
 #set ($formBean = $useCase.servlet.formBean)
 # form-bean: $formBean.formBeanName /${str.separate($formBean.packageName, "/")}/${formBean.name}.java
 #foreach ($inputField in $formBean.inputFields)
-${inputField.validationMsgKey}=$inputField.messageValue
+${inputField.validatorMsgKey}=$inputField.messageValue
 #end
 
 #end
