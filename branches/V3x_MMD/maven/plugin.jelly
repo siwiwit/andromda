@@ -59,8 +59,6 @@
 			</j:forEach>
             <ant:path refid="maven.dependency.classpath"/>
 		</ant:path>
-		<ant:property name="path" refid="andromda.classpath"/>
-		<echo>path=${path}</echo>
 	</goal>
 
     <!-- ===================================================================
