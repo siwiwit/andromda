@@ -91,7 +91,7 @@ $actionState.getDocumentation("     ")
     private ActionForward ${actionState.actionMethodName}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
 #foreach ($controllerCall in $actionState.controllerCalls)
-        ${controllerClass.name}.${controllerCall.name}(mapping, ($formBeanClassName)form, request, response);
+        ${controllerClass.name}.getInstance().${controllerCall.name}(mapping, ($formBeanClassName)form, request, response);
 #end
         return #processTransition($actionState.forward)
     }
@@ -105,7 +105,7 @@ $decisionTransition.getDocumentation("     ")
      */
     private ActionForward ${decisionMethodName}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-        final String value = String.valueOf(${controllerClass.name}.${controllerMethodName}(mapping, ($formBeanClassName)form, request, response));
+        final String value = String.valueOf(${controllerClass.name}.getInstance().${controllerMethodName}(mapping, ($formBeanClassName)form, request, response));
         
 #foreach ($outcome in $decisionTransition.target.outgoing)
         if (value.equals("$outcome.guardName")) return #processTransition($outcome)
