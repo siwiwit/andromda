@@ -1,9 +1,9 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
-import org.andromda.metafacades.uml.ActivityGraphFacade;
-import org.andromda.metafacades.uml.TransitionFacade;
-import org.andromda.metafacades.uml.EventFacade;
 import org.andromda.core.common.StringUtilsHelper;
+import org.andromda.metafacades.uml.EventFacade;
+import org.andromda.metafacades.uml.TransitionFacade;
+import org.andromda.metafacades.uml.ParameterFacade;
 
 import java.util.*;
 
@@ -25,11 +25,6 @@ public class StrutsUseCaseLogicImpl
     }
 
     // -------------------- business methods ----------------------
-    public String getFullPathName()
-    {
-        return '/' + StringUtilsHelper.toJavaClassName(getName());
-    }
-
     public String getTitleKey()
     {
         return StringUtilsHelper.toResourceMessageKey(getFullyQualifiedName());
@@ -40,9 +35,19 @@ public class StrutsUseCaseLogicImpl
         return StringUtilsHelper.toPhrase(getName());
     }
 
-    public String getFullPath()
+    public String getActionPath()
     {
-        return getPackageName().replace('.','/') + '/' + StringUtilsHelper.toJavaClassName(getName());
+        return getActivityGraph().getFirstAction().getActionPath();
+    }
+
+    public String getFullFormBeanPath()
+    {
+        return '/' + getPackageName().replace('.','/') + '/' + StringUtilsHelper.toJavaClassName(getName()) + "Form";
+    }
+
+    public String getFormBeanName()
+    {
+        return StringUtilsHelper.lowerCaseFirstLetter(getFormBeanClassName());
     }
 
     public String getFormBeanClassName()
@@ -67,7 +72,7 @@ public class StrutsUseCaseLogicImpl
         for (Iterator iterator = ownedElements.iterator(); iterator.hasNext();)
         {
             Object obj = iterator.next();
-            if (obj instanceof ActivityGraphFacade)
+            if (obj instanceof StrutsActivityGraph)
                 return obj;
         }
         return null;
@@ -121,7 +126,12 @@ public class StrutsUseCaseLogicImpl
             EventFacade trigger = transition.getTrigger();
             if (trigger != null)
             {
-                formFieldsMap.put(trigger.getName(), trigger);
+                Collection parameters = trigger.getParameters();
+                for (Iterator parameterIterator = parameters.iterator(); parameterIterator.hasNext();)
+                {
+                    ParameterFacade parameter = (ParameterFacade) parameterIterator.next();
+                    formFieldsMap.put(parameter.getName(), parameter);
+                }
             }
         }
         return formFieldsMap.values();
