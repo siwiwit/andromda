@@ -29,7 +29,7 @@
             function submitForm(form,trigger)
             {
                 form.trigger.value = trigger;
-                form.submit();
+                if (${class.validationMethodName}(form)) form.submit();
             }
         //-->
         </script>
@@ -50,8 +50,7 @@
 ##
 #set ($formAction = "$servletName?$servlet.dispatchParameter=$dispatchMethodName")
 #set ($formFocus = "$class.firstInputField.name")
-#set ($formOnSubmit = "return ${class.validationMethodName}(this);")
-        <html:form action="$formAction" focus="$formFocus" onsubmit="$formOnSubmit">
+        <html:form action="$formAction" focus="$formFocus">
 ##  This next field hold the trigger requests parameter that will be sent to the server
             <html:hidden property="trigger" value=""/>
             <table cellpadding="5" cellspacing="5" border="0">
