@@ -5,32 +5,32 @@
 package $packagename;
 
 ## calculate metaclass and superclass
-#set ($decoratedMetaclass = $class.metaclass)
-#set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
+#set ($shieldedMetaclass = $class.metaclass)
+#set ($shieldedMetaclassTypeName = $shieldedMetaclass.fullyQualifiedName)
 ##
 #set ($superclass = $class.superclass)
 ##
 /**
 $class.getDocumentation(" ")
  *
- * Metaclass decorator for $decoratedMetaclassTypeName
+ * Metaclass facade for $shieldedMetaclassTypeName
  *
  */
 public abstract class $class.name
-       extends org.andromda.core.metadecorators.uml14.DecoratorBase  // preliminary! DecoratorBase has to be moved out of the uml14 package!
-       implements $class.fullyQualifiedInterfaceName
+       extends        org.andromda.core.metafacade.MetafacadeBase
+       implements     $class.fullyQualifiedInterfaceName
 {
-    protected $decoratedMetaclassTypeName metaObject;
+    protected $shieldedMetaclassTypeName metaObject;
 #if ($superclass)
     private $superclass.fullyQualifiedInterfaceName super_;
 #end
 
-    public ${class.name} ($decoratedMetaclassTypeName metaObject) {
-        super (metaObject);  // just to satisfy the ctor of DecoratorBase -- should be removed later!
+    public ${class.name} ($shieldedMetaclassTypeName metaObject) {
+        super (metaObject);
 #if ($superclass)
         this.super_ =
             (${superclass.fullyQualifiedInterfaceName})
-            FacadeSubFactory
+            org.andromda.core.metafacade.MetafacadeFactory
                 .getInstance()
                 .createFacadeImpl(
                     "${superclass.fullyQualifiedInterfaceName}",
@@ -88,7 +88,7 @@ $assocEnd.otherEnd.getDocumentation("    ")
     *
     */
     public $returnTypeName get${utrn}() {
-        return decoratedElements(handleGet${utrn}());
+        return shieldedElements(handleGet${utrn}());
     }
 #else
     protected abstract java.lang.Object handleGet${utrn}();
@@ -100,7 +100,7 @@ $assocEnd.otherEnd.getDocumentation("    ")
     public $returnTypeName get${utrn}() {
         return 
             (${returnTypeName})
-            decoratedElement(handleGet${utrn}());
+            shieldedElement(handleGet${utrn}());
     }
 #end
 
@@ -111,7 +111,8 @@ $assocEnd.otherEnd.getDocumentation("    ")
 #if ($superclass)
     // ----------- delegates to "superclass" ------------
     
-#foreach ( $method in $superclass.methodDataForPSM )
+#foreach ( $method in $superclass.getMethodDataForPSM(true) )
+    // from ${method.interfaceName}
 	${method.buildMethodDeclaration(true)} {
 #if ($method.hasReturnType())
         return super_.${method.buildMethodCall()};

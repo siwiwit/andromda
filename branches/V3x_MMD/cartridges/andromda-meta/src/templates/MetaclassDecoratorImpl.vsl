@@ -1,13 +1,13 @@
 #set ($packagename = $class.package.fullyQualifiedName)
 package $packagename;
 
-#set ($decoratedMetaclass = $class.metaclass)
-#set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
+#set ($shieldedMetaclass = $class.metaclass)
+#set ($shieldedMetaclassTypeName = $shieldedMetaclass.fullyQualifiedName)
 
 /**
 $class.getDocumentation(" ")
  *
- * Metaclass decorator implementation.
+ * Metaclass facade implementation.
  *
  */
 public class ${class.name}Impl
@@ -16,7 +16,7 @@ public class ${class.name}Impl
 {
     // ---------------- constructor -------------------------------
     
-    public ${class.name}Impl ($decoratedMetaclassTypeName metaObject)
+    public ${class.name}Impl ($shieldedMetaclassTypeName metaObject)
     {
         super (metaObject);
     }
