@@ -1,5 +1,6 @@
 package org.andromda.core.metadecorators.uml14;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -171,6 +172,20 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     	return JavaVisibilityEnum.PACKAGE;
     }
     
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getStereotypeNames()
+     */
+    public java.util.Collection getStereotypeNames() {
+    	Collection stereotypeNames = new ArrayList();
+
+    	Collection stereotypes = metaObject.getStereotype();
+    	for (Iterator i = stereotypes.iterator(); i.hasNext();) {
+    		ModelElement stereotype = (ModelElement) i.next();
+    		stereotypeNames.add(stereotype.getName());
+    	}
+    	return stereotypeNames;
+    }	
+    
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getDocumentation(java.lang.String)
      */
@@ -224,7 +239,8 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     			documentation.append(indent + star);
     		}
     	} catch (Throwable th) {
-    		String errMsg = "Error performing getDocumentationParagraphs";
+    		final String errMsg = 
+    			"Error performing ModelElementDecoratorImpl.getDocumentation";
     		logger.error(errMsg, th);
     	}
     	return documentation.toString();
