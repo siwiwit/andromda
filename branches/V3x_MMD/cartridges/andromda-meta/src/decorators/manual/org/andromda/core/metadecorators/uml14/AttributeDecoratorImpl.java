@@ -1,6 +1,7 @@
 package org.andromda.core.metadecorators.uml14;
 
 import org.andromda.core.common.StringUtilsHelper;
+import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.ChangeableKindEnum;
 import org.omg.uml.foundation.datatypes.ScopeKindEnum;
@@ -59,10 +60,27 @@ public class AttributeDecoratorImpl extends AttributeDecorator
     	return ChangeableKindEnum.CK_FROZEN.equals(metaObject.getChangeability());
     }
 
-    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#isStatic()
+     */
     public boolean isStatic() 
 	{
     	return ScopeKindEnum.SK_CLASSIFIER.equals(this.metaObject.getOwnerScope());
+    }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#findTaggedValue(java.lang.String, boolean)
+     */
+    public String findTaggedValue(String name, boolean follow) {
+    	name = StringUtils.trimToEmpty(name);
+    	String value = findTaggedValue(name);
+    	ModelElement element = this.getType();
+    	while ((value == null) && (element != null)) {
+    		value = findTaggedValue(name);
+    		element = ((ClassifierDecorator)this.getType()).getSuperclass();
+    	}
+
+    	return value;
     }
 
     // ------------- relations ------------------
