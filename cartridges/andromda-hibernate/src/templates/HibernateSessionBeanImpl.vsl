@@ -3,7 +3,7 @@ package $class.packageName;
 
 #foreach ( $dep in $class.dependencies )
     #set ($class2 = $dep.targetType)
-    #if ($dep.stereotypeName == "Exception")
+    #if ($dep.hasStereotype("Exception"))
         #set ($defaultException = $class2)
     #end
 #end

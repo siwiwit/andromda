@@ -15,7 +15,7 @@ public class ${class.name}Impl
     // abstract in class ${class.name} ...
 
 #foreach ( $op in $class.operations)
-#if ($op.stereotypeName != "FinderMethod")
+#if (!$op.hasStereotype("FinderMethod"))
 #set ($msig = $op.signature)
 #set ($returntype = $op.type.fullyQualifiedName)
 #if ($defaultException)
