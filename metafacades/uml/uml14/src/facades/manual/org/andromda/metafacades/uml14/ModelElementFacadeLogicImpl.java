@@ -10,8 +10,6 @@ import org.andromda.core.mapping.Mappings;
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.metafacades.uml.TaggedValueFacade;
 import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.metafacades.uml.ModelFacade;
-import org.andromda.metafacades.uml.ModelElementFacade;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Abstraction;
