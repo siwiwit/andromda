@@ -9,7 +9,9 @@
         outputPattern="{0}/{1}Logic.java"
         outlet="facade-logics"
         overWrite="true">
-        <stereotype name="metafacade" />
+        <modelElements variable="class">
+            <modelElement stereotype="metafacade"/>  
+        </modelElements>  
     </template>
 
     <template
@@ -17,7 +19,9 @@
         outputPattern="{0}/{1}LogicImpl.java"
         outlet="facade-logic-impls"
         overWrite="false">
-        <stereotype name="metafacade" />
+        <modelElements variable="class">
+            <modelElement stereotype="metafacade"/>  
+        </modelElements>  
     </template>
 
     <template
@@ -25,7 +29,9 @@
         outputPattern="$myOutputFile"
         outlet="facades"
         overWrite="true">
-        <stereotype name="metafacade" />
+        <modelElements variable="class">
+            <modelElement stereotype="metafacade"/>  
+        </modelElements>  
     </template>
 
 </cartridge>
