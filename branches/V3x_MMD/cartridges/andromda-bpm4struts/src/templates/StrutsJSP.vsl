@@ -1,30 +1,25 @@
-#parse("templates/StrutsJSP.vm")
-
 <%@ taglib uri="struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="struts-html.tld" prefix="html" %>
-##
-##  Constant declarations
-##
-#set ($servlet = $class.servlet)
-##
-## Specific to this class
-##
-#set ($servletName = "/$servlet.servletName")
-#set ($dispatchParameter = "$servlet.dispatchParameter")
-#set ($dispatchMethodName = "$class.actionState.dispatchMethodName")
-##
-## Title
-##
-<html:html>
+<%@ taglib uri="struts-logic.tld" prefix="logic" %>
+
+#set (${actions} = ${class.actions})
+
+<html:html xhtml="true">
+
     <head>
-        <title><bean:message key="$class.titleMessageKey"/></title>
+        <title><bean:message key="$class.titleKey"/></title>
 #if ($class.hasForms())
+#foreach (${action} in ${actions})
+#if (${action.isFormAction()}
+        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="${class.fullPathName}JS.jsp"/>"></script>
+#end
+#end
         <script type="text/javascript" language="Javascript1.1">
         <!--
             function submitForm(form,trigger)
             {
                 form.trigger.value = trigger;
-                if (${class.validationMethodName}(form)) form.submit();
+                if (${class.formValidationMethodName}(form)) form.submit();
             }
         //-->
         </script>
@@ -33,54 +28,46 @@
 
     <body>
 
-        <h2><bean:message key="$class.titleMessageKey"/></h2>
-        <p>
+        <logic:messagesPresent>
+            <html:messages id="error">
+                ERR: <bean:write name="error"/> <br>
+            </html:messages>
+        </logic:messagesPresent>
 
-#foreach ($request in $class.requests)
+        <logic:messagesPresent message="true">
+            <html:messages id="message">
+                MSG: <bean:write name="message"/> <br>
+            </html:messages>
+        </logic:messagesPresent>
 
-##
-##      In case we're dealing with a form (we have input buttons)
-##
-#set ($action = "$servletName?$dispatchParameter=$dispatchMethodName")
-#if ($request.isForm())
-        <html:form action="$action">
-            <html:hidden property="trigger" value=""/>
+#foreach (${action} in ${actions})
+#if (${action.isHyperlinkAction()})
+#renderHyperlink(${action})
+#elseif (${action.isFormAction()})
+        <html:form forward="${class.forwardName}">
             <table cellpadding="5" cellspacing="5" border="0">
-#foreach ($parameter in $request.parameters)
+#foreach (${field} in ${class.actionParameters})
                 <tr>
-                    <td><bean:message key="$parameter.messageKey"/></td>
+                    <td><bean:message key="${field.messageKey}"/></td>
                     <td>
-#renderFormField ($parameter "                        ")
+#renderFormField($field "                        ")
                     </td>
                 </tr>
 #end
                 <tr>
                     <td>
-##
-##  Triggers are represented by submit buttons that will post the form to the action
-##
-##      1. cancel triggers must send a specific parameter name to the servlet
-##      2. reset triggers do not call the servlet, they simply reset the form
-##
-#foreach ($trigger in $triggers)
-#renderFormButton ($trigger "                        ")
-#end
+#renderFormButtons($class "                        ")
                     </td>
                 </tr>
             </table>
         </html:form>
-#else
-##
-## So we have no input fields, render a link for each trigger
-##
-        <ol>
-#foreach ($trigger in $triggers)
-            <li>
-#renderHyperlink ($action $trigger "                ")
-            </li>
-#end
-        </ol>
 #end
 #end
+
     </body>
+
 </html:html>
+
+
+
+

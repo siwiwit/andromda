@@ -44,11 +44,19 @@
     </template>
 
     <template
-        sheet="templates/StrutsFormView.vsl"
+        sheet="templates/StrutsHyperlinkTile.vsl"
         outputPattern="{0}/{1}.java"
         outlet="forms"
         overWrite="true">
-        <stereotype name="FrontEndMessage"/>
+        <stereotype name="FrontEndReadOnlyForm"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsFormTile.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="forms"
+        overWrite="true">
+        <stereotype name="FrontEndReadWriteForm"/>
     </template>
 
     <template
@@ -127,6 +135,14 @@
         sheet="templates/StrutsXDocletMergeWelcomeFiles.vsl"
         outputPattern="welcomefiles.xml"
         outlet="xdoclet-merge"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsTilesDefinitions.vsl"
+        outputPattern="tiles-defs.xml"
+        outlet="configuration"
         overWrite="true">
         <stereotype name="FrontEndWorkflow"/>
     </template>

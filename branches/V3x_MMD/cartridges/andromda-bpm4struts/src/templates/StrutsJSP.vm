@@ -4,9 +4,9 @@
 ##      HTML hyperlink tags for the argument trigger
 ##
 ##
-#macro ( renderHyperlink $action $trigger $indent )
-${indent}<html:link action="$action&trigger=$trigger.messageKey" titleKey="$trigger.titleMessageKey">
-${indent}    <bean:message key="$trigger.messageKey"/>
+#macro ( renderHyperlink $action $indent )
+${indent}<html:link forward="${action.forwardName}" titleKey="${triggerKey}" paramName="request" paramProperty="parameterMap">
+${indent}    <bean:message key="${triggerKey}"/>
 ${indent}</html:link>
 #end
 ##
