@@ -4,9 +4,13 @@
     <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
     <property name="src.fac.man.dir"  value="${src.dir}/facades/manual" />
     <property name="uml.dir"          value="${basedir}/../common/src/uml" />
+    <property name="src.test.dir"     value="${src.dir}/test/java" />
 
     <property name="build.dir"        value="build" />
     <property name="dist.dir"         value="dist" />
+    <property name="build.test.dir"         value="${build.dir}/test" />
+    <property name="build.test.classes.dir" value="${build.test.dir}/classes" />
+    <property name="build.test.reports.dir" value="${build.test.dir}/reports" />
 
     <property file="build.properties" />
     <property name="andromda-core.new.home" location="${andromda.new.home}/andromda-core"/>
@@ -130,6 +134,40 @@
             <fileset dir="${build.dir}" includes="**/*.class" />
 		    <fileset dir="${src.dir}" includes="META-INF/*metafacades.xml" />
         </jar>
+    </target>
+    
+    <target name="test" depends="compile">
+        <mkdir dir="${build.test.classes.dir}"/>
+        <mkdir dir="${build.test.reports.dir}"/>
+        <path id="test.classpath">
+	       <pathelement location="${andromda-metafacades-uml.new.home}/dist/andromda-metafacades-uml.jar"/>
+           <pathelement location="${build.test.classes.dir}"/>
+           <pathelement location="${build.dir}"/>
+           <path refid="andromda.new.classpath"/>
+        </path>
+        
+        <copy todir="${build.test.classes.dir}">
+        	<fileset dir="${src.dir}" includes="META-INF/*metafacades.xml" />
+        </copy>
+
+        <javac debug="true" destdir="${build.test.classes.dir}" includes="**/*.java" includeAntRuntime="false">
+            <src path="${src.test.dir}"/>
+            <classpath refid="test.classpath"/>
+        </javac>
+        <junit printsummary="yes" haltonfailure="false">
+            <classpath>
+                <path refid="test.classpath"/>
+            </classpath>
+
+            <formatter type="plain"/>
+
+            <batchtest fork="yes" todir="${build.test.reports.dir}">
+                <fileset dir="${src.test.dir}">
+                    <include name="**/*Test.java"/>
+                    <exclude name="**/Sample*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
     </target>
 
 </project>

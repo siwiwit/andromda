@@ -13,6 +13,7 @@ import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.ModelFacade;
 import org.andromda.metafacades.uml.PackageFacade;
 import org.omg.uml.UmlPackage;
@@ -134,9 +135,9 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         ModelFacade md =
             (ModelFacade) df.createMetafacade(model);
-        ModelElement assClass =
+        ModelElementFacade assClass =
             getModelElement(
-                (Namespace) md.getRootPackage(),
+                 md.getRootPackage(),
                 new String[] { "associations", "ClassAssociations" },
                 0);
         assertNotNull(assClass);
@@ -188,9 +189,8 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         ModelFacade md =
             (ModelFacade) df.createMetafacade(model);
-        ModelElement depClass =
-            getModelElement(
-                (Namespace) md.getRootPackage(),
+        ModelElementFacade depClass =
+            getModelElement(md.getRootPackage(),
                 new String[] { "dependencies", "ClassDependencies" },
                 0);
         assertNotNull(depClass);
@@ -214,8 +214,8 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
         }
     }
 
-    private static ModelElement getModelElement(
-        Namespace namespace,
+    private static ModelElementFacade getModelElement(
+        PackageFacade namespace,
         String[] fqn,
         int pos)
     {
@@ -225,15 +225,15 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
             return null;
         }
 
-        if (pos == fqn.length)
+       /* if (pos == fqn.length)
         {
             return namespace;
-        }
+        }*/
 
-        Collection elements = namespace.getOwnedElement();
+        Collection elements = namespace.getModelElements();
         for (Iterator i = elements.iterator(); i.hasNext();)
         {
-            ModelElement element = (ModelElement) i.next();
+            ModelElementFacade element = (ModelElementFacade) i.next();
             assertNotNull(element);
             if (element.getName() != null
                 && element.getName().equals(fqn[pos]))
@@ -245,13 +245,13 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
                     return element;
                 }
 
-                if (element instanceof Namespace)
+                /*if (element instanceof Namespace)
                 {
                     return getModelElement(
-                        (Namespace) element,
+                        element.getRootPackage(),
                         fqn,
                         nextPos);
-                }
+                }*/
 
                 return null;
             }

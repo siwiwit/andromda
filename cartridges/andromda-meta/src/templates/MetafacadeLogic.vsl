@@ -36,7 +36,8 @@ public abstract class ${class.name}Logic
                 .getInstance()
                 .createFacadeImpl(
                     "${superclass.fullyQualifiedInterfaceName}",
-                    metaObject);
+                    metaObject,
+                    "${class.fullyQualifiedInterfaceName}");
 #end
         this.metaObject = metaObject;
     }

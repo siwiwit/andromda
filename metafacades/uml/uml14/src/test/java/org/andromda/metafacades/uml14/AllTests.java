@@ -19,7 +19,7 @@ public class AllTests
     public static Test suite()
     {
         TestSuite suite =
-            new TestSuite("Test for org.andromda.core.metadecorators.uml14");
+            new TestSuite("Test for org.andromda.core.metafacade");
         //$JUnit-BEGIN$
         suite.addTest(new TestSuite(MetafacadeFactoryTest.class));
         suite.addTest(new TestSuite(FacadeSmallTest1.class));

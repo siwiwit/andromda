@@ -2,7 +2,7 @@ package org.andromda.metafacades.uml14;
 
 public interface TestModel
 {
-    public static final String XMI_FILE_URL = "jar:file:./src/uml/TestModel.zuml!/TestModel.xmi";
+    public static final String XMI_FILE_URL = "jar:file:./src/test/uml/TestModel.zuml!/TestModel.xmi";
     public static final String CLASSA_NAME = "ClassA";
     public static final String CLASSA_PACKAGE_NAME = "org.andromda";
     public static final String CLASSA_STEREOTYPE_NAME = "EntityBean";

@@ -1,5 +1,5 @@
 package org.andromda.metafacades.uml14;
 
-public class SampleClassifierDecorator
+public class SampleClassifierFacade
 {
 }
