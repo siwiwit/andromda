@@ -86,7 +86,7 @@ public class MDRepositoryFacade implements RepositoryFacade
     /**
      * @see org.andromda.core.common.RepositoryFacade#readModel(URL)
      */
-    public void readModel(URL modelURL)
+    public void readModel(URL modelURL, String[] moduleSearchPath)
         throws RepositoryReadException, IOException
     {
         log("MDR: creating repository");
@@ -100,7 +100,7 @@ public class MDRepositoryFacade implements RepositoryFacade
         {
             MofPackage metaModel = loadMetaModel(metaModelURL, repository);
 
-            this.model = loadModel(modelURL, metaModel, repository);
+            this.model = loadModel(modelURL, moduleSearchPath, metaModel, repository);
         }
         catch (CreationFailedException cfe)
         {
@@ -211,6 +211,7 @@ public class MDRepositoryFacade implements RepositoryFacade
      */
     private static RefPackage loadModel(
         URL modelURL,
+        String[] moduleSearchPath,
         MofPackage metaModel,
         MDRepository repository)
         throws CreationFailedException, IOException, MalformedXMIException
@@ -231,7 +232,7 @@ public class MDRepositoryFacade implements RepositoryFacade
         XMIReader xmiReader =
         	XMIReaderFactory.getDefault().createXMIReader(
         			new MDRXmiReferenceResolver(
-        					new RefPackage[] { model }));
+        					new RefPackage[] { model }, moduleSearchPath));
 
         log("MDR: reading XMI - " + modelURL.toExternalForm());
         try

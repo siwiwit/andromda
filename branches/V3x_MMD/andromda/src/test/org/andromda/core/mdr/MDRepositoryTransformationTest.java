@@ -60,7 +60,7 @@ public class MDRepositoryTransformationTest extends TestCase {
 	 */
 	public void testTransformModel() throws Exception {
 		try {
-			repository.readModel(modelURL);
+			repository.readModel(modelURL, null);
 			UmlPackage umlPackage = (UmlPackage) repository.getModel();
 			ModelManagementPackage modelManagementPackage =
 				umlPackage.getModelManagement();
