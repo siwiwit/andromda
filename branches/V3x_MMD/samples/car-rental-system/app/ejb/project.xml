@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../../project.xml</extend>
-	<id>andromda-car-rental-sample-ejb-application</id>
+	<id>car-rental-sample-ejb-application</id>
 	<name>Car Rental Sample EJB Application</name>
 	<shortDescription>
 		The AndromMDA Car Rental System Sample using 
@@ -20,7 +20,7 @@
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-ejb</artifactId>
+			<artifactId>car-rental-sample-ejb</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>ejb</type>
 	      	<properties>
@@ -29,7 +29,7 @@
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-common</artifactId>
+			<artifactId>car-rental-sample-common</artifactId>
 			<version>${pom.currentVersion}</version>
 	      	<properties>
 	        	<ear.module>true</ear.module>
@@ -37,7 +37,7 @@
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-web</artifactId>
+			<artifactId>car-rental-sample-web</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>war</type>
 	      	<properties>

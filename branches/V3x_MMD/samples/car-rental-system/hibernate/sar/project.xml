@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../../project.xml</extend>
-  	<id>andromda-car-rental-sample-hibernate-sar</id>
+  	<id>car-rental-sample-hibernate-sar</id>
   	<name>Car Rental Sample Hibernate Sar</name>
   	<shortDescription>The Car Rental Sample Hibernate Sar Component</shortDescription>
   	<description>
@@ -11,19 +11,19 @@
 	<dependencies>      
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-mda</artifactId>
+			<artifactId>car-rental-sample-mda</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-hibernate-ejb</artifactId>
+			<artifactId>car-rental-sample-hibernate-ejb</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-common</artifactId>
+			<artifactId>car-rental-sample-common</artifactId>
 			<version>${pom.currentVersion}</version>
 		</dependency>
 		<dependency>
