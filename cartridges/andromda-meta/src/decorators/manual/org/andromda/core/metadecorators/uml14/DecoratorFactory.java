@@ -69,24 +69,19 @@ public class DecoratorFactory
     }
 
     /**
-     * Returns a decorator for a metaobject, depending on its <code>metaclass</code> and 
-     * (optionally) its sterotype and <code>contextName</code>.  This is useful when you
-     * want an element to use a certain type of facade (instead of a previous registered facade).
-     * For example: with an <em>Entity</em>, you may want all attributes to be created
-     * as <em>EntityAttributes</em> but it wouldn't make sense to stereotype each attribute 
-     * as an <em>EntityAttribute</em> (since you know that this attributes falls within the 
-     * context of an <em>Entity</em>.
+     * Returns a metafacade for a metaobject, depending on its <code>metaclass</code> and 
+     * (optionally) its sterotype and <code>contextName</code>.  
      * @param metaobject the meta model element.
      * @param contextName the name of the context the meta 
      *                    model element is registered under.
-     * @return
+     * @return the new metafacade
      */
-    private DecoratorBase createDecoratorObject(ModelElement metaobject, String contextName) {
+    protected DecoratorBase createDecoratorObject(ModelElement metaobject, String contextName) {
     	
-    	String methodName = "DecoratorBase.createDecoratorObject";
+    	String methodName = "DecoratorFactory.createMetafacade";
     	
     	ExceptionUtils.checkNull(
-    			"DecoratorBase.createDecoratorObject",
+    			methodName,
 				"metaobject",
 				metaobject);
 
@@ -176,7 +171,7 @@ public class DecoratorFactory
     }
     
     /**
-     * Returns a decorator for a metaobject, depending on its
+     * Returns a metafacade for a metaobject, depending on its
      * metaclass and (optionally) its stereotype.
      *
      * @param metaobject the model element
@@ -229,6 +224,26 @@ public class DecoratorFactory
     		}
     	}
     }	
+    
+    /**
+     * Returns a metafacade for each metaobject, contained within the <code>metaobjects</code>
+     * collection depending on its <code>metaclass</code> and 
+     * (optionally) its sterotype and <code>contextName</code>.  
+     * @param metaobject the meta model element.
+     * @param contextName the name of the context the meta 
+     *                    model element is registered under.
+     * @return
+     */
+	protected Collection createDecoratorObjects(Collection metaobjects, String contextName) {
+		Collection metafacades = new ArrayList();
+		if (metaobjects != null && !metaobjects.isEmpty()) {
+			Iterator metaobjectIt = metaobjects.iterator();
+			while (metaobjectIt.hasNext()) {
+				metafacades.add(createDecoratorObject((ModelElement)metaobjectIt.next(), contextName));
+			}
+		}
+		return metafacades;
+	}
 
     /**
      * Create a decorator for the whole model itself.

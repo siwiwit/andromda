@@ -1,9 +1,9 @@
 package org.andromda.core.metadecorators.uml14;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.omg.uml.foundation.core.ModelElement;
@@ -42,39 +42,61 @@ public class DecoratorBase
      * @param metaobjects the objects to decorate
      * @return Collection of DecoratorBase-derived objects
      */
-    public static Collection decoratedElements(Collection metaobjects)
+    public Collection decoratedElements(Collection metaobjects)
     {
         if (metaobjects == null)
         {
             return null;   // a decorated null is still a null! :-)
         }
-        ArrayList result = new ArrayList(metaobjects.size());
-        DecoratorFactory df = DecoratorFactory.getInstance();
-
-        for (Iterator iter = metaobjects.iterator(); iter.hasNext();)
-        {
-            ModelElement element = (ModelElement) iter.next();
-            result.add(df.createDecoratorObject(element));
-        }
-        return result;
+		Collection metafacades = DecoratorFactory.getInstance().createDecoratorObjects(
+				metaobjects, 
+				this.getContext());
+		class MetafacadeContextTransformer implements Transformer {
+			public Object transform(Object object) {
+				DecoratorBase metafacade = (DecoratorBase)object;
+				// keep passing the context along from the 
+				// very first one (i.e. the first metafacade)
+				metafacade.setContext(getContext());
+				
+				if (logger.isDebugEnabled())
+					logger.debug("set context as --> '" 
+						+ metafacade.getContext() 
+						+ "'");
+				
+				return metafacade;
+			}
+		}
+		CollectionUtils.transform(
+			metafacades, 
+			new MetafacadeContextTransformer());
+		return metafacades;
     }
     
-    /**
-     * Stores the context for this metafacade
-     */
-    private String context = null;
-    
-    /**
-     * Gets the context for this metafacade.
-     * 
-     * @return the context name.
-     */
-    protected String getContext() {
-    	if (StringUtils.isEmpty(this.context)) {
-    		this.context = this.getClass().getName();
-    	}
-    	return this.context;
-    }
+	/**
+	 * Stores the context for this metafacade
+	 */
+	private String context = null;
+	
+	/**
+	 * Gets the context for this metafacade.
+	 * 
+	 * @return the context name.
+	 */
+	protected String getContext() {
+		if (StringUtils.isEmpty(this.context)) {
+			this.context = this.getClass().getName();
+		}
+		return this.context;
+	}
+	
+	/**
+	 * Sets the <code>context<code> for this metafacade
+	 * 
+	 * @param context the context class to set
+	 */
+	private void setContext(String context) {
+		this.context = StringUtils.trimToEmpty(context);
+	}
     
     /**
      * Stores the property context for this Metafacade
@@ -94,6 +116,29 @@ public class DecoratorBase
     	}
     	return this.propertyNamespace;
     }
+    
+	/**
+	 * Stores the namespace for this metafacade
+	 */
+	private String namespace = null;
+	
+	/**
+	 * Gets the current namespace for this metafacade
+	 * 
+	 * @param namespace
+	 */
+	protected String getNamespace() {
+		return this.namespace;
+	}
+	
+	/**
+	 * Sets the namespace for this metafacade.
+	 * 
+	 * @param namespace
+	 */
+	protected void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
     
     /**
      * Gets a configured property from the container.  Note
@@ -116,9 +161,9 @@ public class DecoratorBase
      */
     protected void registerConfiguredProperty(String property, Object value) {
     	DecoratorFactory.getInstance().registerProperty(
-    			this.getPropertyNamespace(), 
-				property, 
-				value);
+			this.getPropertyNamespace(), 
+			property, 
+			value);
     }
 
     /**
@@ -129,14 +174,25 @@ public class DecoratorBase
      * @param metaObject the object to decorate
      * @return DecoratorBase the decorator
      */
-    public static DecoratorBase decoratedElement(ModelElement metaObject)
+    public DecoratorBase decoratedElement(ModelElement metaObject)
     {
-        if (metaObject == null)
-        {
-            return null;   // a decorated null is still a null! :-)
-        }
-        return DecoratorFactory.getInstance().createDecoratorObject(
-            metaObject);
+		DecoratorBase metafacade = null;
+		if (metaObject != null) {
+			metafacade = 
+				DecoratorFactory.getInstance().createDecoratorObject(
+					metaObject, 
+					this.getContext());
+			// keep passing the context along from the 
+			// very first one (i.e. the first metafacade)
+			if (StringUtils.isNotEmpty(this.context)) {
+				metafacade.setContext(this.getContext());
+				if (logger.isDebugEnabled())
+					logger.debug("set context as --> '" 
+						+ metafacade.getContext() 
+						+ "'");
+			}
+		}
+		return metafacade;
     }
 
     /**

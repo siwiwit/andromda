@@ -53,7 +53,7 @@ public class EJBPrimaryKeyDecoratorImpl extends EJBPrimaryKeyDecorator {
 		if (primaryKeys.size() == 1) {
 			AttributeDecorator pkField =
 				(AttributeDecorator) primaryKeys.iterator().next();
-			if (pkField.hasStereotype(EJBProfile.STEREOTYPE_PRIMARY_KEY)) {
+			if (pkField.hasStereotype(EJBProfile.STEREOTYPE_IDENTIFIER)) {
 				primaryKey = pkField;
 			}
 		}

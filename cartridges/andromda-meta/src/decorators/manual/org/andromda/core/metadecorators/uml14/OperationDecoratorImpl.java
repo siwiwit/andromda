@@ -66,9 +66,7 @@ public class OperationDecoratorImpl extends OperationDecorator
                 else
                 {
                     type =
-                        ((ClassifierDecorator) DecoratorFactory
-                            .getInstance()
-                            .createDecoratorObject(p.getType()))
+                        ((ClassifierDecorator) this.decoratedElement(p.getType()))
                             .getFullyQualifiedName();
                 }
 

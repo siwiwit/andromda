@@ -60,7 +60,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		while (iter.hasNext()) {
 			DependencyDecorator dep =
 				(DependencyDecorator) iter.next();
-			if (dep.hasStereotype(EJBProfile.STEREOTYPE_PRIMARY_KEY)) {
+			if (dep.hasStereotype(EJBProfile.STEREOTYPE_IDENTIFIER)) {
 				Collection allAttrib =
 					dep.getTargetType().getInstanceAttributes();
 				Collection publicAttrib = new ArrayList();
