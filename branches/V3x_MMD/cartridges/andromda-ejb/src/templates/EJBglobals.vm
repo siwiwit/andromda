@@ -55,20 +55,20 @@
 ## Find the default exception class
 #foreach ( $dep in $class.dependencies )
 #set ($class2 = $transform.findClassById($dep.targetType))
-#if ($transform.getStereotype($dep.id) == "Exception")
+#if ($dep.stereotypeName == "Exception")
 #set ($defaultException = $class2)
 #end
 #end
 ##
 ## Set the "$beanparentclass" property.
-#set ($myClass = $transform.getGeneralization($class.id))
+#set ($myClass = $class.superclass)
 #if ($myClass)
-#set ($myStereotype = $transform.getStereotype($myClass))
+#set ($myStereotype = $myClass.stereotypeName)
 #if ( $myStereotype == "Entity" || $myStereotype == "Service" )
 ## Extend the implementation class if the super type is an <<Entity>> or <<Service>>
-#set ($beanparentclass = "${transform.findFullyQualifiedName($myClass)}BeanImpl")
+#set ($beanparentclass = "${myClass.type.fullyQualifiedName}BeanImpl")
 #else
-#set ($beanparentclass = ${transform.findFullyQualifiedName($myClass)})
+#set ($beanparentclass = $myClass.fullyQualifiedName)
 #end
 #else
 #set ($beanparentclass = 'java.lang.Object')
