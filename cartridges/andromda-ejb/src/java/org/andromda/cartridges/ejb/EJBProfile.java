@@ -1,5 +1,7 @@
 package org.andromda.cartridges.ejb;
 
+import org.andromda.core.uml14.UMLProfile;
+
 /**
  * The EJB profile. Contains
  * the profile information (tagged values, and stereotypes) 
@@ -7,31 +9,9 @@ package org.andromda.cartridges.ejb;
  * 
  * @author Chad Brandon
  */
-public class EJBProfile {
-	
-	private EJBProfile() {}
+public class EJBProfile extends UMLProfile {
 	
 	/* ----------------- Stereotypes -------------------- */
-	
-	/**
-	 * Represents the persistent entity (an Entity EJB).
-	 */
-	public static final String STEREOTYPE_ENTITY = "Entity";
-	
-	/**
-	 * Represents a finder method.
-	 */
-	public static final String STEREOTYPE_FINDER_METHOD = "FinderMethod";
-	
-	/**
-	 * Represents the primary key of an entity.
-	 */
-	public static final String STEREOTYPE_PRIMARY_KEY = "PrimaryKey";
-	
-	/**
-	 * Represents a service (a Session EJB).
-	 */
-	public static final String STEREOTYPE_SERVICE = "Service";
 	
 	/* ----------------- Tagged Values -------------------- */
 	
