@@ -35,10 +35,16 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
     // concrete business methods that were declared
     // abstract in class StrutsStateMachineDecorator ...
 
+    public Pseudostate getInitialState()
+    {
+        final Collection initialStates = getInitialStates();
+        return (initialStates.isEmpty()) ? null : (Pseudostate)initialStates.iterator().next();
+    }
+
     // ------------- relations ------------------
     protected ModelElement handleGetUseCaseContext()
     {
-        return (UseCase)getContext();
+        return (UseCase) getContext();
     }
 
     public Set getForwardTransitions()
@@ -46,7 +52,7 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
         final Collection actionStates = getActionStates();
         final Set forwardTransitions = new LinkedHashSet();
 
-        // 1. collect all the transition incoming to the action states
+        // 1. collect all the transitions incoming to the action states
         for (Iterator actionStateIterator = actionStates.iterator(); actionStateIterator.hasNext();)
         {
             final ActionState actionState = (ActionState) actionStateIterator.next();
@@ -65,7 +71,8 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
         StrutsUseCaseDecorator useCaseDecorator = (StrutsUseCaseDecorator)DecoratorBase.decoratedElement(contextUseCase);
         final State useCaseState = useCaseDecorator.findAsWorkflowState();
 
-        forwardTransitions.addAll(useCaseState.getOutgoing());
+        if (useCaseState!=null)
+            forwardTransitions.addAll(useCaseState.getOutgoing());
         // 2. done ------------------------------------------------------------------------------
 
         return forwardTransitions;
@@ -89,11 +96,16 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
         return choiceTransitions;
     }
 
+    // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
         // there must be one and only one initial state
+        final Collection initialStates = getInitialStates();
+        if (initialStates.size() == 0)
+            throw new DecoratorValidationException(this, "No initial state could be located in this state machine");
 
-        // this state machine should be owned by a use-case
+        if (initialStates.size() > 1)
+            throw new DecoratorValidationException(this, "More than one initial state could be located in this state machine, only one is allowed");
     }
 
 }
