@@ -82,7 +82,7 @@ public class UMLBaseHelperTest extends TestCase
 		try
 		{
             // load the model and associate script helper
-			repository.readModel(modelURL);
+			repository.readModel(modelURL, null);
 			getHelper().setModel(repository.getModel());
             
             // search the model for model elements to use

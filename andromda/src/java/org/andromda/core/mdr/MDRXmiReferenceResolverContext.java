@@ -1,6 +1,8 @@
 package org.andromda.core.mdr;
 
+import java.io.File;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -19,90 +21,179 @@ import org.netbeans.lib.jmi.xmi.XmiContext;
  * @author Matthias Bohlen
  * @author Chad Brandon  
  */
-public class MDRXmiReferenceResolverContext extends XmiContext {
-	
-	private static Logger logger = Logger.getLogger(MDRXmiReferenceResolverContext.class);
-	
-	private HashMap urlMap = new HashMap();
+public class MDRXmiReferenceResolverContext extends XmiContext
+{
 
-	/**
-	 * Constructs an instance of this class.
-	 * 
-	 * @param extents
-	 * @param config
-	 */
-	public MDRXmiReferenceResolverContext(
-		RefPackage[] extents,
-		XMIInputConfig config) {
-		super(extents, config);
-	}
+    private String[] moduleSearchPath;
+
+    private static Logger logger =
+        Logger.getLogger(MDRXmiReferenceResolverContext.class);
+
+    private HashMap urlMap = new HashMap();
+
+    /**
+     * Constructs an instance of this class.
+     * 
+     * @param extents
+     * @param config
+     */
+    public MDRXmiReferenceResolverContext(
+        RefPackage[] extents,
+        XMIInputConfig config,
+        String[] moduleSearchPath)
+    {
+        super(extents, config);
+        this.moduleSearchPath = moduleSearchPath;
+    }
 
     /**
      * @see org.netbeans.lib.jmi.xmi.XmiContext#toURL(java.lang.String)
      */
-	public URL toURL(String systemId) {
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("attempting to resolve Xmi Href --> '" + systemId + "'");
-		}
-		// Several tries to construct a URL that really exists.
+    public URL toURL(String systemId)
+    {
+        if (logger.isDebugEnabled())
+            logger.debug(
+                "attempting to resolve Xmi Href --> '" + systemId + "'");
 
-		// If this is a valid URL, simply return it.
-		try {
-			URL url = new URL(systemId);
-			InputStream stream = url.openStream();
-			urlMap.put(getSuffix(systemId), url);
-			return url;
-		} catch (Exception e) {
-			// do nothing, try once more with URL modification!
-		}
+        // Several tries to construct a URL that really exists.
 
-		// Find URL in map. If found, return it.
-		String suffix = getSuffix(systemId);
-		URL mappedUrl = (URL) urlMap.get(suffix);
-		if (mappedUrl != null) {
-			return mappedUrl;
-		}
+        // If this is a valid URL, simply return it.
+        URL validURL = getValidURL(systemId);
+        if (validURL != null)
+        {
+            urlMap.put(getSuffix(systemId), validURL);
+            if (logger.isDebugEnabled())
+                logger.debug(systemId + " --> " + validURL);
+            return validURL;
+        }
 
-		// If ZIP inside ZIP, try to cut one ZIP.
-		int mid = systemId.indexOf(".xml.zip!/");
-		if (mid > 0 && systemId.endsWith(".zip")) {
-			String prefix = systemId.substring(0, mid - 1);
-			int lastSlash = prefix.lastIndexOf("/");
-			prefix = prefix.substring(0, lastSlash + 1);
-			String suffixZipped = systemId.substring(mid + 10);
-			String suffixWithoutZip =
-				suffixZipped.substring(0, suffixZipped.length() - 4);
-			String completeURL =
-				prefix + suffixZipped + "!/" + suffixWithoutZip;
-			return super.toURL(completeURL);
-		}
+        // Find URL in map. If found, return it.
+        String suffix = getSuffix(systemId);
+        URL mappedUrl = (URL) urlMap.get(suffix);
+        if (mappedUrl != null)
+        {
+            if (logger.isDebugEnabled())
+                logger.debug(systemId + " --> " + mappedUrl);
+            return mappedUrl;
+        }
 
-		// If still ends with .zip, find it in map without the '.zip'.
-		if (systemId.endsWith(".zip")) {
-			String urlWithoutZip = systemId.substring(0, systemId.length() - 4);
-			mappedUrl = (URL) urlMap.get(urlWithoutZip);
-			if (mappedUrl != null) {
-				return mappedUrl;
-			}
-		}
-		
-		// Give up and let superclass deal with it.
-		return super.toURL(systemId);
-	}
+        // Try to find suffix in module list.
+        String moduleURL = findModuleURL(suffix);
+        if (moduleURL != null)
+        {
+            validURL = getValidURL(moduleURL);
+            if (validURL != null)
+            {
+                urlMap.put(getSuffix(systemId), validURL);
+                if (logger.isDebugEnabled())
+                    logger.debug(systemId + " --> " + validURL);
+                return validURL;
+            }
+        }
 
-	/**
-	 *  Gets the suffix of the <code>systemId</code>
-	 * @param systemId the system identifier.
-	 * @return the suffix as a String.
-	 */
-	private static String getSuffix(String systemId) {
-		int lastSlash = systemId.lastIndexOf("/");
-		if (lastSlash > 0) {
-			String suffix = systemId.substring(lastSlash + 1);
-			return suffix;
-		}
-		return systemId;
-	}
+        // If still ends with .zip, find it in map without the '.zip'.
+        if (systemId.endsWith(".zip"))
+        {
+            String urlWithoutZip =
+                systemId.substring(0, systemId.length() - 4);
+            mappedUrl = (URL) urlMap.get(urlWithoutZip);
+            if (mappedUrl != null)
+            {
+                if (logger.isDebugEnabled())
+                    logger.debug(systemId + " --> " + mappedUrl);
+                return mappedUrl;
+            }
+        }
 
+        // Give up and let superclass deal with it.
+        return super.toURL(systemId);
+    }
+
+    /**
+     * Finds a module in the module search path.
+     * 
+     * @param moduleName the name of the module without any path
+     * @return the complete URL string of the module if found (null if not found)
+     */
+    private String findModuleURL(String moduleName)
+    {
+        if (logger.isDebugEnabled())
+            logger.debug(
+                "findModuleURL: moduleSearchPath.length="
+                    + moduleSearchPath.length);
+        for (int i = 0; i < moduleSearchPath.length; i++)
+        {
+            File candidate = new File(moduleSearchPath[i], moduleName);
+            if (logger.isDebugEnabled())
+                logger.debug(
+                    "candidate '"
+                        + candidate.toString()
+                        + "' exists="
+                        + candidate.exists());
+            if (candidate.exists())
+            {
+                String urlString;
+                try
+                {
+                    urlString = candidate.toURL().toExternalForm();
+                }
+                catch (MalformedURLException e)
+                {
+                    return null;
+                }
+
+                if (moduleName.endsWith(".zip"))
+                {
+                    // typical case for MagicDraw
+                    urlString =
+                        "jar:"
+                            + urlString
+                            + "!/"
+                            + moduleName.substring(
+                                0,
+                                moduleName.length() - 4);
+                }
+                return urlString;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *  Gets the suffix of the <code>systemId</code>
+     * @param systemId the system identifier.
+     * @return the suffix as a String.
+     */
+    private static String getSuffix(String systemId)
+    {
+        int lastSlash = systemId.lastIndexOf("/");
+        if (lastSlash > 0)
+        {
+            String suffix = systemId.substring(lastSlash + 1);
+            return suffix;
+        }
+        return systemId;
+    }
+
+    /**
+     * Returns a URL if the systemId is valid.
+     * Returns null otherwise. Catches exceptions as necessary.
+     * 
+     * @param systemId the system id
+     * @return the URL (if valid)
+     */
+    private URL getValidURL(String systemId)
+    {
+        try
+        {
+            URL url = new URL(systemId);
+            InputStream stream = url.openStream();
+            stream.close();
+            return url;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
 }

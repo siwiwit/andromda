@@ -18,8 +18,8 @@ public class MDRXmiReferenceResolver extends InputConfig {
 	 * 
 	 * @param extents
 	 */
-	public MDRXmiReferenceResolver(RefPackage extents[]) {
-		this.referenceResolver = new MDRXmiReferenceResolverContext(extents, this);
+	public MDRXmiReferenceResolver(RefPackage extents[], String[] moduleSearchPath) {
+		this.referenceResolver = new MDRXmiReferenceResolverContext(extents, this, moduleSearchPath);
 	}
 
 	/**
