@@ -10,13 +10,13 @@ import javax.ejb.EJBException;
 import javax.ejb.RemoveException;
 import javax.naming.NamingException;
 
+import net.sf.hibernate.HibernateException;
+
 import org.andromda.samples.carrental.customers.Customer;
 import org.andromda.samples.carrental.customers.CustomerFactory;
 import org.andromda.samples.carrental.inventory.InventoryException;
 import org.andromda.samples.carrental.inventory.InventoryService;
 import org.andromda.samples.carrental.inventory.InventoryServiceHome;
-
-import net.sf.hibernate.HibernateException;
 
 public class ContractServiceBeanImpl
     extends ContractServiceBean

@@ -79,7 +79,7 @@ public class ContractServiceBeanImpl
     {
         try
         {
-            CustomerLocalHome clh = getCustomerLocalHome();
+            CustomerLocalHome clh = this.getCustomerLocalHome();
             Customer customer = clh.findByPrimaryKey(customerId);
 
             InventoryServiceHome ish = getInventoryServiceHome();
@@ -99,8 +99,7 @@ public class ContractServiceBeanImpl
             }
 
             // Reservation is legal, so let's do it!
-            // TODO: omit primary key parameter in EJB cartridge template
-            Reservation res = rlh.create(null, reservationDate, comfortClass);
+            Reservation res = rlh.create(reservationDate, comfortClass);
             res.setCustomer(customer);
 
             // Service-Bean not used any more
