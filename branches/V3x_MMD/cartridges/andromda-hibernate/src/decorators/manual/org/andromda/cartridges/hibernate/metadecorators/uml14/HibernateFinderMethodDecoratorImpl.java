@@ -58,7 +58,7 @@ public class HibernateFinderMethodDecoratorImpl extends HibernateFinderMethodDec
 								+ " = ?"
 								+ ctr;
 						if (parameterIt.hasNext()) {
-							queryString = queryString + " ane";
+							queryString = queryString + " and";
 						}
 					}
 				}
