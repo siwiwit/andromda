@@ -15,9 +15,9 @@ public class PseudostateFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public PseudostateFacadeLogicImpl (org.omg.uml.behavioralelements.statemachines.Pseudostate metaObject)
+    public PseudostateFacadeLogicImpl (org.omg.uml.behavioralelements.statemachines.Pseudostate metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

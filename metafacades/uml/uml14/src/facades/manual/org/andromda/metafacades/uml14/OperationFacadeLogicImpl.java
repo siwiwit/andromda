@@ -26,9 +26,9 @@ public class OperationFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public OperationFacadeLogicImpl (org.omg.uml.foundation.core.Operation metaObject)
+    public OperationFacadeLogicImpl (org.omg.uml.foundation.core.Operation metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     /* (non-Javadoc)

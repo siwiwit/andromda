@@ -18,9 +18,9 @@ public class EJBPrimaryKeyFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EJBPrimaryKeyFacadeLogicImpl (java.lang.Object metaObject)
+    public EJBPrimaryKeyFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

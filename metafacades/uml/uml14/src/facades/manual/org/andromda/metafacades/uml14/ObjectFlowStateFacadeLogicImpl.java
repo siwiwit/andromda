@@ -16,9 +16,9 @@ public class ObjectFlowStateFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ObjectFlowStateFacadeLogicImpl (org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState metaObject)
+    public ObjectFlowStateFacadeLogicImpl (org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     // -------------------- business methods ----------------------
 

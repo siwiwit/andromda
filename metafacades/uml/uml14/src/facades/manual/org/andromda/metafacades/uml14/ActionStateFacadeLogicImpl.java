@@ -13,9 +13,9 @@ public class ActionStateFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ActionStateFacadeLogicImpl (org.omg.uml.behavioralelements.activitygraphs.ActionState metaObject)
+    public ActionStateFacadeLogicImpl (org.omg.uml.behavioralelements.activitygraphs.ActionState metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     // ------------- relations ------------------
     

@@ -22,9 +22,9 @@ public class EJBFinderMethodFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EJBFinderMethodFacadeLogicImpl (java.lang.Object metaObject)
+    public EJBFinderMethodFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

@@ -19,9 +19,9 @@ public class AttributeFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public AttributeFacadeLogicImpl (org.omg.uml.foundation.core.Attribute metaObject)
+    public AttributeFacadeLogicImpl (org.omg.uml.foundation.core.Attribute metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

@@ -30,9 +30,9 @@ public class ModelElementFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ModelElementFacadeLogicImpl (org.omg.uml.foundation.core.ModelElement metaObject)
+    public ModelElementFacadeLogicImpl (org.omg.uml.foundation.core.ModelElement metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

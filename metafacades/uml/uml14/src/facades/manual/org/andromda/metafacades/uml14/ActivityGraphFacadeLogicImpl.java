@@ -26,9 +26,9 @@ public class ActivityGraphFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ActivityGraphFacadeLogicImpl (org.omg.uml.behavioralelements.activitygraphs.ActivityGraph metaObject)
+    public ActivityGraphFacadeLogicImpl (org.omg.uml.behavioralelements.activitygraphs.ActivityGraph metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     
     // -------------------- business methods ----------------------

@@ -13,9 +13,9 @@ public class EntityFinderMethodFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EntityFinderMethodFacadeLogicImpl (java.lang.Object metaObject)
+    public EntityFinderMethodFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

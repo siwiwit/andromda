@@ -13,9 +13,9 @@ public class DependencyFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public DependencyFacadeLogicImpl (org.omg.uml.foundation.core.Dependency metaObject)
+    public DependencyFacadeLogicImpl (org.omg.uml.foundation.core.Dependency metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

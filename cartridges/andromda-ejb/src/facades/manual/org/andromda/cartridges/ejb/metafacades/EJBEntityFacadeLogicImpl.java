@@ -29,9 +29,9 @@ public class EJBEntityFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EJBEntityFacadeLogicImpl (java.lang.Object metaObject)
+    public EJBEntityFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     /**
@@ -114,11 +114,8 @@ public class EJBEntityFacadeLogicImpl
         Iterator i = this.getAssociationEnds().iterator();
         while (i.hasNext()) {
             Object test = i.next();
-            System.out.println("before class cast!!!!!!!!!!!!!" + test);
-            System.out.println("before class cast!!!!!!!!!!!!!" + test.getClass()) ;
             EJBAssociationEndFacade assoc =
                 (EJBAssociationEndFacade)test;
-            System.out.println("after class cast!!!!!!!!!!!!!");
             ClassifierFacade target = assoc.getOtherEnd().getType();
             if (target instanceof EJBEntityFacade
                 && assoc.getOtherEnd().isNavigable()) {

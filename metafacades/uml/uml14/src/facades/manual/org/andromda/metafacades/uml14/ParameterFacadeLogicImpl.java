@@ -13,9 +13,9 @@ public class ParameterFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ParameterFacadeLogicImpl (org.omg.uml.foundation.core.Parameter metaObject)
+    public ParameterFacadeLogicImpl (org.omg.uml.foundation.core.Parameter metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     
     // -------------------- business methods ----------------------

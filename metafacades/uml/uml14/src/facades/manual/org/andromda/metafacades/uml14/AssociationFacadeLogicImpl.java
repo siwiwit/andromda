@@ -18,9 +18,9 @@ public class AssociationFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public AssociationFacadeLogicImpl (org.omg.uml.foundation.core.UmlAssociation metaObject)
+    public AssociationFacadeLogicImpl (org.omg.uml.foundation.core.UmlAssociation metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     /**

@@ -21,9 +21,9 @@ public class UseCaseFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public UseCaseFacadeLogicImpl (org.omg.uml.behavioralelements.usecases.UseCase metaObject)
+    public UseCaseFacadeLogicImpl (org.omg.uml.behavioralelements.usecases.UseCase metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     
     // -------------------- business methods ----------------------

@@ -17,9 +17,9 @@ public class ModelFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ModelFacadeLogicImpl (org.omg.uml.UmlPackage metaObject)
+    public ModelFacadeLogicImpl (org.omg.uml.UmlPackage metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

@@ -22,9 +22,9 @@ public class MetafacadeAssociationEndFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public MetafacadeAssociationEndFacadeLogicImpl (java.lang.Object metaObject)
+    public MetafacadeAssociationEndFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

@@ -18,9 +18,10 @@ public class MetafacadeBase
     private   Object metaObject;
     protected Logger logger;
 
-    public MetafacadeBase(Object metaObject)
+    public MetafacadeBase(Object metaObject, String context)
     {
         this.metaObject = metaObject;
+        this.context = context;
     }
 
     /**
@@ -87,9 +88,6 @@ public class MetafacadeBase
 	 * @return the context name.
 	 */
 	protected String getContext() {
-		if (StringUtils.isEmpty(this.context)) {
-			this.context = this.getClass().getName();
-		}
 		return this.context;
 	}
 

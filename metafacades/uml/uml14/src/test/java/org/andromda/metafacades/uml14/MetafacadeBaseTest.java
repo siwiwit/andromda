@@ -10,11 +10,9 @@ import org.andromda.core.common.XmlObjectFactory;
 import org.andromda.core.mdr.MDRepositoryFacade;
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.apache.log4j.Logger;
-import org.omg.uml.UmlPackage;
 
 public class MetafacadeBaseTest extends TestCase implements TestModel
 {
-    private UmlPackage model;
     private URL modelURL = null;
     private MDRepositoryFacade repository = null;
     

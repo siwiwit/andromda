@@ -19,9 +19,9 @@ public class PackageFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public PackageFacadeLogicImpl (org.omg.uml.modelmanagement.UmlPackage metaObject)
+    public PackageFacadeLogicImpl (org.omg.uml.modelmanagement.UmlPackage metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     /**
      * @see org.andromda.metafacades.uml14.PackageDecorator#handleGetClasses()

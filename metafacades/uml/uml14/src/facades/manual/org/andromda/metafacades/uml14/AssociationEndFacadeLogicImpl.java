@@ -27,9 +27,9 @@ public class AssociationEndFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public AssociationEndFacadeLogicImpl (org.omg.uml.foundation.core.AssociationEnd metaObject)
+    public AssociationEndFacadeLogicImpl (org.omg.uml.foundation.core.AssociationEnd metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------
