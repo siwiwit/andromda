@@ -96,35 +96,19 @@ package $packagename;
 #end
 #end
 #end
-#foreach ( $op in $class.operations )
-#if ($op.hasStereotype("FinderMethod"))
-#set($querystring = "")
-#set($querystring = $op.findTaggedValue("@andromda.ejb.query"))
-#if($querystring == "")
-#set($querystring = "SELECT DISTINCT OBJECT(c) FROM $class.name AS c")
-#if($op.parameters.size() >0 )
-#set($querystring = "${querystring} WHERE")
-#foreach($prm in $op.parameters)
-#set($querystring="${querystring} c.$prm.name = ?$velocityCount")
-#if($velocityCount != $op.parameters.size())
-#set($querystring = "${querystring} AND")
-#end
-#end
-#end
-#end
-#if($op.findTaggedValue("@andromda.ejb.query.dialect") == "JBossQL")
+#foreach ( $finder in $class.finders)
+#if($finder.findTaggedValue("@andromda.ejb.query.dialect") == "JBossQL")
  *
- * @ejb.finder signature="${op.type.fullyQualifiedName} ${op.signature}"
+ * @ejb.finder signature="${finder.type.fullyQualifiedName} ${finder.signature}"
  *             query="This finder method is only supported on the JBoss application server"
- * @jboss.query signature="${op.type.fullyQualifiedName} ${op.signature}"
- *             query="$querystring"
+ * @jboss.query signature="${finder.type.fullyQualifiedName} ${finder.signature}"
+ *             query="$finder.query"
 #else
  *
- * @ejb.finder signature="${op.type.fullyQualifiedName} ${op.signature}"
- *             query="$querystring"
+ * @ejb.finder signature="${finder.type.fullyQualifiedName} ${finder.signature}"
+ *             query="$finder.query"
 #end
-#end##if op.stereotype = "FinderMethod"
-#end##foreach operation
+#end##operation.finders
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType",  "@andromda.ejb.noSyntheticCreateMethod" ])
  *
  */
