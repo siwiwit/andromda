@@ -129,6 +129,7 @@ public class AndroMDAGenTask extends MatchingTask
      */
     public AndroMDAGenTask()
     {
+    	StdoutLogger.configure();
     }
 
     public void setModelURL(URL modelURL)
