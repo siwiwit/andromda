@@ -11,7 +11,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 public class StrutsMultiBoxDecoratorImpl extends StrutsMultiBoxDecorator
 {
     // ---------------- constructor -------------------------------
-    
+
     public StrutsMultiBoxDecoratorImpl (org.omg.uml.foundation.core.Attribute metaObject)
     {
         super (metaObject);
@@ -22,6 +22,10 @@ public class StrutsMultiBoxDecoratorImpl extends StrutsMultiBoxDecorator
     // concrete business methods that were declared
     // abstract in class StrutsMultiBoxDecorator ...
 
+    public String getFieldType()
+    {
+        return "multibox";
+    }
     // ------------- relations ------------------
-    
+
 }

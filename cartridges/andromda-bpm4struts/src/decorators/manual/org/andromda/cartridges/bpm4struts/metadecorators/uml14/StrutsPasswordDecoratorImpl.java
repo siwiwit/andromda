@@ -43,6 +43,10 @@ public class StrutsPasswordDecoratorImpl extends StrutsPasswordDecorator
         }
     }
 
+    public String getFieldType()
+    {
+        return "password";
+    }
     // ------------- relations ------------------
 
 }

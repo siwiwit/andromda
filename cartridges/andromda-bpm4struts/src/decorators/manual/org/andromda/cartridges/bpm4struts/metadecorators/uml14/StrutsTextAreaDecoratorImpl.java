@@ -63,6 +63,10 @@ public class StrutsTextAreaDecoratorImpl extends StrutsTextAreaDecorator
         }
     }
 
+    public String getFieldType()
+    {
+        return "textarea";
+    }
     // ------------- relations ------------------
 
 }
