@@ -16,7 +16,23 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Creates and returns Objects based on a set of 
- * Apache Digester rules.
+ * Apache Digester rules in a consistent manner, providing validation
+ * in the process.
+ * 
+ * This XML object factory allows us to define a consistent/clean of configuring
+ * java objects from XML configuration files (i.e. it uses the class name of 
+ * the java object to find what rule file and what XSD file to use).  It also 
+ * allows us to define a consistent way in which schema validation is performed.  
+ *  
+ * It seperates each concern into one file, for example: to configure and perform validation on
+ * the MetafacadeMappings class, we need 3 files 1.) the java object (MetafacadeMappings.java),
+ * 2.) the rules file which tells the apache digester how to populate the java object from the
+ * XML configuration file, and 3.) the XSD schema validation file (Metafacades.xsd).  Note
+ * that each file is based on the name of the java object: 'java object name'.xsd 
+ * and'java object name'-Rules.xml'.  After you have these three files then you just
+ * need to call the method #getInstance(java.net.URL objectClass) in this class from
+ * the file you want to configure.  This keeps the dependency to digester (or whatever
+ * XML configuration tool we are using at the time) to this one file.
  * 
  * @author Chad Brandon
  */
@@ -82,8 +98,6 @@ public class XmlObjectFactory {
             // can happen by running ant inside eclipse for example)
             // Comment out until I figure out a clean way to ignore 
             // validation if the underlying parser doesn't support it.  
-            // And maybe XStream will have better support of this...
-            // if we decide to use that instead of the digester.
             //factory.setValidating(true);
             factoryCache.put(objectClass, factory);
         }
