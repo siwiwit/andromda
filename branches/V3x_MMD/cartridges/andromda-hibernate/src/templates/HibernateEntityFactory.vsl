@@ -10,7 +10,7 @@ package $class.packageName;
  * Is able to find and create objects of type ${class.name}.
  * Those can be described as follows:
  * </p>
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
 #foreach ( $tgv in $class.taggedValues )
 #if ($tgv.name != "documentation")
 #if ($tgv.name == "---")
@@ -82,7 +82,7 @@ public abstract class ${class.name}Factory {
 #end
 ##
     /**
-$finder.getDocumentation("     ")
+$finder.getDocumentation("     * ")
      *
      * Finds ${class.name} object(s) using a query.
      *

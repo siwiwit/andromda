@@ -6,7 +6,7 @@
 package $packagename;
 
 /**
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
 #foreach ( $tgv in $class.taggedValues )
 #if ($tgv.name != "documentation")
@@ -51,7 +51,7 @@ public class ${class.name} implements java.io.Serializable
 #foreach ( $att in $class.attributes )
 #set ($atttypename = $att.type.fullyQualifiedName)
    /**
-$att.getDocumentation("    ")
+$att.getDocumentation("    * ")
     *
     */
     public $atttypename ${att.getterName}()

@@ -21,7 +21,7 @@ package $packagename;
 
 /**
  * Home interface for the $entityname entity bean.
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType",  "@andromda.ejb.noSyntheticCreateMethod" ])
  */
@@ -47,7 +47,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
 #set ($ATT_NAME = $att.columnName)
      * Get the $ATT_NAME constant
 #end
-$att.getDocumentation("     ")
+$att.getDocumentation("     * ")
      */
     public $attType get$AttName();
 #end
@@ -61,7 +61,7 @@ $att.getDocumentation("     ")
 #if ($visibility == "public" && $op.static) 
 #set ($msig = $op.signature)
    /**
-$op.getDocumentation("    ")
+$op.getDocumentation("    * ")
     */
 #set ($returntype = $op.type.fullyQualifiedName)
 #if ($defaultException)
@@ -88,7 +88,7 @@ $op.getDocumentation("    ")
 #if ($op.hasStereotype("FinderMethod"))
 #set ($msig = $op.signature)
    /**
-$op.getDocumentation("    ")
+$op.getDocumentation("    * ")
     */
     public ${op.type.fullyQualifiedName} ${msig} 
            throws javax.ejb.FinderException;
@@ -100,7 +100,7 @@ $op.getDocumentation("    ")
 #foreach ( $op in $class.getCreateMethods(true))
 
     /**
-$op.getDocumentation("    ")
+$op.getDocumentation("    * ")
      *
      */
     public ${entityname} create${op.typedParameterList}

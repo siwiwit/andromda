@@ -41,7 +41,7 @@ import org.apache.struts.action.ActionMessages;
 
 #end
 /**
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
  * @struts.action
  *        path="$class.actionPath"
@@ -90,7 +90,7 @@ public final class $class.actionClassName extends Action
     
 #foreach ($actionState in $actionStates)
     /**
-$actionState.getDocumentation("     ")
+$actionState.getDocumentation("     * ")
      */
     private ActionForward ${actionState.actionMethodName}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
@@ -105,7 +105,7 @@ $actionState.getDocumentation("     ")
 #set ($controllerMethodName = $decisionTransition.decisionTrigger.controllerCall.name)
 #set ($decisionMethodName = $controllerMethodName)
     /**
-$decisionTransition.getDocumentation("     ")
+$decisionTransition.getDocumentation("     * ")
      */
     private ActionForward ${decisionMethodName}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {

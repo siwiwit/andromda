@@ -30,7 +30,7 @@ import ${targetType.fullyQualifiedName}Home;
 #end
 ##
 /**
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
  * @ejb.bean name="$class.name"
 #if ($stateful)
@@ -76,7 +76,7 @@ public abstract class ${class.name}Bean implements javax.ejb.SessionBean {
    protected ${atttypename} ${att.name};
 
    /**
-$att.getDocumentation("     ")
+$att.getDocumentation("     * ")
     *
     * @ejb.interface-method view-type="both"
     * @ejb.transaction      type="Required"
@@ -120,7 +120,7 @@ $att.getDocumentation("     ")
 #end
 
    /**
-$op.getDocumentation("     ")
+$op.getDocumentation("     * ")
     *
     * @ejb.interface-method view-type="both"
     * @ejb.transaction type="Required"
