@@ -68,8 +68,6 @@ public abstract class ${class.name}Factory {
         return object;
     }
 
-// class.getClass() = $class.getClass()
-// class.finders = $class.finders
 #foreach ( $finder in $class.finders)
 #set ($returntype = $finder.type.fullyQualifiedName)
 ##
