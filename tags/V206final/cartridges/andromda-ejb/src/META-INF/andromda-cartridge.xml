@@ -1,0 +1,62 @@
+<cartridge name="ejb">
+    <property name="persistence" value="ejb" />
+
+<!-- these are the new, official stereotypes -->
+    <stereotype name="Entity" />
+    <stereotype name="Service" />
+
+<!-- the outlet names -->
+    <outlet name="session-beans" />
+    <outlet name="entity-beans" />
+    <outlet name="session-impls" />
+    <outlet name="entity-impls" />
+
+<!-- the official template definitions -->
+    <template
+        stereotype="Entity"
+        sheet="templates/EntityBean.vsl"
+        outputPattern="{0}/{1}Bean.java"
+        outlet="entity-beans"
+        overWrite="true"
+    />
+
+    <template
+        stereotype="Entity"
+        sheet="templates/EntityBeanImpl.vsl"
+        outputPattern="{0}/{1}BeanImpl.java"
+        outlet="entity-impls"
+        overWrite="false"
+    />
+
+    <template
+        stereotype="Entity"
+        sheet="templates/EntityBeanCMP.vsl"
+        outputPattern="{0}/{1}BeanCMP.java"
+        outlet="entity-beans"
+        overWrite="true"
+    />
+
+<!--
+     The following two definitions map services to stateless session beans.
+     The templates map a service to a session bean
+     and the template itself decides to generate a stateless or stateful
+     session bean, based on the fact that the UML class contains attributes or not.
+     (Matthias Bohlen)
+-->
+    <template
+        stereotype="Service"
+        sheet="templates/SessionBean.vsl"
+        outputPattern="{0}/{1}Bean.java"
+        outlet="session-beans"
+        overWrite="true"
+    />
+
+    <template
+        stereotype="Service"
+        sheet="templates/SessionBeanImpl.vsl"
+        outputPattern="{0}/{1}BeanImpl.java"
+        outlet="session-impls"
+        overWrite="false"
+    />
+
+</cartridge>
