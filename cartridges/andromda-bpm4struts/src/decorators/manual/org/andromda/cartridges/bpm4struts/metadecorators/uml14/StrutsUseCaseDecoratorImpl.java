@@ -2,9 +2,11 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
+import org.andromda.core.metadecorators.uml14.ActionStateDecorator;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.UmlPackage;
+import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 import org.omg.uml.behavioralelements.statemachines.State;
 import org.omg.uml.behavioralelements.statemachines.StateMachine;
 import org.omg.uml.foundation.core.Classifier;
@@ -34,7 +36,8 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
     // concrete business methods that were declared
     // abstract in class StrutsUseCaseDecorator ...
 
-    public State findAsWorkflowState()
+    // ------------- relations ------------------
+    protected ModelElement handleGetAsWorkflowState()
     {
         if (hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE))
         {
@@ -52,7 +55,6 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
         return null;
     }
 
-    // ------------- relations ------------------
     protected ModelElement handleGetActivityGraph()
     {
         final Collection ownedElements = metaObject.getOwnedElement();
@@ -84,6 +86,44 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
         }
         return null;
     }
+
+    protected ModelElement handleGetWorkflow()
+    {
+        // find a workflow which has an action state with the same name
+        ActionStateDecorator actionState = findUseCaseAsActionStateDecorator(this);
+
+        if (actionState == null)
+            return null;
+
+        StrutsActivityGraphDecorator activityGraph = (StrutsActivityGraphDecorator)actionState.getActivityGraph();
+        return activityGraph.getWorkflow().getMetaObject();
+    }
+
+    private ActionStateDecorator findUseCaseAsActionStateDecorator(StrutsUseCaseDecorator useCase)
+    {
+        final String useCaseName = (useCase==null) ? null : useCase.getName();
+
+        if (useCaseName == null)
+            return null;
+
+        UmlPackage model = MetaDecoratorUtil.getModel(metaObject);
+        Collection allActionStates = model.getActivityGraphs().getActionState().refAllOfType();
+
+        for (Iterator iterator = allActionStates.iterator(); iterator.hasNext();)
+        {
+            ActionState actionState = (ActionState) iterator.next();
+            DecoratorBase decoratedActionState = decoratedElement(actionState);
+            if (decoratedActionState instanceof StrutsUseCaseDecorator)
+            {
+                StrutsActionStateDecorator strutsActionStateDecorator = (StrutsActionStateDecorator)decoratedActionState;
+                if (useCaseName.equalsIgnoreCase(strutsActionStateDecorator.getName()))
+                    return strutsActionStateDecorator;
+            }
+        }
+
+        return null;
+    }
+
 
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
