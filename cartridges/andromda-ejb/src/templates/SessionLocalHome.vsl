@@ -22,7 +22,7 @@ package $packagename;
 
 /**
  * Local home interface for the $servicename session bean.
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType" ])
  */
@@ -38,7 +38,7 @@ public interface ${servicename}LocalHome  extends $parentInterface {
 #foreach ( $op in $class.getCreateMethods(true))
 
     /**
-$op.getDocumentation("    ")
+$op.getDocumentation("    * ")
      *
      */
     public ${servicename}Local create($op.typedParameterList)

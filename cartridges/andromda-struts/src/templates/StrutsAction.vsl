@@ -38,7 +38,7 @@ import ${class2.fullyQualifiedName};
 #end
 
 /**
-$class.getDocumentation(" ");
+$class.getDocumentation(" * ");
  *
  *
 #foreach ( $tgv in $class.taggedValues )

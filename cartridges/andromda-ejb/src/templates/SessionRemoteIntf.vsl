@@ -22,7 +22,7 @@ package $packagename;
 
 /**
  * Remote component interface for the $servicename session bean.
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType" ])
  *
@@ -45,7 +45,7 @@ extends $parentInterface#foreach($intf in $class.abstractions),
 #set ($ATT_NAME = $att.name)
      * Get the $ATT_NAME constant
 #end
-$att.getDocumentation("     ")
+$att.getDocumentation("     * ")
      */
     public $attType ${att.getterName}() throws java.rmi.RemoteException;
     
@@ -58,7 +58,7 @@ $att.getDocumentation("     ")
 #set($AttName = $str.upperCaseFirstLetter($att.name))
     /**
      * Get the ${att.name} property
-$att.getDocumentation("     ")
+$att.getDocumentation("     * ")
      */
     public $attType ${att.getterName}() throws java.rmi.RemoteException;
 
@@ -83,7 +83,7 @@ $att.getDocumentation("     ")
 #end
 
    /**
-$op.getDocumentation("    ")
+$op.getDocumentation("    * ")
     */
 #set ($returntype = $op.type.fullyQualifiedName)
 #if ($exceptions)

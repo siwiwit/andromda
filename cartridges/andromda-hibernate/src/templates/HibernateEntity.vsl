@@ -15,7 +15,7 @@ package $class.packageName;
 #end
 
 /**
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
  * @hibernate.class
  *     table="HIB_$class.tableName"
@@ -48,7 +48,7 @@ public abstract class ${class.name}
     private $atttypename ${att.name};
    
    /**
-$att.getDocumentation("    ")
+$att.getDocumentation("    * ")
     *
 #set ($attcolumnname = $att.columnName)
 #set ($attjdbctype   = $attr.jdbcType)
@@ -87,7 +87,7 @@ $att.getDocumentation("    ")
     #set ($targetTypeName = $targetType.fullyQualifiedName)
 #if ($target.navigable)
    /**
-$target.getDocumentation("    ")
+$target.getDocumentation("    * ")
     *
 #if ($associationEnd.one2Many)
     * @hibernate.set
@@ -161,7 +161,7 @@ $target.getDocumentation("    ")
 #foreach ( $op in $class.operations)
 #if (!$op.hasStereotype("FinderMethod"))
    /**
-$op.getDocumentation("    ")
+$op.getDocumentation("    * ")
     */
 #set ($msig = $op.signature)
 #set ($returntype = $op.type.fullyQualifiedName)

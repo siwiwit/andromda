@@ -40,7 +40,7 @@ import $class2.type.fullyQualifiedName;
 #end
 
 /**
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
  * @struts:form name="$class.name"
  *
@@ -78,7 +78,7 @@ public class ${class.name} extends ActionForm
 #end
 
    /**
-$att.getDocumentation("    ")
+$att.getDocumentation("    * ")
     *
     */
 #if ($attfqtypename != "java.util.Collection")

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
-$class.getDocumentation(" ")
+$class.getDocumentation(" * ")
  *
 #foreach ($service in $class.services)
 #set ($serviceName = $service.name)
@@ -45,7 +45,7 @@ public interface ${class.name}Interface
 #set ($returnType = "void")
 #end
     /**
-$operation.getDocumentation("     ")
+$operation.getDocumentation("     * ")
 #if ($parameters.size() == 0)
      * <p/>
      * This method does not receive any parameters through the form bean.
