@@ -152,7 +152,7 @@ public class MetafacadeFacadeImpl extends MetafacadeFacade
      */
     public String getInterfaceName()
     {
-        return "I" + getName();
+        return getName();
     }
 
     /* (non-Javadoc)
