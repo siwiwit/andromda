@@ -117,6 +117,9 @@ public class MDRXmiReferenceResolverContext extends XmiContext
      */
     private String findModuleURL(String moduleName)
     {
+        if (moduleSearchPath == null)
+            return null;
+
         if (logger.isDebugEnabled())
             logger.debug(
                 "findModuleURL: moduleSearchPath.length="

@@ -83,8 +83,8 @@ public class MDRepositoryFacade implements RepositoryFacade
         MDRManager.getDefault().getDefaultRepository().endTrans(true);
     }
 
-    /**
-     * @see org.andromda.core.common.RepositoryFacade#readModel(URL)
+    /* (non-Javadoc)
+     * @see org.andromda.core.common.RepositoryFacade#readModel(java.net.URL, java.lang.String[])
      */
     public void readModel(URL modelURL, String[] moduleSearchPath)
         throws RepositoryReadException, IOException
