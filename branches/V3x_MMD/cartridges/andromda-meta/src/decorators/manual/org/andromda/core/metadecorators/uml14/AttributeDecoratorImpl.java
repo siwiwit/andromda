@@ -3,6 +3,7 @@ package org.andromda.core.metadecorators.uml14;
 import org.andromda.core.common.StringUtilsHelper;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.ChangeableKindEnum;
+import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 
 /**
  *
@@ -58,6 +59,11 @@ public class AttributeDecoratorImpl extends AttributeDecorator
     	return ChangeableKindEnum.CK_FROZEN.equals(metaObject.getChangeability());
     }
 
+    
+    public boolean isStatic() 
+	{
+    	return ScopeKindEnum.SK_CLASSIFIER.equals(this.metaObject.getOwnerScope());
+    }
 
     // ------------- relations ------------------
 

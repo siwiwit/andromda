@@ -3,12 +3,16 @@ package org.andromda.core.metadecorators.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Dependency;
+import org.omg.uml.foundation.core.Feature;
 import org.omg.uml.foundation.core.Generalization;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Operation;
+import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 
 /**
  *
@@ -195,6 +199,35 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
         return metaObject.getNamespace();
     }
 
+    /**
+     * Gets the static attributes of the specified Classifier object.
+     * 
+     * @param object
+     *            Classifier object
+     * @return Collection of org.omg.uml.foundation.core.Attribute
+     */
+    public Collection getStaticAttributes() {
+    	Collection attributes = this.getAttributes();
+    	class StaticAttributeFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return ((AttributeDecorator)object).isStatic();
+    		}
+    	}
+    	CollectionUtils.filter(attributes, new StaticAttributeFilter());
+    	return attributes;
+    }
+    
+    public java.util.Collection getInstanceAttributes() {
+    	Collection attributes = this.getAttributes();
+    	class StaticAttributeFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return !((AttributeDecorator)object).isStatic();
+    		}
+    	}
+    	CollectionUtils.filter(attributes, new StaticAttributeFilter());
+    	return attributes;		
+    }
+    
     // ------------------------------------------------------------
 
 }

@@ -9,17 +9,10 @@ import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.metadecorators.uml14.AssociationDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.Dependency;
-import org.omg.uml.foundation.core.Feature;
 import org.omg.uml.foundation.core.GeneralizableElement;
-import org.omg.uml.foundation.core.ModelElement;
-import org.omg.uml.foundation.datatypes.ScopeKindEnum;
-import org.omg.uml.foundation.datatypes.VisibilityKind;
-import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 
 /**
  * Metaclass decorator implementation for
@@ -73,15 +66,12 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 				.STEREOTYPE_PRIMARY_KEY
 				.equals(dep.getStereotypeName())) {
 				Collection allAttrib =
-					getInstanceAttributes(
-						(ClassifierDecorator) dep
-							.getSupplier()
-							.iterator()
-							.next());
+					((ClassifierDecorator)
+						dep.getSupplier().iterator().next()).getInstanceAttributes();
 				Collection publicAttrib = new ArrayList();
 				for (Iterator i = allAttrib.iterator(); i.hasNext();) {
 					Attribute att = (Attribute) i.next();
-					if ("public".equals(getVisibility(att))) {
+					if ("public".equals(att.getVisibility())) {
 						publicAttrib.add(att);
 					}
 				}
@@ -100,83 +90,6 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		EJBEntityDecorator decorator =
 			(EJBEntityDecorator) decoratedElement(this.getSuperclass());
 		return decorator.getPrimaryKeyFields();
-	}
-
-	/**
-	 * Gets the static attributes of the specified Classifier object.
-	 * 
-	 * @param object
-	 *            Classifier object
-	 * @return Collection of org.omg.uml.foundation.core.Attribute
-	 */
-	public Collection getStaticAttributes() {
-		Collection attributes = this.getAttributes();
-		class StaticAttributeFilter implements Predicate {
-			public boolean evaluate(Object object) {
-				return isStatic((Attribute)object);
-			}
-		}
-		CollectionUtils.filter(attributes, new StaticAttributeFilter());
-		return attributes;
-	}
-
-	/**
-	 * Gets the non-static attributes of the specified Classifier object.
-	 * 
-	 * @param object
-	 *            Classifier object
-	 * @return Collection of
-	 *         org.andromda.core.metadecorators.AttributeDecorator
-	 */
-	private Collection getInstanceAttributes(ClassifierDecorator classifier) {
-		Collection attributes = new ArrayList();
-		for (Iterator i = classifier.getFeature().iterator(); i.hasNext();) {
-			Object o = i.next();
-			if (o instanceof Attribute && !isStatic(((Attribute) o))) {
-				attributes.add(o);
-			}
-		}
-		return attributes;
-	}
-
-	/**
-	 * Check if <code>feature</code> is declared static.
-	 * 
-	 * @param feature
-	 *            the structural feature to check
-	 * @return <code>true</code> if <code>feature</code> is static, <code>false</code>
-	 *         else
-	 */
-	private boolean isStatic(Feature feature) {
-
-		return ScopeKindEnum.SK_CLASSIFIER.equals(feature.getOwnerScope());
-	}
-
-	/**
-	 * Convert the visibility of <code>feature</code> into a string usable in
-	 * Java source code if it is one of the predefined constants in
-	 * {@link VisibilityKindEnum}. If the visibility is not one of these
-	 * constants, this methods returns the string representation of the
-	 * visibility. Note: This method really belongs into
-	 * {@link UMLStaticHelper}
-	 * 
-	 * @param element
-	 *            a UML class, attribute or operation
-	 * @return a string representing the visibility
-	 */
-	private String getVisibility(ModelElement element) {
-		VisibilityKind vis = element.getVisibility();
-		if (VisibilityKindEnum.VK_PUBLIC.equals(vis)) {
-			return "public";
-		} else if (VisibilityKindEnum.VK_PACKAGE.equals(vis)) {
-			return "";
-		} else if (VisibilityKindEnum.VK_PROTECTED.equals(vis)) {
-			return "protected";
-		} else if (VisibilityKindEnum.VK_PRIVATE.equals(vis)) {
-			return "private";
-		} else {
-			return vis.toString();
-		}
 	}
 
 	// ------------- relations ------------------
