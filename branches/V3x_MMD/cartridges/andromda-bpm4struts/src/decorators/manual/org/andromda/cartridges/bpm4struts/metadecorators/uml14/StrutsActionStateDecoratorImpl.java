@@ -2,9 +2,10 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.omg.uml.behavioralelements.statemachines.Transition;
-import org.omg.uml.behavioralelements.statemachines.StateMachine;
+import org.andromda.core.metadecorators.uml14.StateMachineDecorator;
+import org.andromda.core.metadecorators.uml14.StateMachineDecoratorImpl;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
+import org.omg.uml.behavioralelements.statemachines.Transition;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -59,8 +60,8 @@ public class StrutsActionStateDecoratorImpl extends StrutsActionStateDecorator
             throw new DecoratorValidationException(metaObject, "Name may not be empty or only contain whitespace");
 
         // the name of the action state must be unique in the use-case state machine
-        final StateMachine stateMachine = metaObject.getStateMachine();
-        Collection actionStates = MetaDecoratorUtil.getSubvertices(stateMachine, MetaDecoratorUtil.FILTER_ACTIONSTATE);
+        final StateMachineDecorator stateMachine = new StateMachineDecoratorImpl(metaObject.getStateMachine());
+        Collection actionStates = stateMachine.getActionStates();
         actionStates.remove(metaObject);
         // check that we don't accidentally generate the same names from more action states
         final String dispatchMethodName = getDispatchMethodName();
