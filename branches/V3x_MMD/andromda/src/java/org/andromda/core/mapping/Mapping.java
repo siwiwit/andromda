@@ -7,7 +7,9 @@ import org.andromda.core.common.ExceptionUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * A single object instance which belongs to Mappings.
+ * A single child mapping instance belonging to 
+ * a Mappings instance. It doesn't make sense to instantiate
+ * this class by itself.
  * 
  * @see org.andromda.core.mapping.Mappings
  */
