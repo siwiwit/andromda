@@ -46,12 +46,15 @@ import javax.servlet.http.HttpServletResponse;
 #end
 #foreach ($exceptionHandler in $class.exceptionHandlers)
  * @struts.action-exception
- *         key="$exceptionHandler.key"
+#if ($exceptionHandler.messageKey)
+ *         key="$exceptionHandler.messageKey"
+#end
  *        type="$exceptionHandler.exceptionType"
 #if ($exceptionHandler.path)
  *        path="$exceptionHandler.path"
 #end
  *       scope="request"
+ *     handler="$exceptionHandler.fullyQualifiedName"
  *
 #end
  */
@@ -59,7 +62,7 @@ public final class $className extends ${className}Abstract
 {
 #foreach ($choice in $choices)
 #set ($choiceMethodName = "$str.toJavaMethodName($choice.name)")
-    protected final int ${choiceMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
+    protected int ${choiceMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
         return 1; // source is compilable this way
     }
@@ -67,7 +70,7 @@ public final class $className extends ${className}Abstract
 #end
 #foreach ($objectFlowState in $objectFlowStates)
 #set ($stateMethodName = "$str.toJavaMethodName($objectFlowState.name)")
-    protected final void ${stateMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
+    protected void ${stateMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
     }
 
