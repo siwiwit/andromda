@@ -1,14 +1,8 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
-import org.omg.uml.foundation.core.GeneralizableElement;
-import org.omg.uml.foundation.core.Generalization;
-import org.omg.uml.behavioralelements.usecases.Actor;
-import org.andromda.core.metafacade.MetafacadeBase;
 import org.andromda.core.common.StringUtilsHelper;
 
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Collections;
 
 
 /**
@@ -20,14 +14,11 @@ public class StrutsUserLogicImpl
         extends StrutsUserLogic
         implements org.andromda.cartridges.bpm4struts.metafacades.StrutsUser
 {
-    private Actor actor = null;
-
     // ---------------- constructor -------------------------------
     
     public StrutsUserLogicImpl(java.lang.Object metaObject, String context)
     {
         super(metaObject, context);
-        this.actor = (Actor)metaObject;
     }
 
     // -------------------- business methods ----------------------
@@ -55,13 +46,11 @@ public class StrutsUserLogicImpl
 
     // ------------- relations ------------------
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsUser#getGeneralizedByUsers()
-     */
     public java.util.Collection handleGetGeneralizedByUsers()
     {
+/*
         final Collection parentActors = new LinkedList();
-        final Collection generalizations = actor.getGeneralization();
+        final Collection generalizations = getGeneralization();
 
         for (Iterator iterator = generalizations.iterator(); iterator.hasNext();)
         {
@@ -73,13 +62,13 @@ public class StrutsUserLogicImpl
         }
 
         return parentActors;
+*/
+        return Collections.EMPTY_LIST;
     }
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsUser#getGeneralizedUsers()
-     */
     public java.util.Collection handleGetGeneralizedUsers()
     {
+/*
         final Collection childActors = new LinkedList();
         final Collection generalizations = actor.getGeneralization();
 
@@ -93,6 +82,8 @@ public class StrutsUserLogicImpl
         }
 
         return childActors;
+*/
+        return Collections.EMPTY_LIST;
     }
 
 }
