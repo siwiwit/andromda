@@ -117,7 +117,7 @@ public class Mappings {
 	}
 	
 	/**
-	 * Returns the JDBC type for the given model type.
+	 * Returns the to mapping for the given <code>from</code> mapping.
 	 *
 	 * @param from the 'from' mapping, this is the type/identifier
 	 *        that is in the model.
