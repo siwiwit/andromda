@@ -109,6 +109,7 @@
 				<property name="facades"                 ignore="true" />
 				<property name="facade-logics"           value="${src.fac.gen.dir}"/>
 				<property name="facade-logic-impls"      value="${src.fac.man.dir}"/>
+				<property name="facades-to-impls"        value="${src.fac.gen.dir}"/>
 				<property name="languageMappingsUri"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
             
@@ -135,7 +136,8 @@
 
         <jar jarfile="${build.dir}/andromda-metafacades-uml14.jar">
             <fileset dir="${build.dir}" includes="**/*.class" />
-		    <fileset dir="${src.dir}" includes="META-INF/*metafacades.xml" />
+		    <fileset dir="${src.dir}" includes="META-INF/*" />
+		    <fileset dir="${src.fac.gen.dir}" includes="**/*.properties" />
         </jar>
     </target>
     
