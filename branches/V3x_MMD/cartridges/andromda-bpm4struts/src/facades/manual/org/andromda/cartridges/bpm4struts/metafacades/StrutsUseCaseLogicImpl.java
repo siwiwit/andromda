@@ -107,7 +107,7 @@ public class StrutsUseCaseLogicImpl
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
             AssociationEndFacade associationEnd = (AssociationEndFacade) iterator.next();
-            ClassifierFacade classifier = associationEnd.getType();
+            ClassifierFacade classifier = associationEnd.getOtherEnd().getType();
             if (classifier instanceof StrutsUser)
                 users.add(classifier);
         }
@@ -117,16 +117,29 @@ public class StrutsUseCaseLogicImpl
 
     protected Collection handleGetAllUsers()
     {
-        final Collection users = new LinkedList();
-        final Collection allActors = getModel().getAllActors();
-
-        for (Iterator actorIterator = allActors.iterator(); actorIterator.hasNext();)
+        final Collection allUsers = new HashSet();
+        final Collection associatedUsers = getUsers();
+        for (Iterator iterator = associatedUsers.iterator(); iterator.hasNext();)
         {
-            Object actor = shieldedElement(actorIterator.next());
-            if (actor instanceof StrutsUser)
-                users.add(actor);
+            StrutsUser user = (StrutsUser) iterator.next();
+            collectUsers(user, allUsers);
         }
-        return users;
+        return allUsers;
+    }
+
+    private void collectUsers(StrutsUser user, Collection users)
+    {
+        if (!users.contains(user))
+        {
+            users.add(user);
+
+            Collection childUsers = user.getGeneralizedByUsers();
+            for (Iterator iterator = childUsers.iterator(); iterator.hasNext();)
+            {
+                StrutsUser childUser = (StrutsUser) iterator.next();
+                collectUsers(childUser, users);
+            }
+        }
     }
 
     protected Collection handleGetPages()
