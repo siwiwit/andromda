@@ -19,7 +19,7 @@ public class EntityAttributeFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EntityAttributeFacadeLogicImpl (org.omg.uml.foundation.core.Attribute metaObject)
+    public EntityAttributeFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }

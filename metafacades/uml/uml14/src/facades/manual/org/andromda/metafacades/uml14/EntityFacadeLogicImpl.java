@@ -19,7 +19,7 @@ public class EntityFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EntityFacadeLogicImpl (org.omg.uml.foundation.core.Classifier metaObject)
+    public EntityFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }
