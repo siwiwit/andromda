@@ -11,6 +11,7 @@
     <outlet name="forms"/>
     <outlet name="actions"/>
     <outlet name="messages"/>
+    <outlet name="validation"/>
     <outlet name="xdoclet-merge"/>
 
     <template
@@ -42,6 +43,14 @@
         sheet="templates/StrutsJSP.vsl"
         outputPattern="{0}/{1}.jsp"
         outlet="pages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsFormValidationRules.vsl"
+        outputPattern="validator-rules.xml"
+        outlet="validation"
         overWrite="true"
         transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
 
