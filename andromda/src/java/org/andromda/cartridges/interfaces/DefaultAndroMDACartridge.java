@@ -197,7 +197,7 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                         allModelElements = new HashSet(allModelElements);
                         
                         // first place all relevant model elements by the 
-                        // <templateModelElements/> variable name                       
+                        // <modelElements/> variable name                       
                         templateContext.put(
                             templateModelElements.getVariable(), 
                             allModelElements);
@@ -239,9 +239,9 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                     } 
                     else 
                     {
-                        // ifoutputToSingleFile isn't true, then
+                        // if outputToSingleFile isn't true, then
                         // we just place the model element with the default 
-                        // variable defined on the <templateModelElements/> into the template.
+                        // variable defined on the <modelElements/> into the template.
                         Iterator modelElementIt = allModelElements.iterator();
                         while (modelElementIt.hasNext()) 
                         {
@@ -267,19 +267,6 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                 } 
                 catch (Throwable th) 
                 {
-                    if (outFile != null && outFile.exists()) {
-                        if (!outFile.delete())
-                        {
-                            logger.error(
-                                "Error removing output file "
-                                    + outFile.getName());
-                            throw new CartridgeException(
-                                "Error removing output file "
-                                    + outFile.getName());
-                        }
-                        logger.info("Removed --> '" + outFile + "'");
-                        StdoutLogger.info("Removed --> '" + outFile + "'");
-                    }
                     String errMsg = "Error performing " + methodName;
                     if (MalformedURLException.class.isAssignableFrom(th.getClass())) {
                         errMsg = "ERROR! '" + th.getMessage() 
@@ -303,7 +290,7 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
      *        sheet to process.
      * @param templateContext the context to which variables are added and 
      *        made avaialbe to the template engine for processing. This will
-     *        contain any model elements being made avaiable to the templates.
+     *        contain any model elements being made avaiable to the template(s).
      * @param outletProperty the property defining the outlet to which output
      *        will be written.
      * @param modelElementName the name of the model element (if we are processing
@@ -390,9 +377,8 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
         } 
         catch (Throwable th) 
         {
-
-            logger.info("Removed: " + outFile);
-            StdoutLogger.info("Removed: " + outFile);
+            logger.info("Removed --> '" + outFile + "'");
+            StdoutLogger.info("Removed --> '" + outFile + "'");
             
             String errMsg = "Error performing " + methodName 
                 + " with template context '" 
