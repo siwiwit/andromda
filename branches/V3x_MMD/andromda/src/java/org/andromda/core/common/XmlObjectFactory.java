@@ -31,8 +31,8 @@ import org.xml.sax.SAXParseException;
  * that each file is based on the name of the java object: 'java object name'.xsd 
  * and'java object name'-Rules.xml'.  After you have these three files then you just
  * need to call the method #getInstance(java.net.URL objectClass) in this class from
- * the file you want to configure.  This keeps the dependency to digester (or whatever
- * XML configuration tool we are using at the time) to this one file.
+ * the java object you want to configure.  This keeps the dependency to digester (or whatever
+ * XML configuration tool we are using at the time) to this single file.
  * 
  * In order to add/modify an existing element/attribute in your configuration file, first 
  * add make the modification in your java object, then modify it's rules file 
