@@ -7,7 +7,6 @@ import org.andromda.cartridges.bpm4struts.validator.ValidationWarning;
 import org.andromda.core.common.CollectionFilter;
 import org.andromda.core.common.DbMappingTable;
 import org.andromda.core.common.HTMLAnalyzer;
-import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
 import org.andromda.core.common.ScriptHelper;
 import org.andromda.core.common.StringUtilsHelper;
@@ -53,7 +52,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:draftdog@users.sourceforge.net">Wouter Zoons</a>
  */
-public final class StrutsScriptHelper implements ScriptHelper, RepositoryFacade
+public final class StrutsScriptHelper implements ScriptHelper//, RepositoryFacade
 {
     private static boolean validated = false;
 
@@ -1546,7 +1545,7 @@ public final class StrutsScriptHelper implements ScriptHelper, RepositoryFacade
      * @param umlClass A class representing the Struts configuration
      * @return an associated class with the ASPECT_FRONT_END_EXCEPTION_HANDLER stereotype aspect.
      * @see org.andromda.core.uml14.UMLStaticHelper#getStereotypeNames
-     */ 
+     */
     public Collection getExceptionHandlers(UmlClass umlClass)
     {
         final Collection associatedExceptionHandlers = new LinkedList();
