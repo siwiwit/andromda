@@ -86,10 +86,10 @@ public class AttributeFacadeLogicImpl
         name = StringUtils.trimToEmpty(name);
         String value = findTaggedValue(name);
         if (follow) {
-            ClassifierFacade type = (ClassifierFacade)this.getType();
+            ClassifierFacade type = this.getType();
             while (value == null && type != null) {
                 value = type.findTaggedValue(name);
-                type = (ClassifierFacade)type.getSuperclass();
+                type = type.getSuperclass();
             }
         }
         return value;

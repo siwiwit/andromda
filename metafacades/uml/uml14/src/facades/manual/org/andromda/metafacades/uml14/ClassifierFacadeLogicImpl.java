@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.metafacades.uml.AttributeFacade;
-import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.omg.uml.UmlPackage;
@@ -155,7 +154,7 @@ public class ClassifierFacadeLogicImpl
             sb.append(separator);
             if (withTypeNames)
             {
-                String typeName = ((ClassifierFacade)a.getType()).getFullyQualifiedName();
+                String typeName = a.getType().getFullyQualifiedName();
                 sb.append(typeName);
                 sb.append(" ");
                 sb.append(a.getName());
