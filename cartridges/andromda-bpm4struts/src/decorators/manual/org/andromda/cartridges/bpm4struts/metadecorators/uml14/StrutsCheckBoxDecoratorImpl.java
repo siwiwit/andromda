@@ -22,7 +22,7 @@ public class StrutsCheckBoxDecoratorImpl extends StrutsCheckBoxDecorator
         return true;
     }
 
-    public String getFieldType()
+    public String getWidgetType()
     {
         return "checkbox";
     }

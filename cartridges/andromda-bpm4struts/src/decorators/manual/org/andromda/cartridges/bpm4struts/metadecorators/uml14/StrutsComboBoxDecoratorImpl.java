@@ -43,7 +43,7 @@ public class StrutsComboBoxDecoratorImpl extends StrutsComboBoxDecorator
         }
     }
 
-    public String getFieldType()
+    public String getWidgetType()
     {
         return "select";
     }
