@@ -1,12 +1,146 @@
 #set ($generatedFile = "${class.fullPathName}")
 
-#parse("templates/StrutsJSP.vm")
+##
+##
+##      This macro takes care of rendering the appropriate Struts
+##      HTML hyperlink tags for the argument trigger
+##
+##
+#macro ( renderHyperlink $action $indent )
+#set ($triggerKey = $action.triggerKey)
+${indent}<html:link forward="$action.forwardName" titleKey="$triggerKey" paramName="request" paramProperty="parameterMap">
+${indent}    <bean:message key="$triggerKey"/>
+${indent}</html:link>
+#end
+##
+##
+##      This macro takes care of rendering the appropriate Struts
+##      HTML button tags for the argument trigger
+##
+##
+#macro ( renderFormButton $trigger $indent )
+#if ($trigger.isCancelTrigger())
+${indent}<input type="button" name="<%=org.apache.struts.Globals.CANCEL_KEY%>"
+${indent}    onclick="submitForm(this.form,'$trigger.messageKey');"
+${indent}    title="<bean:message key="$trigger.titleKey"/>"
+${indent}    value="<bean:message key="$trigger.messageKey"/>">
+#elseif ($trigger.isResetTrigger())
+${indent}<input type="reset"
+${indent}    title="<bean:message key="$trigger.titleKey"/>"
+${indent}    value="<bean:message key="$trigger.messageKey"/>">
+#else
+${indent}<input type="submit"
+${indent}    title="<bean:message key="$trigger.triggerKey"/>"
+${indent}    value="<bean:message key="$trigger.triggerKey"/>"/>
+#end
+#end
+##
+##
+##      This macro takes care of rendering the appropriate Struts tags
+##      for the argument form field
+##
+##
+#macro ( renderFormField $field $indent)
+#set ($widgetType = $field.widgetType)
+##
+##  Take the default value into account
+##
+#if ($field.defaultValue)
+#set ($value = 'value="$field.defaultValue"')
+#else
+#set ($value = '')
+#end
+##
+##  Depending on the type of the input field we render a different widget
+##
+##
+##      C H E C K B O X     &      R A D I O B U T T O N
+##
+#if ( ($widgetType == 'radio') || ($widgetType == 'checkbox') )
+#if ($field.isReadOnly())
+#set ($disabled = 'disabled="true"')
+#else
+#set ($disabled = '')
+#end
+${indent}<html:$widgetType property="$field.name" titleKey="$field.titleKey" $disabled $value/>
+##
+##      T E X T F I E L D       &       P A S S W O R D
+##
+#elseif ( ($widgetType == 'text') || ($widgetType == 'password') )
+#if ($field.isReadOnly())
+#set ($readonly = 'readonly="true"')
+#else
+#set ($readonly = '')
+#end
+## ADD THIS SOON: titleKey="$field.titleKey"
+${indent}<html:$widgetType property="$field.name" $readonly $value/>
+##
+##      T E X T A R E A
+##
+#elseif ($widgetType == 'textarea')
+#if ($field.isReadOnly())
+#set ($readonly = 'readonly="true"')
+#else
+#set ($readonly = '')
+#end
+#if ($field.columnCount)
+#set ($cols = 'cols="$field.columnCount"')
+#else
+#set ($cols = '')
+#end
+#if ($field.rowCount)
+#set ($rows = 'rows="$field.rowCount"')
+#else
+#set ($rows = '')
+#end
+${indent}<html:$widgetType property="$field.name" titleKey="$field.titleKey" $readonly $cols $rows $value/>
+##
+##      C O M B O B O X     &      L I S T
+##
+#elseif ($widgetType == 'select')
+#if ($field.isMultiple())
+#set ($multiple = 'multiple="true"')
+#else
+#set ($multiple = 'multiple="false"')
+#end
+#if ($field.isReadOnly())
+#set ($disabled = 'disabled="true"')
+#else
+#set ($disabled = '')
+#end
+#if ($field.size)
+#set ($size = 'size="$field.size"')
+#else
+#set ($size = '')
+#end
+${indent}<html:select $disabled $size $multiple property="$field.name" titleKey="$field.titleKey">
+${indent}    <html:options property="$field.backingPropertyName"/>
+${indent}</html:select>
+##
+##      Any other field will be rendered as plain text (no input)
+##
+#else
+${indent}<bean:write name="$action.formName" property="$field.name" scope="request"/>
+#end
+#end
+
+
+
+
 
 <%@ taglib uri="struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="struts-html.tld" prefix="html" %>
 <%@ taglib uri="struts-logic.tld" prefix="logic" %>
 
 #set ($actions = $class.actions)
+
+#foreach ($variable in $)
+#set ($variableName = $variable.name)
+#set ($variableType = $variable.type)
+<bean:define id="$variableName" name="$variableName" type="$variableType" scope="request" toScope="page"/>
+#end
+
+
 
 <html:html xhtml="true">
 
@@ -15,13 +149,17 @@
 #if ($class.hasForms())
 #foreach ($action in $actions)
 #if ($action.isFormAction())
+<!--
         <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="${action.fullPathName}JS.jsp"/>"></script>
+-->
 #end
 #end
 #end
     </head>
 
     <body>
+
+        <p><h2><bean:message key="$class.titleKey"/></h2></p>
 
         <logic:messagesPresent>
             <html:messages id="error">
@@ -39,19 +177,19 @@
 #if ($action.isHyperlinkAction())
 #renderHyperlink($action "        ")
 #elseif ($action.isFormAction())
-        <html:form forward="$action.forwardName">
+        <html:form action="${action.actionPath}.do">
             <table cellpadding="5" cellspacing="5" border="0">
-#foreach ($field in $class.actionParameters)
+#foreach ($field in $action.actionParameters)
                 <tr>
-                    <td><bean:message key="$field.messageKey"/></td>
+                    <td><bean:message key="${action.triggerKey}.${field.messageKey}"/></td>
                     <td>
-##renderFormField($field "                        ")
+#renderFormField($field "                        ")
                     </td>
                 </tr>
 #end
                 <tr>
                     <td>
-##renderFormButtons($class "                        ")
+#renderFormButton($action "                        ")
                     </td>
                 </tr>
             </table>
