@@ -42,8 +42,88 @@
 		metafacadeClass="org.andromda.metafacades.uml14.AttributeFacadeLogicImpl"/>		
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Parameter$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.ParameterFacadeLogicImpl"/>	
-		
+		metafacadeClass="org.andromda.metafacades.uml14.ParameterFacadeLogicImpl"/>
+
+    <!-- Behavioral element facades -->
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.Argument$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ArgumentFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.Action$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.ActionSequence$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.CreateAction$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.DestroyAction$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.ReturnAction$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.SendAction$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.TerminateAction$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.UninterpretedAction$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.commonbehavior.CallAction$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.CallActionFacadeLogicImpl"/>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActionStateFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActivityGraphFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ObjectFlowStateFacadeLogicImpl"/>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Event$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.SignalEvent$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.CallEvent$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.ChangeEvent$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.TimeEvent$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.FinalState$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.FinalStateFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Pseudostate$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.PseudostateFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.State$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.StateFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.StateVertex$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.StateVertexFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Transition$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.TransitionFacadeLogicImpl"/>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.usecases.Actor$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ActorFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.UseCaseFacadeLogicImpl"/>
+
 	<!-- Entity  metafacades -->
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Classifier$Impl"
