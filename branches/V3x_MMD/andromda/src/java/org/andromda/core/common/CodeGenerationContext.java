@@ -166,7 +166,7 @@ public class CodeGenerationContext
 	 * Gets the model packages that should/shouldn't
 	 * be processed.  
 	 * 
-	 * @return Returns the packages.
+	 * @return Returns the modelPackages.
 	 */
 	public ModelPackages getModelPackages() 
 	{
@@ -176,7 +176,7 @@ public class CodeGenerationContext
 	/**
 	 * Sets modelPackages.
 	 * 
-	 * @param packages The packages to set.
+	 * @param modelPackages The modelPackages to set.
 	 */
 	public void setModelPackages(ModelPackages modelPackages) 
 	{
