@@ -60,8 +60,10 @@ public class EntityDecoratorImpl extends EntityDecorator
     {
         for (Iterator i = getAttributes().iterator(); i.hasNext();)
         {
-            AttributeDecorator attribute = (AttributeDecorator) i.next();
-            if (attribute.getStereotype().equals(PRIMARY_KEY))
+        	Object object = i.next();
+        	System.out.println(object);
+            AttributeDecorator attribute = (AttributeDecorator) object;
+            if (attribute.getStereotypeName().equals(PRIMARY_KEY))
             {
                 return attribute;
             }
