@@ -113,7 +113,7 @@ public class AssociationEndFacadeLogicImpl
     public boolean isOne2One()
     {
         return !this.isMany()
-            && this.getOtherEnd().isMany();
+            && !this.getOtherEnd().isMany();
     }
 
     /* (non-Javadoc)
@@ -126,7 +126,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see edu.duke.dcri.mda.model.metafacade.AssociationEndFacade#isMany()
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany()
      */
     public boolean isMany() {
         boolean isMultiple = false;
