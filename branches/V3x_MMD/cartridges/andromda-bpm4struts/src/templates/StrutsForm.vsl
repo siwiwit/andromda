@@ -3,9 +3,9 @@
 ##
 package $class.packageName;
 
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.validator.ValidatorForm;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,12 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 ##
 #set ($formName = $str.toJavaMethodName($class.formBeanName))
 /**
+$class.getDocumentation(" ")
+ *
  * @struts.form
- *   name="$formName"
+ *        name="$formName"
  */
-public final class $class.name extends ActionForm
+public final class $class.name extends ValidatorForm
 {
 #foreach ($inputField in $class.inputFields)
+    /**
+$inputField.getDocumentation("     ")
+     */
 #if ($inputField.defaultValue)
     private $inputField.type.fullyQualifiedName $inputField.name = $inputField.defaultValue;
 #else
@@ -59,15 +64,26 @@ public final class $class.name extends ActionForm
 #foreach ($inputField in $class.inputFields)
     /**
 #if ($inputField.isRequired())
-     * @struts.validator
-     *    type="required"
-##   *    arg0resource="$inputField.fieldMessageKey"
-##   *    msgKey="$inputField.errorMessageKey"
+#set ($required = "required")
+#else
+#set ($required = "")
 #end
 #if ($inputField.maskPattern)
+#set ($mask = "mask")
+#else
+#set ($mask = "")
+#end
+#if ($inputField.isRequired() && $inputField.maskPattern)
+#set ($commaOne = ",")
+#else
+#set ($commaOne = "")
+#end
+     * @struts.validator
+     *    type="$required$commaOne$mask"
      *
+#if ($inputField.maskPattern)
      * @struts.validator-var
-     *    name="mask"
+     *    name="$mask"
      *    value="$inputField.maskPattern"
      *
 #end
@@ -110,8 +126,8 @@ public final class $class.name extends ActionForm
         this.$parameter = null;
 #end
 
-#foreach ($inputField in $class.resetInputFields)
-        this.$inputField.name = $inputField.name;
-#end
+###foreach ($inputField in $class.resetInputFields)
+##        this.$inputField.name = $inputField.name;
+###end
     }
 }
