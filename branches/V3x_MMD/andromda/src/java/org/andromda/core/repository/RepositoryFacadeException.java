@@ -1,4 +1,4 @@
-package org.andromda.core.common;
+package org.andromda.core.repository;
 
 import java.lang.reflect.Method;
 

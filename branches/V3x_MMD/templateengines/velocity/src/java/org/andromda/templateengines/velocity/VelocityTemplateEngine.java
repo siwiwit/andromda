@@ -1,4 +1,4 @@
-package org.andromda.core.templateengine;
+package org.andromda.templateengines.velocity;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.andromda.core.common.ExceptionUtils;
+import org.andromda.core.templateengine.TemplateEngine;
+import org.andromda.core.templateengine.TemplateEngineException;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Appender;

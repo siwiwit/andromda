@@ -1,7 +1,9 @@
-package org.andromda.core.common;
+package org.andromda.core.repository;
 
 import java.io.IOException;
 import java.net.URL;
+
+import org.andromda.core.common.ModelFacade;
 
 /**
  * An interface for objects responsible for being a repository into which an object model can 

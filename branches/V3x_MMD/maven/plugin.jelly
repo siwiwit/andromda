@@ -28,7 +28,6 @@
 		<j:set var="bootstrapMode" value="${maven.andromda.bootstrap.mode}"/>
 		<ant:path id="andromda.classpath">		  		
 			<ant:pathelement path="${plugin.dependencyClasspath}"/>  	
-            <ant:path refid="maven.dependency.classpath"/>
             <j:forEach var="artifactId" items="${artifactIds}">
 				<j:choose>
 					<j:set 
@@ -54,6 +53,7 @@
 					</j:otherwise>			
 				</j:choose>
 			</j:forEach>
+            <ant:path refid="maven.dependency.classpath"/>
 		</ant:path>
 	</goal>
 

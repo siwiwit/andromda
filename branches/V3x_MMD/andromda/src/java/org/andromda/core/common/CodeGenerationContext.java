@@ -2,6 +2,8 @@ package org.andromda.core.common;
 
 import java.util.Collection;
 
+import org.andromda.core.repository.RepositoryFacade;
+
 /**
  * Conext passed from the core to a cartridge
  * when code has to be generated.

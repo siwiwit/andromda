@@ -1,4 +1,4 @@
-package org.andromda.cartridges.interfaces;
+package org.andromda.templateengines.velocity;
 
 import java.io.StringWriter;
 
