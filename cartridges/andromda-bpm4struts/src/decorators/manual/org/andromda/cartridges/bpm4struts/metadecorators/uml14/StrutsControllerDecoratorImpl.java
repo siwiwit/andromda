@@ -2,7 +2,10 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
-import org.andromda.core.metadecorators.uml14.*;
+import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
+import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.core.metadecorators.uml14.UseCaseDecorator;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.ModelElement;
