@@ -4,7 +4,7 @@
 ##  Constant declarations
 ##
 #set ($servlet = $class.servlet)
-#set ($formBean = $servlet.formBean)
+#set ($formBeanName = $class.formBeanName)
 #set ($inputFields = $class.inputFields)
 #set ($triggers = $class.triggers)
 #set ($triggerMessages = $class.triggerMessages)
@@ -22,28 +22,15 @@
 #if ($inputFields.size() > 0)
 #set ($javaScriptURI = "${servlet.useCase.workflow.contextPath}/form-validation.jsp")
         <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="$javaScriptURI"/>"></script>
+        <html:javascript formName="$formBeanName" dynamicJavascript="true" staticJavascript="false" htmlComment="true"/>
         <script type="text/javascript" language="Javascript1.1">
         <!--
             function submitForm(form,trigger)
             {
                 form.trigger.value = trigger;
 
-                if (true == ${formBean.validationMethodName}(form))
+                if (true == ${class.validationMethodName}(form))
                     form.submit();
-            }
-
-            var bCancel = false;
-
-            function ${formBean.validationMethodName}(form)
-            {
-               return (bCancel) ? true : validateRequired(form);
-            }
-
-            function required()
-            {
-#foreach ($inputField in $inputFields)
-               this.a$velocityCount = new Array("$inputField.name", "$str.upperCaseFirstLetter($inputField.name)", new Function ("varName", " return this[varName];"));
-#end
             }
         //-->
         </script>
@@ -62,7 +49,7 @@
 ##
 ##  If the view is backed by a model (indicating request parameters) we render a form
 ##
-        <html:form action="$servletName?$servlet.dispatchParameter=$dispatchMethodName" onsubmit="return ${formBean.validationMethodName}(this);">
+        <html:form action="$servletName?$servlet.dispatchParameter=$dispatchMethodName" onsubmit="return ${class.validationMethodName}(this);">
 ##  This next field hold the trigger requests parameter that will be sent to the server
             <html:hidden property="trigger" value=""/>
             <table cellpadding="5" cellspacing="5" border="0">
