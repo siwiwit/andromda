@@ -2,10 +2,12 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.statemachines.State;
 import org.omg.uml.behavioralelements.statemachines.StateMachine;
+import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
@@ -34,10 +36,10 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
 
     public State findAsWorkflowState()
     {
-        if (hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE).booleanValue())
+        if (hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE))
         {
             final String name = getName();
-            final UmlPackage model = MetaDecoratorUtil.getModel(this);
+            final UmlPackage model = MetaDecoratorUtil.getModel(metaObject);
             final Collection allStates = model.getStateMachines().getState().refAllOfType();
 
             for (Iterator iterator = allStates.iterator(); iterator.hasNext();)
@@ -53,12 +55,32 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
     // ------------- relations ------------------
     protected ModelElement handleGetStateMachine()
     {
-        final Collection ownedElements = getOwnedElement();
+        final Collection ownedElements = metaObject.getOwnedElement();
         for (Iterator iterator = ownedElements.iterator(); iterator.hasNext();)
         {
             Object ownedElement = iterator.next();
             if (ownedElement instanceof StateMachine)
                 return (ModelElement) ownedElement;
+        }
+        return null;
+    }
+
+    protected ModelElement handleGetServlet()
+    {
+        final String name = getName();
+        UmlPackage model = MetaDecoratorUtil.getModel(metaObject);
+        Collection classifiers = model.getCore().getClassifier().refAllOfType();
+
+        for (Iterator iterator = classifiers.iterator(); iterator.hasNext();)
+        {
+            Classifier undecoratedClassifier = (Classifier) iterator.next();
+            DecoratorBase classifier = DecoratorBase.decoratedElement(undecoratedClassifier);
+            if (classifier instanceof StrutsControllerDecorator)
+            {
+                StrutsControllerDecorator controller = (StrutsControllerDecorator)classifier;
+                if (controller.getUseCase().getName().equalsIgnoreCase(name))
+                    return undecoratedClassifier;
+            }
         }
         return null;
     }

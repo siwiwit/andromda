@@ -1,13 +1,14 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.core.common.CollectionFilter;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
+import org.andromda.core.metadecorators.uml14.ActionStateDecorator;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.core.metadecorators.uml14.FinalStateDecorator;
+import org.andromda.core.metadecorators.uml14.PseudostateDecorator;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
+import org.omg.uml.behavioralelements.statemachines.FinalState;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
-import org.omg.uml.behavioralelements.statemachines.State;
 import org.omg.uml.behavioralelements.statemachines.Transition;
-import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.PseudostateKindEnum;
 
@@ -37,15 +38,31 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
     // concrete business methods that were declared
     // abstract in class StrutsStateMachineDecorator ...
 
-    public Pseudostate getInitialState()
-    {
-        final Collection initialStates = getInitialStates();
-        return (initialStates.isEmpty()) ? null : (Pseudostate)initialStates.iterator().next();
-    }
-
     // ------------- relations ------------------
-    public Set getForwardTransitionNames()
+    protected Collection handleGetForwardTransitions()
     {
+        final Set transitions = new LinkedHashSet();
+
+        final Collection actionStates = getActionStates();
+        final Collection finalStates = getFinalStates();
+
+        for (Iterator iterator = actionStates.iterator(); iterator.hasNext();)
+        {
+            ActionStateDecorator actionStateDecorator = (ActionStateDecorator) iterator.next();
+            ActionState actionState = (ActionState)actionStateDecorator.getMetaObject();
+            transitions.addAll(actionState.getIncoming());
+        }
+
+        for (Iterator iterator = finalStates.iterator(); iterator.hasNext();)
+        {
+            FinalStateDecorator finalStateDecorator = (FinalStateDecorator) iterator.next();
+            FinalState actionState = (FinalState)finalStateDecorator.getMetaObject();
+            transitions.addAll(actionState.getIncoming());
+        }
+
+        return transitions;
+
+/*
         final Collection actionStates = getActionStates();
         final Set forwardTransitionNames = new LinkedHashSet();
 
@@ -64,6 +81,21 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
             }
         }
         // 1. done ---------------------------------------------------
+
+        UmlPackage model = MetaDecoratorUtil.getModel(this);
+        Collection useCases = model.getUseCases().getUseCase().refAllOfType();
+
+        for (Iterator iterator = useCases.iterator(); iterator.hasNext();)
+        {
+            UseCase useCase = (UseCase) iterator.next();
+            if (useCase instanceof StrutsUseCaseDecorator)
+            {
+                StrutsUseCaseDecorator decorator = (StrutsUseCaseDecorator)useCase;
+                decorator.getController()
+            }
+        }
+
+
 
         // 2. take all the targets of the final states in this state machine (lookup in workflow)
         final UseCase contextUseCase = (UseCase)getContext();
@@ -90,20 +122,13 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
         // 2. done ------------------------------------------------------------------------------
 
         return forwardTransitionNames;
+*/
     }
 
     protected ModelElement handleGetInitialState()
     {
-        final CollectionFilter filter = new CollectionFilter()
-        {
-            public boolean accept(Object object)
-            {
-                return (object instanceof Pseudostate) &&
-                    (PseudostateKindEnum.PK_INITIAL.equals(((Pseudostate)(object)).getKind()));
-            }
-        };
-        final Collection initialStates = getSubvertices(filter);
-        return (initialStates.isEmpty()) ? null : (ModelElement)initialStates.iterator().next();
+        final Collection initialStates = getInitialStates();
+        return (initialStates.isEmpty()) ? null : ((PseudostateDecorator)initialStates.iterator().next()).getMetaObject();
     }
 
     protected Collection handleGetDecisionPoints()
@@ -120,14 +145,15 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
         return getSubvertices(filter);
     }
 
-    public Set getOutgoingDecisionPointTransitions()
+    protected Collection handleGetOutgoingDecisionPointTransitions()
     {
         final Collection decisions = getDecisionPoints();
         final Collection choiceTransitions = new LinkedHashSet();
 
         for (Iterator choiceIterator = decisions.iterator(); choiceIterator.hasNext();)
         {
-            final Pseudostate pseudostate = (Pseudostate) choiceIterator.next();
+            final PseudostateDecorator pseudostateDecorator = (PseudostateDecorator) choiceIterator.next();
+            Pseudostate pseudostate = (Pseudostate)pseudostateDecorator.getMetaObject();
             final Collection outgoingTransitions = pseudostate.getOutgoing();
             for (Iterator transitionIterator = outgoingTransitions.iterator(); transitionIterator.hasNext();)
             {
@@ -135,12 +161,12 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
                 choiceTransitions.add(transition);
             }
         }
-        return new LinkedHashSet(DecoratorBase.decoratedElements(choiceTransitions));
+        return choiceTransitions;
     }
 
     protected ModelElement handleGetUseCase()
     {
-        return (UseCase)getNamespace();
+        return metaObject.getNamespace();
     }
 
     // ------------- validation ------------------

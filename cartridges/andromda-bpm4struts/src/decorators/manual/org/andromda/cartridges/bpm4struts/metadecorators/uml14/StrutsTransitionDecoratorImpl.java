@@ -2,6 +2,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
 import org.andromda.core.metadecorators.uml14.PseudostateDecorator;
 import org.omg.uml.behavioralelements.statemachines.Event;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
@@ -31,25 +32,13 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
 
     public String getTriggerName()
     {
-        String triggerName = null;
-        Event trigger = getTrigger();
-
-        if (trigger != null)
-        {
-            triggerName = trigger.getName();
-        }
-
-        if (triggerName == null)
-        {
-            triggerName = getTarget().getName();
-        }
-
-        return triggerName;
+        Event trigger = metaObject.getTrigger();
+        return (trigger == null) ? metaObject.getTarget().getName() : trigger.getName();
     }
 
-    public StateVertex getFinalTarget()
+    public ModelElementDecorator getFinalTarget()
     {
-        Transition transition = this;
+        Transition transition = metaObject;
         StateVertex target = transition.getTarget();
 
         boolean isMergePoint = true;
@@ -65,7 +54,7 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
             }
         }
 
-        return target;//(StateVertex)DecoratorBase.decoratedElement(target);
+        return (ModelElementDecorator)DecoratorBase.decoratedElement(target);
     }
 
     // ------------- relations ------------------

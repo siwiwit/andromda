@@ -1,10 +1,10 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
-import org.omg.uml.behavioralelements.statemachines.State;
-import org.omg.uml.behavioralelements.statemachines.StateMachine;
-import org.omg.uml.behavioralelements.statemachines.Transition;
+import org.omg.uml.UmlPackage;
+import org.omg.uml.behavioralelements.usecases.UseCase;
+import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -31,6 +31,22 @@ public class StrutsFinalStateDecoratorImpl extends StrutsFinalStateDecorator
     // abstract in class StrutsFinalStateDecorator ...
 
     // ------------- relations ------------------
+
+    public ModelElement handleGetUseCase()
+    {
+        final String name = getName();
+        UmlPackage model = MetaDecoratorUtil.getModel(this.metaObject);
+        Collection useCases = model.getUseCases().getUseCase().refAllOfType();
+
+        for (Iterator iterator = useCases.iterator(); iterator.hasNext();)
+        {
+            UseCase useCase = (UseCase) iterator.next();
+            if (useCase.getName().equalsIgnoreCase(name))
+                return useCase;
+        }
+
+        return null;
+    }
 
     public void validate() throws DecoratorValidationException
     {

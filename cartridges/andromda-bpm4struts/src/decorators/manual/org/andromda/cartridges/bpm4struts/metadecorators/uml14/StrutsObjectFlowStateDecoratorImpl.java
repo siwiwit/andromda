@@ -1,11 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.StateMachineDecorator;
-import org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState;
-
-import java.util.Collection;
-import java.util.Iterator;
+import org.omg.uml.foundation.core.ModelElement;
 
 
 /**
@@ -29,6 +25,11 @@ public class StrutsObjectFlowStateDecoratorImpl extends StrutsObjectFlowStateDec
     // abstract in class StrutsObjectFlowStateDecorator ...
 
     // ------------- relations ------------------
+    protected ModelElement handleGetOutgoingTransition()
+    {
+        return (ModelElement)metaObject.getOutgoing().iterator().next();
+    }
+
 
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException

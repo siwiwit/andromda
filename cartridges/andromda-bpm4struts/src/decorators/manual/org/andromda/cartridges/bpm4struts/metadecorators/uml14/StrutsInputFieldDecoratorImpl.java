@@ -1,17 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
-import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.omg.uml.foundation.core.AssociationEnd;
-import org.omg.uml.foundation.core.Classifier;
-import org.omg.uml.foundation.core.ModelElement;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 
 /**
@@ -74,7 +64,7 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
      */
     public org.omg.uml.foundation.core.ModelElement handleGetJsp()
     {
-        return getOwner();
+        return getOwner().getMetaObject();
     }
 
     // ------------------------------------------------------------
