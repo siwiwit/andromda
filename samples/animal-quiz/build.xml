@@ -90,8 +90,8 @@
             </fileset>
         </copy>
         <copy todir="${build.dir}/WEB-INF/tld">
-            <fileset dir="${deploy.dir}">
-                <include name="*.tld"/>
+            <fileset dir="${lib.dir}">
+                <include name="struts-*.tld"/>
             </fileset>
         </copy>
         <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/struts-1.1.jar"/>
