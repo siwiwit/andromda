@@ -3,10 +3,13 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML.Tag;
 import javax.swing.text.html.HTMLEditorKit.ParserCallback;
 import javax.swing.text.html.parser.ParserDelegator;
+
+import org.apache.commons.lang.StringEscapeUtils;
 /**
  * A utility object useful for reading an HTML string (originating from the
  * contents of an XMI documentation element) and for translating that string
@@ -40,6 +43,7 @@ public class HTMLAnalyzer
     public Collection htmlToParagraphs(String html) throws IOException
     {
         ParserDelegator pd = new ParserDelegator();
+        html = StringEscapeUtils.escapeHtml(html);
         pd.parse(new StringReader(html), new MyParserCallback(), true);
         return paragraphs;
     }
