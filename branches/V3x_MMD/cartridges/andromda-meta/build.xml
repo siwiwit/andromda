@@ -131,7 +131,6 @@
             <outlet cartridge="meta" outlet="decorator-impls"  dir="${src.dec.man.dir}" />
 
             <modelPackage name="org.andromda.core.metadecorators.uml14" shouldProcess="true"/>
-            <modelPackage name="org.andromda.cartridges.bpm4struts.metadecorators.uml14" shouldProcess="true"/>
 
         </andromda>
     </target>
