@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../project.xml</extend>
-  	<id>andromda-car-rental-sample-ejb</id>
+  	<id>car-rental-sample-ejb</id>
   	<name>Car Rental Sample EJB</name>
   	<shortDescription>The Car Rental Sample EJB component</shortDescription>
   	<description>
@@ -11,13 +11,13 @@
 	<dependencies>      
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-mda</artifactId>
+			<artifactId>car-rental-sample-mda</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-common</artifactId>
+			<artifactId>car-rental-sample-common</artifactId>
 			<version>${pom.currentVersion}</version>
 		</dependency>
 		<dependency>

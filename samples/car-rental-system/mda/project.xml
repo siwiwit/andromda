@@ -3,7 +3,7 @@
 <project>
   	<extend>../project.xml</extend>
 	<name>Car Rental Sample MDA</name>
-	<id>andromda-car-rental-sample-mda</id>
+	<id>car-rental-sample-mda</id>
 	
   	<dependencies>
   	

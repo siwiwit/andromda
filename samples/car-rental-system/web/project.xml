@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../project.xml</extend>
-  	<id>andromda-car-rental-sample-web</id>
+  	<id>car-rental-sample-web</id>
   	<name>Car Rental Sample Web</name>
   	<shortDescription>Car Rental Sample Web</shortDescription>
   	<description>
@@ -11,18 +11,18 @@
 	<dependencies>      
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-mda</artifactId>
+			<artifactId>car-rental-sample-mda</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-common</artifactId>
+			<artifactId>car-rental-sample-common</artifactId>
 			<version>${pom.currentVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-car-rental-sample-ejb</artifactId>
+			<artifactId>car-rental-sample-ejb</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>ejb</type>
 		</dependency>
