@@ -36,6 +36,32 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
     // concrete business methods that were declared
     // abstract in class StateMachineDecorator ...
 
+    // ------------- relations ------------------
+    protected Collection handleGetInitialStates()
+    {
+        final CollectionFilter filter = new CollectionFilter()
+        {
+            public boolean accept(Object object)
+            {
+                return (object instanceof Pseudostate) &&
+                    (PseudostateKindEnum.PK_INITIAL.equals(((Pseudostate)(object)).getKind()));
+            }
+        };
+        return getSubvertices(filter);
+    }
+
+    protected Collection handleGetPseudostates()
+    {
+        final CollectionFilter filter = new CollectionFilter()
+        {
+            public boolean accept(Object object)
+            {
+                return (object instanceof Pseudostate);
+            }
+        };
+        return getSubvertices(filter);
+    }
+
     protected Collection handleGetChoicePseudostates()
     {
         final CollectionFilter filter = new CollectionFilter()
@@ -71,20 +97,6 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
             }
         };
         return getSubvertices(filter);
-    }
-
-    protected ModelElement handleGetInitialState()
-    {
-        final CollectionFilter filter = new CollectionFilter()
-        {
-            public boolean accept(Object object)
-            {
-                return (object instanceof Pseudostate) &&
-                    (PseudostateKindEnum.PK_INITIAL.equals(((Pseudostate)(object)).getKind()));
-            }
-        };
-        Collection initialStates = getSubvertices(filter);
-        return (initialStates.isEmpty()) ? null : (Pseudostate)initialStates.iterator().next();
     }
 
     protected Collection handleGetFinalStates()
@@ -125,6 +137,5 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
         return filteredCollection;
     }
 
-    // ------------- relations ------------------
 
 }
