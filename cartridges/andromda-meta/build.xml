@@ -11,7 +11,7 @@
   This requires a manual step at the end of the build process:
   - Build this cartridge normally, using the "dist" target.
   - If you are sure that the result is good, copy it into the AndroMDA core,
-    using the "deploy" target.
+    using the "copyjar" target.
 -->
 
     <!-- ============================================================= -->
@@ -35,14 +35,21 @@
     <property name="dist.dir"         value="dist" />
 
     <property file="build.properties" />
-    <property name="andromda-core.home" location="${andromda.home}/andromda-core"/>
-    <property name="andromda-meta.home" location="dist"/>
+    <property name="andromda-core.new.home" location="${andromda.new.home}/andromda-core"/>
+    <property name="andromda-meta.new.home" location="dist"/>
+    <property name="andromda-core.home"     location="${andromda.old.home}/andromda-core"/>
+    <property name="andromda-meta.home"     location="${andromda.old.home}/cartridges/andromda-meta"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
 
-    <path id="andromda.classpath">
+    <path id="andromda.old.classpath">
        <pathelement location="${andromda-core.home}/andromda.jar"/>
        <pathelement path="${andromda-core.classpath}"/>
+    </path>
+
+    <path id="andromda.new.classpath">
+       <pathelement location="${andromda-core.new.home}/andromda.jar"/>
+       <fileset dir="${andromda-core.new.home}/lib" includes="*.jar" excludes="metadecorators.jar"/>
     </path>
 
     <!-- Setup directory structure -->
@@ -83,40 +90,21 @@
     <!--               Internal tasks                                  -->
     <!-- ============================================================= -->
 
-    <target name="compile1" depends="init"
-            description="Builds the cartridge objects from the sources">
-        <javac destdir="${build.cart.dir}" includes="**/*.java"
-               includeAntRuntime="false">
-            <src path="${src.cart.dir}" />
-            <classpath refid="andromda.classpath"/>
-        </javac>
-
-        <jar jarfile="${build.dir}/andromda-meta.jar">
-            <fileset dir="${src.dir}" includes="templates/*" />
-            <fileset dir="${src.dir}" includes="META-INF/*" />
-            <fileset dir="${build.cart.dir}" includes="**/*.class" />
-        </jar>
-        <copy todir="${dist.dir}" >
-            <fileset dir="${build.dir}" includes="andromda-meta.jar" />
-            <fileset dir="." includes="andromda-meta.properties" />
-        </copy>
-    </target>
-
-    <target name="genjava" depends="compile1">
+    <target name="genjava" depends="init">
         <property file="${andromda-meta.home}/andromda-meta.properties"/>
 
         <path id="generate.classpath">
-           <path refid="andromda.classpath" />
+           <path refid="andromda.old.classpath" />
            <pathelement path="${andromda-meta.classpath}"/>
         </path>
+
+        <property name="g.cp" refid="generate.classpath"/>
+        <echo message="generate.classpath = ${g.cp}"/>
 
         <taskdef name="andromda"
                  classname="org.andromda.core.anttasks.AndroMDAGenTask"
                  classpathref="generate.classpath"
         />
-
-        <property name="g.cp" refid="generate.classpath"/>
-        <echo message="generate.classpath = ${g.cp}"/>
 
         <!--property name="model" value="jar:file:${uml.dir}/ProfileForMetamodelDecorators.zuml!/ProfileForMetamodelDecorators.xmi"/-->
         <property name="model" value="jar:file:${uml.dir}/MetadecoratorModel.xml.zip!/MetadecoratorModel.xml"/>
@@ -135,14 +123,16 @@
         </andromda>
     </target>
 
-    <target name="compile2" depends="genjava"
+    <target name="compile1" depends="genjava"
             description="Builds the decorator objects from the generated and hand-written sources">
+        <property name="n.cp" refid="andromda.new.classpath"/>
+        <echo message="andromda.new.classpath = ${n.cp}"/>
         <javac destdir="${build.dec.dir}" includes="**/*.java"
                includeAntRuntime="false">
             <src path="${src.dec.gen.dir}" />
             <src path="${src.dec.man.dir}" />
             <classpath>
-               <path refid="generate.classpath"/>
+               <path refid="andromda.new.classpath"/>
             </classpath>
         </javac>
 
@@ -151,13 +141,35 @@
         </jar>
     </target>
 
+    <target name="compile2" depends="compile1"
+            description="Builds the cartridge objects from the sources">
+        <javac destdir="${build.cart.dir}" includes="**/*.java"
+               includeAntRuntime="false">
+            <src path="${src.cart.dir}" />
+            <classpath>
+                <path refid="andromda.new.classpath"/>
+                <pathelement location="${build.dir}/metadecorators.jar"/>
+            </classpath>
+        </javac>
+
+        <jar jarfile="${build.dir}/andromda-meta.jar">
+            <fileset dir="${src.dir}" includes="templates/*" />
+            <fileset dir="${src.dir}" includes="META-INF/*" />
+            <fileset dir="${build.cart.dir}" includes="**/*.class" />
+        </jar>
+        <copy todir="${dist.dir}" >
+            <fileset dir="${build.dir}" includes="andromda-meta.jar" />
+            <fileset dir="." includes="andromda-meta.properties" />
+        </copy>
+    </target>
+
     <target name="test" depends="compile2">
         <mkdir dir="${build.test.classes.dir}"/>
         <mkdir dir="${build.test.reports.dir}"/>
         <path id="test.classpath">
-           <path refid="generate.classpath" />
            <pathelement location="${build.dir}/metadecorators.jar" />
            <pathelement location="${build.test.classes.dir}"/>
+           <path refid="generate.classpath" />
         </path>
 
         <javac debug="true" destdir="${build.test.classes.dir}" includes="**/*.java" includeAntRuntime="false">
@@ -178,12 +190,6 @@
                 </fileset>
             </batchtest>
         </junit>
-    </target>
-
-    <target name="copyjar">
-        <copy todir="../../andromda/lib">
-            <fileset dir="${build.dir}" includes="metadecorators.jar" />
-        </copy>
     </target>
 
 </project>

@@ -74,7 +74,7 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
      */
     public boolean isOne2Many()
     {
-        return !isMany(metaObject) && isMany(getOtherEnd());
+        return !isMany(metaObject) && isMany((AssociationEnd)getOtherEnd().getMetaObject());
     }
 
     /* (non-Javadoc)
@@ -82,7 +82,7 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
      */
     public boolean isMany2Many()
     {
-        return isMany(metaObject) && isMany(getOtherEnd());
+        return isMany(metaObject) && isMany((AssociationEnd)getOtherEnd().getMetaObject());
     }
 
     /* (non-Javadoc)
@@ -90,7 +90,7 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
      */
     public boolean isOne2One()
     {
-        return !isMany(metaObject) && !isMany(getOtherEnd());
+        return !isMany(metaObject) && !isMany((AssociationEnd)getOtherEnd().getMetaObject());
     }
 
     /* (non-Javadoc)
@@ -98,7 +98,7 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
      */
     public boolean isMany2One()
     {
-        return isMany(metaObject) && !isMany(getOtherEnd());
+        return isMany(metaObject) && !isMany((AssociationEnd)getOtherEnd().getMetaObject());
     }
 
     static protected boolean isMany(AssociationEnd ae)
@@ -172,6 +172,14 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
     	return ChangeableKindEnum.CK_FROZEN.equals(metaObject.getChangeability());
     }
 
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isNavigable()
+     */
+    public boolean isNavigable()
+    {
+        return metaObject.isNavigable();
+    }
+
     // ------------- relations ------------------
 
     /**
@@ -180,4 +188,5 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
     protected org.omg.uml.foundation.core.ModelElement handleGetAssociation() {
     	return metaObject.getAssociation();
     }
+
 }

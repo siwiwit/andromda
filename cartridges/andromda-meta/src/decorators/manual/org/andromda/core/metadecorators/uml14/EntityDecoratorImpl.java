@@ -63,7 +63,7 @@ public class EntityDecoratorImpl extends EntityDecorator
             AttributeDecorator attribute = (AttributeDecorator)i.next();
             if (attribute.getStereotypeName().equals(PRIMARY_KEY))
             {
-                return attribute;
+                return attribute.getMetaObject();
             }
         }
 

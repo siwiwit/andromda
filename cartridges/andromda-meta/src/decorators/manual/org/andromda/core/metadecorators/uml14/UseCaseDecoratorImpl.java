@@ -57,7 +57,7 @@ public class UseCaseDecoratorImpl extends UseCaseDecorator
 
     private Collection getSubGraphs(CollectionFilter collectionFilter)
     {
-        return filter(getOwnedElement(), collectionFilter);
+        return filter(metaObject.getOwnedElement(), collectionFilter);
     }
 
     private Collection filter(Collection collection, CollectionFilter collectionFilter)

@@ -41,7 +41,7 @@ public class AttributeDecoratorImpl extends AttributeDecorator
 
     public Object getDefaultValue()
     {
-        return getInitialValue().getBody();
+        return metaObject.getInitialValue().getBody();
     }
 
     /* (non-Javadoc)
