@@ -208,6 +208,7 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
 
     <head>
         <title><bean:message key="$class.titleKey"/></title>
+        <html:base/>
         <script type="text/javascript" src="<html:rewrite page="/form-validation.jsp"/>"></script>
 #foreach ($action in $actions)
         <html:javascript formName="$action.formBeanName" method="$action.formValidationMethodName" dynamicJavascript="true" staticJavascript="false" htmlComment="true" cdata="false"/>
