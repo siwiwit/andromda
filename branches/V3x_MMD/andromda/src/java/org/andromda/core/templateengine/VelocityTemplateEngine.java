@@ -29,7 +29,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
  * (@see http://jakarta.apache.org/velocity/)
  *
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
- * @author Matthias Bohlen
+ * @author Chad Brandon
  */
 public class VelocityTemplateEngine implements TemplateEngine {
 
