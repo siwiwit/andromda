@@ -169,9 +169,7 @@ public class StrutsActionLogicImpl
 
     public String getMessageKey()
     {
-        final String useCaseKey = StringUtilsHelper.toResourceMessageKey(getActivityGraph().getUseCase().getName());
-        final String actionKey = StringUtilsHelper.toResourceMessageKey(getActionName());
-        return useCaseKey + '.' + actionKey + '.';
+        return StringUtilsHelper.toResourceMessageKey(getActivityGraph().getUseCase().getName() + ' ' + getInput().getName());
     }
 
     public String getSuccessMessageKey()
