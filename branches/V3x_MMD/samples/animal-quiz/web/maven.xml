@@ -23,29 +23,7 @@
             	distributable="false" 
             	servletspec="2.3"/>
             <jbosswebxml/>
-        </webdoclet>
-        
-        <!--
-             Since we are downloading tld's with version
-             numbers we need to add the version number to the
-             tld file name 
-         -->
-        <ant:replace file="${webInfDir}/web.xml" 
-        	token="/WEB-INF/tld/struts-bean.tld"
-        	value="/WEB-INF/tld/struts-bean-1.1.tld">
-        </ant:replace>
-        <ant:replace file="${webInfDir}/web.xml" 
-        	token="/WEB-INF/tld/struts-tiles.tld"
-        	value="/WEB-INF/tld/struts-tiles-1.1.tld">
-        </ant:replace>
-        <ant:replace file="${webInfDir}/web.xml" 
-        	token="/WEB-INF/tld/struts-logic.tld"
-        	value="/WEB-INF/tld/struts-logic-1.1.tld">
-        </ant:replace>
-        <ant:replace file="${webInfDir}/web.xml" 
-        	token="/WEB-INF/tld/struts-html.tld"
-        	value="/WEB-INF/tld/struts-html-1.1.tld">
-        </ant:replace>       
+        </webdoclet>  
   		  		
   		<!-- add the paths of the generated source to the
   		     maven compile path -->
