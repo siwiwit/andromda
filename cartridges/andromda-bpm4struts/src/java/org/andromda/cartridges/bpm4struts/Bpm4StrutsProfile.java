@@ -19,6 +19,10 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_ACTION_PARAMETER = "@org.andromda.struts.action.parameter";
     public static final String TAGGED_VALUE_JSP_FILENAME = "@org.andromda.struts.jsp.filename";
     public static final String TAGGED_VALUE_USE_CASE = "@org.andromda.struts.usecase";
+    public static final String TAGGED_VALUE_VIEW_ACTION = "@org.andromda.struts.view.action";
+    public static final String TAGGED_VALUE_INPUT_REQUIRED = "@org.andromda.struts.view.field.required";
+    public static final String TAGGED_VALUE_INPUT_READONLY = "@org.andromda.struts.view.field.readonly";
+    public static final String TAGGED_VALUE_INPUT_MAXLENGTH = "@org.andromda.struts.view.field.maxlength";
 
     /* ----------------- Default Values ------------------- */
     public static final String TAGGED_VALUE_ACTION_DEFAULT_PARAMETER = "state";
