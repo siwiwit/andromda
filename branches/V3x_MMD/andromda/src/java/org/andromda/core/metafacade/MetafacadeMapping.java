@@ -73,10 +73,8 @@ public class MetafacadeMapping {
 	 */
 	public void setMetafacadeClassName(String metafacadeClassName) {
 		try {
-		    if (this.metafacadeClass == null) {
-				this.metafacadeClass = 
-					ClassUtils.loadClass(StringUtils.trimToEmpty(metafacadeClassName));
-		    }
+		    this.metafacadeClass = 
+		        ClassUtils.loadClass(StringUtils.trimToEmpty(metafacadeClassName));
 		} catch (Throwable th) {
 			String errMsg = "Error performing setMetafacadeClassName";
 			logger.error(errMsg, th);
