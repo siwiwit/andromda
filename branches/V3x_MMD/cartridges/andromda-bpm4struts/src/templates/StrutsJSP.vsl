@@ -172,6 +172,10 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
             </html:messages>
         </logic:messagesPresent>
 
+#foreach ($variable in $class.pageVariables)
+        <bean:write name="$variable.name" scope="page"/>
+#end
+
 #set ($isFocusSet = false)## only one field per JSP page can have focus
 #foreach ($action in $actions)
 #set ($messageKey = $action.messageKey)
