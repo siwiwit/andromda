@@ -55,15 +55,14 @@ ${inputField.messageKey}=$inputField.messageValue
 ${inputField.messageKey}.title=$inputField.messageValue
 #end
 ## Handle each view's trigger transition
-#set ($triggerMessages = $jsp.triggerMessages)
-#foreach ($triggerMessage in $triggerMessages.keySet())
-${triggerMessage}=$triggerMessages.get($triggerMessage)
-${triggerMessage}.title=$triggerMessages.get($triggerMessage)
+#foreach ($trigger in $jsp.triggers)
+${jsp.messageKey}.${trigger.messageKey}=${trigger.messageValue}
+${jsp.messageKey}.${trigger.titleMessageKey}=${trigger.titleMessageValue}
 #end
 
 #end
 #end
-#set ($formBean = false)
+#set ($formBean = false)## reset this variable in case there is a formless controller
 
 
 #end
