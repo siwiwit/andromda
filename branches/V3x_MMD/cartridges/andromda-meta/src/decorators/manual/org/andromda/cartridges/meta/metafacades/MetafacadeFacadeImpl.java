@@ -1,12 +1,18 @@
 package org.andromda.cartridges.meta.metafacades;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.andromda.cartridges.meta.MetaProfile;
+import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
+import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
 import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
+import org.andromda.core.metadecorators.uml14.OperationDecorator;
 
 /**
  *
@@ -29,16 +35,31 @@ public class MetafacadeFacadeImpl extends MetafacadeFacade
     // concrete business methods that were declared
     // abstract in class MetafacadeFacade ...
 
-    public java.lang.String getImplSuperclass()
+    public java.lang.String getImplSuperclassName()
+    {
+        String taggedValue =
+            findTaggedValueUpstairs(
+                MetaProfile.TAGGEDVALUE_METAFACADE_BASECLASS);
+        return (taggedValue != null)
+            ? taggedValue
+            : getLanguageMappings().getTo("datatype.Object");
+    }
+
+    /**
+     * Finds a tagged value on the current element or on a package
+     * in the hierarchy above it.
+     * 
+     * @param taggedValueName the name of the tagged value
+     * @return the value of the tagged value
+     */
+    private String findTaggedValueUpstairs(String taggedValueName)
     {
         String taggedValue = null;
         ModelElementDecorator med = this;
         do
         {
             // try to find this tagged value
-            taggedValue =
-                med.findTaggedValue(
-                    MetaProfile.TAGGEDVALUE_METAFACADE_BASECLASS);
+            taggedValue = med.findTaggedValue(taggedValueName);
             if (taggedValue != null)
             {
                 // return if found
@@ -49,8 +70,7 @@ public class MetafacadeFacadeImpl extends MetafacadeFacade
             med = med.getPackage();
         }
         while (med != null);
-
-        return getLanguageMappings().getTo("datatype.Object");
+        return null; // not found
     }
 
     // ------------- relations ------------------
@@ -78,12 +98,14 @@ public class MetafacadeFacadeImpl extends MetafacadeFacade
     private org.omg.uml.foundation.core.ModelElement getMetaclass(
         ClassifierDecorator cl)
     {
-        for (Iterator iter = cl.getDependencies().iterator(); iter.hasNext();)
+        for (Iterator iter = cl.getDependencies().iterator();
+            iter.hasNext();
+            )
         {
             DependencyDecorator dep = (DependencyDecorator) iter.next();
             ClassifierDecorator target = dep.getTargetType();
             Collection stereotypes = target.getStereotypeNames();
-            if (stereotypes != null)
+            if (stereotypes != null && stereotypes.size() > 0)
             {
                 String stereotypeName =
                     (String) stereotypes.iterator().next();
@@ -99,6 +121,103 @@ public class MetafacadeFacadeImpl extends MetafacadeFacade
         return (superclass != null) ? getMetaclass(superclass) : null;
     }
 
-// ------------------------------------------------------------
+    /* (non-Javadoc)
+     * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#getInterfacePackageName()
+     */
+    public String getInterfacePackageName()
+    {
+        String taggedValue =
+            findTaggedValueUpstairs(
+                MetaProfile.TAGGEDVALUE_METAFACADE_INTERFACEPACKAGE);
+        // if the tagged value is not set, return the same package
+        // as the current package.
+        return (taggedValue != null) ? taggedValue : getPackageName();
+    }
+
+    /* (non-Javadoc)
+     * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#getFullyQualifiedInterfaceName()
+     */
+    public String getFullyQualifiedInterfaceName()
+    {
+        return getInterfacePackageName() + "." + getInterfaceName();
+    }
+
+    /* (non-Javadoc)
+     * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#getInterfaceName()
+     */
+    public String getInterfaceName()
+    {
+        return "I" + getName();
+    }
+
+    /* (non-Javadoc)
+     * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#getMethodDataForPSM()
+     */
+    public Collection getMethodDataForPSM()
+    {
+try {
+        final String fullyQualifiedInterfaceName =
+            getFullyQualifiedInterfaceName();
+        HashMap map = new HashMap();
+
+        // translate UML attributes to getter methods
+        for (Iterator iter = getAttributes().iterator(); iter.hasNext();)
+        {
+            AttributeDecorator att = (AttributeDecorator) iter.next();
+            final MethodData md =
+                new MethodData(
+                    fullyQualifiedInterfaceName,
+                    "public",
+                    false,
+                    att.getType().getFullyQualifiedName(),
+                    att.getGetterName(),
+                    att.getDocumentation("    "));
+            map.put(md.buildCharacteristicKey(), md);
+        }
+
+        // translate UML operations to methods
+        for (Iterator iter = getOperations().iterator(); iter.hasNext();)
+        {
+            OperationDecorator op = (OperationDecorator) iter.next();
+            final UMLOperationData md =
+                new UMLOperationData(fullyQualifiedInterfaceName, op);
+            map.put(md.buildCharacteristicKey(), md);
+        }
+
+        // translate UML associations to getter methods
+        for (Iterator iter = getAssociationEnds().iterator();
+            iter.hasNext();
+            )
+        {
+            AssociationEndDecorator ae =
+                (AssociationEndDecorator) iter.next();
+            AssociationEndDecorator otherEnd = ae.getOtherEnd();
+            if (otherEnd.isNavigable())
+            {
+                final MethodData md =
+                    new MethodData(
+                        fullyQualifiedInterfaceName,
+                        "public",
+                        false,
+                        ae.getGetterSetterTypeName(),
+                        otherEnd.getGetterName(),
+                        otherEnd.getDocumentation("    "));
+                map.put(md.buildCharacteristicKey(), md);
+            }
+        }
+
+        ArrayList result = new ArrayList(map.values());
+        Collections.sort(result);
+        return result;
+}
+catch (RuntimeException re)
+{
+    re.printStackTrace();
+    logger.error(re);
+    return null;
+}
+    }
+
+    // ------------------------------------------------------------
 
 }

@@ -1,3 +1,6 @@
+//
+// Attention: generated code (by Metafacade.vsl) - do not modify!
+//
 #set ($packagename = $class.package.fullyQualifiedName)
 package $packagename;
 
@@ -9,7 +12,7 @@ package $packagename;
 #if ($superclass)
     #set ($superclassName = "${superclass.fullyQualifiedName}Impl")
 #else
-    #set ($superclassName = $class.implSuperclass)
+    #set ($superclassName = $class.implSuperclassName)
 #end
 ##
 /**
@@ -17,20 +20,10 @@ $class.getDocumentation(" ")
  *
  * Metaclass decorator for $decoratedMetaclassTypeName
  *
-#foreach ( $tgv in $class.taggedValues )
-#if ($tgv.name != "documentation")
-#if ($tgv.name == "---")
-    #set ($tag = "")
-#else
-    #set ($tag = $tgv.name)
-#end
- * $tag    $tgv.value
-#end
-#end
- *
  */
-public abstract class ${class.name}
+public abstract class $class.name
        extends    $superclassName
+       implements $class.fullyQualifiedInterfaceName
 {
     // -------- link to decorated metaobject ----------
     
@@ -72,7 +65,11 @@ $op.getDocumentation("    ")
 ##
 #set ($sourcetype = $assocEnd.type)
 #set ($targettype = $assocEnd.otherEnd.type)
+#if ($targettype.hasStereotype("Decorator"))
+#set ($targettypename = $targettype.fullyQualifiedInterfaceName)
+#else
 #set ($targettypename = $targettype.fullyQualifiedName)
+#end
 ##
 #set ($trn = $assocEnd.otherEnd.name)
 #set ($utrn = $str.upperCaseFirstLetter($trn))

@@ -7,25 +7,9 @@
     <template
         sheet="templates/MetaclassDecorator.vsl"
         outputPattern="{0}/{1}.java"
-        outlet="decorators"
-        overWrite="true">
-        <stereotype name="Decorator"/>    
-    </template>
-
-    <template
-        sheet="templates/MetaclassDecoratorImpl.vsl"
-        outputPattern="{0}/{1}Impl.java"
-        outlet="decorator-impls"
-        overWrite="false">
-        <stereotype name="Decorator"/>   
-    </template>
-
-    <template
-        sheet="templates/MetaclassDecorator.vsl"
-        outputPattern="{0}/{1}.java"
         outlet="facades"
         overWrite="true">
-        <stereotype name="metafacade"/>   
+        <stereotype name="Decorator" />
     </template>
 
     <template
@@ -33,7 +17,15 @@
         outputPattern="{0}/{1}Impl.java"
         outlet="facade-impls"
         overWrite="false">
-        <stereotype name="metafacade"/>   
+        <stereotype name="Decorator" />
     </template>
-    
+
+    <template
+        sheet="templates/MetafacadeInterface.vsl"
+        outputPattern="$myOutputFile"
+        outlet="facade-interfaces"
+        overWrite="true">
+        <stereotype name="Decorator" />
+    </template>
+
 </cartridge>
