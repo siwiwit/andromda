@@ -3,7 +3,9 @@ package org.andromda.metafacades.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EntityAttributeFacade;
+import org.andromda.metafacades.uml.EntityFacade;
 import org.andromda.metafacades.uml.UMLProfile;
 
 
@@ -55,18 +57,20 @@ public class EntityFacadeLogicImpl
      * @see org.andromda.metafacades.uml.EntityFacade#getIdentifiers()
      */
     public java.util.Collection getIdentifiers() {
-        final String methodName = "EntityFacadeImpl.getIdentifiers";
-        if (logger.isDebugEnabled())
-            logger.debug("performing " + methodName);
         
         Collection attributes = this.getAttributes();       
         MetafacadeUtils.filterByStereotype(
                 attributes, 
                 UMLProfile.STEREOTYPE_IDENTIFIER);
-
-        if (logger.isDebugEnabled())
-            logger.debug("completed " + methodName + 
-                    " with identifiers --> '" + attributes + "'");
+        
+        for (ClassifierFacade superClass = (ClassifierFacade) getGeneralization();
+             superClass != null && attributes.isEmpty();
+             superClass = (ClassifierFacade) superClass.getGeneralization()) {
+            if (superClass.hasStereotype(UMLProfile.STEREOTYPE_ENTITY)) {
+                EntityFacade entity = (EntityFacade)superClass;
+                attributes = entity.getIdentifiers();
+            }               
+        }
 
         return attributes;
     }   
