@@ -2,6 +2,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.core.common.StringUtilsHelper;
 
 
 /**
@@ -53,6 +54,16 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
     public Boolean isResetField()
     {
         return Boolean.FALSE;
+    }
+
+    public String getMessageKey()
+    {
+        return StringUtilsHelper.separate(getJsp().getName() + '.' +getName(), ".").toLowerCase();
+    }
+
+    public String getMessageValue()
+    {
+        return StringUtilsHelper.upperCaseFirstLetter(StringUtilsHelper.separate(getName(), " "));
     }
 
     public abstract String getFieldType();

@@ -2,6 +2,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
+import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.core.metadecorators.uml14.*;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
@@ -10,9 +11,7 @@ import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.ModelElement;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 
 /**
@@ -99,9 +98,35 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         return actionStates;
     }
 
+    // todo: this method in fact returns transitions -- Wouter Zoons
     public Collection getTriggers()
     {
         return decoratedElements(getActionState().metaObject.getOutgoing());
+    }
+
+    public Map getTriggerMessages()
+    {
+        Map triggerMessages = new TreeMap();
+        String keyPrefix = StringUtilsHelper.separate(getName(), ".") + '.';
+        Collection triggers = getTriggers();
+        for (Iterator iterator = triggers.iterator(); iterator.hasNext();)
+        {
+            StrutsTransitionDecorator trigger = (StrutsTransitionDecorator) iterator.next();
+            String key = (keyPrefix + StringUtilsHelper.separate(trigger.getTriggerName(), ".")).toLowerCase();
+            String val = StringUtilsHelper.upperCaseFirstLetter(StringUtilsHelper.separate(trigger.getTriggerName(), " "));
+            triggerMessages.put(key, val);
+        }
+        return triggerMessages;
+    }
+
+    public String getTitleMessageKey()
+    {
+        return (StringUtilsHelper.separate(getName(), ".") + ".title").toLowerCase();
+    }
+
+    public String getTitleMessageValue()
+    {
+        return StringUtilsHelper.upperCaseFirstLetter(StringUtilsHelper.separate(getName(), " "));
     }
 
     // ------------- relations ------------------
