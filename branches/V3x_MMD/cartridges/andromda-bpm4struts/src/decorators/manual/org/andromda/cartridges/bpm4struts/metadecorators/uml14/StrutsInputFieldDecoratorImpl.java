@@ -6,6 +6,7 @@ import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.Classifier;
+import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -17,7 +18,7 @@ import java.util.Iterator;
  *
  *
  */
-public class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDecorator
+public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDecorator
 {
     // ---------------- constructor -------------------------------
     public StrutsInputFieldDecoratorImpl(org.omg.uml.foundation.core.Attribute metaObject)
@@ -57,7 +58,28 @@ public class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDecorator
         return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_PATTERN);
     }
 
+    public Boolean isResetField()
+    {
+        return Boolean.FALSE;
+    }
+
+    public abstract String getFieldType();
+
     // ------------- relations ------------------
+    protected ModelElement handleGetView()
+    {
+        final ClassifierDecorator type = (ClassifierDecorator)DecoratorBase.decoratedElement(getType());
+        final Collection associationEnds = type.getAssociationEnds();
+        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+        {
+            AssociationEnd associationEnd = (AssociationEnd) iterator.next();
+            Classifier participant = associationEnd.getParticipant();
+            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
+            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_VIEW).booleanValue())
+                return participant; // undecorated
+        }
+        return null;
+    }
 
     /**
      *
