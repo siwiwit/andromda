@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>andromda3</project>
+		<project>andromda3-meta</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
