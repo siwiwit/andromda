@@ -121,6 +121,10 @@
         <to>java.net.URL</to>
     </mapping>
 	<mapping>
+	  	<from>datatype.Object</from>
+	  	<to>java.lang.Object</to>
+	</mapping>
+	<mapping>
 	  	<from>datatype.void</from>
 	 	<to>void</to>
 	</mapping>
