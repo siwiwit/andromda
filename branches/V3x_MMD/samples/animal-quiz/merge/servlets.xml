@@ -19,8 +19,8 @@
             <param-value>true</param-value>
         </init-param>
         <init-param>
-            <param-name>application</param-name>
-            <param-value>application-resources</param-value>
+            <param-name>GuessController</param-name>
+            <param-value>GuessController</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

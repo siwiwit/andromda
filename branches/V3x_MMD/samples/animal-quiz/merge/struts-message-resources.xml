@@ -1,2 +1,2 @@
 
-    <message-resources parameter="application" null="false" />
+    <message-resources parameter="GuessController" null="false" />
