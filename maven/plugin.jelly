@@ -54,8 +54,6 @@
 					</j:otherwise>			
 				</j:choose>
 			</j:forEach>
-			<ant:property name="path" refid="andromda.classpath"/>
-			<echo>path=${path}</echo>
 		</ant:path>
 	</goal>
 
