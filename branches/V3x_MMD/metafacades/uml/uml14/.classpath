@@ -2,6 +2,7 @@
 <classpath>
     <classpathentry kind="src" path="src/facades/generated"/>
     <classpathentry kind="src" path="src/facades/manual"/>
+    <classpathentry kind="src" path="src/test/java"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="src" path="/andromda3"/>
     <classpathentry kind="lib" path="/andromda3/lib/jmiuml14di.jar"/>
@@ -12,5 +13,6 @@
     <classpathentry kind="lib" path="/andromda3/lib/log4j-1.2.8.jar"/>
     <classpathentry kind="lib" path="/andromda3/lib/commons-collections.jar"/>
     <classpathentry kind="lib" path="/andromda3/lib/commons-lang-2.0.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/junit.jar"/>
     <classpathentry kind="output" path="eclipse-build"/>
 </classpath>
