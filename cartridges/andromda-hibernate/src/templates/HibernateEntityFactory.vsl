@@ -28,7 +28,6 @@ ${indent}* </p>
  * Those can be described as follows:
  * </p>
 #generateDocumentation ($class " ")
-#set ($tablename = $str.toDatabaseAttributeName(${class.name}, "_"))
 #foreach ( $tgv in $class.taggedValues )
 #if ($tgv.tag != "documentation")
 #if ($tgv.tag == "---")

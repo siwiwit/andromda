@@ -93,7 +93,7 @@ public class DecoratorFactory
     		return (DecoratorBase) metaobject;
     	}
     	
-    	DecoratorBase result = null;
+    	DecoratorBase metafacade = null;
     	Class metaobjectClass = null;
     	Class metafacadeClass = null;
     	try {
@@ -104,39 +104,39 @@ public class DecoratorFactory
     		MetafacadeMappings mappings = 
     			MetafacadeMappings.instance();		
     		
-    			Collection stereotypeNames = 
-    				this.getStereotypeNames(metaobject);
-    			MetafacadeMapping mapping = null;
-    			if (metafacadeClass == null) {
-    				stereotypeNames = 
-    					this.getStereotypeNames(metaobject);
-    				if (this.internalGetLogger().isDebugEnabled())
-    					this.internalGetLogger().debug("metaobject stereotype names --> '" 
-    							+ stereotypeNames + "'");
-    				mapping = mappings.getMetafacadeMapping(
-    						metaobjectClassName, 
-							stereotypeNames, 
-							this.getActiveNamespace(), 
-							contextName);
-    				if (mapping != null) {
-    					metafacadeClass = mapping.getMetafacadeClass();				
-    				} else {
-    					// get the default since no mapping was found.
-    					metafacadeClass = mappings.getDefaultMetafacadeClass(this.activeNamespace);
-    					if (this.internalGetLogger().isDebugEnabled())
-    						this.internalGetLogger().debug("Meta object model class '"
-    								+ metaobjectClass
-									+ "' has no corresponding meta facade class, default is being used --> '" 
-									+ metafacadeClass + "'");				
-    				}
-    			}
-    			
-    			if (metafacadeClass == null) {
-    				throw new MetafacadeMappingsException(methodName 
-    						+ " metafacadeClass was not retrieved from mappings"
-							+ " or specified as an argument in this method for metaobject --> '" 
-							+ metaobject + "'");
-    			}
+			Collection stereotypeNames = 
+				this.getStereotypeNames(metaobject);
+			MetafacadeMapping mapping = null;
+			if (metafacadeClass == null) {
+				stereotypeNames = 
+					this.getStereotypeNames(metaobject);
+				if (this.internalGetLogger().isDebugEnabled())
+					this.internalGetLogger().debug("metaobject stereotype names --> '" 
+							+ stereotypeNames + "'");
+				mapping = mappings.getMetafacadeMapping(
+						metaobjectClassName, 
+						stereotypeNames, 
+						this.getActiveNamespace(), 
+						contextName);
+				if (mapping != null) {
+					metafacadeClass = mapping.getMetafacadeClass();				
+				} else {
+					// get the default since no mapping was found.
+					metafacadeClass = mappings.getDefaultMetafacadeClass(this.activeNamespace);
+					if (this.internalGetLogger().isDebugEnabled())
+						this.internalGetLogger().debug("Meta object model class '"
+								+ metaobjectClass
+								+ "' has no corresponding meta facade class, default is being used --> '" 
+								+ metafacadeClass + "'");				
+				}
+			}
+			
+			if (metafacadeClass == null) {
+				throw new MetafacadeMappingsException(methodName 
+						+ " metafacadeClass was not retrieved from mappings"
+						+ " or specified as an argument in this method for metaobject --> '" 
+						+ metaobject + "'");
+			}
     		
     		if (internalGetLogger().isDebugEnabled())
     			if (internalGetLogger().isDebugEnabled())
@@ -145,14 +145,26 @@ public class DecoratorFactory
     						+ metaobjectClassName
 							+ " -> "
 							+ metafacadeClass);
-    		
-    		result =
+    			
+				
+    		metafacade =
     			(DecoratorBase) ConstructorUtils.invokeConstructor(
     					metafacadeClass,
 						metaobject);
-    		
-    		this.populatePropertyReferences(result,
-    				mappings.getPropertyReferences(this.getActiveNamespace()));
+
+				// set this namespace to the metafacade's namespace
+    		metafacade.setNamespace(this.getActiveNamespace());
+			this.populatePropertyReferences(
+				metafacade, 
+				mappings.getPropertyReferences(this.getActiveNamespace()));
+
+			// now populate any context property references (if
+			// we have any)
+			if (mapping != null) {
+ 				this.populatePropertyReferences(
+ 					metafacade,
+ 					mapping.getPropertyReferences());
+			}
     		
     	} catch (Throwable th) {
     		String errMsg = "Failed to construct a meta facade of type '"
@@ -165,9 +177,9 @@ public class DecoratorFactory
 
     	// make sure that the decorator has a proper logger associated
     	// with it.
-    	result.setLogger(internalGetLogger());
+    	metafacade.setLogger(internalGetLogger());
 
-    	return result;
+    	return metafacade;
     }
     
     /**
@@ -190,40 +202,49 @@ public class DecoratorFactory
      * 
      * @param propertyReferences the collection of property references to add.
      */
-    protected void populatePropertyReferences(DecoratorBase metafacade, Collection propertyReferences) {
-    	
-    	// only add the property once per context
-    	final String methodName = "MetafacadeFactory.populatePropertyReferences";
-    	ExceptionUtils.checkNull(methodName, "propertyReferences", propertyReferences);
-    	
-    	Iterator referenceIt = propertyReferences.iterator();		
-    	while (referenceIt.hasNext()) {
-    		String reference = (String)referenceIt.next();
+	/**
+	 * Populates the metafacade with the values retrieved from the property references 
+	 * found in the <code>propertyReferences</code> collection.
+	 * 
+	 * @param propertyReferences the collection of property references which we'll populate.
+	 */
+	protected void populatePropertyReferences(DecoratorBase metafacade, Collection propertyReferences) {
+		
+		// only add the property once per context
+		final String methodName = "DecoratorFactory.populatePropertyReferences";
+		ExceptionUtils.checkNull(methodName, "propertyReferences", propertyReferences);
+		
+		Iterator referenceIt = propertyReferences.iterator();		
+		while (referenceIt.hasNext()) {
+			String reference = (String)referenceIt.next();
 
-    		// ensure that each property is only set once per context
-    		// for performance reasons
-    		if (!this.isPropertyRegistered(metafacade.getPropertyNamespace(), reference)) {
-    			String value =   
-    				Namespaces.instance().findNamespaceProperty(
-    						this.getActiveNamespace(), reference);
-    			
-    			if (internalGetLogger().isDebugEnabled())
-    				internalGetLogger().debug("setting namespace property '" 
-    					+ reference + "' with value '" 
-						+ value + "' in namespace '" 
-						+ this.getActiveNamespace() + "'");
-    			
-    			try {
-    				PropertyUtils.setProperty(metafacade, reference, value);
-    			} catch (Exception ex) {
-    				String errMsg = "Error setting property '" + reference 
-					+ "' on metafacade --> '" + metafacade + "'";
-    				this.internalGetLogger().error(errMsg, ex);
-    				//don't throw the exception
-    			}
-    		}
-    	}
-    }	
+			// ensure that each property is only set once per context
+			// for performance reasons
+			if (!this.isPropertyRegistered(
+					metafacade.getPropertyNamespace(), 
+					reference)) {
+				String value =   
+					Namespaces.instance().findNamespaceProperty(
+							this.getActiveNamespace(), reference);
+				
+				if (this.internalGetLogger().isDebugEnabled())
+					this.internalGetLogger().debug("setting context property '" 
+							+ this.getActiveNamespace() + "' with value '" 
+							+ value + "'");
+				
+				if (value != null) {
+					try {
+						PropertyUtils.setProperty(metafacade, reference, value);
+					} catch (Exception ex) {
+						String errMsg = "Error setting property '" + reference 
+							+ "' on metafacade --> '" + metafacade + "'";
+						this.internalGetLogger().error(errMsg, ex);
+						//don't throw the exception
+					}
+				}
+			}
+		}
+	}		
     
     /**
      * Returns a metafacade for each metaobject, contained within the <code>metaobjects</code>

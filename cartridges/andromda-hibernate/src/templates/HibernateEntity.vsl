@@ -32,10 +32,9 @@ ${indent}* </p>
 
 /**
 #generateDocumentation ($class " ")
-#set ($tablename = $str.toDatabaseAttributeName(${class.name}, "_"))
  *
  * @hibernate.class
- *     table="HIB_$tablename"
+ *     table="HIB_$class.tableName"
  *
  * @hibernate.discriminator
  *     column="class"
@@ -64,10 +63,10 @@ public abstract class ${class.name} {
    /**
 #generateDocumentation ($att "    ")
     *
-#set ($attcolumnname = $str.toDatabaseAttributeName(${att.name}, "_"))
-#set ($attjdbctype   = $transform.findAttributeJDBCType($att))
-#set ($attsqltype    = $transform.findAttributeSQLType($att))
-#if ($transform.getStereotype($att.id) == "PrimaryKey")
+#set ($attcolumnname = $att.columnName)
+#set ($attjdbctype   = $attr.jdbcType)
+#set ($attsqltype    = $att.sqlType)
+#if ($att.identifier)
     * @hibernate.id 
     *     generator-class="uuid.hex"
 #else

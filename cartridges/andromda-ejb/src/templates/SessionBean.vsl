@@ -99,7 +99,7 @@ public abstract class ${servicename}Bean
 #foreach($att in $class.staticAttributes)
 #if (!$att.hasStereotype("EnvEntry"))
 #set ($attType = $att.type.fullyQualifiedName)
-#set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
+#set ($ATT_NAME = $att.name)
     private static final $attType $ATT_NAME = $att.defaultValue;
 #end
 #end
@@ -113,7 +113,7 @@ public abstract class ${servicename}Bean
 #if($att.hasStereotype("EnvEntry"))
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
 #else
-#set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
+#set ($ATT_NAME = $att.name)
      * Get #firstJavadocParagraph(${att} "lower" "the {@link #$ATT_NAME} constant")
 #end
 #remainingJavadocParagraphs($att "     ")
