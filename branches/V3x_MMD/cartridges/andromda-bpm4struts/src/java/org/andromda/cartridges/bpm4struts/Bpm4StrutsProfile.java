@@ -6,6 +6,7 @@ public class Bpm4StrutsProfile
 
     public static final String STEREOTYPE_MODEL = "FrontEndModel";
     public static final String STEREOTYPE_CONTROLLER = "FrontEndController";
+    public static final String STEREOTYPE_EXCEPTION = "FrontEndException";
     public static final String STEREOTYPE_VIEW = "FrontEndView";
     public static final String STEREOTYPE_VIEW_TEXTFIELD = "FrontEndViewTextField";
     public static final String STEREOTYPE_VIEW_TEXTAREA = "FrontEndViewTextArea";
@@ -32,9 +33,13 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_INPUT_ROWS = "@andromda.struts.view.field.rows";
     public static final String TAGGED_VALUE_INPUT_COLS = "@andromda.struts.view.field.cols";
     public static final String TAGGED_VALUE_INPUT_PATTERN = "@andromda.struts.view.field.pattern";
+    public static final String TAGGED_VALUE_EXCEPTION_TYPE = "@andromda.struts.exception.type";
+    public static final String TAGGED_VALUE_EXCEPTION_PATH = "@andromda.struts.exception.path";
+    public static final String TAGGED_VALUE_EXCEPTION_KEY = "@andromda.struts.exception.key";
 
     /* ----------------- Default Values ------------------- */
     public static final String TAGGED_VALUE_ACTION_DEFAULT_PARAMETER = "state";
+    public static final String TAGGED_VALUE_EXCEPTION_DEFAULT_TYPE = "java.lang.Exception";
     public static final String DEFAULT_ABSTRACT_CLASS_SUFFIX = "Abstract";
     public static final String DEFAULT_IMPLEMENTATION_CLASS_SUFFIX = "";
     public static final String DEFAULT_ABSTRACT_METHOD_SUFFIX = "";
