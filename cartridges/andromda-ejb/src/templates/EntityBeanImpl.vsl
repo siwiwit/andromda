@@ -22,14 +22,14 @@ public abstract class ${entityname}BeanImpl extends ${entityname}Bean
     // abstract in class ${entityname}Bean ...
 
 #foreach ( $op in $class.operations)
-#if ($transform.getStereotype($op.id) != "FinderMethod")
-#set ($returntype = $transform.findFullyQualifiedName($op.getType()))
-#set ($msig = $transform.getOperationSignature($op))
-#set ($visibility = $transform.getVisibility($op))
+#if ($op.stereotypeName != "FinderMethod")
+#set ($returntype = $op.getType.fullyQualifiedName)
+#set ($msig = $op.signature)
+#set ($visibility = $op.visibility)
 #set ($exceptions = "")
-#set ($exceptions = $transform.findTagValue($op, "@andromda.java.throws"))
+#set ($exceptions = $op.findTaggedValue("@andromda.java.throws"))
 #if ($exceptions == "")
-#set ($exceptions = $transform.findFullyQualifiedName($defaultException))
+#set ($exceptions = $defaultException.fullyQualifiedName)
 #end
 ## Public static methods are exposed on the home 
 ## interface instead of the component interface and must
@@ -50,7 +50,7 @@ public abstract class ${entityname}BeanImpl extends ${entityname}Bean
 #if ("void" != $returntype)
 
         // Dummy return value, just that the file compiles
-#if (!$str.isPrimitiveType($returntype))
+#if (!$returntype.primitiveType)
         return null;
 #elseif ("boolean" == $returntype)
         return false;

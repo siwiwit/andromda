@@ -119,13 +119,13 @@ package $packagename;
 #end
 #if($op.findTaggedValue("@andromda.ejb.query.dialect") == "JBossQL")
  *
- * @ejb.finder signature="${transform.findFullyQualifiedName($op.getType())} ${transform.getOperationSignature($op)}"
+ * @ejb.finder signature="${op.type.fullyQualifiedName} ${op.signature}"
  *             query="This finder method is only supported on the JBoss application server"
- * @jboss.query signature="${transform.findFullyQualifiedName($op.getType())} ${transform.getOperationSignature($op)}"
+ * @jboss.query signature="${op.type.fullyQualifiedName} ${op.signature}"
  *             query="$querystring"
 #else
  *
- * @ejb.finder signature="${transform.findFullyQualifiedName($op.getType())} ${transform.getOperationSignature($op)}"
+ * @ejb.finder signature="${op.type.fullyQualifiedName} ${op.signature}"
  *             query="$querystring"
 #end
 #end##if op.stereotype = "FinderMethod"
@@ -148,9 +148,9 @@ public abstract class ${entityname}Bean
     
     // -- accessors for environment entries and constants --
 #foreach($att in $class.staticAttributes)
-#set($attType = $transform.getFullyQualifiedName($att.type))
+#set($attType = $att.type.fullyQualifiedName)
 #set($AttName = $str.upperCaseFirstLetter($att.name))
-#set ($visibility = $transform.getVisibility($att))
+#set ($visibility = $att.visibility )
 
     /**
 #if($att.stereotypeName == "EnvEntry")
@@ -213,11 +213,11 @@ public abstract class ${entityname}Bean
 #end
 
     // --------------- attributes ---------------------
-#foreach ( $att in $transform.getInstanceAttributes($class))
-#set($attType = $transform.getFullyQualifiedName($att.type))    
+#foreach ( $att in $class.attributes)
+#set($attType = $att.type.fullyQualifiedName)    
 #set($AttName = $str.upperCaseFirstLetter($att.name))
 #set ($transactionType = $transform.findTagValue($att, "@andromda.ejb.transactionType", true))
-#set ($visibility = $transform.getVisibility($att))
+#set ($visibility = $att.visibility)
     /**
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
 #remainingJavadocParagraphs($att "     ")
@@ -247,7 +247,7 @@ public abstract class ${entityname}Bean
 ## We need to generate a public set method even for readonly or proteced
 ## attributes because of CMP semantics. 
 ## But we don't need to expose it on the interface
-#if($visibility == "public" && !$transform.isReadOnly($att))
+#if($visibility == "public" && !$att.readOnly)
      * @ejb.interface-method 
 #end     
 #if ($transactionType)
@@ -261,7 +261,7 @@ public abstract class ${entityname}Bean
     // ------------- CMR relations ------------------
 ## If the class is abstract, generate abstract methods for all CMR relations so that they
 ## are accessible in the *BeanImpl class
-#if ($class.isAbstract())
+#if ($class.abstract)
 #foreach ( $assoc in $class.entityRelations) )
 #if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
 #set ($assocname = $assoc.relationName)
@@ -277,7 +277,7 @@ public abstract class ${entityname}Bean
 
    /**
     * Set #firstJavadocParagraph(${assoc.target} "lower" "the ${assoc.target.roleName}")
-#if(!$transform.isReadOnly($assoc.target))
+#if(!$assoc.target.readOnly)
     * @ejb.interface-method 
 #end
     */
@@ -337,7 +337,7 @@ public abstract class ${entityname}Bean
 
    /**
     * Set #firstJavadocParagraph(${assoc.target} "lower" "the ${assoc.target.roleName}")
-#if(!$transform.isReadOnly($assoc.target))
+#if(!$assoc.target.readOnly)
     * @ejb.interface-method 
 #end
 #if ($transactionType)
@@ -382,13 +382,13 @@ public abstract class ${entityname}Bean
 #foreach ( $op in $class.operations)
 #if ($op.stereotypeName != "FinderMethod" && $op.stereotypeName != "CreateMethod" && $op.stereotypeName != "SelectMethod")
 #set ($transactionType = $transform.findTagValue($op, "@andromda.ejb.transactionType", true))
-#set ($msig = $transform.getOperationSignature($op))
+#set ($msig = $op.signature)
 #set ($interfaceType = "interface")
-#set ($visibility = $transform.getVisibility($op))
+#set ($visibility = $op.visibility)
 #set ($exceptions = "")
 #set ($exceptions = $op.findTaggedValue("@andromda.java.throws"))
 #if ($exceptions == "")
-#set ($exceptions = $transform.findFullyQualifiedName($defaultException))
+#set ($exceptions = $defaultException.fullyQualifiedName)
 #end
 ## Public static methods are exposed on the home 
 ## interface instead of the component interface
@@ -407,7 +407,7 @@ public abstract class ${entityname}Bean
 #end
 #end
     */
-#set ($returntype = $transform.findFullyQualifiedName($op.getType()))
+#set ($returntype = $op.type.fullyQualifiedName)
 #if ($exceptions == "")
     $visibility abstract $returntype ${msig};    
 #else
@@ -430,13 +430,13 @@ public abstract class ${entityname}Bean
 #end
 #end
 #end
-#set ($returntype = $transform.findFullyQualifiedName($op.getType()))
+#set ($returntype = $op.type.fullyQualifiedName)
    /**
 #generateDocumentation ($op "    ")
     *
     * @ejb.select query="$querystring"
     */
-    public abstract $returntype $transform.getOperationSignature($op) 
+    public abstract $returntype $op.signature 
     throws javax.ejb.FinderException;
 #end##if op.stereotype = "SelectMethod"
 
@@ -452,7 +452,7 @@ public abstract class ${entityname}Bean
 #set ($transactionType = $transform.findTagValue($op, "@andromda.ejb.transactionType", true))
 
     /**
-#if (!$class.isAbstract())
+#if (!$class.abstract)
      * Implementation for the 
      * {@link #ejbCreate($transform.getOperationParameterTypeNames($op))} 
      * create method.
@@ -473,7 +473,7 @@ public abstract class ${entityname}Bean
     }
 #end    
 #end
-#if (!$class.isAbstract())
+#if (!$class.abstract)
 #foreach ( $op in $transform.getAllCreateMethods($class.id))
 
     /**
@@ -536,7 +536,7 @@ public abstract class ${entityname}Bean
 
 ## Only generate create methods with all CMP and CMR fields for concrete EJBs, 
 ## and only if it is not explicitly switched off
-#if (!$class.isAbstract() && !$class.findTaggedValue("@andromda.ejb.noSyntheticCreateMethod"))
+#if (!$class.abstract && !$class.findTaggedValue("@andromda.ejb.noSyntheticCreateMethod"))
     /**
      * Create method with all CMP attribute values.
 #foreach($att in $allAttributes)

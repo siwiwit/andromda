@@ -2,13 +2,13 @@
 ## Include global definitions. ##
 #parse("templates/EJBglobals.vm")
 ##
-#set ($parentClass = $transform.getGeneralization($class.id))
+#set ($parentClass = $class.superclass)
 #if ($parentClass)
-#set ($parentStereotype = $transform.getStereotype($myClass))
+#set ($parentStereotype = $myClass.stereotypeName)
 #if ( $parentStereotype == "Entity")
 ## Extend the component interface of the super type if the super type 
 ## is an <<Entity>>
-#set ($parentInterface = "${transform.findFullyQualifiedName($parentClass)}")
+#set ($parentInterface = "${$parentClass.fullyQualifiedName}")
 #end
 #end
 #if (!$parentInterface)
@@ -30,19 +30,19 @@ package $packagename;
 public interface ${entityname} 
 extends $parentInterface 
         #foreach($intf in $transform.getAbstractions($class.id)),
-        $transform.findFullyQualifiedName($intf)#end
+        $intf.fullyQualifiedName#end
 
 {
 
     // -- accessors for environment entries and constants --
-#foreach($att in $transform.getStaticAttributes($class))
-#set ($visibility = $transform.getVisibility($att))
+#foreach($att in $class.staticAttributes)
+#set ($visibility = $att.visibility)
 ## Only expose the method to the component interface if it is public.
 #if($visibility == "public")
-#set($attType = $transform.getFullyQualifiedName($att.type))
+#set($attType = $att.type.fullyQualifiedName)
 #set($AttName = $str.upperCaseFirstLetter($att.name))
     /**
-#if($transform.getStereotype($att) == "EnvEntry")
+#if($att.stereotypeName == "EnvEntry")
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
 #else
 #set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
@@ -58,10 +58,10 @@ extends $parentInterface
     // ------------- attributes ----------------
     
 #foreach ( $att in $transform.getInstanceAttributes($class))
-#set ($visibility = $transform.getVisibility($att))
+#set ($visibility = $att.visibility)
 ## Only expose the method to the component interface if it is public.
 #if($visibility == "public")
-#set($attType = $transform.getFullyQualifiedName($att.type))
+#set($attType = $att.type.fullyQualifiedName)
 #set($AttName = $str.upperCaseFirstLetter($att.name))
     /**
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
@@ -69,7 +69,7 @@ extends $parentInterface
      */
     public $attType get$AttName();
 
-#if(!$transform.isReadOnly($att))
+#if(!$att.readOnly)
     /**
      * Set #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
      * @param value the new value
@@ -84,38 +84,38 @@ extends $parentInterface
 
 #foreach ( $assoc in $class.entityRelations) )
 #set ($assocname = $assoc.relationName)
-#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.target.roleName)})
+#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.roleName)})
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
 
    /**
-    * Get #firstJavadocParagraph(${assoc.target} "lower" "the ${assoc.target.roleName}")
-#remainingJavadocParagraphs($assoc.target "    ")
+    * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
+#remainingJavadocParagraphs($assoc.otherEnd "    ")
     */
     public $targetTypeName get$TargetRoleName();
 
    /**
-    * Set #firstJavadocParagraph(${assoc.target} "lower" "the ${assoc.target.roleName}")
+    * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")
     */
-    public void set$TargetRoleName($targetTypeName ${assoc.target.roleName});
+    public void set$TargetRoleName($targetTypeName ${assoc.otherEnd.roleName});
 #end ## foreach
 
     // ---------------- business methods  ----------------------
 
 #foreach ( $op in $class.operations)
-#if ($transform.getStereotype($op.id) != "FinderMethod" && $transform.getStereotype($op.id) != "CreateMethod" && $transform.getStereotype($op.id) != "SelectMethod")
-#set ($visibility = $transform.getVisibility($op))
+#if ($op.stereotypeName != "FinderMethod" && $op.stereotypeName != "CreateMethod" && $op.stereotypeName != "SelectMethod")
+#set ($visibility = $op.visibility)
 ## Only expose public, nonstatic methods (public static methods go on the home
 ## interface)
 #if ($visibility == "public" && !$transform.isStatic($op)) 
-#set ($msig = $transform.getOperationSignature($op))
-#set ($exceptions = $transform.findTagValue($op, "@andromda.java.throws"))
+#set ($msig = $op.signature)
+#set ($exceptions = $op.findTaggedValue("@andromda.java.throws"))
 #if (!$exceptions)
-#set ($exceptions = $transform.findFullyQualifiedName($defaultException))
+#set ($exceptions = $defaultException.fullyQualifiedName)
 #end
    /**
 #generateDocumentation ($op "    ")
     */
-#set ($returntype = $transform.findFullyQualifiedName($op.getType()))
+#set ($returntype = $op.type.fullyQualifiedName)
 #if ($exceptions)
     public $returntype ${msig} throws $exceptions;
 #else
