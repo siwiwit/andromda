@@ -8,6 +8,8 @@ import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.AggregationKindEnum;
 import org.omg.uml.foundation.datatypes.Multiplicity;
 import org.omg.uml.foundation.datatypes.MultiplicityRange;
+import org.omg.uml.foundation.datatypes.OrderingKind;
+import org.omg.uml.foundation.datatypes.OrderingKindEnum;
 
 /**
  *
@@ -126,6 +128,22 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
 
         return false;
     }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isOrdered()
+     */
+    public boolean isOrdered()
+	{
+    	boolean ordered = false;
+    	
+    	OrderingKind ordering = metaObject.getOrdering();
+    	//no ordering is 'unordered'
+    	if (ordering != null) {
+    		ordered = ordering.equals(OrderingKindEnum.OK_ORDERED);  		
+    	}
+
+		return ordered;
+    }
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isAggregation()
@@ -147,4 +165,10 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
 
     // ------------- relations ------------------
 
+    /**
+     * Create AssociationDecorator instances for each UmlAssociation instance.
+     */
+    protected org.omg.uml.foundation.core.ModelElement handleGetAssociation() {
+    	return metaObject.getAssociation();
+    }
 }
