@@ -5,6 +5,7 @@ import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.core.metadecorators.uml14.UseCaseDecorator;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.AssociationEnd;
@@ -45,8 +46,13 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         for (Iterator iterator = allUseCases.iterator(); iterator.hasNext();)
         {
             UseCase useCase = (UseCase) iterator.next();
-            if (useCaseName.equalsIgnoreCase(useCase.getName()))
+            UseCaseDecorator useCaseDecorator = (UseCaseDecorator)DecoratorBase.decoratedElement(useCase);
+
+            if ( useCaseDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE).booleanValue() &&
+                 useCaseName.equalsIgnoreCase(useCase.getName()) )
+            {
                 return useCase;
+            }
         }
 
         return null;
