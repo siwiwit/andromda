@@ -6,9 +6,18 @@
     <stereotype name="FrontEndModel"/>
     <stereotype name="FrontEndController"/>
 
-    <outlet name="actions"/>
     <outlet name="pages"/>
     <outlet name="forms"/>
+    <outlet name="actions"/>
+    <outlet name="messages"/>
+
+    <template
+        stereotype="FrontEndController"
+        sheet="templates/StrutsMessageResources.vsl"
+        outputPattern="{0}/{1}.properties"
+        outlet="messages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
 
     <template
         stereotype="FrontEndController"
