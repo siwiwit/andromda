@@ -20,17 +20,17 @@
     <head>
         <title><bean:message key="$class.titleMessageKey"/></title>
 #if ($inputFields.size() > 0)
-#set ($javaScriptURI = "${servlet.useCase.workflow.contextPath}/form-validation.jsp")
-        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="$javaScriptURI"/>"></script>
-        <html:javascript formName="$formBeanName" dynamicJavascript="true" staticJavascript="false" htmlComment="true"/>
+#set ($staticJavaScriptURI = "${servlet.useCase.workflow.contextPath}/form-validation.jsp")
+#set ($dynamicJavaScriptURI = "${class.fullPathName}JS.jsp")
+        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="$staticJavaScriptURI"/>"></script>
+<!--        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="$dynamicJavaScriptURI"/>"></script>-->
+<html:javascript formName="$formBeanName" dynamicJavascript="true" staticJavascript="false" htmlComment="truea"/>
         <script type="text/javascript" language="Javascript1.1">
         <!--
             function submitForm(form,trigger)
             {
                 form.trigger.value = trigger;
-
-                if (true == ${class.validationMethodName}(form))
-                    form.submit();
+                form.submit();
             }
         //-->
         </script>
