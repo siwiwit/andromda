@@ -64,6 +64,7 @@
                 <property name="pages" value="${src.dir}"/>
                 <property name="actions" value="${src.dir}"/>
                 <property name="messages" value="${src.dir}"/>
+                <property name="validation" value="${build.dir}/WEB-INF"/>
                 <property name="xdoclet-merge" value="${merge.dir}"/>
             </namespace>
         </andromda>
