@@ -159,7 +159,7 @@
 #foreach ($trigger in $triggers)
 #if ($trigger.isCancelTrigger())
                         <input type="button" name="<%=org.apache.struts.Globals.CANCEL_KEY%>"
-                               onclick="submitForm(this.form,'${class.messageKey}.$trigger.messageKey')"
+                               onclick="submitForm(this.form,'$trigger.messageKey');"
                                title="<bean:message key="${class.messageKey}.$trigger.titleMessageKey"/>"
                                value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
 #elseif ($trigger.isResetTrigger())
@@ -168,7 +168,7 @@
                                value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
 #else
                         <input type="button"
-                               onclick="submitForm(this.form,'${class.messageKey}.$trigger.messageKey')"
+                               onclick="submitForm(this.form,'$trigger.messageKey');"
                                title="<bean:message key="${class.messageKey}.$trigger.titleMessageKey"/>"
                                value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
 #end
@@ -185,8 +185,8 @@
 #foreach ($trigger in $triggers)
 #set ($linkAction = "${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&trigger=$trigger.messageKey")
             <li>
-                <html:link action="$linkAction" titleKey="$trigger.titleMessageKey">
-                    <bean:message key="$trigger.messageKey"/>
+                <html:link action="$linkAction" titleKey="${class.messageKey}.$trigger.titleMessageKey">
+                    <bean:message key="${class.messageKey}.$trigger.messageKey"/>
                 </html:link>
             </li>
 #end
