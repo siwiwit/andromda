@@ -63,7 +63,21 @@ public final class GuessController implements GuessControllerInterface {
         throws Exception {
         HttpSession session = request.getSession();
         VODecisionItem vodi = (VODecisionItem) session.getAttribute("voLastDecisionItem");
-        return (vodi.getIdNoItem() != null) ? "yes" : "no";
+        String idNoItem = vodi.getIdNoItem();
+        if (idNoItem != null) {
+            DecisionServiceHome dsh = DecisionServiceUtil.getHome();
+            DecisionService ds = dsh.create();
+            vodi = ds.getNextQuestion(idNoItem);
+            ds.remove();
+
+            form.setQuestion(vodi.getPrompt());
+
+            // Keep the decision item in the session so that
+            // the next step can process it.
+            session.setAttribute("voLastDecisionItem", vodi);
+            return "yes";
+        }
+        return "no";
     }
 
     /**
@@ -77,14 +91,8 @@ public final class GuessController implements GuessControllerInterface {
         HttpServletRequest request,
         HttpServletResponse reponse)
         throws Exception {
-
-        /*
-         * By default this method populates the complete form, it is up to you to replace this
-         * by those fields that are required (this cannot be determined here because it might be
-         * that case that many action call this controller method, each with their own set of
-         * parameters
-         */
-        populateForm(form);
+        HttpSession session = request.getSession();
+        session.setAttribute("lastAnimalName", form.getAnimal());
     }
 
     /**
@@ -99,23 +107,16 @@ public final class GuessController implements GuessControllerInterface {
         HttpServletResponse reponse)
         throws Exception {
 
-        /*
-         * By default this method populates the complete form, it is up to you to replace this
-         * by those fields that are required (this cannot be determined here because it might be
-         * that case that many action call this controller method, each with their own set of
-         * parameters
-         */
-        populateForm(form);
-    }
+        HttpSession session = request.getSession();
 
-    /**
-     * This method exists solely to make the application work at runtime by populating
-     * the complete form with default values.
-     * <p/>
-     * You may remove this method if you want.
-     */
-    private void populateForm(GuessForm form) {
-        form.setAnimal("animal-test");
-        form.setQuestion("question-test");
+        String animalName = (String) session.getAttribute("lastAnimalName");
+        VODecisionItem vodi = (VODecisionItem) session.getAttribute("voLastDecisionItem");
+
+        DecisionServiceHome dsh = DecisionServiceUtil.getHome();
+        DecisionService ds = dsh.create();
+
+        ds.addNewAnimalWithQuestion(animalName, form.getQuestion(), vodi.getId());
+
+        ds.remove();
     }
 }

@@ -49,10 +49,25 @@ public class DecisionServiceBeanImpl extends DecisionServiceBean implements java
         java.lang.String promptForYes,
         java.lang.String idOfLastNoDecision)
         throws DecisionException {
-        // TODO: put your implementation here.
 
-        // Dummy return value, just that the file compiles
-        return null;
+        try {
+            Animal newAnimal = AnimalFactory.create(animalName, false);
+            Question newQuestion = QuestionFactory.create(promptForYes, false);
+            newQuestion.setYesSuccessor(newAnimal);
+
+            DecisionItem lastNoDecision =
+                DecisionItemFactory.findByPrimaryKey(sess, idOfLastNoDecision);
+            lastNoDecision.setNoSuccessor(newQuestion);
+
+            sess.save(newAnimal);
+            sess.save(newQuestion);
+            sess.save(lastNoDecision);
+        }
+        catch (HibernateException e) {
+            throw new EJBException(e);
+        }
+
+        return null; // TODO: make method return "void" and delete this line!
     }
 
     // ---------- the usual session bean stuff... ------------
