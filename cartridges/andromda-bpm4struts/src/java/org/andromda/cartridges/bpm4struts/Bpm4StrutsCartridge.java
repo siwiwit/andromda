@@ -32,7 +32,7 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
     public void init(Properties velocityProperties) throws Exception {
         super.init(velocityProperties);
 
-        DecoratorFactory df = DecoratorFactory.getInstance();
+      /*  DecoratorFactory df = DecoratorFactory.getInstance();
         String oldNamespace = df.getActiveNamespace();
         df.setActiveNamespace (getDescriptor().getCartridgeName());
 
@@ -40,7 +40,7 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
          *
          *      behavioralelements
          *
-         */
+         *
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.statemachines.Event$Impl",
             null,
@@ -95,7 +95,7 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
          *
          *      core model elements
          *
-         */
+         *
         df.registerDecoratorClass(
             "org.omg.uml.foundation.core.UmlClass$Impl",
             Bpm4StrutsProfile.STEREOTYPE_MODEL,
@@ -161,6 +161,6 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             null,
             StrutsTextFieldDecoratorImpl.class.getName());
 
-        df.setActiveNamespace (oldNamespace);
+        df.setActiveNamespace (oldNamespace);*/
     }
 }
