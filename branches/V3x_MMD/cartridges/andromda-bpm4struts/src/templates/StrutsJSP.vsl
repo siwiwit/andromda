@@ -1,4 +1,4 @@
-#set ($generatedFile = "${class.fullPathName}.jsp")
+#set ($generatedFile = "${class.fullPathName}")
 
 #parse("templates/StrutsJSP.vm")
 

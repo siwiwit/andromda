@@ -1,0 +1,40 @@
+#set ($generatedFile = "${class.fullPathName}.java")
+
+#set ($packageName = $class.packageName)
+
+#set ($actions = $class.actions)
+
+package $packageName;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionForward;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+#foreach ($action in $actions)
+#set ($formBeanPackage = $action.formBeanPackageName)
+#if ($formBeanPackage != $packageName)
+import $action.formBeanType;
+#end
+#end
+
+public final class $class.name
+{
+#foreach ($operation in $class.operations)
+#set ($returnType = $operation.type.fullyQualifiedName)
+#if (!$returnType)
+#set ($returnType = "void")
+#end
+#set ($signature = "${operation.name}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception")
+#set ($visibility = $operation.visibility)
+    $visibility static $returnType $signature
+    {
+#if ($returnType != "void")
+        return null;
+#end
+    }
+
+#end
+}
