@@ -159,7 +159,7 @@ public class Mappings {
             if (logger.isDebugEnabled())
                 logger.debug("no mapping for type '" 
                         + from 
-                        + "' found, using default name --> '" + from + "'");
+                        + "' found, using default name --> '" + initialFrom + "'");
             to = initialFrom;
         } else {
             if (logger.isDebugEnabled())
