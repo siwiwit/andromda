@@ -1,11 +1,11 @@
 ##
 ## Some global invariants
 ##
-#set ($stateMachine = $class.useCase.stateMachine)
-#set ($choiceTransitions = $stateMachine.outgoingDecisionPointTransitions)
-#set ($actionStates = $stateMachine.actionStates)
-#set ($choices = $stateMachine.decisionPoints)
-#set ($objectFlowStates = $stateMachine.objectFlowStates)
+#set ($activityGraph = $class.useCase.activityGraph)
+#set ($choiceTransitions = $activityGraph.outgoingDecisionPointTransitions)
+#set ($actionStates = $activityGraph.actionStates)
+#set ($choices = $activityGraph.decisionPoints)
+#set ($objectFlowStates = $activityGraph.objectFlowStates)
 #set ($formBean = $class.formBean)
 ##
 ## Specific to this class
@@ -68,13 +68,16 @@ $class.getDocumentation(" ")
  */
 public abstract class $className extends DispatchAction
 {
+    private final String dispatchGuardAttributeKey = "org.andromda.cartridges.bpm4struts.dispatchguard";
+    private final Object dispatchGuardDummyValue   = Boolean.TRUE;
+
 #foreach ($choiceTransition in $choiceTransitions)
     protected final int $choiceTransition.metaObject.guard.name.toUpperCase() = $velocityCount;
 #end
 
     public final ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     {
-#processTransition ( $stateMachine.initialState.outgoing.iterator().next() "        " )
+#processTransition ( $activityGraph.initialState.outgoing.iterator().next() "        " )
     }
 
 #foreach ($actionState in $actionStates)
@@ -165,4 +168,36 @@ $objectFlowState.getDocumentation("     ")
 
         return method;
     }
+
+    /**
+     * A client request contains a parameter that holds the name of the controller's dispatch method to call.
+     * Typically this request originates from a page on the client machine and targets a specific controller
+     * feature.
+     * <p>
+     * If the controller decides to forward to another controller this parameter will also be passed on, making
+     * the latter controller think he needs to dispatch also to this method. When this method name does not exist
+     * the <code>getMethod()</code> method of the controller will handle it, but consider the case where a controller
+     * decides to target itself: it will result in an endless-loop because the same dispatch method is
+     * called over and over again.
+     * <p>
+     * In fact, dispatching may only occur once per request. When a controller targets a controller
+     * it can only call the <code>unspecified()</code> method (architectural convention).
+     * <p>
+     * In order to guarantee this this class has a mechanism built-in that sets flag into the request indicating
+     * dispatching occurred. The flag is set here if it is not yet present. In case it is present we forward to
+     * the <code>unspecified()</code> method.
+     */
+    protected final ActionForward dispatchMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String name) throws Exception
+    {
+        if (request.getAttribute(dispatchGuardAttributeKey) == null)
+        {
+            request.setAttribute(dispatchGuardAttributeKey, dispatchGuardDummyValue);
+            return super.dispatchMethod(mapping, form, request, response, name);
+        }
+        else
+        {
+            return unspecified(mapping, form, request, response);
+        }
+    }
+
 }
