@@ -7,7 +7,6 @@
 #set ($formBeanName = $class.formBeanName)
 #set ($inputFields = $class.inputFields)
 #set ($triggers = $class.triggers)
-#set ($triggerMessages = $class.triggerMessages)
 ##
 ## Specific to this class
 ##
@@ -49,7 +48,10 @@
 ##
 ##  If the view is backed by a model (indicating request parameters) we render a form
 ##
-        <html:form action="$servletName?$servlet.dispatchParameter=$dispatchMethodName" onsubmit="return ${class.validationMethodName}(this);">
+#set ($formAction = "$servletName?$servlet.dispatchParameter=$dispatchMethodName")
+#set ($formFocus = "$class.firstInputField.name")
+#set ($formOnSubmit = "return ${class.validationMethodName}(this);")
+        <html:form action="$formAction" focus="$formFocus" onsubmit="$formOnSubmit">
 ##  This next field hold the trigger requests parameter that will be sent to the server
             <html:hidden property="trigger" value=""/>
             <table cellpadding="5" cellspacing="5" border="0">
@@ -151,13 +153,25 @@
 ##
 ##  Triggers are represented by submit buttons that will post the form to the action
 ##
-#foreach ($triggerMessage in $triggerMessages.keySet())
-#set ($title = ${triggerMessages.get($triggerMessage)})
-#set ($buttonName = "${triggerMessage}.button")
-                        <input type="button" name="$buttonName"
-                               onclick="submitForm(this.form,'$triggerMessage')"
-                               title="$title"
-                               value="<bean:message key="$triggerMessage"/>">
+##      1. cancel triggers must send a specific parameter name to the servlet
+##      2. reset triggers do not call the servlet, they simply reset the form
+##
+#foreach ($trigger in $triggers)
+#if ($trigger.isCancelTrigger())
+                        <input type="button" name="<%=org.apache.struts.Globals.CANCEL_KEY%>"
+                               onclick="submitForm(this.form,'${class.messageKey}.$trigger.messageKey')"
+                               title="<bean:message key="${class.messageKey}.$trigger.titleMessageKey"/>"
+                               value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
+#elseif ($trigger.isResetTrigger())
+                        <input type="reset"
+                               title="<bean:message key="${class.messageKey}.$trigger.titleMessageKey"/>"
+                               value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
+#else
+                        <input type="button"
+                               onclick="submitForm(this.form,'${class.messageKey}.$trigger.messageKey')"
+                               title="<bean:message key="${class.messageKey}.$trigger.titleMessageKey"/>"
+                               value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
+#end
 #end
                     </td>
                 </tr>
@@ -168,11 +182,11 @@
 ## So we have no input fields, render a link for each trigger
 ##
         <ol>
-#foreach ($triggerMessage in $triggerMessages.keySet())
-#set ($title = "${triggerMessage}.title")
+#foreach ($trigger in $triggers)
+#set ($linkAction = "${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&trigger=$trigger.messageKey")
             <li>
-                <html:link action="${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&trigger=$triggerMessage" titleKey="$title">
-                    <bean:message key="$triggerMessage"/>
+                <html:link action="$linkAction" titleKey="$trigger.titleMessageKey">
+                    <bean:message key="$trigger.messageKey"/>
                 </html:link>
             </li>
 #end
