@@ -63,11 +63,6 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         return resetInputFields;
     }
 
-    public String getValidationMethodName()
-    {
-        return "validate" + StringUtilsHelper.upperCaseFirstLetter(getFormBeanName());
-    }
-
     // ------------- relations ------------------
 
     protected Collection handleGetServlets()
