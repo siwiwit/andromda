@@ -12,6 +12,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  * 
  * @since 26.11.2003
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
+ * @author Chad Brandon
  *
  */
 public class StdoutLogger
@@ -25,11 +26,13 @@ public class StdoutLogger
      * from the the xml resource "log4j.xml" found within
      * the same package as this class.     
      */
-    public static void configure() {
+    public static void configure() 
+    {
     	final String methodName = "StdoutLogger.configure";
     	String loggingConfiguration = "log4j.xml";
     	URL url = StdoutLogger.class.getResource(loggingConfiguration);
-    	if (url == null) {
+    	if (url == null) 
+        {
     		throw new RuntimeException(methodName
     				+ " - could not find Logger configuration file '" 
 					+ loggingConfiguration + "'");
@@ -42,14 +45,17 @@ public class StdoutLogger
      * 
      * @param logConfigurationXml
      */
-    protected static void configure(URL logConfigurationXml) {
-    	try {
+    protected static void configure(URL logConfigurationXml) 
+    {
+    	try 
+        {
     		DOMConfigurator.configure(logConfigurationXml);
-    	} catch (Exception ex) {
+    	} catch (Exception ex) 
+        {
     		System.err.println(
-    				"Unable to initialize logging system with configuration file ("
+    				"Unable to initialize logging system with configuration file '"
     				+ logConfigurationXml
-					+ ") --> using basic configuration.");
+					+ "' --> using basic configuration.");
     		ex.printStackTrace();
     		BasicConfigurator.configure();
     	}
