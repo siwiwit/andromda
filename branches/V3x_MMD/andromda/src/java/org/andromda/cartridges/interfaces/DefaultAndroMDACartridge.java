@@ -40,6 +40,7 @@ import org.omg.uml.foundation.core.ModelElement;
  * Can be customized by derived cartridge classes.
  * 
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
+ * @author Chad Brandon
  *
  */
 public class DefaultAndroMDACartridge implements IAndroMDACartridge
@@ -159,6 +160,14 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         String name = context.getModelFacade().getName(modelElement);
         String packageName =
             context.getModelFacade().getPackageName(modelElement);
+        
+        //if the package name shouldn't be processed,
+        //skip it.
+        if (!context.getModelPackages().shouldProcess(packageName))
+        {
+        	return;
+        }
+        
         long modelLastModified = context.getRepository().getLastModified();
 
         List templates = getDescriptor().getTemplateConfigurations();

@@ -10,6 +10,7 @@ import org.andromda.cartridges.interfaces.OutletDictionary;
  * 
  * @since 28.07.2003
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
+ * @author Chad Brandon
  *
  */
 public class CodeGenerationContext
@@ -21,6 +22,7 @@ public class CodeGenerationContext
     private OutletDictionary outletDictionary = null;
     private boolean lastModifiedCheck = false;
     private Collection userProperties = null;
+    private ModelPackages modelPackages;
 
     public CodeGenerationContext(
         RepositoryFacade rf,
@@ -29,7 +31,8 @@ public class CodeGenerationContext
         DbMappingTable typeMappings,
         OutletDictionary outletDictionary,
         boolean lastModifiedCheck,
-        Collection userPropeties)
+		ModelPackages modelPackages,
+		Collection userPropeties)
     {
         this.repository = rf;
         this.scriptHelper = sh;
@@ -37,6 +40,7 @@ public class CodeGenerationContext
         this.typeMappings = typeMappings;
         this.outletDictionary = outletDictionary;
         this.lastModifiedCheck = lastModifiedCheck;
+        this.modelPackages = modelPackages;
         this.userProperties = userPropeties;
     }
 
@@ -156,4 +160,27 @@ public class CodeGenerationContext
     {
         this.userProperties = userProperties;
     }
+    
+    
+	/**
+	 * Gets the model packages that should/shouldn't
+	 * be processed.  
+	 * 
+	 * @return Returns the packages.
+	 */
+	public ModelPackages getModelPackages() 
+	{
+		return this.modelPackages;
+	}
+
+	/**
+	 * Sets modelPackages.
+	 * 
+	 * @param packages The packages to set.
+	 */
+	public void setModelPackages(ModelPackages modelPackages) 
+	{
+		this.modelPackages = modelPackages;
+	}
+
 }
