@@ -1,0 +1,127 @@
+//
+// Attention: generated code (by Metafacade.vsl) - do not modify!
+//
+#set ($packagename = $class.package.fullyQualifiedName)
+package $packagename;
+
+## calculate metaclass and superclass
+#set ($shieldedMetaclass = $class.metaclass)
+#set ($shieldedMetaclassTypeName = $shieldedMetaclass.fullyQualifiedName)
+##
+#set ($superclass = $class.superclass)
+##
+/**
+ * MetafacadeLogic for $shieldedMetaclassTypeName
+ *
+ * @see $class.fullyQualifiedInterfaceName
+ */
+public abstract class ${class.name}Logic
+       extends        org.andromda.core.metafacade.MetafacadeBase
+       implements     $class.fullyQualifiedInterfaceName
+{
+    protected $shieldedMetaclassTypeName metaObject;
+#if ($superclass)
+    private $superclass.fullyQualifiedInterfaceName super_;
+#end
+
+    public ${class.name}Logic ($shieldedMetaclassTypeName metaObject) {
+        super (metaObject);
+#if ($superclass)
+		// set the context for the metafacade as the interface name, we
+		// need to do this since inheritance really doesn't exist, and really
+		// the context should be dependant on the interface and not
+		// the implementation
+        this.setContext("$class.fullyQualifiedInterfaceName");
+        this.super_ =
+            (${superclass.fullyQualifiedInterfaceName})
+            org.andromda.core.metafacade.MetafacadeFactory
+                .getInstance()
+                .createFacadeImpl(
+                    "${superclass.fullyQualifiedInterfaceName}",
+                    metaObject);
+#end
+        this.metaObject = metaObject;
+    }
+##
+
+#set ($atts = $class.attributes)
+#if ($atts.size() > 0)
+    // --------------- attributes ---------------------
+#foreach ( $att in $atts )
+#set ($atttypename = $att.type.fullyQualifiedName)
+
+   /**
+$att.getDocumentation("    ")
+    *
+    */
+    public abstract $atttypename ${att.getterName}();
+#end
+#end
+
+#set ($ops = $class.operations)
+#if ($ops.size() > 0)
+    // ---------------- real business methods ----------------------
+
+#foreach ( $op in $ops)
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}()
+	 */
+    $op.visibility abstract $op.type.fullyQualifiedName ${op.signature};
+    
+#end
+#end
+##
+#set ($assocEnds = $class.associationEnds)
+#if ($assocEnds.size() > 0)
+    // ------------- relations ------------------
+    
+#foreach ( $assocEnd in $assocEnds )
+#if ($assocEnd.otherEnd.navigable)
+##
+#set ($trn = $assocEnd.otherEnd.name)
+#set ($utrn = $str.upperCaseFirstLetter($trn))
+##
+#set ($returnTypeName = $assocEnd.getterSetterTypeName)
+##
+#if ($assocEnd.one2Many || $assocEnd.many2Many) 
+    protected abstract $returnTypeName handleGet${utrn}();
+    
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}#${assocEnd.otherEnd.getterName}()
+	 */
+    public $returnTypeName get${utrn}() {
+        return shieldedElements(handleGet${utrn}());
+    }
+#else
+    protected abstract java.lang.Object handleGet${utrn}();
+    
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}#${assocEnd.otherEnd.getterName}()
+	 */
+    public $returnTypeName get${utrn}() {
+        return 
+            (${returnTypeName})
+            shieldedElement(handleGet${utrn}());
+    }
+#end
+
+#end
+#end
+#end
+##
+#if ($superclass)
+    // ----------- delegates to "superclass" ------------
+    
+#foreach ( $method in $superclass.getMethodDataForPSM(true) )
+    // from ${method.interfaceName}
+	${method.buildMethodDeclaration(true)} {
+#if ($method.hasReturnType())
+        return super_.${method.buildMethodCall()};
+#else
+        super_.${method.buildMethodCall()};
+#end
+	}
+#end
+#end
+##
+}
