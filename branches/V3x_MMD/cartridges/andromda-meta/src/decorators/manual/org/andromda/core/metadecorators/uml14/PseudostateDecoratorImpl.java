@@ -23,67 +23,67 @@ public class PseudostateDecoratorImpl extends PseudostateDecorator
     // concrete business methods that were declared
     // abstract in class PseudostateDecorator ...
 
-    public java.lang.Boolean isChoice()
+    public boolean isChoice()
     {
-        return (PseudostateKindEnum.PK_CHOICE.equals(metaObject.getKind())) ? Boolean.TRUE : Boolean.FALSE;
+        return (PseudostateKindEnum.PK_CHOICE.equals(metaObject.getKind())) ? true : false;
     }
 
-    public java.lang.Boolean isInitialState()
+    public boolean  isInitialState()
     {
-        return (PseudostateKindEnum.PK_INITIAL.equals(metaObject.getKind())) ? Boolean.TRUE : Boolean.FALSE;
+        return (PseudostateKindEnum.PK_INITIAL.equals(metaObject.getKind())) ? true : false;
     }
 
-    public java.lang.Boolean isJoin()
+    public boolean isJoin()
     {
-        return (PseudostateKindEnum.PK_JOIN.equals(metaObject.getKind())) ? Boolean.TRUE : Boolean.FALSE;
+        return (PseudostateKindEnum.PK_JOIN.equals(metaObject.getKind())) ? true : false;
     }
 
-    public java.lang.Boolean isDeepHistory()
+    public boolean isDeepHistory()
     {
-        return (PseudostateKindEnum.PK_DEEP_HISTORY.equals(metaObject.getKind())) ? Boolean.TRUE : Boolean.FALSE;
+        return (PseudostateKindEnum.PK_DEEP_HISTORY.equals(metaObject.getKind())) ? true : false;
     }
 
-    public java.lang.Boolean isFork()
+    public boolean isFork()
     {
-        return (PseudostateKindEnum.PK_FORK.equals(metaObject.getKind())) ? Boolean.TRUE : Boolean.FALSE;
+        return (PseudostateKindEnum.PK_FORK.equals(metaObject.getKind())) ? true : false;
     }
 
-    public java.lang.Boolean isJunction()
+    public boolean isJunction()
     {
-        return (PseudostateKindEnum.PK_JUNCTION.equals(metaObject.getKind())) ? Boolean.TRUE : Boolean.FALSE;
+        return (PseudostateKindEnum.PK_JUNCTION.equals(metaObject.getKind())) ? true : false;
     }
 
-    public java.lang.Boolean isShallowHistory()
+    public boolean isShallowHistory()
     {
-        return (PseudostateKindEnum.PK_SHALLOW_HISTORY.equals(metaObject.getKind())) ? Boolean.TRUE : Boolean.FALSE;
+        return (PseudostateKindEnum.PK_SHALLOW_HISTORY.equals(metaObject.getKind())) ? true : false;
     }
 
-    public java.lang.Boolean isDecisionPoint()
+    public boolean isDecisionPoint()
     {
         boolean isDecisionPoint = false;
 
-        if (isChoice().booleanValue() || isJunction().booleanValue())
+        if (isChoice() || isJunction())
         {
             isDecisionPoint = true;
             isDecisionPoint = isDecisionPoint && (metaObject.getIncoming().size() == 1);
             isDecisionPoint = isDecisionPoint && (metaObject.getOutgoing().size() > 1);
         }
 
-        return (isDecisionPoint) ? Boolean.TRUE : Boolean.FALSE;
+        return (isDecisionPoint) ? true : false;
     }
 
-    public java.lang.Boolean isMergePoint()
+    public boolean isMergePoint()
     {
         boolean isMergePoint = false;
 
-        if (isChoice().booleanValue() || isJoin().booleanValue())
+        if (isChoice() || isJoin())
         {
             isMergePoint = true;
             isMergePoint = isMergePoint && (metaObject.getIncoming().size() > 1);
             isMergePoint = isMergePoint && (metaObject.getOutgoing().size() == 1);
         }
 
-        return (isMergePoint) ? Boolean.TRUE : Boolean.FALSE;
+        return (isMergePoint) ? true : false;
     }
 
     // ------------- relations ------------------
