@@ -6,7 +6,7 @@ public class Bpm4StrutsProfile
 
     public static final String STEREOTYPE_VIEW = "FrontEndView";
     public static final String STEREOTYPE_EVENT = "FrontEndEvent";
-    public static final String STEREOTYPE_ACTOR = "FrontEndActor";
+    public static final String STEREOTYPE_USER = "FrontEndUser";
     public static final String STEREOTYPE_CONTROLLER = "FrontEndController";
     public static final String STEREOTYPE_EXCEPTION = "FrontEndException";
 
@@ -28,6 +28,7 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_INPUT_ROWS = "@andromda.struts.view.field.rows";
     public static final String TAGGED_VALUE_INPUT_COLS = "@andromda.struts.view.field.cols";
     public static final String TAGGED_VALUE_INPUT_FORMAT = "@andromda.struts.view.field.format";
+    public static final String TAGGED_VALUE_INPUT_TYPE = "@andromda.struts.view.field.type";
     public static final String TAGGED_VALUE_INPUT_VALIDWHEN = "@andromda.struts.view.field.validwhen";
     public static final String TAGGED_VALUE_EXCEPTION_TYPE = "@andromda.struts.exception.type";
     public static final String TAGGED_VALUE_EXCEPTION_PATH = "@andromda.struts.exception.path";
