@@ -53,7 +53,7 @@ public class EJBFinderMethodFacadeLogicImpl
                 Collection parameters = this.getParameters();
                 if (parameters != null && !parameters.isEmpty()) {
                     Iterator parameterIt = parameters.iterator();
-                    for (int ctr = 0; parameterIt.hasNext(); ctr++) {
+                    for (int ctr = 1; parameterIt.hasNext(); ctr++) {
                         Object test = parameterIt.next();
                         ParameterFacade param = (ParameterFacade) test;
                         queryString =
