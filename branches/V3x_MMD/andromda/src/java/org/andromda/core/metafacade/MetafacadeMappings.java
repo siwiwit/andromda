@@ -441,7 +441,7 @@ public class MetafacadeMappings {
 			this.defaultMetafacadeClass = 
 				ClassUtils.loadClass(StringUtils.trimToEmpty(defaultMetafacadeClass));
 		} catch (Throwable th) {
-			String errMsg = "Error performing setDefaultMetafacadeClass";
+			String errMsg = "Error performing MetafacadeMappings.setDefaultMetafacadeClass";
 			logger.error(errMsg, th);
 			throw new MetafacadeMappingsException(errMsg, th);
 		}

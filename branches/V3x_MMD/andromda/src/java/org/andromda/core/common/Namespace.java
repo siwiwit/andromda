@@ -66,7 +66,7 @@ public class Namespace {
 	 * @param property
 	 */
 	public void addProperty(Property property) {
-		String methodName = "addProperty";
+		final String methodName = "Namespace.addProperty";
 		ExceptionUtils.checkNull(methodName, "property", property);
 		this.initCollection.add(property);
 	}
