@@ -39,7 +39,7 @@ public class StrutsSimpleStateDecoratorImpl extends StrutsSimpleStateDecorator
 
         for (Iterator iterator = allUseCases.iterator(); iterator.hasNext();)
         {
-            StrutsUseCaseDecorator useCase = (StrutsUseCaseDecorator)DecoratorBase.decoratedElement((UseCase) iterator.next());
+            StrutsUseCaseDecorator useCase = (StrutsUseCaseDecorator) DecoratorBase.decoratedElement((UseCase) iterator.next());
             if (name.equalsIgnoreCase(useCase.getName()))
                 if (useCase.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE).booleanValue())
                     return useCase;
@@ -50,11 +50,16 @@ public class StrutsSimpleStateDecoratorImpl extends StrutsSimpleStateDecorator
 
     // ------------- relations ------------------
 
+    // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
+        /**
+         * todo: DO WE STILL USE THIS CLASS ?
+         */
+
         // the name must not be empty
         final String name = getName();
-        if ( (name==null) || (name.trim().length()==0) )
+        if ((name == null) || (name.trim().length() == 0))
             throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
 
         // the name must be unique in the container state machine

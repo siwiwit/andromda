@@ -1,7 +1,5 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
-import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.StateMachineDecorator;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
@@ -30,54 +28,58 @@ public class StrutsActionStateDecoratorImpl extends StrutsActionStateDecorator
 
     // concrete business methods that were declared
     // abstract in class StrutsActionStateDecorator ...
-    public String getDispatchMethodName()
-    {
-        return MetaDecoratorUtil.toJavaMethodName(getName());
-    }
-
-    public Integer getTriggerTransitionCount()
-    {
-        return new Integer(getOutgoing().size());
-    }
-
-    public Transition getFirstTriggerTransition()
-    {
-        return (getTriggerTransitionCount().intValue() > 0)
-            ? (Transition)getOutgoing().iterator().next() : null;
-    }
 
     // ------------- relations ------------------
+    protected Collection handleGetTriggerTransitions()
+    {
+        return getOutgoing();
+    }
 
+    // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
-        // this state may not be owned by a composite state
-        if (getContainer() != null)
-            throw new DecoratorValidationException(this, "This state must be owned by a state machine, not a composite state");
-
         // the name must not be empty
         final String name = getName();
-        if ( (name==null) || (name.trim().length()==0) )
+        if ((name == null) || (name.trim().length() == 0))
             throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
 
         // the name of the action state must be unique in the use-case state machine
-        final StateMachineDecorator stateMachine = (StateMachineDecorator)DecoratorBase.decoratedElement(getStateMachine());
-        Collection actionStates = stateMachine.getActionStates();
-        actionStates.remove(this);
-        // check that we don't accidentally generate the same names from more action states
-        final String dispatchMethodName = getDispatchMethodName();
+        final StateMachineDecorator stateMachine = (StateMachineDecorator) getStateMachine();
+        final Collection actionStates = stateMachine.getActionStates();
+        int nameCount = 0;
         for (Iterator iterator = actionStates.iterator(); iterator.hasNext();)
         {
             ActionState actionState = (ActionState) iterator.next();
-            if (dispatchMethodName.equals(MetaDecoratorUtil.toJavaMethodName(actionState.getName())))
-                throw new DecoratorValidationException(this, "There is another action state in the same state machine which generates a name clash with this one, please change one of the action state\'s names");
+            if (name.equals(actionState.getName()))
+                nameCount++;
         }
+
+        if (nameCount > 1)
+            throw new DecoratorValidationException(this,
+                "There are " + nameCount + " action states found with this names, please give unique names");
 
         // there must be at least one incoming transition
         if (getIncoming().isEmpty())
-            throw new DecoratorValidationException(this, "There must be at least one transition going into this action state");
+            throw new DecoratorValidationException(this,
+                "Miracle action coming out of nowhere. There must be at least one transition going into this action state");
 
         // there must be at least one outgoing transition
         if (getOutgoing().isEmpty())
-            throw new DecoratorValidationException(this, "There must be at least one transition going out of this action state");
+            throw new DecoratorValidationException(this,
+                "Black hole action: there must be at least one transition going out of this action state, " +
+                "you might consider using a final state.");
+
+        // if more than one outgoing transition, they must all have triggers
+        Collection outgoing = getOutgoing();
+        if (outgoing.size() > 1)
+        {
+            for (Iterator iterator = outgoing.iterator(); iterator.hasNext();)
+            {
+                Transition transition = (Transition) iterator.next();
+                if (transition.getTrigger() == null)
+                    throw new DecoratorValidationException(this,
+                        "If an action state has more than 1 outgoing transition, they must all have triggers.");
+            }
+        }
     }
 }

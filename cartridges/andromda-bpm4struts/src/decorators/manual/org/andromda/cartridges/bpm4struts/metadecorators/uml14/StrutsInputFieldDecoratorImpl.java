@@ -1,6 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
+import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
@@ -10,6 +11,7 @@ import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 
 /**
@@ -40,10 +42,10 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
 
     private Boolean makeBoolean(String string)
     {
-        if ( string!=null &&
+        if (string != null &&
             !"true".equalsIgnoreCase(string) &&
             !"yes".equalsIgnoreCase(string) &&
-            !"0".equals(string) )
+            !"0".equals(string))
         {
             return Boolean.FALSE;
         }
@@ -66,45 +68,47 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
     public abstract String getFieldType();
 
     // ------------- relations ------------------
-    protected ModelElement handleGetView()
-    {
-        final ClassifierDecorator type = (ClassifierDecorator)DecoratorBase.decoratedElement(getType());
-        final Collection associationEnds = type.getAssociationEnds();
-        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
-        {
-            AssociationEnd associationEnd = (AssociationEnd) iterator.next();
-            Classifier participant = associationEnd.getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
-            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_VIEW).booleanValue())
-                return participant; // undecorated
-        }
-        return null;
-    }
 
     /**
      *
      */
     public org.omg.uml.foundation.core.ModelElement handleGetJsp()
     {
-        final ClassifierDecorator owner = (ClassifierDecorator)DecoratorBase.decoratedElement(getOwner());
+        final Collection views = getAssociatedViews();
+        if (views.isEmpty())
+            return null;
+        else
+            return (ModelElement) views.iterator().next();
+    }
+
+    private Collection getAssociatedViews()
+    {
+        final Collection views = new LinkedList();
+        final ClassifierDecorator owner = (ClassifierDecorator) DecoratorBase.decoratedElement(getOwner());
         final Collection associationEnds = owner.getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
-            AssociationEnd associationEnd = (AssociationEnd) iterator.next();
-            Classifier participant = associationEnd.getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
-            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
-                return participant; // undecorated
+            AssociationEndDecorator associationEnd =
+                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
+            Classifier participant = associationEnd.getOtherEnd().getParticipant();
+            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
+            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_VIEW).booleanValue())
+                views.add(participant);
         }
-        return null;
+        return views;
     }
-
     // ------------------------------------------------------------
 
     public void validate() throws DecoratorValidationException
     {
         // the name must not be empty
+        final String name = getName();
+        if ((name == null) || (name.trim().length() == 0))
+            throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
 
         // it must be associated to a single View
+        final Collection views = getAssociatedViews();
+        if (views.size() != 1)
+            throw new DecoratorValidationException(this, "One and only one JSP may be associated with this input field");
     }
 }

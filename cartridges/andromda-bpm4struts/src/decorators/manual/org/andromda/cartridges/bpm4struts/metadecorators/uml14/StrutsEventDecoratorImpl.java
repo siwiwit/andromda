@@ -1,7 +1,6 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 
-
 /**
  *
  * Metaclass decorator implementation for org.omg.uml.behavioralelements.statemachines.Event
@@ -11,10 +10,10 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 public class StrutsEventDecoratorImpl extends StrutsEventDecorator
 {
     // ---------------- constructor -------------------------------
-    
-    public StrutsEventDecoratorImpl (org.omg.uml.behavioralelements.statemachines.Event metaObject)
+
+    public StrutsEventDecoratorImpl(org.omg.uml.behavioralelements.statemachines.Event metaObject)
     {
-        super (metaObject);
+        super(metaObject);
     }
 
     // -------------------- business methods ----------------------
@@ -23,5 +22,5 @@ public class StrutsEventDecoratorImpl extends StrutsEventDecorator
     // abstract in class StrutsEventDecorator ...
 
     // ------------- relations ------------------
-    
+
 }
