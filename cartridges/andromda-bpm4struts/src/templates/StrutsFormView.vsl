@@ -18,8 +18,7 @@ public final class $class.name extends $class.formBean.fullyQualifiedName
 {
 #foreach ($inputField in $class.inputFields)
     /**
-#set ($validatorTypes = $inputField.validatorTypes)
-#foreach ($validatorType in $validatorTypes)
+#foreach ($validatorType in $inputField.validatorTypes)
      * @struts.validator
      *          type="$validatorType"
      *  arg0resource="$inputField.validatorMsgKey"
@@ -36,13 +35,13 @@ public final class $class.name extends $class.formBean.fullyQualifiedName
 #end
 #foreach ($validatorVar in $inputField.validatorVars)
      * @struts.validator-var
-     *     name="$validatorVar.get(0)"
-     *    value="$validatorVar.get(1)"
+     *          name="$validatorVar.get(0)"
+     *         value="$validatorVar.get(1)"
 #end
 #if ($inputField.validWhen)
      * @struts.validator-var
-     *     name="test"
-     *    value="$inputField.validWhen"
+     *          name="test"
+     *         value="$inputField.validWhen"
 #end
      */
     public void ${inputField.setterName}($inputField.type.fullyQualifiedName $inputField.name)
