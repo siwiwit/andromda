@@ -8,14 +8,13 @@ import java.util.List;
 
 import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.metadecorators.uml14.AssociationDecorator;
+import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
 import org.andromda.core.metadecorators.uml14.OperationDecorator;
 import org.andromda.core.uml14.UMLProfile;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Attribute;
-import org.omg.uml.foundation.core.Classifier;
-import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.GeneralizableElement;
 
 /**
@@ -61,17 +60,15 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	 */
 	public Collection getPrimaryKeyFields() {
 
-		Iterator iter = this.getClientDependency().iterator();
+		Iterator iter = this.getDependencies().iterator();
 		while (iter.hasNext()) {
 			DependencyDecorator dep =
-				(DependencyDecorator) decoratedElement((Dependency) iter
-					.next());
+				(DependencyDecorator) iter.next();
 			if (EJBProfile
 				.STEREOTYPE_PRIMARY_KEY
 				.equals(dep.getStereotypeName())) {
 				Collection allAttrib =
-					((ClassifierDecorator)
-						dep.getSupplier().iterator().next()).getInstanceAttributes();
+					dep.getTargetType().getInstanceAttributes();
 				Collection publicAttrib = new ArrayList();
 				for (Iterator i = allAttrib.iterator(); i.hasNext();) {
 					Attribute att = (Attribute) i.next();
@@ -83,7 +80,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 			}
 		}
 		// No PK dependency found - try a PK attribute
-		Attribute attr = this.getPrimaryKeyAttribute();
+		AttributeDecorator attr = this.getPrimaryKeyAttribute();
 		if (attr != null) {
 			Collection retval = new ArrayList(1);
 			retval.add(attr);
@@ -92,7 +89,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 
 		// Still nothing found - recurse up the inheritance tree
 		EJBEntityDecorator decorator =
-			(EJBEntityDecorator) decoratedElement(this.getSuperclass());
+			(EJBEntityDecorator) this.getSuperclass();
 		return decorator.getPrimaryKeyFields();
 	}
 
@@ -158,7 +155,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		Collection result = new ArrayList();
 		result.addAll(getEntityRelations());
 
-		Classifier classifier = this.getSuperclass();
+		ClassifierDecorator classifier = this.getSuperclass();
 		while (classifier != null
 			&& classifier instanceof EJBEntityDecorator
 			&& classifier.isAbstract()) {
@@ -199,7 +196,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		while (i.hasNext()) {
 			EJBAssociationEndDecorator assoc =
 				(EJBAssociationEndDecorator) i.next();
-			Classifier target = assoc.getOtherEnd().getParticipant();
+			ClassifierDecorator target = assoc.getOtherEnd().getType();
 
 			if (target instanceof EJBEntityDecorator
 				&& assoc.getOtherEnd().isNavigable()) {
@@ -249,7 +246,9 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		}
 	}
 	
-
+	/**
+	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getCreateMethods(boolean)
+	 */
 	public Collection getCreateMethods(boolean all) {
 		Collection retval = new ArrayList();
 		EJBEntityDecorator entity = null;
@@ -271,6 +270,9 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		return retval;
 	}
 
+	/**
+	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getSelectMethods(boolean)
+	 */
 	public Collection getSelectMethods(boolean all) {
 		Collection retval = new ArrayList();
 		EJBEntityDecorator entity = null;

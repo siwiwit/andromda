@@ -1,7 +1,5 @@
 package org.andromda.cartridges.ejb.metadecorators.uml14;
 
-import org.omg.uml.foundation.datatypes.AggregationKind;
-import org.omg.uml.foundation.datatypes.AggregationKindEnum;
 
 
 
@@ -41,13 +39,13 @@ public class EJBAssociationEndDecoratorImpl extends EJBAssociationEndDecorator
     		}
     	}        
     	if (seperator == null) {
-    		AggregationKind aggregation = source.getAggregation();
-    		if (AggregationKindEnum.AK_NONE.equals(aggregation)) {
-    			aggregation = target.getAggregation();
+    		EJBAssociationEndDecorator aggregateEnd = source;
+    		if (!aggregateEnd.isAggregation() && !aggregateEnd.isComposition()) {
+    			aggregateEnd  = target;
     		}
-    		if (AggregationKindEnum.AK_AGGREGATE.equals(aggregation)) {
+    		if (aggregateEnd.isAggregation()) {
     			seperator = "-has-";
-    		} else if (AggregationKindEnum.AK_COMPOSITE.equals(aggregation)) {
+    		} else if (aggregateEnd.isComposition()) {
     			seperator = "-consists-of-";
     		} else if (!(target.isNavigable() && source.isNavigable())) {
     			seperator = "->";
@@ -56,12 +54,8 @@ public class EJBAssociationEndDecoratorImpl extends EJBAssociationEndDecorator
     		}
     	}
     	
-    	boolean srcIsAggregate =
-    		source.getAggregation() != null
-			&& !AggregationKindEnum.AK_NONE.equals(source.getAggregation());
-    	boolean targetIsAggregate =
-    		target.getAggregation() != null
-			&& !AggregationKindEnum.AK_NONE.equals(target.getAggregation());
+    	boolean srcIsAggregate = source.isAggregation() || source.isComposition();
+    	boolean targetIsAggregate = target.isAggregation() || target.isComposition();
 
     	// Generate the names. Swap sides if necessary.
     	if ((source.isNavigable() && !target.isNavigable())
@@ -69,16 +63,16 @@ public class EJBAssociationEndDecoratorImpl extends EJBAssociationEndDecorator
 		|| (!srcIsAggregate 
 				&& source.isNavigable()
 				&& target.isNavigable()
-				&& source.getParticipant().getName().compareTo(
-						target.getParticipant().getName())
+				&& source.getType().getName().compareTo(
+						target.getType().getName())
 				> 0)) {
-    		return target.getParticipant().getName()
+    		return target.getType().getName()
 			+ seperator
 			+ source.getName();
     	} else {
     		return source.getName()
 			+ seperator
-			+ target.getParticipant().getName();
+			+ target.getType().getName();
     	}
     }
     
