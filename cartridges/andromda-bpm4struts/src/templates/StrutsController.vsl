@@ -27,6 +27,17 @@ public class $class.name implements ${class.name}Interface
     }
 
     /**
+     * Convenient constructor for child classes. It allows classes
+     * that extend this one to set their own static instance without
+     * the need for a protected variable or overwriting the
+     * <code>getInstance()</code> method.
+     */
+    protected ${class.name}($class.name instance)
+    {
+        this.instance = instance;
+    }
+
+    /**
      * Singleton instance accessor
      */
     public static ${class.name} getInstance()
