@@ -68,6 +68,8 @@ public abstract class ${class.name}Factory {
         return object;
     }
 
+// class.getClass() = $class.getClass()
+// class.finders = $class.finders
 #foreach ( $finder in $class.finders)
 #set ($returntype = $finder.type.fullyQualifiedName)
 ##
@@ -79,7 +81,7 @@ public abstract class ${class.name}Factory {
 #end
 ##
     /**
-$finder.getDocumentation("    ")
+$finder.getDocumentation("     ")
      *
      * Finds ${class.name} object(s) using a query.
      *
@@ -87,7 +89,7 @@ $finder.getDocumentation("    ")
     $finder.visibility static $returntype ${finder.name} ($parameters)
         throws net.sf.hibernate.HibernateException
     {
-        net.sf.hibernate.Query q = sess.createQuery("$querystring");
+        net.sf.hibernate.Query q = sess.createQuery("$finder.query");
 ##
 #foreach($prm in $finder.parameters)
 #set ($index = $velocityCount - 1) 
