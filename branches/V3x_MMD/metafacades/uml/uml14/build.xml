@@ -3,7 +3,7 @@
     <property name="src.dir"          value="${basedir}/src" />
     <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
     <property name="src.fac.man.dir"  value="${src.dir}/facades/manual" />
-    <property name="uml.dir"          value="../common/src/uml" />
+    <property name="uml.dir"          value="${basedir}/../common/src/uml" />
 
     <property name="build.dir"        value="build" />
     <property name="dist.dir"         value="dist" />
