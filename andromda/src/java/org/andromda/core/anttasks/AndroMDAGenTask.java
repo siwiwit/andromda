@@ -17,14 +17,14 @@ import org.andromda.cartridges.interfaces.IAndroMDACartridge;
 import org.andromda.cartridges.interfaces.OutletDictionary;
 import org.andromda.cartridges.mgmt.CartridgeDictionary;
 import org.andromda.cartridges.mgmt.CartridgeFinder;
-
 import org.andromda.core.common.CodeGenerationContext;
 import org.andromda.core.common.DbMappingTable;
 import org.andromda.core.common.ModelFacade;
+import org.andromda.core.common.ModelPackage;
+import org.andromda.core.common.ModelPackages;
 import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
 import org.andromda.core.common.StdoutLogger;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
@@ -39,6 +39,7 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
  * 
  * @author    <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author    <A HREF="http://www.amowers.com">Anthony Mowers</A>
+ * @author    Chad Brandon
  */
 public class AndroMDAGenTask extends MatchingTask
 {
@@ -64,6 +65,19 @@ public class AndroMDAGenTask extends MatchingTask
      *  the file to get the velocity properties file
      */
     private File velocityPropertiesFile = null;
+    
+    /**
+     * True/false whether we should process
+     * all packages contained within the model.
+     */
+    private boolean processAllModelPackages = true;
+    
+    
+    /**
+     * A Packages object which specify
+     * whether or not packages should be processed.
+     */
+    private ModelPackages packages = new ModelPackages();
 
     /**
      *  User properties that were specified by nested tags in the ant script.
@@ -457,6 +471,7 @@ public class AndroMDAGenTask extends MatchingTask
                     typeMappings,
                     outletDictionary,
                     lastModifiedCheck,
+					packages,
                     userProperties);
 
             // process all model elements
@@ -586,4 +601,35 @@ public class AndroMDAGenTask extends MatchingTask
         return repositoryConfiguration;
     }
 
+    /**
+     * Specifies whether or not AndroMDA should process
+     * all packages. If this is set to true, then package elements
+     * should be specified if you want to keep certain packages
+     * from being processed.  If this is set to false, then you would want
+     * to define package elements to specify which packages SHOULD BE
+     * processed.  This is useful if you need to reference stereotyped model
+     * elements from other packages but you don't want
+     * to perform any generation from them. 
+     *
+     * @param processAllModelPackages
+     * @see addPackage(java.lang.String, boolean)
+     */
+    public void setProcessAllModelPackages(boolean processAllModelPackages) {
+    	this.packages.setProcessAllPackages(processAllModelPackages);
+    }
+    
+    /**
+     * Adds the <code>packageName</code>.  If processAllModelPackages
+     * is set to true, then all packageNames added will be 
+     * skipped during processing.  If processAllModelPackages is
+     * set to false, then all packages specified by package names
+     * are the only packages that will be processed.
+     * 
+     * @param processPackage the Package that should/shouldn't be processed.
+     * 
+     * @see setProcessAllModelPackages(boolean)
+     */
+    public void addModelPackage(ModelPackage modelPackage) {
+    	this.packages.addPackage(modelPackage);
+    }
 }
