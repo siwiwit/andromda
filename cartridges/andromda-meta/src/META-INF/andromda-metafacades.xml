@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!-- contains the default metafacade mappings -->
+<metafacades namespace="default">
+	<property reference="languageMappings" />
+	<default className="org.andromda.core.metadecorators.uml14.ModelElementDecoratorImpl"/>
+	<metafacade 
+		metaobjectClass="org.omg.uml.modelmanagement.UmlPackage$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.PackageDecoratorImpl"/>
+	<metafacade 
+		metaobjectClass="org.omg.uml.modelmanagement.Model$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.PackageDecoratorImpl"/>
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.ClassifierDecoratorImpl"/>		
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.DataType$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.ClassifierDecoratorImpl"/>			
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.Interface$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.ClassifierDecoratorImpl"/>	
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.AssociationEndDecoratorImpl"/>	
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.UmlAssociation$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.AssociationDecoratorImpl"/>	
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.Dependency$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.DependencyDecoratorImpl"/>	
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.TaggedValue$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.TaggedValueDecoratorImpl"/>		
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.Operation$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.OperationDecoratorImpl"/>			
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.AttributeDecoratorImpl"/>												
+</metafacades>
