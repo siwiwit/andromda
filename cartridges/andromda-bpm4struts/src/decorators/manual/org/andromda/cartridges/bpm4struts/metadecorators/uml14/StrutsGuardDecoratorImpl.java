@@ -1,6 +1,6 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
-import org.andromda.cartridges.bpm4struts.Util;
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 
 
 /**
@@ -25,7 +25,7 @@ public class StrutsGuardDecoratorImpl extends StrutsGuardDecorator
 
     public java.lang.String getGuardMethodName()
     {
-        return Util.toJavaMethodName(this);
+        return MetaDecoratorUtil.toJavaMethodName(metaObject);
     }
 
     // ------------- relations ------------------
