@@ -20,6 +20,10 @@ import org.apache.log4j.Logger;
  * through the method getInstance(java.net.URL). 
  * 
  * <p> The mappings will change based upon the language, database, etc being used. <p>
+ * 
+ * @see org.andromda.common.XmlObjectFactory
+ * 
+ * @author Chad Brandon
  */
 public class Mappings {
 	
