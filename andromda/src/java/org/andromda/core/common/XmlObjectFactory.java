@@ -39,11 +39,6 @@ public class XmlObjectFactory {
     private static Map factoryCache = new HashMap();
     
     /**
-     * Should the XmlObjectFactory be validating
-     */
-    private boolean validating = false;
-    
-    /**
      * Creates an instance of this XmlObjectFactory with the
      * given <code>objectRulesXml</code>
      * @param objectRulesXml
@@ -58,43 +53,28 @@ public class XmlObjectFactory {
         ExceptionUtils.checkNull(methodName, "objectRulesXml", objectRulesXml);
         this.digester = DigesterLoader.createDigester(objectRulesXml);           
     }
-    
-    /**
-     * Gets an instance of this XmlObjectFactory using
-     * the digester rules belonging to the <code>objectClass</code>.
-     * 
-     * @return the shared XmlObjectFactoy instance.
-     */
-    public static XmlObjectFactory getInstance(Class objectClass) {
-        return getInstance(objectClass, true);
-    }
 
     /**
      * Gets an instance of this XmlObjectFactory using
      * the digester rules belonging to the <code>objectClass</code>.
      * 
      * @param objectClass the Class of the object from which to configure this factory.
-     * @param validating true/false on whether or not this configuration 
-     *        XML should be validated (false is default)
-     * @return the shared XmlObjectFactoy instance.
+     * @return the XmlObjectFactoy instance.
      */    
-    private static XmlObjectFactory getInstance(Class objectClass, boolean validating) {
+    public static XmlObjectFactory getInstance(Class objectClass) {
         final String methodName = "XmlObjectFactory.getInstance";
         ExceptionUtils.checkNull(methodName, "objectClass", objectClass);
-
-        URL objectRulesXml =
-            XmlObjectFactory.class.getResource(
-                '/' + objectClass.getName().replace('.', '/') + RULES_SUFFIX);    
         
-        XmlObjectFactory factory = (XmlObjectFactory)factoryCache.get(objectRulesXml);
+        XmlObjectFactory factory = (XmlObjectFactory)factoryCache.get(objectClass);
         if (factory == null) {
+            URL objectRulesXml =
+                XmlObjectFactory.class.getResource(
+                    '/' + objectClass.getName().replace('.', '/') + RULES_SUFFIX);   
             factory = new XmlObjectFactory(objectRulesXml);
             factory.objectClass = objectClass;
             factory.objectRulesXml = objectRulesXml;
-        }
-  
-        if (validating) {
-            factory.setValidating(validating);      
+            factory.setValidating(true);
+            factoryCache.put(objectClass, factory);
         }
         
         return factory;    
@@ -133,10 +113,14 @@ public class XmlObjectFactory {
         }
        
         if (this.schemaUri != null) { 
-            this.validating = validating;
-            this.digester.setValidating(validating);
-            this.digester.setSchema(this.schemaUri.toString());
-            this.digester.setErrorHandler(new XmlObjectValidator());
+            try {
+                this.digester.setValidating(true);
+                this.digester.setSchema(this.schemaUri.toString());
+                this.digester.setErrorHandler(new XmlObjectValidator());
+            } catch (Exception ex) {
+                logger.warn("WARNING! Your parser does NOT support the " 
+                    + " schema validation continuing in non validation mode", ex);
+            }
         }
     }
     
