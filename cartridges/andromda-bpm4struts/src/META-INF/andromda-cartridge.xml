@@ -48,6 +48,14 @@
 
     <template
         stereotype="FrontEndWorkflow"
+        sheet="templates/StrutsFormValidationJavascript.vsl"
+        outputPattern="{0}/form-validation.jsp"
+        outlet="pages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndWorkflow"
         sheet="templates/StrutsFormValidationRules.vsl"
         outputPattern="validator-rules.xml"
         outlet="validation"
