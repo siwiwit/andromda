@@ -19,7 +19,7 @@ public class ResourceFinder {
 	private ResourceFinder() {}
 
 	/**
-	 * Returns a Map containing the URL of each
+	 * Returns a URL[] containing the URL of each
 	 * resource and the File which represents the library
 	 * the resource was found in.
 	 *
