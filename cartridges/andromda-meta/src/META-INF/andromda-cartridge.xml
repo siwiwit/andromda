@@ -33,5 +33,16 @@
             <modelElement stereotype="metafacade"/>  
         </modelElements>  
     </template>
+    
+    <template
+        sheet="templates/MetafacadesToImpls.vsl"
+        outputPattern="metafacade-impls.properties"
+        outlet="facades-to-impls"
+        overWrite="true"
+        outputToSingleFile="true">
+        <modelElements variable="metafacades">
+            <modelElement stereotype="metafacade"/>  
+        </modelElements>  
+    </template>
 
 </cartridge>
