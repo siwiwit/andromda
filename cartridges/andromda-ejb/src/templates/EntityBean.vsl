@@ -18,7 +18,8 @@ $class.getDocumentation(" * ")
  * @ejb.bean generate="true"
 #end
  *     name="$entityname"
- *     type="CMP" cmp-version="2.x"
+ *     type="CMP" 
+ *     cmp-version="2.x"
  *     view-type="local"
  *     local-jndi-name = "${ejbRefName}/Local"
 ###end
