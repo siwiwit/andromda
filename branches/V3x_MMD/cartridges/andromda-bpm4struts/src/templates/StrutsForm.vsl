@@ -25,6 +25,7 @@ public final class $class.formBeanClassName extends ValidatorForm implements Ser
 $field.getDocumentation("     ")
      */
     private $field.type.fullyQualifiedName $field.name;
+    
 #end
 
 #foreach ($field in $fields)
