@@ -12,7 +12,6 @@ import javax.jmi.xmi.MalformedXMIException;
 
 import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
-import org.andromda.core.common.StdoutLogger;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRManager;
 import org.netbeans.api.mdr.MDRepository;
@@ -272,8 +271,9 @@ public class MDRepositoryFacade implements RepositoryFacade
     }
 
 
+    // A method used to do logging.
+    // Currently stubbed out until a logging technology is selected.
     static private void log(Object object)
     {
-        StdoutLogger.info(object);
     }
 }

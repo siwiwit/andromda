@@ -210,6 +210,57 @@
           The above shows the defaults setup assumed by AndroMDA when there is no repository subtask.
       </p>
 
+
+<h2><a name="userProperty">&lt;userProperty&gt;</a></h2>
+      <p class="std">
+        The <a href="#andromda"><code>&lt;andromda&gt;</code></a> task supports a nested <code>&lt;userProperty&gt;</code>
+        tag so that users can add their own properties to the Velocity context and use them
+        from inside a template script.
+      </p>
+
+      <p class="std">
+        A typical application of this might be to assign a configurable suffix to generated
+        foreign key column names (see example below).
+      </p>
+      <h3>Parameters</h3>
+
+      <table border="1" cellpadding="2" cellspacing="0">
+        <tr>
+          <td valign="top" class="std"><b>Attribute</b></td>
+          <td valign="top" class="std"><b>Description</b></td>
+          <td align="center" valign="top" class="std"><b>Required</b></td>
+        </tr>
+        <tr>
+          <td valign="top" class="std">name</td>
+          <td valign="top" class="std">Specifies the name of the user property.</td>
+          <td align="center" class="std">Yes.</td>
+        </tr>
+        <tr>
+          <td valign="top" class="std">value</td>
+          <td valign="top" class="std">Specifies the value of the user property.</td>
+          <td align="center" class="std">Yes.</td>
+        </tr>
+      </table>
+
+      <h3>Example</h3>
+      <blockquote><pre>
+&lt;andromda basedir="${build.dir}/unzipped"
+         includes="CarRentalSystem20.xmi"
+         lastModifiedCheck="false"
+         typeMappings="${andromda-core.home}/src/xml/TypeMapping.xml"
+&gt;
+
+    &lt;userProperty name="foreignKeySuffix" value="_FK" /&gt;
+
+&lt;/andromda&gt;
+      </pre></blockquote>
+
+      <p class="std">
+          The above example shows a user property "foreignKeySuffix" that is assigned the
+          value "_FK". From within the Velocity template, you can access this user property
+          as <code>$foreignKeySuffix</code>, just like all the other references.
+      </p>
+
     </freetext>
 
   </body>

@@ -3,18 +3,21 @@
     <!-- Load user environment parameters -->
     <!-- This should define the properties andromda-core.home and build.classpath -->
     <property file="build.properties" />
-    <property name="andromda-core.home" location="${andromda.home}/andromda-core"/>
+    <property name="andromda-core.home"      location="${andromda.home}/andromda-core"/>
     <property name="andromda-hibernate.home" location="${andromda.home}/cartridges/andromda-hibernate"/>
+    <property name="andromda-java.home"      location="${andromda.home}/cartridges/andromda-java"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
     <property file="${andromda-core.home}/xdoclet.properties"/>
     <property file="${andromda-hibernate.home}/andromda-hibernate.properties"/>
+    <property file="${andromda-java.home}/andromda-java.properties"/>
 
     <!-- classpath for using AndroMDA to compile UML -->
     <path id="andromda.classpath">
        <pathelement location="${andromda-core.home}/andromda.jar"/>
        <pathelement path="${andromda-core.classpath}"/>
        <pathelement path="${andromda-hibernate.classpath}"/>
+       <pathelement path="${andromda-java.classpath}"/>
     </path>
 
     <!-- classpath for J2EE classes -->
@@ -269,24 +272,44 @@
     </target>
 
     <!-- Generate the SQL database schema from the hibernate mapping files -->
-    <target name="hibernate-schema" description="Generates database schema" depends="buildjars" >
-        <fileset id="hibernate.mapping.files" dir="build/hibernateservice">
-            <include name="**/*.hbm.xml"/>
-        </fileset>
-        <pathconvert refid="hibernate.mapping.files" property="hibernate.mappings" pathsep=" "/>
-
-        <echo message="mapping files: ${hibernate.mappings}"/>
-
+    <target name="hibernate-schema" description="Generates database schema" depends="buildjars">
         <path id="schema.classpath">
             <path refid="build.class.path"/>
             <pathelement location="build/earstage/andromda-hibernate-template.jar"/>
         </path>
 
-        <java classname="cirrus.hibernate.tools.SchemaExport" fork="true">
-            <arg value="--output=build/hibernate-schema.txt"/>
+        <fileset id="hibernate.mapping.files" dir="build/hibernateservice">
+            <include name="**/*.hbm.xml"/>
+        </fileset>
+
+        <pathconvert refid="hibernate.mapping.files" property="hibernate.mappings" pathsep=" "/>
+
+        <java classname="net.sf.hibernate.tool.hbm2ddl.SchemaExport" fork="true">
+            <arg value="--output=build/hibernate-schema-initialize.sql"/>
             <arg value="--text"/>
+            <arg value="--quiet"/>
             <arg line="${hibernate.mappings}"/>
-            <jvmarg value="-Dhibernate.dialect=cirrus.hibernate.sql.HSQLDialect"/>
+            <jvmarg value="-Dhibernate.dialect=net.sf.hibernate.dialect.HSQLDialect"/>
+            <classpath refid="schema.classpath" />
+        </java>
+
+        <copy file="build/hibernate-schema-initialize.sql"
+              tofile="build/hibernate-schema-reinitialize.sql"
+        />
+
+        <replaceregexp file="build/hibernate-schema-initialize.sql"
+                       match="^(alter table .* drop constraint|drop table)"
+                       replace="-- SKIP \1"
+                       flags="i"
+                       byline="true"/>
+
+        <java classname="net.sf.hibernate.tool.hbm2ddl.SchemaExport" fork="true">
+            <arg value="--output=build/hibernate-schema-remove.sql"/>
+            <arg value="--text"/>
+            <arg value="--quiet"/>
+            <arg value="--drop"/>
+            <arg line="${hibernate.mappings}"/>
+            <jvmarg value="-Dhibernate.dialect=net.sf.hibernate.dialect.HSQLDialect"/>
             <classpath refid="schema.classpath" />
         </java>
     </target>

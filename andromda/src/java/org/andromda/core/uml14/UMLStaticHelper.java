@@ -18,7 +18,6 @@ import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Operation;
 import org.omg.uml.foundation.core.StructuralFeature;
 import org.omg.uml.foundation.core.TaggedValue;
-import org.omg.uml.modelmanagement.UmlPackage;
 
 /**
  * Extends the UMLDefaultHelper with a set of operations that are useful
@@ -27,14 +26,14 @@ import org.omg.uml.modelmanagement.UmlPackage;
  *@author    Anthony Mowers
  */
 public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
-
-    /**
-    * Returns the name of a model element fully qualified by the
-    * name of the package that contains it. If the model element
-    * is a primitive type it will return the primitive type itself.
-    *
-    *@param object model element
-    *@return fully qualifed name
+    
+    /** 
+    * Returns the name of a model element fully qualified by the 
+    * name of the package that contains it. If the model element 
+    * is a primitive type it will return the primitive type itself. 
+    * 
+    *@param object model element 
+    *@return fully qualifed name 
     */
     public String getFullyQualifiedName(Object object) {
         if ((object == null) || !(object instanceof ModelElement)) {
@@ -58,10 +57,10 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
 
     /**
      * Returns the collection of taggedValues for a given modelElement
-     *
+     * 
      * @param object model element
      * @return Collection of org.omg.uml.foundation.core.TaggedValue
-     *
+     * 
      */
     public Collection getTaggedValues(Object object) {
         if ((object == null) || !(object instanceof ModelElement)) {
@@ -76,10 +75,10 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
     /**
      * Searches a collection of tag values for one with a particular
      * name
-     *
-     * @param taggedValues of taggedValues
+     * 
+     * @param Collection of taggedValues
      * @param tagName name of tag for which to search
-     *
+     * 
      * @return value of tag, null if tag not found
      */
     public String findTagValue(Collection taggedValues, String tagName) {
@@ -102,11 +101,11 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
     /**
      * Searches for and returns the value of a given tag on
      * the specified model element.
-     *
+     * 
      * @param modelElement model element
      * @param tagName  name of the tag
      * @return String value of tag, <b>null</b> if tag not found
-     *
+     * 
      */
     public String findTagValue(ModelElement modelElement, String tagName) {
         return findTagValue(getTaggedValues(modelElement), tagName);
@@ -115,14 +114,14 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
     /**
      * Returns Association information from the perspective of
      * a particular end of the association.
-     *
+     * 
      * <p>The returned object can answers information about
      * whether the assocation is one2many, many2one, ...
      * </p>
-     *
+     * 
      * @param object assocation end
      * @return DirectionalAssociationEnd directional association data
-     *
+     * 
      */
     public DirectionalAssociationEnd getAssociationData(Object object) {
         if ((object == null) || !(object instanceof AssociationEnd)) {
@@ -137,17 +136,17 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
     /**
      * Searches the given class feature (operation or attribute) for
      * the specified tag.
-     *
+     * 
      * <p>If the follow boolean is set to true then the search will
      * continue from the class feature to the class itself and then
      * up the class hiearchy.</p>
-     *
+     * 
      * @param feature attribute or operation object
      * @param tagName name of the tag to search for
      * @param follow <b>true</b> if search should follow inheritance
      * hierarchy
      * @return String value of tag, <b>null</b> if tag not found
-     *
+     * 
      */
     public String findTagValue(
         StructuralFeature feature,
@@ -168,10 +167,10 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
 
     /**
      * Returns the collection of dependencies for a given model element.
-     *
-     * <p>Abstraction/Interface implements dependencies will not be
+     * 
+     * <p>Abstraction/Interface implements dependencies will not be 
      * included in this collection.</b>
-     *
+     * 
      *@param  object  model element
      *@return Collection of org.omg.uml.foundation.core.Dependency
      */
@@ -208,7 +207,7 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
         Classifier classifier = (Classifier) object;
         Collection features = new FilteredCollection(classifier.getFeature()) {
             protected boolean accept(Object object) {
-                return isAttribute(object);
+                return object instanceof Attribute;
             }
         };
 
@@ -216,29 +215,7 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
     }
 
     /**
-     * Returns <code>true</code> if and only if the argument is an
-     * Attribute.
-     *
-     * @param object The object to test
-     * @return <code>true</code> if the test succeeds, <code>false</code> otherwise
-     */
-    public static boolean isAttribute(Object object) {
-        return (object instanceof Attribute);
-    }
-
-    /**
-     * Returns <code>true</code> if and only if the argument is a
-     * Package.
-     *
-     * @param object The object to test
-     * @return <code>true</code> if the test succeeds, <code>false</code> otherwise
-     */
-    public boolean isPackage(Object object) {
-        return (object instanceof UmlPackage);
-    }
-
-    /**
-     * Gets the operations of the specified Classifier object.
+     *  Gets the operations of the specified Classifier object.
      *
      *@param  object  Classifier object
      *@return  Collection of org.omg.uml.foundation.core.Operation
@@ -289,7 +266,7 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
 
         GeneralizableElement element = (GeneralizableElement) object;
         Iterator i = element.getGeneralization().iterator();
-           
+        
         if (i.hasNext()) {
             Generalization generalization = (Generalization) i.next();
             return generalization.getParent();
@@ -301,7 +278,7 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
     /**
      * Returns the collection of interfaces implemented by the given
      * Classifier object.
-     *
+     * 
      * @param object  Class
      * @return Collection of Interfaces
      */
@@ -329,26 +306,14 @@ public class UMLStaticHelper extends UMLDefaultHelper implements ScriptHelper {
     }
 
     /**
-     * Returns a collection of the classes found in the UML model. The collection will only contain
-     * elements of type <code>org.omg.uml.foundation.core.UMLClass</code>.
-     *
-     * @return a collection containing only
-     *  <code>org.omg.uml.foundation.core.UMLClass</code> instances
-     */
-    public Collection getAllClasses()
-    {
-        return model.getCore().getUmlClass().refAllOfType();
-    }
-
-    /**
      *  Filters a collection of objects so that the collection
      * contains only those objects that pass the 'accept' test.
-     *
+     * 
      * <p>It is useful for filtering the results of a query.</p>
      *
      *@author    Anthony Mowers
      */
-    private static abstract class FilteredCollection extends Vector {
+    private abstract static class FilteredCollection extends Vector {
         /**
          *  Constructor for the FilterCollection object
          *
