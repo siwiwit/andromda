@@ -107,8 +107,11 @@
 
     <target name="dist" depends="build">
         <war destfile="${dist.dir}/${sample.name}.war"
-             webxml="${build.dir}/WEB-INF/web.xml"
-             basedir="${build.dir}" />
+             webxml="${build.dir}/WEB-INF/web.xml">
+            <fileset dir="${build.dir}">
+                <exclude name="WEB-INF/web.xml"/>
+            </fileset>
+        </war>
     </target>
 
 </project>
