@@ -70,7 +70,7 @@ public class StrutsUserLogicImpl
         final Collection childUsers = new LinkedList();
         for (Iterator iterator = allActors.iterator(); iterator.hasNext();)
         {
-            Object object = (Object) iterator.next();
+            Object object = iterator.next();
             if (object instanceof StrutsUser)
             {
                 StrutsUser anyUser = (StrutsUser)object;
