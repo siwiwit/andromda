@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="output/hibernate"/>
+    <classpathentry kind="src" path="output/web"/>
+    <classpathentry kind="src" path="src/common/java"/>
+    <classpathentry kind="src" path="src/hibernate/java"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="lib" path="/andromda3-bpm4struts/lib/commons-validator.jar"/>
+    <classpathentry kind="lib" path="/andromda3-bpm4struts/lib/servletapi-2.3.jar"/>
+    <classpathentry kind="lib" path="/andromda3-bpm4struts/lib/struts-1.1.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/c3p0.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/cglib-asm.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/commons-beanutils.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/commons-collections.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/commons-dbcp.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/commons-lang.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/commons-logging.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/commons-pool.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/dom4j.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/hibernate2.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/jcs.jar"/>
+    <classpathentry kind="lib" path="/andromda3-hibernate/lib/odmg.jar"/>
+    <classpathentry kind="var" path="JBOSS_HOME/server/default/lib/jboss-j2ee.jar"/>
+    <classpathentry kind="output" path="eclipse-build"/>
+</classpath>

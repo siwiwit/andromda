@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  	<extend>../../project.xml</extend>
+	<id>andromda-car-rental-sample-hibernate-application</id>
+	<name>Car Rental Sample Hibernate Application</name>
+	<shortDescription>
+		The AndromMDA Car Rental System Sample using 
+		Hibernate for backend persistence.
+	</shortDescription>
+	<dependencies>
+		<dependency>
+			<groupId>andromda-samples</groupId>
+			<artifactId>andromda-car-rental-sample-hibernate-ejb</artifactId>
+			<version>${pom.currentVersion}</version>
+			<type>ejb</type>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+	     	</properties>
+		</dependency>
+		<dependency>
+			<groupId>andromda-samples</groupId>
+			<artifactId>andromda-car-rental-sample-common</artifactId>
+			<version>${pom.currentVersion}</version>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+	     	</properties>
+		</dependency>
+		<dependency>
+			<groupId>andromda-samples</groupId>
+			<artifactId>andromda-car-rental-sample-hibernate-sar</artifactId>
+			<version>${pom.currentVersion}</version>
+			<type>sar</type>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+	     	</properties>
+		</dependency>
+		<dependency>
+			<groupId>andromda-samples</groupId>
+			<artifactId>andromda-car-rental-sample-web</artifactId>
+			<version>${pom.currentVersion}</version>
+			<type>war</type>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+				<ear.appxml.war.context-root>/carrental-ejb</ear.appxml.war.context-root>
+	     	</properties>
+		</dependency>
+	</dependencies> 
+
+</project>
