@@ -32,11 +32,20 @@ public class StrutsActionLogicImpl
         effectTransitions = new HashSet();
         forwardActionTransitions = new HashSet();
         decisionTransitions = new HashSet();
-        collectTransitions(this);
+        collectTransitions(this, new HashSet());
     }
 
-    private void collectTransitions(TransitionFacade transition)
+    private void collectTransitions(TransitionFacade transition, Collection processedTransitions)
     {
+        if (processedTransitions.contains(transition))
+        {
+            return;
+        }
+        else
+        {
+            processedTransitions.add(transition);
+        }
+
         if (transition.getEffect()!=null && !effectTransitions.contains(transition))
         {
             effectTransitions.add(transition);
@@ -60,7 +69,7 @@ public class StrutsActionLogicImpl
             for (Iterator iterator = outcomes.iterator(); iterator.hasNext();)
             {
                 TransitionFacade outcome = (TransitionFacade) iterator.next();
-                collectTransitions(outcome);
+                collectTransitions(outcome, processedTransitions);
             }
         }
     }
@@ -72,7 +81,20 @@ public class StrutsActionLogicImpl
 
     public String getActionName()
     {
-        return '/' + StringUtilsHelper.toJavaClassName(getSource().getName() + ' ' + getTrigger().getName());
+        String name = null;
+        final StateVertexFacade source = getSource();
+
+        if (source instanceof PseudostateFacade)
+        {
+            PseudostateFacade pseudostate = (PseudostateFacade)source;
+            if (pseudostate.isInitialState())
+                name = getActivityGraph().getUseCase().getName();
+        }
+        else
+        {
+            name = getSource().getName() + ' ' + getTrigger().getName();
+        }
+        return '/' + StringUtilsHelper.toJavaClassName(name);
     }
 
     private ClassifierFacade getContextClass()
@@ -89,7 +111,7 @@ public class StrutsActionLogicImpl
     public java.lang.String getActionType()
     {
         ClassifierFacade context = getContextClass();
-        return context.getPackageName() + '.' + StringUtilsHelper.toJavaClassName(getActionName());
+        return context.getPackageName() + getActionName().replace('/','.');
     }
 
     /**
@@ -98,7 +120,7 @@ public class StrutsActionLogicImpl
     public java.lang.String getFormBeanType()
     {
         ClassifierFacade context = getContextClass();
-        return context.getPackageName() + '.' + StringUtilsHelper.toJavaClassName(getActionName()) + "'Form";
+        return context.getPackageName() + '.' + StringUtilsHelper.toJavaClassName(getActionName()) + "Form";
     }
 
     /**
@@ -169,7 +191,12 @@ public class StrutsActionLogicImpl
         return !isFormAction();
     }
 
-    public String getFullPathName()
+    public String getFormFullPathName()
+    {
+        return getActionFullPathName() + "Form";
+    }
+
+    public String getActionFullPathName()
     {
         return '/' + getActionType().replace('.', '/');
     }
@@ -200,6 +227,37 @@ public class StrutsActionLogicImpl
         return '[' + getTriggerValue() + "] succesfully executed on " + getInput().getTitleValue();
     }
 
+    public String getEffectMethodName()
+    {
+        ActionFacade effect = getEffect();
+
+        if (effect instanceof CallActionFacade)
+        {
+            CallActionFacade callAction = (CallActionFacade)effect;
+            return callAction.getOperation().getName();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public String getDecisionMethodName()
+    {
+        return (isTargettingDecisionPoint()) ? StringUtilsHelper.toJavaMethodName(getActionClassName()) : null;
+    }
+
+    public String getTriggerMethodName()
+    {
+        EventFacade event = getTrigger();
+        if (event instanceof CallEventFacade)
+        {
+            CallEventFacade callEvent = (CallEventFacade)event;
+            return callEvent.getOperation().getName();
+        }
+        return null;
+    }
+
     // ------------- relations ------------------
 
     /**
@@ -208,7 +266,7 @@ public class StrutsActionLogicImpl
     public java.util.Collection handleGetUsers()
     {
         Collection users = new LinkedHashSet();
-        UseCaseFacade useCase = findUseCaseContext(getSource().getActivityGraph());
+        UseCaseFacade useCase = getActivityGraph().getUseCase();
         final Collection associationEnds = useCase.getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
@@ -222,20 +280,6 @@ public class StrutsActionLogicImpl
             }
         }
         return users;
-    }
-
-    private UseCaseFacade findUseCaseContext(ActivityGraphFacade graph)
-    {
-        Collection useCases = getModel().getAllUseCases();
-        for (Iterator iterator = useCases.iterator(); iterator.hasNext();)
-        {
-            UseCaseFacade useCaseFacade = (UseCaseFacade) iterator.next();
-            if (useCaseFacade.getOwnedElements().contains(graph))
-            {
-                return useCaseFacade;
-            }
-        }
-        return null;
     }
 
     /**
@@ -308,5 +352,15 @@ public class StrutsActionLogicImpl
         {
             return Collections.EMPTY_LIST;
         }
+    }
+
+    protected Object handleGetActivityGraph()
+    {
+        return (StrutsActivityGraph)getSource().getActivityGraph();
+    }
+
+    public boolean isUseCaseStart()
+    {
+        return getSource().getIncoming().size() == 0;
     }
 }
