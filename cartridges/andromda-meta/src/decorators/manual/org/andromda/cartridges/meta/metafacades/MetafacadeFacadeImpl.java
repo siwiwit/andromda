@@ -16,6 +16,11 @@ import org.andromda.core.metadecorators.uml14.OperationDecorator;
 
 /**
  *
+ * @since 28.02.2004
+ * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
+ */
+/**
+ *
  * Metaclass decorator implementation for org.omg.uml.foundation.core.Classifier
  *
  *
@@ -151,17 +156,35 @@ public class MetafacadeFacadeImpl extends MetafacadeFacade
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#getMethodDataForPSM()
+     * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#getMethodDataForPSM(boolean)
      */
-    public Collection getMethodDataForPSM()
+    public Collection getMethodDataForPSM(boolean includeSuperclasses)
     {
-try {
-        final String fullyQualifiedInterfaceName =
-            getFullyQualifiedInterfaceName();
         HashMap map = new HashMap();
+        internalGetMethodDataForPSM(map, this);
+        if (includeSuperclasses)
+        {
+            for (ClassifierDecorator cd = getSuperclass();
+                cd != null;
+                cd = cd.getSuperclass())
+            {
+                internalGetMethodDataForPSM(map, (MetafacadeFacade) cd);
+            }
+        }
+        ArrayList result = new ArrayList(map.values());
+        Collections.sort(result);
+        return result;
+    }
+
+    private static void internalGetMethodDataForPSM(HashMap map, MetafacadeFacade cd)
+    {
+        final String fullyQualifiedInterfaceName =
+            cd.getFullyQualifiedInterfaceName();
 
         // translate UML attributes to getter methods
-        for (Iterator iter = getAttributes().iterator(); iter.hasNext();)
+        for (Iterator iter = cd.getAttributes().iterator();
+            iter.hasNext();
+            )
         {
             AttributeDecorator att = (AttributeDecorator) iter.next();
             final MethodData md =
@@ -176,7 +199,9 @@ try {
         }
 
         // translate UML operations to methods
-        for (Iterator iter = getOperations().iterator(); iter.hasNext();)
+        for (Iterator iter = cd.getOperations().iterator();
+            iter.hasNext();
+            )
         {
             OperationDecorator op = (OperationDecorator) iter.next();
             final UMLOperationData md =
@@ -185,7 +210,7 @@ try {
         }
 
         // translate UML associations to getter methods
-        for (Iterator iter = getAssociationEnds().iterator();
+        for (Iterator iter = cd.getAssociationEnds().iterator();
             iter.hasNext();
             )
         {
@@ -205,17 +230,6 @@ try {
                 map.put(md.buildCharacteristicKey(), md);
             }
         }
-
-        ArrayList result = new ArrayList(map.values());
-        Collections.sort(result);
-        return result;
-}
-catch (RuntimeException re)
-{
-    re.printStackTrace();
-    logger.error(re);
-    return null;
-}
     }
 
     // ------------------------------------------------------------
