@@ -2,6 +2,11 @@
 
 <!-- This schema defines andromda-metafacades.xml configuration file -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<!-- Used for mapping contexts.  An example for a context is: An entity is a 
+	     context for its attributes. So, the metaclass "Attribute" would be mapped to 
+	     the class for "EntityAttributeFacade" if the Attribute belongs to an entity. 
+	     If the Attribute belongs to any other Classifier, it would be mapped 
+	     to a simple "AttributeFacade" and therefore would NOT need the context -->
 	<xs:element name="context" type="xs:string"/>
 	<!-- specifies the default metafacade (if a metafacade is not explicitly 
 	     defined for an element -->
