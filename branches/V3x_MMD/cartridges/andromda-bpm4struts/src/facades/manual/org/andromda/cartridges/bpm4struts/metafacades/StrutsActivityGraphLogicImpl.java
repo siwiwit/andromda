@@ -23,21 +23,10 @@ public class StrutsActivityGraphLogicImpl
     }
     // ------------- relations ------------------
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsActivityGraph#getInitialAction()
-     */
-    protected java.lang.Object handleGetInitialAction()
+    protected Object handleGetFirstAction()
     {
-        Collection pseudostates = getPseudostates();
-        for (Iterator iterator = pseudostates.iterator(); iterator.hasNext();)
-        {
-            PseudostateFacade pseudostate = (PseudostateFacade) iterator.next();
-            if (pseudostate.isInitialState())
-            {
-                return pseudostate.getOutgoing().iterator().next();
-            }
-        }
-        return null;
+        PseudostateFacade initialState = (PseudostateFacade)getInitialStates().iterator().next();
+        return initialState.getOutgoing().iterator().next();
     }
 
     protected Object handleGetUseCase()
