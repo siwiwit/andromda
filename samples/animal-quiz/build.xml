@@ -63,6 +63,7 @@
                 <property name="pages" value="${src.dir}"/>
                 <property name="actions" value="${src.dir}"/>
                 <property name="messages" value="${src.dir}"/>
+                <property name="xdoclet-merge" value="${merge.dir}"/>
             </namespace>
         </andromda>
     </target>
