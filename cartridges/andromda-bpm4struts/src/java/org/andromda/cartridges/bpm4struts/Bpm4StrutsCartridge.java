@@ -21,6 +21,7 @@ import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldDe
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTransitionDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsUseCaseDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsViewDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPasswordDecoratorImpl;
 import org.andromda.cartridges.interfaces.DefaultAndroMDACartridge;
 import org.andromda.core.metadecorators.uml14.DecoratorFactory;
 
@@ -162,6 +163,11 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             Bpm4StrutsProfile.STEREOTYPE_VIEW_MULTIBOX,
             StrutsMultiBoxDecoratorImpl.class.getName());
 
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_PASSWORD,
+            StrutsPasswordDecoratorImpl.class.getName());
+        
         df.setActiveNamespace (oldNamespace);
     }
 }
