@@ -42,7 +42,7 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
             public boolean accept(Object object)
             {
                 return (object instanceof Pseudostate) &&
-                    (PseudostateKindEnum.PK_INITIAL.equals(((Pseudostate)(object)).getKind()));
+                    (PseudostateKindEnum.PK_INITIAL.equals(((Pseudostate)object).getKind()));
             }
         };
         return getSubvertices(filter);
