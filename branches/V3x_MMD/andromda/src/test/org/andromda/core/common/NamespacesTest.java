@@ -26,7 +26,7 @@ public class NamespacesTest extends TestCase {
 		super(arg0);
 	}
 
-	public void testAddOutletMapping() {
+	public void testAddAndFindNamespaceProperty() {
 		Namespace namespace = new Namespace();
 		namespace.setName(TEST_NAMESPACE);
 		Property outletLocation = new Property();

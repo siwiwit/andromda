@@ -248,7 +248,8 @@ public class MetafacadeFactory
      */
     public MetafacadeBase createFacadeImpl(
         String interfaceName,
-        Object metaObject)
+        Object metaObject,
+        String contextName)
     {
         final String methodName = "MetafacadeFactory.createFacadeImpl";
         ExceptionUtils.checkEmpty(methodName, "interfaceName", interfaceName);
@@ -276,6 +277,7 @@ public class MetafacadeFactory
                         metaObject,
                         null,
                         metafacadeClass);   
+            metafacade.setContext(contextName);
            
             
             return metafacade;
