@@ -152,7 +152,8 @@ public class OperationFacadeLogicImpl
                 {
                     sb.append(", ");
                 }
-                sb.append(((ClassifierFacade)p.getType()).getFullyQualifiedName());
+                ParameterFacade facade = (ParameterFacade)shieldedElement(p);
+                sb.append(facade.getType().getFullyQualifiedName());
                 commaNeeded = true;
             }
         }
