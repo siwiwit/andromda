@@ -15,8 +15,25 @@ import org.apache.struts.action.ActionMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public final class $class.name
+public final class $class.name implements ${class.name}Interface
 {
+    private final static $class.name INSTANCE = new ${class.name}();
+
+    /**
+     * Singleton constructor
+     */
+    private ${class.name}()
+    {
+    }
+
+    /**
+     * Singleton instance accessor
+     */
+    public static ${class.name} getInstance()
+    {
+        return INSTANCE;
+    }
+
 #foreach ($operation in $class.operations)
 #set ($parameters = $operation.parameters)
 #set ($visibility = $operation.visibility)
@@ -54,7 +71,7 @@ $operation.getDocumentation("     ")
      * </table>
 #end
      */
-    $visibility static $returnType ${operation.name}(ActionMapping mapping, $formBeanClassName form, HttpServletRequest request, HttpServletResponse reponse)
+    $visibility $returnType ${operation.name}(ActionMapping mapping, $formBeanClassName form, HttpServletRequest request, HttpServletResponse reponse)
     {
 #foreach ($parameter in $parameters)
         final $parameter.type.name $parameter.name = form.${parameter.getterName}();
@@ -82,10 +99,15 @@ $operation.getDocumentation("     ")
      * <p/>
      * You may remove this method if you want.
      */
-    private static void populateForm($formBeanClassName form)
+    private void populateForm($formBeanClassName form)
     {
 #foreach ($field in $useCase.formFields)
-        form.${field.setterName}("$field.resetValue");
+        form.${field.setterName}($field.resetValue);
+#if ($field.hasBackingList())
+#set ($backingListName = $field.backingListName)
+#set ($backingListMethod = $str.upperCaseFirstLetter($backingListName))
+        form.set${backingListMethod}($field.backingListResetValue);
+#end
 #end
     }
 }
