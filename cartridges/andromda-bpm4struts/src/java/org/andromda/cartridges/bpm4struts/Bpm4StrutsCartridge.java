@@ -66,13 +66,6 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             null,
             StrutsTransitionDecoratorImpl.class.getName());
 
-/*
-        df.registerDecoratorClass(
-            "org.omg.uml.behavioralelements.statemachines.StateMachine$Impl",
-            null,
-            StrutsStateMachineDecoratorImpl.class.getName());
-*/
-
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl",
             null,
@@ -125,11 +118,6 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
 
         df.registerDecoratorClass(
             "org.omg.uml.foundation.core.Attribute$Impl",
-            null,
-            StrutsTextFieldDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.foundation.core.Attribute$Impl",
             Bpm4StrutsProfile.STEREOTYPE_VIEW_TEXTFIELD,
             StrutsTextFieldDecoratorImpl.class.getName());
 
@@ -167,7 +155,12 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             "org.omg.uml.foundation.core.Attribute$Impl",
             Bpm4StrutsProfile.STEREOTYPE_VIEW_PASSWORD,
             StrutsPasswordDecoratorImpl.class.getName());
-        
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            null,
+            StrutsTextFieldDecoratorImpl.class.getName());
+
         df.setActiveNamespace (oldNamespace);
     }
 }
