@@ -66,7 +66,7 @@ $class.getDocumentation(" * ")
  *
 #foreach ($actionException in $class.actionExceptions)
  * @struts.action-exception
- *         key="$actionException.exceptionKey"
+ *         key="${class.messageKey}.$actionException.exceptionKey"
  *        type="$actionException.exceptionType"
  *        path="$actionException.exceptionPath"
  *       scope="request"
