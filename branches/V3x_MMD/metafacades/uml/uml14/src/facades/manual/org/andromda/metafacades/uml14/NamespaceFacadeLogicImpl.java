@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.Collection;
+
 
 /**
  * MetafacadeLogic implementation.
@@ -17,5 +19,9 @@ public class NamespaceFacadeLogicImpl
         super (metaObject, context);
     }
     // ------------- relations ------------------
-    
+
+    protected Collection handleGetOwnedElements()
+    {
+        return metaObject.getOwnedElement();
+    }
 }
