@@ -173,4 +173,44 @@
         </modelElements>
     </template>
 
+    <template
+        sheet="templates/StrutsXDocletMergeWebSecurity.vsl"
+        outputPattern="web-security.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergeWebSecRoles.vsl"
+        outputPattern="web-sec-roles.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergeWebEjbRefs.vsl"
+        outputPattern="web-ejbrefs.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergeWebEjbRefsLocal.vsl"
+        outputPattern="web-ejbrefs-local.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
 </cartridge>
