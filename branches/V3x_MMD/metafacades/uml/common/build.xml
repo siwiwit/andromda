@@ -8,14 +8,22 @@
     <property name="dist.dir"         value="dist" />
 
     <property file="build.properties" />
-    <property name="andromda-core.home"  location="${andromda.home}/andromda-core"/>
-    <property name="andromda-meta.home"  location="${andromda.home}/cartridges/andromda-meta"/>
+    <property name="andromda-core.new.home" location="${andromda.new.home}/andromda-core"/>
+    <property name="andromda-meta.new.home" location="dist"/>
+    <property name="andromda-core.home"     location="${andromda.old.home}/andromda-core"/>
+    <property name="andromda-meta.home"     location="${andromda.old.home}/cartridges/andromda-meta"/>
+
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
 
-    <path id="andromda.classpath">
+    <path id="andromda.old.classpath">
        <pathelement location="${andromda-core.home}/andromda.jar"/>
        <pathelement path="${andromda-core.classpath}"/>
+    </path>
+
+    <path id="andromda.new.classpath">
+       <pathelement location="${andromda-core.new.home}/andromda.jar"/>
+       <fileset dir="${andromda-core.new.home}/lib" includes="*.jar" excludes="metadecorators.jar"/>
     </path>
 
     <!-- Setup directory structure -->
@@ -57,7 +65,7 @@
         <property file="${andromda-meta.home}/andromda-meta.properties"/>
 
         <path id="generate.classpath">
-           <path refid="andromda.classpath" />
+           <path refid="andromda.old.classpath" />
            <pathelement path="${andromda-meta.classpath}"/>
         </path>
 
@@ -94,13 +102,13 @@
 
     <target name="compile" depends="genjava"
             description="Builds the decorator objects from the generated and hand-written sources">
-        <property name="n.cp" refid="andromda.classpath"/>
-        <echo message="andromda.classpath = ${n.cp}"/>
+        <property name="n.cp" refid="andromda.new.classpath"/>
+        <echo message="andromda.new.classpath = ${n.cp}"/>
         <javac destdir="${build.dir}" includes="**/*.java"
                includeAntRuntime="false">
             <src path="${src.fac.gen.dir}" />
             <classpath>
-               <path refid="andromda.classpath"/>
+               <path refid="andromda.new.classpath"/>
             </classpath>
         </javac>
 
