@@ -80,8 +80,8 @@ $operation.getDocumentation("     ")
         /*
          * By default this method populates the complete form, it is up to you to replace this
          * by those fields that are required (this cannot be determined here because it might be
-         * that case that many action call this controller method, each with their own set of
-         * parameters
+         * the case that many action call this controller method, each with their own set of
+         * parameters)
          */
         populateForm(form);
 #if ($returnType != "void")
