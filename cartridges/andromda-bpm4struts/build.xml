@@ -10,10 +10,10 @@
     <property name="src.cart.dir"     value="${src.dir}/java" />
     <property name="src.dec.gen.dir"  value="${src.dir}/decorators/generated" />
     <property name="src.dec.man.dir"  value="${src.dir}/decorators/manual" />
-    <!-- <property name="uml.dir"          value="${src.dir}/uml" /> -->
-    <!-- temporarily point to the andromda-meta cartrige since we need to use
-    that model until the HREF enabling is done -->
-    <property name="uml.dir"          value="${basedir}/${andromda-meta.dir}/src/uml" />
+    <property name="uml.dir"          value="${src.dir}/uml" /> 
+
+	<!-- the model which our model extends -->
+    <property name="base.model.uml.dir" value="${basedir}/${andromda-meta.dir}/src/uml" />
     <property name="src.test.dir"     value="${src.dir}/test/" />
 
     <property name="build.dir"         		value="build/classes" />
@@ -51,6 +51,8 @@
             <fileset dir="${build.dir}"/>
             <fileset dir="${src.dec.gen.dir}"/>
         </delete>
+        <!-- cleanup the copied base model -->
+        <delete file="${uml.dir}/MetadecoratorModel.xml.zip"/>
     </target>
 
     <!-- ============================================================= -->
@@ -87,8 +89,16 @@
             classpathref="generate.classpath"
             />
 
-        <!-- <property name="model" value="jar:file:${uml.dir}/EJBMetadecoratorModel.xml.zip!/EJBMetadecoratorModel.xml"/> -->
-        <property name="model" value="jar:file:${uml.dir}/MetadecoratorModel.xml.zip!/MetadecoratorModel.xml"/>
+		<!-- copy the base model over so that it can be referenced from the EJB model -->
+        <copy todir="${uml.dir}">
+            <fileset 
+            	dir="${base.model.uml.dir}" 
+            	includes="MetadecoratorModel.xml.zip" />
+        </copy>
+        
+        <property 
+        	name="model" 
+        	value="jar:file:${uml.dir}/BPM4StrutsMetadecoratorModel.xml.zip!/BPM4StrutsMetadecoratorModel.xml"/>
 
         <andromda basedir="."
             modelURL="${model}"
