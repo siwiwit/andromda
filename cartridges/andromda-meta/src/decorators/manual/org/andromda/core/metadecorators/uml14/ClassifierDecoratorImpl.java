@@ -8,11 +8,9 @@ import org.apache.commons.collections.Predicate;
 import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Dependency;
-import org.omg.uml.foundation.core.Feature;
 import org.omg.uml.foundation.core.Generalization;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Operation;
-import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 
 /**
  *
