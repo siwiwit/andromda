@@ -1,9 +1,9 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
 import org.andromda.core.metadecorators.uml14.PseudostateDecorator;
-import org.andromda.core.common.StringUtilsHelper;
 import org.omg.uml.behavioralelements.statemachines.Event;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
 import org.omg.uml.behavioralelements.statemachines.StateVertex;
@@ -55,6 +55,42 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
         }
 
         return (ModelElementDecorator)decoratedElement(target);
+    }
+
+    public boolean isCancelTrigger()
+    {
+        Event trigger = metaObject.getTrigger();
+        return (trigger == null) ? false : "cancel".equalsIgnoreCase(trigger.getName());
+    }
+
+    public boolean isResetTrigger()
+    {
+        Event trigger = metaObject.getTrigger();
+        if ( trigger != null && "reset".equalsIgnoreCase(trigger.getName()))
+        {
+            return (metaObject.getSource() == metaObject.getTarget());
+        }
+        return false;
+    }
+
+    public String getMessageKey()
+    {
+        return StringUtilsHelper.separate(getTriggerName(), ".").toLowerCase();
+    }
+
+    public String getTitleMessageKey()
+    {
+        return getMessageKey() + ".title";
+    }
+
+    public String getMessageValue()
+    {
+        return StringUtilsHelper.upperCaseFirstLetter(StringUtilsHelper.separate(getTriggerName(), " "));
+    }
+
+    public String getTitleMessageValue()
+    {
+        return StringUtilsHelper.upperCaseFirstLetter(StringUtilsHelper.separate(getTriggerName(), " "));
     }
 
     // ------------- relations ------------------
