@@ -18,27 +18,52 @@ errors.range={0} is not in the range {1} through {2}.
 errors.creditcard={0} is an invalid credit card number.
 errors.email={0} is an invalid e-mail address.
 
-$class
-$class.users
-$class.pages
-
 #foreach ($user in $class.users)
 $user.messageKey=$user.messageValue
 #end
 
-#foreach ($page in $class.pages)
+#set ($useCases = $class.allUseCases)
+
+#foreach ($useCase in $useCases)
+#
+#
+#   USE-CASE:   $useCase.titleValue
+#
+#
+
+#foreach ($page in $useCase.pages)
+#
+#   PAGE:       $page.titleValue
+#
 $page.titleKey=$page.titleValue
 
 #foreach ($action in $page.actions)
-$action.triggerKey=$action.triggerValue
-#if ($action.hasSuccesMessage())
-$action.succesMessageKey=$action.succesMessageValue
+#   ACTION:     $action.actionTrigger.triggerValue
+#if ($action.hasSuccessMessage())
+$action.successMessageKey=$action.successMessageValue
+#end
+#set ($messageKey = $action.messageKey)
+#set ($actionTrigger = $action.actionTrigger)
+${messageKey}.$actionTrigger.triggerKey=$actionTrigger.triggerValue
+${messageKey}.$actionTrigger.titleKey=$actionTrigger.titleValue
+${messageKey}.$actionTrigger.notAllowedTitleKey=$actionTrigger.notAllowedTitleValue
+${messageKey}.$actionTrigger.resetTitleKey=$actionTrigger.resetTitleValue
+${messageKey}.$actionTrigger.resetNotAllowedTitleKey=$actionTrigger.resetNotAllowedTitleValue
+
+#set ($actionParameters = $action.actionParameters)
+#if (!$actionParameters.isEmpty())
+#   ACTION-PARAMETERS
+#foreach ($field in $action.actionParameters)
+${messageKey}.$field.messageKey=$field.messageValue
+${messageKey}.$field.titleKey=$field.titleValue
 #end
 
-#foreach ($parameter in $action.actionParameters)
-${action.triggerKey}.$parameter.messageKey=$parameter.messageValue
-$parameter.titleKey=$parameter.titleValue
-#end
 #end
 #end
 
+
+#end
+
+
+
+#end
