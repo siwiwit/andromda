@@ -110,15 +110,19 @@ public class StrutsParameterLogicImpl
             if (isCollection() || isArray()) return "select";
             return "text";
         }
-        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_TEXTBLOCK.equalsIgnoreCase(fieldType))
+        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_TEXTAREA.equalsIgnoreCase(fieldType))
         {
             return "textarea";
         }
-        else if (fieldType.toLowerCase().startsWith(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_CHOICE))
+        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_HIDDEN.equalsIgnoreCase(fieldType))
+        {
+            return "hidden";
+        }
+        else if (fieldType.toLowerCase().startsWith(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_RADIO))
         {
             return "radio";
         }
-        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_OPTION.equalsIgnoreCase(fieldType))
+        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_CHECKBOX.equalsIgnoreCase(fieldType))
         {
             return "checkbox";
         }
@@ -337,11 +341,11 @@ public class StrutsParameterLogicImpl
         if ("radio".equals(getWidgetType()))
         {
             String fieldType = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE);
-            if (fieldType.length() > Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_OPTION.length())
+            if (fieldType.length() > Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_CHECKBOX.length())
             {
                 try
                 {
-                    return Integer.parseInt(fieldType.substring(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_OPTION.length()).trim());
+                    return Integer.parseInt(fieldType.substring(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_CHECKBOX.length()).trim());
                 }
                 catch(Exception exception)
                 {
