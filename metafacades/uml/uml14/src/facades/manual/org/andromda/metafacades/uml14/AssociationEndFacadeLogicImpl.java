@@ -30,13 +30,11 @@ public class AssociationEndFacadeLogicImpl
     public AssociationEndFacadeLogicImpl (org.omg.uml.foundation.core.AssociationEnd metaObject, String context)
     {
         super (metaObject, context);
-    }
+    } 
 
-    // -------------------- business methods ----------------------
-
-    // concrete business methods that were declared
-    // abstract in class AssociationEndFacade ...
-
+    /*** 
+     * @see org.andromda.metafacades.uml14.AssociationEndFacadeLogic#handleGetOtherEnd()
+     */
     public Object handleGetOtherEnd()
     {
         AssociationEnd otherEnd;
@@ -52,17 +50,6 @@ public class AssociationEndFacadeLogicImpl
         }
 
         return null;
-    }
-
-    public java.lang.String getRoleName()
-    {
-        String roleName = metaObject.getName();
-        if ((roleName == null) || (roleName.length() == 0))
-        {
-            roleName = "the" + metaObject.getParticipant().getName();
-        }
-
-        return roleName;
     }
 
     /**
@@ -82,24 +69,24 @@ public class AssociationEndFacadeLogicImpl
         return name;
     }
 
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#getType()
+    /**
+     * @see org.andromda.metafacades.uml14.AssociationEndFacadeLogic#handleGetType()
      */
     public Object handleGetType()
     {
         return metaObject.getParticipant();
     }
 
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#isOne2Many()
+    /**
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isOne2Many()
      */
     public boolean isOne2Many()
     {
         return !this.isMany() && this.getOtherEnd().isMany();
     }
 
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#isMany2Many()
+    /**
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany2Many()
      */
     public boolean isMany2Many()
     {
@@ -107,8 +94,8 @@ public class AssociationEndFacadeLogicImpl
             && this. getOtherEnd().isMany();
     }
 
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#isOne2One()
+    /**
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isOne2One()
      */
     public boolean isOne2One()
     {
@@ -116,8 +103,8 @@ public class AssociationEndFacadeLogicImpl
             && !this.getOtherEnd().isMany();
     }
 
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#isMany2One()
+    /**
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany2One()
      */
     public boolean isMany2One()
     {
