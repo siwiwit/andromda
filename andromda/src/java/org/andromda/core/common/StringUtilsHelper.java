@@ -192,12 +192,19 @@ public class StringUtilsHelper {
         if ( (string == null) ||  (string.trim().length() == 0) )
             return string;
 
-        final String[] parts = split(string);
+        final String[] parts = splitAtCapitalization(string);
         final StringBuffer conversionBuffer = new StringBuffer();
         for (int i = 0; i < parts.length; i++)
         {
-            conversionBuffer.append(parts[i].substring(0,1).toUpperCase());
-            conversionBuffer.append(parts[i].substring(1).toUpperCase());
+            if (parts[i].length() < 2)
+            {
+                conversionBuffer.append(parts[i].toUpperCase());
+            }
+            else
+            {
+                conversionBuffer.append(parts[i].substring(0,1).toUpperCase());
+                conversionBuffer.append(parts[i].substring(1).toLowerCase());
+            }
         }
         return conversionBuffer.toString();
     }
@@ -225,36 +232,42 @@ public class StringUtilsHelper {
      */
     public static String separate(String string, String separator)
     {
-        final String[] parts = split(string);
+        if ( (string == null) ||  (string.trim().length() == 0) )
+            return string;
+
+        final String[] parts = splitAtCapitalization(string);
         final StringBuffer buffer = new StringBuffer();
 
         for (int i = 0; i < parts.length - 1; i++)
         {
-            buffer.append(parts[i]).append(separator);
+            if (parts[i].trim().length() > 0)
+                buffer.append(parts[i]).append(separator);
         }
         return buffer.append(parts[parts.length - 1]).toString();
     }
 
     /**
-     * Splits at each sequence of non-word characters.
+     * Splits at each sequence of non-word characters. Because this is used to convert to Java-style
+     * conventions the final character in a capital sequence will be separated because it will be
+     * interprested as the first letter of a new word.
      */
-    private static String[] split(String string)
+    private static String[] splitAtCapitalization(String string)
     {
-        if ( (string == null) ||  (string.trim().length() == 0) )
-            return new String[0];
-
-        Matcher matcher = null;
-
-        // surround capital sequences with spaces
-        Pattern capitalSequencePattern = Pattern.compile("[(A-Z)+]");
-        matcher = capitalSequencePattern.matcher(string);
-        StringBuffer buffer = new StringBuffer();
-        for (int i=0; i<matcher.groupCount(); i++)
+        Pattern capitalSequencePattern = Pattern.compile("[A-Z]+");
+        Matcher matcher = capitalSequencePattern.matcher(string);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find())
         {
-            buffer.append(' ' + matcher.group(i) + ' ');
+            String group = matcher.group();
+            if (group.length() > 1)
+            {
+                group = group.substring(0,group.length()-1) + ' ' + group.substring(group.length()-1);
+            }
+            matcher.appendReplacement(sb, ' ' + group);
         }
+        matcher.appendTail(sb);
 
-        // split on all non-word characters
-        return buffer.toString().split("[^\\W+]");
+        // split on all non-word characters: make sure we send the good parts
+        return sb.toString().split("[\\W+]");
     }
 }
