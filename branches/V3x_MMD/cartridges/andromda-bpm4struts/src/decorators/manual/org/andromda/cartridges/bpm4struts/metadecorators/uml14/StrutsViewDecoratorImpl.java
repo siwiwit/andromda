@@ -5,6 +5,7 @@ import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.AttributeDecorator;
+import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.omg.uml.foundation.core.Attribute;
 
 import java.util.Collection;
@@ -65,6 +66,33 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         return inputFields;
     }
 
+    public String getViewName()
+    {
+        return this.getFullyQualifiedJspFilename();
+    }
+
+    protected Collection handleGetResetInputFields()
+    {
+        final Collection attributes = getAttributes();
+        final Collection resetInputFields = new LinkedList();
+
+        for (Iterator iterator = attributes.iterator(); iterator.hasNext();)
+        {
+            Attribute attribute = (Attribute) iterator.next();
+            AttributeDecorator attributeDecorator = (AttributeDecorator)DecoratorBase.decoratedElement(attribute);
+            if (attributeDecorator instanceof StrutsInputFieldDecorator)
+            {
+                ClassifierDecorator classifierDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(attributeDecorator.getType());
+                final String fqType = classifierDecorator.getFullyQualifiedName();
+                if ("boolean".equals(fqType))
+                {
+                    resetInputFields.add(attribute);
+                }
+            }
+        }
+
+        return resetInputFields;
+    }
     // ------------------------------------------------------------
 
     public void validate() throws DecoratorValidationException
