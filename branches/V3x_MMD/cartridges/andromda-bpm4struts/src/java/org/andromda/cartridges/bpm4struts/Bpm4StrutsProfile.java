@@ -32,12 +32,11 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_INPUT_SIZE = "@andromda.struts.view.field.size";
     public static final String TAGGED_VALUE_INPUT_ROWS = "@andromda.struts.view.field.rows";
     public static final String TAGGED_VALUE_INPUT_COLS = "@andromda.struts.view.field.cols";
-    public static final String TAGGED_VALUE_INPUT_PATTERN = "@andromda.struts.view.field.pattern";
+    public static final String TAGGED_VALUE_INPUT_FORMAT = "@andromda.struts.view.field.format";
+    public static final String TAGGED_VALUE_INPUT_VALIDWHEN = "@andromda.struts.view.field.validwhen";
     public static final String TAGGED_VALUE_EXCEPTION_TYPE = "@andromda.struts.exception.type";
     public static final String TAGGED_VALUE_EXCEPTION_PATH = "@andromda.struts.exception.path";
     public static final String TAGGED_VALUE_EXCEPTION_KEY = "@andromda.struts.exception.key";
-    public static String TAGGED_VALUE_INPUT_VALIDWHEN = "???"; // TODO: put correct name here!
-    public static String TAGGED_VALUE_INPUT_FORMAT = "???"; // TODO: put correct name here!
 
     /* ----------------- Default Values ------------------- */
     public static final String TAGGED_VALUE_ACTION_DEFAULT_PARAMETER = "state";
