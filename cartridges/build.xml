@@ -65,6 +65,9 @@
         <antcall target="buildCartridge">
           <param name="cartridge.name" value="andromda-meta"/>
         </antcall>
+        <move file="${dist.dir}/andromda-meta/metadecorators.jar"
+              todir="../dist/andromda-core/lib" 
+        />
         <antcall target="buildCartridge">
           <param name="cartridge.name" value="andromda-java"/>
         </antcall>
@@ -80,7 +83,6 @@
         <antcall target="buildCartridge">
             <param name="cartridge.name" value="andromda-bpm4struts"/>
         </antcall>
-
     </target>
 
 </project>
