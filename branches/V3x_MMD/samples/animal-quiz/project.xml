@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../../project.xml</extend>
-  	<id>andromda-animal-quiz</id>
+  	<id>animal-quiz</id>
   	<groupId>andromda-samples</groupId>
   	<name>The Animal Quiz Sample</name>
   	<currentVersion>3.0-SNAPSHOT</currentVersion>

@@ -3,7 +3,7 @@
 <project>
   	<extend>../project.xml</extend>
 	<name>Animal Quiz Sample MDA</name>
-	<id>andromda-animal-quiz-sample-mda</id>
+	<id>animal-quiz-sample-mda</id>
 	
   	<dependencies>
   	
