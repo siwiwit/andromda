@@ -32,11 +32,12 @@
 ## any specific logic.
 ##
 #macro ( processTransition $transition $indent )
-#set ($target = $transition.finalTarget)
+#set ($target = $transition.finalTarget.metaObject)
+#set ($triggerName = $transition.triggerName)
 #if ($target.guard)
 ${indent}return $str.toJavaMethodName($target.name)(mapping, form, request, response);
 #elseif ($transform.isActionState($target) || $transform.isFinalState($target))
-${indent}return mapping.findForward("$str.separate($target.name,".").toLowerCase()");
+${indent}return mapping.findForward("$str.separate($triggerName,".").toLowerCase()");
 #elseif ($transform.isObjectFlowState($target) || $transform.isDecisionPoint($target))
 ${indent}return ${str.toJavaMethodName($target.name)}Abstract(mapping, form, request, response);
 #else
@@ -68,7 +69,7 @@ $class.getDocumentation(" ")
 public abstract class $className extends DispatchAction
 {
 #foreach ($choiceTransition in $choiceTransitions)
-    protected final int $choiceTransition.guard.name.toUpperCase() = $velocityCount;
+    protected final int $choiceTransition.metaObject.guard.name.toUpperCase() = $velocityCount;
 #end
 
     public final ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -88,12 +89,12 @@ $actionState.getDocumentation("     ")
 #else
         String trigger = request.getParameter("trigger");
         if (trigger != null)
-            trigger = trigger.toUpperCase();
-
+            trigger = trigger.toLowerCase();
 #foreach ($triggerTransition in $actionState.triggerTransitions)
-        if ("${triggerTransition.triggerName}".equals(trigger))
+        if ("${triggerTransition.triggerName.toLowerCase()}".equals(trigger))
 #processTransition ( $triggerTransition "            " )
 #end
+
         return null; // if this happens the page specified an illegal trigger: application bug!
 #end
     }
@@ -109,7 +110,7 @@ $actionState.getDocumentation("     ")
         switch(choiceValue)
         {
 #foreach ($choiceTransition in $choiceTransitions)
-            case $choiceTransition.guard.name.toUpperCase() :
+            case $choiceTransition.metaObject.guard.name.toUpperCase() :
 #processTransition ( $choiceTransition "                " )
 #end
             default :
