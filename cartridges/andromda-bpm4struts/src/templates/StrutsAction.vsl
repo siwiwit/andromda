@@ -24,7 +24,6 @@ import org.apache.struts.action.ActionForm;
 import $class.formBean.fullyQualifiedName;
 
 #end
-import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +42,16 @@ import javax.servlet.http.HttpServletResponse;
  *        name="$str.separate($forwardTransitionName, ".").toLowerCase()"
  *        path="/$str.separate($class.packageName, "/")/${str.toWebFileName($forwardTransitionName)}.jsp"
  *    redirect="false"
+ *
+#end
+#foreach ($exceptionHandler in $class.exceptionHandlers)
+ * @struts.action-exception
+ *         key="$exceptionHandler.key"
+ *        type="$exceptionHandler.exceptionType"
+#if ($exceptionHandler.path)
+ *        path="$exceptionHandler.path"
+#end
+ *       scope="request"
  *
 #end
  */
