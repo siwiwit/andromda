@@ -62,7 +62,7 @@ public class PseudostateDecoratorImpl extends PseudostateDecorator
     {
         boolean isDecisionPoint = false;
 
-        if (isChoice().booleanValue() || isFork().booleanValue())
+        if (isChoice().booleanValue() || isJunction().booleanValue())
         {
             isDecisionPoint = true;
             isDecisionPoint = isDecisionPoint && (metaObject.getIncoming().size() == 1);
