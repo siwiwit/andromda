@@ -378,7 +378,9 @@ public class AndroMDAGenTask extends MatchingTask
                     cartridge.processModelElements(context);
                     cartridge.shutdown();
                 } else {
-                	StdoutLogger.info("ignoring namespace --> '" + cartridgeName + "'");
+                	StdoutLogger.info("namespace for '" + cartridgeName
+                        + "' cartridge is either not defined, or has the ignore "
+                        + "attribute set to 'true' --> skipping processing");
                 }
             }
             repository.close();
