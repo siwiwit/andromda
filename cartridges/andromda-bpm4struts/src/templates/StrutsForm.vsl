@@ -19,7 +19,7 @@ $class.getDocumentation(" ")
  * @struts.form
  *        name="$formName"
  */
-public final class $class.name extends ValidatorForm
+public class $class.name extends ValidatorForm
 {
 #foreach ($inputField in $class.inputFields)
     /**
@@ -48,33 +48,6 @@ $inputField.getDocumentation("     ")
     }
 
 #foreach ($inputField in $class.inputFields)
-    /**
-#if ($inputField.isRequired())
-#set ($required = "required")
-#else
-#set ($required = "")
-#end
-#if ($inputField.maskPattern)
-#set ($mask = "mask")
-#else
-#set ($mask = "")
-#end
-#if ($inputField.isRequired() && $inputField.maskPattern)
-#set ($commaOne = ",")
-#else
-#set ($commaOne = "")
-#end
-     * @struts.validator
-     *   msgkey="$inputField.validationMsgKey"
-     *     type="$required$commaOne$mask"
-     *
-#if ($inputField.maskPattern)
-     * @struts.validator-var
-     *     name="$mask"
-     *    value="$inputField.maskPattern"
-     *
-#end
-     */
     public void ${inputField.setterName}($inputField.type.fullyQualifiedName $inputField.name)
     {
         this.$inputField.name = $inputField.name;
@@ -100,11 +73,6 @@ $inputField.getDocumentation("     ")
 
 #end
 #end
-    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
-    {
-        return null;
-    }
-
     public void reset(ActionMapping mapping, HttpServletRequest request)
     {
 #foreach ($inputField in $class.resetInputFields)
