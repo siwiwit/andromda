@@ -4,6 +4,7 @@
 	<xs:element name="cartridge">
 		<xs:complexType>
 			<xs:sequence>
+                <xs:element ref="class" minOccurs="0" maxOccurs="1"/>
 				<xs:element ref="templateObject" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="macrolibrary" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="template" minOccurs="1" maxOccurs="unbounded"/>
@@ -61,4 +62,10 @@
             <xs:attribute name="name" type="xs:string" use="required"/>
         </xs:complexType>
 	</xs:element>
+	<!-- defines a cartridge class that may override the existing default cartridge class implementation -->
+	<xs:element name="class">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+	</xs:element>	
 </xs:schema>

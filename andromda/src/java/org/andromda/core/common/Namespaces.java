@@ -55,19 +55,33 @@ public class Namespaces {
 	public void addNamespace(Namespace namespace) {
 		namespaces.put(namespace.getName(), namespace);
 	}
+    
+    /**
+     * Finds the Namespace with the corresponding 
+     * <code>namespaceName</code>.
+     * 
+     * @param namespaceName
+     * @return the found Namespace
+     */
+    public Namespace findNamespace(String namespaceName) {
+        return (Namespace)namespaces.get(namespaceName);
+    }
 
 	/**
-	 * Retrieves a property from the Namespace with the namespaceName.
+	 * Retrieves a property from the Namespace with the namespaceName. If
+     * the <code>ignore</code> attribute of the Property instance is set to
+     * <code>true</code> then lookup of the property will not be attempted
+     * and null will just be returned instead.
 	 * 
 	 * @param namespaceName name of the Plugin to which the contexdt applies
 	 * @param propertyName name of the namespace property to find.
 	 * @return String the namespace property value.
 	 */
-	public String findNamespaceProperty(String namespaceName, String propertyName) {
+	public Property findNamespaceProperty(String namespaceName, String propertyName) {
 		final String methodName = "Namespaces.findNamespaceProperty";
 		ExceptionUtils.checkEmpty(methodName, "namespaceName", namespaceName);
 		ExceptionUtils.checkEmpty(methodName, "propertyName", propertyName);
-		
+        
 		Property property = null;
 		
 		Namespace namespace = (Namespace)namespaces.get(namespaceName);
@@ -81,7 +95,7 @@ public class Namespaces {
 		if (property == null) {
 			if (logger.isDebugEnabled())
 				logger.debug("no namespace with name '" 
-					+ namespaceName + "' found, looking for " + DEFAULT);
+					+ namespaceName + "' found, looking for '" + DEFAULT + "'");
 			namespace = (Namespace)namespaces.get(DEFAULT);
 
 			if (namespace != null) {
@@ -89,17 +103,14 @@ public class Namespaces {
 			}
 		}
 
-		String result = null;
 		if (property == null) {
-			logger.error("ERROR! No 'default' or '" 
+			logger.error("ERROR! No '" + DEFAULT + "' or '" 
 				+ namespaceName + "' namespace defined for property '"
 				+ propertyName + "' --> please define a namespace with" 
-				+ " at least one of these names for property '" 
-				+ propertyName + "' in your build file");
-		} else {
-			result = property.getValue();
+				+ " at least one of these names.  If you want to 'ignore' this property, " 
+                + "add the property with ignore set to 'true'");
 		}
 
-		return result;
+		return property;
 	}
 }

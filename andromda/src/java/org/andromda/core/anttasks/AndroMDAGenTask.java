@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import org.andromda.cartridges.interfaces.CartridgeDescriptor;
 import org.andromda.cartridges.interfaces.CartridgeException;
 import org.andromda.cartridges.interfaces.IAndroMDACartridge;
 import org.andromda.cartridges.mgmt.CartridgeDictionary;
@@ -258,13 +259,13 @@ public class AndroMDAGenTask extends MatchingTask
                         catch (MalformedURLException mfe)
                         {
                             throw new BuildException(
-                                "Malformed model file URL: " + modelURL);
+                                "Malformed model URI --> '" + modelURL + "'");
                         }
                     }
                 }
                 else
                 {
-                    throw new BuildException("Couldn't find any input xmi.");
+                    throw new BuildException("Could not find any model input!");
                 }
             }
             else
@@ -362,8 +363,8 @@ public class AndroMDAGenTask extends MatchingTask
 
             if (cartridges.size() <= 0)
             {
-                StdoutLogger.error(
-                    "Warning: No cartridges found, check configuration!");
+                StdoutLogger.warn(
+                    "WARNING! No cartridges found, check configuration!");
             }
             else
             {
@@ -429,7 +430,7 @@ public class AndroMDAGenTask extends MatchingTask
             // process all model elements
             Collection elements = model.getModelElements();
             StdoutLogger.debug(
-                "Model elements read: '" + elements.size() + "'");
+                "Model elements read --> '" + elements.size() + "'");
             for (Iterator it = elements.iterator(); it.hasNext();)
             {
                 processModelElement(context, it.next());
@@ -558,16 +559,28 @@ public class AndroMDAGenTask extends MatchingTask
         {
             IAndroMDACartridge cartridge = (IAndroMDACartridge) iter.next();
 
-            try
-            {
-                cartridge.processModelElement(
-                    context,
-                    modelElement,
-                    stereotypeName);
+            // lookup the namespace for the cartridge and see if its set to
+            // ignore and if so, skip processing
+            CartridgeDescriptor descriptor = cartridge.getDescriptor();
+            boolean ignoreCartridge = false;
+            if (descriptor != null) {
+                Namespace namespace = 
+                    Namespaces.instance().findNamespace(descriptor.getCartridgeName());
+                ignoreCartridge = namespace != null && namespace.isIgnore();
             }
-            catch (CartridgeException e)
-            {
-                throw new BuildException(e);
+            
+            if (!ignoreCartridge) {
+                try
+                {
+                    cartridge.processModelElement(
+                        context,
+                        modelElement,
+                        stereotypeName);
+                }
+                catch (CartridgeException e)
+                {
+                    throw new BuildException(e);
+                }
             }
         }
     }
