@@ -50,7 +50,7 @@
             classname="org.andromda.core.anttasks.AndroMDAGenTask"
             classpathref="classpath"/>
 
-        <property name="model" value="jar:file:${sample.name}.xml.zip!/${sample.name}.xml"/>
+        <property name="model" value="jar:file:${basedir}/${sample.name}.xml.zip!/${sample.name}.xml"/>
 
         <andromda basedir="."
             modelURL="${model}"
