@@ -93,14 +93,14 @@
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.SignalEvent$Impl"
 		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
 	<metafacade
-		metaobjectClass="org.omg.uml.behavioralelements.statemachines.CallEvent$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
-	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.ChangeEvent$Impl"
 		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
 	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.TimeEvent$Impl"
 		metafacadeClass="org.andromda.metafacades.uml14.EventFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.CallEvent$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.CallEventFacadeLogicImpl"/>
 	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.FinalState$Impl"
 		metafacadeClass="org.andromda.metafacades.uml14.FinalStateFacadeLogicImpl"/>
