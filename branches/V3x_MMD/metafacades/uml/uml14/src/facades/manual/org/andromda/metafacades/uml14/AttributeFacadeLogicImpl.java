@@ -1,9 +1,8 @@
 package org.andromda.metafacades.uml14;
 
 import org.andromda.core.common.StringUtilsHelper;
-import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
+import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.lang.StringUtils;
-import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.ChangeableKindEnum;
 import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 
@@ -28,7 +27,7 @@ public class AttributeFacadeLogicImpl
     // -------------------- business methods ----------------------
 
     // concrete business methods that were declared
-    // abstract in class AttributeDecorator ...
+    // abstract in class AttributeFacade ...
 
     public java.lang.String getGetterName()
     {
@@ -48,7 +47,7 @@ public class AttributeFacadeLogicImpl
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#handleGetType()
+     * @see org.andromda.core.metadecorators.uml14.AttributeFacade#handleGetType()
      */
     protected Object handleGetType()
     {
@@ -56,7 +55,7 @@ public class AttributeFacadeLogicImpl
     }
     
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#handleGetOwner()
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#handleGetOwner()
      */
     public Object handleGetOwner() 
     {
@@ -64,7 +63,7 @@ public class AttributeFacadeLogicImpl
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isReadOnly()
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#isReadOnly()
      */
     public boolean isReadOnly()
     {
@@ -72,7 +71,7 @@ public class AttributeFacadeLogicImpl
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#isStatic()
+     * @see org.andromda.core.metadecorators.uml14.AttributeFacade#isStatic()
      */
     public boolean isStatic() 
     {
@@ -80,17 +79,17 @@ public class AttributeFacadeLogicImpl
     }
     
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#findTaggedValue(java.lang.String, boolean)
+     * @see org.andromda.core.metadecorators.uml14.AttributeFacade#findTaggedValue(java.lang.String, boolean)
      */
     public String findTaggedValue(String name, boolean follow) 
     {
         name = StringUtils.trimToEmpty(name);
         String value = findTaggedValue(name);
         if (follow) {
-            ClassifierDecorator type = (ClassifierDecorator)this.getType();
+            ClassifierFacade type = (ClassifierFacade)this.getType();
             while (value == null && type != null) {
                 value = type.findTaggedValue(name);
-                type = (ClassifierDecorator)type.getSuperclass();
+                type = (ClassifierFacade)type.getSuperclass();
             }
         }
         return value;
