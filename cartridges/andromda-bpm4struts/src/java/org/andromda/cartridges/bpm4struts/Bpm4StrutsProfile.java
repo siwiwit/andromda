@@ -7,6 +7,7 @@ public class Bpm4StrutsProfile
     public static final String STEREOTYPE_MODEL = "FrontEndModel";
     public static final String STEREOTYPE_CONTROLLER = "FrontEndController";
     public static final String STEREOTYPE_EXCEPTION = "FrontEndException";
+    public static final String STEREOTYPE_MESSAGE = "FrontEndMessage";
     public static final String STEREOTYPE_VIEW = "FrontEndView";
     public static final String STEREOTYPE_VIEW_TEXTFIELD = "FrontEndViewTextField";
     public static final String STEREOTYPE_VIEW_TEXTAREA = "FrontEndViewTextArea";
@@ -24,6 +25,7 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_FORM_BEAN_NAME = "@andromda.struts.form.name";
     public static final String TAGGED_VALUE_ACTION_PATH = "@andromda.struts.action.path";
     public static final String TAGGED_VALUE_ACTION_STATE = "@andromda.struts.action.state";
+    public static final String TAGGED_VALUE_ACTION_TRIGGER = "@andromda.struts.action.trigger";
     public static final String TAGGED_VALUE_ACTION_PARAMETER = "@andromda.struts.action.parameter";
     public static final String TAGGED_VALUE_JSP_FILENAME = "@andromda.struts.jsp.filename";
     public static final String TAGGED_VALUE_USE_CASE = "@andromda.struts.usecase";
