@@ -20,5 +20,6 @@
     <classpathentry kind="lib" path="lib/metadecorators.jar"/>
     <classpathentry kind="lib" path="lib/commons-collections.jar"/>
     <classpathentry kind="lib" path="lib/openide-util.jar"/>
+    <classpathentry kind="lib" path="lib/commons-beanutils.jar"/>
     <classpathentry kind="output" path="build/classes"/>
 </classpath>
