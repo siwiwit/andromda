@@ -1,6 +1,4 @@
 <cartridge name="bpm4struts">
-    <!-- defines the class to use -->
-    <class name="org.andromda.cartridges.bpm4struts.Bpm4StrutsCartridge"/>
 
     <property name="workflow" value="bpm4struts"/>
 
