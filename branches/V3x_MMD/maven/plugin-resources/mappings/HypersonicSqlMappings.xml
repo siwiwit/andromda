@@ -6,7 +6,7 @@
 <mappings name="Hypersonic">
 	<mapping>
 	  	<from>datatype.String</from>
-	  	<to>VARCHAR2(255)</to>
+	  	<to>VARCHAR(256)</to>
 	</mapping>
 	<mapping>
 	  	<from>datatype.Date</from>
