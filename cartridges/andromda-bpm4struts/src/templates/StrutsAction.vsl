@@ -65,6 +65,7 @@ $class.getDocumentation(" ")
  * @struts.action-forward
  *        name="$forwardActionTransition.forwardName"
  *        path="$forwardActionTransition.forwardPath"
+ *    redirect="false"
  *
 #end
  *
@@ -115,10 +116,12 @@ public final class $actionClassName extends Action
         final String value = String.valueOf(${controllerClassName}.${effectMethodName}(mapping, form, request, response));
 
 #foreach ($outcome in $outcomes)
+#set ($defaultOutcome = $outcome)
         if (value.equals("$outcome.guardName")) return ${outcome.methodName}(mapping, form, request, response);
 #end
 
-        return null;    // application bug: invalid return value
+        // the default choice in case an illegal value was specified (keeps the app running)
+        return ${defaultOutcome.methodName}(mapping, form, request, response);
     }
 
 #end
