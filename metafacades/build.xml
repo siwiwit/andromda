@@ -1,0 +1,54 @@
+<project name="Metafacades" default="dist">
+
+    <!-- ============================================================= -->
+    <!--               Directory settings                              -->
+    <!-- ============================================================= -->
+
+    <!-- destination directories -->
+    <property name="dist.dir"         value="dist"   />
+
+    <!-- Setup directory structure -->
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <!-- Remove directory structure -->
+    <target name="clean" description="Removes all generated files">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${dist.dir}"/>
+        </delete>
+
+        <antcall target="cleanMetafacades">
+          <param name="metafacades.name" value="uml"/>
+        </antcall>
+
+    </target>
+
+    <!-- ============================================================= -->
+    <!--               Highlevel user tasks                            -->
+    <!-- ============================================================= -->
+
+    <target name="buildMetafacades">
+        <echo message="buildMetafacades ${metafacades.name}"/>
+        <ant inheritAll="false" dir="./${metafacades.name}" />
+        <copy taskname="${metafacades.name}" todir="${dist.dir}/${metafacades.name}">
+          <fileset dir="./${metafacades.name}/dist">
+            <include name="**/*"/>
+          </fileset>
+        </copy>
+    </target>
+
+    <target name="cleanMetafacades">
+        <echo message="cleanMetafacades ${metafacades.name}"/>
+        <ant inheritAll="false" dir="./${metafacades.name}" target="clean"/>
+    </target>
+
+    <target name="dist" depends="clean,init"
+            description="Builds all metafacades">
+       <antcall target="buildMetafacades">
+          <param name="metafacades.name" value="uml"/>
+        </antcall>
+    </target>
+
+</project>
