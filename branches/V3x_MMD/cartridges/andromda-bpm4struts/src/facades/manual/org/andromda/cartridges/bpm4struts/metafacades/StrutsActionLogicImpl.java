@@ -2,7 +2,10 @@ package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.core.common.StringUtilsHelper;
-import org.andromda.metafacades.uml.*;
+import org.andromda.metafacades.uml.PseudostateFacade;
+import org.andromda.metafacades.uml.StateVertexFacade;
+import org.andromda.metafacades.uml.TransitionFacade;
+import org.andromda.metafacades.uml.EventFacade;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -21,7 +24,7 @@ public class StrutsActionLogicImpl
 {
     private Collection actionStates = null;
     private Collection actionForwards = null;
-    private Collection decisionPoints = null;
+    private Collection decisionTransitions = null;
 
     // ---------------- constructor -------------------------------
     
@@ -34,7 +37,7 @@ public class StrutsActionLogicImpl
     {
         actionStates = new HashSet();
         actionForwards = new HashSet();
-        decisionPoints = new HashSet();
+        decisionTransitions = new HashSet();
         collectTransitions(this, new HashSet());
     }
 
@@ -49,15 +52,14 @@ public class StrutsActionLogicImpl
             processedTransitions.add(transition);
         }
 
-        StateVertexFacade target = getTarget();
-
+        final StateVertexFacade target = transition.getTarget();
         if ( (target instanceof StrutsJsp) || (target instanceof StrutsFinalState) )
         {
             actionForwards.add(transition);
         }
         else if ( (target instanceof PseudostateFacade) && ((PseudostateFacade)target).isDecisionPoint() )
         {
-            decisionPoints.add(target);
+            decisionTransitions.add(transition);
             Collection outcomes = target.getOutgoing();
             for (Iterator iterator = outcomes.iterator(); iterator.hasNext();)
             {
@@ -65,7 +67,7 @@ public class StrutsActionLogicImpl
                 collectTransitions(outcome, processedTransitions);
             }
         }
-        else  if (target instanceof StrutsActionState)
+        else if (target instanceof StrutsActionState)
         {
             actionStates.add(target);
             collectTransitions( ((StrutsActionState)target).getForward(), processedTransitions );
@@ -88,20 +90,7 @@ public class StrutsActionLogicImpl
 
     public String getActionName()
     {
-        String name = null;
-        final StateVertexFacade source = getSource();
-
-        if (source instanceof PseudostateFacade)
-        {
-            PseudostateFacade pseudostate = (PseudostateFacade)source;
-            if (pseudostate.isInitialState())
-                name = getActivityGraph().getUseCase().getName();
-        }
-        else
-        {
-            name = getSource().getName() + ' ' + getTrigger().getName();
-        }
-        return '/' + StringUtilsHelper.toJavaClassName(name);
+        return getActivityGraph().getUseCase().getFormBeanName();
     }
 
     public String getActionInput()
@@ -128,7 +117,7 @@ public class StrutsActionLogicImpl
 
     public java.lang.String getActionPath()
     {
-        return '/' + getActionClassName();
+        return '/' + StringUtilsHelper.toJavaClassName(getActivityGraph().getUseCase().getName()) + '/' + getActionClassName();
     }
 
     public java.lang.String getActionRoles()
@@ -145,18 +134,27 @@ public class StrutsActionLogicImpl
 
     public String getActionClassName()
     {
-        return StringUtilsHelper.toJavaClassName(getName() + ' ' + getTriggerName());
-    }
+        String name = null;
+        final StateVertexFacade source = getSource();
 
-    private String getTriggerName()
-    {
-        EventFacade trigger = getActionTrigger();
-        return (trigger == null) ? getTarget().getName() : trigger.getName();
+        if (source instanceof PseudostateFacade)
+        {
+            PseudostateFacade pseudostate = (PseudostateFacade)source;
+            if (pseudostate.isInitialState())
+                name = getActivityGraph().getUseCase().getName();
+        }
+        else
+        {
+            final EventFacade trigger = getTrigger();
+            final String suffix = (trigger == null) ? getTarget().getName() : trigger.getName();
+            name = getSource().getName() + ' ' + suffix;
+        }
+        return StringUtilsHelper.toJavaClassName(name);
     }
 
     public String getFormBeanClassName()
     {
-        return getActionClassName() + "Form";
+        return getActionClassName() + "ActionForm";
     }
 
     public String getFormBeanName()
@@ -169,24 +167,21 @@ public class StrutsActionLogicImpl
         return "validate" + getFormBeanClassName();
     }
 
-    public String getTriggerKey()
+    public String getMessageKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(getActionClassName());
-    }
-
-    public String getTriggerValue()
-    {
-        return StringUtilsHelper.toPhrase(getTriggerName());
+        final String useCaseKey = StringUtilsHelper.toResourceMessageKey(getActivityGraph().getUseCase().getName());
+        final String actionKey = StringUtilsHelper.toResourceMessageKey(getActionName());
+        return useCaseKey + '.' + actionKey + '.';
     }
 
     public String getSuccessMessageKey()
     {
-        return getTriggerKey() + ".success";
+        return getMessageKey() + ".success";
     }
 
     public String getSuccessMessageValue()
     {
-        return '[' + getTriggerValue() + "] succesfully executed on " + getInput().getTitleValue();
+        return '[' + getMessageKey() + "] succesfully executed on " + getInput().getTitleValue();
     }
 
     public String getPackageName()
@@ -199,6 +194,22 @@ public class StrutsActionLogicImpl
         return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_RESETTABLE);
     }
 
+    public boolean isUseCaseStart()
+    {
+        StateVertexFacade source = getSource();
+        return source instanceof PseudostateFacade && ((PseudostateFacade)source).isInitialState();
+    }
+
+    public String getFullActionPath()
+    {
+        return '/' + (getPackageName() + '/' + getActionClassName()).replace('.','/');
+    }
+
+    public String getFullFormBeanPath()
+    {
+        return '/' + (getPackageName() + '/' + getFormBeanClassName()).replace('.','/');
+    }
+
     // ------------- relations ------------------
 
     protected Collection handleGetActionForwards()
@@ -207,10 +218,10 @@ public class StrutsActionLogicImpl
         return actionForwards;
     }
 
-    protected Collection handleGetDecisionPoints()
+    protected Collection handleGetDecisionTransitions()
     {
-        if (decisionPoints == null) initializeCollections();
-        return decisionPoints;
+        if (decisionTransitions == null) initializeCollections();
+        return decisionTransitions;
     }
 
     protected Collection handleGetActionStates()
@@ -238,12 +249,6 @@ public class StrutsActionLogicImpl
         return getSource();
     }
 
-    protected Collection handleGetInputFields()
-    {
-        EventFacade trigger = getActionTrigger();
-        return (trigger == null) ? Collections.EMPTY_LIST : trigger.getParameters();
-    }
-
     protected Object handleGetActivityGraph()
     {
         return getSource().getActivityGraph();
@@ -257,5 +262,11 @@ public class StrutsActionLogicImpl
     protected Object handleGetActionTrigger()
     {
         return getTrigger();
+    }
+
+    protected Collection handleGetActionParameters()
+    {
+        StrutsTrigger trigger = getActionTrigger();
+        return (trigger == null) ? Collections.EMPTY_LIST : trigger.getParameters();
     }
 }
