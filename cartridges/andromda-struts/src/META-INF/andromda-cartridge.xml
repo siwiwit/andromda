@@ -35,7 +35,7 @@
 
     <template
       sheet="templates/StrutsConfig.vsl"
-      outputPattern="struts-config.xml"
+      outputPattern="WEB-INF/struts-config.xml"
       outlet="config"
       overWrite="true"
       outputToSingleFile="true">
