@@ -4,6 +4,7 @@ import org.omg.uml.foundation.core.GeneralizableElement;
 import org.omg.uml.foundation.core.Generalization;
 import org.omg.uml.behavioralelements.usecases.Actor;
 import org.andromda.core.metafacade.MetafacadeBase;
+import org.andromda.core.common.StringUtilsHelper;
 
 import java.util.Iterator;
 import java.util.Collection;
@@ -23,9 +24,9 @@ public class StrutsUserLogicImpl
 
     // ---------------- constructor -------------------------------
     
-    public StrutsUserLogicImpl(java.lang.Object metaObject)
+    public StrutsUserLogicImpl(java.lang.Object metaObject, String context)
     {
-        super(metaObject);
+        super(metaObject, context);
         this.actor = (Actor)metaObject;
     }
 
@@ -40,6 +41,16 @@ public class StrutsUserLogicImpl
     public java.lang.String getRole()
     {
         return getName().toLowerCase();
+    }
+
+    public String getMessageKey()
+    {
+        return StringUtilsHelper.toResourceMessageKey(getName());
+    }
+
+    public String getMessageValue()
+    {
+        return StringUtilsHelper.toPhrase(getName());
     }
 
     // ------------- relations ------------------

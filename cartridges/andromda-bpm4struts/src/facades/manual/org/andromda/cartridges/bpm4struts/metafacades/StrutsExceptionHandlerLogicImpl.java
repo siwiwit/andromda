@@ -13,10 +13,10 @@ public class StrutsExceptionHandlerLogicImpl
         implements org.andromda.cartridges.bpm4struts.metafacades.StrutsExceptionHandler
 {
     // ---------------- constructor -------------------------------
-    
-    public StrutsExceptionHandlerLogicImpl(java.lang.Object metaObject)
+
+    public StrutsExceptionHandlerLogicImpl(Object metaObject, String context)
     {
-        super(metaObject);
+        super(metaObject, context);
     }
 
     // -------------------- business methods ----------------------
@@ -25,17 +25,17 @@ public class StrutsExceptionHandlerLogicImpl
     // abstract in class StrutsExceptionHandler ...
 
     /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsExceptionHandler#getKey()()
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsExceptionHandler#getExceptionKey()()
      */
-    public java.lang.String getKey()
+    public java.lang.String getExceptionKey()
     {
         return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_EXCEPTION_KEY);
     }
 
     /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsExceptionHandler#getType()()
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsExceptionHandler#getExceptionType()()
      */
-    public java.lang.String getType()
+    public java.lang.String getExceptionType()
     {
         String type = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_EXCEPTION_TYPE);
         if (type == null)
@@ -46,9 +46,9 @@ public class StrutsExceptionHandlerLogicImpl
     }
 
     /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsExceptionHandler#getPath()()
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsExceptionHandler#getExceptionPath()()
      */
-    public java.lang.String getPath()
+    public java.lang.String getExceptionPath()
     {
         return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_EXCEPTION_PATH);
     }
