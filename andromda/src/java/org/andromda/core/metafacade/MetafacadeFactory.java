@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.Namespaces;
@@ -33,6 +32,7 @@ public class MetafacadeFactory
     {
         registeredProperties = new HashMap();
         MetafacadeMappings.instance().discoverMetafacades();
+        MetafacadeImpls.instance().discoverMetafacadeImpls();
     }
 
     /**
@@ -261,35 +261,20 @@ public class MetafacadeFactory
         final String methodName = "MetafacadeFactory.createFacadeImpl";
         ExceptionUtils.checkEmpty(methodName, "interfaceName", interfaceName);
         ExceptionUtils.checkNull(methodName, "metaObject", metaObject);
-        // TODO: this string processing is a temporary(!) hack(!) 
-        // until we implement interface class to
-        // implementation class name mapping in this factory, based on XML files
-        // that define that mapping.
 
-        // Example:
-        // org.andromda.metafacades.uml.ClassifierFacade will be mapped to
-        // org.andromda.core.metafacades.uml14.ClassifierFacadeLogicImpl
-
-        String shortInterfaceName = ClassUtils.getShortClassName(interfaceName);
-        String metafacadeClassName = null;
-
-        if ("StrutsTransition".equals(shortInterfaceName))
-            metafacadeClassName = "org.andromda.cartridges.bpm4struts.metafacades.StrutsTransitionLogicImpl";
-        else
-        	metafacadeClassName = "org.andromda.metafacades.uml14." + shortInterfaceName + "LogicImpl";
-        // End of temporary(!) string hack.
-
+        Class metafacadeClass = null;
         try
         {
-            Class metafacadeClass = ClassUtils.loadClass(metafacadeClassName);
+            
+            metafacadeClass = 
+                MetafacadeImpls.instance().getMetafacadeImplClass(
+                    interfaceName);
             
             MetafacadeBase metafacade = 
                 this.internalCreateMetafacade(
                         metaObject,
                         contextName,
                         metafacadeClass);   
-            //metafacade.setContext(contextName);
-           
             
             return metafacade;
         }
@@ -297,7 +282,7 @@ public class MetafacadeFactory
         {
             String errMsg =
                 "Failed to construct a meta facade of type '"
-                    + metafacadeClassName
+                    + metafacadeClass
                     + "' with metaobject of type --> '"
                     + metaObject.getClass().getName()
                     + "'";
