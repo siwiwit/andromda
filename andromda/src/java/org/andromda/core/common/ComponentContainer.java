@@ -10,9 +10,41 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
 /**
- * This handles all registration and retrieval 
- * of components within the framework.
- * 
+ * <p>
+ *  This handles all registration and retrieval 
+ *  of components within the framework.  The purpose
+ *  of this container is so that we can register default
+ *  services in a consistent manner by creating
+ *  a component interface and then placing the file
+ *  which defines the default implementation in the
+ *  'META-INF/services/' directory found on the classpath.
+ * </p>
+ * <p>
+ *  In order to create a new component
+ *  that can be registered/found through this container
+ *  you must perform the following steps:
+ *  <ol>
+ *      <li>
+ *          Create the component interface (i.e. 
+ *          org.andromda.core.repository.RepositoryFacade)
+ *      </li>
+ *      <li>
+ *          Create the component implementation (i.e.
+ *          org.andromda.repositories.mdr.MDRepositoryFacade)
+ *      </li>
+ *      <li>
+ *          Create a file with the exact same name as the fully
+ *          qualified name of the component 
+ *          (i.e. org.andromda.core.repository.RepositoryFacade)
+ *          and place this in the META-INF/services/ directory
+ *          within the core.
+ *      </li>
+ *  </ol>
+ *  After you perform the above steps, the component can be found
+ *  by the methods within this class.  See each below method
+ *  for more information on how each performs lookup/retrieval
+ *  of the components.
+ * </p>
  * @author Chad Brandon
  */
 public class ComponentContainer {
@@ -58,7 +90,10 @@ public class ComponentContainer {
     }
     
     /**
-     * Finds the component with the specified <code>key</code>.
+     * Finds the component with the specified Class <code>key</code>.
+     * If the component wasn't explicitly registered then the META-INF/services
+     * directory on the classpath will be searched in order
+     * to find the default component implementation.
      * 
      * @param key the unique key as a Class.
      * @return Object the component instance.
@@ -66,7 +101,7 @@ public class ComponentContainer {
     public Object findComponent(Class key) {
     	final String methodName = "ComponentContainer.findComponent";
     	ExceptionUtils.checkNull(methodName, "key", key);
-    	return this.container.getComponentInstance(key.getName());
+    	return this.findComponent(null, key);
     }
     
     /**
@@ -74,6 +109,8 @@ public class ComponentContainer {
      * specified unique <code>key</code>, if it can't be found, 
      * the default of the specified <code>type</code> is
      * returned, if no default is set, null is returned.
+     * The default is the service found within the META-INF/services
+     * directory on your classpath.
      * 
      * @param key the unique key of the component.
      * @return Object the component instance.

@@ -3,7 +3,7 @@ package org.andromda.core.repository;
 import java.io.IOException;
 import java.net.URL;
 
-import org.andromda.core.common.ModelFacade;
+import org.andromda.core.metafacade.MetafacadeModel;
 
 /**
  * An interface for objects responsible for being a repository into which an object model can 
@@ -55,6 +55,6 @@ public interface RepositoryFacade
 	 *
 	 *@return    The model value
 	 */
-	public ModelFacade getModel();
+	public MetafacadeModel getModel();
 
 }

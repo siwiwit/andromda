@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.andromda.core.common.ExceptionUtils;
-import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.Property;
 import org.apache.commons.beanutils.ConstructorUtils;
@@ -19,7 +18,7 @@ public class MetafacadeFactory
     private static MetafacadeFactory factory = new MetafacadeFactory();
 
     private String activeNamespace;
-    private ModelFacade model;
+    private MetafacadeModel model;
 
     /**
      * Caches the registered properties used
@@ -394,7 +393,7 @@ public class MetafacadeFactory
     /**
      * @return the model
      */
-    public ModelFacade getModel()
+    public MetafacadeModel getModel()
     {
         final String methodName = "MetafacadeFactory.getModel";
         if (this.model == null) {
@@ -407,7 +406,7 @@ public class MetafacadeFactory
     /**
      * @param model the model
      */
-    public void setModel(ModelFacade model)
+    public void setModel(MetafacadeModel model)
     {
         this.model = model;
     }

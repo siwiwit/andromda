@@ -15,13 +15,13 @@ import java.util.Properties;
 import org.andromda.cartridges.interfaces.AndroMDACartridge;
 import org.andromda.cartridges.mgmt.CartridgeFinder;
 import org.andromda.core.common.CodeGenerationContext;
-import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.ModelPackage;
 import org.andromda.core.common.ModelPackages;
 import org.andromda.core.common.Namespace;
 import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.Property;
 import org.andromda.core.common.StdoutLogger;
+import org.andromda.core.metafacade.MetafacadeModel;
 import org.andromda.core.repository.RepositoryFacade;
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
@@ -349,7 +349,7 @@ public class AndroMDAGenTask extends MatchingTask
             repository.open();
             repository.readModel(url, rc.createModuleSearchPath().list());
 
-            final ModelFacade model = repository.getModel();
+            final MetafacadeModel model = repository.getModel();
             context =
                 new CodeGenerationContext(
                     repository,

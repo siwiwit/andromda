@@ -2,6 +2,7 @@ package org.andromda.core.common;
 
 import java.util.Collection;
 
+import org.andromda.core.metafacade.*;
 import org.andromda.core.repository.RepositoryFacade;
 
 /**
@@ -16,14 +17,14 @@ import org.andromda.core.repository.RepositoryFacade;
 public class CodeGenerationContext
 {
     private RepositoryFacade repository = null;
-    private ModelFacade modelFacade = null;
+    private MetafacadeModel modelFacade = null;
     private boolean lastModifiedCheck = false;
     private Collection userProperties = null;
     private ModelPackages modelPackages;
 
     public CodeGenerationContext(
         RepositoryFacade rf,
-        ModelFacade mf,
+        MetafacadeModel mf,
         boolean lastModifiedCheck,
 		ModelPackages modelPackages,
 		Collection userPropeties)
@@ -57,7 +58,7 @@ public class CodeGenerationContext
      * Returns the model facade for this code generation step.
      * @return the model facade
      */
-    public ModelFacade getModelFacade()
+    public MetafacadeModel getModelFacade()
     {
         return modelFacade;
     }
