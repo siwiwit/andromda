@@ -21,8 +21,8 @@
 package $packagename;
 
 /**
- * Remote component interface for #firstJavadocParagraph(${class} "lower" "the $servicename session bean.")
-#remainingJavadocParagraphs($class " ")
+ * Remote component interface for the $servicename session bean.
+$class.getDocumentation(" ")
  *
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType" ])
  *
@@ -40,12 +40,12 @@ extends $parentInterface#foreach($intf in $class.abstractions),
 #set($AttName = $str.upperCaseFirstLetter($att.name))
     /**
 #if($att.hasStereotype("EnvEntry"))
-     * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
+     * Get the ${att.name} environment entry
 #else
 #set ($ATT_NAME = $att.name)
-     * Get #firstJavadocParagraph(${att} "lower" "the $ATT_NAME constant")
+     * Get the $ATT_NAME constant
 #end
-#remainingJavadocParagraphs($att "     ")
+$att.getDocumentation("     ")
      */
     public $attType ${att.getterName}() throws java.rmi.RemoteException;
     
@@ -57,14 +57,14 @@ extends $parentInterface#foreach($intf in $class.abstractions),
 #set($attType = $att.type.fullyQualifiedName)    
 #set($AttName = $str.upperCaseFirstLetter($att.name))
     /**
-     * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
-#remainingJavadocParagraphs($att "     ")
+     * Get the ${att.name} property
+$att.getDocumentation("     ")
      */
     public $attType ${att.getterName}() throws java.rmi.RemoteException;
 
 #if(!$att.readOnly)
     /**
-     * Set #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
+     * Set the ${att.name} property
      * @param value the new value
      */
     public void ${att.setterName}($attType value) throws java.rmi.RemoteException;
@@ -74,9 +74,8 @@ extends $parentInterface#foreach($intf in $class.abstractions),
     // ---------------- business methods  ----------------------
 #foreach ( $op in $class.operations)
 #if (!$op.hasStereotype("CreateMethod"))
-#set ($visibility = $op.visibility.toString())
 ## Only expose public methods
-#if ($visibility == "public") 
+#if ($op.visibility == "public") 
 #set ($msig = $op.signature)
 #set ($exceptions = $op.findTaggedValue("@andromda.java.throws"))
 #if (!$exceptions)
@@ -84,7 +83,7 @@ extends $parentInterface#foreach($intf in $class.abstractions),
 #end
 
    /**
-#generateDocumentation ($op "    ")
+$op.getDocumentation("    ")
     */
 #set ($returntype = $op.type.fullyQualifiedName)
 #if ($exceptions)

@@ -21,8 +21,8 @@
 package $packagename;
 
 /**
- * Remote home interface for #firstJavadocParagraph(${class} "lower" "the $servicename session bean.")
-#remainingJavadocParagraphs($class " ")
+ * Remote home interface for the $servicename session bean.
+$class.getDocumentation(" ")
  *
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType" ])
  */
@@ -40,7 +40,7 @@ public interface ${servicename}Home  extends $parentInterface {
 #foreach ( $op in $class.getCreateMethods(true))
 
     /**
-#generateDocumentation ($op "    ")
+$op.getDocumentation("    ")
      *
      */
     public ${servicename} create($op.typedParameterList)

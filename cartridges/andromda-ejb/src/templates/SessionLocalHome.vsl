@@ -21,13 +21,13 @@
 package $packagename;
 
 /**
- * Local home interface for #firstJavadocParagraph(${class} "lower" "the $servicename session bean.")
-#remainingJavadocParagraphs($class " ")
+ * Local home interface for the $servicename session bean.
+$class.getDocumentation(" ")
  *
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType" ])
  */
 public interface ${servicename}LocalHome  extends $parentInterface {
-#if (!$class.isAbstract())
+#if (!$class.abstract)
     // -- JNDI entries
 	public static final String COMP_NAME="java:comp/env/#ejbRefName($class)/Local";
 	public static final String JNDI_NAME="#ejbRefName($class)/Local";
@@ -38,7 +38,7 @@ public interface ${servicename}LocalHome  extends $parentInterface {
 #foreach ( $op in $class.getCreateMethods(true))
 
     /**
-#generateDocumentation ($op "    ")
+$op.getDocumentation("    ")
      *
      */
     public ${servicename}Local create($op.typedParameterList)
