@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../../project.xml</extend>
-	<id>car-rental-sample-hibernate-application</id>
+	<id>car-rental-sample-hibernate-app</id>
 	<name>Car Rental Sample Hibernate Application</name>
 	<shortDescription>
 		The AndromMDA Car Rental System Sample using 
