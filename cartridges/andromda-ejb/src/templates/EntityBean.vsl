@@ -221,7 +221,7 @@ public abstract class ${entityname}Bean
      * @ejb.persistence
      *     column-name="${att.columnName}"
      *       jdbc-type="${att.jdbcType}"
-     *        sql-type="${$att.sqlType}"
+     *        sql-type="${att.sqlType}"
 #if ($transactionType)
      * @ejb.transaction type="$transactionType"
 #end
