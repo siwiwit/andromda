@@ -1,9 +1,9 @@
-#set ($generatedFile = "${class.packageName}/${class.formBeanClassName}")
+#set ($generatedFile = "${class.fullFormBeanPath}.java")
 ##
 ##  CONSTANTS
 ##
 #set ($formBeanClassName = $class.formBeanClassName)
-#set ($fields = $class.formBeanFields)
+#set ($fields = $class.formFields)
 ##
 ##  START TEMPLATE
 ##
@@ -11,12 +11,16 @@ package $class.packageName;
 
 import java.io.Serializable;
 
-import org.apache.struts.ActionForm;
-import org.apache.struts.ActionForward;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class $formBeanClassName extends ActionForm
+/**
+ * @struts.form
+ *      name="$class.formBeanName"
+ */
+public class $formBeanClassName extends ActionForm implements Serializable
 {
 #foreach ($field in $fields)
     private $field.type.fullyQualifiedName $field.name;
@@ -25,7 +29,7 @@ public class $formBeanClassName extends ActionForm
 #foreach ($field in $fields)
 #set ($fieldType = $field.type.fullyQualifiedName)
 #set ($fieldName = $field.name)
-    public void $field.setterName($fieldType $field.name)
+    public void ${field.setterName}($fieldType $fieldName)
     {
         this.$fieldName = $fieldName;
     }
@@ -40,7 +44,7 @@ public class $formBeanClassName extends ActionForm
     {
 #foreach ($field in $fields)
 #if ($field.mustReset())
-        this.$field.name = $field.resetValue;
+        this.$field.name = $field.nullValue;
 #end
 #end
     }
