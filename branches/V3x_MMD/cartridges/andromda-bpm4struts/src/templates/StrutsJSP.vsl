@@ -150,6 +150,10 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
 
     <head>
         <title><bean:message key="$class.titleKey"/></title>
+        <script type="text/javascript" src="<html:rewrite page="/form-validation.jsp"/>"></script>
+#foreach ($action in $actions)
+        <html:javascript formName="$action.formBeanName" method="$action.formValidationMethodName" dynamicJavascript="true" staticJavascript="false" htmlComment="true" cdata="false"/>
+#end
     </head>
 
     <body>
@@ -168,15 +172,33 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
             </html:messages>
         </logic:messagesPresent>
 
+#set ($isFocusSet = false)## only one field per JSP page can have focus
 #foreach ($action in $actions)
 #set ($messageKey = $action.messageKey)
 #set ($actionTrigger = $action.actionTrigger)
 #if ($action.isHyperlink())
 #renderHyperlink($action "        ")
 #elseif ($action.isFormPost())
-        <html:form action="${action.actionPath}.do">
+#set ($actionParameters = $action.actionParameters)
+## ---START--- this next part is to decide which field get focus
+#if ( ($isFocusSet == false) && ($actionParameters.size() > 0) )
+#set ($firstField = $actionParameters.iterator().next())
+#set ($firstFieldName = $firstField.name)
+#set ($isFocusSet = true)
+#if ($firstField.isCollection())
+#set ($firstFieldName = "${firstFieldName}AsArray")
+#end
+#else
+#set ($firstFieldName = false)
+#end
+## ----END---- it has been determined how to specify the focus field
+#if ($firstFieldName)
+        <html:form action="${action.actionPath}.do" focus="$firstFieldName" onsubmit="return ${action.formValidationMethodName}(this);">
+#else
+        <html:form action="${action.actionPath}.do" onsubmit="$action.formValidationMethodName" onsubmit="return ${action.formValidationMethodName}(this);">
+#end
             <table cellpadding="5" cellspacing="5" border="0">
-#foreach ($field in $action.actionParameters)
+#foreach ($field in $actionParameters)
                 <tr>
                     <td><bean:message key="${messageKey}.$field.messageKey"/></td>
                     <td>
