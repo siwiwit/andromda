@@ -114,6 +114,16 @@
     </template>
 
     <template
+        sheet="templates/StrutsXDocletMergeGlobalForwards.vsl"
+        outputPattern="global-forwards.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
         sheet="templates/StrutsXDocletMergePlugins.vsl"
         outputPattern="struts-plugins.xml"
         outlet="xdoclet-merge"
