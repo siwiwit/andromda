@@ -11,8 +11,8 @@ package $class.packageName;
 
 import java.io.Serializable;
 
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.validator.ValidatorForm;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  * @struts.form
  *      name="$class.formBeanName"
  */
-public class $formBeanClassName extends ActionForm implements Serializable
+public class $formBeanClassName extends ValidatorForm implements Serializable
 {
 #foreach ($field in $fields)
     private $field.type.fullyQualifiedName $field.name;
