@@ -57,6 +57,13 @@ public class EntityFacadeLogicImpl
      * @see org.andromda.metafacades.uml.EntityFacade#getIdentifiers()
      */
     public java.util.Collection getIdentifiers() {
+        return this.getIdentifiers(false);
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.EntityFacade#getIdentifiers(boolean)
+     */
+    public java.util.Collection getIdentifiers(boolean follow) {
         
         Collection attributes = this.getAttributes();       
         MetafacadeUtils.filterByStereotype(
@@ -64,11 +71,11 @@ public class EntityFacadeLogicImpl
                 UMLProfile.STEREOTYPE_IDENTIFIER);
         
         for (ClassifierFacade superClass = (ClassifierFacade) getGeneralization();
-             superClass != null && attributes.isEmpty();
+             superClass != null && attributes.isEmpty() && follow;
              superClass = (ClassifierFacade) superClass.getGeneralization()) {
             if (superClass.hasStereotype(UMLProfile.STEREOTYPE_ENTITY)) {
                 EntityFacade entity = (EntityFacade)superClass;
-                attributes = entity.getIdentifiers();
+                attributes = entity.getIdentifiers(follow);
             }               
         }
 
