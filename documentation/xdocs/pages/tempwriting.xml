@@ -49,8 +49,8 @@
                            UML v1.4 model.
           </td>
           <td align="left" valign="top" class="std">
-            <a href="http://www.gentleware.com/support/developer/jmi-uml1.4/org/omg/uml/UmlPackage.html">
-               <code>Model</code>
+            <a href="http://www.gentleware.com/support/dev/jmi-uml1.4/org/omg/uml/UmlPackage.html">
+               <code>UMLPackage</code>
             </a>
           </td>
         </tr>
@@ -59,7 +59,7 @@
           <td valign="top" class="std">$class</td>
           <td valign="top" class="std">
                            Provides a reference to the UML model element for which code should be generated.
-                           
+
           </td>
           <td align="left" valign="top" class="std">
             In general that object will be of type
@@ -116,6 +116,13 @@
         Read the templates which are included with the distribution and
         compare the usage of the scripting objects to the info above.
         You'll understand.
+      </p>
+      <p class="std">
+        For those of you who want to know the complete story:
+        You can find the javadocs of the JMI classes for the UML 1.4 metamodel at
+        <a href="http://www.gentleware.com/support/dev/jmi-uml1.4/index.html">
+          http://www.gentleware.com/support/dev/jmi-uml1.4/index.html
+        </a>
       </p>
 
     </freetext>
