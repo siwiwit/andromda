@@ -268,7 +268,6 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                 catch (Throwable th) 
                 {
                     if (outFile != null && outFile.exists()) {
-                        outFile.delete();
                         if (!outFile.delete())
                         {
                             logger.error(
@@ -419,11 +418,11 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
         String packageName,
         TemplateConfiguration tc,
         String outputLocation)
-    {        
-        return tc.getFullyQualifiedOutputFile(
+    {          
+        return tc.getOutputLocation(
             modelElementName,
             packageName,
-            outputLocation);
+            new File(outputLocation));
     }
 
     /**
