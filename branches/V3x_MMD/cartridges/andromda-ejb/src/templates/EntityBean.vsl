@@ -24,8 +24,8 @@ package $packagename;
  *     view-type="local"
  *     local-jndi-name = "#ejbRefName($class)/Local"
 ###end
-#if (!$class.primaryKeyAttribute.complex)
- *     primkey-field = "${class.primaryKeyAttribute.name}"
+#if (!$primaryKeyAttribute.complex)
+ *     primkey-field = "${primaryKeyAttribute.name}"
 #end
  *
  * @ejb.interface generate="false" local-class="${packagename}.${entityname}"
@@ -514,8 +514,8 @@ public abstract class ${entityname}Bean
 ## (Matthias Bohlen)
 ##
 ##if (!$transform.hasComplexPrimaryKey($class))
-#if (!$class.primaryKeyAttribute.complex)
-#set ($primKey = $class.primaryKeyAttribute)
+#if (!$primaryKeyAttribute.complex)
+#set ($primKey = $primaryKeyAttribute)
 #if ($primKey.type == "java.lang.String")
         if ($primKey.name == null) {
             $primKey.name = new java.rmi.server.UID().toString();

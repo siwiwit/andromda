@@ -74,11 +74,13 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 			}
 		}
 		// No PK dependency found - try a PK attribute
-		AttributeDecorator attr = this.getPrimaryKeyAttribute();
-		if (attr != null) {
-			Collection retval = new ArrayList(1);
-			retval.add(attr);
-			return retval;
+		if (this.hasIdentifiers()) {
+			AttributeDecorator attr = (AttributeDecorator)this.getIdentifiers().iterator().next();
+			if (attr != null) {
+				Collection retval = new ArrayList(1);
+				retval.add(attr);
+				return retval;
+			}
 		}
 
 		// Still nothing found - recurse up the inheritance tree

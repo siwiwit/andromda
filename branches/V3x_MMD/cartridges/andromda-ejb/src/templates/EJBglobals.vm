@@ -41,7 +41,8 @@
 #set ($packagename = $class.packageName)
 #if ($class.hasStereotype("Entity"))
 #set ($entityname = $class.name)
-#set ($pkclassname = $class.primaryKeyAttribute.type.fullyQualifiedName)
+#set ($primaryKeyAttribute = $class.identifiers.iterator().next())
+#set ($pkclassname = $primaryKeyAttribute.type.fullyQualifiedName)
 #end
 #if ($class.hasStereotype("Service"))
 #set ($servicename = $class.name)

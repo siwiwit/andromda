@@ -33,7 +33,7 @@ public class EntityDecoratorImpl extends EntityDecorator
 
     // ------------- relations ------------------
     
-    public Collection getFinderMethods() {
+    public Collection getFinders() {
 
 		class FinderMethodFilter implements Predicate {
 			public boolean evaluate(Object obj) {
@@ -51,6 +51,34 @@ public class EntityDecoratorImpl extends EntityDecorator
 			new FinderMethodFilter());
     
     	return decoratedElements(finderMethods);
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.EntityDecorator#getIdentifiers()
+     */
+    public java.util.Collection getIdentifiers() {
+    	final String methodName = "EntityFacadeImpl.getIdentifiers";
+    	if (logger.isDebugEnabled())
+    		logger.debug("performing " + methodName);
+    	
+    	Collection attributes = this.getAttributes();
+    		Collection associationEnds = this.getAssociationEnds();				
+    	MetafacadeUtils.filterByStereotype(
+    			attributes, 
+    			UMLProfile.STEREOTYPE_PRIMARY_KEY);
+
+    	if (logger.isDebugEnabled())
+    		logger.debug("completed " + methodName + 
+    				" with identifiers --> '" + attributes + "'");
+
+    	return attributes;
+    }	
+    
+    /**
+     * @see edu.duke.dcri.mda.model.metafacade.EntityFacade#hasIdentifiers()
+     */
+    public boolean hasIdentifiers() {
+    	return this.getIdentifiers() != null && !this.getIdentifiers().isEmpty();
     }
     
    /**
