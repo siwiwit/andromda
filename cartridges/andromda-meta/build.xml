@@ -138,6 +138,7 @@
 
         <jar jarfile="${build.dir}/metadecorators.jar">
             <fileset dir="${build.dec.dir}" includes="**/*.class" />
+		    <fileset dir="${src.dir}" includes="META-INF/*metafacades.xml" />
         </jar>
     </target>
 
@@ -154,7 +155,7 @@
 
         <jar jarfile="${build.dir}/andromda-meta.jar">
             <fileset dir="${src.dir}" includes="templates/*" />
-            <fileset dir="${src.dir}" includes="META-INF/*" />
+            <fileset dir="${src.dir}" includes="META-INF/*cartridge.xml" />
             <fileset dir="${build.cart.dir}" includes="**/*.class" />
         </jar>
         <copy todir="${dist.dir}" >
