@@ -1,88 +1,111 @@
 ##
 ## Package declaration and imports
 ##
-package $transform.getPackageName($class);
+package $class.packageName;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 
-import java.io.Serializable;
-
 import javax.servlet.http.HttpServletRequest;
 
-##
-## Start of the class declaration
-##
-public final class $class.name extends ActionForm implements Serializable
+public final class $class.name extends ActionForm
 {
-    private String trigger = null;
-
-##
-## Each attribute needs to be rendered as a private field
-##
-#foreach ($feature in $class.feature)
-#if ($transform.staticHelper.isAttribute($feature))
-#set ($attributeTypePackage = $transform.getPackageName($feature.type))
-#if ($attributeTypePackage == "java.lang")
-#set ($attributeTypePackage = "")## java.lang is implicitely imported, no need to mess up the code
+#foreach ($inputField in $class.inputFields)
+#if ($inputField.defaultValue)
+    private $inputField.type.fullyQualifiedName $inputField.name = $inputField.defaultValue;
+#else
+    private $inputField.type.fullyQualifiedName $inputField.name;
 #end
-#if ($attributeTypePackage != "")
-#set ($attributeTypePackage = "${attributeTypePackage}.")
-#end
-#set ($attributeType = "$attributeTypePackage$feature.type.name")
-    private $attributeType $feature.name;
+#if ($inputField.backingPropertyName)
+    private java.util.Collection $inputField.backingPropertyName = null;
 #end
 #end
 
-    public void reset(ActionMapping mapping, HttpServletRequest request)
+    private java.lang.String trigger = null;
+#foreach ($servlet in $class.servlets)
+#set ($parameter = $servlet.dispatchParameter)
+    private java.lang.String $parameter = null;
+
+    public void set$str.upperCaseFirstLetter($parameter)(java.lang.String $parameter)
     {
+        this.$parameter = $parameter;
     }
 
-    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
+    public java.lang.String get$str.upperCaseFirstLetter($parameter)()
     {
-        return null;
+        return $parameter;
     }
+#end
 
-    /**
-     * Gets the value of the event that triggered the action.
-     */
-    public String getTrigger()
-    {
-        return trigger;
-    }
-
-    /**
-     * Sets the value of the event that triggered the action.
-     */
-    public void setTrigger(String trigger)
+    public void setTrigger(java.lang.String trigger)
     {
         this.trigger = trigger;
     }
 
-##
-## A getter and setter for each attribute
-##
-#foreach ($feature in $class.feature)
-#if ($transform.staticHelper.isAttribute($feature))
-#set ($attributeTypePackage = $transform.getPackageName($feature.type))
-#if ($attributeTypePackage == "java.lang")
-#set ($attributeTypePackage = "")## java.lang is implicitely imported, no need to mess up the code
-#end
-#if ($attributeTypePackage != "")
-#set ($attributeTypePackage = "${attributeTypePackage}.")
-#end
-#set ($attributeType = "$attributeTypePackage$feature.type.name")
-    public $attributeType get$str.upperCaseFirstLetter($feature.name)()
+    public java.lang.String getTrigger()
     {
-        return $feature.name;
+        return trigger;
     }
 
-    public void set$str.upperCaseFirstLetter($feature.name)($attributeType $feature.name)
-    {
-        this.$feature.name = $feature.name;
-    }
+#foreach ($inputField in $class.inputFields)
+    /**
+     * @struts.form-field
+     *    form-name="$str.toJavaMethodName($inputField.jsp.name)"
+     *
+#if ($inputField.isRequired())
+     * @struts.validator
+     *    type="required,mask"
+##   *    arg0resource="$inputField.fieldMessageKey"
+##   *    msgKey="$inputField.errorMessageKey"
 #end
+#if ($inputField.maskPattern)
+     *
+     * @struts.validator-var
+     *    name="mask"
+     *    value="$inputField.maskPattern"
+     *
+#end
+     */
+    public void ${inputField.setterName}($inputField.type.fullyQualifiedName $inputField.name)
+    {
+        this.$inputField.name = $inputField.name;
+    }
+
+    public $inputField.type.fullyQualifiedName ${inputField.getterName}()
+    {
+        return $inputField.name;
+    }
+
+#if ($inputField.backingPropertyName)
+#set ($getterName = "get$str.upperCaseFirstLetter(${inputField.backingPropertyName})")
+#set ($setterName = "set$str.upperCaseFirstLetter(${inputField.backingPropertyName})")
+    public void ${setterName}(java.util.Collection $inputField.name)
+    {
+        this.$inputField.name = $inputField.name;
+    }
+
+    public java.util.Collection ${getterName}()
+    {
+        return $inputField.name;
+    }
+
+#end
+#end
+    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
+    {
+    }
+
+    public void reset(ActionMapping mapping, HttpServletRequest request)
+    {
+        this.trigger = null;
+#foreach ($servlet in $class.servlets)
+#set ($parameter = $servlet.dispatchParameter)
+        this.$parameter = null;
 #end
 
+#foreach ($inputField in $class.resetInputFields)
+        this.$inputField.name = $inputField.name;
+#end
+    }
 }
