@@ -55,9 +55,7 @@ public class PackageFacadeLogicImpl
      * @see org.andromda.core.metadecorators.uml14.PackageDecorator#handleGetModelElements()
      */
     protected Collection handleGetModelElements() {
-        return DecoratorFactory
-            .getInstance()
-            .getModel()
+        return ((UmlPackage)DecoratorFactory.getInstance().getModel())
             .getCore()
             .getModelElement()
             .refAllOfType();

@@ -3,17 +3,16 @@ package org.andromda.metafacades.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.andromda.core.metadecorators.uml14.AttributeDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.DecoratorFactory;
-import org.andromda.core.metadecorators.uml14.FilteredCollection;
+import org.andromda.core.metafacade.MetafacadeFactory;
+import org.andromda.metafacades.uml.AttributeFacade;
+import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.Generalization;
-import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Operation;
 
 
@@ -37,7 +36,7 @@ public class ClassifierFacadeLogicImpl
     // -------------------- business methods ----------------------
 
     // concrete business methods that were declared
-    // abstract in class ClassifierDecorator ...
+    // abstract in class ClassifierFacade ...
 
     // ------------- relations ------------------
 
@@ -95,16 +94,14 @@ public class ClassifierFacadeLogicImpl
      */
     public java.util.Collection handleGetAssociationEnds()
     {
-        return DecoratorFactory
-            .getInstance()
-            .getModel()
+        return ((UmlPackage)MetafacadeFactory.getInstance().getModel())
             .getCore()
             .getAParticipantAssociation()
             .getAssociation(metaObject);
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#handleGetSuperclass()
+     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#handleGetSuperclass()
      */
     protected Object handleGetSuperclass()
     {
@@ -125,7 +122,7 @@ public class ClassifierFacadeLogicImpl
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#isPrimitiveType()
+     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#isPrimitiveType()
      */
     public boolean isPrimitiveType()
     {
@@ -143,7 +140,7 @@ public class ClassifierFacadeLogicImpl
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getAttributesAsList(boolean)
+     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#getAttributesAsList(boolean)
      */
     public String getAttributesAsList(boolean withTypeNames)
     {
@@ -153,12 +150,12 @@ public class ClassifierFacadeLogicImpl
 
         for (Iterator it = getAttributes().iterator(); it.hasNext();)
         {
-            AttributeDecorator a = (AttributeDecorator)it.next();
+            AttributeFacade a = (AttributeFacade)it.next();
 
             sb.append(separator);
             if (withTypeNames)
             {
-                String typeName = ((ClassifierDecorator)a.getType()).getFullyQualifiedName();
+                String typeName = ((ClassifierFacade)a.getType()).getFullyQualifiedName();
                 sb.append(typeName);
                 sb.append(" ");
                 sb.append(a.getName());
@@ -175,20 +172,20 @@ public class ClassifierFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#isAbstract()
+     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#isAbstract()
      */
     public boolean isAbstract() {
         return this.metaObject.isAbstract();
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getStaticAttributes()
+     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#getStaticAttributes()
      */
     public Collection getStaticAttributes() {
         Collection attributes = this.getAttributes();
         class StaticAttributeFilter implements Predicate {
             public boolean evaluate(Object object) {
-                return ((AttributeDecorator)object).isStatic();
+                return ((AttributeFacade)object).isStatic();
             }
         }
         CollectionUtils.filter(attributes, new StaticAttributeFilter());
@@ -196,13 +193,13 @@ public class ClassifierFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getInstanceAttributes()
+     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#getInstanceAttributes()
      */
     public java.util.Collection getInstanceAttributes() {
         Collection attributes = this.getAttributes();
         class StaticAttributeFilter implements Predicate {
             public boolean evaluate(Object object) {
-                return !((AttributeDecorator)object).isStatic();
+                return !((AttributeFacade)object).isStatic();
             }
         }
         CollectionUtils.filter(attributes, new StaticAttributeFilter());
@@ -210,7 +207,7 @@ public class ClassifierFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getAbstractions()
+     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#getAbstractions()
      */
     public Collection getAbstractions() {
         Collection clientDependencies =
