@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <project>
   	<extend>../../project.xml</extend>
@@ -19,16 +19,6 @@
 			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-animal-quiz-sample-common</artifactId>
 			<version>${pom.currentVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.0</version>
-		</dependency>	
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.0.3</version>
 		</dependency>
 		<!-- EJB dependencies -->
   		<dependency>
