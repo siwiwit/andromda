@@ -208,10 +208,10 @@ public class OperationDecoratorImpl extends OperationDecorator
     	name = StringUtils.trimToEmpty(name);
     	String value = findTaggedValue(name);
     	if (follow) {
-	    	ClassifierDecorator type = (ClassifierDecorator)this.getType();
+	    	ClassifierDecorator type = this.getType();
 	    	while (value == null && type != null) {
 	    		value = type.findTaggedValue(name);
-	    		type = (ClassifierDecorator)type.getSuperclass();
+	    		type = type.getSuperclass();
 	    	}
     	}
     	return value;
@@ -223,6 +223,14 @@ public class OperationDecoratorImpl extends OperationDecorator
     public boolean isStatic() 
 	{
     	return ScopeKindEnum.SK_CLASSIFIER.equals(this.metaObject.getOwnerScope());
+    }
+
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#isAbstract()
+     */
+    public boolean isAbstract()
+    {
+        return metaObject.isAbstract();
     }
 
     // ------------- relations ------------------

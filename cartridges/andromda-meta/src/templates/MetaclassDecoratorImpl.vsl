@@ -7,21 +7,12 @@ package $packagename;
 /**
 $class.getDocumentation(" ")
  *
- * Metaclass decorator implementation for $decoratedMetacName
- *
-#foreach ( $tgv in $class.taggedValues )
-#if ($tgv.name != "documentation")
-#if ($tgv.name == "---")
-    #set ($tag = "")
-#else
-    #set ($tag = $tgv.name)
-#end
- * $tag    $tgv.value
-#end
-#end
+ * Metaclass decorator implementation.
  *
  */
-public class ${class.name}Impl extends ${class.name}
+public class ${class.name}Impl
+       extends ${class.name}
+       implements ${class.fullyQualifiedInterfaceName}
 {
     // ---------------- constructor -------------------------------
     
@@ -66,7 +57,11 @@ public class ${class.name}Impl extends ${class.name}
 ##
 #set ($sourcetype = $assocEnd.type)
 #set ($targettype = $assocEnd.otherEnd.type)
+#if ($targettype.hasStereotype("Decorator"))
+#set ($targettypename = $targettype.fullyQualifiedInterfaceName)
+#else
 #set ($targettypename = $targettype.fullyQualifiedName)
+#end
 ##
 #set ($trn = $assocEnd.otherEnd.name)
 #set ($utrn = $str.upperCaseFirstLetter($trn))

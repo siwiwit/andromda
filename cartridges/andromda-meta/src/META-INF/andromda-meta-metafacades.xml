@@ -12,4 +12,15 @@
 		metafacadeClass="org.andromda.cartridges.meta.metafacades.MetafacadeFacadeImpl">
 		<stereotype>metafacade</stereotype>
 	</metafacade>	
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
+		metafacadeClass="org.andromda.cartridges.meta.metafacades.MetafacadeAssociationEndFacadeImpl">
+		<context>org.andromda.cartridges.meta.metafacades.MetafacadeFacadeImpl</context>
+	</metafacade>			
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
+		metafacadeClass="org.andromda.cartridges.meta.metafacades.MetafacadeAssociationEndFacadeImpl">
+		<context>org.andromda.cartridges.meta.metafacades.MetafacadeAssociationEndFacadeImpl</context>
+	</metafacade>			
+	
 </metafacades>

@@ -3,6 +3,7 @@ package org.andromda.core.metadecorators.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.andromda.core.mapping.Mappings;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.ModelElement;
@@ -61,19 +62,22 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
 
         return roleName;
     }
-    
+
     /**
      * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getName()
      */
-    public String getName() {
-    	String name = super.getName();
-    	//if name is empty, then get the name from the type
-    	if (StringUtils.isEmpty(name)) {
-    		ClassifierDecorator type = this.getType();
-    		name = StringUtils.uncapitalize(
-    				StringUtils.trimToEmpty(type.getName()));
-    	}
-    	return name;
+    public String getName()
+    {
+        String name = super.getName();
+        //if name is empty, then get the name from the type
+        if (StringUtils.isEmpty(name))
+        {
+            ClassifierDecorator type = this.getType();
+            name =
+                StringUtils.uncapitalize(
+                    StringUtils.trimToEmpty(type.getName()));
+        }
+        return name;
     }
 
     /* (non-Javadoc)
@@ -89,7 +93,8 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
      */
     public boolean isOne2Many()
     {
-        return !isMany(metaObject) && isMany((AssociationEnd)getOtherEnd().getMetaObject());
+        return !isMany(metaObject)
+            && isMany((AssociationEnd) getOtherEnd().getMetaObject());
     }
 
     /* (non-Javadoc)
@@ -97,7 +102,8 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
      */
     public boolean isMany2Many()
     {
-        return isMany(metaObject) && isMany((AssociationEnd)getOtherEnd().getMetaObject());
+        return isMany(metaObject)
+            && isMany((AssociationEnd) getOtherEnd().getMetaObject());
     }
 
     /* (non-Javadoc)
@@ -105,7 +111,8 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
      */
     public boolean isOne2One()
     {
-        return !isMany(metaObject) && !isMany((AssociationEnd)getOtherEnd().getMetaObject());
+        return !isMany(metaObject)
+            && !isMany((AssociationEnd) getOtherEnd().getMetaObject());
     }
 
     /* (non-Javadoc)
@@ -113,7 +120,8 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
      */
     public boolean isMany2One()
     {
-        return isMany(metaObject) && !isMany((AssociationEnd)getOtherEnd().getMetaObject());
+        return isMany(metaObject)
+            && !isMany((AssociationEnd) getOtherEnd().getMetaObject());
     }
 
     static protected boolean isMany(AssociationEnd ae)
@@ -121,9 +129,9 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
         Multiplicity multiplicity = ae.getMultiplicity();
         if (multiplicity == null)
         {
-            return false;  // no multiplicity means multiplicity "1"
+            return false; // no multiplicity means multiplicity "1"
         }
-        
+
         Collection ranges = multiplicity.getRange();
 
         for (Iterator i = ranges.iterator(); i.hasNext();)
@@ -144,21 +152,22 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
 
         return false;
     }
-    
+
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isOrdered()
      */
     public boolean isOrdered()
-	{
-    	boolean ordered = false;
-    	
-    	OrderingKind ordering = metaObject.getOrdering();
-    	//no ordering is 'unordered'
-    	if (ordering != null) {
-    		ordered = ordering.equals(OrderingKindEnum.OK_ORDERED);  		
-    	}
+    {
+        boolean ordered = false;
 
-		return ordered;
+        OrderingKind ordering = metaObject.getOrdering();
+        //no ordering is 'unordered'
+        if (ordering != null)
+        {
+            ordered = ordering.equals(OrderingKindEnum.OK_ORDERED);
+        }
+
+        return ordered;
     }
 
     /* (non-Javadoc)
@@ -178,13 +187,14 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
         return AggregationKindEnum.AK_COMPOSITE.equals(
             metaObject.getAggregation());
     }
-    
+
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isReadOnly()
      */
-    public boolean isReadOnly() 
-	{
-    	return ChangeableKindEnum.CK_FROZEN.equals(metaObject.getChangeability());
+    public boolean isReadOnly()
+    {
+        return ChangeableKindEnum.CK_FROZEN.equals(
+            metaObject.getChangeability());
     }
 
     /**
@@ -194,28 +204,54 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
     {
         return metaObject.isNavigable();
     }
-    
+
     /**
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#getGetterName()
      */
-    public java.lang.String getGetterName() {
-    	return "get" + StringUtils.capitalize(this.getName());
+    public java.lang.String getGetterName()
+    {
+        return "get" + StringUtils.capitalize(this.getName());
     }
-    
+
     /**
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#getSetterName()
      */
-    public java.lang.String getSetterName() {
-    	return "set" + StringUtils.capitalize(this.getName());	
+    public java.lang.String getSetterName()
+    {
+        return "set" + StringUtils.capitalize(this.getName());
     }
-    
+
     // relations
 
     /**
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#handleGetAssociation()
      */
-    protected org.omg.uml.foundation.core.ModelElement handleGetAssociation() {
-    	return metaObject.getAssociation();
+    protected org
+        .omg
+        .uml
+        .foundation
+        .core
+        .ModelElement handleGetAssociation()
+    {
+        return metaObject.getAssociation();
+    }
+
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#getGetterSetterTypeName()
+     */
+    public String getGetterSetterTypeName()
+    {
+        // if many, then list or collection
+        if (isOne2Many() || isMany2Many())
+        {
+            Mappings lm = getLanguageMappings();
+            return isOrdered()
+                ? lm.getTo("datatype.List")
+                : lm.getTo("datatype.Collection");
+        }
+        
+        // if single element, then return the type
+        return getOtherEnd().getType().getFullyQualifiedName();
     }
 
 }

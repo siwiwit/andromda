@@ -15,7 +15,6 @@ import org.omg.uml.foundation.core.TaggedValue;
 import org.omg.uml.foundation.datatypes.VisibilityKind;
 import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 import org.omg.uml.modelmanagement.Model;
-import org.omg.uml.modelmanagement.UmlPackage;
 
 /**
  *
