@@ -2,13 +2,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
-import org.andromda.core.metadecorators.uml14.ActionStateDecorator;
-import org.andromda.core.metadecorators.uml14.ActivityGraphDecorator;
-import org.andromda.core.metadecorators.uml14.AttributeDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
-import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
+import org.andromda.core.metadecorators.uml14.*;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 import org.omg.uml.behavioralelements.activitygraphs.ActivityGraph;
@@ -69,7 +63,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
             Object element = dependencyIterator.next();
             Dependency dep = (Dependency) element;
             ModelElement client = (ModelElement) dep.getClient().iterator().next();
-            ModelElementDecorator clientDecorator = (ModelElementDecorator)DecoratorBase.decoratedElement(client);
+            ModelElementDecorator clientDecorator = (ModelElementDecorator)decoratedElement(client);
             if (clientDecorator instanceof ClassifierDecorator && clientDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL))
                 associatedClasses.add(clientDecorator);
         }
@@ -98,7 +92,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
             ModelElement modelElement = (ModelElement) iterator.next();
             if (modelElement instanceof ActivityGraph)
             {
-                ActivityGraphDecorator activityGraph = (ActivityGraphDecorator) DecoratorBase.decoratedElement(modelElement);
+                ActivityGraphDecorator activityGraph = (ActivityGraphDecorator) decoratedElement(modelElement);
                 actionStates.addAll(activityGraph.getActionStates());
             }
         }
@@ -107,7 +101,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
     public Collection getTriggers()
     {
-        return DecoratorBase.decoratedElements(getActionState().metaObject.getOutgoing());
+        return decoratedElements(getActionState().metaObject.getOutgoing());
     }
 
     // ------------- relations ------------------
@@ -137,7 +131,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
     protected ModelElement handleGetServlet()
     {
-        final StrutsActivityGraphDecorator activityGraph = (StrutsActivityGraphDecorator)DecoratorBase.decoratedElement(getActionState().metaObject.getContainer().getStateMachine());
+        final StrutsActivityGraphDecorator activityGraph = (StrutsActivityGraphDecorator)decoratedElement(getActionState().metaObject.getContainer().getStateMachine());
         final UseCase useCase = activityGraph.getUseCase().metaObject;
         final Collection controllers = getFormBean().getServlets();
 

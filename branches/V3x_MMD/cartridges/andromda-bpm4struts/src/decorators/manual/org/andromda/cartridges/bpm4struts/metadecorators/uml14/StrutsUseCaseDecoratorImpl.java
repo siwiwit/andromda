@@ -74,7 +74,7 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
         for (Iterator iterator = classifiers.iterator(); iterator.hasNext();)
         {
             Classifier undecoratedClassifier = (Classifier) iterator.next();
-            DecoratorBase classifier = DecoratorBase.decoratedElement(undecoratedClassifier);
+            DecoratorBase classifier = decoratedElement(undecoratedClassifier);
             if (classifier instanceof StrutsControllerDecorator)
             {
                 StrutsControllerDecorator controller = (StrutsControllerDecorator)classifier;

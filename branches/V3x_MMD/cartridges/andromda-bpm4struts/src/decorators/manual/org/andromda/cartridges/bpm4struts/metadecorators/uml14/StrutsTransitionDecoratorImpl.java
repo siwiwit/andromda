@@ -1,6 +1,5 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
 import org.andromda.core.metadecorators.uml14.PseudostateDecorator;
@@ -44,7 +43,7 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
         boolean isMergePoint = true;
         while ((target instanceof Pseudostate) && (isMergePoint))
         {
-            PseudostateDecorator pseudostate = (PseudostateDecorator) DecoratorBase.decoratedElement(target);
+            PseudostateDecorator pseudostate = (PseudostateDecorator) decoratedElement(target);
             isMergePoint = pseudostate.isMergePoint().booleanValue();
 
             if (isMergePoint)
@@ -54,7 +53,7 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
             }
         }
 
-        return (ModelElementDecorator)DecoratorBase.decoratedElement(target);
+        return (ModelElementDecorator)decoratedElement(target);
     }
 
     // ------------- relations ------------------
