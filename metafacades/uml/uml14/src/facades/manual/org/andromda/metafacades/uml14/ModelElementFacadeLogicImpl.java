@@ -16,9 +16,8 @@ import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Comment;
 import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.ModelElement;
-import org.omg.uml.foundation.core.TaggedValue;
 import org.omg.uml.modelmanagement.Model;
-
+  
 
 /**
  * 
@@ -112,28 +111,25 @@ public class ModelElementFacadeLogicImpl
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.ModelElementFacade#findTaggedValue(java.lang.String)
      */
-    public String findTaggedValue(String tagName)
+    public String findTaggedValue(String name)
     {
-        tagName = StringUtils.trimToEmpty(tagName);
-        for (Iterator iter = metaObject.getTaggedValue().iterator();
-            iter.hasNext();
-            )
+        name = StringUtils.trimToEmpty(name);
+        Collection taggedValues = this.getTaggedValues();
+        String value = null;
+        for (Iterator taggedValueIt = taggedValues.iterator(); 
+             taggedValueIt.hasNext();) 
         {
-            TaggedValue element = (TaggedValue) iter.next();
-            if (element != null)
+            TaggedValueFacade taggedValue = 
+                (TaggedValueFacade) taggedValueIt.next();
+            String tagName = taggedValue.getName();
+            if (tagName.equals(name)) 
             {
-                if (StringUtils.trimToEmpty(element.getName()).equals(tagName))
-                {
-                    return (
-                        (TaggedValueFacade) 
-                            this.shieldedElement(
-                            element))
-                        .getValue();
-                }
+                value = taggedValue.getValue();
+                break;
             }
-
         }
-        return null;
+
+        return value;
     }
 
     /* (non-Javadoc)
