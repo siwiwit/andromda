@@ -25,7 +25,7 @@ public abstract class ${entityname}BeanImpl extends ${entityname}Bean
 #if ($op.stereotypeName != "FinderMethod")
 #set ($returntype = $op.getType.fullyQualifiedName)
 #set ($msig = $op.signature)
-#set ($visibility = $op.visibility)
+#set ($visibility = $op.visibility.toString())
 #set ($exceptions = "")
 #set ($exceptions = $op.findTaggedValue("@andromda.java.throws"))
 #if ($exceptions == "")

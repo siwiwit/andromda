@@ -69,7 +69,7 @@ package $packagename;
 #set ($myClass = $dep.targetType)
 #set ($viewtype = $class.findTaggedValue("@andromda.ejb.viewType"))
 #if (!$viewtype || $viewtype == "")
-#set ($viewtype = $myClass.viewType))
+#set ($viewtype = $myClass.viewType)
 #end
  *
  * @ejb.ejb-ref 
@@ -149,8 +149,7 @@ public abstract class ${entityname}Bean
     // -- accessors for environment entries and constants --
 #foreach($att in $class.staticAttributes)
 #set($attType = $att.type.fullyQualifiedName)
-#set($AttName = $str.upperCaseFirstLetter($att.name))
-#set ($visibility = $att.visibility )
+#set ($visibility = $att.visibility.toString() )
 
     /**
 #if($att.stereotypeName == "EnvEntry")
@@ -166,7 +165,7 @@ public abstract class ${entityname}Bean
      * @ejb.interface-method
 #end
      */
-    $visibility $attType get$AttName(){
+    $visibility $attType ${att.getterName}(){
 #if($att.stereotypeName == "EnvEntry")
         javax.naming.InitialContext initialContext = null;
         try {
@@ -202,12 +201,12 @@ public abstract class ${entityname}Bean
 #if($visibility == "public")
 
     /**
-     * Home interface method for accessing {@link #get$AttName}.
+     * Home interface method for accessing {@link #${att.getterName}}.
      * @ejb.home-method
-     * @see #get$AttName
+     * @see #${att.getterName}
      */
-     public $attType ejbHomeGet$AttName() {
-         return get$AttName();
+     public $attType ejbHomeGet${att.name}() {
+         return ${att.getterName};
      }
 #end
 #end
@@ -215,9 +214,8 @@ public abstract class ${entityname}Bean
     // --------------- attributes ---------------------
 #foreach ( $att in $class.attributes)
 #set($attType = $att.type.fullyQualifiedName)    
-#set($AttName = $str.upperCaseFirstLetter($att.name))
 #set ($transactionType = $att.findTaggedValue("@andromda.ejb.transactionType", true))
-#set ($visibility = $att.visibility)
+#set ($visibility = $att.visibility.toString())
     /**
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
 #remainingJavadocParagraphs($att "     ")
@@ -239,7 +237,7 @@ public abstract class ${entityname}Bean
      * @ejb.interface-method 
 #end
      */
-    public abstract $attType get$AttName();
+    public abstract $attType ${att.getterName}();
 
     /**
      * Set #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
@@ -254,7 +252,7 @@ public abstract class ${entityname}Bean
      * @ejb.transaction type="$transactionType"
 #end
      */
-    public abstract void set$AttName($attType value);
+    public abstract void ${att.setterName}($attType value);
     
 #end
 
@@ -384,7 +382,7 @@ public abstract class ${entityname}Bean
 #set ($transactionType = $op.findTaggedValue("@andromda.ejb.transactionType", true))
 #set ($msig = $op.signature)
 #set ($interfaceType = "interface")
-#set ($visibility = $op.visibility)
+#set ($visibility = $op.visibility.toString())
 #set ($exceptions = "")
 #set ($exceptions = $op.findTaggedValue("@andromda.java.throws"))
 #if ($exceptions == "")
@@ -447,8 +445,7 @@ public abstract class ${entityname}Bean
 ## what the user intended to do with the arbitrary parameters to these methods,
 ## we generate an abstract ejbCreateImpl() and delegate the implementation to 
 ## the user.
-#foreach ( $op in $class.operations)
-#if ($op.stereotypeName == "CreateMethod")
+#foreach ( $op in $class.createMethods(false))
 #set ($transactionType = $op.findTaggedValue("@andromda.ejb.transactionType", true))
 
     /**
@@ -472,7 +469,6 @@ public abstract class ${entityname}Bean
     public void ejbPostCreate${op.typedParameterList} {
     }
 #end    
-#end
 #if (!$class.abstract)
 #foreach ( $op in $class.createMethods(true))
 
@@ -565,7 +561,7 @@ public abstract class ${entityname}Bean
     }
 #set ($relations = $class.allEntityRelations)
 #if (!$relations.isEmpty())
-#if (!$class.isAbstract() && !$class.findTaggedValue("@andromda.ejb.noSyntheticCreateMethod"))
+#if (!$class.abstract && !$class.findTaggedValue("@andromda.ejb.noSyntheticCreateMethod"))
     /**
      * Create method with all CMP attribute values and CMR relations.
 #foreach($att in $allAttributes)
