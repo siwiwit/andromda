@@ -56,9 +56,6 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	 *         corresponding java.lang wrapper class if
 	 *         <code>name</code> is a Java primitive type;
 	 *         <code>false</code> if not
-	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException
 	 */
 	protected static Class getPrimitiveClass(String name, ClassLoader loader) {
 		final String methodName = "ClassUtils.getPrimitiveClass";
