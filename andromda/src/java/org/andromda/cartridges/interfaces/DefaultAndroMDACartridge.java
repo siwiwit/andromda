@@ -143,10 +143,14 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
 
         try
         {
+            // set the stdout logger to the cartridge name so we can see 
+            // which cartridge is processing it from the stdout
+            StdoutLogger.setLogger(this.getDescriptor().getCartridgeName());
             internalProcessModelElement(
                 context,
                 modelElement,
                 stereotypeName);
+            StdoutLogger.reset();
         }
         finally
         {
@@ -207,12 +211,13 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
     {
         try
         {
-            logger.debug("");
-            logger.debug(
-                "------------------- Processing model element >>"
-                    + ((ModelElement) modelElement).getName()
-                    + "<< using template "
-                    + tc.getSheet());
+        	if (logger.isDebugEnabled())
+                logger.debug("");
+                logger.debug(
+                    "------------------- Processing model element >>"
+                        + ((ModelElement) modelElement).getName()
+                        + "<< using template "
+                        + tc.getSheet());
 
             internalProcessModelElementWithOneTemplate(
                 context,
@@ -221,11 +226,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         }
         finally
         {
-            logger.debug(
-                "------------------- Finished processing model element >>"
-                    + ((ModelElement) modelElement).getName()
-                    + "<< using template "
-                    + tc.getSheet());
+            if (logger.isDebugEnabled())
+                logger.debug(
+                    "------------------- Finished processing model element >>"
+                        + ((ModelElement) modelElement).getName()
+                        + "<< using template "
+                        + tc.getSheet());
         }
     }
 
@@ -345,9 +351,6 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                     if (writeOutputFile
                         && (!context.isLastModifiedCheck()
                             || modelLastModified > outFile.lastModified()
-                        /*
-                    *  || styleSheetLastModified > outFile.lastModified()
-                    */
                         ))
                     {
                         ensureDirectoryFor(outFile);
