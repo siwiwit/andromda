@@ -24,7 +24,7 @@ public class Bpm4StrutsProfile
 
     public static final String TAGGED_VALUE_ACTION_TYPE = "@andromda.struts.action.type";
     public static final String TAGGED_VALUE_ACTION_RESETTABLE = "@andromda.struts.action.resettable";
-    public static final String TAGGED_VALUE_ACTION_SUCCES_MESSAGE = "@andromda.struts.action.succes.message";
+    public static final String TAGGED_VALUE_ACTION_SUCCES_MESSAGE = "@andromda.struts.action.success.message";
     public static final String TAGGED_VALUE_INPUT_REQUIRED = "@andromda.struts.view.field.required";
     public static final String TAGGED_VALUE_INPUT_READONLY = "@andromda.struts.view.field.readonly";
     public static final String TAGGED_VALUE_INPUT_SIZE = "@andromda.struts.view.field.size";
