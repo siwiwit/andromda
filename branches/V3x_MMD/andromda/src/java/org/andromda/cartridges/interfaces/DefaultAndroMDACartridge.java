@@ -116,9 +116,13 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                     TemplateModelElement templateModelElement = 
                         templateModelElements.getModelElement(stereotypeName);
                     
-                    templateModelElement.setModelElements(
+                    Collection metafacades = 
                         MetafacadeFactory.getInstance().createMetafacades(
-                            modelElements));                       
+                            modelElements);
+                    
+                    this.filterModelPackages(metafacades);
+                    
+                    templateModelElement.setModelElements(metafacades);                       
                 }
                                 
                 processModelElements(
@@ -168,19 +172,16 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
             Property outletProperty = 
                 Namespaces.instance().findNamespaceProperty(
                         descriptor.getCartridgeName(), template.getOutlet());
+  
+            String outputLocation = outletProperty.getValue();
             
             if (outletProperty != null && !outletProperty.isIgnore()) 
             {
-                
-                String outputLocation = outletProperty.getValue();
-                        
+  
                 try 
-                {       
- 
-                    long modelLastModified = context.getRepository().getLastModified();                 
+                {                     
                     
-                    Collection allModelElements = 
-                        this.filterModelPackages(templateModelElements.getAllModelElements());
+                    Collection allModelElements = templateModelElements.getAllModelElements();
 
                     // if isOutputToSingleFile flag is true, then
                     // we get the collections of templateModelElements and 
@@ -238,10 +239,12 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                     } 
                     else 
                     {
+
                         // if outputToSingleFile isn't true, then
                         // we just place the model element with the default 
                         // variable defined on the <modelElements/> into the template.
                         Iterator modelElementIt = allModelElements.iterator();
+
                         while (modelElementIt.hasNext()) 
                         {
                             Map templateContext = new HashMap();
@@ -463,7 +466,7 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
      * 
      * @param modelElements the Collection of modelElements.
      */
-    protected Collection filterModelPackages(Collection modelElements) {
+    protected void filterModelPackages(Collection modelElements) {
         class PackageFilter implements Predicate {
             public boolean evaluate(Object modelElement) {
                 return context.getModelPackages().shouldProcess(
@@ -471,7 +474,6 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
             }
         }
         CollectionUtils.filter(modelElements, new PackageFilter());
-        return modelElements;
     }
     
     /**
