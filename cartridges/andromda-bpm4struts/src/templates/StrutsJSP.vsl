@@ -47,11 +47,14 @@
 ##  If the view is backed by a model (indicating request parameters) we render a form
 ##
         <html:form action="$servletName?$servlet.dispatchParameter=$dispatchMethodName">
+##  This next field hold the trigger requests parameter that will be sent to the server
+            <html:hidden property="trigger" value=""/>
             <table cellpadding="5" cellspacing="5" border="0">
 ##
 ##  Render a new row for each input field on this view
 ##
 #foreach ($inputField in $inputFields)
+#set ($titleKey = "${inputField.messageKey}.title")
                 <tr>
                     <td><bean:message key="$inputField.messageKey"/></td>
                     <td>
@@ -72,7 +75,7 @@
 #else
 #set ($disabled = '')
 #end
-                        <html:$inputField.fieldType property="$inputField.name" $disabled $value/>
+                        <html:$inputField.fieldType property="$inputField.name" titleKey="$titleKey" $disabled $value/>
 #end
 ##
 ##      T E X T F I E L D       &       P A S S W O R D
@@ -88,7 +91,7 @@
 #else
 #set ($maxLength = '')
 #end
-                        <html:$inputField.fieldType property="$inputField.name" $readonly $maxLength $value/>
+                        <html:$inputField.fieldType property="$inputField.name" titleKey="$titleKey" $readonly $maxLength $value/>
 #end
 ##
 ##      T E X T A R E A
@@ -112,7 +115,7 @@
 #set ($rows = '')
 #set ($cols = '')
 #end
-                        <html:$inputField.fieldType property="$inputField.name" $readonly $cols $rows $value/>
+                        <html:$inputField.fieldType property="$inputField.name" titleKey="$titleKey" $readonly $cols $rows $value/>
 #end
 ##
 ##      C O M B O B O X     &      L I S T
@@ -133,7 +136,7 @@
 #else
 #set ($size = '')
 #end
-                        <html:select $disabled $size $multiple property="$inputField.name">
+                        <html:select $disabled $size $multiple property="$inputField.name" $titleKey>
                           <html:options property="$inputField.backingPropertyName"/>
                         </html:select>
 #end
@@ -146,9 +149,12 @@
 ##  Triggers are represented by submit buttons that will post the form to the action
 ##
 #foreach ($triggerMessage in $triggerMessages.keySet())
-                        <html:button property="trigger" onclick='submitForm(this.form,"$triggerMessage")'>
-                            <bean:message key="$triggerMessage"/>
-                        </html:button>
+#set ($title = ${triggerMessages.get($triggerMessage)})
+#set ($buttonName = "${triggerMessage}.button")
+                        <input type="button" name="$buttonName"
+                               onclick="submitForm(this.form,'$triggerMessage')"
+                               title="$title"
+                               value="<bean:message key="$triggerMessage"/>">
 #end
                     </td>
                 </tr>
@@ -160,8 +166,9 @@
 ##
         <ol>
 #foreach ($triggerMessage in $triggerMessages.keySet())
+#set ($title = "${triggerMessage}.title")
             <li>
-                <html:link action="${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&trigger=$triggerMessage">
+                <html:link action="${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&trigger=$triggerMessage" titleKey="$title">
                     <bean:message key="$triggerMessage"/>
                 </html:link>
             </li>
