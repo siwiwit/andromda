@@ -79,6 +79,7 @@
             <zipfileset dir="." prefix="andromda-src">
                 <include name="**/*" />
                 <exclude name="**/*.log" />
+                <exclude name="dist/andromda-src-300.zip" />
             </zipfileset>
         </zip>
 
