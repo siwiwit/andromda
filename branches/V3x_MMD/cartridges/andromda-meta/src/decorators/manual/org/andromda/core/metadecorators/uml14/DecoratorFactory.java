@@ -25,7 +25,7 @@ public class DecoratorFactory
 
     private String activeNamespace;
     private org.omg.uml.UmlPackage model;
-    
+
     /**
      * Caches the registered properties used
      * within metafacades.
@@ -37,7 +37,7 @@ public class DecoratorFactory
     {
         MetafacadeMappings.instance().discoverMetafacades();
     }
-    
+
     /**
      * Returns the decorator factory singleton.
      * @return the only instance
@@ -69,17 +69,17 @@ public class DecoratorFactory
     }
 
     /**
-     * Returns a metafacade for a metaobject, depending on its <code>metaclass</code> and 
-     * (optionally) its sterotype and <code>contextName</code>.  
+     * Returns a metafacade for a metaobject, depending on its <code>metaclass</code> and
+     * (optionally) its sterotype and <code>contextName</code>.
      * @param metaobject the meta model element.
-     * @param contextName the name of the context the meta 
+     * @param contextName the name of the context the meta
      *                    model element is registered under.
      * @return the new metafacade
      */
     protected DecoratorBase createDecoratorObject(ModelElement metaobject, String contextName) {
-    	
+
     	String methodName = "DecoratorFactory.createMetafacade";
-    	
+
     	ExceptionUtils.checkNull(
     			methodName,
 				"metaobject",
@@ -92,7 +92,7 @@ public class DecoratorFactory
     	{
     		return (DecoratorBase) metaobject;
     	}
-    	
+
     	DecoratorBase metafacade = null;
     	Class metaobjectClass = null;
     	Class metafacadeClass = null;
@@ -100,44 +100,44 @@ public class DecoratorFactory
 
     		metaobjectClass = metaobject.getClass();
     		String metaobjectClassName = metaobjectClass.getName();
-    		
-    		MetafacadeMappings mappings = 
-    			MetafacadeMappings.instance();		
-    		
-			Collection stereotypeNames = 
+
+    		MetafacadeMappings mappings =
+    			MetafacadeMappings.instance();
+
+			Collection stereotypeNames =
 				this.getStereotypeNames(metaobject);
 			MetafacadeMapping mapping = null;
 			if (metafacadeClass == null) {
-				stereotypeNames = 
+				stereotypeNames =
 					this.getStereotypeNames(metaobject);
 				if (this.internalGetLogger().isDebugEnabled())
-					this.internalGetLogger().debug("metaobject stereotype names --> '" 
+					this.internalGetLogger().debug("metaobject stereotype names --> '"
 							+ stereotypeNames + "'");
 				mapping = mappings.getMetafacadeMapping(
-						metaobjectClassName, 
-						stereotypeNames, 
-						this.getActiveNamespace(), 
+						metaobjectClassName,
+						stereotypeNames,
+						this.getActiveNamespace(),
 						contextName);
 				if (mapping != null) {
-					metafacadeClass = mapping.getMetafacadeClass();				
+					metafacadeClass = mapping.getMetafacadeClass();
 				} else {
 					// get the default since no mapping was found.
 					metafacadeClass = mappings.getDefaultMetafacadeClass(this.activeNamespace);
 					if (this.internalGetLogger().isDebugEnabled())
 						this.internalGetLogger().debug("Meta object model class '"
 								+ metaobjectClass
-								+ "' has no corresponding meta facade class, default is being used --> '" 
-								+ metafacadeClass + "'");				
+								+ "' has no corresponding meta facade class, default is being used --> '"
+								+ metafacadeClass + "'");
 				}
 			}
-			
+
 			if (metafacadeClass == null) {
-				throw new MetafacadeMappingsException(methodName 
+				throw new MetafacadeMappingsException(methodName
 						+ " metafacadeClass was not retrieved from mappings"
-						+ " or specified as an argument in this method for metaobject --> '" 
+						+ " or specified as an argument in this method for metaobject --> '"
 						+ metaobject + "'");
 			}
-    		
+
     		if (internalGetLogger().isDebugEnabled())
     			if (internalGetLogger().isDebugEnabled())
     				internalGetLogger().debug(
@@ -145,8 +145,8 @@ public class DecoratorFactory
     						+ metaobjectClassName
 							+ " -> "
 							+ metafacadeClass);
-    			
-				
+
+
     		metafacade =
     			(DecoratorBase) ConstructorUtils.invokeConstructor(
     					metafacadeClass,
@@ -155,7 +155,7 @@ public class DecoratorFactory
 				// set this namespace to the metafacade's namespace
     		metafacade.setNamespace(this.getActiveNamespace());
 			this.populatePropertyReferences(
-				metafacade, 
+				metafacade,
 				mappings.getPropertyReferences(this.getActiveNamespace()));
 
 			// now populate any context property references (if
@@ -165,11 +165,14 @@ public class DecoratorFactory
  					metafacade,
  					mapping.getPropertyReferences());
 			}
-    		
+
+            // validate the meta-facade
+            metafacade.validate();
+
     	} catch (Throwable th) {
     		String errMsg = "Failed to construct a meta facade of type '"
-    			+ metafacadeClass 
-				+ "' with metaobject of type --> '" 
+    			+ metafacadeClass
+				+ "' with metaobject of type --> '"
 				+ metaobjectClass + "'";
     		internalGetLogger().error(errMsg, th);
     		throw new MetafacadeException(errMsg, th);
@@ -181,7 +184,7 @@ public class DecoratorFactory
 
     	return metafacade;
     }
-    
+
     /**
      * Returns a metafacade for a metaobject, depending on its
      * metaclass and (optionally) its stereotype.
@@ -193,50 +196,50 @@ public class DecoratorFactory
     {
     	return this.createDecoratorObject(metaobject, null);
     }
-    
+
     /**
-     * Populates the metafacade with the values retrieved from the property references 
+     * Populates the metafacade with the values retrieved from the property references
      * in the <code>propertyuReferences</code> Map.
-     * They are keyed by the <code>context</code> member of an an instance of 
+     * They are keyed by the <code>context</code> member of an an instance of
      * this class.
-     * 
+     *
      * @param propertyReferences the collection of property references to add.
      */
 	/**
-	 * Populates the metafacade with the values retrieved from the property references 
+	 * Populates the metafacade with the values retrieved from the property references
 	 * found in the <code>propertyReferences</code> collection.
-	 * 
+	 *
 	 * @param propertyReferences the collection of property references which we'll populate.
 	 */
 	protected void populatePropertyReferences(DecoratorBase metafacade, Collection propertyReferences) {
-		
+
 		// only add the property once per context
 		final String methodName = "DecoratorFactory.populatePropertyReferences";
 		ExceptionUtils.checkNull(methodName, "propertyReferences", propertyReferences);
-		
-		Iterator referenceIt = propertyReferences.iterator();		
+
+		Iterator referenceIt = propertyReferences.iterator();
 		while (referenceIt.hasNext()) {
 			String reference = (String)referenceIt.next();
 
 			// ensure that each property is only set once per context
 			// for performance reasons
 			if (!this.isPropertyRegistered(
-					metafacade.getPropertyNamespace(), 
+					metafacade.getPropertyNamespace(),
 					reference)) {
-				String value =   
+				String value =
 					Namespaces.instance().findNamespaceProperty(
 							this.getActiveNamespace(), reference);
-				
+
 				if (this.internalGetLogger().isDebugEnabled())
-					this.internalGetLogger().debug("setting context property '" 
-							+ this.getActiveNamespace() + "' with value '" 
+					this.internalGetLogger().debug("setting context property '"
+							+ this.getActiveNamespace() + "' with value '"
 							+ value + "'");
-				
+
 				if (value != null) {
 					try {
 						PropertyUtils.setProperty(metafacade, reference, value);
 					} catch (Exception ex) {
-						String errMsg = "Error setting property '" + reference 
+						String errMsg = "Error setting property '" + reference
 							+ "' on metafacade --> '" + metafacade + "'";
 						this.internalGetLogger().error(errMsg, ex);
 						//don't throw the exception
@@ -244,14 +247,14 @@ public class DecoratorFactory
 				}
 			}
 		}
-	}		
-    
+	}
+
     /**
      * Returns a metafacade for each metaobject, contained within the <code>metaobjects</code>
-     * collection depending on its <code>metaclass</code> and 
-     * (optionally) its sterotype and <code>contextName</code>.  
-     * @param metaobject the meta model element.
-     * @param contextName the name of the context the meta 
+     * collection depending on its <code>metaclass</code> and
+     * (optionally) its sterotype and <code>contextName</code>.
+     * @param metaobjects the meta model element.
+     * @param contextName the name of the context the meta
      *                    model element is registered under.
      * @return
      */
@@ -287,7 +290,7 @@ public class DecoratorFactory
     	Collection stereotypeNames = new ArrayList();
 
     	Collection stereotypes = modelElement.getStereotype();
-    	for (Iterator stereotypeIt = stereotypes.iterator(); 
+    	for (Iterator stereotypeIt = stereotypes.iterator();
     	stereotypeIt.hasNext();) {
     		ModelElement stereotype = (ModelElement) stereotypeIt.next();
     		stereotypeNames.add(StringUtils.trimToEmpty(stereotype.getName()));
@@ -318,7 +321,7 @@ public class DecoratorFactory
                 "org.andromda.cartridges." + activeNamespace);
         return Logger.getRootLogger();
     }
-    
+
     /**
      * Registers a property with the specified <code>name</code>
      * in the given <code>namespace</code>, having the specified <code>value</code>.
@@ -331,7 +334,7 @@ public class DecoratorFactory
     	ExceptionUtils.checkEmpty(methodName, "namespace", namespace);
     	ExceptionUtils.checkEmpty(methodName, "name", name);
     	ExceptionUtils.checkNull(methodName, "value", value);
-    	
+
     	Map propertyNamespace = (Map)this.registeredProperties.get(namespace);
     	if (propertyNamespace != null) {
     		propertyNamespace.put(name, value);
@@ -341,12 +344,12 @@ public class DecoratorFactory
 			this.registeredProperties.put(namespace, propertyNamespace);
 		}
     }
-    
+
     /**
      * Returns true if this property is registered, false otherwise.
      * @param namespace
      * @param name
-     * @return boolean 
+     * @return boolean
      */
     protected boolean isPropertyRegistered(String namespace, String name) {
     	boolean registered = false;
@@ -356,12 +359,12 @@ public class DecoratorFactory
     	}
     	return registered;
     }
-    
+
     /**
      * Returns true if this property is registered, false otherwise.
      * @param namespace the namespace of the property to check.
      * @param name the name of the property to check.
-     * @return boolean 
+     * @return boolean
      */
     protected Object getRegisteredProperty(String namespace, String name) {
     	final String methodName = "DecoratorFactory.getRegisteredProperty";
@@ -373,14 +376,14 @@ public class DecoratorFactory
     	} else {
     		registeredProperty = propertyNamespace.get(name);
     		if (registeredProperty == null) {
-    			throw new MetafacadeException(methodName 
-    				+ " - no property '" 
-    				+ name 
-					+ "' registered under namespace '" + namespace + "'");    			
+    			throw new MetafacadeException(methodName
+    				+ " - no property '"
+    				+ name
+					+ "' registered under namespace '" + namespace + "'");
     		}
     	}
     	return registeredProperty;
     }
-    
-    
+
+
 }
