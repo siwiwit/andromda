@@ -83,7 +83,7 @@ public class MDRepositoryFacadeTest extends TestCase
 		try
 		{
 			repository.readModel(modelURL, null);
-			assertTrue(repository.getModel() instanceof UmlPackage);
+			assertTrue(repository.getModel().getModel() instanceof UmlPackage);
 		}
 		catch (IOException ioe)
 		{
