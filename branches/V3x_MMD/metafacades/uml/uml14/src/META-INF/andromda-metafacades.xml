@@ -40,9 +40,12 @@
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.metafacades.uml14.AttributeFacadeLogicImpl"/>		
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Parameter$Impl"
 		metafacadeClass="org.andromda.metafacades.uml14.ParameterFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Generalization$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.GeneralizationFacadeLogicImpl"/>
 
     <!-- Behavioral element facades -->
 	<metafacade
