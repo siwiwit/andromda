@@ -25,8 +25,9 @@ $class.getDocumentation(" ")
  */
 public abstract class ${class.name}Factory {
 
+#if (!$class.abstract)
    // ---------------- create method --------------------
-
+   
    /**
     * Creates a(n) ${class.name} object.
     *
@@ -49,10 +50,12 @@ public abstract class ${class.name}Factory {
 
         return object;
     }
+#end
 
 
     // ---------------- finder methods  ----------------------
 
+#if ($class.hasIdentifiers()) 
 #set ($primKey = $class.identifiers.iterator().next())
 #set ($primKeyTypeName = $primKey.type.fullyQualifiedName)
     /**
@@ -67,7 +70,8 @@ public abstract class ${class.name}Factory {
         ${class.name} object = (${class.name}) sess.load(${class.name}Impl.class, ${primKey.name});
         return object;
     }
-
+    
+#end
 #foreach ( $finder in $class.finders)
 #set ($returntype = $finder.type.fullyQualifiedName)
 ##
@@ -98,5 +102,4 @@ $finder.getDocumentation("     ")
     }
 
 #end##foreach operation
-
 }
