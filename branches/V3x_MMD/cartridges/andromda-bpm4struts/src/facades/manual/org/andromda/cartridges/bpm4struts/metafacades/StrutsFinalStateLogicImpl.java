@@ -22,26 +22,21 @@ public class StrutsFinalStateLogicImpl
         super (metaObject, context);
     }
     // ------------- relations ------------------
-    
-	/**
-	 * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsFinalState#getTargetUseCase()
-	 */
-    public java.lang.Object handleGetTargetUseCase()
+    public String getFullPath()
     {
         final String name = getName();
 
         if (name != null)
         {
-            Collection allUseCases = getModel().getAllUseCases();
-            for (Iterator iterator = allUseCases.iterator(); iterator.hasNext();)
+            final Collection useCases = getModel().getAllUseCases();
+            for (Iterator iterator = useCases.iterator(); iterator.hasNext();)
             {
-                UseCaseFacade useCaseFacade = (UseCaseFacade) iterator.next();
-                if (name.equalsIgnoreCase(useCaseFacade.getName()))
-                    return useCaseFacade;
+                UseCaseFacade useCase = (UseCaseFacade) iterator.next();
+                if (useCase instanceof StrutsUseCase)
+                    return ((StrutsUseCase)useCase).getFullPath();
             }
         }
 
-        return null;
+        return "";
     }
-
 }
