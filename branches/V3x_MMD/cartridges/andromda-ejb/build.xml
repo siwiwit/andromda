@@ -16,9 +16,7 @@
     <property name="uml.dir"          value="${basedir}/${andromda-meta.dir}/src/uml" />
     <property name="src.test.dir"     value="${src.dir}/test/" />
 
-    <property name="build.dir"              value="build" />
-    <property name="build.cart.dir"         value="build/cartridge" />
-    <property name="build.dec.dir"          value="build/decorators" />
+    <property name="build.dir"         		value="build/classes" />
     <property name="build.test.dir"         value="${build.dir}/test" />
     <property name="build.test.classes.dir" value="${build.test.dir}/classes" />
     <property name="build.test.reports.dir" value="${build.test.dir}/reports" />
@@ -44,8 +42,6 @@
         <tstamp/>
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${build.dir}"/>
-        <mkdir dir="${build.cart.dir}"/>
-        <mkdir dir="${build.dec.dir}"/>
     </target>
 
     <!-- Remove directory structure structure -->
@@ -110,7 +106,7 @@
 
     <target name="compile" depends="genjava"
             description="Builds the cartridge objects from the sources">
-        <javac destdir="${build.cart.dir}" includes="**/*.java"
+        <javac destdir="${build.dir}" includes="**/*.java"
                includeAntRuntime="false">
             <classpath>
                <path refid="generate.classpath"/>
@@ -124,8 +120,7 @@
         <jar jarfile="${build.dir}/andromda-ejb.jar">
             <fileset dir="${src.dir}" includes="templates/*" />
             <fileset dir="${src.dir}" includes="META-INF/*" />
-            <fileset dir="${build.cart.dir}" includes="**/*.class" />
-            <fileset dir="${build.dec.dir}" includes="**/*.class" />
+            <fileset dir="${build.dir}" includes="**/*.class" />
         </jar>
         <copy todir="${dist.dir}" >
             <fileset dir="${build.dir}" includes="andromda-ejb.jar" />
