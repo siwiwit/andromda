@@ -80,11 +80,10 @@ extends $parentInterface
 
     // ------------- relations ------------------
 
-#foreach ( $assoc in $class.entityRelations) )
-//class.entityRelations = $class.entityRelations
+#foreach ( $assoc in $class.entityRelations)
 #set ($assocname = $assoc.relationName)
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.roleName)})
-#set ($targetTypeName = $transform.getRelationTargetType($assoc))
+#set ($targetTypeName = $assoc.relationType)
 
    /**
     * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.roleName}")

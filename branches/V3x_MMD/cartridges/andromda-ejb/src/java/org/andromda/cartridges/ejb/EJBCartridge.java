@@ -23,9 +23,9 @@ public class EJBCartridge extends DefaultAndroMDACartridge {
 		decoratorFactory.setActiveNamespace (getDescriptor().getCartridgeName());
 
 		decoratorFactory.registerDecoratorClass(
-				"org.omg.uml.foundation.core.Operation$Impl",
-				EJBProfile.STEREOTYPE_FINDER_METHOD,
-				EJBFinderMethodDecoratorImpl.class.getName());
+			"org.omg.uml.foundation.core.Operation$Impl",
+			EJBProfile.STEREOTYPE_FINDER_METHOD,
+			EJBFinderMethodDecoratorImpl.class.getName());
 		
 		decoratorFactory.registerDecoratorClass(
 			"org.omg.uml.foundation.core.Attribute$Impl",
@@ -33,19 +33,16 @@ public class EJBCartridge extends DefaultAndroMDACartridge {
 			EJBPrimaryKeyDecoratorImpl.class.getName());
 		
 		decoratorFactory.registerDecoratorClass(
-				"org.omg.uml.foundation.core.UmlClass$Impl",
-				null,
-				EJBEntityDecoratorImpl.class.getName());
+			"org.omg.uml.foundation.core.UmlClass$Impl",
+			EJBEntityDecoratorImpl.class.getName());
 
 		decoratorFactory.registerDecoratorClass(
-				"org.omg.uml.foundation.core.Interface$Impl",
-				null,
-				EJBEntityDecoratorImpl.class.getName());
+			"org.omg.uml.foundation.core.Interface$Impl",
+			EJBEntityDecoratorImpl.class.getName());
 		
 		decoratorFactory.registerDecoratorClass(
-				"org.omg.uml.foundation.core.AssociationEnd$Impl",
-				null,
-				EJBAssociationEndDecoratorImpl.class.getName());
+			"org.omg.uml.foundation.core.AssociationEnd$Impl",
+			EJBAssociationEndDecoratorImpl.class.getName());
 		
 
 		decoratorFactory.setActiveNamespace (oldNamespace);
