@@ -2,7 +2,7 @@
 
 <project>
 	<extend>../project.xml</extend>
-  	<id>andromda-cartridges</id>
+  	<id>andromda</id>
   	<groupId>andromda-cartridges</groupId>
   	<name>AndroMDA Cartridges</name>
   	<inceptionYear>2003</inceptionYear>
@@ -16,6 +16,14 @@
     	<connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot:cartridges/${pom.artifactId.replaceAll('andromda-', '').replaceAll('cartridge', '')}</connection>
     	<url>http://cvs.sourceforge.net/viewcvs.py/andromda/cartridges/${pom.artifactId.replaceAll('andromda-', '').replaceAll('cartridge', '')}</url>
   	</repository>
+ 	<dependencies> 
+    	<dependency>
+	      	<groupId>andromda</groupId>
+	      	<artifactId>maven-andromda-plugin</artifactId>
+	      	<version>${pom.currentVersion}</version>
+	      	<type>plugin</type>
+	    </dependency>
+	</dependencies>
   	<build>
     	<sourceDirectory>src/java</sourceDirectory>
     	<unitTestSourceDirectory>src/test</unitTestSourceDirectory>

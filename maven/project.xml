@@ -24,21 +24,6 @@
   	</developers>
 	<dependencies>
     	<dependency>
-	      	<groupId>andromda</groupId>
-	      	<artifactId>andromda-core</artifactId>
-	      	<version>3.0-SNAPSHOT</version>
-	    </dependency>
-    	<dependency>
-	      	<groupId>andromda</groupId>
-	      	<artifactId>andromda-metafacades-uml</artifactId>
-	      	<version>3.0-SNAPSHOT</version>
-	    </dependency>
-    	<dependency>
-	      	<groupId>andromda</groupId>
-	      	<artifactId>andromda-metafacades-uml14</artifactId>
-	      	<version>3.0-SNAPSHOT</version>
-	    </dependency>
-    	<dependency>
 	      	<groupId>commons-beanutils</groupId>
 	      	<artifactId>commons-beanutils</artifactId>
 	      	<version>1.6.1</version>

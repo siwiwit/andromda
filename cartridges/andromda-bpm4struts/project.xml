@@ -40,10 +40,5 @@
 	      	<artifactId>andromda-meta-cartridge</artifactId>
 	      	<version>${pom.currentVersion}</version>
 	    </dependency>     
-    	<dependency>
-	      	<groupId>andromda-cartridges</groupId>
-	      	<artifactId>andromda-meta-cartridge</artifactId>
-	      	<version>${pom.currentVersion}</version>
-	    </dependency>    
 	</dependencies>
 </project>
