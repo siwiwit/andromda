@@ -113,9 +113,8 @@ public class EJBEntityFacadeLogicImpl
 
         Iterator i = this.getAssociationEnds().iterator();
         while (i.hasNext()) {
-            Object test = i.next();
             EJBAssociationEndFacade assoc =
-                (EJBAssociationEndFacade)test;
+                (EJBAssociationEndFacade)i.next(); 
             ClassifierFacade target = assoc.getOtherEnd().getType();
             if (target instanceof EJBEntityFacade
                 && assoc.getOtherEnd().isNavigable()) {
