@@ -117,27 +117,23 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
 
         return null;
     }
-
+    
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getFullyQualifiedName()
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getFullyQualifiedName(boolean)
      */
-    public String getFullyQualifiedName()
-    {
-        String fullName = getName();
-
-        if (isPrimitiveType())
-        {
-            return fullName;
-        }
-
-        String packageName = getPackageName();
-        fullName =
-            "".equals(packageName)
-                ? fullName
-                : packageName + "." + fullName;
-
-        return fullName;
-    }
+    public java.lang.String getFullyQualifiedName() 
+	{
+    	String name = metaObject.getName();
+    	
+    	// TODO: this will be removed when I'm able to update the metadecorator
+    	// model to use datatypes; and in fact, this entire method
+    	// should just be moved down to model element and removed from
+    	// this element entirely.
+    	if (this.isPrimitiveType()) {
+    		return name;
+    	}
+    	return super.getFullyQualifiedName();
+    }	
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#isPrimitiveType()

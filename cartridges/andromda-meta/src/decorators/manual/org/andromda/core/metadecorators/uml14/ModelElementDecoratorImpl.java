@@ -72,19 +72,38 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     }
 
     /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getFullyQualifiedName(boolean)
+     */
+    public java.lang.String getFullyQualifiedName(boolean modelName) 
+	{
+    	String fullName = metaObject.getName();
+    	
+    	String packageName = getPackageName();
+
+    	if (StringUtils.isNotEmpty(packageName)) 
+    	{
+    		fullName = packageName + "." + fullName;
+    	}
+
+    	if (!modelName) 
+    	{	
+    		if (this.getLanguageMappings() != null) 
+    		{
+    			fullName = StringUtils.deleteWhitespace(
+    					this.getLanguageMappings().getTo(fullName));
+    		}
+    	}
+    	
+    	return fullName;
+    }	
+
+    /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getFullyQualifiedName()
      */
-    public String getFullyQualifiedName()
-    {
-        String fullName = getName();
-        String packageName = getPackageName();
-        fullName =
-            "".equals(packageName)
-                ? fullName
-                : packageName + "." + fullName;
-
-        return fullName;
-    }
+    public java.lang.String getFullyQualifiedName() 
+	{
+    	return this.getFullyQualifiedName(false);
+    }	
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#findTaggedValue(java.lang.String)

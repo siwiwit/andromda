@@ -60,7 +60,7 @@
 	</mapping>
 	<mapping>
 	  	<from>datatype.Boolean</from>
-	  	<to>java.lang.Boolean</to>
+	  	<to>boolean</to>
 	</mapping>
 	<mapping>
 	  	<from>datatype.Collection</from>
