@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.metadecorators.uml14.AttributeDecorator;
-import org.omg.uml.foundation.core.Attribute;
 
 /**
  * Metaclass decorator implementation for org.omg.uml.foundation.core.Attribute.
@@ -47,9 +46,9 @@ public class EJBPrimaryKeyDecoratorImpl extends EJBPrimaryKeyDecorator {
 	 * @return the attribute used as primary key, or <code>null</code> if
 	 *         there is none or the class has a complex primary key.
 	 */
-	private Attribute getSimplePkField() {
+	private AttributeDecorator getSimplePkField() {
 		Collection primaryKeys =
-			((EJBEntityDecorator) decoratedElement(this.getOwner())).getPrimaryKeyFields();
+			((EJBEntityDecorator) this.getOwner()).getPrimaryKeyFields();
 		if (primaryKeys.size() != 1) {
 			return null;
 		} else {
