@@ -124,13 +124,11 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
      *                         generated
      * @param  stereotypeName  name of the stereotype which should trigger code
      *                         generation
-     * @throws  CartridgeException  if something goes wrong
      */
     public void processModelElement(
         CodeGenerationContext context,
         Object modelElement,
         String stereotypeName)
-        throws CartridgeException
     {
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         String previousNamespace = df.getActiveNamespace();
@@ -160,7 +158,6 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         CodeGenerationContext context,
         Object modelElement,
         String stereotypeName)
-        throws CartridgeException
     {
         String packageName =
             context.getModelFacade().getPackageName(modelElement);
@@ -199,13 +196,11 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
      * @param  outFile         file to which to write the output
      * @param  generateEmptyFile flag, tells whether to generate empty
      *                         files or not.
-     * @throws  CartridgeException  if something goes wrong
      */
     private void processModelElementWithOneTemplate(
         CodeGenerationContext context,
         Object modelElement,
         TemplateConfiguration tc)
-        throws CartridgeException
     {
         final String modelElementName =
             context.getModelFacade().getName(modelElement);
@@ -239,7 +234,6 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         CodeGenerationContext context,
         Object modelElement,
         TemplateConfiguration tc)
-        throws CartridgeException
     {
         String modelElementName =
             context.getModelFacade().getName(modelElement);
@@ -294,7 +288,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             writer.flush();
             writer.close();
         }
-        catch (Exception e)
+        catch (Throwable th)
         {
             try
             {
@@ -304,14 +298,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             catch (Exception e2)
             {
             }
+            String errMsg = "Error processing velocity script on --> '" 
+                + modelElementName + "'";
 
-            logger.error(
-                "Error processing velocity script on " + modelElementName,
-                e);
+            logger.error(errMsg, th);
 
-            throw new CartridgeException(
-                "Error processing velocity script on " + modelElementName,
-                e);
+            throw new CartridgeException(errMsg, th);
         }
 
         // Handle file generation/removal if no files should be generated for
@@ -376,13 +368,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                             StdoutLogger.info("Output: " + outFile);
                         }
                     }
-                    catch (Exception e)
+                    catch (Throwable th)
                     {
-                        StdoutLogger.error(e);
-                        throw new CartridgeException(
-                            "Error writing output file "
-                                + outFile.getName(),
-                            e);
+                        String errMsg = "Error writing output file "
+                                + outFile.getName();
+                        StdoutLogger.error(th);
+                        throw new CartridgeException(errMsg,th);
                     }
                 }
                 else
@@ -439,7 +430,6 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         VelocityContext velocityContext,
         TemplateConfiguration tc,
         String outputLocation)
-        throws CartridgeException
     {
         try
         {
@@ -453,12 +443,11 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
 
             return new File(outputLocation, writer.getBuffer().toString());
         }
-        catch (Exception e)
+        catch (Throwable th)
         {
-            logger.error(e);
-            throw new CartridgeException(
-                "Error building file name from Velocity expression",
-                e);
+            String errMsg = "Error building file name from Velocity expression";
+            logger.error(errMsg, th);
+            throw new CartridgeException(errMsg, th);
         }
     }
 
