@@ -63,40 +63,16 @@
         </modelElements>
     </template>
 
-<!--
     <template
-        sheet="templates/StrutsFormValidationDynamicJavascript.vsl"
-        outputPattern="$generatedFile"
+        sheet="templates/StrutsFormValidationStaticJavascript.vsl"
+        outputPattern="form-validation.jsp"
         outlet="pages"
         overWrite="true">
         <modelElements variable="class">
-            <modelElement stereotype="FrontEndView"/>
+            <modelElement stereotype="FrontEndApplication"/>
         </modelElements>
     </template>
--->
 
-
-
-
-
-
-
-
-<!--
-
-
-
-
-
-    <template
-        sheet="templates/StrutsFormValidationStaticJavascript.vsl"
-        outputPattern="{0}/form-validation.jsp"
-        outlet="pages"
-        overWrite="true">
-        <stereotype name="FrontEndWorkflow"/>
-    </template>
-
--->
     <template
         sheet="templates/StrutsFormValidationRules.vsl"
         outputPattern="validator-rules.xml"
