@@ -18,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class TemplateConfiguration
 {
-    private CartridgeDescriptor cartridgeDescriptor;
 
     /**
      * The default constructor used by the XmlObjectFactory to 
