@@ -276,10 +276,15 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
 #set ($firstFieldName = false)
 #end
 ## ----END---- it has been determined how to specify the focus field
-#if ($firstFieldName)
-        <html:form action="${action.actionPath}.do" focus="$firstFieldName" onsubmit="return ${action.formValidationMethodName}(this);">
+#if ($actionParameters.isEmpty())
+#set ($onsubmit = "")
 #else
-        <html:form action="${action.actionPath}.do" onsubmit="$action.formValidationMethodName" onsubmit="return ${action.formValidationMethodName}(this);">
+#set ($onsubmit = "return ${action.formValidationMethodName}(this);")
+#end
+#if ($firstFieldName)
+        <html:form action="${action.actionPath}.do" focus="$firstFieldName" onsubmit="$onsubmit">
+#else
+        <html:form action="${action.actionPath}.do" onsubmit="$action.formValidationMethodName" onsubmit="$onsubmit">
 #end
             <table cellpadding="5" cellspacing="5" border="0">
 #foreach ($field in $actionParameters)
