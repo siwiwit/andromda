@@ -20,7 +20,7 @@ $class.getDocumentation(" ")
  *     name="$entityname"
  *     type="CMP" cmp-version="2.x"
  *     view-type="local"
- *     local-jndi-name = "#ejbRefName($class)/Local"
+ *     local-jndi-name = "${ejbRefName}/Local"
 ###end
 #if (!$primaryKeyAttribute.complex)
  *     primkey-field = "${primaryKeyAttribute.name}"

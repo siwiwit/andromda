@@ -1,11 +1,13 @@
 <cartridge name="ejb">
 
+	<templateEngine>
+	    <!-- library of macros used in template engine -->
+        <macrolibrary name="templates/EJB.vm" />
+    </templateEngine>
+
     <!-- define the template objects that are made availble to the template -->
     <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
     <templateObject name="transform" className="org.andromda.cartridges.ejb.EJBScriptHelper"/>
-
-	<!-- library of macros used in templates -->
-    <macrolibrary name="templates/EJB.vm" />
     
 	<!-- the official template definitions -->
     <template

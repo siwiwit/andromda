@@ -24,8 +24,8 @@ $class.getDocumentation(" ")
  *     name="$servicename"
  *     type="$servicetype"
  *     view-type="$viewtype"
- *     jndi-name = "#ejbRefName($class)/Remote"
- *     local-jndi-name = "#ejbRefName($class)/Local"
+ *     jndi-name = "${ejbRefName}/Remote"
+ *     local-jndi-name = "${ejbRefName}/Local"
  *
  * @ejb.interface 
  *     local-class="${packagename}.${servicename}Local"

@@ -30,8 +30,8 @@ public interface ${servicename}Home  extends $parentInterface {
 ## Only expose constants and create methods on concrete EJBs.
 #if (!$class.isAbstract())
     // -- accessors for environment entries and constants --
-	public static final String COMP_NAME="java:comp/env/#ejbRefName($class)/Remote";
-	public static final String JNDI_NAME="#ejbRefName($class)/Remote";
+	public static final String COMP_NAME="java:comp/env/${ejbRefName}/Remote";
+	public static final String JNDI_NAME="${ejbRefName}/Remote";
 
 
     // ---------------- create methods --------------------
@@ -41,7 +41,6 @@ public interface ${servicename}Home  extends $parentInterface {
 
     /**
 $op.getDocumentation("    ")
-     *
      */
     public ${servicename} create($op.typedParameterList)
            throws javax.ejb.CreateException, java.rmi.RemoteException;
