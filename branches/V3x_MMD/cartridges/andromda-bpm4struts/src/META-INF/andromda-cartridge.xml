@@ -104,6 +104,16 @@
     </template>
 
     <template
+        sheet="templates/StrutsCustomMessageResources.vsl"
+        outputPattern="custom-resources.properties"
+        outlet="messages"
+        overWrite="false">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
         sheet="templates/StrutsXDocletMergeMessageResources.vsl"
         outputPattern="struts-message-resources.xml"
         outlet="xdoclet-merge"
