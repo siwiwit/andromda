@@ -17,7 +17,7 @@
   	<postGoal name="war:webapp">
 		<ant:copy
 			file="${maven.build.src}/WEB-INF/struts-config.xml"
-			tofile="${maven.build.dir}/${pom.artifactId}/WEB-INF/struts-config.xml"/>
+			tofile="${maven.war.webapp.dir}/WEB-INF/struts-config.xml"/>
   	</postGoal>
   		 
 </project>
