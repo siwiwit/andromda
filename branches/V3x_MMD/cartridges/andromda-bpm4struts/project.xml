@@ -45,15 +45,5 @@
 	      	<artifactId>andromda-meta-cartridge</artifactId>
 	      	<version>${pom.currentVersion}</version>
 	    </dependency>    
-    	<dependency> 
-    		<groupId>jmi</groupId>
-      		<artifactId>jmiuml</artifactId>
-     		<version>1.4di</version>
-    	</dependency>    
-    	<dependency> 
-    		<groupId>jmi</groupId>
-      		<artifactId>jmi</artifactId>
-     		<version>200401240117</version>
-    	</dependency>   
 	</dependencies>
 </project>
