@@ -9,18 +9,18 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
 
 #foreach ( $dep in $class.dependencies )
-    #set ($class2 = $dep.targetType)
-    #if ($class2)
-        #if ($dep.stereotypeName == "ServiceRef")
-	        #set ($class2packagename = $class2.packageName)
-	        #if ($class2packagename != $class.packageName)
-import ${class2packagename}.${class2.homeInterfaceName});
-	        #end
-	    #end
-    #end
-    #if ($dep.stereotypeName == "Exception")
-        #set ($defaultException = $class2)
-    #end
+#set ($targetType = $dep.targetType)
+#if ($targetType)
+#if ($dep.hasStereotype("ServiceRef"))
+#set ($targetTypePackageName = $targetType.packageName)
+#if ($targetTypePackageName != $class.packageName)
+import ${targetType.fullyQualifiedName}Home;
+#end
+#end
+#end
+#if ($dep.hasStereotype("Exception"))
+#set ($defaultException = $targetType)
+#end
 #end
 ##
 #if ($class.attributes.size() > 0)
@@ -49,9 +49,9 @@ $class.getDocumentation(" ")
  *        local-class="${class.packageName}.${class.name}LocalHome"
  * @ejb.util generate="physical"
 #foreach ( $dep in $class.dependencies )
-#if ($dep.stereotypeName == "ServiceRef")
- #set ($class2 = $dep.targetType)
- * @ejb.ejb-ref ejb-name="${class2.name}" view-type="${class2.viewType}" ref-name="ejb/${class2.name}BeanRef"
+#if ($dep.hasStereotype("ServiceRef"))
+ #set ($targetType = $dep.targetType)
+ * @ejb.ejb-ref ejb-name="${targetType.name}" view-type="${remote}" ref-name="ejb/${targetType}BeanRef"
 #end
 #end
 #foreach ( $tgv in $class.taggedValues )
@@ -257,9 +257,9 @@ $op.getDocumentation("     ")
     // ---------------- accessor methods for (session!) bean references ---------------
 
 #foreach ( $dep in $class.dependencies )
-#if ($dep.stereotypeName == "ServiceRef")
+#if ($dep.hasStereotype("ServiceRef"))
    #set ($referencedClass = $dep.targetType)
-   #set ($homeInterfaceName = $referencedClass.homeInterfaceName)
+   #set ($homeInterfaceName = "${referencedClass.name}Home")
    /**
     * This is to get the reference to the ${referencedClass.name} bean.
     * Obtains local home interface from default initial context
