@@ -156,7 +156,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
     protected ModelElement handleGetServlet()
     {
-        final StrutsActivityGraphDecorator activityGraph = (StrutsActivityGraphDecorator)decoratedElement(getActionState().metaObject.getContainer().getStateMachine());
+        final StrutsActivityGraphDecorator activityGraph = (StrutsActivityGraphDecorator)getActionState().getActivityGraph();
         final UseCase useCase = activityGraph.getUseCase().metaObject;
         final Collection controllers = getFormBean().getServlets();
 
