@@ -10,9 +10,11 @@ import javax.jmi.model.MofPackage;
 import javax.jmi.reflect.RefPackage;
 import javax.jmi.xmi.MalformedXMIException;
 
+import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
-import org.andromda.core.common.StdoutLogger;
+import org.andromda.core.uml14.UMLModelFacade;
+import org.apache.log4j.Logger;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRManager;
 import org.netbeans.api.mdr.MDRepository;
@@ -23,10 +25,13 @@ import org.netbeans.api.xmi.XMIReaderFactory;
  * Implements an AndroMDA object model repository by using the
  * <a href="http://mdr.netbeans.org">NetBeans MetaDataRepository</a>.
  *
- * @author <A HREF="http://www.amowers.com">Anthony Mowers</A>
+ * @author <A HREF="httplo://www.amowers.com">Anthony Mowers</A>
  */
 public class MDRepositoryFacade implements RepositoryFacade
 {
+	
+	private static Logger logger = Logger.getLogger(MDRepositoryFacade.class);
+	
     protected final static String META_PACKAGE = "UML";
 
     static {
@@ -81,13 +86,14 @@ public class MDRepositoryFacade implements RepositoryFacade
         MDRManager.getDefault().getDefaultRepository().endTrans(true);
     }
 
-    /**
-     * @see org.andromda.core.common.RepositoryFacade#readModel(URL)
+    /* (non-Javadoc)
+     * @see org.andromda.core.common.RepositoryFacade#readModel(java.net.URL, java.lang.String[])
      */
-    public void readModel(URL modelURL)
+    public void readModel(URL modelURL, String[] moduleSearchPath)
         throws RepositoryReadException, IOException
     {
-        log("MDR: creating repository");
+    	if (logger.isDebugEnabled())
+    		logger.debug("creating repository");
 
         this.modelURL = modelURL;
 
@@ -98,7 +104,7 @@ public class MDRepositoryFacade implements RepositoryFacade
         {
             MofPackage metaModel = loadMetaModel(metaModelURL, repository);
 
-            this.model = loadModel(modelURL, metaModel, repository);
+            this.model = loadModel(modelURL, moduleSearchPath, metaModel, repository);
         }
         catch (CreationFailedException cfe)
         {
@@ -113,7 +119,8 @@ public class MDRepositoryFacade implements RepositoryFacade
         finally {
         }
 
-        log("MDR: created repository");
+        if (logger.isDebugEnabled())
+        	logger.debug("created repository");
     }
 
     /**
@@ -134,7 +141,7 @@ public class MDRepositoryFacade implements RepositoryFacade
         catch (IOException ioe)
         {
             // log and then eat the exception
-            log(ioe);
+            logger.error(ioe);
         }
 
         return lastModified;
@@ -143,9 +150,9 @@ public class MDRepositoryFacade implements RepositoryFacade
     /**
      * @see org.andromda.core.common.RepositoryFacade#getModel()
      */
-    public Object getModel()
+    public ModelFacade getModel()
     {
-        return this.model;
+        return new UMLModelFacade(this.model);
     }
 
     /**
@@ -163,7 +170,8 @@ public class MDRepositoryFacade implements RepositoryFacade
         MDRepository repository)
         throws CreationFailedException, IOException, MalformedXMIException
     {
-        log("MDR: creating MetaModel using URL =" + metaModelURL.toExternalForm());
+    	if (logger.isDebugEnabled()) 
+    		logger.debug("creating MetaModel using URL --> '" + metaModelURL + "'");
 
         // Use the metaModelURL as the name for the repository extent.
         // This ensures we can load mutiple metamodels without them colliding.
@@ -190,7 +198,8 @@ public class MDRepositoryFacade implements RepositoryFacade
             metaModelPackage = findPackage(META_PACKAGE, metaModelExtent);
         }
 
-        log("MDR: created MetaModel");
+        if (logger.isDebugEnabled())
+        	logger.debug("created MetaModel");
         return metaModelPackage;
     }
 
@@ -209,26 +218,38 @@ public class MDRepositoryFacade implements RepositoryFacade
      */
     private static RefPackage loadModel(
         URL modelURL,
+        String[] moduleSearchPath,
         MofPackage metaModel,
         MDRepository repository)
         throws CreationFailedException, IOException, MalformedXMIException
     {
-        log("MDR: creating Model");
-
+    	if (logger.isDebugEnabled())
+    		logger.debug("creating model");
+    	
         RefPackage model = repository.getExtent("MODEL");
         if (model != null)
         {
-            log("MDR: deleting exising model");
+        	if (logger.isDebugEnabled())
+        		logger.debug("deleting existing model");
             model.refDelete();
         }
 
-        log("MDR: creating model extent");
+        if (logger.isDebugEnabled())
+        	logger.debug("creating model extent");
+        
         model = repository.createExtent("MODEL", metaModel);
-        log("MDR: created model extent");
+        
+        if (logger.isDebugEnabled()) 
+        	logger.debug("created model extent");
 
-        XMIReader xmiReader = XMIReaderFactory.getDefault().createXMIReader();
+        XMIReader xmiReader =
+        	XMIReaderFactory.getDefault().createXMIReader(
+        			new MDRXmiReferenceResolver(
+        					new RefPackage[] { model }, moduleSearchPath));
 
-        log("MDR: reading XMI - " + modelURL.toExternalForm());
+        if (logger.isDebugEnabled())
+        	logger.debug("reading model XMI --> '" + modelURL + "'");
+
         try
         {
             xmiReader.read(modelURL.toExternalForm(), model);
@@ -238,9 +259,10 @@ public class MDRepositoryFacade implements RepositoryFacade
             e.printStackTrace();
             throw new IOException("could not read XMI");
         }
-        log("MDR: read XMI ");
-
-        log("MDR: created Model");
+        if (logger.isDebugEnabled()) 
+        	logger.debug("reads XMI");
+        if (logger.isDebugEnabled())
+        	logger.debug("created model");
         return model;
     }
 
@@ -269,11 +291,5 @@ public class MDRepositoryFacade implements RepositoryFacade
         }
 
         return null;
-    }
-
-
-    static private void log(Object object)
-    {
-        StdoutLogger.info(object);
     }
 }

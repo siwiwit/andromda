@@ -1,8 +1,9 @@
 package org.andromda.core.anttasks;
 
 import org.andromda.core.common.RepositoryFacade;
-import org.andromda.core.common.ScriptHelper;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.Path;
 
 /**
  * 
@@ -28,144 +29,92 @@ import org.apache.tools.ant.BuildException;
  */
 public class RepositoryConfiguration
 {
-	private static final String DEFAULT_REPOSITORY_CLASSNAME =
-		"org.andromda.core.mdr.MDRepositoryFacade";
-    private static final String DEFAULT_SCRIPT_HELPER_CLASSNAME =
-        "org.andromda.core.simpleuml.SimpleOOHelper";
-	private Class repositoryClass = null;
-	private Class scriptHelperClass = null;
+    private Project project;
+    private Path moduleSearchPath = null;
+    private static final String DEFAULT_REPOSITORY_CLASSNAME =
+        "org.andromda.core.mdr.MDRepositoryFacade";
+    private Class repositoryClass = null;
 
-
-	/**
-	 * Sets the name of the class to use as the repository.  The
+    public RepositoryConfiguration(Project project)
+    {
+        this.project = project;
+    }
+    
+    /**
+     * Sets the name of the class to use as the repository.  The
      * class must implement the RepositoryFacade interface.
      * 
      * @see org.andromda.core.common.RepositoryFacade
      * 
-	 * @param repositoryClassName
-	 */
-	public void setClassname(String repositoryClassName)
-	{
-		try
-		{
-			repositoryClass = Class.forName(repositoryClassName);
-		}
-		catch (ClassNotFoundException cnfe)
-		{
-			throw new BuildException(cnfe);
-		}
-
-	}
-    
-	/**
-	 * Sets the name of the class that is used by AndroMDA to
-     * access object model elements from within he repository.  The
-     * class must implement the ScriptHelper interface.
-     * 
-     * <p> Unless specified otherwise by use of the
-     * <code>&lt;template&gt;</code> tag this transformer
-     * object will be the object used the code generation scripts
-     * to access the object model. </p>
-     * 
-     * @see org.andromda.cartridges.interfaces.TemplateConfiguration
-     * @see org.andromda.core.common.ScriptHelper
-     * 
-	 * @param scriptHelperClassName
-	 */
-    public void setTransformClassname(String scriptHelperClassName)
+     * @param repositoryClassName
+     */
+    public void setClassname(String repositoryClassName)
     {
         try
         {
-            scriptHelperClass = Class.forName(scriptHelperClassName);
+            repositoryClass = Class.forName(repositoryClassName);
         }
         catch (ClassNotFoundException cnfe)
         {
             throw new BuildException(cnfe);
         }
+
     }
 
-	/**
-	 * Creates an instance of the repository.
+    /**
+     * Creates an instance of the repository.
      * 
-	 * @return RepositoryFacade
-	 */
-	public RepositoryFacade createRepository()
-	{
-		RepositoryFacade instance = null;
+     * @return RepositoryFacade
+     */
+    public RepositoryFacade createRepository()
+    {
+        RepositoryFacade instance = null;
 
-		try
-		{
-			if (repositoryClass == null)
-			{
-				// use the default repository implementation
-				repositoryClass =
-					Class.forName(DEFAULT_REPOSITORY_CLASSNAME);
-			}
-			instance = (RepositoryFacade) repositoryClass.newInstance();
-		}
-		catch (ClassNotFoundException cnfe)
-		{
-			throw new BuildException(
-				DEFAULT_REPOSITORY_CLASSNAME + " class could not be found",
-				cnfe);
-		}
-		catch (InstantiationException ie)
-		{
-			throw new BuildException(
-				"could not instantiate repository " + repositoryClass);
-		}
-		catch (IllegalAccessException iae)
-		{
-			throw new BuildException(
-				"unable to access repository constructor "
-					+ repositoryClass
-					+ "()");
-		}
-
-		return instance;
-	}
-
-
-
-	/**
-	 * Creates an instance of the object model Transfomer.
-     * 
-	 * @return ScriptHelper
-	 */
-	public ScriptHelper createTransform()
-	{
-		ScriptHelper instance = null;
-
-		try
-		{
-            if (scriptHelperClass == null)
+        try
+        {
+            if (repositoryClass == null)
             {
-                // use the default script helper implementation
-                scriptHelperClass =
-                    Class.forName(DEFAULT_SCRIPT_HELPER_CLASSNAME);
+                // use the default repository implementation
+                repositoryClass =
+                    Class.forName(DEFAULT_REPOSITORY_CLASSNAME);
             }
-			instance = (ScriptHelper) scriptHelperClass.newInstance();
-		}
+            instance = (RepositoryFacade) repositoryClass.newInstance();
+        }
         catch (ClassNotFoundException cnfe)
         {
             throw new BuildException(
-                DEFAULT_SCRIPT_HELPER_CLASSNAME + " class could not be found",
+                DEFAULT_REPOSITORY_CLASSNAME + " class could not be found",
                 cnfe);
         }
-		catch (InstantiationException ie)
-		{
-			throw new BuildException(
-				"could not instantiate transform " + scriptHelperClass);
-		}
-		catch (IllegalAccessException iae)
-		{
-			throw new BuildException(
-				"unable to access transform constructor "
-					+ scriptHelperClass
-					+ "()");
-		}
+        catch (InstantiationException ie)
+        {
+            throw new BuildException(
+                "could not instantiate repository " + repositoryClass);
+        }
+        catch (IllegalAccessException iae)
+        {
+            throw new BuildException(
+                "unable to access repository constructor "
+                    + repositoryClass
+                    + "()");
+        }
 
-		return instance;
-	}
+        return instance;
+    }
 
+    /**
+     * Handles the nested &lt;moduleSearchPath&gt; element.
+     * The user can specify her own search path for submodels
+     * of the models that she is going to process.
+     * 
+     * @return Path the module search path
+     */
+    public Path createModuleSearchPath()
+    {
+        if (moduleSearchPath == null)
+        {
+            moduleSearchPath = new Path(project);
+        }
+        return moduleSearchPath;
+    }
 }
