@@ -27,7 +27,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	 *         type field is illegal accessed.
 	 */
 	public static Class loadClass(String className) 
-		throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+		throws ClassNotFoundException {
 		final String methodName = "ClassUtils.loadClass";
 		ExceptionUtils.checkEmpty(methodName, "className", className);
 		className = StringUtils.trimToNull(className);
@@ -64,8 +64,7 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	 * @throws IllegalAccessException
 	 * @throws ClassNotFoundException
 	 */
-	protected static Class getPrimitiveClass(String name, ClassLoader loader)
-		throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
+	protected static Class getPrimitiveClass(String name, ClassLoader loader) {
 		final String methodName = "ClassUtils.getPrimitiveClass";
 		ExceptionUtils.checkEmpty(methodName, "name", name);
 		ExceptionUtils.checkNull(methodName, "loader", loader);
