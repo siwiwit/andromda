@@ -225,6 +225,23 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
     	return attributes;		
     }
     
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getAbstractions()
+     */
+    public Collection getAbstractions() {
+    	Collection clientDependencies =
+    		this.getDependencies();
+    		
+    	class AbstractionFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return object instanceof Abstraction;
+    		}
+    	}
+    	
+    	CollectionUtils.filter(clientDependencies, new AbstractionFilter());
+    	return clientDependencies;
+    }
+    
     // ------------------------------------------------------------
 
 }
