@@ -1,8 +1,8 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
+import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.metafacades.uml.*;
-import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 
 import java.util.*;
 
@@ -16,15 +16,22 @@ public class StrutsActionLogicImpl
         extends StrutsActionLogic
         implements org.andromda.cartridges.bpm4struts.metafacades.StrutsAction
 {
-    private final Collection effectTransitions = new HashSet();
-    private final Collection forwardActionTransitions = new HashSet();
-    private final Collection decisionTransitions = new HashSet();
+    private Collection effectTransitions = null;
+    private Collection forwardActionTransitions = null;
+    private Collection decisionTransitions = null;
 
     // ---------------- constructor -------------------------------
     
     public StrutsActionLogicImpl(Object metaObject, String context)
     {
         super(metaObject, context);
+    }
+
+    private void initializeCollections()
+    {
+        effectTransitions = new HashSet();
+        forwardActionTransitions = new HashSet();
+        decisionTransitions = new HashSet();
         collectTransitions(this);
     }
 
@@ -70,7 +77,10 @@ public class StrutsActionLogicImpl
 
     private ClassifierFacade getContextClass()
     {
-        return null; // todo
+        ModelElementFacade contextElement = getSource().getActivityGraph().getContextElement();
+        return (contextElement instanceof ClassifierFacade)
+            ? (ClassifierFacade)contextElement
+            : null;
     }
 
     /**
@@ -104,15 +114,13 @@ public class StrutsActionLogicImpl
      */
     public java.lang.String getActionRoles()
     {
-        Collection users = getUsers();
-
+        final Collection users = getUsers();
         StringBuffer rolesBuffer = new StringBuffer();
         for (Iterator userIterator = users.iterator(); userIterator.hasNext();)
         {
             StrutsUser strutsUser = (StrutsUser) userIterator.next();
             rolesBuffer.append(strutsUser.getRole() + ' ');
         }
-
         return StringUtilsHelper.separate(rolesBuffer.toString(), ",");
     }
 
@@ -153,7 +161,7 @@ public class StrutsActionLogicImpl
         {
             type = Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE_FORM;
         }
-        return Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE_HYPERLINK.equalsIgnoreCase(type);
+        return !Bpm4StrutsProfile.TAGGED_VALUE_ACTION_TYPE_HYPERLINK.equalsIgnoreCase(type);
     }
 
     public boolean isHyperlinkAction()
@@ -200,9 +208,8 @@ public class StrutsActionLogicImpl
     public java.util.Collection handleGetUsers()
     {
         Collection users = new LinkedHashSet();
-
-        UseCaseFacade useCase = (UseCaseFacade)getActivityGraph().getNamespace();
-        final Collection associationEnds = ((ClassifierFacade)shieldedElement(useCase)).getAssociationEnds();
+        UseCaseFacade useCase = findUseCaseContext(getSource().getActivityGraph());
+        final Collection associationEnds = useCase.getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
             final AssociationEndFacade associationEnd = (AssociationEndFacade)iterator.next();
@@ -214,8 +221,21 @@ public class StrutsActionLogicImpl
                 users.addAll(user.getGeneralizedUsers());
             }
         }
-
         return users;
+    }
+
+    private UseCaseFacade findUseCaseContext(ActivityGraphFacade graph)
+    {
+        Collection useCases = getModel().getAllUseCases();
+        for (Iterator iterator = useCases.iterator(); iterator.hasNext();)
+        {
+            UseCaseFacade useCaseFacade = (UseCaseFacade) iterator.next();
+            if (useCaseFacade.getOwnedElements().contains(graph))
+            {
+                return useCaseFacade;
+            }
+        }
+        return null;
     }
 
     /**
@@ -250,16 +270,28 @@ public class StrutsActionLogicImpl
 
     protected Collection handleGetForwardActionTransitions()
     {
+        if (forwardActionTransitions == null)
+        {
+            initializeCollections();
+        }
         return forwardActionTransitions;
     }
 
     protected Collection handleGetDecisionTransitions()
     {
+        if (decisionTransitions == null)
+        {
+            initializeCollections();
+        }
         return decisionTransitions;
     }
 
     protected Collection handleGetEffectTransitions()
     {
+        if (effectTransitions == null)
+        {
+            initializeCollections();
+        }
         return effectTransitions;
     }
 

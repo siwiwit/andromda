@@ -1,6 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
+import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 
 
 /**
@@ -66,7 +67,7 @@ public class StrutsParameterLogicImpl
      */
     public java.lang.String getMessageKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(getNamespace().getName() + ' ' + getName());
+        return StringUtilsHelper.toResourceMessageKey(getNameSpace().getName() + ' ' + getName());
     }
 
     /**
@@ -95,18 +96,55 @@ public class StrutsParameterLogicImpl
 
     public String getWidgetType()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        final String fieldType = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE);
+
+        if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_TEXTBLOCK.equalsIgnoreCase(fieldType))
+        {
+            return "textarea";
+        }
+        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_CHOICE.equalsIgnoreCase(fieldType))
+        {
+            return "radio";
+        }
+        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_OPTION.equalsIgnoreCase(fieldType))
+        {
+            return "checkbox";
+        }
+        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_SELECT.equalsIgnoreCase(fieldType))
+        {
+            return "select";
+        }
+        else
+        {
+            return "text";
+        }
+    }
+
+    public boolean isMultiple()
+    {
+        try
+        {
+            Class clazz = Class.forName(getType().getFullyQualifiedName());
+            if (clazz.isArray()) return true;
+            Class collectionInterface = Class.forName("java.util.Collection");
+            return collectionInterface.isAssignableFrom(clazz);
+        }
+        catch(Exception exception)
+        {
+            return false;
+        }
     }
 
     public boolean hasBackingList()
     {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return "select".equals(getWidgetType()) && isMultiple();
     }
 
     public String getBackingListName()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return getName() + "BackingList";
     }
+    
     // ------------- relations ------------------
 
 }
