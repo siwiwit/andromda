@@ -10,7 +10,7 @@ import java.util.Map;
  * @author  <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * 
  */
-public interface ICartridgeDescriptor {
+public interface CartridgeDescriptor {
     
     /**
      * Returns the name of this cartridge.
@@ -32,15 +32,6 @@ public interface ICartridgeDescriptor {
      */
     public Map getProperties();
     
-    /*
-     * Gets the list of defined outlets. An outlet is a short alias name for a
-     * path where output files will be written. A later step associates this
-     * name with a concrete physical directory name.
-
-     * @return List the outlets
-     */
-    public List getOutlets();
-    
     /**
      * Returns the list of templates configured in this cartridge.
      * 
@@ -56,6 +47,15 @@ public interface ICartridgeDescriptor {
      * @return List the list of macros
      */
     public List getMacroLibraries();
+    
+    /**
+     * Returns the Map of template objects made available to
+     * the templates.  (i.e. stringUtils of type org.apache.commons.lang.StringUtils
+     * can be defined in the cartridge as a template object and made
+     * available to the template at processing time).
+     * @return the Map of template objects keyed by name.
+     */
+    public Map getTemplateObjects();
         
     /**
      * Gets the URL where this descriptor data came from.

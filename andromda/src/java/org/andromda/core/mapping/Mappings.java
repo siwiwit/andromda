@@ -123,10 +123,10 @@ public class Mappings {
 	/**
 	 * Returns the to mapping for the given <code>from</code> mapping.
 	 *
-	 * @param from the 'from' mapping, this is the type/identifier
+	 * @param from the <code>from</code> mapping, this is the type/identifier
 	 *        that is in the model.
-	 * @return String to the 'to' mapping (this is the mapping that
-	 *         can be retrieved if a corresponding 'from' is found.
+	 * @return String to the <code>to</code> mapping (this is the mapping that
+	 *         can be retrieved if a corresponding <code>from</code> is found).
 	 */
 	public String getTo(String from) {
 		from = StringUtils.deleteWhitespace(from);

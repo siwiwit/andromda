@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.andromda.cartridges.interfaces.CartridgeXmlParser;
+import org.andromda.cartridges.interfaces.CartridgeDescriptor;
 import org.andromda.cartridges.interfaces.DefaultAndroMDACartridge;
+import org.andromda.cartridges.interfaces.DefaultCartridgeDescriptor;
 import org.andromda.cartridges.interfaces.IAndroMDACartridge;
-import org.andromda.cartridges.interfaces.ICartridgeDescriptor;
 import org.andromda.core.common.ResourceFinder;
 import org.apache.log4j.Logger;
 
@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  * @author    <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author    Chad Brandon
  * @since     April 1, 2003
- * @version   $Revision: 1.3.2.1 $
+ * @version   $Revision: 1.3.2.2 $
  */
 public class CartridgeFinder
 {
@@ -32,7 +32,7 @@ public class CartridgeFinder
     private static List cartridges = null;
 
     /**
-     * Returns a List of ICartridgeDescriptor objects
+     * Returns a List of CartridgeDescriptor objects
      *
      * @return a <code>List<code> of cartriges
      */
@@ -42,27 +42,16 @@ public class CartridgeFinder
         {
             cartridges = new ArrayList();
 
-            CartridgeXmlParser parser = new CartridgeXmlParser();
-
             URL cartridgeUris[]= ResourceFinder.findResources(resourceName);
 
             for (int ctr = 0; ctr < cartridgeUris.length; ctr++)
             {
             	URL cartridgeUri = cartridgeUris[ctr];
-                ICartridgeDescriptor cDescriptor =
-                    parser.parse(cartridgeUri.openStream());
-
-                if (cDescriptor != null)
-                {
-                    cDescriptor.setDefinitionURL(cartridgeUri);
-                    IAndroMDACartridge cartridge =
-                        instantiateCartridge(cDescriptor);
-                    cartridges.add(cartridge);
-                }
-                else
-                {
-					logger.error("Could not parse cartridge descriptor --> '" + cartridgeUri + "'");
-                }
+                CartridgeDescriptor cDescriptor = 
+                    DefaultCartridgeDescriptor.getInstance(cartridgeUri);
+                IAndroMDACartridge cartridge =
+                    instantiateCartridge(cDescriptor);
+                cartridges.add(cartridge);
             }
         }
 
@@ -71,7 +60,7 @@ public class CartridgeFinder
         {
             IAndroMDACartridge element =
                 (IAndroMDACartridge) iter.next();
-			logger.info("cartridge found --> '" + element.getDescriptor().getCartridgeName() + "'");
+			logger.info("found cartridge --> '" + element.getDescriptor().getCartridgeName() + "'");
 
         }
         return cartridges;
@@ -82,7 +71,7 @@ public class CartridgeFinder
      * @param cDescriptor the cartridge descriptor
      * @return IAndroMDACartridge
      */
-    private static IAndroMDACartridge instantiateCartridge(ICartridgeDescriptor cd)
+    private static IAndroMDACartridge instantiateCartridge(CartridgeDescriptor cd)
 	{
     	String className = cd.getCartridgeClassName();
     	if (className == null)

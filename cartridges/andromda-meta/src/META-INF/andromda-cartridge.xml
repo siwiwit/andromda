@@ -1,44 +1,39 @@
 <cartridge name="meta">
-    <stereotype name="Decorator" />
-    <stereotype name="metafacade" />
 
-<!-- the outlet names -->
-    <outlet name="decorators" />
-    <outlet name="decorator-impls" />
-    <outlet name="facades" />
-    <outlet name="facade-impls" />
+    <!-- define the template objects that are made availble to the template -->
+    <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
 
-<!-- the template definitions -->
+    <!-- the template definitions -->
     <template
-        stereotype="Decorator"
         sheet="templates/MetaclassDecorator.vsl"
         outputPattern="{0}/{1}.java"
         outlet="decorators"
-        overWrite="true"
-    />
+        overWrite="true">
+        <stereotype name="Decorator"/>    
+    </template>
 
     <template
-        stereotype="Decorator"
         sheet="templates/MetaclassDecoratorImpl.vsl"
         outputPattern="{0}/{1}Impl.java"
         outlet="decorator-impls"
-        overWrite="false"
-    />
+        overWrite="false">
+        <stereotype name="Decorator"/>   
+    </template>
 
     <template
-        stereotype="metafacade"
         sheet="templates/MetaclassDecorator.vsl"
         outputPattern="{0}/{1}.java"
         outlet="facades"
-        overWrite="true"
-    />
+        overWrite="true">
+        <stereotype name="metafacade"/>   
+    </template>
 
     <template
-        stereotype="metafacade"
         sheet="templates/MetaclassDecoratorImpl.vsl"
         outputPattern="{0}/{1}Impl.java"
         outlet="facade-impls"
-        overWrite="false"
-    />
-
+        overWrite="false">
+        <stereotype name="metafacade"/>   
+    </template>
+    
 </cartridge>

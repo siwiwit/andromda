@@ -15,7 +15,6 @@ public class CodeGenerationContext
 {
     private RepositoryFacade repository = null;
     private ModelFacade modelFacade = null;
-    private ScriptHelper scriptHelper = null;
     private boolean lastModifiedCheck = false;
     private Collection userProperties = null;
     private ModelPackages modelPackages;
@@ -23,13 +22,11 @@ public class CodeGenerationContext
     public CodeGenerationContext(
         RepositoryFacade rf,
         ModelFacade mf,
-        ScriptHelper sh,
         boolean lastModifiedCheck,
 		ModelPackages modelPackages,
 		Collection userPropeties)
     {
         this.repository = rf;
-        this.scriptHelper = sh;
         this.modelFacade = mf;
         this.lastModifiedCheck = lastModifiedCheck;
         this.modelPackages = modelPackages;
@@ -61,24 +58,6 @@ public class CodeGenerationContext
     public ModelFacade getModelFacade()
     {
         return modelFacade;
-    }
-
-    /**
-     * Returns the scriptHelper.
-     * @return ScriptHelper
-     */
-    public ScriptHelper getScriptHelper()
-    {
-        return scriptHelper;
-    }
-
-    /**
-     * Sets the scriptHelper.
-     * @param scriptHelper The scriptHelper to set
-     */
-    public void setScriptHelper(ScriptHelper scriptHelper)
-    {
-        this.scriptHelper = scriptHelper;
     }
 
     /**

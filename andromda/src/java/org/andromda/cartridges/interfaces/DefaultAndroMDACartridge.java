@@ -12,12 +12,12 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.andromda.core.anttasks.UserProperty;
 import org.andromda.core.common.CodeGenerationContext;
 import org.andromda.core.common.Namespaces;
-import org.andromda.core.common.ScriptHelper;
 import org.andromda.core.common.StdoutLogger;
 import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.core.metadecorators.uml14.DecoratorFactory;
@@ -46,7 +46,7 @@ import org.omg.uml.foundation.core.ModelElement;
  */
 public class DefaultAndroMDACartridge implements IAndroMDACartridge
 {
-    private ICartridgeDescriptor desc = null;
+    private CartridgeDescriptor desc = null;
 
     private VelocityEngine ve = null;
 
@@ -100,15 +100,15 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
     /**
      * @see org.andromda.cartridges.interfaces.IAndroMDACartridge#getDescriptor()
      */
-    public ICartridgeDescriptor getDescriptor()
+    public CartridgeDescriptor getDescriptor()
     {
         return desc;
     }
 
     /**
-     * @see org.andromda.cartridges.interfaces.IAndroMDACartridge#setDescriptor(org.andromda.cartridges.interfaces.ICartridgeDescriptor)
+     * @see org.andromda.cartridges.interfaces.IAndroMDACartridge#setDescriptor(org.andromda.cartridges.interfaces.CartridgeDescriptor)
      */
-    public void setDescriptor(ICartridgeDescriptor d)
+    public void setDescriptor(CartridgeDescriptor d)
     {
         this.desc = d;
     }
@@ -174,40 +174,13 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         for (Iterator it = templates.iterator(); it.hasNext();)
         {
             TemplateConfiguration tc = (TemplateConfiguration) it.next();
-            if (tc.getStereotype().equals(stereotypeName))
+            if (tc.getStereotypes().contains(stereotypeName))
             {
-                ScriptHelper scriptHelper = context.getScriptHelper();
-
-                if (tc.getTransformClass() != null)
-                {
-                    // template has its own custom script helper
-                    try
-                    {
-                        context.setScriptHelper(
-                            (ScriptHelper) tc
-                                .getTransformClass()
-                                .newInstance());
-                        context.getScriptHelper().setModel(
-                            context.getModelFacade().getModel());
-                    }
-                    catch (IllegalAccessException iae)
-                    {
-                        throw new CartridgeException(iae);
-                    }
-                    catch (InstantiationException ie)
-                    {
-                        throw new CartridgeException(ie);
-                    }
-                }
 
                 processModelElementWithOneTemplate(
                     context,
                     modelElement,
                     tc);
-
-                // restore original script helper in case we were
-                // using a custom template script helper
-                context.setScriptHelper(scriptHelper);
             }
         }
     }
@@ -284,13 +257,24 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                 (UmlPackage) context.getModelFacade().getModel();
             DecoratorFactory df = DecoratorFactory.getInstance();
 
-            velocityContext.put("model", df.createDecoratorObject(model));
-            velocityContext.put("transform", context.getScriptHelper());
-            velocityContext.put("str", new StringUtilsHelper());
+            velocityContext.put(
+            	"model", 
+                df.createDecoratorObject(model));
             velocityContext.put(
                 "class",
                 df.createDecoratorObject((ModelElement) modelElement));
-            velocityContext.put("date", new java.util.Date());
+            
+            // add any template objects to the context now
+            Map templateObjects = this.getDescriptor().getTemplateObjects();
+            if (templateObjects != null && !templateObjects.isEmpty()) 
+            {
+                Iterator templateObjectIt = templateObjects.keySet().iterator();
+                while (templateObjectIt.hasNext()) 
+                {
+                    String name = (String)templateObjectIt.next();
+                    velocityContext.put(name, templateObjects.get(name));
+                }
+            }
 
             addUserPropertiesToContext(
                 velocityContext,
