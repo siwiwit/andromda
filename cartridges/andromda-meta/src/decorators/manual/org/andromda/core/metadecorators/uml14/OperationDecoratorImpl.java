@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
-import org.omg.uml.foundation.datatypes.VisibilityKind;
-import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
+import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 
 /**
  *
@@ -40,13 +40,13 @@ public class OperationDecoratorImpl extends OperationDecorator
         StringBuffer sb = new StringBuffer();
         sb.append(metaObject.getName());
         sb.append("(");
-        sb.append(getOperationTypedParameterList());
+        sb.append(getTypedParameterList());
         sb.append(")");
 
         return sb.toString();
     }
 
-    private String getOperationTypedParameterList()
+    public String getTypedParameterList()
     {
         StringBuffer sb = new StringBuffer();
         Iterator it = metaObject.getParameter().iterator();
@@ -58,17 +58,17 @@ public class OperationDecoratorImpl extends OperationDecorator
 
             if (!ParameterDirectionKindEnum.PDK_RETURN.equals(p.getKind()))
             {
-                String type;
+                String type = null;
                 if (p.getType() == null)
                 {
-                    type = "int";
+                    this.logger.error("ERROR! No type specified for parameter --> '" 
+                    	+ p.getName() + "' on operation --> '" 
+						+ this.getName() + "', please chek your model");
                 }
                 else
                 {
                     type =
-                        ((ClassifierDecorator) DecoratorFactory
-                            .getInstance()
-                            .createDecoratorObject(p.getType()))
+                        ((ClassifierDecorator) this.decoratedElement(p.getType()))
                             .getFullyQualifiedName();
                 }
 
@@ -93,13 +93,16 @@ public class OperationDecoratorImpl extends OperationDecorator
         StringBuffer sb = new StringBuffer();
         sb.append(metaObject.getName());
         sb.append("(");
-        sb.append(getOperationParameterNames());
+        sb.append(getParameterNames());
         sb.append(")");
 
         return sb.toString();
     }
 
-    private String getOperationParameterNames()
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#getParameterNames()
+     */
+    public String getParameterNames()
     {
         StringBuffer sb = new StringBuffer();
 
@@ -122,6 +125,33 @@ public class OperationDecoratorImpl extends OperationDecorator
         }
         return sb.toString();
     }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#getParameterTypeNames()
+     */
+    public String getParameterTypeNames()
+	{
+    	StringBuffer sb = new StringBuffer();
+    	
+    	Iterator it = this.getParameters().iterator();
+    	
+    	boolean commaNeeded = false;
+    	while (it.hasNext())
+    	{
+    		ParameterDecorator p = (ParameterDecorator) it.next();
+    		
+    		if (!ParameterDirectionKindEnum.PDK_RETURN.equals(((Parameter)p.getMetaObject()).getKind()))
+    		{
+    			if (commaNeeded)
+    			{
+    				sb.append(", ");
+    			}
+    			sb.append(((ClassifierDecorator)p.getType()).getFullyQualifiedName());
+    			commaNeeded = true;
+    		}
+    	}
+    	return sb.toString();
+    }
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.OperationDecorator#handleGetType()
@@ -139,6 +169,14 @@ public class OperationDecoratorImpl extends OperationDecorator
         }
 
         return null;
+    }
+   
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#handleGetOwner()
+     */
+    public ModelElement handleGetOwner() 
+	{
+    	return this.metaObject.getOwner();
     }
 
     /* (non-Javadoc)
@@ -161,35 +199,39 @@ public class OperationDecoratorImpl extends OperationDecorator
 
         return ret;
     }
-
-    // -------------------- business methods ----------------------
-
-    // concrete business methods that were declared
-    // abstract in class OperationDecorator ...
-
+    
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#getVisibility()
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#findTaggedValue(java.lang.String, boolean)
      */
-    public VisibilityKind getVisibility()
-    {
-        VisibilityKind visibility = metaObject.getVisibility();
-        
-        if (VisibilityKindEnum.VK_PRIVATE.equals(visibility))
-        {
-            return JavaVisibilityEnum.PRIVATE;
-        }
-        else if (VisibilityKindEnum.VK_PROTECTED.equals(visibility))
-        {
-            return JavaVisibilityEnum.PROTECTED;
-        }
-        else if (VisibilityKindEnum.VK_PUBLIC.equals(visibility))
-        {
-            return JavaVisibilityEnum.PUBLIC;
-        }
-
-        return JavaVisibilityEnum.PACKAGE;
+    public String findTaggedValue(String name, boolean follow) 
+	{
+    	name = StringUtils.trimToEmpty(name);
+    	String value = findTaggedValue(name);
+    	if (follow) {
+	    	ClassifierDecorator type = this.getType();
+	    	while (value == null && type != null) {
+	    		value = type.findTaggedValue(name);
+	    		type = type.getSuperclass();
+	    	}
+    	}
+    	return value;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#isStatic()
+     */
+    public boolean isStatic() 
+	{
+    	return ScopeKindEnum.SK_CLASSIFIER.equals(this.metaObject.getOwnerScope());
     }
 
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#isAbstract()
+     */
+    public boolean isAbstract()
+    {
+        return metaObject.isAbstract();
+    }
 
     // ------------- relations ------------------
 

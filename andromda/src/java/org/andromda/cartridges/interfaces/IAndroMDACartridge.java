@@ -29,9 +29,9 @@ public interface IAndroMDACartridge
     /**
      * Returns the descriptor data of this particular cartridge.
      * 
-     * @return ICartridgeDescriptor
+     * @return CartridgeDescriptor
      */
-    public ICartridgeDescriptor getDescriptor();
+    public CartridgeDescriptor getDescriptor();
 
     /**
      * Sets the descriptor data of this particular cartridge. Used by cartridge
@@ -40,7 +40,7 @@ public interface IAndroMDACartridge
      * @param d the new cartridge descriptor
      * 
      */
-    public void setDescriptor(ICartridgeDescriptor d);
+    public void setDescriptor(CartridgeDescriptor d);
 
     /**
      * Generates code for one model element.

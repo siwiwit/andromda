@@ -34,7 +34,7 @@ public class DecoratorSmallTest1 extends TestCase implements TestModel
         {
             modelURL = new URL(TestModel.XMI_FILE_URL);
             repository = new MDRepositoryFacade();
-            repository.readModel(modelURL);
+            repository.readModel(modelURL, null);
             model = (UmlPackage) repository.getModel().getModel();
             DecoratorFactory df = DecoratorFactory.getInstance();
             df.setModel(model);
@@ -52,7 +52,8 @@ public class DecoratorSmallTest1 extends TestCase implements TestModel
         DecoratorFactory df = DecoratorFactory.getInstance();
         ModelDecorator md =
             (ModelDecorator) df.createDecoratorObject(model);
-        Collection packages = ((PackageDecorator)md.getRootPackage()).getSubPackages();
+        Collection packages =
+            ((PackageDecorator) md.getRootPackage()).getSubPackages();
         assertEquals(5, packages.size());
         ArrayList expectedResults = new ArrayList();
         expectedResults.add("org");
@@ -81,7 +82,8 @@ public class DecoratorSmallTest1 extends TestCase implements TestModel
         DecoratorFactory df = DecoratorFactory.getInstance();
         ModelDecorator md =
             (ModelDecorator) df.createDecoratorObject(model);
-        Collection packages = ((PackageDecorator)md.getRootPackage()).getSubPackages();
+        Collection packages =
+            ((PackageDecorator) md.getRootPackage()).getSubPackages();
 
         HashMap expectedResults = new HashMap();
         expectedResults.put("ClassAA", "associations");
@@ -129,7 +131,7 @@ public class DecoratorSmallTest1 extends TestCase implements TestModel
             (ModelDecorator) df.createDecoratorObject(model);
         ModelElement assClass =
             getModelElement(
-                md.getRootPackage(),
+                (Namespace) md.getRootPackage().getMetaObject(),
                 new String[] { "associations", "ClassAssociations" },
                 0);
         assertNotNull(assClass);
@@ -142,9 +144,9 @@ public class DecoratorSmallTest1 extends TestCase implements TestModel
             AssociationEndDecorator aed =
                 (AssociationEndDecorator) i3.next();
             assertNotNull(aed);
-            aed = (AssociationEndDecorator)aed.getOtherEnd();
+            aed = (AssociationEndDecorator) aed.getOtherEnd();
             assertNotNull(aed);
-            String role = aed.getRoleName();
+            String role = aed.getName();
             if (role.equals(ONE2ONE))
             {
                 assertTrue(aed.isOne2One());
@@ -183,7 +185,7 @@ public class DecoratorSmallTest1 extends TestCase implements TestModel
             (ModelDecorator) df.createDecoratorObject(model);
         ModelElement depClass =
             getModelElement(
-                md.getRootPackage(),
+                (Namespace) md.getRootPackage().getMetaObject(),
                 new String[] { "dependencies", "ClassDependencies" },
                 0);
         assertNotNull(depClass);

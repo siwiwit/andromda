@@ -1,0 +1,118 @@
+<project name="andromda-uml14-facade-implementations" default="dist">
+
+    <property name="src.dir"          value="${basedir}/src" />
+    <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
+    <property name="src.fac.man.dir"  value="${src.dir}/facades/manual" />
+    <property name="uml.dir"          value="../common/src/uml" />
+
+    <property name="build.dir"        value="build" />
+    <property name="dist.dir"         value="dist" />
+
+    <property file="build.properties" />
+    <property name="andromda-core.home"     location="${andromda.home}/andromda-core"/>
+    <property name="andromda-meta.home"     location="${andromda.home}/cartridges/andromda-meta"/>
+
+    <property name="andromda-uml.home"      location="../common"/>
+
+    <property file="${andromda-core.home}/andromda-core.properties"/>
+
+    <path id="andromda.classpath">
+       <pathelement location="${andromda-core.home}/andromda.jar"/>
+       <pathelement path="${andromda-core.classpath}"/>
+    </path>
+
+    <!-- Setup directory structure -->
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+    <!-- Remove directory structure structure -->
+    <target name="clean" description="Removes all generated files">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${dist.dir}"/>
+            <fileset dir="${build.dir}"/>
+            <fileset dir="${src.fac.gen.dir}"/>
+        </delete>
+    </target>
+
+    <!-- ============================================================= -->
+    <!--               Highlevel user tasks                            -->
+    <!-- ============================================================= -->
+
+    <target name="dist" depends="clean,build"
+            description="Builds the distribution structure">
+      <copy todir="${dist.dir}" >
+          <fileset dir="${build.dir}" includes="*.jar" />
+      </copy>
+    </target>
+
+    <target name="build" depends="compile"
+            description="Builds the objects from the sources">
+    </target>
+
+    <!-- ============================================================= -->
+    <!--               Internal tasks                                  -->
+    <!-- ============================================================= -->
+
+    <target name="genjava" depends="init">
+        <property file="${andromda-meta.home}/andromda-meta.properties"/>
+
+        <path id="generate.classpath">
+           <path refid="andromda.classpath" />
+           <pathelement path="${andromda-meta.classpath}"/>
+        </path>
+
+        <property name="g.cp" refid="generate.classpath"/>
+        <echo message="generate.classpath = ${g.cp}"/>
+
+        <taskdef name="andromda"
+                 classname="org.andromda.core.anttasks.AndroMDAGenTask"
+                 classpathref="generate.classpath"
+        />
+        
+        <property 
+        	name="model" 
+        	value="jar:file:${uml.dir}/UMLMetafacadeModel.xml.zip!/UMLMetafacadeModel.xml"/>
+
+        <andromda basedir="."
+           modelURL="${model}"
+           lastModifiedCheck="false"
+           processAllModelPackages="false">
+
+			<namespace name="meta">
+				<!-- define the outlet locations -->
+				<property name="facades" ignore="true" />
+				<property name="facade-logics"           value="${src.fac.gen.dir}"/>
+				<property name="facade-logic-impls"      value="${src.fac.man.dir}"/>
+				<property name="languageMappings"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+			</namespace>
+            
+            <modelPackage name="org.andromda.metafacades.uml14" shouldProcess="true"/>
+
+        </andromda>
+        
+    </target>
+
+    <target name="compile" depends="genjava"
+            description="Builds the decorator objects from the generated and hand-written sources">
+        <property name="n.cp" refid="andromda.classpath"/>
+        <echo message="andromda.classpath = ${n.cp}"/>
+        <javac destdir="${build.dir}" includes="**/*.java"
+               includeAntRuntime="false">
+            <src path="${src.fac.gen.dir}" />
+            <src path="${src.fac.man.dir}" />
+            <classpath>
+               <path refid="andromda.classpath" />
+               <path location="${andromda-uml.home}/dist/uml-metafacades.jar" />
+            </classpath>
+        </javac>
+
+        <jar jarfile="${build.dir}/uml14-metafacades.jar">
+            <fileset dir="${build.dir}" includes="**/*.class" />
+		    <fileset dir="${src.dir}" includes="META-INF/*metafacades.xml" />
+        </jar>
+    </target>
+
+</project>

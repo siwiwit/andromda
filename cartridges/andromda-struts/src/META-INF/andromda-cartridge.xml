@@ -1,46 +1,38 @@
 <cartridge name="struts">
-  <property name="workflow" value="struts" />
+    
+    <!-- define the template objects that are made availble to the template -->
+    <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
 
-  <stereotype name="WebAction" />
-  <stereotype name="WebAppConfig" />
-  <stereotype name="WebForm" />
-  <stereotype name="WebPage" />
+    <template
+      sheet="templates/StrutsForm.vsl"
+      outputPattern="{0}/{1}.java"
+      outlet="forms"
+      overWrite="true">
+        <stereotype name="WebForm"/>   
+    </template>
 
-  <outlet name="forms" />
-  <outlet name="actions" />
-  <outlet name="pages" />
-  <outlet name="config" />
+    <template
+      sheet="templates/StrutsAction.vsl"
+      outputPattern="{0}/{1}.java"
+      outlet="actions"
+      overWrite="false">
+        <stereotype name="WebAction"/>  
+    </template>
 
-  <template
-    stereotype="WebForm"
-    sheet="templates/StrutsForm.vsl"
-    outputPattern="{0}/{1}.java"
-    outlet="forms"
-    overWrite="true"
-  />
+    <template
+      sheet="templates/StrutsJSP.vsl"
+      outputPattern="{1}.jsp"
+      outlet="pages"
+      overWrite="false">
+        <stereotype name="WebPage"/>    
+    </template>
 
-  <template
-    stereotype="WebAction"
-    sheet="templates/StrutsAction.vsl"
-    outputPattern="{0}/{1}.java"
-    outlet="actions"
-    overWrite="false"
-  />
-
-  <template
-    stereotype="WebPage"
-    sheet="templates/StrutsJSP.vsl"
-    outputPattern="{1}.jsp"
-    outlet="pages"
-    overWrite="false"
-  />
-
-  <template
-    stereotype="WebAppConfig"
-    sheet="templates/StrutsConfig.vsl"
-    outputPattern="struts-config.xml"
-    outlet="config"
-    overWrite="true"
-  />
+    <template
+      sheet="templates/StrutsConfig.vsl"
+      outputPattern="struts-config.xml"
+      outlet="config"
+      overWrite="true">
+        <stereotype name="WebAppConfig"/>   
+    </template>
 
 </cartridge>
