@@ -11,6 +11,7 @@
     <property name="src.dec.gen.dir"  value="${src.dir}/decorators/generated" />
     <property name="src.dec.man.dir"  value="${src.dir}/decorators/manual" />
     <property name="uml.dir"          value="${src.dir}/uml" /> 
+    <property name="lib.dir"          value="lib" />
 
 	<!-- the model which our model extends -->
     <property name="base.model.uml.dir" value="${basedir}/${andromda-meta.dir}/src/uml" />
@@ -62,6 +63,9 @@
       <copy todir="${dist.dir}" >
           <fileset dir="${build.dir}" includes="*.jar" />
           <fileset dir="." includes="andromda-hibernate.properties" />
+      </copy>
+      <copy todir="${dist.dir}/lib" >
+          <fileset dir="${lib.dir}" includes="**/*" />
       </copy>
     </target>
 
