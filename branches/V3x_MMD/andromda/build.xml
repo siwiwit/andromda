@@ -129,6 +129,9 @@
         <jar jarfile="${build.jar.dir}andromda.jar">
             <fileset dir="${build.classes.dir}" includes="**/*.class" />
             <fileset dir="." includes="andromda-core.properties" />
+        	<fileset dir="${java.src.dir}">
+        		<include name="**/*.xml"/>
+        	</fileset>
         </jar>
     </target>
 
