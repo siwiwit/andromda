@@ -49,7 +49,7 @@ public class DecoratorFactory
             "org.omg.uml.foundation.core.AssociationEnd$Impl",
             AssociationEndDecoratorImpl.class.getName());
         registerDecoratorClass(
-            "org.omg.uml.foundation.core.Association$Impl",
+            "org.omg.uml.foundation.core.UmlAssociation$Impl",
             AssociationEndDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.Dependency$Impl",
@@ -146,7 +146,7 @@ public class DecoratorFactory
      * @param stereotypeName
      * @param decoratorClassName
      */
-    public void registerDecoratorClass(
+    private void registerDecoratorClass(
         String umlMetaClassName,
         String contextName,
         String stereotypeName,
@@ -209,11 +209,12 @@ public class DecoratorFactory
                 stereotypeName);
         if (decoratorClassName != null)
         {
-            internalGetLogger().debug(
-                "lookupDecoratorClass: "
-                    + umlMetaClassName
-                    + " -> "
-                    + decoratorClassName);
+        	if (internalGetLogger().isDebugEnabled())
+	            internalGetLogger().debug(
+	                "lookupDecoratorClass: "
+	                    + umlMetaClassName
+	                    + " -> "
+	                    + decoratorClassName);
             return decoratorClassName;
         }
 
@@ -225,11 +226,12 @@ public class DecoratorFactory
                 umlMetaClassName,
                 contextName,
                 stereotypeName);
-        internalGetLogger().debug(
-            "lookupDecoratorClass: "
-                + umlMetaClassName
-                + " -> "
-                + decoratorClassName);
+        if (internalGetLogger().isDebugEnabled())
+	        internalGetLogger().debug(
+	            "lookupDecoratorClass: "
+	                + umlMetaClassName
+	                + " -> "
+	                + decoratorClassName);
         return decoratorClassName;
     }
 
@@ -258,6 +260,76 @@ public class DecoratorFactory
     }
 
     /**
+     * Returns a decorator for a metaobject, depending on its <code>metaclass</code> and 
+     * (optionally) its sterotype and <code>contextName</code>.  This is useful when you
+     * want an element to use a certain type of facade (instead of a previous registered facade).
+     * For example: with an <em>Entity</em>, you may want all attributes to be created
+     * as <em>EntityAttributes</em> but it wouldn't make sense to stereotype each attribute 
+     * as an <em>EntityAttribute</em> (since you know that this attributes falls within the 
+     * context of an <em>Entity</em>.
+     * @param metaobject the meta model element.
+     * @param contextName the name of the context the meta 
+     *                    model element is registered under.
+     * @return
+     */
+    private DecoratorBase createDecoratorObject(ModelElement metaobject, String contextName) {
+    	ExceptionUtils.checkNull(
+    			"DecoratorBase.createDecoratorObject",
+				"metaobject",
+				metaobject);
+
+    	//if the metaobject ALREADY IS a Decorator
+    	//return the metaobject since we don't want to try and create a
+    	//Decorator from a Decorator.
+    	if (metaobject instanceof DecoratorBase)
+    	{
+    		return (DecoratorBase) metaobject;
+    	}
+    	String stereotypeName = getStereotypeName(metaobject);
+    	String decoratorClassName =
+    		lookupDecoratorClass(
+    				metaobject.getClass().getName(),
+					contextName,
+					stereotypeName);
+    	DecoratorBase result;
+
+    	if (decoratorClassName == null)
+    	{
+    		// if no special decorator is registered, simply
+    		// return a decorator for a standard model element.
+    		result = new ModelElementDecoratorImpl(metaobject);
+    	}
+    	else
+    	{
+    		try
+			{
+    			Class dynamicClass = Class.forName(decoratorClassName);
+    			Constructor constructor =
+    				findConstructor(dynamicClass, metaobject.getClass());
+
+    			Object[] constructorParams = { metaobject };
+
+    			result =
+    				(DecoratorBase) constructor.newInstance(
+    						constructorParams);
+
+    			result.validate();
+    		}
+    		catch (Exception e)
+			{
+    			internalGetLogger().error(e);
+    			return null;
+    		}
+    	}
+
+    	// make sure that the decorator has a proper logger associated
+    	// with it.
+    	result.setLogger(internalGetLogger());
+
+    	return result;
+    }
+    
+    /**
      * Returns a decorator for a metaobject, depending on its
      * metaclass and (optionally) its stereotype.
      *
@@ -266,59 +338,7 @@ public class DecoratorFactory
      */
     public DecoratorBase createDecoratorObject(ModelElement metaobject)
     {
-        ExceptionUtils.checkNull(
-            "createDecoratorObject",
-            "metaobject",
-            metaobject);
-
-        //if the metaobject ALREADY IS a Decorator
-        //return the metaobject since we don't want to try and create a
-        //Decorator from a Decorator.
-        if (metaobject instanceof DecoratorBase)
-        {
-            return (DecoratorBase) metaobject;
-        }
-        String stereotypeName = getStereotypeName(metaobject);
-        String decoratorClassName =
-            lookupDecoratorClass(
-                metaobject.getClass().getName(),
-                stereotypeName);
-        DecoratorBase result;
-
-        if (decoratorClassName == null)
-        {
-            // if no special decorator is registered, simply
-            // return a decorator for a standard model element.
-            result = new ModelElementDecoratorImpl(metaobject);
-        }
-        else
-        {
-            try
-            {
-                Class dynamicClass = Class.forName(decoratorClassName);
-                Constructor constructor =
-                    findConstructor(dynamicClass, metaobject.getClass());
-
-                Object[] constructorParams = { metaobject };
-
-                result =
-                    (DecoratorBase) constructor.newInstance(
-                        constructorParams);
-
-                result.validate();
-            }
-            catch (Exception e)
-            {
-                internalGetLogger().error(e);
-                return null;
-            }
-        }
-
-        // make sure that the decorator has a proper logger associated
-        // with it.
-        result.setLogger(internalGetLogger());
-
-        return result;
+    	return this.createDecoratorObject(metaobject, null);
     }
 
     /**
