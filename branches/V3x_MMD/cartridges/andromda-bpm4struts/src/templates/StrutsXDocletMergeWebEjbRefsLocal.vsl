@@ -1,14 +1,15 @@
-#set ($ejbRefs = $class.allEjbRefs)
+#set ($services = $class.allServices)
 
-#foreach ($ejbRef in $ejbRefs)
-#set ($serviceName = $ejbRef.name)
-#set ($packageName = $ejbRef.packageName)
+#foreach ($service in $services)
+#set ($serviceType = "Session")
+#set ($serviceName = $service.name)
+#set ($packageName = $service.packageName)
 #set ($ejbRefName = "ejb/${packageName}/${serviceName}")
-#set ($ejbRefType = "Session")
-  <ejb-local-ref>
+
+  <ejb-ref>
     <ejb-ref-name>${ejbRefName}/Local</ejb-ref-name>
-    <ejb-ref-type>$ejbRefType<ejb-ref-type>
+    <ejb-ref-type>$serviceType<ejb-ref-type>
     <local-home>${packageName}.${serviceName}LocalHome</local-home>
     <local>${packageName}.${serviceName}Local</local>
-  <ejb-local-ref>
+  <ejb-ref>
 #end
