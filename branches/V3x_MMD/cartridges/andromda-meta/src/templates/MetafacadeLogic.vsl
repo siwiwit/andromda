@@ -16,7 +16,7 @@ $class.getDocumentation(" ")
  * Metaclass facade for $shieldedMetaclassTypeName
  *
  */
-public abstract class ${class.name}Decorator
+public abstract class ${class.name}Logic
        extends        org.andromda.core.metafacade.MetafacadeBase
        implements     $class.fullyQualifiedInterfaceName
 {
@@ -25,7 +25,7 @@ public abstract class ${class.name}Decorator
     private $superclass.fullyQualifiedInterfaceName super_;
 #end
 
-    public ${class.name}Decorator ($shieldedMetaclassTypeName metaObject) {
+    public ${class.name}Logic ($shieldedMetaclassTypeName metaObject) {
         super (metaObject);
 #if ($superclass)
         this.super_ =

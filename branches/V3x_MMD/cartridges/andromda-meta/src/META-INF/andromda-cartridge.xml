@@ -5,27 +5,27 @@
 
     <!-- the template definitions -->
     <template
-        sheet="templates/MetafacadeDecorator.vsl"
-        outputPattern="{0}/{1}Decorator.java"
-        outlet="facades"
+        sheet="templates/MetafacadeLogic.vsl"
+        outputPattern="{0}/{1}Logic.java"
+        outlet="facade-logics"
         overWrite="true">
         <stereotype name="Decorator" />
         <stereotype name="metafacade" />
     </template>
 
     <template
-        sheet="templates/MetafacadeDecoratorImpl.vsl"
-        outputPattern="{0}/{1}DecoratorImpl.java"
-        outlet="facade-impls"
+        sheet="templates/MetafacadeLogicImpl.vsl"
+        outputPattern="{0}/{1}LogicImpl.java"
+        outlet="facade-logic-impls"
         overWrite="false">
         <stereotype name="Decorator" />
         <stereotype name="metafacade" />
     </template>
 
     <template
-        sheet="templates/MetafacadeInterface.vsl"
+        sheet="templates/Metafacade.vsl"
         outputPattern="$myOutputFile"
-        outlet="facade-interfaces"
+        outlet="facades"
         overWrite="true">
         <stereotype name="Decorator" />
         <stereotype name="metafacade" />

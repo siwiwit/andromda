@@ -10,13 +10,13 @@ $class.getDocumentation(" ")
  * Metaclass facade implementation.
  *
  */
-public class ${class.name}DecoratorImpl
-       extends ${class.name}Decorator
+public class ${class.name}LogicImpl
+       extends ${class.name}Logic
        implements ${class.fullyQualifiedInterfaceName}
 {
     // ---------------- constructor -------------------------------
     
-    public ${class.name}DecoratorImpl ($shieldedMetaclassTypeName metaObject)
+    public ${class.name}LogicImpl ($shieldedMetaclassTypeName metaObject)
     {
         super (metaObject);
     }
