@@ -84,7 +84,7 @@ public class EJBAssociationEndDecoratorImpl extends EJBAssociationEndDecorator
 	    if (this.isMany2Many() || this.isOne2Many()) {
 	    	targetType = "java.util.Collection"; 
 	    } else {
-	    	targetType = this.getType().getFullyQualifiedName();
+	    	targetType = this.getOtherEnd().getType().getFullyQualifiedName();
 	    }
 	    return targetType;
     }
