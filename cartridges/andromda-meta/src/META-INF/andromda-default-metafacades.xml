@@ -8,6 +8,9 @@
 		metaobjectClass="org.omg.uml.modelmanagement.UmlPackage$Impl"
 		metafacadeClass="org.andromda.core.metadecorators.uml14.PackageDecoratorImpl"/>
 	<metafacade 
+		metaobjectClass="org.omg.uml.UmlPackage$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.ModelDecoratorImpl"/>
+	<metafacade 
 		metaobjectClass="org.omg.uml.modelmanagement.Model$Impl"
 		metafacadeClass="org.andromda.core.metadecorators.uml14.PackageDecoratorImpl"/>
 	<metafacade 
