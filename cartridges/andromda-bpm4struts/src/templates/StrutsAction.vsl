@@ -1,74 +1,109 @@
-##
-## Set global invariants
-##
-#set ($stateMachine = $transform.getStateMachine($class))
-#set ($controllerClassName = $transform.toJavaClassName($transform.getControllerClass($class)))
-#set ($controllerFormName = $transform.toJavaClassName($transform.getControllerForm($class)))
-#if (!$controllerFormName)
-#set ($controllerFormName = "ActionForm")
-#end
-#set ($className = "${controllerClassName}")
-#set ($parentClassName = "${controllerClassName}Abstract")
-##
-## Package declaration and imports
-##
-package $transform.getPackageName($class);
+#parse("/templates/StrutsAction.vm")
 
+#set (${actionPackage} = ${class.actionPackageName})
+#set (${actionClassName} = ${class.actionClassName})
+#set (${formBeanType} = ${class.formBeanType})
+#set (${formBeanPackage} = ${class.formBeanPackageName})
+#set (${formBeanClassName} = ${class.formBeanClassName})
+
+#set (${controller} = ${class.controller})
+#set (${controllerType} = ${controller.controllerHelperType})
+#set (${controllerPackage} = ${controller.controllerHelperPackageName})
+#set (${controllerClassName} = ${controller.controllerHelperClassName})
+
+#set (${roles} = ${class.actionRoles})
+
+#set (${forwardActionTransitions} = ${class.forwardActionTransitions})
+
+package ${class.actionPackageName};
+
+import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionMapping;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-##
-## This macro will render documentation into HTML paragraphs
-##
-#macro ( generateDocumentation $item $indent )
-#set ($tagValue = $transform.staticHelper.findTagValue( $item, "documentation"))
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tagValue))
-#foreach ( $par in $paras )
-${indent}*
-${indent}* <p>
-#foreach ( $line in $par.lines )
-${indent}* $line
+#if (${actionPackage} != ${formBeanPackage})
+import ${formBeanType};
 #end
-${indent}* </p>
+#if (${actionPackage} != ${controllerPackage})
+import ${controllerType};
 #end
+
+/**
+$class.getDocumentation(" ")
+ *
+ * @struts.action
+#if ($formBean)
+ *        name="${class.actionName}"
 #end
-##
-## Set collections from which methods will be rendered, we convert them to sets
-## because we don't want to render doubles (just to make sure)
-##
-#set ($decisionPoints = $transform.toSet($transform.dynamicHelper.getDecisionPoints($stateMachine)))
-#set ($objectFlowStates = $transform.toSet($transform.dynamicHelper.getObjectFlowStates($stateMachine)))
-#set ($actionStates = $transform.toSet($transform.dynamicHelper.getActionStates($stateMachine)))
-##
-## Start of the class declaration, notice how it extends the parent
-##
-public class $className extends $parentClassName
+ *        path="${class.actionPath}"
+ *       input="${class.input.path}"
+ *       scope="request"
+#if (${roles})
+ *       roles="${roles}"
+#end
+ *     unknown="false"
+ *    validate="true"
+ *
+#foreach (${forwardActionTransition} in ${forwardActionTransitions})
+ * @struts.action-forward
+ *        name="${forwardActionTransition.forwardName}"
+ *        path="${forwardActionTransition.forwardPath}"
+#end
+ *
+#foreach (${exceptionHandler} in ${class.exceptionHandlers})
+ * @struts.action-exception
+ *         key="${exceptionHandler.exceptionKey}"
+ *        type="${exceptionHandler.exceptionType}"
+ *        path="${exceptionHandler.exceptionPath}"
+ *       scope="request"
+#end
+ */
+public final class ${actionClassName} extends Action
 {
-#foreach ($decisionPoint in $decisionPoints)
-#if ($transform.dynamicHelper.isGuardedDecisionPoint($decisionPoint))
-#set ($methodName = $transform.toJavaMethodName($decisionPoint))
-    protected final int ${methodName}Impl(ActionMapping mapping, $controllerFormName form, HttpServletRequest request, HttpServletResponse response)
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-        return 0;
+        #processTransition(${class.actionTransition})
+#if (${class.hasSuccessMessage()})
+
+        ActionMessages messages = new ActionMessages();
+        ActionMessage message = new ActionMessage(${class.successMessageKey});
+        messages.add(ActionMessages.GLOBAL_MESSAGE, message);
+        saveMessages(request, messages);
+#end
+    }
+
+#foreach (${transition} in ${class.decisionTransitions})
+#set (${methodName} = ${transition.methodName})
+#set (${parameters} = ${transition.eventParameters})
+#set (${outcomes}   = ${transition.targetOutcomes})
+    private ActionForward ${methodName}(ActionMapping mapping, ${formBeanType} form, HttpServletRequest request, HttpServletResponse response)  throws Exception
+    {
+#foreach (${parameter} in ${parameters})
+        final ${parameter.type.fullyQualifiedName} ${parameter.name} = form.${parameter.getterName};
+#end
+
+        final int value = ${controllerClassName}.${methodName}(${transition.getParametersAsList(false)});
+
+        switch (value)
+        {
+#foreach (${outcome} in ${outcomes})
+            case ${controllerClassName}.${outcome.guardName}: #processTransition(${outcome})
+#end
+        }
+
+        return null;    // application bug: invalid return value
     }
 
 #end
-#end
-##
-## Each object flow state needs to reflect the change in the 'back-end', the user will need to code this
-## manually
-##
-#foreach ($objectFlowState in $objectFlowStates)
-#set ($objectFlowStateName = $transform.toJavaClassName($objectFlowState))
-#set ($objectFlowTypeName = $transform.toJavaClassName($objectFlowState.type))
-#set ($objectFlowStateState = $transform.getObjectFlowStateState($objectFlowState))
-#set ($methodName = "set$objectFlowStateName$transform.toJavaClassName($objectFlowStateState)")
-    protected final void ${methodName}Impl(ActionMapping mapping, $controllerFormName form, HttpServletRequest request, HttpServletResponse response) throws Exception
+
+#foreach (${transition} in ${class.effectTransitions})
+#set (${methodName} = ${transition.methodName})
+#set (${parameters} = ${transition.eventParameters})
+    private ActionForward ${methodName}(ActionMapping mapping, ${formBeanType} form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-//      $objectFlowTypeName $transform.toJavaMethodName($objectFlowState) = null;
+        ${controllerClassName}.${methodName}(${transition.getParametersAsList(false)});
+        #processTransition(${transition})
     }
 
 #end
 }
+
