@@ -8,6 +8,10 @@
     <property name="andromda-ejb.home" location="${andromda.home}/cartridges/andromda-ejb"/>
     <property name="andromda-hibernate.home" location="${andromda.home}/cartridges/andromda-hibernate"/>
     <property name="andromda-struts.home" location="${andromda.home}/cartridges/andromda-struts"/>
+    
+    <property name="metafacades.uml.home"        location="${andromda.home}/metafacades/uml"/>
+    <property name="andromda-metafacades-uml.home" location="${metafacades.uml.home}/common"/>
+    <property name="andromda-metafacades-uml14.home"  location="${metafacades.uml.home}/uml14"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
     <property file="${andromda-core.home}/xdoclet.properties"/>
@@ -15,6 +19,8 @@
     <property file="${andromda-ejb.home}/andromda-ejb.properties"/>
     <property file="${andromda-hibernate.home}/andromda-hibernate.properties"/>
     <property file="${andromda-struts.home}/andromda-struts.properties"/>
+    <property file="${andromda-metafacades-uml.home}/andromda-metafacades-uml.properties"/>
+    <property file="${andromda-metafacades-uml14.home}/andromda-metafacades-uml14.properties"/>
 
     <!-- classpath for using AndroMDA to compile UML -->
     <path id="andromda.classpath">
@@ -24,6 +30,8 @@
        <pathelement path="${andromda-ejb.classpath}"/>
        <pathelement path="${andromda-hibernate.classpath}"/>
        <pathelement path="${andromda-struts.classpath}"/>
+       <pathelement path="${andromda-metafacades-uml.classpath}"/>
+       <pathelement path="${andromda-metafacades-uml14.classpath}"/>
     </path>
     
     <path id="j2ee.classpath">
@@ -45,11 +53,11 @@
 
 
     <!-- Physical source directories -->
-    <property name="src.app.dir"             value="src/app" />
-    <property name="src.common.dir"          value="src/common" />
-    <property name="src.ejb.dir"             value="src/ejb" />
-    <property name="src.hibernate.dir"       value="src/hibernate" />
-    <property name="src.web.dir"             value="src/web" />
+    <property name="src.app.dir"             value="${basedir}/src/app" />
+    <property name="src.common.dir"          value="${basedir}/src/common" />
+    <property name="src.ejb.dir"             value="${basedir}/src/ejb" />
+    <property name="src.hibernate.dir"       value="${basedir}/src/hibernate" />
+    <property name="src.web.dir"             value="${basedir}/src/web" />
     <property name="src.servlet.dir"         value="${src.web.dir}/servlet" />
     <property name="src.webpages.dir"        value="${src.web.dir}/pages" />
     <property name="src.webconfig.dir"       value="${src.web.dir}/config" />
@@ -78,7 +86,7 @@
         <mkdir dir="build/hibernatestage"/>
         <mkdir dir="build/hibernateservice"/>
         <mkdir dir="build/webstage/WEB-INF/classes"/>
-        <mkdir dir="build/webstage/WEB-INF/lib/tlds"/>
+        <mkdir dir="build/webstage/WEB-INF/tld"/>
     </target>
 
     <!-- Remove directory structure structure -->
@@ -151,22 +159,39 @@
         <andromda basedir="build/model/unzipped"
                  includes="CarRentalSystem20.xmi"
                  lastModifiedCheck="false"
-                 typeMappings="${andromda-core.home}/src/xml/TypeMapping.xml"
-        >
-            <userProperty name="foreignKeySuffix" value="_FK" />
+         >
 
-            <outlet cartridge="java"      outlet="value-objects"  dir="${andromda.ejb.generated.dir}" />
+			<namespace name="default">
+				<!-- set the language mappings for the default namespace -->			
+				<property name="languageMappingsUri" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+			</namespace>
+			
+			<!-- ignore hibernate since its on the class path -->
+			<namespace name="hibernate" ignore="true"/>
 
-            <outlet cartridge="ejb"       outlet="entity-beans"   dir="${andromda.ejb.generated.dir}" />
-            <outlet cartridge="ejb"       outlet="session-beans"  dir="${andromda.ejb.generated.dir}" />
-            <outlet cartridge="ejb"       outlet="entity-impls"   dir="${andromda.ejb.manual.dir}" />
-            <outlet cartridge="ejb"       outlet="session-impls"  dir="${andromda.ejb.manual.dir}" />
-
-            <outlet cartridge="struts"    outlet="forms"   dir="${andromda.web.form.dir}" />
-            <outlet cartridge="struts"    outlet="actions" dir="${andromda.web.action.dir}" />
-            <outlet cartridge="struts"    outlet="pages"   dir="${andromda.web.page.dir}" />
-            <outlet cartridge="struts"    outlet="config"  dir="${src.webconfig.dir}/generated" />
-
+			<namespace name="java">
+				<!-- define output location -->
+				<property name="value-objects" value="${andromda.ejb.generated.dir}"/>				
+			</namespace>
+			<namespace name="ejb">
+				<!-- define output locations -->
+				<property name="entity-beans" value="${andromda.ejb.generated.dir}"/>	
+				<property name="session-beans" value="${andromda.ejb.generated.dir}"/>	
+				<property name="entity-impls" value="${andromda.ejb.manual.dir}"/>	
+				<property name="session-impls" value="${andromda.ejb.manual.dir}"/>		
+				<property name="jdbcMappingsUri" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlMappingsUri" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="foreignKeySuffix" value="_FK"/>
+				<property name="maxSqlNameLength" value="30"/>
+			</namespace>
+			<namespace name="struts">
+				<!-- define output location -->
+				<property name="forms" value="${andromda.web.form.dir}"/>		
+				<property name="actions" value="${andromda.web.action.dir}"/>	
+				<property name="pages" value="${andromda.web.page.dir}"/>
+				<property name="config" value="${src.webconfig.dir}/generated"/>		
+			</namespace>
+			
         </andromda>
     </target>
 
@@ -181,16 +206,32 @@
         <andromda basedir="build/model/unzipped"
                  includes="CarRentalSystem20.xmi"
                  lastModifiedCheck="false"
-                 typeMappings="${andromda-core.home}/src/xml/TypeMapping.xml"
         >
-            <userProperty name="foreignKeySuffix" value="_FK" />
+        				
+			<!-- ignore ejb and struts since they are on the class path -->
+			<namespace name="ejb" ignore="true"/>
+			<namespace name="struts" ignore="true"/>
+        
+			<namespace name="default">
+				<!-- set the language mappings for the default namespace -->			
+				<property name="languageMappingsUri" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+				<property name="jdbcMappingsUri" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlMappingsUri" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="foreignKeySuffix" value="_FK"/>
+				<property name="maxSqlNameLength" value="30"/>
+			</namespace>
 
-            <outlet cartridge="java"      outlet="value-objects"  dir="${andromda.hibernate.generated.dir}" />
-
-            <outlet cartridge="hibernate" outlet="entities"       dir="${andromda.hibernate.generated.dir}" />
-            <outlet cartridge="hibernate" outlet="entity-impls"   dir="${andromda.hibernate.manual.dir}" />
-            <outlet cartridge="hibernate" outlet="session-beans"  dir="${andromda.hibernate.generated.dir}" />
-            <outlet cartridge="hibernate" outlet="session-impls"  dir="${andromda.hibernate.manual.dir}" />
+			<namespace name="java">
+				<!-- define output location -->
+				<property name="value-objects" value="${andromda.hibernate.generated.dir}"/>				
+			</namespace>
+			<namespace name="hibernate">
+				<!-- define output locations -->
+				<property name="entities" value="${andromda.hibernate.generated.dir}"/>	
+				<property name="entity-impls" value="${andromda.hibernate.manual.dir}"/>	
+				<property name="session-beans" value="${andromda.hibernate.generated.dir}"/>	
+				<property name="session-impls" value="${andromda.hibernate.manual.dir}"/>	
+			</namespace>
 
         </andromda>
     </target>
@@ -392,8 +433,8 @@
             <fileset dir="${andromda-struts.home}/lib/" includes="struts.jar"/>
             <fileset dir="${andromda-struts.home}" includes="andromda-struts.jar"/>
         </copy>
-        <copy todir="build/webstage/WEB-INF/lib/tlds/">
-            <fileset dir="${andromda-struts.home}/lib/tld/" includes="struts*.tld"/>
+        <copy todir="build/webstage/WEB-INF/tld">
+            <fileset dir="${andromda-struts.home}/lib/tld" includes="struts*.tld"/>
         </copy>
 
         <!-- Copy the hibernate libraries -->
