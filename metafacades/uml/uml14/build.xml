@@ -4,7 +4,8 @@
     <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
     <property name="src.fac.man.dir"  value="${src.dir}/facades/manual" />
     <property name="uml.dir"          value="${basedir}/../common/src/uml" />
-    <property name="src.test.dir"     value="${src.dir}/test/java" />
+    <property name="src.test.dir"     value="${src.dir}/test" />
+    <property name="src.test.java.dir" value="${src.test.dir}/java"/>
 
     <property name="build.dir"        value="build" />
     <property name="dist.dir"         value="dist" />
@@ -147,11 +148,11 @@
         </path>
         
         <copy todir="${build.test.classes.dir}">
-        	<fileset dir="${src.dir}" includes="META-INF/*metafacades.xml" />
+        	<fileset dir="${src.test.dir}" includes="META-INF/*metafacades.xml" />
         </copy>
 
         <javac debug="true" destdir="${build.test.classes.dir}" includes="**/*.java" includeAntRuntime="false">
-            <src path="${src.test.dir}"/>
+            <src path="${src.test.java.dir}"/>
             <classpath refid="test.classpath"/>
         </javac>
         <junit printsummary="yes" haltonfailure="false">
@@ -162,7 +163,7 @@
             <formatter type="plain"/>
 
             <batchtest fork="yes" todir="${build.test.reports.dir}">
-                <fileset dir="${src.test.dir}">
+                <fileset dir="${src.test.java.dir}">
                     <include name="**/*Test.java"/>
                     <exclude name="**/Sample*.java"/>
                 </fileset>
