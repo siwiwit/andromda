@@ -1,20 +1,39 @@
 ##
-##  Constant declarations
+##  We take the workflow and iterate over each individual use-case,
+##  for that use-case we look up the controller.
+##  Per controller we have a set of views and inputfields,
+##  for these elements we render messages
 ##
-#set ($jsps = $class.formBean.jsps)
-##
-##  Loop over each view for this controller
-##
-#foreach ($jsp in $jsps)
+#foreach ($useCase in $class.useCases)
+#
+# Messages for the $useCase.name use-case
+#
+
+## get the controller
+#set ($servlet = $useCase.servlet)
+## get the formbean
+#set ($formBean = $servlet.formBean)
+## only continue if there is a formbean
+#if ($formBean)
+## loop over the views
+#foreach ($jsp in $formBean.jsps)
+# JSP: $jsp.actionState.name (/${str.separate($jsp.packageName, "/")}/${jsp.name}.jsp)
 $jsp.titleMessageKey=$jsp.titleMessageValue
-## Handle each view's input field
+## handle each view's input field
 #foreach ($inputField in $jsp.inputFields)
-$inputField.messageKey=$inputField.messageValue
+${inputField.messageKey}=$inputField.messageValue
+${inputField.messageKey}.title=$inputField.messageValue
 #end
 ## Handle each view's trigger transition
 #set ($triggerMessages = $jsp.triggerMessages)
 #foreach ($triggerMessage in $triggerMessages.keySet())
-$triggerMessage=$triggerMessages.get($triggerMessage)
+${triggerMessage}=$triggerMessages.get($triggerMessage)
+${triggerMessage}.title=$triggerMessages.get($triggerMessage)
 #end
+
+#end
+#end
+#set ($formBean = false)
+
 
 #end
