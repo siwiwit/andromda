@@ -3,6 +3,7 @@ package org.andromda.core.metadecorators.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.andromda.core.uml14.UMLProfile;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 
@@ -16,7 +17,6 @@ import org.apache.commons.collections.Predicate;
  */
 public class EntityDecoratorImpl extends EntityDecorator
 {
-    private final static String PRIMARY_KEY = "PrimaryKey";
     private final static String FINDER_METHOD = "FinderMethod";
 
     // ---------------- constructor -------------------------------
@@ -61,9 +61,8 @@ public class EntityDecoratorImpl extends EntityDecorator
         for (Iterator i = getAttributes().iterator(); i.hasNext();)
         {
             AttributeDecorator attribute = (AttributeDecorator)i.next();
-            if (attribute.getStereotypeName().equals(PRIMARY_KEY))
-            {
-                return attribute.getMetaObject();
+            if (attribute.hasStereotype(UMLProfile.STEREOTYPE_PRIMARY_KEY)) {
+            	return attribute.getMetaObject();
             }
         }
 
