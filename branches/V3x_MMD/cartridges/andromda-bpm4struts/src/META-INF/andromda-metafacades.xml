@@ -4,111 +4,111 @@
 <metafacades namespace="bpm4struts">
 
 	<!-- behavioral elements -->
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Event$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsEventDecoratorImpl">
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Guard$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsGuardDecoratorImpl">
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Pseudostate$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPseudostateDecoratorImpl">
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.State$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsSimpleStateDecoratorImpl">
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Transition$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTransitionDecoratorImpl">
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.FinalState$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsFinalStateDecoratorImpl">
 	</metafacade>
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActionStateDecoratorImpl">
 	</metafacade>
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsObjectFlowStateDecoratorImpl">
 	</metafacade>
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsStateMachineDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActivityGraphDecoratorImpl">
 	</metafacade>
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsUseCaseDecoratorImpl">
 	</metafacade>
-	
+
 	<!-- core model elements -->
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsModelDecoratorImpl">
 		<stereotype>FrontEndModel</stereotype>
 	</metafacade>
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsViewDecoratorImpl">
 		<stereotype>FrontEndView</stereotype>
 	</metafacade>
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsControllerDecoratorImpl">
 		<stereotype>FrontEndController</stereotype>
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActionExceptionDecoratorImpl">
 		<stereotype>FrontEndException</stereotype>
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldDecoratorImpl">
 		<stereotype>FrontEndViewTextField</stereotype>
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextAreaDecoratorImpl">
 		<stereotype>FrontEndViewTextArea</stereotype>
 	</metafacade>
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsCheckBoxDecoratorImpl">
 		<stereotype>FrontEndViewTextCheckBox</stereotype>
 	</metafacade>
-	<metafacade 
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsRadioButtonDecoratorImpl">
 		<stereotype>FrontEndViewRadioButton</stereotype>
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsComboBoxDecoratorImpl">
 		<stereotype>FrontEndViewComboBox</stereotype>
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsListDecoratorImpl">
 		<stereotype>FrontEndViewList</stereotype>
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsMultiBoxDecoratorImpl">
 		<stereotype>FrontEndViewMultiBox</stereotype>
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPasswordDecoratorImpl">
 		<stereotype>FrontEndViewPassword</stereotype>
-	</metafacade>	
-	<metafacade 
+	</metafacade>
+	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldDecoratorImpl">
-	</metafacade>					
-	
+	</metafacade>
+
 </metafacades>
