@@ -9,6 +9,8 @@ import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.metadecorators.uml14.AssociationDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.Dependency;
@@ -101,6 +103,24 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	}
 
 	/**
+	 * Gets the static attributes of the specified Classifier object.
+	 * 
+	 * @param object
+	 *            Classifier object
+	 * @return Collection of org.omg.uml.foundation.core.Attribute
+	 */
+	public Collection getStaticAttributes() {
+		Collection attributes = this.getAttributes();
+		class StaticAttributeFilter implements Predicate {
+			public boolean evaluate(Object object) {
+				return isStatic((Attribute)object);
+			}
+		}
+		CollectionUtils.filter(attributes, new StaticAttributeFilter());
+		return attributes;
+	}
+
+	/**
 	 * Gets the non-static attributes of the specified Classifier object.
 	 * 
 	 * @param object
@@ -160,105 +180,114 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	}
 
 	// ------------- relations ------------------
-	
-	
+
 	/**
 	 * Gets all associations that define relations to other entities.
-	 * <p>This method returns the {@linkplain AssociationEnd 
-	 * source association end} for all associations that define 
-	 * a container managed relation for this entity. 
+	 * <p>
+	 * This method returns the {@linkplain AssociationEnd source association
+	 * end} for all associations that define a container managed relation for
+	 * this entity.
 	 * 
-	 * <p>The returned collection includes both 
-	 * <em>direct relations</em> and <em>inherited relations</em>. A 
-	 * <em>direct relation</em> is an association of this entity 
-	 * with some other class matching the following criteria:</p>
+	 * <p>
+	 * The returned collection includes both <em>direct relations</em> and
+	 * <em>inherited relations</em>. A <em>direct relation</em> is an
+	 * association of this entity with some other class matching the following
+	 * criteria:
+	 * </p>
 	 * <ul>
-	 * <li>The class at the other side of the association is 
-	 * stereotyped &lt;&lt;Entity&gt;&gt;
-	 * <li>The association is navigable from this entity to 
-	 * the other side.
+	 * <li>The class at the other side of the association is stereotyped
+	 * &lt;&lt;Entity&gt;&gt;
+	 * <li>The association is navigable from this entity to the other side.
 	 * </ul>
-	 * <p>An <em>inherited relation</em> is an asscoiated from an  
-	 * abstract super type of <code>sourceClass</code> matching 
-	 * the following criteria:
+	 * <p>
+	 * An <em>inherited relation</em> is an asscoiated from an abstract super
+	 * type of <code>sourceClass</code> matching the following criteria:
 	 * <ul>
-	 * <li>the inheritance path from from this entity to this abstract
-	 * super type, including this super type itself, consists only of 
-	 * abstract classes with stereotype &lt;&lt;Entity&gt;&gt;
-	 * <li>The class at the other side of the association is 
-	 * stereotyped &lt;&lt;Entity&gt;&gt;
-	 * <li>The association is navigable from this abstract super type of 
-	 * this entity to the other side.
+	 * <li>the inheritance path from from this entity to this abstract super
+	 * type, including this super type itself, consists only of abstract
+	 * classes with stereotype &lt;&lt;Entity&gt;&gt;
+	 * <li>The class at the other side of the association is stereotyped
+	 * &lt;&lt;Entity&gt;&gt;
+	 * <li>The association is navigable from this abstract super type of this
+	 * entity to the other side.
 	 * </ul>
 	 * 
-	 * <p>Relations must match the following integrity 
-	 * constraint:</p>
+	 * <p>
+	 * Relations must match the following integrity constraint:
+	 * </p>
 	 * <ul>
 	 * <li>The &lt;&lt;Entity&gt;&gt; at the target end is not abstract
 	 * </ul>
-	 * <p>The integrity constraint is necessary because the target of 
-	 * a container managed relation in the EJB framework must be a 
-	 * concrete entity bean &mdash; there is no such thing as an 
-	 * "abstract entity bean" in the EJB specification. 
-	 * It is possible, however, to generate and compile code for this case, 
-	 * an error will only show up at deploy time. In order to catch 
-	 * this kind of error at the earliest possible stage, 
-	 * this method checks the integrity constraint and 
-	 * throws an exception if it is violated.</p>
+	 * <p>
+	 * The integrity constraint is necessary because the target of a container
+	 * managed relation in the EJB framework must be a concrete entity bean
+	 * &mdash; there is no such thing as an "abstract entity bean" in the EJB
+	 * specification. It is possible, however, to generate and compile code for
+	 * this case, an error will only show up at deploy time. In order to catch
+	 * this kind of error at the earliest possible stage, this method checks
+	 * the integrity constraint and throws an exception if it is violated.
+	 * </p>
 	 * 
-	 * @return a collection of {@link DecoratorAssociationEnd} objects. 
-	 * @throw IllegalStateException if a relation violates the integrity constraint
+	 * @return a collection of {@link DecoratorAssociationEnd}objects. @throw
+	 *         IllegalStateException if a relation violates the integrity
+	 *         constraint
 	 */
 	public java.util.Collection getAllEntityRelations() {
 
-		// Only concrete entities may have EJB relations. Return 
+		// Only concrete entities may have EJB relations. Return
 		// an empty collection for everything else
 		if (this.isAbstract()) {
 			return Collections.EMPTY_LIST;
 		}
-		
+
 		Collection result = new ArrayList();
 		result.addAll(getEntityRelations());
-		
+
 		Classifier classifier = this.getSuperclass();
-		while (classifier != null && 
-			   classifier instanceof EJBEntityDecorator && 
-			   classifier.isAbstract()) {
-			   	
-			EJBEntityDecorator entity = (EJBEntityDecorator)classifier;			
-	        result.add(entity.getEntityRelations());
-	        classifier = this.getSuperclass();
+		while (classifier != null
+			&& classifier instanceof EJBEntityDecorator
+			&& classifier.isAbstract()) {
+
+			EJBEntityDecorator entity = (EJBEntityDecorator) classifier;
+			result.add(entity.getEntityRelations());
+			classifier = this.getSuperclass();
 		}
 		return result;
 	}
-	
+
 	/**
-	 * Get the associations that define relations to other entities.
-	 * This is similar to {@link  #findEntityRelationsForSource()}, but gets
-	 * only relations that are defined directly on <code>sourceType</code> and
-	 * it returns relations even if <code>sourceType</code> is an abstract entity.  
-	 * @throw IllegalStateException if a relation violates the 
+	 * Get the associations that define relations to other entities. This is
+	 * similar to {@link  #findEntityRelationsForSource()}, but gets only
+	 * relations that are defined directly on <code>sourceType</code> and it
+	 * returns relations even if <code>sourceType</code> is an abstract
+	 * entity. @throw IllegalStateException if a relation violates the
 	 * integrity constraint
 	 */
 	public java.util.Collection getEntityRelations() {
 		GeneralizableElement entity;
-		
+
 		Collection result = new ArrayList();
-		
+
 		Iterator i = this.getAssociationEnds().iterator();
 		while (i.hasNext()) {
 			EJBAssociationEndDecorator assoc =
 				(EJBAssociationEndDecorator) i.next();
 			Classifier target = assoc.getOtherEnd().getParticipant();
 
-			if (target instanceof EJBEntityDecorator && assoc.getOtherEnd().isNavigable()) {
+			if (target instanceof EJBEntityDecorator
+				&& assoc.getOtherEnd().isNavigable()) {
 				// Check the integrity constraint
-				String generateCmr = 
-					((AssociationDecorator)assoc.getOtherEnd().getAssociation()).findTaggedValue(
+				String generateCmr =
+					(
+						(AssociationDecorator) assoc
+							.getOtherEnd()
+							.getAssociation())
+							.findTaggedValue(
 						EJBProfile.TAGGEDVALUE_GENERATE_CMR);
-				if (target.isAbstract() && !"false".equalsIgnoreCase(generateCmr)) {
+				if (target.isAbstract()
+					&& !"false".equalsIgnoreCase(generateCmr)) {
 					throw new IllegalStateException(
-							"Relation '"
+						"Relation '"
 							+ assoc.getRelationName()
 							+ "' has the abstract target '"
 							+ target.getName()
