@@ -162,7 +162,7 @@
 #else
 #set ($linkQuery = '')
 #if ($triggerName != "submit")
-#set ($triggerName = "Go to $triggerName")
+#set ($triggerName = "$triggerName")
 #end
 #end
   <li>
