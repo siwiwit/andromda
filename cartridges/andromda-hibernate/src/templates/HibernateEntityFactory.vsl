@@ -79,7 +79,7 @@ public abstract class ${class.name}Factory {
 #end
 ##
     /**
-$finder.getDocumentation("     ")
+$finder.getDocumentation("    ")
      *
      * Finds ${class.name} object(s) using a query.
      *

@@ -77,21 +77,16 @@ $att.getDocumentation("     ")
 
     // ------------- relations ------------------
 
-#set ($sep = "_")
-#set ($suffix = "_FK")
 #foreach ( $associationEnd in $class.associationEnds )
-	#set ($target = $associationEnd.target)
+	#set ($target = $associationEnd.otherEnd)
     #set ($sourceType = $associationEnd.type)
-    #set ($targetType = $associationEnd.otherEnd.type)
+    #set ($targetType = $target.type)
     #set ($targetTypeName = $targetType.fullyQualifiedName)
-#if ($target.navigable == "true")
+#if ($target.navigable)
    /**
-$target.getDocumentation("     ")
-##    * multiplicity:     $adata.multiplicities
-##    * source navigable: $adata.source.navigable
-##    * target navigable: $adata.target.navigable
+$target.getDocumentation("    ")
     *
-#if ($target.one2Many)
+#if ($associationEnd.oneToMany)
     * @hibernate.set
     *     role="$target.name"
     *     lazy="true"
@@ -113,7 +108,7 @@ $target.getDocumentation("     ")
     private java.util.Collection ${target.name};
     
 #end
-#if ($target.many2Many)
+#if ($associationEnd.many2Many)
 ##
     * @hibernate.set
     *     lazy="true"
@@ -124,40 +119,39 @@ $target.getDocumentation("     ")
     *     column="$target.columnName"
     *     class="$targetTypeName"
     */
-    public java.util.Collection get${str.upperCaseFirstLetter($adata.target.roleName)}()
+    public java.util.Collection ${target.getterName}()
     {
-        return this.${adata.target.roleName};
+        return this.${target.name};
     }
 
-    public void set${str.upperCaseFirstLetter($adata.target.roleName)}(java.util.Collection ${adata.target.roleName})
+    public void ${target.setterName}(java.util.Collection ${target.name})
     {
-        this.${adata.target.roleName} = ${adata.target.roleName};
+        this.${target.name} = ${target.name};
     }
 
-    private java.util.Collection ${adata.target.roleName};
+    private java.util.Collection ${target.name};
     
 #end
-#if ($adata.isOne2One() || $adata.isMany2One())
-#if ($adata.isMany2One())
+#if ($associationEnd.one2One || $associationEnd.many2One)
+#if ($associationEnd.many2One)
     *   @hibernate.many-to-one
 #end
-#if ($adata.isOne2One())
+#if ($$associationEnd.one2One)
     *   @hibernate.one-to-one
 #end
-#set($foreignKeyColumn = "${str.toDatabaseAttributeName(${adata.target.roleName}, $sep)}$suffix")
-    *       column="${foreignKeyColumn}"
+    *       column="${target.columnName}"
     */
-    public ${targettypename} get${str.upperCaseFirstLetter($adata.target.roleName)}()
+    public ${targetTypeName} ${target.getterName}()
     {
-        return this.${adata.target.roleName};
+        return this.${target.name};
     }
     
-    public void set${str.upperCaseFirstLetter($adata.target.roleName)}(${targettypename} ${adata.target.roleName})
+    public void ${target.setterName}(${targetTypeName} ${target.name})
     {
-        this.${adata.target.roleName} = ${adata.target.roleName};
+        this.${target.name} = ${target.name};
     }
 
-    private ${targettypename} ${adata.target.roleName};
+    private ${targetTypeName} ${target.name};
 
 #end
 
@@ -171,7 +165,6 @@ $target.getDocumentation("     ")
 #if (!$op.hasStereotype("FinderMethod"))
    /**
 $op.getDocumentation("     ")
-    *
     */
 #set ($msig = $op.signature)
 #set ($returntype = $op.type.fullyQualifiedName)
