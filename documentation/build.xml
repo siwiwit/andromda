@@ -3,14 +3,13 @@
     <!-- ============================================================= -->
     <!--               Directory settings                              -->
     <!-- ============================================================= -->
-    <property file="build.properties"/>
 
     <!-- destination directories -->
     <property name="xdocs.src.dir"    value="xdocs"     />
     <property name="dist.dir"         value="dist"      />
     <property name="build.dir"        value="build"     />
     <property name="build.doc.dir"    value="build/doc" />
-    <property name="core.javadoc.dir" location="${andromda.home}/andromda-core/doc" />
+    <property name="core.javadoc.dir" value="../andromda/dist/predist/doc" />
 
 
     <!-- class path -->
@@ -32,7 +31,7 @@
     </target>
 
     <target name="clean" description="Delete all built files">
-        <delete includeEmptyDirs="true" quiet="true" >
+        <delete includeEmptyDirs="true" quiet="true">
             <fileset dir="${build.dir}"/>
             <fileset dir="${build.doc.dir}"/>
             <fileset dir="${dist.dir}"/>
@@ -40,11 +39,14 @@
     </target>
 
     <!--
-         Creates the net content web pages of www.andromda.org.
+         Creates the web pages of www.andromda.org and copies them
+         as part of the AndroMDA distribution into the subdirectory
+         "doc".
+         Runs sample Java source code through a Java2HTML converter.
          Runs website *.xml pages through Anakia to get *.html pages.
          Copies images and stylesheet.
     -->
-    <target name="webpages" depends="init">
+    <target name="build" depends="init">
         <taskdef name="anakia"
                  classname="org.apache.velocity.anakia.AnakiaTask"
                  classpathref="build.class.path"
@@ -72,15 +74,7 @@
                 <include name="**/*.css"/>
             </fileset>
         </copy>
-    </target>
 
-    <!--
-         Creates the entire web pages of www.andromda.org and copies them
-         as part of the AndroMDA distribution into the subdirectory
-         "doc".
-         Runs sample Java source code through a Java2HTML converter.
-    -->
-    <target name="build" depends="init,webpages">
         <taskdef name="java2html"
                  classname="de.java2html.anttasks.J2HTask"
                  classpathref="build.class.path"
@@ -107,11 +101,11 @@
 
 
     <target name="dist" depends="clean,build" >
-        <!-- copy everything into the release structure -->
-        <copy todir="${dist.dir}">
+        <!-- zip everything into the release archives -->
+        <zip zipfile="${dist.dir}/andromda-docs.zip">
             <fileset dir="${build.doc.dir}" includes="**/*" />
             <fileset dir="${core.javadoc.dir}" includes="**/*" />
-        </copy>
+        </zip>
     </target>
 
 </project>
