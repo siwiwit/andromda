@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../project.xml</extend>
-	<id>andromda-animal-quiz-sample-application</id>
+	<id>animal-quiz-sample-application</id>
 	<name>Animal Quiz Sample Application</name>
 	<shortDescription>
 		The AndromMDA Animal Quiz Sample featuring BPM4Struts.
@@ -19,7 +19,7 @@
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-animal-quiz-sample-hibernate-ejb</artifactId>
+			<artifactId>animal-quiz-sample-hibernate-ejb</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>ejb</type>
 	      	<properties>
@@ -28,15 +28,7 @@
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-animal-quiz-sample-common</artifactId>
-			<version>${pom.currentVersion}</version>
-	      	<properties>
-	      		<ear.module>true</ear.module>
-	     	</properties>
-		</dependency>
-		<dependency>
-			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-animal-quiz-sample-hibernate-sar</artifactId>
+			<artifactId>animal-quiz-sample-hibernate-sar</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>sar</type>
 	      	<properties>
@@ -45,7 +37,7 @@
 		</dependency>
 		<dependency>
 			<groupId>andromda-samples</groupId>
-			<artifactId>andromda-animal-quiz-sample-web</artifactId>
+			<artifactId>animal-quiz-sample-web</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>war</type>
 	      	<properties>
@@ -53,6 +45,94 @@
 				<ear.appxml.war.context-root>/AnimalQuiz</ear.appxml.war.context-root>
 	     	</properties>
 		</dependency>
+		<dependency>
+			<groupId>andromda-samples</groupId>
+			<artifactId>animal-quiz-sample-common</artifactId>
+			<version>${pom.currentVersion}</version>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+	     	</properties>
+		</dependency>
+    	<!-- Hibernate dependencies -->
+  		<dependency>
+     		<groupId>commons-beanutils</groupId>
+      		<artifactId>commons-beanutils</artifactId>
+        	<version>1.6.1</version>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+	     	</properties>
+    	</dependency>   
+  		<dependency>
+     		<groupId>commons-collections</groupId>
+      		<artifactId>commons-collections</artifactId>
+        	<version>2.1</version>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+	     	</properties>
+    	</dependency>  
+  		<dependency>
+     		<groupId>commons-lang</groupId>
+      		<artifactId>commons-lang</artifactId>
+        	<version>2.0</version>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+	     	</properties>
+    	</dependency> 
+  		<dependency>
+     		<groupId>commons-logging</groupId>
+      		<artifactId>commons-logging</artifactId>
+        	<version>1.0.3</version>
+	      	<properties>
+	        	<ear.bundle>true</ear.bundle>
+	     	</properties>
+    	</dependency> 
+  		<dependency>
+     		<groupId>hibernate</groupId>
+      		<artifactId>hibernate</artifactId>
+        	<version>2.1.2</version>
+			<properties>
+				<ear.bundle>true</ear.bundle>
+			</properties>
+    	</dependency>     	
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.0-rc2</version>
+			<properties>
+				<ear.bundle>true</ear.bundle>
+			</properties>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.4</version>
+			<properties>
+				<ear.bundle>true</ear.bundle>
+			</properties>
+		</dependency>
+		<dependency>
+			<groupId>odmg</groupId>
+			<artifactId>odmg</artifactId>
+			<version>3.0</version>
+			<properties>
+				<ear.bundle>true</ear.bundle>
+			</properties>
+		</dependency>
+		<dependency>
+			<groupId>ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>0.7</version>
+			<properties>
+				<ear.bundle>true</ear.bundle>
+			</properties>
+		</dependency>
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>1.4.1</version>
+			<properties>
+				<ear.bundle>true</ear.bundle>
+			</properties>
+		</dependency>
 	</dependencies> 
-
 </project>
