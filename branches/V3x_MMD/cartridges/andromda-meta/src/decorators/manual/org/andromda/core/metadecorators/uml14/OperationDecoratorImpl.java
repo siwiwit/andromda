@@ -39,13 +39,13 @@ public class OperationDecoratorImpl extends OperationDecorator
         StringBuffer sb = new StringBuffer();
         sb.append(metaObject.getName());
         sb.append("(");
-        sb.append(getOperationTypedParameterList());
+        sb.append(getTypedParameterList());
         sb.append(")");
 
         return sb.toString();
     }
 
-    private String getOperationTypedParameterList()
+    public String getTypedParameterList()
     {
         StringBuffer sb = new StringBuffer();
         Iterator it = metaObject.getParameter().iterator();
