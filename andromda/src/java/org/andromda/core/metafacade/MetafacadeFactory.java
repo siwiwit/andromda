@@ -13,7 +13,6 @@ import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.Property;
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 public class MetafacadeFactory
@@ -122,7 +121,13 @@ public class MetafacadeFactory
             MetafacadeMappings mappings = MetafacadeMappings.instance();
 
             Collection stereotypeNames =
-                model.getStereotypeNames(metaobject);
+                this.getModel().getStereotypeNames(metaobject);
+            
+            if (stereotypeNames == null) {
+            	throw new MetafacadeFactoryException(methodName
+                    + " - could not retrieve stereotypes for metaobject --> '" + metaobject + "'");
+            }
+            
             MetafacadeMapping mapping = null;
 
             if (this.internalGetLogger().isDebugEnabled())
@@ -214,7 +219,7 @@ public class MetafacadeFactory
                     + metaobjectClass
                     + "'";
             internalGetLogger().error(errMsg, th);
-            throw new MetafacadeException(errMsg, th);
+            throw new MetafacadeFactoryException(errMsg, th);
         }
 
         return metafacade;
@@ -238,7 +243,7 @@ public class MetafacadeFactory
      * 
      * @param interfaceName the name of the interface that the implementation object has to implement 
      * @param metaObject the metaobject for which a facade shall be created
-     * @param context the context which to set to allow 
+     * @param contextName the contextName which will be used to create other metafacades.
      * @return MetafacadeBase the metafacade
      */
     public MetafacadeBase createFacadeImpl(
@@ -270,7 +275,7 @@ public class MetafacadeFactory
                 this.internalCreateMetafacade(
                         metaObject,
                         null,
-                        metafacadeClass);    
+                        metafacadeClass);   
            
             
             return metafacade;
@@ -284,7 +289,7 @@ public class MetafacadeFactory
                     + metaObject.getClass().getName()
                     + "'";
             internalGetLogger().error(errMsg, th);
-            throw new MetafacadeException(errMsg, th);
+            throw new MetafacadeFactoryException(errMsg, th);
         }
     }
 
@@ -381,6 +386,11 @@ public class MetafacadeFactory
      */
     public ModelFacade getModel()
     {
+        final String methodName = "MetafacadeFactory.getModel";
+        if (this.model == null) {
+        	throw new MetafacadeFactoryException(methodName
+        		+ " - model is null!");
+        }
         return model;
     }
 
@@ -463,7 +473,7 @@ public class MetafacadeFactory
             (Map) this.registeredProperties.get(namespace);
         if (propertyNamespace == null)
         {
-            throw new MetafacadeException(
+            throw new MetafacadeFactoryException(
                 methodName
                     + " - no properties registered under namespace '"
                     + namespace
@@ -475,7 +485,7 @@ public class MetafacadeFactory
             registeredProperty = propertyNamespace.get(name);
             if (registeredProperty == null)
             {
-                throw new MetafacadeException(
+                throw new MetafacadeFactoryException(
                     methodName
                         + " - no property '"
                         + name
