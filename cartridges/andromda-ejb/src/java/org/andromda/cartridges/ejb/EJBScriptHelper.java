@@ -6,196 +6,27 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.andromda.core.simpleuml.SimpleOOHelper;
+import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
+import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
 import org.andromda.core.simpleuml.UMLClassifier;
 import org.andromda.core.uml14.DirectionalAssociationEnd;
+import org.andromda.core.uml14.UMLStaticHelper;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Classifier;
-import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.Feature;
 import org.omg.uml.foundation.core.GeneralizableElement;
 import org.omg.uml.foundation.core.ModelElement;
-import org.omg.uml.foundation.core.Operation;
-import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.datatypes.AggregationKind;
 import org.omg.uml.foundation.datatypes.AggregationKindEnum;
 import org.omg.uml.foundation.datatypes.ChangeableKindEnum;
-import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
 import org.omg.uml.foundation.datatypes.ScopeKindEnum;
-import org.omg.uml.foundation.datatypes.VisibilityKind;
-import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 
 /**
  * Transform class for the EJB cartridge.
  * @author Richard Kunze
  */
-public class EJBScriptHelper extends SimpleOOHelper {
-
-    /**
-     * Find the primary key type name for <code>obj</code>.
-     * If <code>obj</code> is of type {@link Classifier} or {@link UMLClassifier}, 
-     * the primary key type is determined as follows:
-     * <ol>
-     * <li>If <code>obj</code> has a dependency with stereotype
-     *  &lt;&lt;PrimaryKey&gt;&gt;, the primary key type is the supplier
-     * of this dependency.
-     * <li>Otherwise, if <code>obj</code> has an attribute with stereotype
-     * &lt;&lt;PrimaryKey&gt;&gt;, the primary key type is the 
-     * type of this attribute
-     * <li>If there is neither a dependency nor an attribute with the
-     * &lt;&lt;PrimaryKey&gt;&gt; stereotype, recurse up the inheritance tree.
-     * <li>Finally, if no explict primary key type can be found, return
-     * <code>defaultPK</code>  
-     * </ol>
-     * <p>If <code>obj</code> is any other type, <code>defaultPK</code> 
-     * is returned.
-     * @param obj the entity to check
-     * @param defaultPK the the default PK type name to use if no PK type is found
-     * @return the fully qualified name of the primary key type
-     */
-    public String findPkTypeName(Object obj, String defaultPK) {
-        Classifier entity;
-        if (obj instanceof UMLClassifier) {
-            entity = (Classifier) ((UMLClassifier) obj).getId();
-        } else if (obj instanceof Classifier) {
-            entity = (Classifier) obj;
-        } else {
-            return defaultPK;
-        }
-
-        Iterator iter = getDependencies(entity).iterator();
-        while (iter.hasNext()) {
-            Dependency dep = (Dependency) iter.next();
-            if ("PrimaryKey".equals(getStereotype(dep))) {
-                return getFullyQualifiedName(
-                    dep.getSupplier().iterator().next());
-            }
-        }
-        // No PK dependency found - try a PK attribute
-        Attribute attr = getPrimaryKeyAttribute(entity);
-        if (attr != null) {
-            String retval = findFullyQualifiedName(attr.getType());
-            if (retval != null) {
-                return retval;
-            }
-        }
-
-        // Still nothing found - recurse up the inheritance tree
-        GeneralizableElement parent = getGeneralization(entity);
-        return findPkTypeName(parent, defaultPK);
-    }
-    
-    /**
-     * Find the names of the primary key fields for <code>obj</code>.
-     * If <code>obj</code> is of type {@link Classifier} or {@link UMLClassifier}, 
-     * the primary key type is determined as follows:
-     * @param obj the entity to check
-     * @return a collection of strings
-     * @see #findPkFields()
-     */
-    public Collection findPkFieldNames(Object obj) {
-        Collection fields = findPkFields(obj);
-        Collection names = new ArrayList(fields.size());
-        for (Iterator i = fields.iterator(); i.hasNext();) {
-            Attribute attr = (Attribute) i.next();
-            names.add(attr.getName());
-        }
-        return names;
-    }
-    
-    /**
-     * Check if the primary key for <code>class</code> has been specified with
-     * a dependency to an external class.
-     * @param clazz the class to check
-     * @return <code>true</code> if the primary key has ben specified by a dependency, 
-     * <code>false</code> if it has been specified by an attribute marked as 
-     * &lt;&lt;PrimaryKey&gt;&/gt;
-     */
-    public boolean hasComplexPrimaryKey(Object clazz) {
-        return getSimplePkField(clazz) == null;
-    }
-
-    /** 
-     * If this <code>object</code> does not have a complex primaray key, get the
-     * (unqiue) attribute that is used as the primary key.
-     * @param object the class to check
-     * @return the attribute used as primary key, or <code>null</code> if there is
-     * none or the class has a complex primary key.
-     */
-    public Attribute getSimplePkField(Object object) {
-        Collection c = findPkFields(object);
-        if (c.size() != 1) {
-            return null;
-        } else {
-            Attribute pkField = (Attribute)c.iterator().next();
-            if ("PrimaryKey".equals(getStereotype(pkField))) {
-                return pkField;
-            } else {
-                return null;
-            }
-        }
-    }
-
-    
-    /**
-     * Find the primary key fields for <code>obj</code>.
-     * If <code>obj</code> is of type {@link Classifier} or {@link UMLClassifier}, 
-     * the primary key type is determined as follows:
-     * <ol>
-     * <li>If <code>obj</code> has a dependency with stereotype
-     *  &lt;&lt;PrimaryKey&gt;&gt;, the primary key fields are 
-     * the public attributes of the supplier of this dependency.
-     * <li>Otherwise, if <code>obj</code> has an attribute with stereotype
-     * &lt;&lt;PrimaryKey&gt;&gt;, the primary key field is this attribute
-     * <li>If there is neither a dependency nor an attribute with the
-     * &lt;&lt;PrimaryKey&gt;&gt; stereotype, recurse up the inheritance tree.
-     * <li>Finally, if no explict primary key type can be found, return
-     * an empty list  
-     * </ol>
-     * <p>If <code>obj</code> is any other type, an empty list 
-     * is returned.
-     * @param obj the entity to check
-     * @return a collection of {@link Attribute} objects
-     */
-    public Collection findPkFields(Object obj) {
-        Classifier entity;
-        if (obj instanceof UMLClassifier) {
-            entity = (Classifier) ((UMLClassifier) obj).getId();
-        } else if (obj instanceof Classifier) {
-            entity = (Classifier) obj;
-        } else {
-            return Collections.EMPTY_LIST;
-        }
-
-        Iterator iter = getDependencies(entity).iterator();
-        while (iter.hasNext()) {
-            Dependency dep = (Dependency) iter.next();
-            if ("PrimaryKey".equals(getStereotype(dep))) {
-                Collection allAttrib = 
-                  getInstanceAttributes(dep.getSupplier().iterator().next());
-                Collection publicAttrib = new ArrayList();
-                for (Iterator i = allAttrib.iterator(); i.hasNext();) {
-                    Attribute att = (Attribute) i.next();
-                    if ("public".equals(getVisibility(att))) {
-                      publicAttrib.add(att);
-                    }
-                }
-                return publicAttrib;
-            }
-        }
-        // No PK dependency found - try a PK attribute
-        Attribute attr = getPrimaryKeyAttribute(entity);
-        if (attr != null) {
-            Collection retval = new ArrayList(1);
-            retval.add(attr);
-            return retval;
-        }
-
-        // Still nothing found - recurse up the inheritance tree
-        GeneralizableElement parent = getGeneralization(entity);
-        return findPkFields(parent);
-    }
+public class EJBScriptHelper extends UMLStaticHelper {
     
     /** Get the target type for a relation. If the relation target has
      * a multiplicity of 0..1 or 1, this is the fully qualified type name of
@@ -208,7 +39,7 @@ public class EJBScriptHelper extends SimpleOOHelper {
         if (rel.isMany2Many() || rel.isOne2Many()) {
             return "java.util.Collection"; 
         } else {
-            return findFullyQualifiedName(rel.getTarget().getParticipant());
+            return ((ClassifierDecorator)rel.getTarget().getParticipant()).getFullyQualifiedName();
         }
     }
 
@@ -578,7 +409,6 @@ public class EJBScriptHelper extends SimpleOOHelper {
         return attributes;
     }    
 
-
     /** Create a comma seperated list of attributes.
      * This method can be used to generated e.g. argument lists for 
      * constructors, method calls etc.
@@ -591,146 +421,28 @@ public class EJBScriptHelper extends SimpleOOHelper {
      * @author richard
      */
     public String getAttributesAsList(Collection attributes,
-                                      boolean includeTypes,
-                                      boolean includeNames) {
-        if (!includeNames && !includeTypes) {
-            return "";
-        }
-        
-        StringBuffer sb = new StringBuffer();
-        String separator = "";
+    		boolean includeTypes,
+			boolean includeNames) {
+    	if (!includeNames && !includeTypes) {
+    		return "";
+    	}
+    	
+    	StringBuffer sb = new StringBuffer();
+    	String separator = "";
 
-        for (Iterator it = attributes.iterator(); it.hasNext();) {
-            Attribute attr = (Attribute)it.next();
-            sb.append(separator);
-            separator = ", ";
-            if (includeTypes) {
-                sb.append(findFullyQualifiedName(attr.getType()));
-                sb.append(" ");
-            }
-            if (includeNames) {
-                sb.append(attr.getName());
-            }
-        }
-        return sb.toString();
-    }
-    
-    /** Convert the visibility of <code>feature</code> into a string
-     * usable in Java source code if it is one of the predefined constants
-     * in {@link VisibilityKindEnum}. If the visibility is not 
-     * one of these constants, this methods returns the string representation
-     * of the visibility.
-     * Note: This method really belongs into {@link UMLStaticHelper}
-     * @param element a UML class, attribute or operation
-     * @return a string representing the visibility
-     */
-    public String getVisibility(ModelElement element) {
-        VisibilityKind vis = element.getVisibility();
-        if (VisibilityKindEnum.VK_PUBLIC.equals(vis)) {
-            return "public";        
-        } else if (VisibilityKindEnum.VK_PACKAGE.equals(vis)) {
-            return "";
-        } else if (VisibilityKindEnum.VK_PROTECTED.equals(vis)) {
-            return "protected";
-        } else if (VisibilityKindEnum.VK_PRIVATE.equals(vis)) {
-            return "private";
-        } else {
-            return vis.toString();
-        }
-    }
-
-    /** Get all create methods for <code>element</code>.
-     * This includes create methods that are defined on a super type
-     * of <code>element</code>
-     */
-    public Collection getAllCreateMethods(GeneralizableElement element) {
-        Collection retval = new ArrayList();
-        do {
-            Collection ops = getOperations(element);
-            for (Iterator i = ops.iterator(); i.hasNext();) {
-                Operation op = (Operation) i.next();
-                if (getStereotype(op).equals("CreateMethod")) {
-                    retval.add(op);
-                }
-            }
-            element = getGeneralization(element);
-        } while (element != null);
-        return retval;
-    }
-
-    /** Get all select methods for <code>element</code>.
-     * This includes select methods that are defined on a super type
-     * of <code>element</code>
-     */
-    public Collection getAllSelectMethods(GeneralizableElement element) {
-        Collection retval = new ArrayList();
-        do {
-            Collection ops = getOperations(element);
-            for (Iterator i = ops.iterator(); i.hasNext();) {
-                Operation op = (Operation) i.next();
-                if (getStereotype(op).equals("SelectMethod")) {
-                    retval.add(op);
-                }
-            }
-            element = getGeneralization(element);
-        } while (element != null);
-        return retval;
-    }
-
-    /**
-     * Builds a comma-separated list of parameter types of an operation.
-     * This really belongs in the super class.
-     * @param o the operation
-     * @return String the list of parameter type names
-     */
-    public String getOperationParameterTypeNames(Operation o)
-    {
-        StringBuffer sb = new StringBuffer();
-        
-        Iterator it = o.getParameter().iterator();
-        
-        boolean commaNeeded = false;
-        while (it.hasNext())
-        {
-            Parameter p = (Parameter) it.next();
-        
-            if (!ParameterDirectionKindEnum.PDK_RETURN.equals(p.getKind()))
-            {
-                if (commaNeeded)
-                {
-                    sb.append(", ");
-                }
-                sb.append(getFullyQualifiedName(p.getType()));
-                commaNeeded = true;
-            }
-        }
-        return sb.toString();
-    }
-    
-    /** Replaces all occurences of <code>orig</code> in <code>str</code> with
-     * <code>replace</code>. This really belongs into the string utils helper...
-     * 
-     * @param str the string to replace
-     * @param orig the old substring
-     * @param replace the replacement
-     * @return the new string
-     */
-    public String replace(String str, String orig, String replace) {
-        int idx = str.indexOf(orig);
-        if (idx == -1) {
-            return str;
-        }
-        
-        StringBuffer result = new StringBuffer(str.length());
-        int current = 0;
-        do {
-            result.append(str.substring(current, idx));
-            result.append(replace);
-            current = idx + orig.length();
-            idx = str.indexOf(orig, current);
-        } while (idx != -1);
-        result.append(str.substring(current));
-        return result.toString();
+    	for (Iterator it = attributes.iterator(); it.hasNext();) {
+    		Attribute attr = (Attribute)it.next();
+    		sb.append(separator);
+    		separator = ", ";
+    		if (includeTypes) {
+    			sb.append(((ClassifierDecorator)attr.getType()).getFullyQualifiedName());
+    			sb.append(" ");
+    		}
+    		if (includeNames) {
+    			sb.append(attr.getName());
+    		}
+    	}
+    	return sb.toString();
     }
     
     /** Filter a list of model elements by visibility
@@ -744,7 +456,7 @@ public class EJBScriptHelper extends SimpleOOHelper {
         Collection retval = new ArrayList(list.size());
         for (Iterator iter = list.iterator(); iter.hasNext();) {
             ModelElement elem = (ModelElement)iter.next();
-            if (visibility.equals(getVisibility(elem))) {
+            if (visibility.equals(((ModelElementDecorator)elem).getVisibility())) {
                 retval.add(elem);
             }
         }

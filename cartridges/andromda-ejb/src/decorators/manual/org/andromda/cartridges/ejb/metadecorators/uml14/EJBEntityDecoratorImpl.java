@@ -10,6 +10,7 @@ import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.metadecorators.uml14.AssociationDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
+import org.andromda.core.metadecorators.uml14.OperationDecorator;
 import org.andromda.core.uml14.UMLProfile;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Attribute;
@@ -247,5 +248,49 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 			return retval;
 		}
 	}
+	
+
+	public Collection getCreateMethods(boolean all) {
+		Collection retval = new ArrayList();
+		EJBEntityDecorator entity = null;
+		do {
+			Collection ops = this.getOperations();
+			for (Iterator i = ops.iterator(); i.hasNext();) {
+				OperationDecorator op = (OperationDecorator) i.next();
+				if (StringUtils.trimToEmpty(op.getStereotypeName()).equals(
+					EJBProfile.STEREOTYPE_CREATE_METHOD)) {
+					retval.add(op);
+				}
+			}
+			if (all) {
+				entity = (EJBEntityDecorator)this.getSuperclass();
+			} else {
+				break;
+			}
+		} while (entity != null);
+		return retval;
+	}
+
+	public Collection getSelectMethods(boolean all) {
+		Collection retval = new ArrayList();
+		EJBEntityDecorator entity = null;
+		do {
+			Collection ops = this.getOperations();
+			for (Iterator i = ops.iterator(); i.hasNext();) {
+				OperationDecorator op = (OperationDecorator) i.next();
+				if (StringUtils.trimToEmpty(op.getStereotypeName()).equals(
+					EJBProfile.STEREOTYPE_SELECT_METHOD)) {
+					retval.add(op);
+				}
+			}
+			if (all) {
+				entity = (EJBEntityDecorator)this.getSuperclass();
+			} else {
+				break;
+			}
+		} while (entity != null);
+		return retval;
+	}
+	
 
 }

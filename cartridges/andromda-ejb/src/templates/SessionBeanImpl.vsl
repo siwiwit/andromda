@@ -33,7 +33,7 @@ public class ${servicename}BeanImpl extends ${servicename}Bean
 ## Public static methods are exposed on the home 
 ## interface instead of the component interface and must
 ## be prepended with "ejbHome"
-#if ($visibility == "public" && $transform.isStatic($op)) 
+#if ($visibility == "public" && $op.static) 
 #set ($msig = "ejbHome${str.upperCaseFistLetter($msig)}")
 #end
     /**
