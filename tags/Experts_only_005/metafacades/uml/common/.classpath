@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="src/facades/generated"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="src" path="/andromda3"/>
+    <classpathentry kind="lib" path="/andromda3/lib/jmiuml14di.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/mof.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/jmi.jar"/>
+    <classpathentry kind="output" path="eclipse-build"/>
+</classpath>

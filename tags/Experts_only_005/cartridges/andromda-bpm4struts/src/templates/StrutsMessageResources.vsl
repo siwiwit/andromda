@@ -1,0 +1,70 @@
+#
+#   Messages for the validator plugin
+#
+errors.required={0} is required.
+errors.minlength={0} can not be less than {1} characters.
+errors.maxlength={0} can not be greater than {1} characters.
+errors.invalid={0} is invalid.
+
+errors.byte={0} must be a byte.
+errors.short={0} must be a short.
+errors.integer={0} must be an integer.
+errors.long={0} must be a long.
+errors.float={0} must be a float.
+errors.double={0} must be a double.
+
+errors.date={0} is not a date.
+errors.range={0} is not in the range {1} through {2}.
+errors.creditcard={0} is an invalid credit card number.
+errors.email={0} is an invalid e-mail address.
+
+#foreach ($useCase in $class.useCases)
+#set ($formBean = $useCase.servlet.formBean)
+# form-bean: $formBean.formName /${str.separate($formBean.packageName, "/")}/${formBean.name}.java
+#foreach ($inputField in $formBean.inputFields)
+${inputField.validatorMsgKey}=$inputField.messageValue
+#end
+
+#end
+
+
+##
+##  We take the workflow and iterate over each individual use-case,
+##  for that use-case we look up the controller.
+##  Per controller we have a set of views and inputfields,
+##  for these elements we render messages
+##
+#foreach ($useCase in $class.useCases)
+#
+#   Messages for the $useCase.name use-case
+#
+
+## get the controller
+#set ($servlet = $useCase.servlet)
+## get the formbean
+#set ($formBean = $servlet.formBean)
+## only continue if there is a formbean
+#if ($formBean)
+## loop over the views
+#foreach ($jsp in $formBean.jsps)
+# JSP: $jsp.actionState.name ${jsp.fullPathName}.jsp
+$jsp.titleMessageKey=$jsp.titleMessageValue
+## handle each view's input field
+#foreach ($request in $jsp.requests)
+#foreach ($parameter in $request.parameters)
+$parameter.messageKey=$parameter.messageValue
+$parameter.titleMessageKey=$parameter.titleMessageValue
+#end
+## Handle each view's trigger transition
+#foreach ($trigger in $request.triggerTransitions)
+$trigger.messageKey=$trigger.messageValue
+$trigger.titleMessageKey=$trigger.titleMessageValue
+#end
+#end
+
+#end
+#end
+#set ($formBean = false)## reset this variable in case there is a formless controller
+
+
+#end

@@ -1,0 +1,282 @@
+package $class.packageName;
+
+import javax.ejb.EJBException;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.SessionFactory;
+
+#foreach ( $dep in $class.dependencies )
+#set ($targetType = $dep.targetType)
+#if ($targetType)
+#if ($dep.hasStereotype("ServiceRef"))
+#set ($targetTypePackageName = $targetType.packageName)
+#if ($targetTypePackageName != $class.packageName)
+import ${targetType.fullyQualifiedName}Home;
+#end
+#end
+#end
+#if ($dep.hasStereotype("Exception"))
+#set ($defaultException = $targetType)
+#end
+#end
+##
+#if ($class.attributes.size() > 0)
+#set ($stateful = true)
+#else
+#set ($stateful = false)
+#end
+##
+/**
+$class.getDocumentation(" ")
+ *
+ * @ejb.bean name="$class.name"
+#if ($stateful)
+ *       type="Stateful"
+#else
+ *       type="Stateless"
+#end
+ *       local-jndi-name="${class.packageName}/${class.name}/LocalHome"
+ *           jndi-name="${class.packageName}/${class.name}/Home"
+ *       view-type="both"
+ * @ejb.interface generate="local,remote"
+ *        remote-class="${class.packageName}.${class.name}"
+ *        local-class="${class.packageName}.${class.name}Local"
+ * @ejb.home generate="local, remote"
+ *        remote-class="${class.packageName}.${class.name}Home"
+ *        local-class="${class.packageName}.${class.name}LocalHome"
+ * @ejb.util generate="physical"
+#foreach ( $dep in $class.dependencies )
+#if ($dep.hasStereotype("ServiceRef"))
+ #set ($targetType = $dep.targetType)
+ * @ejb.ejb-ref ejb-name="${targetType.name}" view-type="${remote}" ref-name="ejb/${targetType}BeanRef"
+#end
+#end
+#foreach ( $tgv in $class.taggedValues )
+#if ($tgv.name != "documentation")
+#if ($tgv.name == "---")
+    #set ($tag = "")
+#else
+    #set ($tag = $tgv.name)
+#end
+ * $tag    $tgv.value
+#end
+#end
+ *
+ */
+public abstract class ${class.name}Bean implements javax.ejb.SessionBean {
+
+#if ($stateful)
+    // --------------- attributes ---------------------
+#foreach ( $att in $class.attributes )
+#set ($atttypename = $att.type.fullyQualifiedName)
+
+   protected ${atttypename} ${att.name};
+
+   /**
+$att.getDocumentation("     ")
+    *
+    * @ejb.interface-method view-type="both"
+    * @ejb.transaction      type="Required"
+    *
+    */
+    public $atttypename get${str.upperCaseFirstLetter(${att.name})}() {
+        return ${att.name};
+    }
+   /**
+    * @ejb.interface-method view-type="both"
+    * @ejb.transaction      type="Required"
+    */
+    public void set${str.upperCaseFirstLetter(${att.name})}(${atttypename} newValue) {
+        ${att.name} = newValue;
+    }
+
+#end
+#end
+    // ---------------- business methods  ----------------------
+
+#foreach ($op in $class.operations)
+#set ($msig = $op.signature)
+
+##
+##  Add one additional parameter to the list of parameters:
+##  a reference to the open Hibernate session.
+##
+#set ($parameterList = $op.typedParameterList)
+#if ($parameterList.length() == 0)
+#set ($parameters = "net.sf.hibernate.Session sess")
+#else
+#set ($parameters = "net.sf.hibernate.Session sess, ${parameterList}")
+#end
+
+#set ($returntype = $op.type.fullyQualifiedName)
+#if ($defaultException)
+    protected abstract $returntype handle${str.upperCaseFirstLetter(${op.name})} ($parameters)
+        throws $defaultException.name;
+#else
+    protected abstract $returntype handle${str.upperCaseFirstLetter(${op.name})} ($parameters);
+#end
+
+   /**
+$op.getDocumentation("     ")
+    *
+    * @ejb.interface-method view-type="both"
+    * @ejb.transaction type="Required"
+    */
+#if ($defaultException)
+    $op.visibility $returntype $msig
+        throws $defaultException.name
+#else
+    $op.visibility $returntype $msig
+#end
+    {
+        Session sess = null;
+        try
+        {
+            sess = getSession();
+##
+##  Add one additional parameter to the list of parameters:
+##  a reference to the open Hibernate session.
+##
+#set ($parameterList = $op.parameterNames)
+#if ($parameterList.length() == 0)
+#set ($parameters = "sess")
+#else
+#set ($parameters = "sess, ${parameterList}")
+#end
+##
+#set ($returntype = $op.type.fullyQualifiedName)
+#if ("void" != $returntype)
+            return handle${str.upperCaseFirstLetter($op.name)}($parameters);
+#else
+            handle${str.upperCaseFirstLetter($op.name)}($parameters);
+#end
+        }
+#if ($defaultException)
+        catch ($defaultException.name e)
+        {
+           _ctx.setRollbackOnly();
+           throw e;
+        }
+#end
+        catch (HibernateException he)
+        {
+            throw new EJBException("${class.name}Bean.${op.name}: " + he.getMessage());
+        }
+        catch (NamingException ne)
+        {
+            throw new EJBException("${class.name}Bean.${op.name}: " + ne.getMessage());
+        }
+        finally
+        {
+            if (sess != null)
+            {
+                try
+                {
+                    sess.flush();
+                    sess.close();
+                }
+                catch (HibernateException he)
+                {
+                    throw new EJBException("${class.name}Bean.${op.name}: " + he.getMessage());
+                }
+            }
+        }
+    }
+#end
+
+   // ---------------- create methods -------------------------
+
+   /**
+    * @ejb.create-method
+    * @ejb.transaction type="Required"
+    */
+    public void ejbCreate ()
+           throws javax.ejb.CreateException
+    {
+    }
+
+    public void ejbPostCreate ()
+           throws javax.ejb.CreateException
+    {
+    }
+
+#if ($stateful)
+   // ---------------- create methods with separate attributes --------------------
+
+   /**
+    * @ejb.create-method
+    * @ejb.transaction type="Required"
+    */
+    public void ejbCreate $class.attributesAsList(true)
+           throws javax.ejb.CreateException
+    {
+#foreach ( $att in $class.attributes)
+        ${att.setterName} (${att.name});
+#end
+    }
+
+    public void ejbPostCreate $class.attributesAsList(true)
+           throws javax.ejb.CreateException
+    {
+    }
+
+#end
+   // ---------------- Hibernate helpers -------------------------
+
+    protected javax.ejb.SessionContext _ctx = null;
+
+    private SessionFactory _sessionFactory = null;
+
+    public void setSessionContext( javax.ejb.SessionContext ctx )
+    {
+        _ctx = ctx;
+        _sessionFactory = null;
+    }
+
+    private SessionFactory getSessionFactory() throws NamingException
+    {
+        if( _sessionFactory == null )
+        {
+            InitialContext ic = new InitialContext();
+
+            _sessionFactory = ( SessionFactory )
+                              ic.lookup( "java:/hibernate/SessionFactory" );
+        }
+
+        return _sessionFactory;
+    }
+
+    private Session getSession() throws HibernateException, NamingException
+    {
+        return getSessionFactory().openSession();
+    }
+
+    // ---------------- accessor methods for (session!) bean references ---------------
+
+#foreach ( $dep in $class.dependencies )
+#if ($dep.hasStereotype("ServiceRef"))
+   #set ($referencedClass = $dep.targetType)
+   #set ($homeInterfaceName = "${referencedClass.name}Home")
+   /**
+    * This is to get the reference to the ${referencedClass.name} bean.
+    * Obtains local home interface from default initial context
+    * @return Local home interface for ${referencedClass.name}. Lookup using bean ref name.
+    */
+    protected static ${homeInterfaceName} get${homeInterfaceName}() throws NamingException
+    {
+        InitialContext initialContext = new InitialContext();
+        try {
+            // Local homes shouldn't be narrowed, as there is no RMI involved.
+            ${homeInterfaceName} home = (${homeInterfaceName}) initialContext.lookup("java:comp/env/ejb/${referencedClass.name}BeanRef");
+            return home;
+        } finally {
+            initialContext.close();
+        }
+    }
+
+#end
+#end
+}
