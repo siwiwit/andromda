@@ -34,6 +34,13 @@ import org.xml.sax.SAXParseException;
  * the file you want to configure.  This keeps the dependency to digester (or whatever
  * XML configuration tool we are using at the time) to this one file.
  * 
+ * In order to add/modify an existing element/attribute in your configuration file, first 
+ * add make the modification in your java object, then modify it's rules file 
+ * to instruct the digester on how to configure your new attribute, method in the java object, 
+ * and then modify your XSD file to provide correct validation.  Please see 
+ * the org.andromda.core.metafacade.MetafacadeMappings* files for an example on how
+ * to do this.
+ * 
  * @author Chad Brandon
  */
 public class XmlObjectFactory {
