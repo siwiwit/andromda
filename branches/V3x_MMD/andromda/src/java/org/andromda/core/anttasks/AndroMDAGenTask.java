@@ -609,7 +609,7 @@ public class AndroMDAGenTask extends MatchingTask
      * to define package elements to specify which packages SHOULD BE
      * processed.  This is useful if you need to reference stereotyped model
      * elements from other packages but you don't want
-     * to perform any generation from them. 
+     * to perform any generation from them. The default is true.
      *
      * @param processAllModelPackages
      * @see addPackage(java.lang.String, boolean)
