@@ -1,29 +1,24 @@
+#parse("templates/StrutsJSP.vm")
+
 <%@ taglib uri="struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="struts-html.tld" prefix="html" %>
 ##
 ##  Constant declarations
 ##
 #set ($servlet = $class.servlet)
-#set ($formBeanName = $class.formBeanName)
-#set ($inputFields = $class.inputFields)
-#set ($triggers = $class.triggers)
 ##
 ## Specific to this class
 ##
-#set ($servletName = "/$str.toJavaClassName($servlet.servletName)")
-#set ($dispatchMethodName = "$str.toJavaMethodName($class.actionState.name)")
+#set ($servletName = "/$servlet.servletName")
+#set ($dispatchParameter = "$servlet.dispatchParameter")
+#set ($dispatchMethodName = "$class.actionState.dispatchMethodName")
 ##
 ## Title
 ##
 <html:html>
     <head>
         <title><bean:message key="$class.titleMessageKey"/></title>
-#if ($inputFields.size() > 0)
-#set ($staticJavaScriptURI = "${servlet.useCase.workflow.contextPath}/form-validation.jsp")
-#set ($dynamicJavaScriptURI = "${class.fullPathName}JS.jsp")
-        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="$staticJavaScriptURI"/>"></script>
-<!--        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="$dynamicJavaScriptURI"/>"></script>-->
-<html:javascript formName="$formBeanName" dynamicJavascript="true" staticJavascript="false" htmlComment="true"/>
+#if ($class.hasForms())
         <script type="text/javascript" language="Javascript1.1">
         <!--
             function submitForm(form,trigger)
@@ -35,115 +30,27 @@
         </script>
 #end
     </head>
+
     <body>
 
         <h2><bean:message key="$class.titleMessageKey"/></h2>
         <p>
-##
-##  In case no model has been specified we assume no parameter needed to be posted
-##  and we use a hyperlink
-##
-#if ($inputFields.size() > 0)
+
+#foreach ($request in $class.requests)
 
 ##
-##  If the view is backed by a model (indicating request parameters) we render a form
+##      In case we're dealing with a form (we have input buttons)
 ##
-#set ($formAction = "$servletName?$servlet.dispatchParameter=$dispatchMethodName")
-#set ($formFocus = "$class.firstInputField.name")
-        <html:form action="$formAction" focus="$formFocus">
-##  This next field hold the trigger requests parameter that will be sent to the server
+#set ($action = "$servletName?$dispatchParameter=$dispatchMethodName")
+#if ($request.isForm())
+        <html:form action="$action">
             <html:hidden property="trigger" value=""/>
             <table cellpadding="5" cellspacing="5" border="0">
-##
-##  Render a new row for each input field on this view
-##
-#foreach ($inputField in $inputFields)
-#set ($titleKey = "${inputField.messageKey}.title")
+#foreach ($parameter in $request.parameters)
                 <tr>
-                    <td><bean:message key="$inputField.messageKey"/></td>
+                    <td><bean:message key="$parameter.messageKey"/></td>
                     <td>
-##
-##  Depending on the type of the input field we render a different widget
-##
-#if ($inputField.defaultValue)
-#set ($value = 'value="$inputField.defaultValue"')
-#else
-#set ($value = '')
-#end
-##
-##      C H E C K B O X     &      R A D I O B U T T O N
-##
-#if ( ($inputField.fieldType == 'radio') || ($inputField.fieldType == 'checkbox') )
-#if ($inputField.isReadOnly())
-#set ($disabled = 'disabled="true"')
-#else
-#set ($disabled = '')
-#end
-                        <html:$inputField.fieldType property="$inputField.name" titleKey="$titleKey" $disabled $value/>
-#end
-##
-##      T E X T F I E L D       &       P A S S W O R D
-##
-#if ( ($inputField.fieldType == 'text') || ($inputField.fieldType == 'password') )
-#if ($inputField.isReadOnly())
-#set ($readonly = 'readonly="true"')
-#else
-#set ($readonly = '')
-#end
-#if ($inputField.size)
-#set ($maxLength = 'maxLength="$inputField.size"')
-#else
-#set ($maxLength = '')
-#end
-                        <html:$inputField.fieldType property="$inputField.name" titleKey="$titleKey" $readonly $maxLength $value/>
-#end
-##
-##      T E X T A R E A
-##
-#if ($inputField.fieldType == 'textarea')
-#if ($inputField.isReadOnly())
-#set ($readonly = 'readonly="true"')
-#else
-#set ($readonly = '')
-#end
-#if ($inputField.size)
-#if ($inputField.size < 15)
-#set ($rows = 'rows="3"')
-#set ($cols = 'cols="$inputField.size"')
-#else
-#set ($rowValue = $inputField.size / 15)
-#set ($rows = 'rows="$rowValue"')
-#set ($cols = 'cols="15"')
-#end
-#else
-#set ($rows = '')
-#set ($cols = '')
-#end
-                        <html:$inputField.fieldType property="$inputField.name" titleKey="$titleKey" $readonly $cols $rows $value/>
-#end
-##
-##      C O M B O B O X     &      L I S T
-##
-#if ($inputField.fieldType == 'select')
-#if ($inputField.isMultiple())
-#set ($multiple = 'multiple="true"')
-#else
-#set ($multiple = 'multiple="false"')
-#end
-#if ($inputField.isReadOnly())
-#set ($disabled = 'disabled="true"')
-#else
-#set ($disabled = '')
-#end
-#if ($inputField.size)
-#set ($size = 'size="$inputField.size"')
-#else
-#set ($size = '')
-#end
-                        <html:select $disabled $size $multiple property="$inputField.name" titleKey="$titleKey">
-                          <html:options property="$inputField.backingPropertyName"/>
-                        </html:select>
-#end
+#renderFormField ($parameter "                        ")
                     </td>
                 </tr>
 #end
@@ -156,21 +63,7 @@
 ##      2. reset triggers do not call the servlet, they simply reset the form
 ##
 #foreach ($trigger in $triggers)
-#if ($trigger.isCancelTrigger())
-                        <input type="button" name="<%=org.apache.struts.Globals.CANCEL_KEY%>"
-                               onclick="submitForm(this.form,'$trigger.messageKey');"
-                               title="<bean:message key="${class.messageKey}.$trigger.titleMessageKey"/>"
-                               value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
-#elseif ($trigger.isResetTrigger())
-                        <input type="reset"
-                               title="<bean:message key="${class.messageKey}.$trigger.titleMessageKey"/>"
-                               value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
-#else
-                        <input type="button"
-                               onclick="submitForm(this.form,'$trigger.messageKey');"
-                               title="<bean:message key="${class.messageKey}.$trigger.titleMessageKey"/>"
-                               value="<bean:message key="${class.messageKey}.$trigger.messageKey"/>">
-#end
+#renderFormButton ($trigger "                        ")
 #end
                     </td>
                 </tr>
@@ -182,17 +75,12 @@
 ##
         <ol>
 #foreach ($trigger in $triggers)
-#set ($linkAction = "${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&trigger=$trigger.messageKey")
             <li>
-                <html:link action="$linkAction" titleKey="${class.messageKey}.$trigger.titleMessageKey">
-                    <bean:message key="${class.messageKey}.$trigger.messageKey"/>
-                </html:link>
+#renderHyperlink ($action $trigger "                ")
             </li>
 #end
         </ol>
-##
-##
 #end
-
+#end
     </body>
 </html:html>
