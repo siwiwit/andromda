@@ -1,3 +1,4 @@
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="struts-html.tld" prefix="html" %>
 ##
 ##  Constant declarations
@@ -6,6 +7,7 @@
 #set ($formBean = $servlet.formBean)
 #set ($inputFields = $class.inputFields)
 #set ($triggers = $class.triggers)
+#set ($triggerMessages = $class.triggerMessages)
 ##
 ## Specific to this class
 ##
@@ -14,15 +16,26 @@
 ##
 ## Title
 ##
-#set ($title = $str.separate("$class.name", " "))
 <html:html>
     <head>
-        <title>$title</title>
+        <title><bean:message key="$class.titleMessageKey"/></title>
         <html:javascript formName="$str.toJavaMethodName($class.name)" />
+        <script type="text/javascript">
+        <!--
+            /**
+             * This script is needed to be able to use i18n on button labels
+             */
+            function submitForm(form,trigger)
+            {
+                form.trigger.value = trigger;
+                form.submit();
+            }
+        //-->
+        </script>
     </head>
     <body>
 
-<h2>$title</h2>
+<h2><bean:message key="$class.titleMessageKey"/></h2>
 <p>
 ##
 ##  In case no model has been specified we assume no parameter needed to be posted
@@ -33,15 +46,15 @@
 ##
 ##  If the view is backed by a model (indicating request parameters) we render a form
 ##
-<html:form action="$servletName?$servlet.dispatchParameter=$dispatchMethodName">
-  <table cellpadding="5" cellspacing="5" border="0">
+        <html:form action="$servletName?$servlet.dispatchParameter=$dispatchMethodName">
+            <table cellpadding="5" cellspacing="5" border="0">
 ##
 ##  Render a new row for each input field on this view
 ##
 #foreach ($inputField in $inputFields)
-    <tr>
-      <td>$inputField.name</td>
-      <td>
+                <tr>
+                    <td><bean:message key="$inputField.messageKey"/></td>
+                    <td>
 ##
 ##  Depending on the type of the input field we render a different widget
 ##
@@ -59,7 +72,7 @@
 #else
 #set ($disabled = '')
 #end
-        <html:$inputField.fieldType property="$inputField.name" $disabled $value/>
+                        <html:$inputField.fieldType property="$inputField.name" $disabled $value/>
 #end
 ##
 ##      T E X T F I E L D       &       P A S S W O R D
@@ -75,7 +88,7 @@
 #else
 #set ($maxLength = '')
 #end
-        <html:$inputField.fieldType property="$inputField.name" $readonly $maxLength $value/>
+                        <html:$inputField.fieldType property="$inputField.name" $readonly $maxLength $value/>
 #end
 ##
 ##      T E X T A R E A
@@ -99,7 +112,7 @@
 #set ($rows = '')
 #set ($cols = '')
 #end
-        <html:$inputField.fieldType property="$inputField.name" $readonly $cols $rows $value/>
+                        <html:$inputField.fieldType property="$inputField.name" $readonly $cols $rows $value/>
 #end
 ##
 ##      C O M B O B O X     &      L I S T
@@ -120,58 +133,40 @@
 #else
 #set ($size = '')
 #end
-        <html:select $disabled $size $multiple property="$inputField.name">
-          <html:options property="$inputField.backingPropertyName"/>
-        </html:select>
+                        <html:select $disabled $size $multiple property="$inputField.name">
+                          <html:options property="$inputField.backingPropertyName"/>
+                        </html:select>
 #end
-      </td>
-    </tr>
+                    </td>
+                </tr>
 #end
-    <tr>
-      <td>
+                <tr>
+                    <td>
 ##
 ##  Triggers are represented by submit buttons that will post the form to the action
 ##
-#foreach ($trigger in $triggers)
-#if ($trigger.triggerName)
-#set ($triggerName = $trigger.triggerName)
-#else
-#set ($triggerName = "submit")
+#foreach ($triggerMessage in $triggerMessages.keySet())
+                        <html:button property="trigger" onclick='submitForm(this.form,"$triggerMessage")'>
+                            <bean:message key="$triggerMessage"/>
+                        </html:button>
 #end
-        <html:submit property="trigger" value="$triggerName"/>
-#end
-      </td>
-    </tr>
-  </table>
-</html:form>
+                    </td>
+                </tr>
+            </table>
+        </html:form>
 #else
 ##
 ## So we have no input fields, render a link for each trigger
 ##
-<ol>
-#foreach ($trigger in $triggers)
-## get the trigger name (or take the default one if not present)
-#if ($trigger.triggerName)
-#set ($triggerName = $trigger.triggerName)
-#else
-#set ($triggerName = "submit")
+        <ol>
+#foreach ($triggerMessage in $triggerMessages.keySet())
+            <li>
+                <html:link action="${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&trigger=$triggerMessage">
+                    <bean:message key="$triggerMessage"/>
+                </html:link>
+            </li>
 #end
-## different scenarios depending on the number of triggers
-#if ($triggers.size() > 1)
-#set ($linkQuery = "trigger=$triggerName")
-#else
-#set ($linkQuery = '')
-#if ($triggerName != "submit")
-#set ($triggerName = "$triggerName")
-#end
-#end
-  <li>
-    <html:link action="${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&${linkQuery}">
-      $str.separate("$triggerName"," ")
-    </html:link>
-  </li>
-#end
-</ol>
+        </ol>
 ##
 ##
 #end
