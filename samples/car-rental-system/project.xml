@@ -10,14 +10,6 @@
   	<description>
   		Contains the car rental sample project.
   	</description>
-	<dependencies>     
-    	<dependency>
-	      	<groupId>andromda</groupId>
-	      	<artifactId>andromda-core</artifactId>
-	      	<version>${pom.currentVersion}</version>
-	    </dependency>
-	</dependencies>
-	
   	<build>
     	<sourceDirectory>src/java</sourceDirectory>
 		<resources>
