@@ -324,4 +324,8 @@ public class ModelElementFacadeLogicImpl
 		};
 	}
 
+    protected Object handleGetNameSpace()
+    {
+        return ((ModelElement)metaObject).getNamespace();
+    }
 }
