@@ -1,10 +1,13 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
-import org.omg.uml.behavioralelements.activitygraphs.ActionState;
+import org.andromda.metafacades.uml.ActionFacade;
+import org.andromda.metafacades.uml.CallActionFacade;
+import org.andromda.metafacades.uml.ClassifierFacade;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Collections;
 
 
 /**
@@ -28,12 +31,19 @@ public class StrutsJspLogicImpl
     // concrete business methods that were declared
     // abstract in class StrutsJsp ...
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsJsp#getPath()()
-     */
-    public java.lang.String getPath()
+    // from org.andromda.metafacades.uml.ModelElementFacade
+    public String getPackageName()
     {
-        return '/' + (getPackageName() + '.' + StringUtilsHelper.toWebFileName(getName()).replace('.', '/')) + ".jsp";
+        ClassifierFacade classifier = (ClassifierFacade)getActivityGraph().getContextElement();
+        return classifier.getPackageName();
+    }
+
+    /**
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsJsp#getFullPathName()()
+     */
+    public java.lang.String getFullPathName()
+    {
+        return '/' + (getPackageName() + '.' + StringUtilsHelper.toWebFileName(getName())).replace('.', '/');
     }
 
     public boolean hasForms()
@@ -61,6 +71,21 @@ public class StrutsJspLogicImpl
 
     protected Collection handleGetActions()
     {
-        return ((ActionState)metaObject).getOutgoing();
+        return getOutgoing();
+    }
+
+    protected Collection handleGetVariables()
+    {
+        ActionFacade action = getEntry();
+
+        if (action instanceof CallActionFacade)
+        {
+            CallActionFacade callAction = (CallActionFacade)action;
+            return callAction.getOperation().getParameters();
+        }
+        else
+        {
+            return Collections.EMPTY_LIST;
+        }
     }
 }

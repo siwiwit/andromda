@@ -1,6 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
+import org.andromda.metafacades.uml.EventFacade;
 import org.omg.uml.behavioralelements.statemachines.Transition;
 
 import java.util.Collection;
@@ -31,12 +32,19 @@ public class StrutsTransitionLogicImpl
     // concrete business methods that were declared
     // abstract in class StrutsTransition ...
 
+    // from org.andromda.metafacades.uml.ModelElementFacade
+    private String getTransitionName()
+    {
+        EventFacade trigger = getTrigger();
+        return (trigger == null) ? getTarget().getName() : trigger.getName();
+    }
+
     /**
      * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsTransition#getForwardName()()
      */
     public java.lang.String getForwardName()
     {
-        return StringUtilsHelper.toResourceMessageKey(getName());
+        return StringUtilsHelper.toResourceMessageKey(getTransitionName());
     }
 
     /**
@@ -44,7 +52,7 @@ public class StrutsTransitionLogicImpl
      */
     public java.lang.String getForwardPath()
     {
-        return ('/' + getPackageName() + '/' + StringUtilsHelper.toWebFileName(getName())).replace('.', '/');
+        return ('/' + getPackageName() + '/' + StringUtilsHelper.toWebFileName(getTransitionName())).replace('.', '/');
     }
 
     /**
@@ -52,7 +60,7 @@ public class StrutsTransitionLogicImpl
      */
     public java.lang.String getMethodName()
     {
-        return StringUtilsHelper.toJavaMethodName(getName());
+        return StringUtilsHelper.toJavaMethodName(getTransitionName());
     }
 
     /**
