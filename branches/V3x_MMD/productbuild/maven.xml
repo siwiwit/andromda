@@ -65,7 +65,7 @@
   	<!-- =================================================================
   	         Deploys all bootstrap artifacts to the remote repository
   	     ================================================================= -->
-  	<goal name="boostrap-deploy">
+  	<goal name="bootstrap-deploy">
  		<maven:reactor
      		basedir="${basedir}"
       		includes="${bootstrap.modules}"
