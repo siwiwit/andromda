@@ -3,12 +3,15 @@ package org.andromda.core.common;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * A utility object for doing string manipulation operations that are commonly 
  * needed by the code generation templates.
  * 
  * @author Matthias Bohlen
  * @author Chris Shaw
+ * @author Chad Brandon
  */
 public class StringUtilsHelper {
     
@@ -22,7 +25,7 @@ public class StringUtilsHelper {
      * @return String the output string
      */
     public static String capitalize(String s) {
-        return s.substring(0,1).toUpperCase() + s.substring(1);
+        return StringUtils.capitalize(s);
     }
 
     /** 
@@ -48,11 +51,7 @@ public class StringUtilsHelper {
     * @return String the output string. 
     */
     public static String lowerCaseFirstLetter(String s) {
-        if (s != null && s.length() > 0) {
-            return s.substring(0, 1).toLowerCase() + s.substring(1);
-        } else {
-            return s;
-        }
+    	return StringUtils.uncapitalize(s);
     }
 
 
@@ -61,14 +60,16 @@ public class StringUtilsHelper {
      * database attribute name.  For example convert customerName to
      * CUSTOMER_NAME.</p>
      *
-     * @param s string to convert
+     * @param string the string to convert
      * @param separator character used to separate words     
      * @return string converted to database attribute format
      */
-    public static String toDatabaseAttributeName(String s, String separator) {
+    public static String toDatabaseAttributeName(String string, String separator) {
+    	ExceptionUtils.checkEmpty("toDatabaseAttributeName", "string", string);
+    	
         StringBuffer databaseAttributeName = new StringBuffer();
         StringCharacterIterator iter = new StringCharacterIterator(
-                lowerCaseFirstLetter(s));
+                lowerCaseFirstLetter(string));
         
         for (char character = iter.first(); character != CharacterIterator.DONE; 
                 character = iter.next()) {
