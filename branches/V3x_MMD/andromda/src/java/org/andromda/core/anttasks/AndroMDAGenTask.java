@@ -19,7 +19,6 @@ import org.andromda.core.common.ModelPackage;
 import org.andromda.core.common.ModelPackages;
 import org.andromda.core.common.Namespace;
 import org.andromda.core.common.Namespaces;
-import org.andromda.core.common.Property;
 import org.andromda.core.common.StdoutLogger;
 import org.andromda.core.repository.RepositoryFacade;
 import org.apache.log4j.Logger;
@@ -65,7 +64,7 @@ public class AndroMDAGenTask extends MatchingTask
     private boolean lastModifiedCheck = true;
 
     /**
-     *  the file to get the velocity properties file
+     * The template engine properties file
      */
     private File templateEnginePropertiesFile = null;
 
@@ -74,11 +73,6 @@ public class AndroMDAGenTask extends MatchingTask
      * whether or not packages should be processed.
      */
     private ModelPackages packages = new ModelPackages();
-
-    /**
-     *  User properties that were specified by nested tags in the ant script.
-     */
-    private ArrayList userProperties = new ArrayList();
 
     private RepositoryConfiguration repositoryConfiguration = null;
 
@@ -97,11 +91,6 @@ public class AndroMDAGenTask extends MatchingTask
      * Default properties for the VelocityTemplateEngine scripting engine.
      */
     private Properties templateEngineProperties;
-
-    /**
-     * Dictionary of installed cartridges, searchable by stereotype.
-     *
-    private CartridgeDictionary cartridgeDictionary;*/
 
     /**
      * <p>
@@ -172,18 +161,6 @@ public class AndroMDAGenTask extends MatchingTask
     public void setLastModifiedCheck(boolean lastmod)
     {
         this.lastModifiedCheck = lastmod;
-    }
-
-    /**
-     *  <p>
-     *  Add a property specified as a nested tag in the ant build script.
-     * </p>
-     *
-     *@param  up  the Property that ant already constructed for us
-     */
-    public void addUserProperty(Property up)
-    {
-        userProperties.add(up);
     }
 
     /**
@@ -269,7 +246,7 @@ public class AndroMDAGenTask extends MatchingTask
                 "completed model processing, TIME --> "
                     + ((System.currentTimeMillis() - startTime) / 1000.0)
                     + "[s]");
-
+            
         }
         finally
         {
@@ -352,8 +329,7 @@ public class AndroMDAGenTask extends MatchingTask
                 new CodeGenerationContext(
                     repository,
                     lastModifiedCheck,
-                    packages,
-                    userProperties);
+                    packages);
             for (Iterator cartridgeIt = cartridges.iterator(); cartridgeIt.hasNext();) 
             {
                 AndroMDACartridge cartridge = (AndroMDACartridge)cartridgeIt.next();

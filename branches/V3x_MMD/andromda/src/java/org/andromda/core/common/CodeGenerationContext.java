@@ -1,7 +1,5 @@
 package org.andromda.core.common;
 
-import java.util.Collection;
-
 import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.repository.RepositoryFacade;
 
@@ -18,19 +16,16 @@ public class CodeGenerationContext
 {
     private RepositoryFacade repository = null;
     private boolean lastModifiedCheck = false;
-    private Collection userProperties = null;
     private ModelPackages modelPackages;
 
     public CodeGenerationContext(
         RepositoryFacade rf,
         boolean lastModifiedCheck,
-		ModelPackages modelPackages,
-		Collection userPropeties)
+		ModelPackages modelPackages)
     {
         this.repository = rf;
         this.lastModifiedCheck = lastModifiedCheck;
         this.modelPackages = modelPackages;
-        this.userProperties = userPropeties;
     }
 
     /**
@@ -77,25 +72,6 @@ public class CodeGenerationContext
     {
         this.lastModifiedCheck = lastModifiedCheck;
     }
-
-    /**
-     * Returns the userProperties.
-     * @return Collection
-     */
-    public Collection getUserProperties()
-    {
-        return userProperties;
-    }
-
-    /**
-     * Sets the userProperties.
-     * @param userProperties The userProperties to set
-     */
-    public void setUserProperties(Collection userProperties)
-    {
-        this.userProperties = userProperties;
-    }
-    
     
 	/**
 	 * Gets the model packages that should/shouldn't

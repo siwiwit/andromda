@@ -3,6 +3,7 @@ package org.andromda.cartridges.interfaces;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
     
     private String cartridgeName;
     private Map properties = new HashMap();
+    private Collection propertyReferences = new ArrayList();
     private List templates = new ArrayList();
     private Map templateObjects = new HashMap();
     private URL definitionURL;
@@ -71,7 +73,6 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
 
     /**
      * @see org.andromda.cartridges.interfaces.CartridgeDescriptor#getCartridgeName()
-     * @return String
      */
     public String getCartridgeName()
     {
@@ -93,7 +94,7 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
     {
         return templates;
     }
-
+    
     /**
      * Adds a property to the list of properties of this cartridge. Properties
      * may be used to designate implementations for architectural aspects.
@@ -104,6 +105,28 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
     public void addProperty(String propertyName, String propertyValue)
     {
         properties.put(propertyName, propertyValue);
+    }
+    
+    /** 
+     * @see org.andromda.cartridges.interfaces.CartridgeDescriptor#getPropertyReferences()
+     */
+    public Collection getPropertyReferences() 
+    {
+        return this.propertyReferences;
+    }
+
+    /**
+     * Adds a property reference. Property references
+     * are those properties that are expected to be 
+     * supplied by the calling client.  These supplied
+     * properties are made available to the template
+     * during processing.
+     * 
+     * @param reference
+     */
+    public void addPropertyReference(String reference) 
+    {
+        this.propertyReferences.add(reference);
     }
     
     /**

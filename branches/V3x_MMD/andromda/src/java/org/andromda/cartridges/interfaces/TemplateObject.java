@@ -138,7 +138,9 @@ public class TemplateObject {
 	}
 	
 	/**
-	 * Adds a templateObject property reference (used to customize templateObjects)
+	 * Adds a templateObject property reference (used to customize templateObjects).
+     * Property references are used to populate bean like properties
+     * of template objects.
 	 * 
 	 * @param reference
 	 */
