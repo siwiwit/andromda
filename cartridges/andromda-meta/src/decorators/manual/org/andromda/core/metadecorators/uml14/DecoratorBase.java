@@ -21,11 +21,23 @@ public class DecoratorBase
     }
 
     /**
+     * Validates that this decorator's meta object is in a valid state.
+     * <p>
+     * Classes that extend this base class may choose the override this method
+     * to check whether it is in a valid state.
+     * 
+     * @throws DecoratorValidationException
+     */
+    public void validate() throws DecoratorValidationException
+    {
+    }
+
+    /**
      * Returns a collection of decorators for a collection
      * of metaobjects. Contacts the DecoratorFactory to manufacture
      * the proper decorators.
      * @see DecoratorFactory
-     * 
+     *
      * @param metaobjects the objects to decorate
      * @return Collection of DecoratorBase-derived objects
      */
@@ -47,9 +59,9 @@ public class DecoratorBase
     }
 
     /**
-     * Returns one decorator for a particular metaobject. Contacts 
+     * Returns one decorator for a particular metaobject. Contacts
      * the DecoratorFactory to manufacture the proper decorator.
-     * 
+     *
      * @see DecoratorFactory
      * @param metaObject the object to decorate
      * @return DecoratorBase the decorator
@@ -63,7 +75,7 @@ public class DecoratorBase
         return DecoratorFactory.getInstance().createDecoratorObject(
             metaObject);
     }
-    
+
     /**
      * Package-local setter, called by decorator factory.
      * Sets the logger to use inside the decorator's code.

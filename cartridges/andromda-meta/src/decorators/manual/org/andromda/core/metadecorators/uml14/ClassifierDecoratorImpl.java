@@ -3,6 +3,8 @@ package org.andromda.core.metadecorators.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Dependency;
@@ -195,6 +197,51 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
         return metaObject.getNamespace();
     }
 
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getStaticAttributes()
+     */
+    public Collection getStaticAttributes() {
+    	Collection attributes = this.getAttributes();
+    	class StaticAttributeFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return ((AttributeDecorator)object).isStatic();
+    		}
+    	}
+    	CollectionUtils.filter(attributes, new StaticAttributeFilter());
+    	return attributes;
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getInstanceAttributes()
+     */
+    public java.util.Collection getInstanceAttributes() {
+    	Collection attributes = this.getAttributes();
+    	class StaticAttributeFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return !((AttributeDecorator)object).isStatic();
+    		}
+    	}
+    	CollectionUtils.filter(attributes, new StaticAttributeFilter());
+    	return attributes;		
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getAbstractions()
+     */
+    public Collection getAbstractions() {
+    	Collection clientDependencies =
+    		this.getDependencies();
+    		
+    	class AbstractionFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return object instanceof Abstraction;
+    		}
+    	}
+    	
+    	CollectionUtils.filter(clientDependencies, new AbstractionFilter());
+    	return clientDependencies;
+    }
+    
     // ------------------------------------------------------------
 
 }

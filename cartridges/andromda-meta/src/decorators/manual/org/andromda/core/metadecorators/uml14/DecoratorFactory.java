@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.andromda.core.common.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.ModelElement;
@@ -24,50 +25,43 @@ public class DecoratorFactory
     }
 
     /**
-     * 
+     *
      */
     private void registerCoreDecoratorClasses()
     {
         setActiveNamespace("core");
         registerDecoratorClass(
             "org.omg.uml.modelmanagement.UmlPackage$Impl",
-            null,
             PackageDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.modelmanagement.Model$Impl",
-            null,
             PackageDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.UmlClass$Impl",
-            null,
             ClassifierDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.DataType$Impl",
-            null,
             ClassifierDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.Interface$Impl",
-            null,
             ClassifierDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.AssociationEnd$Impl",
-            null,
+            AssociationEndDecoratorImpl.class.getName());
+        registerDecoratorClass(
+            "org.omg.uml.foundation.core.Association$Impl",
             AssociationEndDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.Dependency$Impl",
-            null,
             DependencyDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.TaggedValue$Impl",
-            null,
             TaggedValueDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.Operation$Impl",
-            null,
             OperationDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.Attribute$Impl",
-            null,
             AttributeDecoratorImpl.class.getName());
     }
     /**
@@ -82,7 +76,7 @@ public class DecoratorFactory
     /**
      * Sets the active namespace. The AndroMDA core and each cartridge
      * have their own namespace for decorator registrations.
-     *  
+     *
      * @param namespaceName the name of the namespace
      */
     public void setActiveNamespace(String namespaceName)
@@ -98,7 +92,7 @@ public class DecoratorFactory
 
     /**
      * Returns the name of the active namespace.
-     * 
+     *
      * @return String the namespace name
      */
     public String getActiveNamespace()
@@ -109,7 +103,7 @@ public class DecoratorFactory
     /**
      * Registers a decorator class for a given metaclass and (optionally)
      * a stereotype.
-     * 
+     *
      * @param umlMetaClassName the FQCN of the metaclass
      * @param stereotypeName the stereotype name (may be null)
      * @param decoratorClassName the FQCN of the decorator class
@@ -119,19 +113,67 @@ public class DecoratorFactory
         String stereotypeName,
         String decoratorClassName)
     {
-        HashMap namespace = (HashMap) namespaces.get(activeNamespace);
-        String key =
-            (stereotypeName == null
-                ? umlMetaClassName
-                : umlMetaClassName + "::" + stereotypeName);
-        namespace.put(key, decoratorClassName);
+        registerDecoratorClass(
+            umlMetaClassName,
+            null,
+            stereotypeName,
+            decoratorClassName);
     }
 
     /**
-     * Method (package local) for testing the behavior of the dictionary.
+     * Registers a decorator class for a given metaclass.
+     *
+     * @param umlMetaClassName the FQCN of the metaclass
+     * @param decoratorClassName the FQCN of the decorator class
+     */
+    public void registerDecoratorClass(
+        String umlMetaClassName,
+        String decoratorClassName)
+    {
+        registerDecoratorClass(
+            umlMetaClassName,
+            null,
+            null,
+            decoratorClassName);
+    }
+
+    /**
+     * Registers a decorator class for a given metaclass and (optionally)
+     * a context name and a stereotype.
+     *
+     * @param umlMetaClassName
+     * @param contextName
+     * @param stereotypeName
+     * @param decoratorClassName
+     */
+    public void registerDecoratorClass(
+        String umlMetaClassName,
+        String contextName,
+        String stereotypeName,
+        String decoratorClassName)
+    {
+        HashMap namespace = (HashMap) namespaces.get(activeNamespace);
+
+        DecoratorMappingRuleList ruleList =
+            (DecoratorMappingRuleList) namespace.get(umlMetaClassName);
+        if (ruleList == null) // no mapping for this metaclass yet
+        {
+            ruleList = new DecoratorMappingRuleList();
+        }
+
+        ruleList.addRule(
+            new DecoratorMappingRule(
+                contextName,
+                stereotypeName,
+                decoratorClassName));
+
+        namespace.put(umlMetaClassName, ruleList);
+    }
+
+    /**
      * Looks up a registered decorator class name for a metaclass name and
      * (optionally) a stereotype.
-     * 
+     *
      * @param umlMetaClassName the FQCN of the metaclass
      * @param stereotypeName the stereotype name (may be null)
      * @return the FQCN of the decorator class to be instantiated
@@ -140,12 +182,30 @@ public class DecoratorFactory
         String umlMetaClassName,
         String stereotypeName)
     {
+        return lookupDecoratorClass(umlMetaClassName, null, stereotypeName);
+    }
+
+    /**
+     * Looks up a registered decorator class name for a metaclass name and
+     * (optionally) a context name and a stereotype.
+     *
+     * @param umlMetaClassName the FQCN of the metaclass
+     * @param contextName the name of the context (may be null)
+     * @param stereotypeName the stereotype name (may be null)
+     * @return the FQCN of the decorator class to be instantiated
+     */
+    String lookupDecoratorClass(
+        String umlMetaClassName,
+        String contextName,
+        String stereotypeName)
+    {
         // first, lookup in active namespace
         HashMap namespace = (HashMap) namespaces.get(activeNamespace);
         String decoratorClassName =
             internalLookupDecoratorClass(
                 namespace,
                 umlMetaClassName,
+                contextName,
                 stereotypeName);
         if (decoratorClassName != null)
         {
@@ -163,6 +223,7 @@ public class DecoratorFactory
             internalLookupDecoratorClass(
                 namespace,
                 umlMetaClassName,
+                contextName,
                 stereotypeName);
         internalGetLogger().debug(
             "lookupDecoratorClass: "
@@ -175,7 +236,7 @@ public class DecoratorFactory
     /**
      * Internal helper class for lookup. Called twice, once with the
      * active namespace, once more with the "core" namespace.
-     * 
+     *
      * @param namespace the namespace to search
      * @param umlMetaClassName the FQCN of the metaclass
      * @param stereotypeName the stereotype name (may be null)
@@ -184,43 +245,50 @@ public class DecoratorFactory
     private String internalLookupDecoratorClass(
         HashMap namespace,
         String umlMetaClassName,
+        String contextName,
         String stereotypeName)
     {
-        if (stereotypeName != null)
+        DecoratorMappingRuleList ruleList =
+            (DecoratorMappingRuleList) namespace.get(umlMetaClassName);
+        if (ruleList == null) // no mapping for this metaclass yet
         {
-            String decoratorClassName =
-                (String) namespace.get(
-                    umlMetaClassName + "::" + stereotypeName);
-            if (decoratorClassName != null)
-            {
-                return decoratorClassName;
-            }
-            // fall thru into default case...
+            return null;
         }
-        return (String) namespace.get(umlMetaClassName);
+        return ruleList.findDecorator(contextName, stereotypeName);
     }
 
     /**
      * Returns a decorator for a metaobject, depending on its
      * metaclass and (optionally) its stereotype.
-     * 
-     * @param m the model element
+     *
+     * @param metaobject the model element
      * @return DecoratorBase the decorator object (not yet attached to metaclass object)
      */
     public DecoratorBase createDecoratorObject(ModelElement metaobject)
     {
+        ExceptionUtils.checkNull(
+            "createDecoratorObject",
+            "metaobject",
+            metaobject);
+
+        //if the metaobject ALREADY IS a Decorator
+        //return the metaobject since we don't want to try and create a
+        //Decorator from a Decorator.
+        if (metaobject instanceof DecoratorBase)
+        {
+            return (DecoratorBase) metaobject;
+        }
         String stereotypeName = getStereotypeName(metaobject);
         String decoratorClassName =
             lookupDecoratorClass(
                 metaobject.getClass().getName(),
                 stereotypeName);
-
         DecoratorBase result;
 
         if (decoratorClassName == null)
         {
             // if no special decorator is registered, simply
-            // return a decorator for a standard model element. 
+            // return a decorator for a standard model element.
             result = new ModelElementDecoratorImpl(metaobject);
         }
         else
@@ -232,9 +300,12 @@ public class DecoratorFactory
                     findConstructor(dynamicClass, metaobject.getClass());
 
                 Object[] constructorParams = { metaobject };
+
                 result =
                     (DecoratorBase) constructor.newInstance(
                         constructorParams);
+
+                result.validate();
             }
             catch (Exception e)
             {
@@ -244,8 +315,9 @@ public class DecoratorFactory
         }
 
         // make sure that the decorator has a proper logger associated
-        // with it.        
+        // with it.
         result.setLogger(internalGetLogger());
+
         return result;
     }
 
@@ -253,7 +325,7 @@ public class DecoratorFactory
      * Finds the right constructor to create an object of class
      * <code>dynamicClass</code>, using a parameter of type
      * <code>parameterClass</code>.
-     * 
+     *
      * @param dynamicClass class in which the constructor should be found
      * @param parameterClass type of parameter that the constructor should accept
      * @return the appropriate constructor or null
@@ -277,7 +349,7 @@ public class DecoratorFactory
 
     /**
      * Create a decorator for the whole model itself.
-     * 
+     *
      * @param model the model as a package
      * @return a decorator for the model
      */
@@ -328,7 +400,7 @@ public class DecoratorFactory
         return Logger.getRootLogger();
     }
 
-    // ----------- these methods support unit testing --------------- 
+    // ----------- these methods support unit testing ---------------
 
     int getNamespaceCount()
     {
