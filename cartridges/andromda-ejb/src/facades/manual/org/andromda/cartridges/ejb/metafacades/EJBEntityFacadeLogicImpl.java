@@ -12,6 +12,7 @@ import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.OperationFacade;
+//TODO: Oops - that class should be moved out of the uml14 package!
 import org.andromda.metafacades.uml14.MetafacadeUtils;
 
 
