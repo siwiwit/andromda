@@ -75,17 +75,19 @@ ${messageKey}.${optionKey}.title=${field.name}-$velocityCount
 #end
 #end
 
+#end
+#set ($actionExceptions = $action.actionExceptions)
+#if (!$actionExceptions.isEmpty())
 #   ACTION-EXCEPTIONS
 #foreach ($exception in $action.actionExceptions)
 ${messageKey}.$exception.exceptionKey={0} ($exception.exceptionType)
 #end
-
-
-#end
 #end
 
+#end ## for each action
 
-#end
+
+#end ## for each page
 
 
 
