@@ -1,63 +1,79 @@
 <cartridge name="bpm4struts">
 
+    <!-- define the template objects that are made availble to the template -->
     <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
     <templateObject name="transform" className="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
 
+	<!-- library of macros used in templates -->
+    <macrolibrary name="templates/StrutsJSP.vm" />
+    <macrolibrary name="templates/StrutsAction.vm" />
+
     <template
         sheet="templates/StrutsAction.vsl"
-        outputPattern="{0}/{1}.java"
+        outputPattern="$generatedFile"
         outlet="actions"
         overWrite="true">
-        <stereotype name="FrontEndController"/>
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndEvent"/>
+        </modelElements>
     </template>
 
-    <template
-        sheet="templates/StrutsActionAbstract.vsl"
-        outputPattern="{0}/{1}Abstract.java"
-        outlet="actions"
-        overWrite="true">
-        <stereotype name="FrontEndController"/>
-    </template>
-
+<!--
     <template
         sheet="templates/StrutsForm.vsl"
-        outputPattern="{0}/{1}.java"
+        outputPattern="$generatedFile"
         outlet="forms"
         overWrite="true">
-        <stereotype name="FrontEndModel"/>
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndEvent"/>
+        </modelElements>
     </template>
 
     <template
-        sheet="templates/StrutsFormValidationDynamicJavascript.vsl"
-        outputPattern="{0}/{1}JS.jsp"
-        outlet="pages"
+        sheet="templates/StrutsController.vsl"
+        outputPattern="$generatedFile"
+        outlet="actions"
         overWrite="true">
-        <stereotype name="FrontEndView"/>
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndController"/>
+        </modelElements>
     </template>
+-->
 
     <template
         sheet="templates/StrutsJSP.vsl"
-        outputPattern="{0}/{1}.jsp"
+        outputPattern="$generatedFile"
         outlet="pages"
         overWrite="true">
-        <stereotype name="FrontEndView"/>
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndView"/>
+        </modelElements>
     </template>
 
+<!--
     <template
-        sheet="templates/StrutsHyperlinkTile.vsl"
-        outputPattern="{0}/{1}.java"
-        outlet="forms"
+        sheet="templates/StrutsFormValidationDynamicJavascript.vsl"
+        outputPattern="$generatedFile"
+        outlet="pages"
         overWrite="true">
-        <stereotype name="FrontEndReadOnlyForm"/>
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndView"/>
+        </modelElements>
     </template>
+-->
 
-    <template
-        sheet="templates/StrutsFormTile.vsl"
-        outputPattern="{0}/{1}.java"
-        outlet="forms"
-        overWrite="true">
-        <stereotype name="FrontEndReadWriteForm"/>
-    </template>
+
+
+
+
+
+
+
+<!--
+
+
+
+
 
     <template
         sheet="templates/StrutsFormValidationStaticJavascript.vsl"
@@ -66,6 +82,7 @@
         overWrite="true">
         <stereotype name="FrontEndWorkflow"/>
     </template>
+
 
     <template
         sheet="templates/StrutsFormValidationRules.vsl"
@@ -139,12 +156,5 @@
         <stereotype name="FrontEndWorkflow"/>
     </template>
 
-    <template
-        sheet="templates/StrutsTilesDefinitions.vsl"
-        outputPattern="tiles-defs.xml"
-        outlet="configuration"
-        overWrite="true">
-        <stereotype name="FrontEndWorkflow"/>
-    </template>
-
+-->
 </cartridge>
