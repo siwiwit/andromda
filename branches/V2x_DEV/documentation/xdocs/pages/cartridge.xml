@@ -255,7 +255,7 @@
           <td valign="top" align="center" >No, default is "true"</td>
         </tr>
         <tr>
-          <td valign="top" >transformClassname</td>
+          <td valign="top" >transformClass</td>
           <td valign="top" >Specifies a name of a java class that can be used to help the code generation templates.
                                        In some cases the velocity scripting language is not enough for what you would like
                                        to do in your code generation template.  You can solve this problem by writing a
