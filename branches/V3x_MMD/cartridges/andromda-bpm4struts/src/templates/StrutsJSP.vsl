@@ -16,32 +16,32 @@ ${indent}<logic:present role="$roles">
 #set ($mapName = "$str.toJavaMethodName($triggerKey)Parameters")
 ${indent}<%
 ${indent}  java.util.Map $mapName = new java.util.HashMap();
-${indent}  pageContext.setAttribute("$mapName", $mapName, pageContext.PAGE_SCOPE);
+${indent}  pageContext.setAttribute("$mapName", $mapName, javax.servlet.jsp.PageContext.PAGE_SCOPE);
 ${indent}%>
 ${indent}<table>
 #foreach ($parameter in $parameters)
 #if ($parameter.hasBackingList())
-${indent}  <logic:iterate id="$parameter.name" name="$formBeanName" property="$parameter.backingListName" scope="page">
-${indent}     <%
+${indent}    <logic:iterate id="$parameter.name" name="$formBeanName" property="$parameter.backingListName" scope="page">
+${indent}    <%
 ${indent}        ${mapName}.put("$parameter.name", $parameter.name);
-${indent}     %>
+${indent}    %>
 #else
-${indent}     <%
+${indent}    <%
 ${indent}        ${mapName}.put("$parameter.name", ${formBeanName}.${parameter.getterName}());
-${indent}     %>
+${indent}    %>
 #end
 #end
-${indent}   <tr>
-${indent}       <td>
-${indent}           <html:link action="$action.actionPath" titleKey="${action.messageKey}.$triggerKey" name="$mapName" scope="page">
-${indent}               <bean:message key="${action.messageKey}.$triggerKey"/>:
-${indent}               <bean:write name="$mapName" scope="page"/>
-${indent}           </html:link>
-${indent}       </td>
-${indent}   </tr>
+${indent}        <tr>
+${indent}            <td>
+${indent}                <html:link action="$action.actionPath" titleKey="${action.messageKey}.$triggerKey" name="$mapName" scope="page">
+${indent}                    <bean:message key="${action.messageKey}.$triggerKey"/>:
+${indent}                    <bean:write name="$mapName" scope="page"/>
+${indent}                </html:link>
+${indent}            </td>
+${indent}        </tr>
 #foreach ($parameter in $parameters)
 #if ($parameter.hasBackingList())
-${indent}  </logic:iterate>
+${indent}    </logic:iterate>
 #end
 #end
 ${indent}</table>
