@@ -1,6 +1,5 @@
 package org.andromda.metafacades.uml14;
 
-import org.omg.uml.behavioralelements.statemachines.Event;
 
 
 /**
@@ -21,6 +20,6 @@ public class EventFacadeLogicImpl
 
     public String getName()
     {
-        return ((Event)metaObject).getName();
+        return metaObject.getName();
     }
 }

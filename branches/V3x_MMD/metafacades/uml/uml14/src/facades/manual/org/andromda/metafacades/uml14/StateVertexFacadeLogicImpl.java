@@ -1,8 +1,8 @@
 package org.andromda.metafacades.uml14;
 
-import org.omg.uml.behavioralelements.statemachines.StateVertex;
-
 import java.util.Collection;
+
+import org.omg.uml.behavioralelements.statemachines.StateVertex;
 
 
 /**
@@ -23,17 +23,17 @@ public class StateVertexFacadeLogicImpl
 
     protected Object handleGetActivityGraph()
     {
-        StateVertex stateVertex = (StateVertex)metaObject;
+        StateVertex stateVertex = metaObject;
         return stateVertex.getContainer().getStateMachine();
     }
 
     protected Collection handleGetIncoming()
     {
-        return ((StateVertex)metaObject).getIncoming();
+        return metaObject.getIncoming();
     }
 
     protected Collection handleGetOutgoing()
     {
-        return ((StateVertex)metaObject).getOutgoing();
+        return metaObject.getOutgoing();
     }
 }

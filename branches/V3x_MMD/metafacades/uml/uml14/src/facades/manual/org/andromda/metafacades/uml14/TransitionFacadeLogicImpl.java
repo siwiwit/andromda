@@ -1,13 +1,7 @@
 package org.andromda.metafacades.uml14;
 
-import org.omg.uml.behavioralelements.statemachines.Transition;
-
-
 /**
- * 
- *
  * Metaclass facade implementation.
- *
  */
 public class TransitionFacadeLogicImpl
        extends TransitionFacadeLogic
@@ -22,21 +16,21 @@ public class TransitionFacadeLogicImpl
 
     protected Object handleGetEffect()
     {
-        return ((Transition)metaObject).getEffect();
+        return metaObject.getEffect();
     }
 
     protected Object handleGetSource()
     {
-        return ((Transition)metaObject).getTarget();
+        return metaObject.getTarget();
     }
 
     protected Object handleGetTarget()
     {
-        return ((Transition)metaObject).getTarget();
+        return metaObject.getTarget();
     }
 
     protected Object handleGetTrigger()
     {
-        return ((Transition)metaObject).getTrigger();
+        return metaObject.getTrigger();
     }
 }

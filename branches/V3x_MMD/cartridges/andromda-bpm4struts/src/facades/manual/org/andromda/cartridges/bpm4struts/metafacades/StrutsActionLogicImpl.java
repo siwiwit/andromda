@@ -201,7 +201,7 @@ public class StrutsActionLogicImpl
     {
         Collection users = new LinkedHashSet();
 
-        UseCaseFacade useCase = (UseCaseFacade)getActivityGraph().getNameSpace();
+        UseCaseFacade useCase = (UseCaseFacade)getActivityGraph().getNamespace();
         final Collection associationEnds = ((ClassifierFacade)shieldedElement(useCase)).getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {

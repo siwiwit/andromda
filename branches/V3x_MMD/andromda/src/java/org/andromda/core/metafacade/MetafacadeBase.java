@@ -96,7 +96,7 @@ public class MetafacadeBase
 	 *
 	 * @param context the context class to set
 	 */
-	protected void setContext(String context) {
+	private void setContext(String context) {
 		this.context = StringUtils.trimToEmpty(context);
 	}
 
@@ -129,7 +129,7 @@ public class MetafacadeBase
 	 *
 	 * @return String
 	 */
-	protected String getNamespace() {
+	String getNamespace() {
 		return this.namespace;
 	}
 
@@ -138,7 +138,7 @@ public class MetafacadeBase
 	 *
 	 * @param namespace
 	 */
-	protected void setNamespace(String namespace) {
+	void setNamespace(String namespace) {
 		this.namespace = namespace;
 	}
 
