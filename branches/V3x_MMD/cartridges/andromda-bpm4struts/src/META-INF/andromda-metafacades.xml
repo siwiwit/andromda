@@ -4,7 +4,7 @@
 <metafacades namespace="bpm4struts">
 
     <metafacade
-		metaobjectClass="org.omg.uml.modelmanagement.Model$Impl"
+		metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
         metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsApplicationLogicImpl">
         <stereotype>FrontEndApplication</stereotype>
     </metafacade>
@@ -12,7 +12,6 @@
     <metafacade
         metaobjectClass="org.omg.uml.behavioralelements.usecases.Actor$Impl"
         metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsUserLogicImpl">
-        <stereotype>FrontEndUser</stereotype>
     </metafacade>
 
     <metafacade
@@ -61,7 +60,12 @@
 
 	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Transition$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsTransitionLogicImpl">
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsForwardLogicImpl">
+	</metafacade>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Pseudostate$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsPseudostateLogicImpl">
 	</metafacade>
 
 <!--
