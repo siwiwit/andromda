@@ -1,5 +1,12 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
+import org.andromda.core.common.StringUtilsHelper;
+import org.andromda.metafacades.uml.TransitionFacade;
+import org.andromda.metafacades.uml.EventFacade;
+import org.omg.uml.behavioralelements.statemachines.CallEvent;
+
+import java.util.*;
+
 
 /**
  * MetafacadeLogic implementation.
@@ -27,21 +34,24 @@ public class StrutsActionStateLogicImpl
      */
     public java.lang.String getActionMethodName()
     {
-// TODO: put your implementation here.
-
-// Dummy return value, just that the file compiles
-        return null;
+        return StringUtilsHelper.toJavaMethodName(getName());
     }
 
     // ------------- relations ------------------
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsActionState#getOperation()
-     */
-    public java.lang.Object handleGetOperation()
+    public Collection handleGetControllerCalls()
     {
-// TODO: add your implementation here!
-        return null;
+        final Collection controllerCalls = new LinkedList();
+        final Collection deferrableEvents = getDeferrableEvents();
+        for (Iterator iterator = deferrableEvents.iterator(); iterator.hasNext();)
+        {
+            EventFacade event = (EventFacade) iterator.next();
+            if (event instanceof CallEvent)
+            {
+                controllerCalls.add(((CallEvent)event).getOperation());
+            }
+        }
+        return controllerCalls;
     }
 
     /**
@@ -49,7 +59,13 @@ public class StrutsActionStateLogicImpl
      */
     public java.lang.Object handleGetForward()
     {
-// TODO: add your implementation here!
+        final Collection outgoing = getOutgoing();
+        for (Iterator iterator = outgoing.iterator(); iterator.hasNext();)
+        {
+            TransitionFacade transition = (TransitionFacade) iterator.next();
+            if (! (transition instanceof StrutsExceptionHandler))
+                return transition;
+        }
         return null;
     }
 
@@ -58,8 +74,17 @@ public class StrutsActionStateLogicImpl
      */
     public java.util.Collection handleGetExceptions()
     {
-// TODO: add your implementation here!
-        return null;
+        final Map exceptionsMap = new HashMap(4);
+        final Collection outgoing = getOutgoing();
+        for (Iterator iterator = outgoing.iterator(); iterator.hasNext();)
+        {
+            TransitionFacade transition = (TransitionFacade) iterator.next();
+            if (transition instanceof StrutsExceptionHandler)
+            {
+                exceptionsMap.put( ((StrutsExceptionHandler)transition).getExceptionKey(), transition);
+            }
+        }
+        return exceptionsMap.values();
     }
 
 }
