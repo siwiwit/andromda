@@ -1,0 +1,54 @@
+##
+## Package declaration and imports
+##
+package $class.packageName;
+
+/**
+$class.getDocumentation(" ")
+ * <p>
+ * This class extends <code>$parentFormBean.fullyQualifiedName</code>, is serves
+ * only to present a view on that class. The struts validator framework can use
+ * this view to determine which dynamic javascript snippet to generate
+ * (we need a form bean declaration in struts-config.xml for that).
+ *
+ * @struts.form
+ *        name="$class.formBeanName"
+ */
+public final class $class.name extends $class.formBean.fullyQualifiedName
+{
+#foreach ($inputField in $class.inputFields)
+    /**
+#set ($validatorTypes = $inputField.validatorTypes)
+#foreach ($validatorType in $validatorTypes)
+     * @struts.validator
+     *          type="$validatorType"
+     *  arg0resource="$inputField.validatorMsgKey"
+#foreach ($validatorArg in $inputField.getValidatorArgs($validatorType))
+     *     arg${velocityCount}value="$validatorArg"
+#end
+     *
+#end
+#if ($inputField.validWhen)
+     * @struts.validator
+     *       type="validwhen"
+     *  arg0value="$inputField.validatorMsgKey"
+     *
+#end
+#foreach ($validatorVar in $inputField.validatorVars)
+     * @struts.validator-var
+     *     name="$validatorVar.get(0)"
+     *    value="$validatorVar.get(1)"
+#end
+#if ($inputField.validWhen)
+     * @struts.validator-var
+     *     name="test"
+     *    value="$inputField.validWhen"
+#end
+     */
+    public void ${inputField.setterName}($inputField.type.fullyQualifiedName $inputField.name)
+    {
+        super.${inputField.setterName}($inputField.name);
+    }
+
+#end
+}
