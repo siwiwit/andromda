@@ -4,10 +4,6 @@
     <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
     <templateObject name="transform" className="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
 
-	<!-- library of macros used in templates -->
-    <macrolibrary name="templates/StrutsJSP.vm" />
-    <macrolibrary name="templates/StrutsAction.vm" />
-
     <template
         sheet="templates/StrutsAction.vsl"
         outputPattern="$generatedFile"
@@ -18,7 +14,6 @@
         </modelElements>
     </template>
 
-<!--
     <template
         sheet="templates/StrutsForm.vsl"
         outputPattern="$generatedFile"
@@ -38,7 +33,6 @@
             <modelElement stereotype="FrontEndController"/>
         </modelElements>
     </template>
--->
 
     <template
         sheet="templates/StrutsJSP.vsl"
