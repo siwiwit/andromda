@@ -126,39 +126,52 @@ public class TemplateConfiguration
     /**
      * Returns the fully qualified output file, that means:
      * <ul>
-     * <li>the output pattern has been translated</li>
-     * <li>the output dir name has been prepended</li>
+     *     <li>the output pattern has been translated</li>
+     *     <li>the output dir name has been prepended</li>
      * </ul>
      * 
      * @param inputClassName name of the class from the UML model
      * @param inputPackageName name of the package from the UML model 
      *                         in which the class is contained
-     * @param oldict the dictionary where outlet names can be resolved to
-     *               physical  directories
-     * @return File absolute file
+     * @param directoryUri the directory URI 
+     * @return File absolute directory.
      */
-    public File getFullyQualifiedOutputFile(
+    public File getOutputLocation(
         String inputClassName,
         String inputPackageName,
-        String directory)
+        File directory) 
     {
         int dotIndex = sheet.indexOf(".");
         String sheetBaseName = sheet.substring(0, dotIndex);
-
-        Object[] arguments =
-            {
+    
+        //clean the strings since they could be null
+        inputClassName = StringUtils.trimToEmpty(inputClassName);
+        inputPackageName = StringUtils.trimToEmpty(inputPackageName);
+        
+        File file = null;
+        if (directory != null) 
+        {
+            Object[] arguments = {
                 inputPackageName.replace('.', File.separatorChar),
                 inputClassName,
-                sheetBaseName};
-
-        String outputFileName =
-            MessageFormat.format(outputPattern, arguments);
+                sheetBaseName
+            };
             
-        File outputLocation = null;
-        if (StringUtils.isNotEmpty(directory)) {
-        	outputLocation = new File(directory, outputFileName);
+            String outputFileName;
+            //if singleFileOutput is set to true, then
+            //just use the output pattern as the file to
+            //output to, otherwise we replace using message format.
+            if (this.isOutputToSingleFile()) 
+            {
+                outputFileName = outputPattern;
+            } else 
+            {
+                outputFileName = MessageFormat.format(outputPattern, arguments);
+            }
+            
+            file = new File(directory, outputFileName);
         }
-        return outputLocation;
+        return file;
     }
     
     /**
