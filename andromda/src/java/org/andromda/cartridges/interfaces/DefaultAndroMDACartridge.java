@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import org.andromda.core.anttasks.UserProperty;
 import org.andromda.core.common.CodeGenerationContext;
+import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.ScriptHelper;
 import org.andromda.core.common.StdoutLogger;
 import org.andromda.core.common.StringUtilsHelper;
@@ -189,8 +190,6 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                                 .newInstance());
                         context.getScriptHelper().setModel(
                             context.getModelFacade().getModel());
-                        context.getScriptHelper().setTypeMappings(
-                            context.getTypeMappings());
                     }
                     catch (IllegalAccessException iae)
                     {
@@ -201,12 +200,18 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                         throw new CartridgeException(ie);
                     }
                 }
+                
+                String outputLocation = 
+                	Namespaces.instance().findNamespaceProperty(
+                			desc.getCartridgeName(), tc.getOutlet());
 
                 File outFile =
                     tc.getFullyQualifiedOutputFile(
                         name,
                         packageName,
-                        context.getOutletDictionary());
+                        outputLocation);
+                
+                
 
                 if (outFile != null)
                 {

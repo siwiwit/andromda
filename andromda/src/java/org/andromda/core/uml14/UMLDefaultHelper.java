@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.andromda.core.common.DbMappingTable;
 import org.andromda.core.common.ScriptHelper;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.ModelElement;
@@ -22,7 +21,6 @@ public class UMLDefaultHelper
 	implements ScriptHelper
 {
 	protected UmlPackage model;
-	protected DbMappingTable typeMappings;
 
 	public void setModel(Object model)
 	{
@@ -33,12 +31,6 @@ public class UMLDefaultHelper
     {
         return this.model;
     }
-    
-	public void setTypeMappings(DbMappingTable mappings)
-	{
-		this.typeMappings = mappings;
-	}
-	
 
 	public String getName(Object object)
 	{

@@ -2,8 +2,6 @@ package org.andromda.core.common;
 
 import java.util.Collection;
 
-import org.andromda.cartridges.interfaces.OutletDictionary;
-
 /**
  * Conext passed from the core to a cartridge
  * when code has to be generated.
@@ -18,8 +16,6 @@ public class CodeGenerationContext
     private RepositoryFacade repository = null;
     private ModelFacade modelFacade = null;
     private ScriptHelper scriptHelper = null;
-    private DbMappingTable typeMappings = null;
-    private OutletDictionary outletDictionary = null;
     private boolean lastModifiedCheck = false;
     private Collection userProperties = null;
     private ModelPackages modelPackages;
@@ -28,8 +24,6 @@ public class CodeGenerationContext
         RepositoryFacade rf,
         ModelFacade mf,
         ScriptHelper sh,
-        DbMappingTable typeMappings,
-        OutletDictionary outletDictionary,
         boolean lastModifiedCheck,
 		ModelPackages modelPackages,
 		Collection userPropeties)
@@ -37,8 +31,6 @@ public class CodeGenerationContext
         this.repository = rf;
         this.scriptHelper = sh;
         this.modelFacade = mf;
-        this.typeMappings = typeMappings;
-        this.outletDictionary = outletDictionary;
         this.lastModifiedCheck = lastModifiedCheck;
         this.modelPackages = modelPackages;
         this.userProperties = userPropeties;
@@ -87,42 +79,6 @@ public class CodeGenerationContext
     public void setScriptHelper(ScriptHelper scriptHelper)
     {
         this.scriptHelper = scriptHelper;
-    }
-
-    /**
-     * Returns the typeMappings.
-     * @return DbMappingTable
-     */
-    public DbMappingTable getTypeMappings()
-    {
-        return typeMappings;
-    }
-
-    /**
-     * Sets the typeMappings.
-     * @param typeMappings The typeMappings to set
-     */
-    public void setTypeMappings(DbMappingTable typeMappings)
-    {
-        this.typeMappings = typeMappings;
-    }
-
-    /**
-     * Returns the outletDictionary.
-     * @return OutletDictionary
-     */
-    public OutletDictionary getOutletDictionary()
-    {
-        return outletDictionary;
-    }
-
-    /**
-     * Sets the outletDictionary.
-     * @param outletDictionary The outletDictionary to set
-     */
-    public void setOutletDictionary(OutletDictionary outletDictionary)
-    {
-        this.outletDictionary = outletDictionary;
     }
 
     /**
