@@ -7,9 +7,11 @@ import java.util.Iterator;
 import org.andromda.core.common.HTMLAnalyzer;
 import org.andromda.core.common.HTMLParagraph;
 import org.andromda.core.mapping.Mappings;
+import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.core.uml14.UMLProfile;
 import org.andromda.metafacades.uml.TaggedValueFacade;
 import org.apache.commons.lang.StringUtils;
+import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Comment;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.TaggedValue;
@@ -296,15 +298,13 @@ public class ModelElementFacadeLogicImpl
 
     /**
      * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#handleGetRootPackage()
-     *
-    protected ModelElement handleGetRootPackage() 
+     */
+    protected Object handleGetRootPackage() 
     {
         Collection rootPackages = 
-            DecoratorFactory
-                .getInstance()
-                .getModel()
+            ((UmlPackage)MetafacadeFactory.getInstance().getModel())
                 .getModelManagement().refAllPackages();
         return (ModelElement) rootPackages.iterator().next();
-    }*/
+    }
 
 }
