@@ -32,7 +32,7 @@ public class EJBFinderMethodDecoratorImpl extends EJBFinderMethodDecorator {
 		//first see if there is a query stored as a tagged value
 		String queryString =
 			StringUtils.trimToNull(
-				this.findTaggedValue(EJBProfile.TAGGEDVALUE_EJB_QUERY));
+				this.findTaggedValue(EJBProfile.TAGGEDVALUE_PERSISTENCE_QUERY));
 
 		//if there wasn't any stored query, create one by default.
 		if (StringUtils.isEmpty(queryString)) {

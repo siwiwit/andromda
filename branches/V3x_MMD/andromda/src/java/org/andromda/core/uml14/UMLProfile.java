@@ -62,4 +62,9 @@ public class UMLProfile {
 	 */
 	public static final String TAGGEDVALUE_PERSISTENCE_COLUMN_LENGTH = "andromda.persistence.column.length";
 	
+	/**
+	 * Represents the Query string stored as a tagged value.
+	 */
+	public static final String TAGGEDVALUE_PERSISTENCE_QUERY = "andromda.persistence.query";
+	
 }
