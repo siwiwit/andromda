@@ -56,7 +56,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         {
             Attribute attribute = (Attribute) iterator.next();
             AttributeDecorator attributeDecorator = (AttributeDecorator)DecoratorBase.decoratedElement(attribute);
-            if (attributeDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_INPUTFIELD).booleanValue())
+            if (attributeDecorator instanceof StrutsInputFieldDecorator)
             {
                 inputFields.add(attribute);
             }
