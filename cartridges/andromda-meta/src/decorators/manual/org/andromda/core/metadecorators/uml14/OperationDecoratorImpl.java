@@ -199,11 +199,10 @@ public class OperationDecoratorImpl extends OperationDecorator
 	{
     	name = StringUtils.trimToEmpty(name);
     	String value = findTaggedValue(name);
-    	ModelElement element = this.getType();
-    	while ((value == null) && (element != null)) 
-    	{
-    		value = findTaggedValue(name);
-    		element = ((ClassifierDecorator)this.getType()).getSuperclass();
+    	ClassifierDecorator type = (ClassifierDecorator)this.getType();
+    	while (value == null && type != null) {
+    		value = type.findTaggedValue(name);
+    		type = (ClassifierDecorator)type.getSuperclass();
     	}
 
     	return value;

@@ -71,13 +71,14 @@ public class AttributeDecoratorImpl extends AttributeDecorator
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#findTaggedValue(java.lang.String, boolean)
      */
-    public String findTaggedValue(String name, boolean follow) {
+    public String findTaggedValue(String name, boolean follow) 
+	{
     	name = StringUtils.trimToEmpty(name);
     	String value = findTaggedValue(name);
-    	ModelElement element = this.getType();
-    	while ((value == null) && (element != null)) {
-    		value = findTaggedValue(name);
-    		element = ((ClassifierDecorator)this.getType()).getSuperclass();
+    	ClassifierDecorator type = (ClassifierDecorator)this.getType();
+    	while (value == null && type != null) {
+    		value = type.findTaggedValue(name);
+    		type = (ClassifierDecorator)type.getSuperclass();
     	}
 
     	return value;
