@@ -1,4 +1,4 @@
-package org.andromda.core.mdr;
+package org.andromda.repositories.mdr;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,8 +12,8 @@ import javax.jmi.xmi.MalformedXMIException;
 
 import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ModelFacade;
-import org.andromda.core.common.RepositoryFacade;
-import org.andromda.core.common.RepositoryFacadeException;
+import org.andromda.core.repository.RepositoryFacade;
+import org.andromda.core.repository.RepositoryFacadeException;
 import org.apache.log4j.Logger;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRManager;
@@ -76,7 +76,7 @@ public class MDRepositoryFacade implements RepositoryFacade
      * <p> All the file reads are done within the context of a transaction
      * this seems to speed up the processing. </p>
      *
-     * @see org.andromda.core.common.RepositoryFacade#open()
+     * @see org.andromda.core.repository.RepositoryFacade#open()
      */
     public void open()
     {
@@ -89,7 +89,7 @@ public class MDRepositoryFacade implements RepositoryFacade
      * <p> This should only be called after all the models has been read and all querys
      * have completed. </p>
      *
-     * @see org.andromda.core.common.RepositoryFacade#close()
+     * @see org.andromda.core.repository.RepositoryFacade#close()
      */
     public void close()
     {
@@ -134,7 +134,7 @@ public class MDRepositoryFacade implements RepositoryFacade
     }
 
     /**
-     * @see org.andromda.core.common.RepositoryFacade#getLastModified()
+     * @see org.andromda.core.repository.RepositoryFacade#getLastModified()
      */
     public long getLastModified()
     {
@@ -158,7 +158,7 @@ public class MDRepositoryFacade implements RepositoryFacade
     }
 
     /**
-     * @see org.andromda.core.common.RepositoryFacade#getModel()
+     * @see org.andromda.core.repository.RepositoryFacade#getModel()
      */
     public ModelFacade getModel()
     {

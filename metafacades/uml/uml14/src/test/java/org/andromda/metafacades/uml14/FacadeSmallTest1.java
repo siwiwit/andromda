@@ -8,8 +8,9 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.andromda.core.mdr.MDRepositoryFacade;
+import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.metafacade.MetafacadeFactory;
+import org.andromda.core.repository.RepositoryFacade;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
@@ -22,7 +23,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
 {
     private UmlPackage model;
     private URL modelURL = null;
-    private MDRepositoryFacade repository = null;
+    private RepositoryFacade repository = null;
 
     public FacadeSmallTest1(String arg0)
     {
@@ -38,7 +39,9 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
         if (modelURL == null)
         {
             modelURL = new URL(TestModel.XMI_FILE_URL);
-            repository = new MDRepositoryFacade();
+            repository = 
+                (RepositoryFacade)ComponentContainer.instance().findComponent(
+                        RepositoryFacade.class);
             repository.readModel(modelURL, null);
             MetafacadeFactory factory = MetafacadeFactory.getInstance();
             factory.setModel( repository.getModel());

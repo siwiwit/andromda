@@ -6,15 +6,16 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.common.XmlObjectFactory;
-import org.andromda.core.mdr.MDRepositoryFacade;
+import org.andromda.core.repository.RepositoryFacade;
 import org.andromda.metafacades.uml14.TestModel;
 import org.apache.log4j.Logger;
 
 public class MetafacadeBaseTest extends TestCase implements TestModel
 {
     private URL modelURL = null;
-    private MDRepositoryFacade repository = null;
+    private RepositoryFacade repository = null;
     
     private static final Logger logger = Logger.getLogger(MetafacadeBaseTest.class);
 
@@ -32,7 +33,9 @@ public class MetafacadeBaseTest extends TestCase implements TestModel
         if (modelURL == null)
         {
             modelURL = new URL(TestModel.XMI_FILE_URL);
-            repository = new MDRepositoryFacade();
+            repository = 
+                (RepositoryFacade)ComponentContainer.instance().findComponent(
+                     RepositoryFacade.class);
             repository.readModel(modelURL, null);
             // set the XmlObjectFactory's validation to false 
             // since the libraries used with JUnit for some reason

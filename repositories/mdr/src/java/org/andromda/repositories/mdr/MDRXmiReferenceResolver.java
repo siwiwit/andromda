@@ -1,4 +1,4 @@
-package org.andromda.core.mdr;
+package org.andromda.repositories.mdr;
 
 import javax.jmi.reflect.RefPackage;
 

@@ -1,4 +1,4 @@
-package org.andromda.core;
+package org.andromda.repositories.mdr;
 
 import java.net.URL;
 

@@ -2,7 +2,7 @@
  * Created on Jul 27, 2003
  *
  */
-package org.andromda.core.mdr;
+package org.andromda.repositories.mdr;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,8 +11,7 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.andromda.core.TestModel;
-import org.andromda.core.common.RepositoryFacadeException;
+import org.andromda.core.repository.RepositoryFacadeException;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.ModelElement;
