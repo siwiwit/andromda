@@ -7,7 +7,7 @@
   2) A jar with classes that come from a generation step using this cartridge!
      This second jar is used inside the AndroMDA core (yes! AndroMDA is used
      to compile itself, just like a Java compiler compiles itself!).
-     
+
   This requires a manual step at the end of the build process:
   - Build this cartridge normally, using the "dist" target.
   - If you are sure that the result is good, copy it into the AndroMDA core,
@@ -44,7 +44,7 @@
        <pathelement location="${andromda-core.home}/andromda.jar"/>
        <pathelement path="${andromda-core.classpath}"/>
     </path>
-    
+
     <!-- Setup directory structure -->
     <target name="init">
         <tstamp/>
@@ -104,12 +104,12 @@
 
     <target name="genjava" depends="compile1">
         <property file="${andromda-meta.home}/andromda-meta.properties"/>
-    
+
         <path id="generate.classpath">
            <path refid="andromda.classpath" />
            <pathelement path="${andromda-meta.classpath}"/>
         </path>
-    
+
         <taskdef name="andromda"
                  classname="org.andromda.core.anttasks.AndroMDAGenTask"
                  classpathref="generate.classpath"
@@ -129,8 +129,9 @@
 
             <outlet cartridge="meta" outlet="decorators"       dir="${src.dec.gen.dir}" />
             <outlet cartridge="meta" outlet="decorator-impls"  dir="${src.dec.man.dir}" />
-            
+
             <modelPackage name="org.andromda.core.metadecorators.uml14" shouldProcess="true"/>
+            <modelPackage name="org.andromda.cartridges.bpm4struts.metadecorators.uml14" shouldProcess="true"/>
 
         </andromda>
     </target>
