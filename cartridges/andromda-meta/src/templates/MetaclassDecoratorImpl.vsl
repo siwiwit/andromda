@@ -1,10 +1,10 @@
-#set ($packagename = $transform.findPackageName(${class.package}))
+#set ($packagename = $class.package.fullyQualifiedName)
 package $packagename;
 
 #macro ( generateDocumentation $item $indent)
 #foreach ( $tgv in $item.taggedValues )
 #if ($tgv.tag == "documentation")
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tgv.value))
+#set ($paras = $tgv.value.formatHTMLStringAsParagraphs())
 #foreach ( $par in $paras )
 ${indent}*
 ${indent}* <p>
@@ -18,7 +18,7 @@ ${indent}* </p>
 #end
 
 #set ($decoratedMetaclass = $transform.getMetaclass($class))
-#set ($decoratedMetaclassTypeName = $transform.findFullyQualifiedName($decoratedMetaclass))
+#set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
 
 /**
 #generateDocumentation ($class " ")
@@ -52,9 +52,8 @@ public class ${class.name}Impl extends ${class.name}
     // abstract in class ${class.name} ...
 
 #foreach ( $op in $class.operations)
-#if ($transform.getStereotype($op.id) != "FinderMethod")
-#set ($msig = $transform.getOperationSignature($op))
-#set ($returntype = $transform.findFullyQualifiedName($op.getType()))
+#set ($msig = $op.signature)
+#set ($returntype = $op.type.fullyQualifiedName)
 #if ($defaultException)
     $op.visibility $returntype ${msig}
         throws $defaultException.name {
@@ -65,7 +64,7 @@ public class ${class.name}Impl extends ${class.name}
 #if ("void" != $returntype)
 
         // Dummy return value, just that the file compiles
-#if (!$str.isPrimitiveType($returntype))
+#if (!$returntype.primitiveType)
         return null;
 #elseif ("boolean" == $returntype)
         return false;
@@ -76,26 +75,23 @@ public class ${class.name}Impl extends ${class.name}
     }
 
 #end
-#end
     // ------------- relations ------------------
     
-#foreach ( $assoc in $class.associationLinks )
-#set ($adata = $transform.getAssociationData($assoc))
-#if ($adata.target.navigable == "true")
+#foreach ( $assocEnd in $class.associationEnds )
+#if ($assocEnd.otherEnd.navigable)
 ##
-#set ($sourcetype = $adata.source.type)
-#set ($targettype = $adata.target.type)
-#set ($targettypename = $transform.findFullyQualifiedName($targettype))
+#set ($sourcetype = $assocEnd.type)
+#set ($targettype = $assocEnd.otherEnd.type)
+#set ($targettypename = $targettype.fullyQualifiedName)
 ##
-#set ($trn = $adata.target.roleName)
+#set ($trn = $assocEnd.otherEnd.roleName)
 #set ($utrn = $str.upperCaseFirstLetter($trn))
 ##
-#if ($adata.isOne2Many() || $adata.isMany2Many())
+#if ($assocEnd.isOne2Many() || $assocEnd.isMany2Many())
    /**
-#generateDocumentation ($adata.target.end "    ")
-##    * multiplicity:     $adata.multiplicities
-##    * source navigable: $adata.source.navigable
-##    * target navigable: $adata.target.navigable
+#generateDocumentation ($assocEnd.otherEnd "    ")
+##    * source navigable: $assocEnd.navigable
+##    * target navigable: $assocEnd.otherEnd.navigable
     *
     */
     public java.util.Collection handleGet${utrn}()
@@ -104,12 +100,11 @@ public class ${class.name}Impl extends ${class.name}
         return null;
     }
 #end
-#if ($adata.isOne2One() || $adata.isMany2One())
+#if ($assocEnd.isOne2One() || $assocEnd.isMany2One())
    /**
-#generateDocumentation ($adata.target.end "    ")
-##    * multiplicity:     $adata.multiplicities
-##    * source navigable: $adata.source.navigable
-##    * target navigable: $adata.target.navigable
+#generateDocumentation ($assocEnd.otherEnd "    ")
+##    * source navigable: $assocEnd.source.navigable
+##    * target navigable: $assocEnd.otherEnd.navigable
     *
     */
     public org.omg.uml.foundation.core.ModelElement handleGet${utrn}()
