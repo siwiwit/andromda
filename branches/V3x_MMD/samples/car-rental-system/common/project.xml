@@ -3,7 +3,6 @@
 <project>
   	<extend>../project.xml</extend>
   	<id>andromda-car-rental-sample-common</id>
-  	<groupId>andromda</groupId>
   	<name>Car Rental Sample Common</name>
   	<shortDescription>The Car Rental Sample</shortDescription>
   	<description>

@@ -3,7 +3,6 @@
 <project>
   	<extend>../../project.xml</extend>
   	<id>andromda-car-rental-sample-hibernate-ejb</id>
-  	<groupId>andromda</groupId>
   	<name>Car Rental Sample Hibernate EJB</name>
   	<shortDescription>The Car Rental Sample Hibernate EJB Component</shortDescription>
   	<description>
