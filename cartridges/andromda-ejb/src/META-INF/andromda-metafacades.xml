@@ -4,38 +4,38 @@
 <metafacades namespace="ejb">
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Operation$Impl"
-		metafacadeClass="org.andromda.cartridges.ejb.metadecorators.uml14.EJBFinderMethodDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.ejb.metafacades.EJBFinderMethodFacadeLogicImpl">
 		<stereotype>FinderMethod</stereotype>
 	</metafacade>
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.cartridges.ejb.metadecorators.uml14.EJBPrimaryKeyDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.ejb.metafacades.EJBPrimaryKeyFacadeLogicImpl">
 		<stereotype>PrimaryKey</stereotype>
 		<property reference="sqlMappings"/>
 		<property reference="jdbcMappings"/>
 	</metafacade>
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
-		metafacadeClass="org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.ejb.metafacades.EJBEntityFacadeLogicImpl">
 		<property reference="maxSqlNameLength"/>
 		<!-- <stereotype>Entity</stereotype> -->
 	</metafacade>
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Interface$Impl"
-		metafacadeClass="org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecoratorImpl">
+		metafacadeClass="org.andromda.cartridges.ejb.metafacades.EJBEntityFacadeLogicImpl">
 		<property reference="maxSqlNameLength"/>
 		<!-- <stereotype>Entity</stereotype> -->
 	</metafacade>
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
-		metafacadeClass="org.andromda.cartridges.ejb.metadecorators.uml14.EJBAssociationEndDecoratorImpl">
-		<context>org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecoratorImpl</context>
+		metafacadeClass="org.andromda.cartridges.ejb.metafacades.EJBAssociationEndFacadeLogicImpl">
+		<context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacadeLogicImpl</context>
 		<property reference="foreignKeySuffix"/>
 	</metafacade>			
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.core.metadecorators.uml14.EntityAttributeDecoratorImpl">
-		<context>org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecoratorImpl</context>
+		metafacadeClass="org.andromda.core.metafacades.EntityAttributeFacadeLogicImpl">
+		<context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacadeLogicImpl</context>
 		<property reference="sqlMappings"/>
 		<property reference="jdbcMappings"/>
 	</metafacade>		
