@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.andromda.core.common.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.ModelElement;
@@ -53,6 +54,10 @@ public class DecoratorFactory
             "org.omg.uml.foundation.core.AssociationEnd$Impl",
             null,
             AssociationEndDecoratorImpl.class.getName());
+        registerDecoratorClass(
+    		"org.omg.uml.foundation.core.Association$Impl",
+			null,
+			AssociationEndDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.Dependency$Impl",
             null,
@@ -204,17 +209,26 @@ public class DecoratorFactory
      * Returns a decorator for a metaobject, depending on its
      * metaclass and (optionally) its stereotype.
      * 
-     * @param m the model element
+     * @param metaobject the model element
      * @return DecoratorBase the decorator object (not yet attached to metaclass object)
      */
     public DecoratorBase createDecoratorObject(ModelElement metaobject)
     {
+    	ExceptionUtils.checkNull("createDecoratorObject", "metaobject", metaobject);
+    	
+    	//if the metaobject ALREADY IS a Decorator 
+    	//(its class is assignable to an instance of DecoratorBase),
+    	//return the metaobject since we don't want to try and create a 
+    	//Decorator from a Decorator.
+    	if (DecoratorBase.class.isAssignableFrom(metaobject.getClass())) 
+    	{
+    		return (DecoratorBase)metaobject;
+    	}
         String stereotypeName = getStereotypeName(metaobject);
         String decoratorClassName =
             lookupDecoratorClass(
                 metaobject.getClass().getName(),
                 stereotypeName);
-
         DecoratorBase result;
 
         if (decoratorClassName == null)
@@ -232,6 +246,7 @@ public class DecoratorFactory
                     findConstructor(dynamicClass, metaobject.getClass());
 
                 Object[] constructorParams = { metaobject };
+
                 result =
                     (DecoratorBase) constructor.newInstance(
                         constructorParams);
