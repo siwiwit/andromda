@@ -199,12 +199,13 @@ public class OperationDecoratorImpl extends OperationDecorator
 	{
     	name = StringUtils.trimToEmpty(name);
     	String value = findTaggedValue(name);
-    	ClassifierDecorator type = (ClassifierDecorator)this.getType();
-    	while (value == null && type != null) {
-    		value = type.findTaggedValue(name);
-    		type = (ClassifierDecorator)type.getSuperclass();
+    	if (follow) {
+	    	ClassifierDecorator type = (ClassifierDecorator)this.getType();
+	    	while (value == null && type != null) {
+	    		value = type.findTaggedValue(name);
+	    		type = (ClassifierDecorator)type.getSuperclass();
+	    	}
     	}
-
     	return value;
     }
     
