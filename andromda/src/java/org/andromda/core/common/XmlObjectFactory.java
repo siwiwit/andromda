@@ -138,7 +138,6 @@ public class XmlObjectFactory {
      * @param validating true/false 
      */
     public void setValidating(boolean validating) {
-        final String methodName = "XmlObjectFactory.setValidating";     
         this.digester.setValidating(validating);
         if (validating) {
             if (this.schemaUri == null) {

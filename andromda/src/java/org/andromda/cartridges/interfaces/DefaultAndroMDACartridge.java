@@ -163,8 +163,6 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
         
         if (templateModelElements != null && !templateModelElements.isEmpty()) 
         {
-
-            File outFile = null;
             
             CartridgeDescriptor descriptor = 
                 this.getDescriptor();
@@ -172,8 +170,6 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
             Property outletProperty = 
                 Namespaces.instance().findNamespaceProperty(
                         descriptor.getCartridgeName(), template.getOutlet());
-  
-            String outputLocation = outletProperty.getValue();
             
             if (outletProperty != null && !outletProperty.isIgnore()) 
             {
