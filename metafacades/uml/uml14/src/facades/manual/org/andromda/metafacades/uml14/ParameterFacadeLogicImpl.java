@@ -60,6 +60,18 @@ public class ParameterFacadeLogicImpl
         }
     }
 
+    public boolean isArray()
+    {
+        try
+        {
+            return Class.forName(getType().getFullyQualifiedName()).isArray();
+        }
+        catch(Exception exception)
+        {
+            return false;
+        }
+    }
+
     // ------------- relations ------------------
     
     /* (non-Javadoc)
