@@ -100,6 +100,7 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
 
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
@@ -163,5 +164,6 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
                 }
             }
         }
+*/
     }
 }
