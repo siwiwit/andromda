@@ -1,68 +1,44 @@
 <cartridge name="bpm4struts">
-   <property name="workflow" value="bpm4struts"/>
+    <!-- defines the class to use -->
+    <class name="org.andromda.cartridges.bpm4struts.Bpm4StrutsCartridge"/>
 
-   <stereotype name="FrontEndUseCase"/>
-   <stereotype name="FrontEndView"/>
-   <stereotype name="FrontEndModel"/>
-    <stereotype name="FrontEndConfiguration"/>
-    <stereotype name="FrontEndExceptionHandler"/>
+    <property name="workflow" value="bpm4struts"/>
 
-   <outlet name="actions"/>
-   <outlet name="pages"/>
-   <outlet name="forms"/>
-   <outlet name="config"/>
+    <stereotype name="FrontEndView"/>
+    <stereotype name="FrontEndModel"/>
+    <stereotype name="FrontEndController"/>
 
-   <template
-      stereotype="FrontEndModel"
-      sheet="templates/StrutsForm.vsl"
-      outputPattern="{0}/{1}.java"
-      outlet="forms"
-      overWrite="true"
-      transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
-
-   <template
-      stereotype="FrontEndUseCase"
-      sheet="templates/StrutsAction.vsl"
-      outputPattern="{0}/{1}.java"
-      outlet="actions"
-      overWrite="false"
-      transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
-
-   <template
-      stereotype="FrontEndUseCase"
-      sheet="templates/StrutsActionAbstract.vsl"
-      outputPattern="{0}/{1}Abstract.java"
-      outlet="actions"
-      overWrite="true"
-      transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
-
-   <template
-      stereotype="FrontEndView"
-      sheet="templates/StrutsJSP.vsl"
-      outputPattern="{0}/{1}.jsp"
-      outlet="pages"
-      overWrite="false"
-      transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+    <outlet name="actions"/>
+    <outlet name="pages"/>
+    <outlet name="forms"/>
 
     <template
-        stereotype="FrontEndConfiguration"
-        sheet="templates/StrutsConfig.vsl"
-        outputPattern="struts-config.xml"
-        outlet="config"
-        overWrite="true"
-        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
-
-    <template
-        stereotype="FrontEndExceptionHandler"
-        sheet="templates/StrutsExceptionHandler.vsl"
+        stereotype="FrontEndController"
+        sheet="templates/StrutsAction.vsl"
         outputPattern="{0}/{1}.java"
         outlet="actions"
         overWrite="true"
         transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
 
     <template
-        stereotype="FrontEndExceptionHandler"
-        sheet="templates/StrutsExceptionPage.vsl"
+        stereotype="FrontEndController"
+        sheet="templates/StrutsActionAbstract.vsl"
+        outputPattern="{0}/{1}Abstract.java"
+        outlet="actions"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndModel"
+        sheet="templates/StrutsForm.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="forms"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndView"
+        sheet="templates/StrutsJSP.vsl"
         outputPattern="{0}/{1}.jsp"
         outlet="pages"
         overWrite="true"
