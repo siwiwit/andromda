@@ -8,7 +8,9 @@
       outputPattern="{0}/{1}.java"
       outlet="forms"
       overWrite="true">
-        <stereotype name="WebForm"/>   
+        <modelElements variable="class">
+            <modelElement stereotype="WebForm"/>  
+        </modelElements>  
     </template>
 
     <template
@@ -16,7 +18,9 @@
       outputPattern="{0}/{1}.java"
       outlet="actions"
       overWrite="false">
-        <stereotype name="WebAction"/>  
+        <modelElements variable="class">
+            <modelElement stereotype="WebAction"/>  
+        </modelElements>  
     </template>
 
     <template
@@ -24,7 +28,9 @@
       outputPattern="{1}.jsp"
       outlet="pages"
       overWrite="false">
-        <stereotype name="WebPage"/>    
+        <modelElements variable="class">
+            <modelElement stereotype="WebPage"/>  
+        </modelElements>   
     </template>
 
     <template
@@ -32,7 +38,9 @@
       outputPattern="struts-config.xml"
       outlet="config"
       overWrite="true">
-        <stereotype name="WebAppConfig"/>   
+        <modelElements variable="class">
+            <modelElement stereotype="WebAppConfig"/>  
+        </modelElements>  
     </template>
 
 </cartridge>

@@ -52,13 +52,6 @@ public class AndroMDATestCartridgeTest extends TestCase
         assertNotNull(icc.getProperties());
         assertEquals(icc.getProperties().get("persistence"), "ejb");
 
-        assertNotNull(icc.getSupportedStereotypes());
-        assertTrue(icc.getSupportedStereotypes().contains("EntityBean"));
-        assertTrue(
-            icc.getSupportedStereotypes().contains("StatelessSessionBean"));
-        assertTrue(
-            icc.getSupportedStereotypes().contains("StatefulSessionBean"));
-
         assertEquals(
             "TemplateConfiguration: EntityBean EntityBean.vsl {0}/{1}Bean.java beans true true",
             icc.getTemplateConfigurations().get(0).toString());

@@ -21,12 +21,6 @@ public interface CartridgeDescriptor {
     public String getCartridgeName();
 
     /**
-     * Returns the stereotypes which are supported by this cartridge.
-     * @return List the stereotypes
-     */
-    public List getSupportedStereotypes();
-
-    /**
      * Returns the property values which are set for this cartridge. Example:
      * @andromda.persistence="ejb".
      * 

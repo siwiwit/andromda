@@ -97,27 +97,41 @@
 	      		      	 
 			<set-properties-rule>
 	 			<alias attr-name="overWrite" prop-name="overWrite" />
-	 		</set-properties-rule> 	 	
-	 		
-			<set-properties-rule>
-	 			<alias attr-name="outputToEmptyFiles" prop-name="outputToEmptyFiles" />
-	 		</set-properties-rule> 	 	
+	 		</set-properties-rule> 	 	 	
 	 		
 			<set-properties-rule>
 	 			<alias attr-name="outputToSingleFile" prop-name="outputToSingleFile" />
 	 		</set-properties-rule> 	 
 	 		
-			<pattern value="stereotype">
-
-				<call-method-rule
-					methodname="addStereotype" 
-					paramcount="1"/>
-					
-		    	<call-param-rule 
-		    		attrname="name" 
-		    		paramnumber="0"/>
-				
-			</pattern>	 
+	 		<pattern value="modelElements">
+	 		    
+                <object-create-rule 
+                    classname="org.andromda.cartridges.interfaces.TemplateModelElements" />   
+                    
+                <set-properties-rule>
+                    <alias attr-name="variable" prop-name="variable" />
+                </set-properties-rule> 	 	 		    
+	 		    
+                <pattern value="modelElement">
+                    
+                    <object-create-rule 
+                        classname="org.andromda.cartridges.interfaces.TemplateModelElement" />                       
+    
+                    <set-properties-rule>
+                        <alias attr-name="stereotype" prop-name="stereotype" />
+                    </set-properties-rule> 
+                        
+                    <set-properties-rule>
+                        <alias attr-name="variable" prop-name="variable" />
+                    </set-properties-rule> 
+                        
+                    <set-next-rule methodname="addModelElement" />
+                    
+                </pattern>	 	 
+                
+                <set-next-rule methodname="setSupportedModelElements" />
+                		    
+	 		</pattern>
 
 	      	<set-next-rule methodname="addTemplateConfiguration" />
 		       

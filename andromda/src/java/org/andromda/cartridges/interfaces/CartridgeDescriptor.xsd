@@ -14,21 +14,38 @@
 	</xs:element>
 	<xs:element name="property">
 		<xs:complexType>
-			<!-- defines a reference to a property element defined within a namespace element in your build file -->
+			<!-- defines a reference to a <property/> element defined within a namespace element in your build file -->
 			<xs:attribute name="reference" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="stereotype">
+	<!-- this is the grouping of all modelElements supporeted within a template -->
+	<xs:element name="modelElements">
+	    <xs:complexType>
+	        <xs:sequence>
+	            <!-- You can define as many modelElements as you want -->
+                <xs:element ref="modelElement" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <!-- the default variable name to use for any modelElements define in your <template/>
+                 element, this will be used if no variable attribute is defined at the
+                 <modelElement/> element -->
+            <xs:attribute name="variable" type="xs:string" use="required"/>
+        </xs:complexType>
+	</xs:element>
+	<xs:element name="modelElement">
 		<xs:complexType>
 			<!-- a stereotype name from the model that will be processed (i.e. entity, enumeration, etc.) -->
-			<xs:attribute name="name" use="required"/>
+			<xs:attribute name="stereotype" use="required"/>
+			<!-- defines the variable name that should be placed into the template engine context,
+			     for all model elements having the modelElement with the stereotype attribute, if this is not
+			     defined, then the variable from the enclosing <modelElements/> element will be used. -->
+			<xs:attribute name="variable" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="template">
 		<xs:complexType>
-			<!-- You can have as many stereotypes as you want for a template -->
+			<!-- You can have as many modelElements as you want for a template -->
 			<xs:sequence>
-				<xs:element ref="stereotype" maxOccurs="unbounded"/>
+				<xs:element ref="modelElements" minOccurs="1" maxOccurs="1"/>
 			</xs:sequence>
 			<!-- the template to process -->
 			<xs:attribute name="sheet" type="xs:string" use="required"/>
@@ -42,9 +59,10 @@
 			<xs:attribute name="overWrite" type="xs:boolean" use="required"/>
 			<!-- true/false on whether we should allow generation of empty files-->
 			<xs:attribute name="generateEmptyFiles" type="xs:boolean"/>
-			<!-- true/false on whether we should output all model elments 
-			     having valid stereotypes to one file -->
-			<xs:attribute name="outputToSingleFile" type="xs:boolean"/>
+            <!-- if this flag is set to true, then all model elments
+                 processed by the template will be output to one template and written to one file 
+                 (instead of on a per model element per file basis -->
+            <xs:attribute name="outputToSingleFile" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="templateObject">

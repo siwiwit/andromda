@@ -6,7 +6,9 @@
         outputPattern="{0}/{1}.java"
         outlet="value-objects"
         overWrite="true">
-         <stereotype name="ValueObject"/>         
+        <modelElements variable="class">
+            <modelElement stereotype="ValueObject"/>  
+        </modelElements>       
     </template>
 
 </cartridge>

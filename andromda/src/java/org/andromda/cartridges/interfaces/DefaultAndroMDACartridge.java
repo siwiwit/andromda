@@ -3,7 +3,6 @@ package org.andromda.cartridges.interfaces;
 import java.io.File;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,18 +38,6 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
 
     private Logger logger = null;
     
-    /**
-     * This is the name of the model element made available to the
-     * template if <code>outputToSingleFile</code> is false.
-     */
-    private static final String TEMPLATE_VARIABLE_SINGLE_ELEMENT = "class";
-    
-    /**
-     * This is the name of the Collection of model elements made available 
-     * to the template if <code>outputToSingleFile</code> is true.
-     */
-    private static final String TEMPLATE_VARIABLE_ALL_ELEMENTS = "classes";
-    
     public DefaultAndroMDACartridge() {
         this.resetLogger();   
     }
@@ -79,7 +66,8 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
     /**
      * @see org.andromda.cartridges.interfaces.AndroMDACartridge#processModelElements(org.andromda.core.common.CodeGenerationContext)
      */
-    public void processModelElements(CodeGenerationContext context) {
+    public void processModelElements(CodeGenerationContext context) 
+    {
         final String methodName = "DefaultAndroMDACartridge.processModelElements";
         ExceptionUtils.checkNull(methodName, "context", context);
             
@@ -91,7 +79,8 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
         Collection templates = 
             descriptor.getTemplateConfigurations();
         
-        if (templates == null || templates.isEmpty()) {
+        if (templates == null || templates.isEmpty()) 
+        {
             return;
         }
         
@@ -103,39 +92,45 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
         factory.setActiveNamespace(descriptor.getCartridgeName());
         
         Iterator templateIt = templates.iterator();
-        while (templateIt.hasNext()) {
+        while (templateIt.hasNext()) 
+        {
             
             TemplateConfiguration template = (TemplateConfiguration)templateIt.next();
-            Collection stereotypes = template.getStereotypes();
-            if (stereotypes != null && !stereotypes.isEmpty()) {
-                
-                Collection templateModelElements = new ArrayList();         
-                Iterator stereotypeIt = stereotypes.iterator();
-                while (stereotypeIt.hasNext()) {
-                    String stereotype = (String)stereotypeIt.next();                            
-                    Collection modelElements = (Collection)this.elementCache.get(stereotype);
-                    if (modelElements == null) {
-                        modelElements = context.getModelFacade().findByStereotype(stereotype);
-                        elementCache.put(stereotype, modelElements);
+            TemplateModelElements templateModelElements = template.getSupportedModeElements();
+            if (templateModelElements != null && !templateModelElements.isEmpty()) 
+            {
+                        
+                Iterator stereotypeIt = templateModelElements.stereotypeNames();
+                while (stereotypeIt.hasNext()) 
+                {
+                    String stereotypeName = (String)stereotypeIt.next();                            
+                    Collection modelElements = 
+                        (Collection)this.elementCache.get(stereotypeName);
+                    if (modelElements == null) 
+                    {
+                        modelElements = 
+                            context.getModelFacade().findByStereotype(
+                                stereotypeName);
+                        elementCache.put(stereotypeName, modelElements);
                     }
                                     
-                    templateModelElements.addAll(
-                            MetafacadeFactory.getInstance().createMetafacades(modelElements));                
+                    TemplateModelElement templateModelElement = 
+                        templateModelElements.getModelElement(stereotypeName);
+                    
+                    templateModelElement.setModelElements(
+                        MetafacadeFactory.getInstance().createMetafacades(
+                            modelElements));                       
                 }
-                
-                // filter out the model elements which shouldn't be processed
-                this.filterModelPackages(templateModelElements);
-                
+                                
                 processModelElements(
                     template,
-                    templateModelElements,
                     context);
                 
             }
             
         }        
         
-        //set the context back
+        //set the namespace back
         factory.setActiveNamespace(previousNamespace);
     }
     
@@ -143,27 +138,28 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
      * Processes all <code>modelElements</code> for this template.
      * 
      * @param template the TemplateConfiguration object from which we process.
-     * @param modelElements the model elements to process.
      * @param context the context for the cartridge
      */
     protected void processModelElements(
         TemplateConfiguration template,
-        Collection modelElements, 
-        CodeGenerationContext context) {
+        CodeGenerationContext context) 
+    {
         final String methodName = "DefaultAndroMDACartridge.processModelElements";
-
-        if (logger.isDebugEnabled()) {
+        ExceptionUtils.checkNull(methodName, "template", template);
+        ExceptionUtils.checkNull(methodName, "context", context);
+        
+        if (logger.isDebugEnabled()) 
         	logger.debug("performing " 
                 + methodName 
                 + " with template '" 
                 + template 
-                + "' modelElements '" 
-                + modelElements 
                 + "' and context ' " 
-                + context + "'");
-        }
+                + context + "'");     
         
-        if (modelElements != null && !modelElements.isEmpty()) {
+        TemplateModelElements templateModelElements = template.getSupportedModeElements();
+        
+        if (templateModelElements != null && !templateModelElements.isEmpty()) 
+        {
 
             File outFile = null;
             
@@ -174,46 +170,103 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                 Namespaces.instance().findNamespaceProperty(
                         descriptor.getCartridgeName(), template.getOutlet());
             
-            if (outletProperty != null && !outletProperty.isIgnore()) {
+            if (outletProperty != null && !outletProperty.isIgnore()) 
+            {
                 
                 String outputLocation = outletProperty.getValue();
                         
-                try {       
-                
-                    long modelLastModified = context.getRepository().getLastModified();
+                try 
+                {       
+ 
+                    long modelLastModified = context.getRepository().getLastModified();                 
                     
-                    // send all model elements to one template since we are writing
-                    // to one file.
-                    if (template.isOutputToSingleFile()) {  
-                                
-                        // get rid of any duplicates (since we're outputting to
-                        // one file)
-                        modelElements = new HashSet(modelElements);
-                        this.processWithTemplate(
-                                template,
-                                modelElements,
-                                outletProperty,
-                                null,
-                                null);
-                                            
-                    } else {
-                        
-                        // process these model elements one at a time,
-                        // output a file for each
-                        Iterator modelElementIt = modelElements.iterator();
-                        while (modelElementIt.hasNext()) {
-    
-                            Object modelElement = modelElementIt.next();
+                    Collection allModelElements = 
+                        this.filterModelPackages(templateModelElements.getAllModelElements());
 
-                            this.processWithTemplate(
-                                    template,
-                                    modelElement,
-                                    outletProperty,
-                                    context.getModelFacade().getName(modelElement),
-                                    context.getModelFacade().getPackageName(modelElement));
+                    // if isOutputToSingleFile flag is true, then
+                    // we get the collections of templateModelElements and 
+                    // place them in the template context by their
+                    // variable names.
+                    if (template.isOutputToSingleFile()) 
+                    {
+
+                        Map templateContext = new HashMap();
+                        
+                        // eliminate duplicates since all are
+                        // output to one file 
+                        allModelElements = new HashSet(allModelElements);
+                        
+                        // first place all relevant model elements by the 
+                        // <templateModelElements/> variable name                       
+                        templateContext.put(
+                            templateModelElements.getVariable(), 
+                            allModelElements);
+                        
+                        // now place the collections of stereotyped elements
+                        // by the given variable names. (skip it the variable
+                        // was NOT defined
+                        Iterator stereotypeNames = 
+                            templateModelElements.stereotypeNames();
+                        while (stereotypeNames.hasNext()) {
+                            String name = (String)stereotypeNames.next();
+                            TemplateModelElement templateModelElement =
+                                templateModelElements.getModelElement(name);
+                            String variable = templateModelElement.getVariable();
+                            if (StringUtils.isNotEmpty(variable)) {
+                                
+                                // if a stereotype has the same variable defined
+                                // more than one time, then get the existing model
+                                // elements added from the last iteration and add 
+                                // the new ones to the collection
+                                Collection modelElements = 
+                                    (Collection)templateContext.get(variable);
+                                if (modelElements != null) {
+                                	modelElements.addAll(templateModelElement.getModelElements());
+                                } else {
+                                    modelElements = templateModelElement.getModelElements();                              
+                                }
+                                templateContext.put(variable, new HashSet(modelElements));                                     
+                            }
                         }
+                        
+                        this.processWithTemplate(
+                            template,
+                            templateContext,
+                            outletProperty,
+                            null,
+                            null);                        
+                                             
+                    } 
+                    else 
+                    {
+                        // ifoutputToSingleFile isn't true, then
+                        // we just place the model element with the default 
+                        // variable defined on the <templateModelElements/> into the template.
+                        Iterator modelElementIt = allModelElements.iterator();
+                        while (modelElementIt.hasNext()) 
+                        {
+                            Map templateContext = new HashMap();
+                            
+                            Object modelElement = modelElementIt.next();
+                            
+                            templateContext.put(
+                                templateModelElements.getVariable(), 
+                                modelElement);
+                            
+                            this.processWithTemplate(
+                                template,
+                                templateContext,
+                                outletProperty,
+                                context.getModelFacade().getName(modelElement),
+                                context.getModelFacade().getPackageName(modelElement));
+                           
+                        }
+                        
                     }
-                } catch (Throwable th) {
+                
+                } 
+                catch (Throwable th) 
+                {
                     if (outFile != null && outFile.exists()) {
                         outFile.delete();
                         if (!outFile.delete())
@@ -249,9 +302,9 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
      *
      * @param template the TemplateConfiguration containing the template
      *        sheet to process.
-     * @param variable the variable for which code should be generated.  It will
-     *        be either a single model element, or a collection of model elements
-     *        depending (if <code>outputToSingleFile</code> is set to true).
+     * @param templateContext the context to which variables are added and 
+     *        made avaialbe to the template engine for processing. This will
+     *        contain any model elements being made avaiable to the templates.
      * @param outletProperty the property defining the outlet to which output
      *        will be written.
      * @param modelElementName the name of the model element (if we are processing
@@ -261,44 +314,34 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
      */
     private void processWithTemplate(
         TemplateConfiguration template,
-        Object variable,
+        Map templateContext,
         Property outletProperty,
         String modelElementName,
-        String modelElementPackage) {
-        
+        String modelElementPackage) 
+    {    
         final String methodName = "DefaultAndroMDACartridge.processWithTemplate";
-        ExceptionUtils.checkNull(methodName, "variable", variable);
+        ExceptionUtils.checkNull(methodName, "template", template);
+        ExceptionUtils.checkNull(methodName, "templateContext", templateContext);
         ExceptionUtils.checkNull(methodName, "outletProperty", outletProperty);
 
-        // by default we'll assume we're processing with
-        // one model element (as opposed to a collection)
-        String variableName = TEMPLATE_VARIABLE_SINGLE_ELEMENT;
-        if (Collection.class.isAssignableFrom(variable.getClass())) {
-            variableName = TEMPLATE_VARIABLE_ALL_ELEMENTS;
-        }
-        
         File outFile = null;
-        try {
-
-            Map templateNamespace = new HashMap();
-            
-            // put the model element(s) into the context.           
-            templateNamespace.put(variableName, variable);
-            
+        try 
+		{
+                        
             // add regular properties to the template context
             this.addPropertiesToContext(
-                templateNamespace, 
+                templateContext, 
                 context.getUserProperties());
             
             // add all the TemplateObject objects to the template context
-            templateNamespace.putAll(this.getDescriptor().getTemplateObjects());
+            templateContext.putAll(this.getDescriptor().getTemplateObjects());
 
             StringWriter output = new StringWriter();
             
             // process the template with the set TemplateEngine
             this.getDescriptor().getTemplateEngine().processTemplate(
                 template.getSheet(), 
-                templateNamespace, 
+                templateContext, 
                 output);
             
             if (template.getOutputPattern().charAt(0) == '$')
@@ -345,22 +388,16 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                 }
            
             }
-        } catch (Throwable th) {
+        } 
+        catch (Throwable th) 
+        {
 
             logger.info("Removed: " + outFile);
             StdoutLogger.info("Removed: " + outFile);
             
-            // by default we'll assume we're processing with
-            // one model element (as opposed to a collection)
-            String variableType = "modelElement";
-
-            if (Collection.class.isAssignableFrom(variable.getClass())) {
-                variableType = "modelElements";         
-            }            
-            
             String errMsg = "Error performing " + methodName 
-                + " with " + variableName + " '" 
-                + variable 
+                + " with template context '" 
+                + templateContext 
                 + "' and cartridge '" 
                 + this.getDescriptor().getCartridgeName() + "'";
             logger.error(errMsg, th);
@@ -444,11 +481,11 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
     
     /**
      * Filters out those model elements which <strong>should</strong>
-     * be processed.
+     * be processed and returns the filtered collection
      * 
      * @param modelElements the Collection of modelElements.
      */
-    protected void filterModelPackages(Collection modelElements) {
+    protected Collection filterModelPackages(Collection modelElements) {
         class PackageFilter implements Predicate {
             public boolean evaluate(Object modelElement) {
                 return context.getModelPackages().shouldProcess(
@@ -456,6 +493,7 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
             }
         }
         CollectionUtils.filter(modelElements, new PackageFilter());
+        return modelElements;
     }
     
     /**

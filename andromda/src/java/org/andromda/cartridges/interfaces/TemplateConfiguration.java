@@ -2,8 +2,6 @@ package org.andromda.cartridges.interfaces;
 
 import java.io.File;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,29 +21,8 @@ public class TemplateConfiguration
      * The default constructor used by the XmlObjectFactory to 
      * instantiate the template configuration.
      */
-    public TemplateConfiguration() {}
-    
-    /**
-    * Adds a stereotype that tells us the stereotype(s) 
-    * in the model that should drive code generation with this template.
-    * 
-    * @param stereotype the name of the stereotype
-    */
-    public void addStereotype(String stereotype)
-    {
-        this.stereotypes.add(stereotype);
-    }
-
-    /**
-     * Tells us the stereotype(s) in the model that
-     * should drive code generation with this template.
-     * 
-     * @return List all stereotypes which this template
-     *         should process.
-     */
-    public List getStereotypes()
-    {
-        return stereotypes;
+    public TemplateConfiguration() {
+    	this.supportedModelElements = new TemplateModelElements();
     }
 
     /**
@@ -145,28 +122,6 @@ public class TemplateConfiguration
     {
         return generateEmptyFiles;
     }
-    
-    /**
-     * If output to single file is <code>true</code>
-     * then all model elements found by the processor (i.e.
-     * all those having matching stereotypes) will be 
-     * output to one file.
-     * 
-     * @return Returns the outputToSingleFile.
-     */
-    public boolean isOutputToSingleFile() 
-    {
-        return outputToSingleFile;
-    }
-    /**
-     * @param outputToSingleFile The outputToSingleFile to set.
-     * 
-     * @see isOutputToSingleFile()
-     */
-    public void setOutputToSingleFile(boolean outputToSingleFile) 
-    {
-        this.outputToSingleFile = outputToSingleFile;
-    }
 
     /**
      * Returns the fully qualified output file, that means:
@@ -205,7 +160,57 @@ public class TemplateConfiguration
         }
         return outputLocation;
     }
-
+    
+    /**
+     * Tells us the model elements that are supported by 
+     * this template (i.e. will be processed by this template)
+     * 
+     * @return TemplateModelElements all the model elements that
+     *         should be processed by thsi template
+     * 
+     * @see org.andromda.cartridges.interfaces.TemplateModelElements
+     */
+    public TemplateModelElements getSupportedModeElements()
+    {
+        final String methodName = "TemplateConfiguration.getModelElements";
+        if (this.supportedModelElements == null) {
+        	throw new TemplateConfigurationException(methodName
+                + " - supportedModelElements is null!");
+        }
+        return this.supportedModelElements;
+    }
+    
+    /**
+     * Sets the model elements that are suported by this template.
+     * 
+     * @param modelElements the TemplateModelElements instance
+     * 
+     * @see org.andromda.cartridges.interfaces.TemplateModelElements
+     */
+    public void setSupportedModelElements(TemplateModelElements supportedModelElements) 
+    {
+        this.supportedModelElements = supportedModelElements;
+    }    
+    
+    /**
+     * If output to single file is <code>true</code>
+     * then all model elements found by the processor (i.e.
+     * all those having matching modelElements) will be 
+     * output to one file.
+     * 
+     * @return Returns the outputToSingleFile.
+     */
+    public boolean isOutputToSingleFile() {
+        return outputToSingleFile;
+    }
+    
+    /**
+     * @param outputToSingleFile The outputToSingleFile to set.
+     */
+    public void setOutputToSingleFile(boolean outputToSingleFile) {
+        this.outputToSingleFile = outputToSingleFile;
+    }
+    
     /**
      * Just for debugging.
      * @see java.lang.Object#toString()
@@ -215,7 +220,7 @@ public class TemplateConfiguration
         return ToStringBuilder.reflectionToString(this);
     }
 
-    private List stereotypes = new ArrayList();
+    private TemplateModelElements supportedModelElements = null;
     private String sheet;
     private String outputPattern;
     private String outlet;

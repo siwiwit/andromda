@@ -15,7 +15,9 @@
         outputPattern="{0}/{1}.java"
         outlet="entities"
         overWrite="true">
-        <stereotype name="Entity"/>    
+        <modelElements variable="class">
+            <modelElement stereotype="Entity"/>  
+        </modelElements>  
     </template>
 
     <template
@@ -23,7 +25,9 @@
         outputPattern="{0}/{1}Impl.java"
         outlet="entity-impls"
         overWrite="false">
-        <stereotype name="Entity"/>    
+        <modelElements variable="class">
+            <modelElement stereotype="Entity"/>  
+        </modelElements>  
     </template>
 
     <template
@@ -31,7 +35,9 @@
         outputPattern="{0}/{1}Factory.java"
         outlet="entities"
         overWrite="true">
-        <stereotype name="Entity"/>    
+        <modelElements variable="class">
+            <modelElement stereotype="Entity"/>   
+        </modelElements> 
     </template>
 
     <template
@@ -39,7 +45,9 @@
         outputPattern="{0}/{1}Bean.java"
         outlet="session-beans"
         overWrite="true">
-         <stereotype name="Service"/>    
+        <modelElements variable="class">
+            <modelElement stereotype="Service"/>
+        </modelElements>             
     </template>
 
     <template
@@ -47,7 +55,9 @@
         outputPattern="{0}/{1}BeanImpl.java"
         outlet="session-impls"
         overWrite="false">
-         <stereotype name="Service"/> 
+        <modelElements variable="class">
+            <modelElement stereotype="Service"/>
+        </modelElements>    
     </template>
 
 </cartridge>

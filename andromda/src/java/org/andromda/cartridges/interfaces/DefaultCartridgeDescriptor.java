@@ -3,9 +3,7 @@ package org.andromda.cartridges.interfaces;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +29,6 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
     
     private String cartridgeName;
     private Map properties = new HashMap();
-    private List supportedStereotypes = null;
     private List templates = new ArrayList();
     private Map templateObjects = new HashMap();
     private URL definitionURL;
@@ -89,29 +86,6 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
     public Map getProperties()
     {
         return properties;
-    }
-
-    /**
-     * @see org.andromda.cartridges.interfaces.CartridgeDescriptor#getSupportedStereotypes()
-     */
-    public List getSupportedStereotypes()
-    {
-        if (this.supportedStereotypes == null) 
-        {
-            this.supportedStereotypes = new ArrayList();
-        	Collection templates = this.getTemplateConfigurations();
-            if (templates != null && !templates.isEmpty())
-            {
-            	Iterator templateIt = templates.iterator();
-                while (templateIt.hasNext()) 
-                {
-                	TemplateConfiguration template = 
-                        (TemplateConfiguration)templateIt.next();
-                    supportedStereotypes.addAll(template.getStereotypes());
-                }
-            }
-        }
-        return supportedStereotypes;
     }
 
     /**
