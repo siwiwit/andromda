@@ -55,8 +55,7 @@ public abstract class ${class.name}Factory {
 
     // ---------------- finder methods  ----------------------
 
-#if ($class.hasIdentifiers()) 
-#set ($primKey = $class.identifiers.iterator().next())
+#set ($primKey = $class.getIdentifiers(true).iterator().next())
 #set ($primKeyTypeName = $primKey.type.fullyQualifiedName)
     /**
      *
@@ -71,7 +70,6 @@ public abstract class ${class.name}Factory {
         return object;
     }
     
-#end
 #foreach ( $finder in $class.finders)
 #set ($returntype = $finder.type.fullyQualifiedName)
 ##
