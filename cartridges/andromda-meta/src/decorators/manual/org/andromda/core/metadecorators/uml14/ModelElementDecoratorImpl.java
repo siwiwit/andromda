@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.TaggedValue;
+import org.omg.uml.foundation.core.Stereotype;
 import org.omg.uml.foundation.datatypes.VisibilityKind;
 import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 import org.omg.uml.modelmanagement.Model;
@@ -90,7 +91,7 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
             )
         {
             TaggedValue element = (TaggedValue) iter.next();
-            if (element != null) 
+            if (element != null)
             {
 	            if (StringUtils.trimToEmpty(element.getName()).equals(tagName))
 	            {
@@ -122,7 +123,24 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
             (ModelElement) stereotypes.iterator().next();
         return stereotype.getName();
     }
-    
+
+    /* (non-Javadoc)
+    * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#hasStereotype(String)
+    */
+    public Boolean hasStereotype(String stereotypeName)
+    {
+        if (stereotypeName == null) return Boolean.FALSE;
+
+        final Collection stereotypes = getStereotype();
+        for (Iterator iterator = stereotypes.iterator(); iterator.hasNext();)
+        {
+            Stereotype stereotype = (Stereotype) iterator.next();
+            if (stereotypeName.equals(stereotype.getName()))
+                return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
+    }
     // -------------------- business methods ----------------------
 
     /* (non-Javadoc)
@@ -131,7 +149,7 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     public VisibilityKind getVisibility()
 	{
     	VisibilityKind visibility = metaObject.getVisibility();
-    	
+
     	if (VisibilityKindEnum.VK_PRIVATE.equals(visibility))
     	{
     		return JavaVisibilityEnum.PRIVATE;
