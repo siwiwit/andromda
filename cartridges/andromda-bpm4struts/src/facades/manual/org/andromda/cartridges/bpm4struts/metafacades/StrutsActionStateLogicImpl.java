@@ -3,7 +3,7 @@ package org.andromda.cartridges.bpm4struts.metafacades;
 import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.metafacades.uml.TransitionFacade;
 import org.andromda.metafacades.uml.EventFacade;
-import org.omg.uml.behavioralelements.statemachines.CallEvent;
+import org.andromda.metafacades.uml.CallEventFacade;
 
 import java.util.*;
 
@@ -46,9 +46,9 @@ public class StrutsActionStateLogicImpl
         for (Iterator iterator = deferrableEvents.iterator(); iterator.hasNext();)
         {
             EventFacade event = (EventFacade) iterator.next();
-            if (event instanceof CallEvent)
+            if (event instanceof CallEventFacade)
             {
-                controllerCalls.add(((CallEvent)event).getOperation());
+                controllerCalls.add(((CallEventFacade)event).getOperation());
             }
         }
         return controllerCalls;
