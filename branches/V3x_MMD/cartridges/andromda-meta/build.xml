@@ -35,13 +35,13 @@
     <property name="dist.dir"         value="dist" />
 
     <property file="build.properties" />
-    <property name="andromda-core.home" location="${andromda.home}/andromda-core"/>
+    <property name="andromda-core.home" location="${andromda.home}/andromda"/>
     <property name="andromda-meta.home" location="dist"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
 
     <path id="andromda.classpath">
-       <pathelement location="${andromda-core.home}/andromda.jar"/>
+       <pathelement location="${andromda-core.home}/build/andromda.jar"/>
        <pathelement path="${andromda-core.classpath}"/>
     </path>
 
@@ -85,9 +85,12 @@
 
     <target name="compile1" depends="init"
             description="Builds the cartridge objects from the sources">
+        <echo message="${andromda-core.home}"/>
+        <echo message="${andromda-core.classpath}"/>
         <javac destdir="${build.cart.dir}" includes="**/*.java"
                includeAntRuntime="false">
             <src path="${src.cart.dir}" />
+            <!--src path="${src.dec.man.dir}" /-->
             <classpath refid="andromda.classpath"/>
         </javac>
 
@@ -181,7 +184,8 @@
     </target>
 
     <target name="copyjar">
-        <copy todir="../../../../V3x_MMD/andromda-all/andromda/lib">
+        <echo message="${andromda-core.home}/lib"/>
+        <copy todir="${andromda-core.home}/lib">
             <fileset dir="${build.dir}" includes="metadecorators.jar" />
         </copy>
     </target>
