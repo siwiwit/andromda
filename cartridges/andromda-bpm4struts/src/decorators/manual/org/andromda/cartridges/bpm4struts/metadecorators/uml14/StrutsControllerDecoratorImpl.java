@@ -3,14 +3,14 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecoratorImpl;
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.AssociationEnd;
+import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.UmlClass;
-import org.omg.uml.foundation.core.Classifier;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -67,7 +67,7 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         {
             AssociationEnd associationEnd = (AssociationEnd) iterator.next();
             Classifier participant = associationEnd.getParticipant();
-            ClassifierDecorator participantDecorator = new ClassifierDecoratorImpl(participant);
+            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
             if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
                 return participant; // undecorated
         }
@@ -137,7 +137,7 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
             AssociationEnd associationEnd = (AssociationEnd) iterator.next();
-            ClassifierDecorator participant = new ClassifierDecoratorImpl(associationEnd.getParticipant());
+            ClassifierDecorator participant = (ClassifierDecorator)DecoratorBase.decoratedElement(associationEnd.getParticipant());
             if (participant.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
             {
                 if (modelCount > 1)

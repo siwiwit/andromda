@@ -1,10 +1,10 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
-import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
-import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecoratorImpl;
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.Classifier;
 
@@ -41,7 +41,7 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         {
             AssociationEnd associationEnd = (AssociationEnd) iterator.next();
             Classifier participant = associationEnd.getParticipant();
-            ClassifierDecorator participantDecorator = new ClassifierDecoratorImpl(participant);
+            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
             if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_CONTROLLER).booleanValue())
                 controllerClasses.add(participant);
         }
