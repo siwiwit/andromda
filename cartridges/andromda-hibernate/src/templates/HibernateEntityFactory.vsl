@@ -38,11 +38,11 @@ public abstract class ${class.name}Factory {
 #end
     * @return ${class.name} the created object
     */
-    public static ${class.name} create $class.getAttributesAsList(true, false)
+    public static ${class.name} create $class.getAttributesAsList(true, false, true)
     {
         ${class.name} object = new ${class.name}Impl();
         
-#foreach ( $att in $class.attributes)
+#foreach ( $att in $class.getAttributes(true))
 #if (!$att.identifier)
         object.${att.setterName} (${att.name});
 #end
