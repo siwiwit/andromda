@@ -1,86 +1,86 @@
+#parse("templates/StrutsJSP.vm")
+
 <%@ taglib uri="struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="struts-html.tld" prefix="html" %>
+##
+##  Constant declarations
+##
+#set ($servlet = $class.servlet)
+##
+## Specific to this class
+##
+#set ($servletName = "/$servlet.servletName")
+#set ($dispatchParameter = "$servlet.dispatchParameter")
+#set ($dispatchMethodName = "$class.actionState.dispatchMethodName")
+##
+## Title
+##
+<html:html>
+    <head>
+        <title><bean:message key="$class.titleMessageKey"/></title>
+#if ($class.hasForms())
+        <script type="text/javascript" language="Javascript1.1">
+        <!--
+            function submitForm(form,trigger)
+            {
+                form.trigger.value = trigger;
+                if (${class.validationMethodName}(form)) form.submit();
+            }
+        //-->
+        </script>
+#end
+    </head>
+
+    <body>
+
+        <h2><bean:message key="$class.titleMessageKey"/></h2>
+        <p>
+
+#foreach ($request in $class.requests)
 
 ##
-## This macro will render documentation
+##      In case we're dealing with a form (we have input buttons)
 ##
-#macro ( generateJSPDocumentation $item $indent )
-#set ($tagValue = $transform.staticHelper.findTagValue( $item, "documentation"))
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tagValue))
-${indent}[
-${indent}[  documentation:
-${indent}[
-#if ($paras)
-#foreach ( $par in $paras )
-${indent}[
-#foreach ( $line in $par.lines )
-${indent}[  $line
+#set ($action = "$servletName?$dispatchParameter=$dispatchMethodName")
+#if ($request.isForm())
+        <html:form action="$action">
+            <html:hidden property="trigger" value=""/>
+            <table cellpadding="5" cellspacing="5" border="0">
+#foreach ($parameter in $request.parameters)
+                <tr>
+                    <td><bean:message key="$parameter.messageKey"/></td>
+                    <td>
+#renderFormField ($parameter "                        ")
+                    </td>
+                </tr>
 #end
+                <tr>
+                    <td>
+##
+##  Triggers are represented by submit buttons that will post the form to the action
+##
+##      1. cancel triggers must send a specific parameter name to the servlet
+##      2. reset triggers do not call the servlet, they simply reset the form
+##
+#foreach ($trigger in $triggers)
+#renderFormButton ($trigger "                        ")
 #end
+                    </td>
+                </tr>
+            </table>
+        </html:form>
 #else
-${indent}[        NO DOCUMENTATION HAS BEEN SUPPLIED
-#end
-${indent}[
-#end
 ##
-## Set global invariants
+## So we have no input fields, render a link for each trigger
 ##
-#set ($stateMachine = $transform.dynamicHelper.getStateMachineContext($class))
-#set ($useCase = $transform.getUseCaseContext($stateMachine))
-#set ($controllerForm = $transform.getControllerForm($useCase))
-#set ($controllerClass = $transform.getControllerClass($useCase))
-#set ($actionName  = $transform.toJavaClassName($controllerClass))
-#set ($methodName  = $transform.toJavaMethodName($class))
-#set ($formName = $transform.toJavaMethodName($controllerForm))
-#set ($fullyQualifiedFormName = $transform.toFullyQualifiedJavaClassName($controllerForm))
-#set ($triggeredTransitions = $transform.getNextTriggeredTransitions($class))
-##
-## Start JSP body
-##
-
-
-<!--
-        Use this piece of code if you want to have only hyperlinks
-
-#if ($triggeredTransitions.size() > 0)
-#foreach ($transition in $triggeredTransitions)
-#set ($triggerName = $transform.toFinalMemberName($transition.trigger))
-    <html:link action="/$actionName?target=$methodName&trigger=$triggerName">$triggerName</html:link>
+        <ol>
+#foreach ($trigger in $triggers)
+            <li>
+#renderHyperlink ($action $trigger "                ")
+            </li>
 #end
-#else
-    <html:link action="/$actionName?target=$methodName">continue</html:link>
-#end
-
--->
-
-#if ($controllerForm)
-<!--
-        Use this piece of code when you want additional information passed into the form
-        (you will need to manually add input fields)
-
-        Valid input field examples are:
-#foreach ($attribute in $transform.staticHelper.getAttributes($controllerForm))
-#set ($attributeName = $attribute.name)
-#set ($typeName = $attribute.type.name)
-#if ($attributeName == "trigger")## do nothing
-#elseif ($typeName == "boolean")
-            <html:checkbox property="$attributeName"/>
-#elseif ($typeName.endsWith("[]") || $typeName == "Collection")
-            <html:select property="$attributeName"/>
-#else
-            <html:text property="$attributeName"/>
+        </ol>
 #end
 #end
-
-    <html:form action="/$actionName?target=$methodName">
-#if ($triggeredTransitions.size() > 0)
-#foreach ($transition in $triggeredTransitions)
-        <html:submit property="trigger" value="$transform.toFinalMemberName($transition.trigger)"/>
-#end
-#else
-        <html:submit value="submit"/>
-#end
-    </html:form>
-
--->
-#end
+    </body>
+</html:html>

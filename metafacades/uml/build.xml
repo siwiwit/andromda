@@ -1,0 +1,60 @@
+<project name="UmlMetafacades" default="dist">
+
+    <!-- ============================================================= -->
+    <!--               Directory settings                              -->
+    <!-- ============================================================= -->
+
+    <!-- destination directories -->
+    <property name="dist.dir"         value="dist"   />
+
+    <!-- Setup directory structure -->
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <!-- Remove directory structure -->
+    <target name="clean" description="Removes all generated files">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${dist.dir}"/>
+        </delete>
+
+        <antcall target="cleanUmlMetafacades">
+          <param name="uml-metafacades.name" value="common"/>
+        </antcall>
+        <antcall target="cleanUmlMetafacades">
+          <param name="uml-metafacades.name" value="uml14"/>
+        </antcall>
+
+    </target>
+
+    <!-- ============================================================= -->
+    <!--               Highlevel user tasks                            -->
+    <!-- ============================================================= -->
+
+    <target name="buildUmlMetafacades">
+        <echo message="buildUmlMetafacades ${uml-metafacades.name}"/>
+        <ant inheritAll="false" dir="./${uml-metafacades.name}" />
+        <copy taskname="${uml-metafacades.name}" todir="${dist.dir}/${uml-metafacades.name}">
+          <fileset dir="./${uml-metafacades.name}/dist">
+            <include name="**/*"/>
+          </fileset>
+        </copy>
+    </target>
+
+    <target name="cleanUmlMetafacades">
+        <echo message="cleanUmlMetafacades ${uml-metafacades.name}"/>
+        <ant inheritAll="false" dir="./${uml-metafacades.name}" target="clean"/>
+    </target>
+
+    <target name="dist" depends="clean,init"
+            description="Builds all UML metafacades">
+       <antcall target="buildUmlMetafacades">
+          <param name="uml-metafacades.name" value="common"/>
+        </antcall>
+        <antcall target="buildUmlMetafacades">
+          <param name="uml-metafacades.name" value="uml14"/>
+        </antcall>
+    </target>
+
+</project>

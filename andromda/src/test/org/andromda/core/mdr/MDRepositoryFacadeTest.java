@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.omg.uml.UmlPackage;
 
 import org.andromda.core.TestModel;
-import org.andromda.core.common.RepositoryReadException;
+import org.andromda.core.common.RepositoryFacadeException;
 
 /**
  * @author amowers
@@ -45,13 +45,13 @@ public class MDRepositoryFacadeTest extends TestCase
 	{
 		try
 		{
-			repository.readModel(modelURL);
+			repository.readModel(modelURL, null);
 		}
 		catch (IOException ioe)
 		{
 			assertNull(ioe.getMessage(), ioe);
 		}
-		catch (RepositoryReadException rre)
+		catch (RepositoryFacadeException rre)
 		{
 			assertNull(rre.getMessage(), rre);
 		}
@@ -61,7 +61,7 @@ public class MDRepositoryFacadeTest extends TestCase
 	{
 		try
 		{
-			repository.readModel(modelURL);
+			repository.readModel(modelURL, null);
 			assertEquals(
 				modelURL.openConnection().getLastModified(),
 				repository.getLastModified());
@@ -70,7 +70,7 @@ public class MDRepositoryFacadeTest extends TestCase
 		{
 			assertNull(ioe.getMessage(), ioe);
 		}
-		catch (RepositoryReadException rre)
+		catch (RepositoryFacadeException rre)
 		{
 			assertNull(rre.getMessage(), rre);
 		}
@@ -82,14 +82,14 @@ public class MDRepositoryFacadeTest extends TestCase
 
 		try
 		{
-			repository.readModel(modelURL);
-			assertTrue(repository.getModel() instanceof UmlPackage);
+			repository.readModel(modelURL, null);
+			assertTrue(repository.getModel().getModel() instanceof UmlPackage);
 		}
 		catch (IOException ioe)
 		{
 			assertNull(ioe.getMessage(), ioe);
 		}
-		catch (RepositoryReadException rre)
+		catch (RepositoryFacadeException rre)
 		{
 			assertNull(rre.getMessage(), rre);
 		}

@@ -2,6 +2,11 @@ package org.andromda.cartridges.interfaces;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * This class implements the <code>&lt;template&gt;</code> tag
@@ -9,101 +14,42 @@ import java.text.MessageFormat;
  * 
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author Anthony Mowers
+ * @author Chad Brandon
  */
 public class TemplateConfiguration
 {
-    private ICartridgeDescriptor cartridgeDescriptor;
 
     /**
-     * Constructor which is used to build default
-     * template configurations when initializing the AndroMDAGenTask.
-     * 
-     * @param stereotype the name of the stereotype
-     * @param sheet name of the style sheet file
-     * @param outputPattern the pattern to build the output file name
-     * @param outlet the output directory
-     * @param overwrite yes/no whether output file should be overwritten
-     * @param generateEmptyFiles yes/no whether empty output files should be 
-     * produced
+     * The default constructor used by the XmlObjectFactory to 
+     * instantiate the template configuration.
      */
-    public TemplateConfiguration(
-        ICartridgeDescriptor cartridgeDescriptor,
-        String stereotype,
-        String sheet,
-        String outputPattern,
-        String outlet,
-        boolean overwrite,
-        boolean generateEmptyFiles)
-    {
-        this.cartridgeDescriptor = cartridgeDescriptor;
-        this.stereotype = stereotype;
-        this.sheet = sheet;
-        this.outputPattern = outputPattern;
-        this.outlet = outlet;
-        this.overwrite = overwrite;
-        this.generateEmptyFiles = generateEmptyFiles;
-    }
-
+    public TemplateConfiguration() {}
+    
     /**
-     * Sets the class name of object that the
-     * template code generation scripts will use
-     * to access the object model.  The class must implement
-     * the ScriptHelper interface.
-     * 
-     * <p> This is an optional parameter and if it is not set
-     * it defaults to the default transform class or the
-     * one which was configured using the 
-     * <code>&lt;repository&gt;</code> tag. </p>
-     *	
-     * <p> By writing ones own transformer class some of the
-     * more complicated code generation logic can be moved from
-     * the code generation script and into the transformer
-     * implementation. </p>
-     * 
-     * @see org.andromda.core.common.ScriptHelper
-     * 
-     * @param scriptHelperClassName
-     */
-    public void setTransformClassname(String scriptHelperClassName)
-        throws ClassNotFoundException
-    {
-        transformClass = Class.forName(scriptHelperClassName);
-    }
-
-    /**
-     * Returns the class of the transform object
-     * that will be used to the code generation templates
-     * to access the object model.
-     * 
-     * @return Class	
-     */
-    public Class getTransformClass()
-    {
-        return transformClass;
-    }
-
-    /**
-    * Tells us the stereotype in the UML model that
-    * should drive code generation with this template.
+    * Adds a stereotype that tells us the stereotype(s) 
+    * in the model that should drive code generation with this template.
+    * 
     * @param stereotype the name of the stereotype
     */
-    public void setStereotype(String stereotype)
+    public void addStereotype(String stereotype)
     {
-        this.stereotype = stereotype;
+        this.stereotypes.add(stereotype);
     }
 
     /**
-     * Tells us the stereotype in the UML model that
+     * Tells us the stereotype(s) in the model that
      * should drive code generation with this template.
-     * @return String the name of the stereotype
+     * 
+     * @return List all stereotypes which this template
+     *         should process.
      */
-    public String getStereotype()
+    public List getStereotypes()
     {
-        return stereotype;
+        return stereotypes;
     }
 
     /**
-     * Tells us which Velocity stylesheet to use as a template.
+     * Tells us which VelocityTemplateEngine stylesheet to use as a template.
      * @param sheet points to the script
      */
     public void setSheet(String sheet)
@@ -112,7 +58,7 @@ public class TemplateConfiguration
     }
 
     /**
-     * Tells us which Velocity stylesheet to use as a template.
+     * Tells us which VelocityTemplateEngine stylesheet to use as a template.
      * @return File points to the script
      */
     public String getSheet()
@@ -199,6 +145,28 @@ public class TemplateConfiguration
     {
         return generateEmptyFiles;
     }
+    
+    /**
+     * If output to single file is <code>true</code>
+     * then all model elements found by the processor (i.e.
+     * all those having matching stereotypes) will be 
+     * output to one file.
+     * 
+     * @return Returns the outputToSingleFile.
+     */
+    public boolean isOutputToSingleFile() 
+    {
+        return outputToSingleFile;
+    }
+    /**
+     * @param outputToSingleFile The outputToSingleFile to set.
+     * 
+     * @see isOutputToSingleFile()
+     */
+    public void setOutputToSingleFile(boolean outputToSingleFile) 
+    {
+        this.outputToSingleFile = outputToSingleFile;
+    }
 
     /**
      * Returns the fully qualified output file, that means:
@@ -217,7 +185,7 @@ public class TemplateConfiguration
     public File getFullyQualifiedOutputFile(
         String inputClassName,
         String inputPackageName,
-        OutletDictionary oldict)
+        String directory)
     {
         int dotIndex = sheet.indexOf(".");
         String sheetBaseName = sheet.substring(0, dotIndex);
@@ -226,17 +194,16 @@ public class TemplateConfiguration
             {
                 inputPackageName.replace('.', File.separatorChar),
                 inputClassName,
-                sheetBaseName,
-                getStereotype()};
+                sheetBaseName};
 
         String outputFileName =
             MessageFormat.format(outputPattern, arguments);
-
-        File physDir = oldict.lookupOutlet(
-                cartridgeDescriptor.getCartridgeName(),
-                outlet);
-                
-        return physDir == null ? null : new File(physDir, outputFileName);
+            
+        File outputLocation = null;
+        if (StringUtils.isNotEmpty(directory)) {
+        	outputLocation = new File(directory, outputFileName);
+        }
+        return outputLocation;
     }
 
     /**
@@ -245,26 +212,15 @@ public class TemplateConfiguration
      */
     public String toString()
     {
-        return "TemplateConfiguration: "
-            + stereotype
-            + " "
-            + sheet
-            + " "
-            + outputPattern
-            + " "
-            + outlet
-            + " "
-            + overwrite
-            + " "
-            + generateEmptyFiles;
+        return ToStringBuilder.reflectionToString(this);
     }
 
-    private String stereotype;
+    private List stereotypes = new ArrayList();
     private String sheet;
     private String outputPattern;
     private String outlet;
     private boolean overwrite;
     private boolean generateEmptyFiles;
-    private Class transformClass;
+    private boolean outputToSingleFile = false;
 
 }

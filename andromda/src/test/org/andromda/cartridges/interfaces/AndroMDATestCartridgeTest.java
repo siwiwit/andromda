@@ -2,9 +2,6 @@ package org.andromda.cartridges.interfaces;
 
 import junit.framework.TestCase;
 
-import org.andromda.cartridges.interfaces.CartridgeXmlParser;
-import org.andromda.cartridges.interfaces.ICartridgeDescriptor;
-
 /**
  * Tests a sample cartridge implementation just to see if the cartridge
  * interface classes work OK.
@@ -33,7 +30,8 @@ public class AndroMDATestCartridgeTest extends TestCase
     protected void setUp() throws Exception
     {
         fCartridge = new AndroMDATestCartridge();
-        fCartridge.setDescriptor(new CartridgeXmlParser().parse(getClass().getResourceAsStream("SampleCartridgeDescriptor.xml")));
+        fCartridge.setDescriptor(DefaultCartridgeDescriptor.getInstance(
+            this.getClass().getResource("SampleCartridgeDescriptor.xml")));
     }
 
     /**
@@ -46,7 +44,7 @@ public class AndroMDATestCartridgeTest extends TestCase
 
     public void testGetCapabilities()
     {
-        ICartridgeDescriptor icc = fCartridge.getDescriptor();
+        CartridgeDescriptor icc = fCartridge.getDescriptor();
         assertNotNull(icc);
 
         assertEquals("andromda-ejb", icc.getCartridgeName());
@@ -60,10 +58,6 @@ public class AndroMDATestCartridgeTest extends TestCase
             icc.getSupportedStereotypes().contains("StatelessSessionBean"));
         assertTrue(
             icc.getSupportedStereotypes().contains("StatefulSessionBean"));
-
-        assertNotNull(icc.getOutlets());
-        assertTrue(icc.getOutlets().contains("beans"));
-        assertTrue(icc.getOutlets().contains("impls"));
 
         assertEquals(
             "TemplateConfiguration: EntityBean EntityBean.vsl {0}/{1}Bean.java beans true true",

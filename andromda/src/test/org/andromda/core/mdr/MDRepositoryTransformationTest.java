@@ -12,7 +12,7 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 import org.andromda.core.TestModel;
-import org.andromda.core.common.RepositoryReadException;
+import org.andromda.core.common.RepositoryFacadeException;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.ModelElement;
@@ -60,8 +60,8 @@ public class MDRepositoryTransformationTest extends TestCase {
 	 */
 	public void testTransformModel() throws Exception {
 		try {
-			repository.readModel(modelURL);
-			UmlPackage umlPackage = (UmlPackage) repository.getModel();
+			repository.readModel(modelURL, null);
+			UmlPackage umlPackage = (UmlPackage) repository.getModel().getModel();
 			ModelManagementPackage modelManagementPackage =
 				umlPackage.getModelManagement();
                 
@@ -75,9 +75,9 @@ public class MDRepositoryTransformationTest extends TestCase {
 					.next());
                     
             // look for a class with the name 'org.EntityBean'
-			String[] fqn = { "org", "EntityBean" };
+			String[] fqn = { "org", "andromda", "ClassA" };
 
-			UmlClass umlClass = (UmlClass) getModelElement(model, fqn, 0);
+            UmlClass umlClass = (UmlClass) getModelElement(model, fqn, 0);
             
             // create an attribute
 			Attribute attribute =
@@ -89,7 +89,7 @@ public class MDRepositoryTransformationTest extends TestCase {
 
 		} catch (IOException ioe) {
 			assertNull(ioe.getMessage(), ioe);
-		} catch (RepositoryReadException rre) {
+		} catch (RepositoryFacadeException rre) {
 			assertNull(rre.getMessage(), rre);
 		}
 	}

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-    <classpathentry kind="src" path="src"/>
+    <classpathentry kind="src" path="src/decorators/generated"/>
+    <classpathentry kind="src" path="src/java"/>
+    <classpathentry kind="src" path="src/templates"/>
+    <classpathentry kind="src" path="src/decorators/manual"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="src" path="/andromda3"/>
+    <classpathentry kind="src" path="/andromda3-meta"/>
+    <classpathentry kind="lib" path="/andromda3/lib/jmiuml14di.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/log4j-1.2.8.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/jmi.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/junit.jar"/>
+    <classpathentry kind="lib" path="/andromda3/lib/commons-lang-2.0.jar"/>
     <classpathentry kind="output" path="bin"/>
 </classpath>
