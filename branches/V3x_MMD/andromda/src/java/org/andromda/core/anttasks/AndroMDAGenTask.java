@@ -14,17 +14,18 @@ import java.util.Properties;
 
 import org.andromda.cartridges.interfaces.CartridgeException;
 import org.andromda.cartridges.interfaces.IAndroMDACartridge;
-import org.andromda.cartridges.interfaces.OutletDictionary;
 import org.andromda.cartridges.mgmt.CartridgeDictionary;
 import org.andromda.cartridges.mgmt.CartridgeFinder;
 import org.andromda.core.common.CodeGenerationContext;
-import org.andromda.core.common.DbMappingTable;
 import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.ModelPackage;
 import org.andromda.core.common.ModelPackages;
+import org.andromda.core.common.Namespace;
+import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
 import org.andromda.core.common.StdoutLogger;
+import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
@@ -43,7 +44,7 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
  */
 public class AndroMDAGenTask extends MatchingTask
 {
-
+	
     /**
      * Set the context class loader so that any classes using it (the 
      * contextClassLoader) have access to the correct loader.
@@ -52,9 +53,8 @@ public class AndroMDAGenTask extends MatchingTask
         Thread.currentThread().setContextClassLoader(
             AndroMDAGenTask.class.getClassLoader());
     }
-
-    private static final String DEFAULT_DBMAPPING_TABLE_CLASSNAME =
-        "org.andromda.core.dbmapping.DigesterDbMappingTable";
+    
+    private static final Logger logger = Logger.getLogger(AndroMDAGenTask.class);
 
     /**
      *  the base directory
@@ -65,11 +65,6 @@ public class AndroMDAGenTask extends MatchingTask
      *  check the last modified date on files. defaults to true
      */
     private boolean lastModifiedCheck = true;
-
-    /**
-     *  the mappings from java data types to JDBC and SQL datatypes.
-     */
-    private DbMappingTable typeMappings = null;
 
     /**
      *  the file to get the velocity properties file
@@ -94,17 +89,17 @@ public class AndroMDAGenTask extends MatchingTask
     private ArrayList userProperties = new ArrayList();
 
     private RepositoryConfiguration repositoryConfiguration = null;
+    
+    /**
+     * Temporary list of properties from the &lt;namespace&gt; subtask.
+     * Will be transferred to the Namespaces instance before execution starts.
+     */
+    private Collection namespaces = new ArrayList();
 
     /**
      * An optional URL to a model
      */
     private URL modelURL = null;
-
-    /**
-     * Dictionary of defined outlets. An outlet is a symbolic alias name
-     * for a physical directory.
-     */
-    private OutletDictionary outletDictionary = new OutletDictionary();
 
     /**
      * Temporary list of mappings from the &lt;outlet&gt; subtask.
@@ -136,6 +131,16 @@ public class AndroMDAGenTask extends MatchingTask
     {
         this.modelURL = modelURL;
     }
+    
+    /**
+     * Adds a namespace for a Plugin.  Namespace objects
+     * are used to configure Plugins.
+     * 
+     * @param namespace a Namespace to add to this
+     */
+    public void addNamespace(Namespace namespace) {
+    	namespaces.add(namespace);
+    }
 
     /**
      * Adds a mapping for a cartridge outlet to a physical directory.
@@ -161,48 +166,6 @@ public class AndroMDAGenTask extends MatchingTask
     {
         baseDir = dir;
     }
-
-    /**
-     *  <p>
-     *
-     *  Reads the configuration file for mappings of Java types to JDBC and SQL
-     *  types.</p>
-     *
-     *@param  dbMappingConfig  XML file with type to database mappings
-     *@throws  BuildException  if the file is not accessible
-     */
-    public void setTypeMappings(File dbMappingConfig)
-    {
-        try
-        {
-            Class mappingClass =
-                Class.forName(DEFAULT_DBMAPPING_TABLE_CLASSNAME);
-            typeMappings = (DbMappingTable) mappingClass.newInstance();
-
-            typeMappings.read(dbMappingConfig);
-        }
-        catch (IllegalAccessException iae)
-        {
-            throw new BuildException(iae);
-        }
-        catch (ClassNotFoundException cnfe)
-        {
-            throw new BuildException(cnfe);
-        }
-        catch (RepositoryReadException rre)
-        {
-            throw new BuildException(rre);
-        }
-        catch (IOException ioe)
-        {
-            throw new BuildException(ioe);
-        }
-        catch (InstantiationException ie)
-        {
-            throw new BuildException(ie);
-        }
-    }
-
     /**
      *  <p>
      *
@@ -264,6 +227,8 @@ public class AndroMDAGenTask extends MatchingTask
         {
         	long startTime= System.currentTimeMillis();
         	
+        	this.initNamespaces();
+        	
             DirectoryScanner scanner;
             String[] list;
             String[] dirs;
@@ -274,13 +239,7 @@ public class AndroMDAGenTask extends MatchingTask
                 // shouldn't lead to problems
                 baseDir = this.getProject().resolveFile(".");
             }
-
-            if (typeMappings == null)
-            {
-                throw new BuildException("The typeMappings attribute of <andromda> has not been set - it is needed for class attribute to database column mapping.");
-            }
-
-            initOutletDictionary();
+            
             initVelocityProperties();
             List cartridges = initCartridges();
 
@@ -400,25 +359,6 @@ public class AndroMDAGenTask extends MatchingTask
     }
 
     /**
-     * This method would normally be unnecessary. It is here because of a bug in
-     * ant. Ant calls addOutlet() before the OutletMapping javabean is fully
-     * initialized. So we kept the javabeans in an ArrayList that we have to
-     * copy into the dictionary now.
-     */
-    private void initOutletDictionary()
-    {
-        for (Iterator iter = outletMappingList.iterator(); iter.hasNext();)
-        {
-            OutletMapping om = (OutletMapping) iter.next();
-            outletDictionary.addOutletMapping(
-                om.getCartridge(),
-                om.getOutlet(),
-                om.getDir());
-        }
-        outletMappingList = null;
-    }
-
-    /**
      * Initialize the cartridge system. Discover all installed cartridges and
      * register them in the cartridge dictionary.
      */
@@ -492,8 +432,6 @@ public class AndroMDAGenTask extends MatchingTask
                         repository,
                         model,
                         null, // <-- no default script helper, yet!
-                        typeMappings,
-                        outletDictionary,
                         lastModifiedCheck,
                         packages,
                         userProperties);
@@ -520,6 +458,21 @@ public class AndroMDAGenTask extends MatchingTask
         {
             throw new BuildException(mdre);
         }
+    }
+    
+    /**
+     * This method would normally be unnecessary. It is here because of a bug in
+     * ant. Ant calls addNamespace() before the Namespace javabean is fully
+     * initialized. So we kept the javabeans in an ArrayList that we have to
+     * copy into the Namespaces instance.
+     */
+    private void initNamespaces() {
+    	for (Iterator iter = namespaces.iterator(); iter.hasNext();) {
+    		Namespace namespace = (Namespace)iter.next();
+    		if (logger.isDebugEnabled())
+    			logger.debug("adding namespace --> '" + namespace + "'");
+    		Namespaces.instance().addNamespace(namespace);
+    	}
     }
 
     /**

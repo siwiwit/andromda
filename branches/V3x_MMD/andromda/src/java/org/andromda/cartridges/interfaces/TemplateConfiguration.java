@@ -3,6 +3,8 @@ package org.andromda.cartridges.interfaces;
 import java.io.File;
 import java.text.MessageFormat;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * This class implements the <code>&lt;template&gt;</code> tag
  * in a cartridge descriptor file.
@@ -217,7 +219,7 @@ public class TemplateConfiguration
     public File getFullyQualifiedOutputFile(
         String inputClassName,
         String inputPackageName,
-        OutletDictionary oldict)
+        String directory)
     {
         int dotIndex = sheet.indexOf(".");
         String sheetBaseName = sheet.substring(0, dotIndex);
@@ -231,12 +233,12 @@ public class TemplateConfiguration
 
         String outputFileName =
             MessageFormat.format(outputPattern, arguments);
-
-        File physDir = oldict.lookupOutlet(
-                cartridgeDescriptor.getCartridgeName(),
-                outlet);
-                
-        return physDir == null ? null : new File(physDir, outputFileName);
+            
+        File outputLocation = null;
+        if (StringUtils.isNotEmpty(directory)) {
+        	outputLocation = new File(directory, outputFileName);
+        }
+        return outputLocation;
     }
 
     /**

@@ -28,13 +28,6 @@ public interface ScriptHelper
      * returns the top level object of the object model
      */
     public Object getModel();
-    
-	/**
-	 * sets rules for how to map model types to JDBC and SQL types
-	 * 
-	 * @param mappings database type mapper object
-	 */
-	public void setTypeMappings(DbMappingTable mappings);
 
 	/**
 	 * returns the collection of stereotypes names associated with the
