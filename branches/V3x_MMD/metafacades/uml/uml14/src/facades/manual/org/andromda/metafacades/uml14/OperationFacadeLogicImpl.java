@@ -7,7 +7,6 @@ import java.util.Iterator;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.ParameterFacade;
 import org.apache.commons.lang.StringUtils;
-import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
 import org.omg.uml.foundation.datatypes.ScopeKindEnum;
