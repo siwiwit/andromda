@@ -13,12 +13,34 @@
  			<alias attr-name="name" prop-name="cartridgeName" />
  		</set-properties-rule>      
  		
- 		
  		<pattern value="class">
             <set-properties-rule>
                 <alias attr-name="name" prop-name="cartridgeClassName" />
             </set-properties-rule>     		    		    
  		</pattern>
+ 		
+       	<!-- add the TemplateEngine implementation to the Cartridge -->
+      		
+		<pattern value="templateEngine">
+		
+			<set-properties-rule>
+	 			<alias attr-name="className" prop-name="templateEngineClass" />
+	 		</set-properties-rule>   
+	 		
+	 		<pattern value="macrolibrary">
+	 		
+                <call-method-rule
+                    methodname="addMacroLibrary" 
+                    paramcount="1" 
+                    paramtypes="java.lang.String"/>
+                    
+                <call-param-rule 
+                    attrname="name" 
+                    paramnumber="0" />
+                    
+             </pattern>
+		       
+	   	</pattern>
       		
       	<!-- add the properties to the Cartridge -->
       		

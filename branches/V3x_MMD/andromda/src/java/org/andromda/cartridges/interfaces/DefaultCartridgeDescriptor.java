@@ -167,7 +167,7 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
      */
     public void addMacroLibrary(String libraryName)
     {
-        this.templateEngine.addMacroLibrary(libraryName);
+        this.getTemplateEngine().addMacroLibrary(libraryName);
     }
     
     /**
