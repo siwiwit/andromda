@@ -1,10 +1,10 @@
-#set ($packagename = $transform.findPackageName(${class.package}))
+#set ($packagename = $class.package.fullyQualifiedName)
 package $packagename;
 
 #macro ( generateDocumentation $item $indent)
 #foreach ( $tgv in $item.taggedValues )
 #if ($tgv.tag == "documentation")
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tgv.value))
+#set ($paras = $tgv.value.formatHTMLStringAsParagraphs())
 #foreach ( $par in $paras )
 ${indent}*
 ${indent}* <p>
@@ -19,11 +19,11 @@ ${indent}* </p>
 
 ## calculate metaclass and superclass
 #set ($decoratedMetaclass = $transform.getMetaclass($class))
-#set ($decoratedMetaclassTypeName = $transform.findFullyQualifiedName($decoratedMetaclass))
+#set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
 ##
-#set ($superclass = $transform.getGeneralization($class))
+#set ($superclass = $class.superclass)
 #if ($superclass)
-    #set ($superclassName = "${transform.findFullyQualifiedName($superclass)}Impl")
+    #set ($superclassName = "${superclass.fullyQualifiedName}Impl")
 #else
     #if ($decoratedMetaclassTypeName != "org.omg.uml.foundation.core.ModelElement" && $decoratedMetaclassTypeName != "org.omg.uml.UmlPackage")
     	#set ($superclassName = "ModelElementDecoratorImpl")
@@ -67,13 +67,13 @@ public abstract class ${class.name}
 ##
     // --------------- attributes ---------------------
 #foreach ( $att in $class.attributes )
-#set ($atttypename = $transform.findFullyQualifiedName($att.type))
+#set ($atttypename = $att.type.fullyQualifiedName)
 
    /**
 #generateDocumentation ($att "    ")
     *
     */
-    public abstract $atttypename get${str.upperCaseFirstLetter(${att.name})}();
+    public abstract $atttypename ${att.getterName}();
 #set ($allMethods = $transform.excludeSimpleGetter($allMethods, $atttypename, $att.name))
 #end
 
@@ -85,9 +85,7 @@ public abstract class ${class.name}
 #generateDocumentation ($op "    ")
     *
     */
-#set ($msig = $transform.getOperationSignature($op))
-#set ($returntype = $transform.findFullyQualifiedName($op.getType()))
-    $op.visibility abstract $returntype ${msig};
+    $op.visibility abstract $op.type.fullyQualifiedName ${op.signature};
     
 #set ($allMethods = $transform.excludeUMLOperation($allMethods, $op))
 #end
@@ -99,18 +97,18 @@ public abstract class ${class.name}
 ##
 #set ($sourcetype = $adata.source.type)
 #set ($targettype = $adata.target.type)
-#if ($transform.getStereotype($targettype) == "Decorator")
+#if ($targettype.stereotypeName == "Decorator")
 ## if a decorator is the target of the association, replace by decorated interface type!
 ## this will make it possible to override methods in the base interface.
 #foreach ( $dep in $targettype.dependencies )
-    #set ($class2 = $transform.findClassById($dep.targetType))
-    #if ($transform.getStereotype($class2) == "metaclass")
+    #set ($class2 = $dep.targetType)
+    #if ($class2.stereotypeName == "metaclass")
         #set ($targettype = $class2)
     #end
 #end
 #end
 
-#set ($targettypename = $transform.findFullyQualifiedName($targettype))
+#set ($targettypename = $targettype.fullyQualifiedName)
 ##
 #set ($trn = $adata.target.roleName)
 #set ($utrn = $str.upperCaseFirstLetter($trn))

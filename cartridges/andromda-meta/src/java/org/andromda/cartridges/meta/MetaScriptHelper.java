@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.andromda.core.metadecorators.uml14.DecoratorFactory;
 import org.andromda.core.simpleuml.SimpleOOHelper;
 import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Classifier;
@@ -170,7 +171,7 @@ public class MetaScriptHelper extends SimpleOOHelper
                 {
                     String stereotypeName = ((Stereotype)stereotypes.iterator().next()).getName();
                     if (stereotypeName.equals("metaclass")) {
-                        return (Classifier)supplier;
+                        return (Classifier)DecoratorFactory.getInstance().createDecoratorObject(supplier);
                     }
                 }
             }
