@@ -80,14 +80,14 @@ public final class $class.name extends ActionForm
 #if ($inputField.backingPropertyName)
 #set ($getterName = "get$str.upperCaseFirstLetter(${inputField.backingPropertyName})")
 #set ($setterName = "set$str.upperCaseFirstLetter(${inputField.backingPropertyName})")
-    public void ${setterName}(java.util.Collection $inputField.name)
+    public void ${setterName}(java.util.Collection ${inputField.backingPropertyName})
     {
-        this.$inputField.name = $inputField.name;
+        this.${inputField.backingPropertyName} = ${inputField.backingPropertyName};
     }
 
     public java.util.Collection ${getterName}()
     {
-        return $inputField.name;
+        return ${inputField.backingPropertyName};
     }
 
 #end
