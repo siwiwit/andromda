@@ -1,4 +1,4 @@
-package org.andromda.cartridges.mgmt.test;
+package org.andromda.cartridges.mgmt;
 
 import java.util.Iterator;
 
