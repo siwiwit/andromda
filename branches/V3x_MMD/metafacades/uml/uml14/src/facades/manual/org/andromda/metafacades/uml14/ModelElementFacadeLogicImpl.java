@@ -302,7 +302,7 @@ public class ModelElementFacadeLogicImpl
     protected Object handleGetRootPackage() 
     {
         Collection rootPackages = 
-            ((UmlPackage)MetafacadeFactory.getInstance().getModel())
+            ((UmlPackage)MetafacadeFactory.getInstance().getModel().getModel())
                 .getModelManagement().refAllPackages();
         return (ModelElement) rootPackages.iterator().next();
     }

@@ -94,7 +94,7 @@ public class ClassifierFacadeLogicImpl
      */
     public java.util.Collection handleGetAssociationEnds()
     {
-        return ((UmlPackage)MetafacadeFactory.getInstance().getModel())
+        return ((UmlPackage)MetafacadeFactory.getInstance().getModel().getModel())
             .getCore()
             .getAParticipantAssociation()
             .getAssociation(metaObject);
