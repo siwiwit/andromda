@@ -160,9 +160,41 @@ public class StringUtilsHelper {
         return lowerCaseFirstLetter(toJavaClassName(string));
     }
 
+    /**
+     * Converts the argument into a web file name, this means: all lowercase
+     * characters and words are separated with dashes.
+     *
+     * @param string any string
+     * @return the string converted to a value that would be well-suited for a web file name
+     */
     public static String toWebFileName(String string)
     {
         return separate(string, "-").toLowerCase();
+    }
+
+    /**
+     * Converts the argument into a message key in a properties resource bundle,
+     * all lowercase characters, words are separated by dots.
+     *
+     * @param string any string
+     * @return the string converted to a value that would be well-suited for a message key
+     */
+    public static String toResourceMessageKey(String string)
+    {
+        return separate(string, ".").toLowerCase();
+    }
+
+    /**
+     * Converts into a string suitable as a human readable phrase,
+     * First character is uppercase (the rest is left unchanged), words are separated
+     * by a space.
+     *
+     * @param string any string
+     * @return the string converted to a value that would be well-suited for a human readable phrase
+     */
+    public static String toPhrase(String string)
+    {
+        return upperCaseFirstLetter(separate(string, " "));
     }
 
     /**
