@@ -1,5 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
+import org.andromda.core.common.StringUtilsHelper;
+
 
 /**
  * MetafacadeLogic implementation.
@@ -7,14 +9,14 @@ package org.andromda.cartridges.bpm4struts.metafacades;
  * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsPseudostate
  */
 public class StrutsPseudostateLogicImpl
-       extends StrutsPseudostateLogic
-       implements org.andromda.cartridges.bpm4struts.metafacades.StrutsPseudostate
+        extends StrutsPseudostateLogic
+        implements org.andromda.cartridges.bpm4struts.metafacades.StrutsPseudostate
 {
     // ---------------- constructor -------------------------------
     
-    public StrutsPseudostateLogicImpl (java.lang.Object metaObject, java.lang.String context)
+    public StrutsPseudostateLogicImpl(java.lang.Object metaObject, java.lang.String context)
     {
-        super (metaObject, context);
+        super(metaObject, context);
     }
 
     // -------------------- business methods ----------------------
@@ -22,16 +24,15 @@ public class StrutsPseudostateLogicImpl
     // concrete business methods that were declared
     // abstract in class StrutsPseudostate ...
 
-	/**
-	 * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsPseudostate#getActionMethodName()()
-	 */
-    public java.lang.String getActionMethodName() {
-        // TODO: put your implementation here.
-
-        // Dummy return value, just that the file compiles
-        return null;
+    /**
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsPseudostate#getActionMethodName()()
+     */
+    public java.lang.String getActionMethodName()
+    {
+        final String methodName = getName();
+        return (methodName == null) ? "a" + System.currentTimeMillis() : StringUtilsHelper.toJavaMethodName(methodName); 
     }
 
     // ------------- relations ------------------
-    
+
 }
