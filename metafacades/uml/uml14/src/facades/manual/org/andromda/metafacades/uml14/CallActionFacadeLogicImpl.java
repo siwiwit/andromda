@@ -21,7 +21,7 @@ public class CallActionFacadeLogicImpl
 
     protected Object handleGetOperation()
     {
-        CallAction callAction = (CallAction)metaObject;
+        CallAction callAction = metaObject;
         return callAction.getOperation();
     }
 }

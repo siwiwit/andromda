@@ -66,7 +66,7 @@ public class StrutsParameterLogicImpl
      */
     public java.lang.String getMessageKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(getNameSpace().getName() + ' ' + getName());
+        return StringUtilsHelper.toResourceMessageKey(getNamespace().getName() + ' ' + getName());
     }
 
     /**
