@@ -335,7 +335,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             outFile =
                 outputFileFromVelocityContext(
                     velocityContext,
-                    tc.getOutputPattern());
+                    tc);
         }
         else
         {
@@ -430,12 +430,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
      * Creates a File object from a variable in a Velocity context.
      * 
      * @param velocityContext the context
-     * @param velocityExpression the expression that evaluates to a file name 
+     * @param tc the template configuration 
      * @return File the output file
      */
     private File outputFileFromVelocityContext(
         VelocityContext velocityContext,
-        String velocityExpression)
+        TemplateConfiguration tc)
         throws CartridgeException
     {
         try
@@ -446,9 +446,14 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                 velocityContext,
                 writer,
                 "mylogtag",
-                velocityExpression);
+                tc.getOutputPattern());
 
-            return new File(writer.getBuffer().toString());
+            String outputLocation =
+                Namespaces.instance().findNamespaceProperty(
+                    desc.getCartridgeName(),
+                    tc.getOutlet());
+
+            return new File(outputLocation, writer.getBuffer().toString());
         }
         catch (Exception e)
         {
