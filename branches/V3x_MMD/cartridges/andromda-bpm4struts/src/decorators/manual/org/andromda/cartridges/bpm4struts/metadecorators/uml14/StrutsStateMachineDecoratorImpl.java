@@ -1,12 +1,13 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
 import org.omg.uml.behavioralelements.statemachines.State;
-import org.omg.uml.behavioralelements.statemachines.StateMachine;
 import org.omg.uml.behavioralelements.statemachines.Transition;
 import org.omg.uml.behavioralelements.usecases.UseCase;
+import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,42 +35,15 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
     // concrete business methods that were declared
     // abstract in class StrutsStateMachineDecorator ...
 
-    public org.omg.uml.behavioralelements.statemachines.Pseudostate getInitialState()
-    {
-        final Collection initialStates = MetaDecoratorUtil.getSubvertices(metaObject, MetaDecoratorUtil.INITIALSTATE_FILTER);
-        return ((initialStates == null) || (initialStates.isEmpty()))
-            ? null : (Pseudostate) initialStates.iterator().next();
-    }
-
-    public UseCase getContextUseCase()
-    {
-        return (UseCase)metaObject.getContext();
-    }
-
     // ------------- relations ------------------
-    public Set getStates(StateMachine stateMachine)
+    protected ModelElement handleGetUseCaseContext()
     {
-        return MetaDecoratorUtil.getSubvertices(stateMachine, MetaDecoratorUtil.STATE_FILTER);
-    }
-
-    public java.util.Set getActionStates()
-    {
-        return MetaDecoratorUtil.getSubvertices(metaObject, MetaDecoratorUtil.ACTIONSTATE_FILTER);
-    }
-
-    public java.util.Set getFinalStates()
-    {
-        return MetaDecoratorUtil.getSubvertices(metaObject, MetaDecoratorUtil.FINALSTATE_FILTER);
-    }
-
-    public Set getChoices()
-    {
-        return MetaDecoratorUtil.getSubvertices(metaObject, MetaDecoratorUtil.CHOICEPSEUDOSTATE_FILTER);
+        return (UseCase)getContext();
     }
 
     public Set getForwardTransitions()
     {
-        final Set actionStates = getActionStates();
+        final Collection actionStates = getActionStates();
         final Set forwardTransitions = new LinkedHashSet();
 
         // 1. collect all the transition incoming to the action states
@@ -86,9 +60,9 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
         // 1. done ---------------------------------------------------
 
         // 2. take all the targets of the final states in this state machine (lookup in workflow)
-        final UseCase contextUseCase = (UseCase)metaObject.getContext();
+        final UseCase contextUseCase = (UseCase)getContext();
         // find this use-case in the workflow (as a state)
-        final State useCaseState = MetaDecoratorUtil.findUseCaseInWorkflow(contextUseCase);
+        final State useCaseState = MetaDecoratorUtil.findUseCaseInWorkflow(contextUseCase); // todo
 
         forwardTransitions.addAll(useCaseState.getOutgoing());
         // 2. done ------------------------------------------------------------------------------
@@ -98,7 +72,7 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
 
     public Set getChoiceTransitions()
     {
-        final Set choices = getChoices();
+        final Collection choices = getChoicePseudostates();
         final Set choiceTransitions = new LinkedHashSet();
 
         for (Iterator choiceIterator = choices.iterator(); choiceIterator.hasNext();)
@@ -111,13 +85,14 @@ public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
                 choiceTransitions.add(transition);
             }
         }
-
         return choiceTransitions;
     }
 
-    public Set getObjectFlowStates()
+    public void validate() throws DecoratorValidationException
     {
-        return MetaDecoratorUtil.getSubvertices(metaObject, MetaDecoratorUtil.OBJECTFLOWSTATE_FILTER);
+        // there must be one and only one initial state
+
+        // this state machine should be owned by a use-case
     }
 
 }

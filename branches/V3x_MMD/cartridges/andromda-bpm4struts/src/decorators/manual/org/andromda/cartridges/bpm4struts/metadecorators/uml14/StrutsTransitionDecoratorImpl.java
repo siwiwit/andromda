@@ -1,8 +1,10 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.core.metadecorators.uml14.PseudostateDecoratorImpl;
+import org.omg.uml.behavioralelements.statemachines.Pseudostate;
 import org.omg.uml.behavioralelements.statemachines.StateVertex;
 import org.omg.uml.behavioralelements.statemachines.Transition;
-import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 
 
 /**
@@ -27,21 +29,23 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
 
     public String getGuardName()
     {
-        return metaObject.getGuard().getName();
+        return getGuard().getName();
     }
 
     public String getTriggerName()
     {
-        return metaObject.getTrigger().getName();
+        return getTrigger().getName();
     }
 
     public StateVertex getFinalTarget()
     {
-        Transition transition = metaObject;
+        Transition transition = this;
         StateVertex target = transition.getTarget();
 
-        while ( MetaDecoratorUtil.isMergePoint(target) )
+        while ( (target instanceof Pseudostate) &&
+                (new PseudostateDecoratorImpl((Pseudostate)target).isMergePoint().booleanValue()) )
         {
+
             transition = (Transition)target.getOutgoing().iterator().next();
             target = transition.getTarget();
         }
@@ -55,5 +59,13 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
     }
 
     // ------------- relations ------------------
+
+    public void validate() throws DecoratorValidationException
+    {
+        // if outgoing from a choice pseudostate this transition must have a guard
+
+        // if outgoing from an action state or object flow state this transition must have a trigger
+        // (unless the container state machine is a workflow)
+    }
 
 }

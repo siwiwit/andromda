@@ -1,6 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 
 
 /**
@@ -25,9 +26,16 @@ public class StrutsGuardDecoratorImpl extends StrutsGuardDecorator
 
     public java.lang.String getGuardMethodName()
     {
-        return MetaDecoratorUtil.toJavaMethodName(metaObject);
+        return MetaDecoratorUtil.toJavaMethodName(getName());
     }
 
     // ------------- relations ------------------
 
+    public void validate() throws DecoratorValidationException
+    {
+        // the name must not be empty
+        final String name = getName();
+        if ( (name==null) || (name.trim().length()==0) )
+            throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
+    }
 }
