@@ -32,8 +32,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @struts.action
- *        name="$str.toJavaMethodName($class.formBean.name)"
- *        path="/$str.toJavaClassName($class.servletName)"
+#if ($formBean)
+ *        name="$formBean.formBeanName"
+#end
+ *        path="/$class.servletName"
  *       scope="request"
  *   parameter="$class.dispatchParameter"
  *  validation="true"
@@ -41,13 +43,13 @@ import javax.servlet.http.HttpServletResponse;
 #foreach ($forwardTransition in $forwardTransitions)
 #set ($forwardTransitionName = $forwardTransition.triggerName)
  * @struts.action-forward
- *        name="$str.separate($forwardTransitionName, ".").toLowerCase()"
+ *        name="$forwardTransition.forwardName"
 #if ($transform.isFinalState($forwardTransition.finalTarget.metaObject))
 #set ($servletName = $forwardTransition.finalTarget.useCase.servlet.servletName)
- *        path="/${str.toJavaClassName($servletName)}.do"
+ *        path="/${servletName}.do"
 #else## in this case we are dealing with an action state
 #set ($jsp = $forwardTransition.finalTarget.jsp)
- *        path="/${str.separate($jsp.packageName, "/")}/${jsp.name}.jsp"
+ *        path="${jsp.fullPathName}.jsp"
 #end
  *    redirect="false"
  *
