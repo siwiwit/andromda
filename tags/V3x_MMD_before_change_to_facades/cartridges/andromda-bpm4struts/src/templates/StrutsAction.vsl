@@ -1,0 +1,75 @@
+##
+## Some global invariants
+##
+#set ($stateMachine = $class.useCase.stateMachine)
+#set ($forwardTransitionNames = $stateMachine.forwardTransitionNames)
+#set ($choices = $stateMachine.decisionPoints)
+#set ($objectFlowStates = $stateMachine.objectFlowStates)
+##
+## Specific to this class
+##
+#set ($className = $str.toJavaClassName($class.name))
+#set ($formBeanType = $class.formBean.name)
+#if (!$formBeanType)
+#set ($formBeanType = "ActionForm")
+#end
+##
+## Package declaration and imports
+##
+package $class.packageName;
+
+#if ($formBeanType == "ActionForm")
+import org.apache.struts.action.ActionForm;
+#elseif ($class.packageName != $class.formBean.packageName)
+import $class.formBean.fullyQualifiedName;
+
+#end
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * @struts.action
+ *        name="$str.toJavaMethodName($class.formBean.name)"
+ *        path="/$str.toJavaClassName($class.servletName)"
+ *       scope="request"
+ *   parameter="$class.dispatchParameter"
+ *  validation="true"
+ *
+#foreach ($forwardTransitionName in $forwardTransitionNames)
+ * @struts.action-forward
+ *        name="$str.separate($forwardTransitionName, ".").toLowerCase()"
+ *        path="/$str.separate($class.packageName, "/")/${str.toWebFileName($forwardTransitionName)}.jsp"
+ *    redirect="false"
+ *
+#end
+#foreach ($exceptionHandler in $class.exceptionHandlers)
+ * @struts.action-exception
+ *         key="$exceptionHandler.key"
+ *        type="$exceptionHandler.exceptionType"
+#if ($exceptionHandler.path)
+ *        path="$exceptionHandler.path"
+#end
+ *       scope="request"
+ *
+#end
+ */
+public final class $className extends ${className}Abstract
+{
+#foreach ($choice in $choices)
+#set ($choiceMethodName = "$str.toJavaMethodName($choice.name)")
+    protected final int ${choiceMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
+    {
+        return 1; // source is compilable this way
+    }
+
+#end
+#foreach ($objectFlowState in $objectFlowStates)
+#set ($stateMethodName = "$str.toJavaMethodName($objectFlowState.name)")
+    protected final void ${stateMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
+    {
+    }
+
+#end
+}

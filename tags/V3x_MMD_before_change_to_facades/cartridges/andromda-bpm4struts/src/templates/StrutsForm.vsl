@@ -1,0 +1,117 @@
+##
+## Package declaration and imports
+##
+package $class.packageName;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
+
+##
+## Specific global constants
+##
+#set ($formName = $str.toJavaMethodName($class.formBeanName))
+/**
+ * @struts.form
+ *   name="$formName"
+ */
+public final class $class.name extends ActionForm
+{
+#foreach ($inputField in $class.inputFields)
+#if ($inputField.defaultValue)
+    private $inputField.type.fullyQualifiedName $inputField.name = $inputField.defaultValue;
+#else
+    private $inputField.type.fullyQualifiedName $inputField.name;
+#end
+#if ($inputField.backingPropertyName)
+    private java.util.Collection $inputField.backingPropertyName = null;
+#end
+#end
+
+    private java.lang.String trigger = null;
+#foreach ($servlet in $class.servlets)
+#set ($parameter = $servlet.dispatchParameter)
+    private java.lang.String $parameter = null;
+
+    public void set$str.upperCaseFirstLetter($parameter)(java.lang.String $parameter)
+    {
+        this.$parameter = $parameter;
+    }
+
+    public java.lang.String get$str.upperCaseFirstLetter($parameter)()
+    {
+        return $parameter;
+    }
+#end
+
+    public void setTrigger(java.lang.String trigger)
+    {
+        this.trigger = trigger;
+    }
+
+    public java.lang.String getTrigger()
+    {
+        return trigger;
+    }
+
+#foreach ($inputField in $class.inputFields)
+    /**
+#if ($inputField.isRequired())
+     * @struts.validator
+     *    type="required"
+##   *    arg0resource="$inputField.fieldMessageKey"
+##   *    msgKey="$inputField.errorMessageKey"
+#end
+#if ($inputField.maskPattern)
+     *
+     * @struts.validator-var
+     *    name="mask"
+     *    value="$inputField.maskPattern"
+     *
+#end
+     */
+    public void ${inputField.setterName}($inputField.type.fullyQualifiedName $inputField.name)
+    {
+        this.$inputField.name = $inputField.name;
+    }
+
+    public $inputField.type.fullyQualifiedName ${inputField.getterName}()
+    {
+        return $inputField.name;
+    }
+
+#if ($inputField.backingPropertyName)
+#set ($getterName = "get$str.upperCaseFirstLetter(${inputField.backingPropertyName})")
+#set ($setterName = "set$str.upperCaseFirstLetter(${inputField.backingPropertyName})")
+    public void ${setterName}(java.util.Collection ${inputField.backingPropertyName})
+    {
+        this.${inputField.backingPropertyName} = ${inputField.backingPropertyName};
+    }
+
+    public java.util.Collection ${getterName}()
+    {
+        return ${inputField.backingPropertyName};
+    }
+
+#end
+#end
+    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
+    {
+        return null;
+    }
+
+    public void reset(ActionMapping mapping, HttpServletRequest request)
+    {
+        this.trigger = null;
+#foreach ($servlet in $class.servlets)
+#set ($parameter = $servlet.dispatchParameter)
+        this.$parameter = null;
+#end
+
+#foreach ($inputField in $class.resetInputFields)
+        this.$inputField.name = $inputField.name;
+#end
+    }
+}

@@ -1,0 +1,186 @@
+#set ($packagename = $class.package.fullyQualifiedName)
+package $packagename;
+
+#macro ( generateDocumentation $item $indent)
+#foreach ( $tgv in $item.taggedValues )
+#if ($tgv.tag == "documentation")
+#set ($paras = $tgv.value.formatHTMLStringAsParagraphs())
+#foreach ( $par in $paras )
+${indent}*
+${indent}* <p>
+#foreach ( $line in $par.lines )
+${indent}* $line
+#end
+${indent}* </p>
+#end
+#end
+#end
+#end
+
+## calculate metaclass and superclass
+#set ($decoratedMetaclass = $transform.getMetaclass($class))
+#set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
+##
+#set ($superclass = $class.superclass)
+#if ($superclass)
+    #set ($superclassName = "${superclass.fullyQualifiedName}Impl")
+#else
+    #if ($decoratedMetaclassTypeName != "org.omg.uml.foundation.core.ModelElement" && $decoratedMetaclassTypeName != "org.omg.uml.UmlPackage")
+    	#set ($superclassName = "org.andromda.core.metadecorators.uml14.ModelElementDecoratorImpl")
+    #else
+    	#set ($superclassName = "DecoratorBase")
+    #end
+#end
+##
+/**
+#generateDocumentation ($class " ")
+ *
+ * Metaclass decorator for $decoratedMetaclassTypeName
+ *
+#foreach ( $tgv in $class.taggedValues )
+#if ($tgv.tag != "documentation")
+#if ($tgv.tag == "---")
+    #set ($tag = "")
+#else
+    #set ($tag = $tgv.tag)
+#end
+ * $tag    $tgv.value
+#end
+#end
+ *
+ */
+public abstract class ${class.name}
+       extends    $superclassName
+       implements $decoratedMetaclassTypeName
+{
+    // -------- link to decorated metaobject ----------
+    
+    protected $decoratedMetaclassTypeName  metaObject;
+
+    public ${class.name} ($decoratedMetaclassTypeName metaObject)
+    {
+        super (metaObject);
+        this.metaObject = metaObject;
+    }
+    
+#set ($allMethods = $transform.getMethodMap($decoratedMetaclassTypeName))
+##
+    // --------------- attributes ---------------------
+#foreach ( $att in $class.attributes )
+#set ($atttypename = $att.type.fullyQualifiedName)
+
+   /**
+#generateDocumentation ($att "    ")
+    *
+    */
+    public abstract $atttypename ${att.getterName}();
+#set ($allMethods = $transform.excludeSimpleGetter($allMethods, $atttypename, $att.name))
+#end
+
+
+    // ---------------- real business methods ----------------------
+
+#foreach ( $op in $class.operations)
+   /**
+#generateDocumentation ($op "    ")
+    *
+    */
+    $op.visibility abstract $op.type.fullyQualifiedName ${op.signature};
+    
+#set ($allMethods = $transform.excludeUMLOperation($allMethods, $op))
+#end
+    // ------------- relations ------------------
+    
+#foreach ( $assocEnd in $class.associationEnds )
+#if ($assocEnd.otherEnd.navigable)
+##
+#set ($sourcetype = $assocEnd.type)
+#set ($targettype = $assocEnd.otherEnd.type)
+#if ($targettype.stereotypeName == "Decorator")
+## if a decorator is the target of the association, replace by decorated interface type!
+## this will make it possible to override methods in the base interface.
+#foreach ( $dep in $targettype.dependencies )
+    #set ($class2 = $dep.targetType)
+    #if ($class2.stereotypeName == "metaclass")
+        #set ($targettype = $class2)
+    #end
+#end
+#end
+
+#set ($targettypename = $targettype.fullyQualifiedName)
+##
+#set ($trn = $assocEnd.otherEnd.roleName)
+#set ($utrn = $str.upperCaseFirstLetter($trn))
+##
+#if ($assocEnd.isOne2Many() || $assocEnd.isMany2Many())
+#set ($returnType = "java.util.Collection")
+## if the association end is 'ordered', then return a List
+#if ($assocEnd.isOrdered())
+#set ($returnType = "java.util.List")
+#end
+    protected abstract $returnType handleGet${utrn}();
+    
+   /**
+#generateDocumentation ($assocEnd.otherEnd "    ")
+##    * source navigable: $assocEnd.navigable
+##    * target navigable: $assocEnd.otherEnd.navigable
+    *
+    */
+    public java.util.Collection get${utrn}()
+    {
+        return decoratedElements(handleGet${utrn}());
+    }
+#set ($allMethods = $transform.excludeSimpleGetter($allMethods, "java.util.Collection", $trn))
+#end
+#if ($assocEnd.isOne2One() || $assocEnd.isMany2One())
+    protected abstract org.omg.uml.foundation.core.ModelElement handleGet${utrn}();
+
+   /**
+#generateDocumentation ($assocEnd.otherEnd "    ")
+##    * source navigable: $assocEnd.source.navigable
+##    * target navigable: $assocEnd.otherEnd.navigable
+    *
+    */
+    public ${targettypename} get${utrn}()
+    {
+        return (${targettypename}) decoratedElement(handleGet${utrn}());
+    }
+#set ($allMethods = $transform.excludeSimpleGetter($allMethods, $targettypename, $trn))
+#end
+
+    // ------------------------------------------------------------
+
+#end
+#end
+
+## superclass should already implement the decorating methods.
+## we need not repeat them here!
+#if ($superclass)
+    // decorating methods not implemented here. 
+    // they are already in ${superclassName}
+    // or in a superclass of that.
+#else
+    // ---------------- decorating methods ----------------------
+    
+##
+## The calls to "transform.exclude..." above have excluded all those
+## methods from the list that shall not delegate to the metaobject 
+## but shall be implemented in this decorator itself.
+##
+## So, now we can generate the source code for delegation in a quite
+## straightforward way.
+##
+#foreach ($dm in $transform.sortMethodsFlat($allMethods))
+    // from $dm.parentInterfaceName
+    $dm.getDeclaration(true)
+    {
+#if ($dm.hasReturnType())
+        return metaObject.${dm.getMethodCall()};
+#else
+        metaObject.${dm.getMethodCall()};
+#end    
+    }
+
+#end
+#end
+}
