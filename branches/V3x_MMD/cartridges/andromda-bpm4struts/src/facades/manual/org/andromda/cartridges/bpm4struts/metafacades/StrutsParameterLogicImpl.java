@@ -3,6 +3,10 @@ package org.andromda.cartridges.bpm4struts.metafacades;
 import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Arrays;
+
 
 /**
  * MetafacadeLogic implementation.
@@ -49,6 +53,8 @@ public class StrutsParameterLogicImpl
         final String type = getFullyQualifiedName();
         if ("boolean".equals(type)) return "false";
         else if (isPrimitive()) return "0";
+//        else if (isArray()) return "new Object[0]";   // todo we need null or zero length ?
+//        else if (isCollection()) return "java.util.Collections.EMPTY_LIST";   // same for collection
         else return "null";
     }
 
@@ -58,7 +64,7 @@ public class StrutsParameterLogicImpl
     public boolean mustReset()
     {
         final String type = getFullyQualifiedName();
-        return Boolean.class.getName().equals(type) || "boolean".equals(type);
+        return Boolean.class.getName().equals(type) || "boolean".equals(type) || isArray();
     }
 
     /**
@@ -113,35 +119,45 @@ public class StrutsParameterLogicImpl
         {
             return "select";
         }
+        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_PASSWORD.equalsIgnoreCase(fieldType))
+        {
+            return "password";
+        }
         else
         {
-            return "text";
+            return (isCollection() || isArray()) ? "select" : "text";
         }
     }
 
     public boolean isMultiple()
     {
-        try
-        {
-            Class clazz = Class.forName(getType().getFullyQualifiedName());
-            if (clazz.isArray()) return true;
-            Class collectionInterface = Class.forName("java.util.Collection");
-            return collectionInterface.isAssignableFrom(clazz);
-        }
-        catch(Exception exception)
-        {
-            return false;
-        }
+        return isArray() || isCollection();
     }
 
     public boolean hasBackingList()
     {
-        return "select".equals(getWidgetType()) && isMultiple();
+        return "select".equals(getWidgetType());
     }
 
     public String getBackingListName()
     {
         return getName() + "BackingList";
+    }
+
+    public String getBackingListType()
+    {
+        return "Object[]";
+    }
+
+    public String getBackingListResetValue()
+    {
+        return constructArray();
+    }
+
+    private String constructArray()
+    {
+        final String name = getName();
+        return "new " + getBackingListType() + "{\""+name+"-1\", \""+name+"-2\", \""+name+"-3\", \""+name+"-4\", \""+name+"-5\"}";
     }
 
     public boolean isRequired()
@@ -164,17 +180,22 @@ public class StrutsParameterLogicImpl
     {
         final String name = getName();
         final String type = getType().getFullyQualifiedName();
-
-        if ("java.lang.String".equals(type)) return name + "-test";
+        if (String.class.getName().equals(type)) return "\"" + name + "-test" + "\"";
         
         if ("boolean".equals(type)) return "false";
-        if (isPrimitive()) return String.valueOf(name.hashCode());
+        if ("float".equals(type)) return "(float)"+name.hashCode() / hashCode();
+        if ("double".equals(type)) return "(double)"+name.hashCode() / hashCode();
+        if ("short".equals(type)) return "(short)"+name.hashCode();
+        if ("long".equals(type)) return "(long)"+name.hashCode();
+        if ("byte".equals(type)) return "(byte)"+name.hashCode();
+        if ("char".equals(type)) return "(char)"+name.hashCode();
+        if ("int".equals(type)) return "(int)"+name.hashCode();
 
-        final String array = "new Object[] {\""+name+"-1\", \""+name+"-2\", \""+name+"-3\", \""+name+"-4\", \""+name+"-5\"}";
+        final String array = constructArray();
         if (isArray()) return array;
-        if (isCollection()) return "java.util.Collections.asList("+array+")";
+        if (isCollection()) return "java.util.Arrays.asList("+array+")";
 
-        return name + "-test";
+        return "\"" + name + "-test" + "\"";
     }
 
     public boolean isArray()
@@ -189,32 +210,234 @@ public class StrutsParameterLogicImpl
         }
     }
 
-    public boolean isPrimitive()
+    protected String getValidatorFormat()
     {
-        try
-        {
-            return Class.forName(getType().getFullyQualifiedName()).isPrimitive();
-        }
-        catch(Exception exception)
-        {
-            return false;
-        }
+        final String format = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_FORMAT);
+        return (format == null) ? null : format.trim();
     }
 
-    public boolean isCollection()
+    public java.util.Collection getValidatorTypes()
     {
-        try
+        final String type = getType().getFullyQualifiedName();
+        final String format = getValidatorFormat();
+
+        final Collection validatorTypes = new LinkedList();
+
+        if (isRequired()) validatorTypes.add("required");
+
+        if (isValidatorByte(type)) validatorTypes.add("byte");
+        else if (isValidatorShort(type)) validatorTypes.add("short");
+        else if (isValidatorLong(type)) validatorTypes.add("long");
+        else if (isValidatorInteger(type)) validatorTypes.add("integer");
+        else if (isValidatorFloat(type)) validatorTypes.add("float");
+        else if (isValidatorDouble(type)) validatorTypes.add("double");
+        else if (isValidatorDate(type)) validatorTypes.add("date");
+
+        if (format != null)
         {
-            Class parameterClass = Class.forName(getType().getFullyQualifiedName());
-            Class collectionClass = Class.forName("java.util.Collection");
-            return collectionClass.isAssignableFrom(parameterClass);
+            if (isRangeFormat(format))
+            {
+                if (isValidatorInteger(type)) validatorTypes.add("intRange");
+                if (isValidatorFloat(type)) validatorTypes.add("floatRange");
+                if (isValidatorDouble(type)) validatorTypes.add("doubleRange");
+            }
+            else if (isValidatorString(type))
+            {
+                if (isEmailFormat(format)) validatorTypes.add("email");
+                else if (isCreditCardFormat(format)) validatorTypes.add("creditCard");
+                else if (isMinLengthFormat(format)) validatorTypes.add("minlength");
+                else if (isMaxLengthFormat(format)) validatorTypes.add("maxlength");
+                else if (isPatternFormat(format)) validatorTypes.add("mask");
+            }
         }
-        catch(Exception exception)
-        {
-            return false;
-        }
+        return validatorTypes;
     }
 
-    // ------------- relations ------------------
+    public String getValidatorMsgKey()
+    {
+        return StringUtilsHelper.toResourceMessageKey(getName());
+    }
+
+    public java.util.Collection getValidatorArgs(java.lang.String validatorType)
+    {
+        final Collection args = new LinkedList();
+        if ( "intRange".equals(validatorType) || "floatRange".equals(validatorType) || "doubleRange".equals(validatorType) )
+        {
+            args.add("${var:min}");
+            args.add("${var:max}");
+        }
+        else if ( "minlength".equals(validatorType) )
+        {
+            args.add("${var:minlength}");
+        }
+        else if ( "maxlength".equals(validatorType) )
+        {
+            args.add("${var:maxlength}");
+        }
+        return args;
+    }
+
+
+    public java.util.Collection getValidatorVars()
+    {
+        final Collection vars = new LinkedList();
+
+        final String type = getType().getFullyQualifiedName();
+        final String format = getValidatorFormat();
+        if (format != null)
+        {
+            final boolean isRangeFormat = isRangeFormat(format);
+
+            if (isRangeFormat && (isValidatorInteger(type) || isValidatorFloat(type) || isValidatorDouble(type)))
+            {
+                vars.add(Arrays.asList(new Object[] { "min", getRangeStart(format) }));
+                vars.add(Arrays.asList(new Object[] { "max", getRangeEnd(format) }));
+            }
+            else if (isValidatorString(type))
+            {
+                if (isMinLengthFormat(format))
+                {
+                    vars.add(Arrays.asList(new Object[] { "minlength", getMinLengthValue(format) }));
+                }
+                else if (isMaxLengthFormat(format))
+                {
+                    vars.add(Arrays.asList(new Object[] { "maxlength", getMaxLengthValue(format) }));
+                }
+                else if (isPatternFormat(format))
+                {
+                    vars.add(Arrays.asList(new Object[] { "mask", getPatternValue(format) }));
+                }
+            }
+            else if (isValidatorDate(type))
+            {
+                if (isStrictDateFormat(format))
+                {
+                    vars.add(Arrays.asList(new Object[] { "datePatternStrict", getDateFormat(format) }));
+                }
+                else
+                {
+                    vars.add(Arrays.asList(new Object[] { "datePattern", getDateFormat(format) }));
+                }
+            }
+        }
+        return vars;
+    }
+
+    public java.lang.String getValidWhen()
+    {
+        return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_VALIDWHEN);
+    }
+
+    // ------------------------------------------
+    private boolean isValidatorByte(String type)
+    {
+        return "byte".equals(type) || "java.lang.Byte".equals(type);
+    }
+
+    private boolean isValidatorShort(String type)
+    {
+        return "short".equals(type) || "java.lang.Short".equals(type);
+    }
+
+    private boolean isValidatorInteger(String type)
+    {
+        return "int".equals(type) || "java.lang.Integer".equals(type);
+    }
+
+    private boolean isValidatorLong(String type)
+    {
+        return "long".equals(type) || "java.lang.Long".equals(type);
+    }
+
+    private boolean isValidatorFloat(String type)
+    {
+        return "float".equals(type) || "java.lang.Float".equals(type);
+    }
+
+    private boolean isValidatorDouble(String type)
+    {
+        return "double".equals(type) || "java.lang.Double".equals(type);
+    }
+
+    private boolean isValidatorDate(String type)
+    {
+        return "java.util.Date".equals(type) || "java.sql.Date".equals(type);
+    }
+
+    private boolean isValidatorString(String type)
+    {
+        return "java.lang.String".equals(type);
+    }
+
+    private boolean isEmailFormat(String format)
+    {
+        return "email".equalsIgnoreCase(getToken(format,0,2));
+    }
+
+    private boolean isCreditCardFormat(String format)
+    {
+        return "creditcard".equalsIgnoreCase(getToken(format,0,2));
+    }
+
+    private boolean isRangeFormat(String format)
+    {
+        return "range".equalsIgnoreCase(getToken(format,0,2));
+    }
+
+    private boolean isPatternFormat(String format)
+    {
+        return "pattern".equalsIgnoreCase(getToken(format,0,2));
+    }
+
+    private boolean isStrictDateFormat(String format)
+    {
+        return "strict".equalsIgnoreCase(getToken(format,0,2));
+    }
+
+    private boolean isMinLengthFormat(String format)
+    {
+        return "minlength".equalsIgnoreCase(getToken(format,0,2));
+    }
+
+    private boolean isMaxLengthFormat(String format)
+    {
+        return "maxlength".equalsIgnoreCase(getToken(format,0,2));
+    }
+
+    private String getRangeStart(String format)
+    {
+        return getToken(format,1,3);
+    }
+
+    private String getRangeEnd(String format)
+    {
+        return getToken(format,2,4);
+    }
+
+    private String getDateFormat(String format)
+    {
+        return (isStrictDateFormat(format)) ? getToken(format,1,3) : getToken(format,0,2);
+    }
+
+    private String getMinLengthValue(String format)
+    {
+        return getToken(format,1,3);
+    }
+
+    private String getMaxLengthValue(String format)
+    {
+        return getToken(format,1,3);
+    }
+
+    private String getPatternValue(String format)
+    {
+        return getToken(format,1,3);
+    }
+
+    private String getToken(String string, int index, int limit)
+    {
+        String[] tokens = string.split("[\\s]", limit);
+        return (index >= tokens.length) ? null : tokens[index];
+    }
 
 }
