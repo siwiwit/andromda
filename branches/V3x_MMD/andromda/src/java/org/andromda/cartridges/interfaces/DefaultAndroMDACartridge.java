@@ -20,7 +20,7 @@ import org.andromda.core.common.CodeGenerationContext;
 import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.Property;
 import org.andromda.core.common.StdoutLogger;
-import org.andromda.core.metadecorators.uml14.DecoratorFactory;
+import org.andromda.core.metafacade.MetafacadeFactory;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
@@ -33,8 +33,6 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.LogSystem;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.omg.uml.UmlPackage;
-import org.omg.uml.foundation.core.ModelElement;
 
 /**
  * Default implementation of standard AndroMDA cartridge behaviour.
@@ -134,12 +132,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         String stereotypeName)
         throws CartridgeException
     {
-        DecoratorFactory df = DecoratorFactory.getInstance();
+        MetafacadeFactory df = MetafacadeFactory.getInstance();
         String previousNamespace = df.getActiveNamespace();
 
         df.setActiveNamespace(getDescriptor().getCartridgeName());
 
-        df.setModel((UmlPackage) context.getModelFacade().getModel());
+        df.setModel(context.getModelFacade());
 
         try
         {
@@ -209,15 +207,17 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         TemplateConfiguration tc)
         throws CartridgeException
     {
+        final String modelElementName =
+            context.getModelFacade().getName(modelElement);
         try
         {
-        	if (logger.isDebugEnabled())
+            if (logger.isDebugEnabled())
                 logger.debug("");
-                logger.debug(
-                    "------------------- Processing model element >>"
-                        + ((ModelElement) modelElement).getName()
-                        + "<< using template "
-                        + tc.getSheet());
+            logger.debug(
+                "------------------- Processing model element >>"
+                    + modelElementName
+                    + "<< using template "
+                    + tc.getSheet());
 
             internalProcessModelElementWithOneTemplate(
                 context,
@@ -229,7 +229,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             if (logger.isDebugEnabled())
                 logger.debug(
                     "------------------- Finished processing model element >>"
-                        + ((ModelElement) modelElement).getName()
+                        + modelElementName
                         + "<< using template "
                         + tc.getSheet());
         }
@@ -259,25 +259,23 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             // put some objects into the velocity context
 
             // TODO: this has to be optimized so that decorators are not created each time we come here!!!
-            UmlPackage model =
-                (UmlPackage) context.getModelFacade().getModel();
-            DecoratorFactory df = DecoratorFactory.getInstance();
+            Object model = context.getModelFacade().getModel();
+            MetafacadeFactory df = MetafacadeFactory.getInstance();
 
-            velocityContext.put(
-            	"model", 
-                df.createDecoratorObject(model));
+            velocityContext.put("model", df.createFacadeObject(model));
             velocityContext.put(
                 "class",
-                df.createDecoratorObject((ModelElement) modelElement));
-            
+                df.createFacadeObject(modelElement));
+
             // add any template objects to the context now
             Map templateObjects = this.getDescriptor().getTemplateObjects();
-            if (templateObjects != null && !templateObjects.isEmpty()) 
+            if (templateObjects != null && !templateObjects.isEmpty())
             {
-                Iterator templateObjectIt = templateObjects.keySet().iterator();
-                while (templateObjectIt.hasNext()) 
+                Iterator templateObjectIt =
+                    templateObjects.keySet().iterator();
+                while (templateObjectIt.hasNext())
                 {
-                    String name = (String)templateObjectIt.next();
+                    String name = (String) templateObjectIt.next();
                     velocityContext.put(name, templateObjects.get(name));
                 }
             }
@@ -322,19 +320,21 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
 
         // find the outlet property that contains the location 
         // to which the files will be generated.
-        Property property = 
+        Property property =
             Namespaces.instance().findNamespaceProperty(
-            	desc.getCartridgeName(), tc.getOutlet());
-        
+                desc.getCartridgeName(),
+                tc.getOutlet());
+
         // don't process if the outlet property is set to ignore (or its null)
-        if (property != null && !property.isIgnore()) 
-        {        
+        if (property != null && !property.isIgnore())
+        {
             if (tc.getOutputPattern().charAt(0) == '$')
             {
-                outFile = outputFileFromVelocityContext(
-                    velocityContext, 
-                    tc, 
-                    property.getValue());
+                outFile =
+                    outputFileFromVelocityContext(
+                        velocityContext,
+                        tc,
+                        property.getValue());
             }
             else
             {
@@ -345,7 +345,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                         tc,
                         property.getValue());
             }
-    
+
             if (outFile != null)
             {
                 byte[] result = content.toByteArray();
@@ -355,7 +355,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                     {
                         long modelLastModified =
                             context.getRepository().getLastModified();
-    
+
                         // do not overwrite already generated file,
                         // if that is a file that the user wants to edit.
                         boolean writeOutputFile =
@@ -363,11 +363,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                         // only process files that have changed
                         if (writeOutputFile
                             && (!context.isLastModifiedCheck()
-                                || modelLastModified > outFile.lastModified()
-                            ))
+                                || modelLastModified
+                                    > outFile.lastModified()))
                         {
                             ensureDirectoryFor(outFile);
-                            OutputStream out = new FileOutputStream(outFile);
+                            OutputStream out =
+                                new FileOutputStream(outFile);
                             out.write(result);
                             out.flush();
                             out.close();
@@ -379,7 +380,8 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                     {
                         StdoutLogger.error(e);
                         throw new CartridgeException(
-                            "Error writing output file " + outFile.getName(),
+                            "Error writing output file "
+                                + outFile.getName(),
                             e);
                     }
                 }
@@ -419,7 +421,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         TemplateConfiguration tc,
         String outputLocation)
     {
-        
+
         return tc.getFullyQualifiedOutputFile(
             modelElementName,
             packageName,

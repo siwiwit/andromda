@@ -66,7 +66,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.ModelElementFacade#getName()
+     * @see org.andromda.metafacades.uml14.ModelElementFacade#getName()
      */
     public String getName()
     {
@@ -200,7 +200,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#isNavigable()
+     * @see org.andromda.metafacades.uml14.AssociationEndFacade#isNavigable()
      */
     public boolean isNavigable()
     {
@@ -208,7 +208,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#getGetterName()
+     * @see org.andromda.metafacades.uml14.AssociationEndFacade#getGetterName()
      */
     public java.lang.String getGetterName()
     {
@@ -216,7 +216,7 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#getSetterName()
+     * @see org.andromda.metafacades.uml14.AssociationEndFacade#getSetterName()
      */
     public java.lang.String getSetterName()
     {
@@ -226,7 +226,7 @@ public class AssociationEndFacadeLogicImpl
     // relations
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndFacade#handleGetAssociation()
+     * @see org.andromda.metafacades.uml14.AssociationEndFacade#handleGetAssociation()
      */
     protected Object handleGetAssociation()
     {
