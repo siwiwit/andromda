@@ -228,7 +228,10 @@ public class MDRepositoryFacade implements RepositoryFacade
         model = repository.createExtent("MODEL", metaModel);
         log("MDR: created model extent");
 
-        XMIReader xmiReader = XMIReaderFactory.getDefault().createXMIReader();
+        XMIReader xmiReader =
+        	XMIReaderFactory.getDefault().createXMIReader(
+        			new MDRXmiReferenceResolver(
+        					new RefPackage[] { model }));
 
         log("MDR: reading XMI - " + modelURL.toExternalForm());
         try
