@@ -126,14 +126,6 @@ public class StrutsActionLogicImpl
         return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_SUCCES_MESSAGE);
     }
 
-    private ClassifierFacade getContextClass()
-    {
-        ModelElementFacade contextElement = getSource().getActivityGraph().getContextElement();
-        return (contextElement instanceof ClassifierFacade)
-            ? (ClassifierFacade)contextElement
-            : null;
-    }
-
     public java.lang.String getActionPath()
     {
         return '/' + getActionClassName();
@@ -158,7 +150,7 @@ public class StrutsActionLogicImpl
 
     private String getTriggerName()
     {
-        EventFacade trigger = getTrigger();
+        EventFacade trigger = getActionTrigger();
         return (trigger == null) ? getTarget().getName() : trigger.getName();
     }
 
@@ -199,8 +191,14 @@ public class StrutsActionLogicImpl
 
     public String getPackageName()
     {
-        return getContextClass().getPackageName();
+        return getActivityGraph().getController().getPackageName();
     }
+
+    public boolean isResettable()
+    {
+        return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_RESETTABLE);
+    }
+
     // ------------- relations ------------------
 
     protected Collection handleGetActionForwards()
@@ -242,12 +240,22 @@ public class StrutsActionLogicImpl
 
     protected Collection handleGetInputFields()
     {
-        EventFacade trigger = getTrigger();
+        EventFacade trigger = getActionTrigger();
         return (trigger == null) ? Collections.EMPTY_LIST : trigger.getParameters();
     }
 
     protected Object handleGetActivityGraph()
     {
         return getSource().getActivityGraph();
+    }
+
+    protected Object handleGetController()
+    {
+        return getActivityGraph().getController();
+    }
+
+    protected Object handleGetActionTrigger()
+    {
+        return getTrigger();
     }
 }
