@@ -22,8 +22,6 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_INPUT_TYPE = "@andromda.struts.view.field.type";
     public static final String TAGGED_VALUE_INPUT_VALIDWHEN = "@andromda.struts.view.field.validwhen";
     public static final String TAGGED_VALUE_EXCEPTION_TYPE = "@andromda.struts.exception.type";
-    public static final String TAGGED_VALUE_EXCEPTION_PATH = "@andromda.struts.exception.path";
-    public static final String TAGGED_VALUE_EXCEPTION_KEY = "@andromda.struts.exception.key";
 
     /* ----------------- Default Values ------------------- */
     public static final String TAGGED_VALUE_INPUT_DEFAULT_REQUIRED = "true";
@@ -33,9 +31,11 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_ACTION_TYPE_FORM = "form";
     public static final String TAGGED_VALUE_ACTION_DEFAULT_TYPE = TAGGED_VALUE_ACTION_TYPE_FORM;
 
-    public static final String TAGGED_VALUE_INPUT_TYPE_TEXTBLOCK = "textblock";
-    public static final String TAGGED_VALUE_INPUT_TYPE_CHOICE = "choice";
-    public static final String TAGGED_VALUE_INPUT_TYPE_OPTION = "option";
+    public static final String TAGGED_VALUE_INPUT_TYPE_TEXT = "text";
+    public static final String TAGGED_VALUE_INPUT_TYPE_TEXTAREA = "textarea";
+    public static final String TAGGED_VALUE_INPUT_TYPE_RADIO = "radio";
+    public static final String TAGGED_VALUE_INPUT_TYPE_CHECKBOX = "checkbox";
+    public static final String TAGGED_VALUE_INPUT_TYPE_HIDDEN = "hidden";
     public static final String TAGGED_VALUE_INPUT_TYPE_SELECT = "select";
     public static final String TAGGED_VALUE_INPUT_TYPE_PASSWORD = "password";
     public static final int TAGGED_VALUE_INPUT_TYPE_OPTION_DEFAULT_COUNT = 3;
