@@ -1,0 +1,27 @@
+<project xmlns:ant="jelly:ant">
+
+    <!-- ==================================================================
+             Installs all libraries in the local repository
+         ================================================================== -->
+    <postGoal name="xdoc">
+        <!-- copy over the online store example model -->
+        <ant:copy todir="${maven.docs.dest}">
+            <ant:fileset dir="../../samples/online-store/mda/src/uml"/>
+        </ant:copy>
+        <!-- we want to generate a pdf from the documentation -->
+        <attainGoal name="fo:fo"/>
+        <attainGoal name="pdf:pdf"/>
+    </postGoal>
+
+    <postGoal name="java:compile">
+        <ant:mkdir dir="${maven.build.dest}/resources/WEB-INF/lib"/>
+        <!-- Include the taglib code into the resources after compilation -->
+        <ant:copy file="${maven.repo.local}/${pom.groupId}/jars/andromda-breadcrumbs-taglib-${pom.currentVersion}.jar"
+            tofile="${maven.build.dest}/resources/WEB-INF/lib/andromda-breadcrumbs-taglib.jar"/>
+        <ant:copy file="${maven.repo.local}/${pom.groupId}/jars/andromda-formatting-taglib-${pom.currentVersion}.jar"
+            tofile="${maven.build.dest}/resources/WEB-INF/lib/andromda-formatting-taglib.jar"/>
+    </postGoal>
+
+</project>
+
+

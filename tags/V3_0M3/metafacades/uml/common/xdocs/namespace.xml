@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+  	<properties>
+    	<title>UML Metafacades Namespace</title>
+  	</properties>
+  	<body>
+    	<section name="UML Metafacade Namespace Properties">
+            <p>
+                This pages describes those namespace properties that 
+                configure different aspects of the UML Metafacades.
+            </p>
+            <p>
+                <strong>NOTE:</strong> each metafacade listed in the <em>Configures</em>
+                column applies to all metafacades specializing this metafacade as well (i.e.
+                languageMappingsUri will also apply to ClassifierFacade, sqlMappingsUri would
+                also apply to an EJBEntityFacade, etc).
+            </p>
+	      	<table>
+	        	<tr>
+		          	<th>Property</th>         	
+		          	<th>Description</th>       	
+                    <th>Configures</th>
+		          	<th>Required?</th>	   	 
+	        	</tr>
+	        	<tr>
+		          	<td>
+		          		languageMappingsUri
+		          	</td>
+		          	<td>
+		          		URI specifying the specific mappings from model types to language types. 
+		          		(i.e. <code>file:${basedir}/JavaMappings.xml</code>)
+		          	</td>
+                    <td>
+                        ModelElementFacade
+                    </td>
+		          	<td>
+		          		Yes
+		          	</td>		          	
+	        	</tr>		
+	        	<tr>
+		          	<td>
+		          		wrapperMappingsUri
+		          	</td>
+		          	<td>
+		          		URI specifying primitive type to wrapper types (i.e. 
+                        <code>int</code> -> <code>java.lang.Integer</code>)
+		          		(i.e. <code>file:${basedir}/JavaWrapperMappings.xml</code>)
+		          	</td>
+                    <td>
+                        ClassifierFacade
+                    </td>
+		          	<td>
+		          		Yes
+		          	</td>		          	
+	        	</tr>	
+	        	<tr>
+		          	<td>
+		          		sqlMappingsUri
+		          	</td>
+		          	<td>
+		          		URI specifying the mappings file to use for mapping from model types to SQL types 
+		          		for generated entities. 
+		          		(i.e. <code>file:${basedir}/Oracle9iMappings.xml</code>). 
+		          	</td>
+                    <td>
+                        EntityFacade
+                    </td>
+		          	<td>
+		          		Yes
+		          	</td>			          	
+	        	</tr>		        	  
+	        	<tr>
+		          	<td>
+		          		jdbcMappingsUri
+		          	</td>
+		          	<td>
+		          		URI specifying the mappings file to use for mapping from model types to JDBC types 
+		          		in the generated Entities (i.e. <code>file:${basedir}/JdbcMappings.xml</code>).  
+		          	</td>
+                    <td>
+                        EntityFacade
+                    </td>
+		          	<td>
+		          		Yes
+		          	</td>			          	
+	        	</tr>	
+	        	<tr>
+	        		<td>
+	        			maxSqlNameLength
+	        		</td>
+	        		<td>
+	        			The maximum length that a SQL name (such as a column name or 
+	        			table name) may be.  This is useful for databases that have a limit
+	        			on the lengh that a name used in DDL may be (like Oracle).  If you set 
+	        			this to <code>30</code> for example, then all names will be truncated 
+	        			after 30 characters when retrieveing the column name or table name.
+	        		</td>
+                    <td>
+                        EntityFacade
+                    </td>
+	        		<td>
+	        			Yes
+	        		</td>
+	        	</tr>
+                <tr>
+                    <td>
+                        tableNamePrefix
+                    </td>
+                    <td>
+                        The prefix to give all persistent entity table names.  For example
+                        if you had an entity named <em>Car</em> and you defined the tableNamePrefix
+                        as <em>My_</em>, then the table name for the <em>Car</em> entity would be 
+                        <em>My_Car</em>.
+                    </td>
+                    <td>
+                        No
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        foreignKeySuffix
+                    </td>
+                    <td>
+                        The suffix to use when creating foreign keys for entity associations.
+                    </td>
+                    <td>
+                        EntityAssociationEndFacade
+                    </td>
+                    <td>
+                        No, default is <code>_FK</code>
+                    </td>
+                </tr>
+				<tr>
+					<td>
+						allowDefaultIdentifiers
+					</td>
+					<td>
+						Specifies whether or not default identifiers should
+						be created for entities that do not have them 
+						modeled.  
+					</td>
+                    <td>
+                        EntityFacade
+                    </td>
+					<td>
+						No, default is <code>true</code>.
+					</td>
+				</tr> 	
+				<tr>
+					<td>
+						defaultIdentifier
+					</td>
+					<td>
+						The name to give default identifiers.
+					</td>
+                    <td>
+                        EntityFacade
+                    </td>
+					<td>
+						No, default is <code>id</code>.
+					</td>
+				</tr> 	
+				<tr>
+                    <a name="defaultIdentifierType"/>
+					<td>
+						defaultIdentifierType
+					</td>
+					<td>
+						The type to give default identifiers.
+					</td>
+                    <td>
+                        EntityFacade
+                    </td>
+					<td>
+						No, default is <code>datatype.Long</code>.
+					</td>
+				</tr> 	
+				<tr>
+					<td>
+						defaultIdentifierVisibility
+					</td>
+					<td>
+						The visibility to give default identifiers.
+					</td>
+                    <td>
+                        EntityFacade
+                    </td>
+					<td>
+						No, default is <code>public</code>.
+					</td>
+				</tr> 		
+                <tr>
+                    <td>
+                        pluralizeAssociationEndNames
+                    </td>
+                    <td>
+                        Turns on/off the pluralization of association ends with multiplicities 
+                        greater than one.  You'll want to turn off this feature if your model 
+                        is in a language other than english.
+                    </td>
+                    <td>
+                        AssociationEndFacade
+                    </td>
+                    <td>
+                        No, default is <code>true</code>.
+                    </td>
+                </tr>  
+                <tr>
+                    <td>
+                        roleNameMask
+                    </td>
+                    <td>
+                        Provides the ability to apply a mask to role names (roles are actors
+                        marked with the role stereotype:
+                        currently these are <strong>upperase</strong>, <strong>lowercase</strong>,
+                        <strong>nospace</strong>, <strong>camelcase</strong>, 
+                        and <strong>none</strong>.                        
+                    </td>
+                    <td>
+                        No, the default is <code>none</code>.
+                    </td>
+                </tr>     
+                <tr>
+                    <td>
+                        namespaceSeperator
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        No, the default is <code>'.'</code>.
+                    </td>
+                </tr> 	
+                <tr>
+                    <td>
+                        undefinedName
+                    </td>
+                    <td>
+                        When a model element name is unspecified this is
+                        the name used (instead of null).
+                    </td>
+                    <td>
+                        No, the default is <code>undefined</code>.
+                    </td>
+                </tr>
+            </table>
+    	</section>
+  	</body>
+</document>

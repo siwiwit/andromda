@@ -1,0 +1,43 @@
+maven.multiproject.type=pom
+
+maven.andromda.model.uri=file:${maven.src.dir}/uml/${projectNameNoWhitespace}Model.xmi
+maven.andromda.modelValidation=true
+
+# Defines the cartridge filter which allows you to specify only the cartridges,
+# that should be processed.
+maven.andromda.cartridgeFilter=${filter}
+
+# Define the output locations for the cartridge dependencies in the project.xml
+maven.andromda.core.generated.dir=${maven.src.dir}/../../core/target/src
+maven.andromda.core.manual.dir=${maven.src.dir}/../../core/src/java
+maven.andromda.core.config.dir=${maven.src.dir}/../../core/target/conf
+
+maven.andromda.web.generated.dir=${maven.src.dir}/../../web/target/src
+maven.andromda.web.manual.java.dir=${maven.src.dir}/../../web/src/java
+maven.andromda.web.manual.webapp.dir=${maven.src.dir}/../../web/src/webapp
+
+#if ($webservice)
+maven.andromda.webservice.generated.dir=${maven.src.dir}/../../webservice/target/src
+#end
+
+maven.andromda.common.generated.dir=${maven.src.dir}/../../common/target/src
+
+#if ($hibernate || $spring)
+#if ($hibernate)
+# The hibernate transaction manager to use.
+hibernate.transaction.manager.lookup=net.sf.hibernate.transaction.JBossTransactionManagerLookup
+#end
+hibernate.db.showSql=true
+#if ($spring)
+# The hibernate generator class to use for identifiers
+hibernate.generatorClass=native
+#end
+#end
+#if ($webservice)
+# The default provider for web services, note that this can 
+# be overridden on model element level
+default.provider=EJB
+
+# The address of the port type in the generated WSDL
+wsdl.soap.address=http://${service.host}:${service.port}/${pom.groupId}-ws/services
+#end

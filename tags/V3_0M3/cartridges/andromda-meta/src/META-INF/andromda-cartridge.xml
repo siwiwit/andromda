@@ -1,0 +1,55 @@
+<cartridge name="meta">
+
+    <!-- define the template objects that are made availble to the template -->
+    <templateObject name="str" className="org.apache.commons.lang.StringUtils"/>
+
+    <!-- this defines the metamodel version package name 
+    	(i.e. org.andromda.metafacades.uml14, org.andromda.metafacades.um20, etc)
+    	 used by this cartridge to create the generated impl package name, if
+    	 left empty then the impl package will be the same as the metafacade
+    	 package (therefore we default to an empty name) -->
+    <property reference="metamodelVersionPackage" default=""/>
+
+    <!-- the template definitions -->
+    <template
+        path="templates/MetafacadeLogic.vsl"
+        outputPattern="$generatedFile"
+        outlet="facade-logics"
+        overwrite="true">
+        <modelElements variable="metafacade">
+            <modelElement stereotype="metafacade"/>  
+        </modelElements>  
+    </template>
+
+    <template
+        path="templates/MetafacadeLogicImpl.vsl"
+        outputPattern="$generatedFile"
+        outlet="facade-logic-impls"
+        overwrite="false">
+        <modelElements variable="metafacade">
+            <modelElement stereotype="metafacade"/>  
+        </modelElements>  
+    </template>
+
+    <template
+        path="templates/Metafacade.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="facades"
+        overwrite="true">
+        <modelElements variable="metafacade">
+            <modelElement stereotype="metafacade"/>  
+        </modelElements>  
+    </template>
+    
+    <template
+        path="templates/MetafacadesToImpls.vsl"
+        outputPattern="metafacade-impls.properties"
+        outlet="facades-to-impls"
+        overwrite="true"
+        outputToSingleFile="true">
+        <modelElements variable="metafacades">
+            <modelElement stereotype="metafacade"/>  
+        </modelElements>  
+    </template>
+
+</cartridge>

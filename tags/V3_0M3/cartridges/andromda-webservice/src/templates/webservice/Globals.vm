@@ -1,0 +1,5 @@
+## Define the encoding style
+#set ($encodingStyle = "")
+#if ($service.use.equalsIgnoreCase('encoded'))
+#set ($encodingStyle = "http://schemas.xmlsoap.org/soap/encoding/")
+#end

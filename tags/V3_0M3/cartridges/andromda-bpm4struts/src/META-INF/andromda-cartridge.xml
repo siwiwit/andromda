@@ -1,0 +1,461 @@
+<cartridge name="bpm4struts">
+
+    <templateEngine>
+        <!-- library of macros used in template engine -->
+        <macrolibrary name="templates/StrutsJSP.vm"/>
+        <macrolibrary name="templates/StrutsAction.vm"/>
+        <!-- cartridge-macrolibrary merge-point-->
+    </templateEngine>
+
+    <!-- define the template objects that are made available to the template -->
+    <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
+    <templateObject name="bpmUtils" className="org.andromda.cartridges.bpm4struts.Bpm4StrutsUtils"/>
+    <!-- cartridge-templateObject merge-point-->
+
+    <!-- define template external properties -->
+    <property reference="security" default="false"/>
+    <property reference="xhtml" default="false"/>
+    <property reference="securityRealm" default="other"/>
+    <property reference="clientValidation" default="true"/>
+    <property reference="serverValidation" default="true"/>
+    <property reference="welcomeFileName" default="index.jsp"/>
+    <property reference="maxBreadCrumbs" default="5"/>
+    <property reference="dummyData" default="true"/>
+    <property reference="onlineHelp" default="true"/>
+    <property reference="hints" default="true"/>
+    <property reference="warningMessagesKey" default="org.andromda.bpm4struts.warningmessages"/>
+    <property reference="successMessagesKey" default="org.andromda.bpm4struts.successmessages"/>
+    <property reference="exceptionHandlerPattern" default="(.*)(\\{\\s*([\\w|\\.+]*)\\s*\\})(.*)"/>
+    <property reference="exceptionHandlerPackage" default="org.andromda.presentation.bpm4struts"/>
+    <property reference="validatorPackage" default="org.andromda.presentation.bpm4struts"/>
+    <property reference="errorMessagesKey" default="org.andromda.bpm4struts.errormessages"/>
+    <property reference="customResourcesKey" default="custom"/>
+    <!-- cartridge-property merge-point -->
+
+    <!-- copy resources -->
+    <resource
+        path="resources/*.*"
+        outputPattern="layout/{0}"
+        outlet="pages"
+        overwrite="true"/>
+        
+    <resource
+        path="resources/hints/*.*"
+        outputPattern="layout/hints/{0}"
+        outlet="pages"
+        overwrite="true"/>
+        
+    <resource
+        path="resources/calendar/*.*"
+        outputPattern="layout/calendar/{0}"
+        outlet="pages"
+        overwrite="true"/>
+
+    <resource
+        path="resources/WEB-INF/lib/*.jar"
+        outputPattern="lib/{0}"
+        outlet="configuration"
+        overwrite="true"/>
+     
+    <!-- cartridge-resource merge-point -->
+
+    <!-- process templates on model elements -->
+    <template
+        path="templates/StrutsAction.vsl"
+        outputPattern="$generatedFile"
+        outlet="actions"
+        overwrite="true">
+        <modelElements variable="action">
+            <modelElement stereotype="FrontEndEvent"/>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/StrutsPatternMatchingExceptionHandler.vsl"
+        outputPattern="$generatedFile"
+        outlet="actions"
+        overwrite="true"/>
+
+    <template
+        path="templates/StrutsActionJsp.vsl"
+        outputPattern="$generatedFile"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="false">
+        <modelElements variable="action">
+            <modelElement stereotype="FrontEndEvent"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsForm.vsl"
+        outputPattern="$generatedFile"
+        outlet="forms"
+        overwrite="true">
+        <modelElements variable="action">
+            <modelElement stereotype="FrontEndEvent"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsFormInterface.vsl"
+        outputPattern="$generatedFile"
+        outlet="forms"
+        overwrite="true">
+        <modelElements variable="operation">
+            <modelElement>
+                <type name="org.andromda.cartridges.bpm4struts.metafacades.StrutsControllerOperation">
+                    <property name="controller"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsController.vsl"
+        outputPattern="$generatedFile"
+        outlet="controller-impls"
+        overwrite="false">
+        <modelElements variable="controller">
+            <modelElement stereotype="FrontEndController">
+                <type name="org.andromda.cartridges.bpm4struts.metafacades.StrutsController">
+                    <!-- if this property is not present it's no use generating the controller -->
+                    <property name="useCase"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsControllerInterface.vsl"
+        outputPattern="$generatedFile"
+        outlet="controllers"
+        overwrite="true">
+        <modelElements variable="controller">
+            <modelElement stereotype="FrontEndController">
+                <type name="org.andromda.cartridges.bpm4struts.metafacades.StrutsController">
+                    <!-- if this property is not present it's no use generating the controller -->
+                    <property name="useCase"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsControllerFactory.vsl"
+        outputPattern="$generatedFile"
+        outlet="controllers"
+        overwrite="true">
+        <modelElements variable="controller">
+            <modelElement stereotype="FrontEndController">
+                <type name="org.andromda.cartridges.bpm4struts.metafacades.StrutsController">
+                    <!-- if this property is not present it's no use generating the controller -->
+                    <property name="useCase"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsSessionObject.vsl"
+        outputPattern="$generatedFile"
+        outlet="controllers"
+        overwrite="true">
+        <modelElements variable="sessionObject">
+            <modelElement stereotype="FrontEndSessionObject"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsJSP.vsl"
+        outputPattern="$generatedFile"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="jsp">
+            <modelElement stereotype="FrontEndView"/>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/StrutsJSPVariables.vsl"
+        outputPattern="$generatedFile"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="jsp">
+            <modelElement stereotype="FrontEndView"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsFormValidationStaticJavascript.vsl"
+        outputPattern="form-validation.jsp"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="false">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsFormValidationRules.vsl"
+        outputPattern="validator-rules.xml"
+        outlet="configuration"
+        overwrite="true"
+        generateEmptyFiles="false">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/StrutsValidator.vsl"
+        outputPattern="$generatedFile"
+        outlet="actions"
+        overwrite="true"/>
+
+    <template
+        path="templates/StrutsIndexJsp.vsl"
+        outputPattern="$welcomeFileName"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsMessageResources.vsl"
+        outputPattern="application-resources.properties"
+        outlet="messages"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsCustomMessageResources.vsl"
+        outputPattern="custom-resources.properties"
+        outlet="messages"
+        overwrite="false">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsWebXml.vsl"
+        outputPattern="web.xml"
+        outlet="configuration"
+        overwrite="true"
+        outputToSingleFile="true">
+        <modelElements>
+            <modelElement stereotype="FrontEndApplication" variable="applicationUseCases"/>
+            <modelElement stereotype="FrontEndController" variable="controllers"/>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/StrutsJbossWebXml.vsl"
+        outputPattern="jboss-web.xml"
+        outlet="configuration"
+        overwrite="true"/>
+    
+    <template
+        path="templates/StrutsLoginFormJsp.vsl"
+        outputPattern="login/login-form.jsp"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsMenuJsp.vsl"
+        outputPattern="layout/menu.jsp"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsMainLayoutJsp.vsl"
+        outputPattern="layout/main-layout.jsp"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsTilesDefs.vsl"
+        outputPattern="tiles-defs.xml"
+        outlet="configuration"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsConfigXml.vsl"
+        outputPattern="struts-config.xml"
+        outlet="configuration"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+<!--
+    <template
+        path="templates/StrutsMenuConfigXml.vsl"
+        outputPattern="menu-config.xml"
+        outlet="configuration"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+-->
+
+    <template
+        path="templates/StrutsValidationXml.vsl"
+        outputPattern="validation.xml"
+        outlet="configuration"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsApplicationCss.vsl"
+        outputPattern="layout/default-application.css"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsCss.vsl"
+        outputPattern="layout/default.css"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsJspCss.vsl"
+        outputPattern="$generatedFile"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="true">
+        <modelElements variable="page">
+            <modelElement stereotype="FrontEndView"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsMessagesJsp.vsl"
+        outputPattern="layout/messages.jsp"
+        outlet="pages"
+        overwrite="true">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsUsersProperties.vsl"
+        outputPattern="users.properties"
+        outlet="server"
+        overwrite="true"
+        required="false"
+        generateEmptyFiles="false">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsRolesProperties.vsl"
+        outputPattern="roles.properties"
+        outlet="server"
+        overwrite="true"
+        required="false"
+        generateEmptyFiles="false">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsCalendarJs.vsl"
+        outputPattern="layout/calendar-js.jsp"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="false"/>
+
+    <template
+        path="templates/StrutsCalendarJsp.vsl"
+        outputPattern="layout/calendar.jsp"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="false"/>
+
+    <template
+        path="templates/StrutsBreadCrumbsJsp.vsl"
+        outputPattern="layout/breadcrumbs.jsp"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="false"/>
+
+    <template
+        path="templates/StrutsJspIncludes.vsl"
+        outputPattern="taglib-imports.jspf"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="true"/>
+
+    <template
+        path="templates/StrutsJspHelp.vsl"
+        outputPattern="$generatedFile"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="false">
+        <modelElements variable="jsp">
+            <modelElement stereotype="FrontEndView"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsApplicationHelp.vsl"
+        outputPattern="application-help.jsp"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="false">
+        <modelElements variable="applicationUseCase">
+            <modelElement stereotype="FrontEndApplication"/>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/StrutsHelpLayoutJsp.vsl"
+        outputPattern="layout/help-layout.jsp"
+        outlet="pages"
+        overwrite="true"
+        generateEmptyFiles="false"/>
+        
+    <!-- cartridge-template merge-point -->
+
+</cartridge>

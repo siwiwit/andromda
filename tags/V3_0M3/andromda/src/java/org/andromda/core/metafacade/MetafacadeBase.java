@@ -1,0 +1,331 @@
+package org.andromda.core.metafacade;
+
+import java.util.Collection;
+
+import org.apache.commons.collections.Closure;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+/**
+ * Base class for all metafacades.
+ * 
+ * @author <a href="http://www.mbohlen.de">Matthias Bohlen </a>
+ * @author Chad Brandon
+ * @author Wouter Zoons
+ */
+public class MetafacadeBase
+{
+    private Object metaObject;
+    protected Logger logger;
+
+    public MetafacadeBase(
+        Object metaObject,
+        String context)
+    {
+        this.metaObject = metaObject;
+        this.context = context;
+    }
+
+    // ---------------- essential overrides -----------------------
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof MetafacadeBase)
+        {
+            MetafacadeBase that = (MetafacadeBase)obj;
+            return this.metaObject.equals(that.metaObject);
+        }
+        return false;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode()
+    {
+        return metaObject.hashCode();
+    }
+
+    /**
+     * Retrieves the <code>owner</code> of this metafacade (for example: an
+     * operation owns its parameters, a class owns its attributes).
+     * <p>
+     * By default <code>null</code> is returned, however this method is
+     * overridden by subclasses which have a <code>parent</code> or
+     * <code>owner</code>. This is used to give the model validation messages
+     * more context as to where the validation error occurred.
+     * </p>
+     * 
+     * @return the owner of this metafacade.
+     */
+    public Object getValidationOwner()
+    {
+        return null;
+    }
+
+    /**
+     * Retrieves the <code>name</code> of this metafacade used within the
+     * validation messages.
+     * <p>
+     * By default <code>null</code> is returned, however this method is
+     * overridden by subclasses model elements that do have a name.
+     * </p>
+     * 
+     * @return the owner of this metafacade.
+     */
+    public String getValidationName()
+    {
+        return null;
+    }
+
+    /**
+     * Validates that this facade's meta object is in a valid state.
+     * <p>
+     * Validate is called during metafacade creation by the factory. In the
+     * lifecycle of a metafacade it is validated only once, this is enforced by
+     * the caching within the metafacade factory.
+     * 
+     * @see MetafacadeFactory#internalCreateMetafacade(Object, String, Class)
+     * @param validationMessages any messages generated during validation.
+     */
+    public final void validate(Collection validationMessages)
+    {
+        this.validateInvariants(validationMessages);
+    }
+
+    /**
+     * <p>
+     * The logic of modeled OCL invariants from derived metafacades will be
+     * generated into this method and validation messages created and collected
+     * into the <code>messages</code> collection. This method is called by
+     * validate #validate().
+     * </p>
+     * <p>
+     * By default this method is empty.
+     * </p>
+     */
+    public void validateInvariants(Collection messages)
+    {}
+
+    /**
+     * A lifecycle method, providing the ability for sub classes to take any
+     * action after the factory has completely initialized a metafacade, but
+     * before it has been validated for completeness.
+     */
+    public void initialize()
+    {}
+
+    /**
+     * Returns one facade for a particular metaObject. Contacts the
+     * MetafacadeFactory to manufacture the proper metafacade. In certain cases
+     * <code>metaObject</code> can also be a metafacade instance; in that case
+     * the actual meta model element is retrieved from the metafacade and a
+     * metafacade is constructed from that.
+     * 
+     * @see MetafacadeFactory
+     * @param metaObject the underlying meta model element. A metafacade is
+     *        created for each.
+     * @return MetafacadeBase the facade
+     */
+    public MetafacadeBase shieldedElement(Object metaObject)
+    {
+        MetafacadeBase metafacade = null;
+        if (metaObject != null)
+        {
+            metafacade = MetafacadeFactory.getInstance().createMetafacade(
+                metaObject,
+                this.getContext());
+            // pass the context on to the metafacade created within this
+            // metafacade
+            metafacade.setContext(this.getContext());
+        }
+        return metafacade;
+    }
+
+    /**
+     * Returns a collection of facades for a collection of metaobjects. Contacts
+     * the MetafacadeFactory to manufacture the proper facades.
+     * 
+     * @see MetafacadeFactory
+     * @param metaobjects the objects to decorate
+     * @return Collection of MetafacadeBase-derived objects
+     */
+    public Collection shieldedElements(Collection metaobjects)
+    {
+        Collection metafacades = null;
+        if (metaobjects != null)
+        {
+            metafacades = MetafacadeFactory.getInstance().createMetafacades(
+                metaobjects,
+                this.getContext());
+            // pass the context on to all metafacades created by this metafacade
+            CollectionUtils.forAllDo(metafacades, new Closure()
+            {
+                public void execute(Object object)
+                {
+                    ((MetafacadeBase)object).setContext(getContext());
+                }
+            });
+        }
+        return metafacades;
+    }
+
+    /**
+     * Stores the context for this metafacade
+     */
+    private String context = null;
+
+    /**
+     * Gets the context for this metafacade.
+     * 
+     * @return the context name.
+     */
+    String getContext()
+    {
+        return this.context;
+    }
+
+    /**
+     * Sets the <code>context<code> for this metafacade.
+     * This is used by the {@link MetafacadeFactory} to set the context 
+     * during metafacade creation when a metafacade represents 
+     * a <code>contextRoot</code>.
+     * @param context the context class to set
+     * @see MetafacadeMapping#isContextRoot()
+     * @see MetafacadeFactory#internalCreateMetafacade(Object, String, Class)
+     */
+    void setContext(String context)
+    {
+        this.context = StringUtils.trimToEmpty(context);
+    }
+
+    /**
+     * Stores the property context for this metafacade.
+     */
+    private String propertyNamespace = null;
+
+    /**
+     * Gets the current property context for this metafacade. This is the
+     * context in which properties for this metafacade are stored.
+     * 
+     * @return the property namespace name
+     */
+    String getPropertyNamespace()
+    {
+        if (StringUtils.isEmpty(this.propertyNamespace))
+        {
+            this.propertyNamespace = this.constructPropertyNamespace(this
+                .getContext());
+        }
+        return this.propertyNamespace;
+    }
+
+    /**
+     * Constructs a property namespace name with the <code>context</code>
+     * argument and the current <code>namespace</code> of this metafacade.
+     * 
+     * @param context the context name with which to construct the name.
+     * @return the new property namespace name
+     */
+    private String constructPropertyNamespace(String context)
+    {
+        StringBuffer propertyNamespace = new StringBuffer();
+        propertyNamespace.append(this.getNamespace());
+        propertyNamespace.append(":");
+        propertyNamespace.append(context);
+        return propertyNamespace.toString();
+    }
+
+    /**
+     * Stores the namespace for this metafacade
+     */
+    private String namespace = null;
+
+    /**
+     * Gets the current namespace for this metafacade
+     * 
+     * @return String
+     */
+    String getNamespace()
+    {
+        return this.namespace;
+    }
+
+    /**
+     * Sets the namespace for this metafacade.
+     * 
+     * @param namespace
+     */
+    void setNamespace(String namespace)
+    {
+        this.namespace = namespace;
+    }
+
+    /**
+     * Returns true or false depending on whether the <code>property</code> is
+     * registered or not.
+     * 
+     * @param property the name of the property to check.
+     * @return true/false on whether or not its regisgterd.
+     */
+    protected boolean isConfiguredProperty(String property)
+    {
+        return MetafacadeFactory.getInstance().isPropertyRegistered(
+            this.getPropertyNamespace(),
+            property);
+    }
+
+    /**
+     * Gets a configured property from the container. Note that the configured
+     * property must be registered first.
+     * 
+     * @param property the property name
+     * @return Object the configured property instance (mappings, etc)
+     */
+    protected Object getConfiguredProperty(String property)
+    {
+        return MetafacadeFactory.getInstance().getRegisteredProperty(
+            this.getPropertyNamespace(),
+            property);
+    }
+
+    /**
+     * Attempts to set the property with <code>name</code> having the
+     * specified <code>value</code> on this metafacade.
+     */
+    protected void setProperty(String name, Object value)
+    {
+        MetafacadeFactory.getInstance().registerProperty(
+            this.getPropertyNamespace(),
+            name,
+            value);
+    }
+
+    /**
+     * Gets the current meta model object for this metafacade. This is used from
+     * {@link MetafacadeFactory}when attempting to construct a metafacade from
+     * a metafacade. This allows us to get the meta object for this metafacade
+     * so that the meta object can be used instead.
+     * 
+     * @return the underlying model's meta object instance.
+     */
+    Object getMetaObject()
+    {
+        return this.metaObject;
+    }
+
+    /**
+     * Package-local setter, called by facade factory. Sets the logger to use
+     * inside the facade's code.
+     * 
+     * @param logger the logger to set
+     */
+    void setLogger(Logger logger)
+    {
+        this.logger = logger;
+    }
+}
