@@ -34,7 +34,7 @@ public class DecoratorSmallTest1 extends TestCase implements TestModel
         {
             modelURL = new URL(TestModel.XMI_FILE_URL);
             repository = new MDRepositoryFacade();
-            repository.readModel(modelURL);
+            repository.readModel(modelURL, null);
             model = (UmlPackage) repository.getModel().getModel();
             DecoratorFactory df = DecoratorFactory.getInstance();
             df.setModel(model);
