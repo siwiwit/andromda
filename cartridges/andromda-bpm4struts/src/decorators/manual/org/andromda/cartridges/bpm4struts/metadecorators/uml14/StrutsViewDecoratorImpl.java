@@ -134,6 +134,21 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         return '/' + getFormBean().getPackageName().replace('.','/') + '/' + getName();
     }
 
+    public String getFullPackageName()
+    {
+        return getFormBean().getPackageName() + '.' + getName();
+    }
+
+    public String getFormBeanName()
+    {
+        return StringUtilsHelper.lowerCaseFirstLetter(getName());
+    }
+
+    public String getValidationMethodName()
+    {
+        return "validate" + StringUtilsHelper.upperCaseFirstLetter(getFormBeanName());
+    }
+
     // ------------- relations ------------------
     public ModelElement handleGetActionState()
     {
