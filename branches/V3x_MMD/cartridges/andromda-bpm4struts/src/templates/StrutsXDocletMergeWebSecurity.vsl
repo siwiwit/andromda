@@ -1,5 +1,6 @@
 #set ($useCases = $class.allUseCases)
 
+<!--
 #foreach ($useCase in $useCases)
   <security-constraint>
     <web-resource-collection>
@@ -34,3 +35,4 @@
       <form-error-page>/login-error.jsp</form-error-page>
     </form-login-config>
   </login-config>
+-->
