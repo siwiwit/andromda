@@ -3,7 +3,7 @@
 <project>
   	<extend>../../project.xml</extend>
   	<id>andromda-car-rental-system</id>
-  	<groupId>andromda</groupId>
+  	<groupId>andromda-samples</groupId>
   	<name>The Car Rental Sample</name>
   	<currentVersion>3.0-SNAPSHOT</currentVersion>
   	<shortDescription>The Car Rental Sample</shortDescription>

@@ -10,13 +10,13 @@
   	</description>
 	<dependencies>      
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-car-rental-sample-mda</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-car-rental-sample-common</artifactId>
 			<version>${pom.currentVersion}</version>
 		</dependency>

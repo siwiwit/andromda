@@ -3,7 +3,6 @@
 <project>
   	<extend>../project.xml</extend>
   	<id>andromda-animal-quiz-sample-common</id>
-  	<groupId>andromda</groupId>
   	<name>Animal Quiz Sample Common</name>
   	<shortDescription>The Animal Quiz Sample</shortDescription>
   	<description>
@@ -11,7 +10,7 @@
   	</description>
 	<dependencies>      
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-animal-quiz-sample-mda</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>pom</type>

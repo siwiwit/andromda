@@ -3,7 +3,6 @@
 <project>
   	<extend>../project.xml</extend>
   	<id>andromda-animal-quiz-sample-web</id>
-  	<groupId>andromda</groupId>
   	<name>Animal Quiz Sample Web</name>
   	<shortDescription>Animal Quiz Sample Web</shortDescription>
   	<description>
@@ -11,18 +10,18 @@
   	</description>
 	<dependencies>      
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-animal-quiz-sample-mda</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-animal-quiz-sample-common</artifactId>
 			<version>${pom.currentVersion}</version>
 		</dependency>
 		<dependency>
-			<groupId>andromda</groupId>
+			<groupId>andromda-samples</groupId>
 			<artifactId>andromda-animal-quiz-sample-hibernate-ejb</artifactId>
 			<version>${pom.currentVersion}</version>
 			<type>ejb</type>
