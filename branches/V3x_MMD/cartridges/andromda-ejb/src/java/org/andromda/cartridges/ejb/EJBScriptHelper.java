@@ -423,7 +423,7 @@ public class EJBScriptHelper extends UMLStaticHelper {
     public String getAttributesAsList(Collection attributes,
     		boolean includeTypes,
 			boolean includeNames) {
-    	if (!includeNames && !includeTypes) {
+    	if (!includeNames && !includeTypes || attributes == null) {
     		return "";
     	}
     	
@@ -456,7 +456,7 @@ public class EJBScriptHelper extends UMLStaticHelper {
         Collection retval = new ArrayList(list.size());
         for (Iterator iter = list.iterator(); iter.hasNext();) {
             ModelElement elem = (ModelElement)iter.next();
-            if (visibility.equals(((ModelElementDecorator)elem).getVisibility())) {
+            if (visibility.equals(((ModelElementDecorator)elem).getVisibility().toString())) {
                 retval.add(elem);
             }
         }
