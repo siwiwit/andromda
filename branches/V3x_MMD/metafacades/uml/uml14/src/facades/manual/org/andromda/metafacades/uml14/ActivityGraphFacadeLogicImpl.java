@@ -123,4 +123,9 @@ public class ActivityGraphFacadeLogicImpl
     {
         return metaObject.getContext();
     }
+
+    protected Collection handleGetTransitions()
+    {
+        return metaObject.getTransitions();
+    }
 }
