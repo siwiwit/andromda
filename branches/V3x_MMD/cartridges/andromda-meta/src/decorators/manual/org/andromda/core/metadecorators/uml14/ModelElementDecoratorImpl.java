@@ -121,9 +121,8 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
 	            if (StringUtils.trimToEmpty(element.getName()).equals(tagName))
 	            {
 	                return (
-	                    (TaggedValueDecorator) DecoratorFactory
-	                        .getInstance()
-	                        .createDecoratorObject(
+	                    (TaggedValueDecorator) 
+	                        this.decoratedElement(
 	                        element))
 	                    .getValue();
 	            }

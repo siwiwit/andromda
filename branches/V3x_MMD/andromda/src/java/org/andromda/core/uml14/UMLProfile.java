@@ -23,7 +23,7 @@ public class UMLProfile {
 	/**
 	 * Represents the primary key of an entity.
 	 */
-	public static final String STEREOTYPE_PRIMARY_KEY = "PrimaryKey";
+	public static final String STEREOTYPE_IDENTIFIER = "PrimaryKey";
 	
 	/**
 	 * Represents a service.
@@ -46,5 +46,20 @@ public class UMLProfile {
 	 * Represents a SQL type definition in the model.
 	 */
 	public static final String TAGGEDVALUE_PERSISTENCE_SQLTYPE = "andromda.persistence.SQLType";
+	
+	/**
+	 * Represents a SQL table name for entity persistence.
+	 */
+	public static final String TAGGEDVALUE_PERSISTENCE_TABLE = "andromda.persistence.table";
+	
+	/**
+	 * Represents a SQL table column name for entity persistence.
+	 */
+	public static final String TAGGEDVALUE_PERSISTENCE_COLUMN = "andromda.persistence.column";
+	
+	/**
+	 * Represents a SQL table column length
+	 */
+	public static final String TAGGEDVALUE_PERSISTENCE_COLUMN_LENGTH = "andromda.persistence.column.length";
 	
 }
