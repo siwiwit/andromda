@@ -85,11 +85,11 @@ public class ${class.name} extends Action
         // Validate the request parameters specified by the user
         ActionErrors errors = new ActionErrors();
 
-#foreach ( $assocLink in $class.associationLinks )
-    #set ($adata = $transform.getAssociationData($assocLink))
-#if ($adata.target.navigable == "true")
-#if ($adata.target.roleName == "form")
-    #set ($class2 = $adata.target.type)
+#foreach ( $associationEnd in $class.associationEnd )
+#set($target = $associationEnd.otherEnd)
+#if ($target.navigable)
+#if ($target.name == "form")
+    #set ($class2 = $target.type)
     #if ($class2)
         $class2.name myForm = ($class2.name) form;
     #end

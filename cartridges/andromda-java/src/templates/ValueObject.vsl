@@ -7,7 +7,7 @@ package $packagename;
 
 #macro ( generateDocumentation $item $indent)
 #foreach ( $tgv in $item.taggedValues )
-#if ($tgv.tag == "documentation")
+#if ($tgv.name == "documentation")
 #set ($paras = $tgv.formatHTMLStringAsParagraphs())
 #foreach ( $par in $paras )
 ${indent}*
@@ -24,11 +24,11 @@ ${indent}* </p>
 #generateDocumentation ($class " ")
  *
 #foreach ( $tgv in $class.taggedValues )
-#if ($tgv.tag != "documentation")
-#if ($tgv.tag == "---")
+#if ($tgv.name != "documentation")
+#if ($tgv.name == "---")
     #set ($tag = "")
 #else
-    #set ($tag = $tgv.tag)
+    #set ($tag = $tgv.name)
 #end
  * $tag    $tgv.value
 #end

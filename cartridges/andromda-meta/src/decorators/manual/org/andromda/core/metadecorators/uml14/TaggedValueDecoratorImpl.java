@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.andromda.core.common.HTMLAnalyzer;
+import org.apache.commons.lang.StringUtils;
+import org.omg.uml.foundation.core.TagDefinition;
 
 
         
@@ -29,25 +31,23 @@ public class TaggedValueDecoratorImpl extends TaggedValueDecorator
     // abstract in class TaggedValueDecorator ...
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.TaggedValueDecorator#getTag()
+     * @see org.andromda.core.metadecorators.uml14.ModelElement#getName()
      */
-    public java.lang.String getTag() {
-        String tgvName = metaObject.getName();
-            
-        // sometimes the tag name is on the TagDefinition
-        if ( (tgvName == null) && (metaObject.getType() != null) )
-        {
-            tgvName = metaObject.getType().getName();
-                
-            // sometimes it is the TagType
-            if (tgvName == null)
-            {
-                tgvName = metaObject.getType().getTagType();
-            }
-        }
-                    
-        return tgvName;
-    }
+	public String getName() {
+		String name = super.getName();
+		if (StringUtils.isEmpty(name)) {
+			TagDefinition type = this.metaObject.getType();
+			if (type != null) {
+				name = type.getName();
+				// sometimes it is the TagType
+				if (StringUtils.isEmpty(name)) {
+					name = type.getTagType();
+				}
+			}
+		}
+		return name;		
+	}
+
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.TaggedValueDecorator#getValue()

@@ -1,36 +1,20 @@
 #set ($packagename = $class.package.fullyQualifiedName)
 package $packagename;
 
-#macro ( generateDocumentation $item $indent)
-#foreach ( $tgv in $item.taggedValues )
-#if ($tgv.tag == "documentation")
-#set ($paras = $tgv.value.formatHTMLStringAsParagraphs())
-#foreach ( $par in $paras )
-${indent}*
-${indent}* <p>
-#foreach ( $line in $par.lines )
-${indent}* $line
-#end
-${indent}* </p>
-#end
-#end
-#end
-#end
-
 #set ($decoratedMetaclass = $transform.getMetaclass($class.metaObject))
 #set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
 
 /**
-#generateDocumentation ($class " ")
+$class.getDocumentation(" ")
  *
- * Metaclass decorator implementation for $decoratedMetaclassTypeName
+ * Metaclass decorator implementation for $decoratedMetacName
  *
 #foreach ( $tgv in $class.taggedValues )
-#if ($tgv.tag != "documentation")
-#if ($tgv.tag == "---")
+#if ($tgv.name != "documentation")
+#if ($tgv.name == "---")
     #set ($tag = "")
 #else
-    #set ($tag = $tgv.tag)
+    #set ($tag = $tgv.name)
 #end
  * $tag    $tgv.value
 #end
@@ -84,12 +68,12 @@ public class ${class.name}Impl extends ${class.name}
 #set ($targettype = $assocEnd.otherEnd.type)
 #set ($targettypename = $targettype.fullyQualifiedName)
 ##
-#set ($trn = $assocEnd.otherEnd.roleName)
+#set ($trn = $assocEnd.otherEnd.name)
 #set ($utrn = $str.upperCaseFirstLetter($trn))
 ##
 #if ($assocEnd.isOne2Many() || $assocEnd.isMany2Many())
    /**
-#generateDocumentation ($assocEnd.otherEnd "    ")
+$assocEnd.otherEnd.getDocumentation("    ")
 ##    * source navigable: $assocEnd.navigable
 ##    * target navigable: $assocEnd.otherEnd.navigable
     *
@@ -107,7 +91,7 @@ public class ${class.name}Impl extends ${class.name}
 #end
 #if ($assocEnd.isOne2One() || $assocEnd.isMany2One())
    /**
-#generateDocumentation ($assocEnd.otherEnd "    ")
+$assocEnd.otherEnd.getDocumentation("    ")
 ##    * source navigable: $assocEnd.source.navigable
 ##    * target navigable: $assocEnd.otherEnd.navigable
     *

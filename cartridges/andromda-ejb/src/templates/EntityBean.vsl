@@ -240,9 +240,10 @@ public abstract class ${entityname}Bean
 ## are accessible in the *BeanImpl class
 #if ($class.abstract)
 #foreach ( $assoc in $class.entityRelations) )
+#set ($target = $assoc.otherEnd)
 #if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
 #set ($assocname = $assoc.association.relationName)
-#set ($TargetRoleName = $assoc.otherEnd.name)
+#set ($targetRoleName = $assoc.otherEnd.name)
 #set ($targetTypeName = $assoc.relationType)
 
    /**
@@ -250,7 +251,7 @@ public abstract class ${entityname}Bean
 #remainingJavadocParagraphs($assoc.otherEnd "    ")
     * @ejb.interface-method 
     */
-    public abstract $targetTypeName get$TargetRoleName();
+    public abstract $targetTypeName ${target.getterName}();
 
    /**
     * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
@@ -258,17 +259,17 @@ public abstract class ${entityname}Bean
     * @ejb.interface-method 
 #end
     */
-    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.name});
+    public abstract void ${target.setterName}($targetTypeName ${assoc.otherEnd.name});
 #end
 #end ## foreach
 
 #end
 ## Generate the real CMR methods.
 #foreach ( $assoc in $class.allEntityRelations )
+#set ($target = $assoc.otherEnd)
 ## relations not flagged as CMR are generated below under business methods
 #if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
 #set ($assocname = $assoc.association.relationName)
-#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.name)})
 #set ($transactionType = $assoc.association.findTaggedValue("@andromda.ejb.transactionType"))
 #set ($targetTypeName = $assoc.relationType)
 
@@ -309,7 +310,7 @@ public abstract class ${entityname}Bean
 #end
 #end
     */
-    public abstract $targetTypeName get$TargetRoleName();
+    public abstract $targetTypeName ${target.getterName}();
 
    /**
     * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
@@ -320,7 +321,7 @@ public abstract class ${entityname}Bean
     * @ejb.transaction type="$transactionType"
 #end
     */
-    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.name});
+    public abstract void ${target.setterName}($targetTypeName ${assoc.otherEnd.name});
 #end
 #end ## foreach 
 
@@ -328,10 +329,10 @@ public abstract class ${entityname}Bean
 ## Generate business methods for relations flagged as non-CMR even when the class
 ## is abstract. That way, we can implement them in the base class
 #foreach ( $assoc in $class.entityRelations)
+#set ($target = $assoc.otherEnd)
 #if($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false")
 #set ($transactionType = $assoc.association.findTaggedValue("@andromda.ejb.transactionType"))
-#set ($targetTypeName = $assoc.relationType)
-#set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.name)})
+#set ($targetTypeName = $assoc.relationType))
 
    /**
     * Get #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
@@ -342,7 +343,7 @@ public abstract class ${entityname}Bean
     * @ejb.transaction type="$transactionType"
 #end
     */
-    public abstract $targetTypeName get$TargetRoleName();
+    public abstract $targetTypeName ${target.getterName}();
 
    /**
     * Set #firstJavadocParagraph(${assoc.otherEnd} "lower" "the ${assoc.otherEnd.name}")
@@ -351,7 +352,7 @@ public abstract class ${entityname}Bean
     * @ejb.transaction type="$transactionType"
 #end
     */
-    public abstract void set$TargetRoleName($targetTypeName ${assoc.otherEnd.name});
+    public abstract void ${target.setterName}($targetTypeName ${assoc.otherEnd.name});
 #end
 #end ## foreach 
 

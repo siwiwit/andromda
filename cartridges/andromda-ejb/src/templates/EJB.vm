@@ -12,7 +12,7 @@
 #macro ( firstJavadocParagraph $item $case $default)
 #set ( $parIter = false )
 #foreach ( $tgv in $item.taggedValues )
-#if ( $tgv.tag == "documentation" && !$parIter)
+#if ( $tgv.name == "documentation" && !$parIter)
 #set ($parIter = $tgv.formatHTMLStringAsParagraphs($tgv.value).iterator())
 #end
 #end
@@ -40,7 +40,7 @@ $text
 #macro ( remainingJavadocParagraphs $item $indent)
 #set ($skip = true)
 #foreach ( $tgv in $item.taggedValues )
-#if ($tgv.tag == "documentation")
+#if ($tgv.name == "documentation")
 #set ($paras = $tgv.formatHTMLStringAsParagraphs($tgv.value))
 #foreach ( $par in $paras )
 #if ($skip)
@@ -62,7 +62,7 @@ ${indent}* </p>
 ##
 #macro ( generateDocumentation $item $indent)
 #foreach ( $tgv in $item.taggedValues )
-#if ($tgv.tag == "documentation")
+#if ($tgv.name == "documentation")
 #set ($paras = $tgv.formatHTMLStringAsParagraphs($tgv.value))
 #foreach ( $par in $paras )
 ${indent}*
@@ -80,8 +80,8 @@ ${indent}* </p>
 ##
 #macro (copyTaggedValues $item $indent $exclude)
 #foreach ( $tgv in $class.taggedValues )
-#if ($tgv.tag.startsWith("@") && ! $exclude.contains($tgv.tag))
-${indent}* $tgv.tag $tgv.value
+#if ($tgv.name.startsWith("@") && ! $exclude.contains($tgv.name))
+${indent}* $tgv.name $tgv.value
 #end
 #end
 #end
