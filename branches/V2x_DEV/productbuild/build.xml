@@ -1,7 +1,7 @@
 <project name="AndroMDAAsAWholePackage" default="dist">
 
-    <property name="version" value="2.1.1" />
-    <property name="version.suffix" value="211" />
+    <property name="version" value="2.1.2" />
+    <property name="version.suffix" value="212" />
 
     <!-- ============================================================= -->
     <!--               Directory settings                              -->
