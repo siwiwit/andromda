@@ -1,3 +1,0 @@
-<%@ taglib uri="struts-html.tld" prefix="html" %>
-
-<html:javascript formName="${class.formName}" method="${class.formValidationMethodName}" dynamicJavascript="true" staticJavascript="false" htmlComment="false"/>
