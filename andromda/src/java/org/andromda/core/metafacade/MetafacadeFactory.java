@@ -271,8 +271,12 @@ public class MetafacadeFactory
         // org.andromda.core.metafacades.uml14.ClassifierFacadeLogicImpl
 
         String shortInterfaceName = ClassUtils.getShortClassName(interfaceName);
-        String metafacadeClassName = 
-        	"org.andromda.metafacades.uml14." + shortInterfaceName + "LogicImpl";
+        String metafacadeClassName = null;
+
+        if ("StrutsTransition".equals(shortInterfaceName))
+            metafacadeClassName = "org.andromda.cartridges.bpm4struts.metafacades.StrutsTransitionLogicImpl";
+        else
+        	metafacadeClassName = "org.andromda.metafacades.uml14." + shortInterfaceName + "LogicImpl";
         // End of temporary(!) string hack.
 
         try
