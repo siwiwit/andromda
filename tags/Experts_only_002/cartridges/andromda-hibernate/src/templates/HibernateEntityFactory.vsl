@@ -1,0 +1,102 @@
+/**
+ * Attention: Generated source! Do not modify by hand!
+ */
+ 
+package $class.packageName;
+
+/**
+ * <p>
+ * Factory class.
+ * Is able to find and create objects of type ${class.name}.
+ * Those can be described as follows:
+ * </p>
+$class.getDocumentation(" ")
+#foreach ( $tgv in $class.taggedValues )
+#if ($tgv.tag != "documentation")
+#if ($tgv.tag == "---")
+    #set ($tag = "")
+#else
+    #set ($tag = $tgv.tag)
+#end
+ * $tag    $tgv.value
+#end
+#end
+ *
+ */
+public abstract class ${class.name}Factory {
+
+   // ---------------- create method --------------------
+
+   /**
+    * Creates a(n) ${class.name} object.
+    *
+#foreach ( $att in $class.attributes)
+#if (!$att.identifier)
+    * @param ${att.name}
+#end
+#end
+    * @return ${class.name} the created object
+    */
+    public static ${class.name} create $class.getAttributesAsList(true, false)
+    {
+        ${class.name} object = new ${class.name}Impl();
+        
+#foreach ( $att in $class.attributes)
+#if (!$att.identifier)
+        object.${att.setterName} (${att.name});
+#end
+#end
+
+        return object;
+    }
+
+
+    // ---------------- finder methods  ----------------------
+
+#set ($primKey = $class.identifiers.iterator().next())
+#set ($primKeyTypeName = $primKey.type.fullyQualifiedName)
+    /**
+     *
+     * Finds ${class.name} object by its primary key.
+     * In Hibernate, this is just a call to load().
+     *
+     */
+    public static $class.name findByPrimaryKey (net.sf.hibernate.Session sess, $primKeyTypeName ${primKey.name})
+        throws net.sf.hibernate.HibernateException
+    {
+        ${class.name} object = (${class.name}) sess.load(${class.name}Impl.class, ${primKey.name});
+        return object;
+    }
+
+#foreach ( $finder in $class.finders)
+#set ($returntype = $finder.type.fullyQualifiedName)
+##
+#set ($parameterList = $finder.typedParameterList)
+#if ($parameterList.length() == 0)
+#set ($parameters = "net.sf.hibernate.Session sess")
+#else
+#set ($parameters = "net.sf.hibernate.Session sess, ${parameterList}")
+#end
+##
+    /**
+$finder.getDocumentation("    ")
+     *
+     * Finds ${class.name} object(s) using a query.
+     *
+     */
+    $finder.visibility static $returntype ${finder.name} ($parameters)
+        throws net.sf.hibernate.HibernateException
+    {
+        net.sf.hibernate.Query q = sess.createQuery("$querystring");
+##
+#foreach($prm in $finder.parameters)
+#set ($index = $velocityCount - 1) 
+		q.set${prm.type.name} (${index}, ${prm.name});
+#end
+##    
+        return q.list();
+    }
+
+#end##foreach operation
+
+}

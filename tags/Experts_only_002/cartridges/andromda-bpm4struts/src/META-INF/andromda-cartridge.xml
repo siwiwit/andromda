@@ -1,0 +1,54 @@
+<cartridge name="bpm4struts">
+
+    <property name="workflow" value="bpm4struts"/>
+
+    <stereotype name="FrontEndView"/>
+    <stereotype name="FrontEndModel"/>
+    <stereotype name="FrontEndController"/>
+
+    <outlet name="pages"/>
+    <outlet name="forms"/>
+    <outlet name="actions"/>
+    <outlet name="messages"/>
+
+    <template
+        stereotype="FrontEndController"
+        sheet="templates/StrutsMessageResources.vsl"
+        outputPattern="{0}/{1}.properties"
+        outlet="messages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndController"
+        sheet="templates/StrutsAction.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="actions"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndController"
+        sheet="templates/StrutsActionAbstract.vsl"
+        outputPattern="{0}/{1}Abstract.java"
+        outlet="actions"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndModel"
+        sheet="templates/StrutsForm.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="forms"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        stereotype="FrontEndView"
+        sheet="templates/StrutsJSP.vsl"
+        outputPattern="{0}/{1}.jsp"
+        outlet="pages"
+        overWrite="true"
+        transformClass="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+</cartridge>

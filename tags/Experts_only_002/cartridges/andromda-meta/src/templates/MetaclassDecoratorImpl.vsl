@@ -1,0 +1,126 @@
+#set ($packagename = $class.package.fullyQualifiedName)
+package $packagename;
+
+#macro ( generateDocumentation $item $indent)
+#foreach ( $tgv in $item.taggedValues )
+#if ($tgv.tag == "documentation")
+#set ($paras = $tgv.value.formatHTMLStringAsParagraphs())
+#foreach ( $par in $paras )
+${indent}*
+${indent}* <p>
+#foreach ( $line in $par.lines )
+${indent}* $line
+#end
+${indent}* </p>
+#end
+#end
+#end
+#end
+
+#set ($decoratedMetaclass = $transform.getMetaclass($class.metaObject))
+#set ($decoratedMetaclassTypeName = $decoratedMetaclass.fullyQualifiedName)
+
+/**
+#generateDocumentation ($class " ")
+ *
+ * Metaclass decorator implementation for $decoratedMetaclassTypeName
+ *
+#foreach ( $tgv in $class.taggedValues )
+#if ($tgv.tag != "documentation")
+#if ($tgv.tag == "---")
+    #set ($tag = "")
+#else
+    #set ($tag = $tgv.tag)
+#end
+ * $tag    $tgv.value
+#end
+#end
+ *
+ */
+public class ${class.name}Impl extends ${class.name}
+{
+    // ---------------- constructor -------------------------------
+    
+    public ${class.name}Impl ($decoratedMetaclassTypeName metaObject)
+    {
+        super (metaObject);
+    }
+
+    // -------------------- business methods ----------------------
+
+    // concrete business methods that were declared
+    // abstract in class ${class.name} ...
+
+#foreach ( $op in $class.operations)
+#set ($msig = $op.signature)
+#set ($returnTypeName = $op.type.fullyQualifiedName)
+#if ($defaultException)
+    $op.visibility $returnTypeName ${msig}
+        throws $defaultException.name {
+#else
+    $op.visibility $returnTypeName ${msig} {
+#end
+        // TODO: put your implementation here.
+#if ("void" != $returnTypeName)
+
+        // Dummy return value, just that the file compiles
+#if (!$op.type.primitiveType)
+        return null;
+#elseif ("boolean" == $returnTypeName)
+        return false;
+#else
+        return ($returnTypeName)0;
+#end
+#end
+    }
+
+#end
+    // ------------- relations ------------------
+    
+#foreach ( $assocEnd in $class.associationEnds )
+#if ($assocEnd.otherEnd.navigable)
+##
+#set ($sourcetype = $assocEnd.type)
+#set ($targettype = $assocEnd.otherEnd.type)
+#set ($targettypename = $targettype.fullyQualifiedName)
+##
+#set ($trn = $assocEnd.otherEnd.roleName)
+#set ($utrn = $str.upperCaseFirstLetter($trn))
+##
+#if ($assocEnd.isOne2Many() || $assocEnd.isMany2Many())
+   /**
+#generateDocumentation ($assocEnd.otherEnd "    ")
+##    * source navigable: $assocEnd.navigable
+##    * target navigable: $assocEnd.otherEnd.navigable
+    *
+    */
+#set ($returnType = "java.util.Collection")
+## if the association end is 'ordered', then return a List
+#if ($assocEnd.ordered)
+#set ($returnType = "java.util.List")
+#end
+    public $returnType handleGet${utrn}()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+#end
+#if ($assocEnd.isOne2One() || $assocEnd.isMany2One())
+   /**
+#generateDocumentation ($assocEnd.otherEnd "    ")
+##    * source navigable: $assocEnd.source.navigable
+##    * target navigable: $assocEnd.otherEnd.navigable
+    *
+    */
+    public org.omg.uml.foundation.core.ModelElement handleGet${utrn}()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+#end
+
+    // ------------------------------------------------------------
+
+#end
+#end
+}
