@@ -12,10 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import org.andromda.cartridges.interfaces.CartridgeDescriptor;
-import org.andromda.cartridges.interfaces.CartridgeException;
-import org.andromda.cartridges.interfaces.IAndroMDACartridge;
-import org.andromda.cartridges.mgmt.CartridgeDictionary;
+import org.andromda.cartridges.interfaces.AndroMDACartridge;
 import org.andromda.cartridges.mgmt.CartridgeFinder;
 import org.andromda.core.common.CodeGenerationContext;
 import org.andromda.core.common.ModelFacade;
@@ -23,8 +20,8 @@ import org.andromda.core.common.ModelPackage;
 import org.andromda.core.common.ModelPackages;
 import org.andromda.core.common.Namespace;
 import org.andromda.core.common.Namespaces;
+import org.andromda.core.common.Property;
 import org.andromda.core.common.RepositoryFacade;
-import org.andromda.core.common.RepositoryReadException;
 import org.andromda.core.common.StdoutLogger;
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
@@ -71,7 +68,7 @@ public class AndroMDAGenTask extends MatchingTask
     /**
      *  the file to get the velocity properties file
      */
-    private File velocityPropertiesFile = null;
+    private File templateEnginePropertiesFile = null;
 
     /**
      * A Packages object which specify
@@ -98,14 +95,14 @@ public class AndroMDAGenTask extends MatchingTask
     private URL modelURL = null;
 
     /**
-     * Default properties for the Velocity scripting engine.
+     * Default properties for the VelocityTemplateEngine scripting engine.
      */
-    private Properties velocityProperties;
+    private Properties templateEngineProperties;
 
     /**
      * Dictionary of installed cartridges, searchable by stereotype.
-     */
-    private CartridgeDictionary cartridgeDictionary;
+     *
+    private CartridgeDictionary cartridgeDictionary;*/
 
     /**
      * <p>
@@ -156,12 +153,12 @@ public class AndroMDAGenTask extends MatchingTask
      *  directory, then the path would be relative to this directory.</p> <p>
      *
      *
-     *@param  velocityPropertiesFile  a <code>File</code> with the path to the
+     *@param  templateEnginePropertiesFile  a <code>File</code> with the path to the
      *      velocity properties file
      */
-    public void setVelocityPropertiesFile(File velocityPropertiesFile)
+    public void setTemplateEnginePropertiesFile(File templateEnginePropertiesFile)
     {
-        this.velocityPropertiesFile = velocityPropertiesFile;
+        this.templateEnginePropertiesFile = templateEnginePropertiesFile;
     }
 
     /**
@@ -180,12 +177,12 @@ public class AndroMDAGenTask extends MatchingTask
 
     /**
      *  <p>
+     *  Add a property specified as a nested tag in the ant build script.
+     * </p>
      *
-     *  Add a user property specified as a nested tag in the ant build script.</p>
-     *
-     *@param  up  the UserProperty that ant already constructed for us
+     *@param  up  the Property that ant already constructed for us
      */
-    public void addUserProperty(UserProperty up)
+    public void addUserProperty(Property up)
     {
         userProperties.add(up);
     }
@@ -219,8 +216,15 @@ public class AndroMDAGenTask extends MatchingTask
                 baseDir = this.getProject().resolveFile(".");
             }
 
-            initVelocityProperties();
-            List cartridges = initCartridges();
+            initTemplateEngineProperties();
+
+            List cartridges = CartridgeFinder.findCartridges();
+
+            if (cartridges.size() <= 0)
+            {
+                StdoutLogger.warn(
+                    "WARNING! No cartridges found, check your classpath!");
+            }
 
             createRepository().createRepository().open();
 
@@ -242,7 +246,7 @@ public class AndroMDAGenTask extends MatchingTask
                         try
                         {
                             modelURL = inFile.toURL();
-                            process(modelURL);
+                            process(modelURL, cartridges);
                         }
                         catch (MalformedURLException mfe)
                         {
@@ -259,13 +263,7 @@ public class AndroMDAGenTask extends MatchingTask
             else
             {
                 // get the model via URL
-                process(modelURL);
-            }
-
-            for (Iterator iter = cartridges.iterator(); iter.hasNext();)
-            {
-                IAndroMDACartridge cart = (IAndroMDACartridge) iter.next();
-                cart.shutdown();
+                process(modelURL, cartridges);
             }
 
             createRepository().createRepository().close();
@@ -286,22 +284,20 @@ public class AndroMDAGenTask extends MatchingTask
     }
 
     /**
-     * Initializes the Velocity properties. This will tell
-     * Velocity that the AndroMDA templates can be found using the classpath.
+     * Loads and initializes the TemplateEngine properties.
      * 
-     * @see org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
      * @throws BuildException
      */
-    private void initVelocityProperties() throws BuildException
+    private void initTemplateEngineProperties() throws BuildException
     {
         boolean hasProperties = false;
-        velocityProperties = new Properties();
+        templateEngineProperties = new Properties();
 
-        if (velocityPropertiesFile == null)
+        if (templateEnginePropertiesFile == null)
         {
             // We directly change the user variable, because it
             // shouldn't lead to problems
-            velocityPropertiesFile = new File("velocity.properties");
+            templateEnginePropertiesFile = new File("velocity.properties");
         }
 
         FileInputStream fis = null;
@@ -309,8 +305,8 @@ public class AndroMDAGenTask extends MatchingTask
         {
             // We have to reload the properties every time in the
             // (unlikely?) case that another task has changed them.
-            fis = new FileInputStream(velocityPropertiesFile);
-            velocityProperties.load(fis);
+            fis = new FileInputStream(templateEnginePropertiesFile);
+            templateEngineProperties.load(fis);
             hasProperties = true;
         }
         catch (FileNotFoundException fnfex)
@@ -339,60 +335,10 @@ public class AndroMDAGenTask extends MatchingTask
         }
     }
 
-    /**
-     * Initialize the cartridge system. Discover all installed cartridges and
-     * register them in the cartridge dictionary.
-     */
-    private List initCartridges() throws BuildException
+    private void process(URL url, Collection cartridges) throws BuildException
     {
-        try
-        {
-            List cartridges = CartridgeFinder.findCartridges();
-
-            if (cartridges.size() <= 0)
-            {
-                StdoutLogger.warn(
-                    "WARNING! No cartridges found, check configuration!");
-            }
-            else
-            {
-                cartridgeDictionary = new CartridgeDictionary();
-                for (Iterator cartridgeIterator = cartridges.iterator();
-                    cartridgeIterator.hasNext();
-                    )
-                {
-                    IAndroMDACartridge cartridge =
-                        (IAndroMDACartridge) cartridgeIterator.next();
-
-                    cartridge.init(velocityProperties);
-
-                    List stereotypes =
-                        cartridge.getDescriptor().getSupportedStereotypes();
-                    for (Iterator stereotypeIterator =
-                        stereotypes.iterator();
-                        stereotypeIterator.hasNext();
-                        )
-                    {
-                        String stType = (String) stereotypeIterator.next();
-                        cartridgeDictionary.addCartridge(stType, cartridge);
-                    }
-                }
-            }
-            return cartridges;
-        }
-        catch (IOException e)
-        {
-            throw new BuildException(e);
-        }
-        catch (Exception e)
-        {
-            throw new BuildException(e);
-        }
-
-    }
-
-    private void process(URL url) throws BuildException
-    {
+        final String methodName = "AndroMDAGenTask.process";
+        
         CodeGenerationContext context = null;
 
         try
@@ -414,32 +360,34 @@ public class AndroMDAGenTask extends MatchingTask
                     lastModifiedCheck,
                     packages,
                     userProperties);
-
-            // process all model elements
-            Collection elements = model.getModelElements();
-            StdoutLogger.debug(
-                "Model elements read --> '" + elements.size() + "'");
-            for (Iterator it = elements.iterator(); it.hasNext();)
+            for (Iterator cartridgeIt = cartridges.iterator(); cartridgeIt.hasNext();) 
             {
-                processModelElement(context, it.next());
+                AndroMDACartridge cartridge = (AndroMDACartridge)cartridgeIt.next();
+                
+                Namespace namespace = 
+                    Namespaces.instance().findNamespace(
+                    	cartridge.getDescriptor().getCartridgeName());
+                
+                // make sure we ignore the cartridge if the namespace
+                // is set to 'ignore'
+                if (namespace != null && !namespace.isIgnore()) 
+                {
+                    cartridge.init(templateEngineProperties);
+                    cartridge.processModelElements(context);
+                    cartridge.shutdown();
+                }
             }
             repository.close();
         }
-        catch (FileNotFoundException fnfe)
+        catch (Throwable th)
         {
+            String errMsg = "Error performing " + methodName + 
+                " with model --> '" 
+                + modelURL + "'";
+            logger.error(errMsg, th);
             throw new BuildException(
-                "Model file not found --> '" + modelURL + "'");
-        }
-        catch (IOException ioe)
-        {
-            throw new BuildException(
-                "Exception encountered while processing model --> '"
-                    + modelURL
-                    + "'");
-        }
-        catch (RepositoryReadException mdre)
-        {
-            throw new BuildException(mdre);
+                errMsg, th);
+            
         }
     }
 
@@ -457,119 +405,6 @@ public class AndroMDAGenTask extends MatchingTask
             if (logger.isDebugEnabled())
                 logger.debug("adding namespace --> '" + namespace + "'");
             Namespaces.instance().addNamespace(namespace);
-        }
-    }
-
-    /**
-     * <p>Processes one type (e.g. class, interface or datatype) but possibly
-     * with several templates.</p>
-     *
-     *@param  mdr              Description of the Parameter
-     *@param  modelElement     Description of the Parameter
-     *@throws  BuildException  if something goes wrong
-     */
-    private void processModelElement(
-        CodeGenerationContext context,
-        Object modelElement)
-        throws BuildException
-    {
-        String name = context.getModelFacade().getName(modelElement);
-
-        if (logger.isDebugEnabled())
-            if (!"org.omg.uml.foundation.core.Comment$Impl"
-                .equals(modelElement.getClass().getName()))
-                logger.debug("processModelElement: name=" + name);
-
-        Collection stereotypeNames =
-            context.getModelFacade().getStereotypeNames(modelElement);
-
-        for (Iterator i = stereotypeNames.iterator(); i.hasNext();)
-        {
-            String stereotypeName = (String) i.next();
-
-            processModelElementStereotype(
-                context,
-                modelElement,
-                stereotypeName);
-        }
-
-    }
-
-    /**
-     * Generate code from a model element, using exactly one of its stereotypes.
-     * 
-     * @param context the context for the code generation
-     * @param modelElement the model element
-     * @param stereotypeName the name of the stereotype
-     * @throws BuildException if something goes wrong
-     */
-    private void processModelElementStereotype(
-        CodeGenerationContext context,
-        Object modelElement,
-        String stereotypeName)
-        throws BuildException
-    {
-        String name = context.getModelFacade().getName(modelElement);
-        if (logger.isDebugEnabled())
-            logger.debug(
-                "processModelElementStereotype: <<"
-                    + stereotypeName
-                    + ">> "
-                    + name);
-        Collection suitableCartridges =
-            cartridgeDictionary.lookupCartridges(stereotypeName);
-        // @todo: lookup cartridges not only by stereotype 
-        // but also by properties which come from the tagged 
-        // values of the model element. This is to find those
-        // cartridges that support the proper architectural aspect.
-
-        if (suitableCartridges == null)
-        {
-            if (logger.isDebugEnabled())
-                logger.debug(
-                    "processModelElementStereotype: <<"
-                        + stereotypeName
-                        + ">> "
-                        + name
-                        + " --> no cartridge");
-            return;
-        }
-
-        if (logger.isDebugEnabled())
-            logger.debug(
-                "processModelElementStereotype: found "
-                    + suitableCartridges.size()
-                    + " suitable cartridges");
-
-        for (Iterator iter = suitableCartridges.iterator();
-            iter.hasNext();
-            )
-        {
-            IAndroMDACartridge cartridge = (IAndroMDACartridge) iter.next();
-
-            // lookup the namespace for the cartridge and see if its set to
-            // ignore and if so, skip processing
-            CartridgeDescriptor descriptor = cartridge.getDescriptor();
-            boolean ignoreCartridge = false;
-            if (descriptor != null) {
-                Namespace namespace = 
-                    Namespaces.instance().findNamespace(descriptor.getCartridgeName());
-                ignoreCartridge = namespace != null && namespace.isIgnore();
-            }
-            
-            if (!ignoreCartridge) {
-                try
-                {
-                    cartridge.processModelElement(
-                        context,
-                        modelElement,
-                        stereotypeName);
-                }
-                catch (CartridgeException e)
-                {
-                    throw new BuildException(e);
-                }
-            }
         }
     }
 

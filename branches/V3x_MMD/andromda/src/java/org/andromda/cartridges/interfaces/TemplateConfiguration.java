@@ -49,7 +49,7 @@ public class TemplateConfiguration
     }
 
     /**
-     * Tells us which Velocity stylesheet to use as a template.
+     * Tells us which VelocityTemplateEngine stylesheet to use as a template.
      * @param sheet points to the script
      */
     public void setSheet(String sheet)
@@ -58,7 +58,7 @@ public class TemplateConfiguration
     }
 
     /**
-     * Tells us which Velocity stylesheet to use as a template.
+     * Tells us which VelocityTemplateEngine stylesheet to use as a template.
      * @return File points to the script
      */
     public String getSheet()
@@ -145,6 +145,28 @@ public class TemplateConfiguration
     {
         return generateEmptyFiles;
     }
+    
+    /**
+     * If output to single file is <code>true</code>
+     * then all model elements found by the processor (i.e.
+     * all those having matching stereotypes) will be 
+     * output to one file.
+     * 
+     * @return Returns the outputToSingleFile.
+     */
+    public boolean isOutputToSingleFile() 
+    {
+        return outputToSingleFile;
+    }
+    /**
+     * @param outputToSingleFile The outputToSingleFile to set.
+     * 
+     * @see isOutputToSingleFile()
+     */
+    public void setOutputToSingleFile(boolean outputToSingleFile) 
+    {
+        this.outputToSingleFile = outputToSingleFile;
+    }
 
     /**
      * Returns the fully qualified output file, that means:
@@ -199,5 +221,6 @@ public class TemplateConfiguration
     private String outlet;
     private boolean overwrite;
     private boolean generateEmptyFiles;
+    private boolean outputToSingleFile = false;
 
 }

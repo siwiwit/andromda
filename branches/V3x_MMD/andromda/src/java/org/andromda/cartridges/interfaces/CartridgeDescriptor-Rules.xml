@@ -103,6 +103,10 @@
 	 			<alias attr-name="outputToEmptyFiles" prop-name="outputToEmptyFiles" />
 	 		</set-properties-rule> 	 	
 	 		
+			<set-properties-rule>
+	 			<alias attr-name="outputToSingleFile" prop-name="outputToSingleFile" />
+	 		</set-properties-rule> 	 
+	 		
 			<pattern value="stereotype">
 
 				<call-method-rule

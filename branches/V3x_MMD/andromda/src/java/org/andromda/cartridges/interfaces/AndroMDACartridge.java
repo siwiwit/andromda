@@ -11,13 +11,16 @@ import org.andromda.core.common.CodeGenerationContext;
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * 
  */
-public interface IAndroMDACartridge
+public interface AndroMDACartridge
 {
     /**
      * Initializes the cartridge.
-     * @param velocityProperties the properties to use when initializing the Velocity engine
+     * @param templateEngineProperties the properties to use when initializing 
+     * the TemplateEngine
+     * 
+     * @see org.andromda.core.templateengine.TemplateEngine
      */
-    public void init (Properties velocityProperties)
+    public void init (Properties templateEngineProperties)
         throws Exception;
 
     /**
@@ -37,23 +40,19 @@ public interface IAndroMDACartridge
      * Sets the descriptor data of this particular cartridge. Used by cartridge
      * manager.
      * 
-     * @param d the new cartridge descriptor
+     * @param descriptor the new cartridge descriptor
      * 
      */
-    public void setDescriptor(CartridgeDescriptor d);
-
+    public void setDescriptor(CartridgeDescriptor descriptor);
+    
     /**
-     * Generates code for one model element.
+     * Processes all model elements with relevant stereotypes
+     * by retrieving the model elements from the model facade
+     * contained within the <code>context</code>.
      * 
-     * @param context the code generation context
-     * @param modelElement the model element to generate code for
-     * @param stereotypeName the name of the stereotype that selected the model
-     * element
-     * @throws CartridgeException if something goes wrong
+     * @param context the context containing the ModelFacade 
+     *        (amoung other things).
      */
-    public void processModelElement(
-        CodeGenerationContext context,
-        Object modelElement,
-        String stereotypeName)
-        throws CartridgeException;
+    public void processModelElements(CodeGenerationContext context);
+    
 }

@@ -21,7 +21,7 @@ public class ExceptionUtils {
     	String methodExecuteName, 
     	String argumentName,
     	Object argument) {
-    	String methodName = "checkNull";
+    	final String methodName = "ExceptionUtils.checkNull";
     	if (StringUtils.isEmpty(methodExecuteName)) {
     		throw new IllegalArgumentException(methodName + 
     			" - methodExecuteName can not be null or an empty String");
@@ -50,7 +50,7 @@ public class ExceptionUtils {
 		String methodExecuteName, 
 		String argumentName,
 		String argument) {
-		String methodName = "checkEmpty";
+		final String methodName = "ExceptionUtils.checkEmpty";
 		if (StringUtils.isEmpty(methodExecuteName)) {
 			throw new IllegalArgumentException(methodName + 
 				" - methodExecuteName can not be null or an empty String");
@@ -66,5 +66,45 @@ public class ExceptionUtils {
 				" - '" + argumentName + "' can not be null or an empty String");
 		}
 	}
+    
+    /**
+     * Checks if the argumentClass is assignable to assignableToClass, and if
+     * not throws an IllegalArgumentException, otherwise does nothing.
+     * @param methodExecuteName the method name of the method, 
+     *         this method is being executed within
+     * @param assignableToClass the Class that argumentClass must be assignable to
+     * @param argumentClass the argumentClass we are checking
+     * @param argumentName the name of the argument we are checking
+     */
+    public static void checkAssignable(
+        String methodExecuteName,
+        Class assignableToClass,
+        String argumentName,
+        Class argumentClass) {
+        final String methodName = "ExceptionUtils.checkAssignable";
+        if (StringUtils.isEmpty(methodExecuteName)) {
+            throw new IllegalArgumentException(methodName + 
+                " - methodExecuteName can not be null or an empty String");
+        }
+        if (assignableToClass == null) {
+            throw new IllegalArgumentException(methodName + 
+                " - assignableToClass can not be null");
+        }  
+        if (argumentClass == null) {
+            throw new IllegalArgumentException(methodName + 
+                " - argumentClass can not be null");
+        } 
+        if (StringUtils.isEmpty(argumentName)) {
+            throw new IllegalArgumentException(methodName + 
+                " - argumentName can not be null or an empty String");
+        }       
+        
+        //this is what the method is for
+        if (!assignableToClass.isAssignableFrom(argumentClass)) {
+            throw new IllegalArgumentException("methodName: " + methodExecuteName +
+            " - '" + argumentName + "' class --> '" + argumentClass 
+            + "' must be assignable to class --> '" + assignableToClass + "'"); 
+        }
+    }
    
 }

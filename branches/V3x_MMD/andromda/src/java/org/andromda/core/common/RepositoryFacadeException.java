@@ -3,17 +3,18 @@ package org.andromda.core.common;
 import java.lang.reflect.Method;
 
 /**
- * An exception thrown whenever an error is encountered while parsing meta data.
+ * An exception thrown whenever an error is encountered while performing
+ * processing RepositoryFacade processing.
  * 
  * @author    <A HREF="http://www.amowers.com">Anthony Mowers</A>
  */
-public final class RepositoryReadException extends Exception
+public final class RepositoryFacadeException extends RuntimeException
 {
 
 	/**
 	 *  Constructor for the MetaDataReadException object
 	 */
-	public RepositoryReadException()
+	public RepositoryFacadeException()
 	{
 		super();
 	}
@@ -23,7 +24,7 @@ public final class RepositoryReadException extends Exception
 	 *
 	 *@param  message  describes cause of the exception
 	 */
-	public RepositoryReadException(String message)
+	public RepositoryFacadeException(String message)
 	{
 		super(message);
 	}
@@ -34,7 +35,7 @@ public final class RepositoryReadException extends Exception
 	 *@param  message  describes cause of the exception
 	 *@param  cause  original exception that caused this exception
 	 */
-	public RepositoryReadException(String message, Throwable cause)
+	public RepositoryFacadeException(String message, Throwable cause)
 	{
 		super(message + ": " + cause.getMessage());
 		myInitCause(cause);
@@ -66,7 +67,7 @@ public final class RepositoryReadException extends Exception
 	static {
 		try
 		{
-			Class myClass = RepositoryReadException.class;
+			Class myClass = RepositoryFacadeException.class;
 			initCauseMethod =
 				myClass.getMethod("initCause", new Class[] { Throwable.class });
 		}

@@ -10,10 +10,10 @@ import javax.jmi.model.MofPackage;
 import javax.jmi.reflect.RefPackage;
 import javax.jmi.xmi.MalformedXMIException;
 
+import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.RepositoryFacade;
-import org.andromda.core.common.RepositoryReadException;
-import org.andromda.core.uml14.UMLModelFacade;
+import org.andromda.core.common.RepositoryFacadeException;
 import org.apache.log4j.Logger;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRManager;
@@ -28,11 +28,21 @@ import org.netbeans.api.xmi.XMIReaderFactory;
  * @author <A HREF="httplo://www.amowers.com">Anthony Mowers</A>
  */
 public class MDRepositoryFacade implements RepositoryFacade
-{
-	
+{	
 	private static Logger logger = Logger.getLogger(MDRepositoryFacade.class);
 	
     protected final static String META_PACKAGE = "UML";
+    
+    /**
+     * TODO: this is just temporary, once MDR stuff is moved
+     * out of core into its own model, we'll make this
+     * be a META-INF/service in the org.andromda.core.common.ModelFacade
+     * file
+     */
+    private static final String DEFAULT_MODEL_FACADE = 
+        "org.andromda.metafacades.uml14.UMLModelFacade";
+    
+    private ModelFacade modelFacade = null;
 
     static {
         // configure MDR to use an in-memory storage implementation
@@ -90,7 +100,7 @@ public class MDRepositoryFacade implements RepositoryFacade
      * @see org.andromda.core.common.RepositoryFacade#readModel(java.net.URL, java.lang.String[])
      */
     public void readModel(URL modelURL, String[] moduleSearchPath)
-        throws RepositoryReadException, IOException
+        throws RepositoryFacadeException, IOException
     {
     	if (logger.isDebugEnabled())
     		logger.debug("creating repository");
@@ -108,13 +118,13 @@ public class MDRepositoryFacade implements RepositoryFacade
         }
         catch (CreationFailedException cfe)
         {
-            throw new RepositoryReadException(
+            throw new RepositoryFacadeException(
                 "unable to create metadata repository",
                 cfe);
         }
         catch (MalformedXMIException mxe)
         {
-            throw new RepositoryReadException("malformed XMI data", mxe);
+            throw new RepositoryFacadeException("malformed XMI data", mxe);
         }
         finally {
         }
@@ -152,7 +162,19 @@ public class MDRepositoryFacade implements RepositoryFacade
      */
     public ModelFacade getModel()
     {
-        return new UMLModelFacade(this.model);
+        if (this.modelFacade == null) 
+        {
+            try {
+            	this.modelFacade = (ModelFacade)
+                    ClassUtils.loadClass(DEFAULT_MODEL_FACADE).newInstance();
+            	this.modelFacade.setModel(this.model);
+            } catch (Throwable th) {
+            	String errMsg = "Error performing getModel";
+                logger.error(errMsg, th);
+                throw new RepositoryFacadeException(errMsg, th);
+            }
+        }
+        return this.modelFacade;
     }
 
     /**

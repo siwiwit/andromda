@@ -8,7 +8,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 /**
- * Tests the direct interpretation of a string by Velocity.
+ * Tests the direct interpretation of a string by VelocityTemplateEngine.
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  */
 public class VelocityScriptTest extends TestCase

@@ -1,38 +1,28 @@
 package org.andromda.cartridges.interfaces;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.io.Writer;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.andromda.core.anttasks.UserProperty;
 import org.andromda.core.common.CodeGenerationContext;
+import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Namespaces;
+import org.andromda.core.common.OutputUtils;
 import org.andromda.core.common.Property;
 import org.andromda.core.common.StdoutLogger;
 import org.andromda.core.metafacade.MetafacadeFactory;
-import org.apache.commons.collections.ExtendedProperties;
-import org.apache.log4j.Appender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Level;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogSystem;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 /**
  * Default implementation of standard AndroMDA cartridge behaviour.
@@ -40,63 +30,38 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
  * 
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author Chad Brandon
- *
  */
-public class DefaultAndroMDACartridge implements IAndroMDACartridge
+public class DefaultAndroMDACartridge implements AndroMDACartridge
 {
     private CartridgeDescriptor desc = null;
-
-    private VelocityEngine ve = null;
+    
+    private CodeGenerationContext context;
 
     private Logger logger = null;
-
+    
     /**
-     * <p>This class receives log messages from Velocity and
-     * forwards them to the concrete logger that is configured
-     * for this cartridge.</p>
-     * 
-     * <p>This avoids creation of one large Velocity log file
-     * where errors are difficult to find and track.</p>
-     * 
-     * <p>Error messages can now be traced to cartridge activities.</p>
+     * This is the name of the model element made available to the
+     * template if <code>outputToSingleFile</code> is false.
      */
-    private class VelocityLoggingReceiver implements LogSystem
-    {
-        /* (non-Javadoc)
-         * @see org.apache.velocity.runtime.log.LogSystem#init(org.apache.velocity.runtime.RuntimeServices)
-         */
-        public void init(RuntimeServices arg0) throws Exception
-        {
-        }
-
-        /* (non-Javadoc)
-         * @see org.apache.velocity.runtime.log.LogSystem#logVelocityMessage(int, java.lang.String)
-         */
-        public void logVelocityMessage(int level, String message)
-        {
-            switch (level)
-            {
-                case LogSystem.WARN_ID :
-                    logger.warn(message);
-                    break;
-                case LogSystem.INFO_ID :
-                    logger.info(message);
-                    break;
-                case LogSystem.DEBUG_ID :
-                    logger.debug(message);
-                    break;
-                case LogSystem.ERROR_ID :
-                    logger.error(message);
-                    break;
-                default :
-                    logger.debug(message);
-                    break;
-            }
-        }
+    private static final String TEMPLATE_VARIABLE_SINGLE_ELEMENT = "class";
+    
+    /**
+     * This is the name of the Collection of model elements made available 
+     * to the template if <code>outputToSingleFile</code> is true.
+     */
+    private static final String TEMPLATE_VARIABLE_ALL_ELEMENTS = "classes";
+    
+    public DefaultAndroMDACartridge() {
+        this.resetLogger();   
     }
+    
+    /**
+     * Cache for saving previous found model elements.
+     */
+    private Map elementCache = new HashMap();
 
     /**
-     * @see org.andromda.cartridges.interfaces.IAndroMDACartridge#getDescriptor()
+     * @see org.andromda.cartridges.interfaces.AndroMDACartridge#getDescriptor()
      */
     public CartridgeDescriptor getDescriptor()
     {
@@ -104,282 +69,153 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
     }
 
     /**
-     * @see org.andromda.cartridges.interfaces.IAndroMDACartridge#setDescriptor(org.andromda.cartridges.interfaces.CartridgeDescriptor)
+     * @see org.andromda.cartridges.interfaces.AndroMDACartridge#setDescriptor(org.andromda.cartridges.interfaces.CartridgeDescriptor)
      */
     public void setDescriptor(CartridgeDescriptor d)
     {
         this.desc = d;
     }
-
+    
     /**
-     * <p>
-     * Processes one model element with exactly one stereotype.
-     * May be called several times for the same model element
-     * because since UML 1.4, a model element can have multiple
-     * stereotypes.
-     * </p>
-     *
-     * @param  context         context for code generation
-     * @param  modelElement    the model element for which code should be
-     *                         generated
-     * @param  stereotypeName  name of the stereotype which should trigger code
-     *                         generation
+     * @see org.andromda.cartridges.interfaces.AndroMDACartridge#processModelElements(org.andromda.core.common.CodeGenerationContext)
      */
-    public void processModelElement(
-        CodeGenerationContext context,
-        Object modelElement,
-        String stereotypeName)
-    {
-        MetafacadeFactory df = MetafacadeFactory.getInstance();
-        String previousNamespace = df.getActiveNamespace();
-
-        df.setActiveNamespace(getDescriptor().getCartridgeName());
-
-        df.setModel(context.getModelFacade());
-
-        try
-        {
-            // set the stdout logger to the cartridge name so we can see 
-            // which cartridge is processing it from the stdout
-            StdoutLogger.setLogger(this.getDescriptor().getCartridgeName());
-            internalProcessModelElement(
-                context,
-                modelElement,
-                stereotypeName);
-            StdoutLogger.reset();
-        }
-        finally
-        {
-            df.setActiveNamespace(previousNamespace);
-        }
-    }
-
-    private void internalProcessModelElement(
-        CodeGenerationContext context,
-        Object modelElement,
-        String stereotypeName)
-    {
-        String packageName =
-            context.getModelFacade().getPackageName(modelElement);
-
-        //if the package name shouldn't be processed,
-        //skip it.
-        if (!context.getModelPackages().shouldProcess(packageName))
-        {
+    public void processModelElements(CodeGenerationContext context) {
+        final String methodName = "DefaultAndroMDACartridge.processModelElements";
+        ExceptionUtils.checkNull(methodName, "context", context);
+            
+        this.context = context;
+        
+        CartridgeDescriptor descriptor = 
+            this.getDescriptor();
+        
+        Collection templates = 
+            descriptor.getTemplateConfigurations();
+        
+        if (templates == null || templates.isEmpty()) {
             return;
         }
-
-        List templates = getDescriptor().getTemplateConfigurations();
-        for (Iterator it = templates.iterator(); it.hasNext();)
-        {
-            TemplateConfiguration tc = (TemplateConfiguration) it.next();
-            if (tc.getStereotypes().contains(stereotypeName))
-            {
-
-                processModelElementWithOneTemplate(
-                    context,
-                    modelElement,
-                    tc);
-            }
-        }
-    }
-
-    /**
-     * <p>
-     * Processes one model element with exactly one template script.
-     * </p>
-     *
-     * @param  context         context for code generation
-     * @param  modelElement    the model element for which code should be
-     *                         generated
-     * @param  styleSheetName  name of the Velocity style sheet
-     * @param  outFile         file to which to write the output
-     * @param  generateEmptyFile flag, tells whether to generate empty
-     *                         files or not.
-     */
-    private void processModelElementWithOneTemplate(
-        CodeGenerationContext context,
-        Object modelElement,
-        TemplateConfiguration tc)
-    {
-        final String modelElementName =
-            context.getModelFacade().getName(modelElement);
-        try
-        {
-            if (logger.isDebugEnabled())
-                logger.debug("");
-            logger.debug(
-                "------------------- Processing model element >>"
-                    + modelElementName
-                    + "<< using template "
-                    + tc.getSheet());
-
-            internalProcessModelElementWithOneTemplate(
-                context,
-                modelElement,
-                tc);
-        }
-        finally
-        {
-            if (logger.isDebugEnabled())
-                logger.debug(
-                    "------------------- Finished processing model element >>"
-                        + modelElementName
-                        + "<< using template "
-                        + tc.getSheet());
-        }
-    }
-
-    private void internalProcessModelElementWithOneTemplate(
-        CodeGenerationContext context,
-        Object modelElement,
-        TemplateConfiguration tc)
-    {
-        String modelElementName =
-            context.getModelFacade().getName(modelElement);
-        String packageName =
-            context.getModelFacade().getPackageName(modelElement);
-
-        Writer writer = null;
-        ByteArrayOutputStream content = null;
-
-        content = new ByteArrayOutputStream();
-        writer = new OutputStreamWriter(content);
-
-        VelocityContext velocityContext = new VelocityContext();
-
-        try
-        {
-            // put some objects into the velocity context
-
-            // TODO: this has to be optimized so that decorators are not created each time we come here!!!
-            Object model = context.getModelFacade().getModel();
-            MetafacadeFactory factory = MetafacadeFactory.getInstance();
-
-            velocityContext.put("model", factory.createMetafacade(model));
-            velocityContext.put(
-                "class",
-                factory.createMetafacade(modelElement));
-
-            // add any template objects to the context now
-            Map templateObjects = this.getDescriptor().getTemplateObjects();
-            if (templateObjects != null && !templateObjects.isEmpty())
-            {
-                Iterator templateObjectIt =
-                    templateObjects.keySet().iterator();
-                while (templateObjectIt.hasNext())
-                {
-                    String name = (String) templateObjectIt.next();
-                    velocityContext.put(name, templateObjects.get(name));
+        
+        MetafacadeFactory factory = MetafacadeFactory.getInstance();
+        
+        factory.setModel(context.getModelFacade());
+        
+        String previousNamespace = factory.getActiveNamespace();
+        factory.setActiveNamespace(descriptor.getCartridgeName());
+        
+        Iterator templateIt = templates.iterator();
+        while (templateIt.hasNext()) {
+            
+            TemplateConfiguration template = (TemplateConfiguration)templateIt.next();
+            Collection stereotypes = template.getStereotypes();
+            if (stereotypes != null && !stereotypes.isEmpty()) {
+                
+                Collection templateModelElements = new ArrayList();         
+                Iterator stereotypeIt = stereotypes.iterator();
+                while (stereotypeIt.hasNext()) {
+                    String stereotype = (String)stereotypeIt.next();                            
+                    Collection modelElements = (Collection)this.elementCache.get(stereotype);
+                    if (modelElements == null) {
+                        modelElements = context.getModelFacade().findByStereotype(stereotype);
+                        elementCache.put(stereotype, modelElements);
+                    }
+                                    
+                    templateModelElements.addAll(
+                            MetafacadeFactory.getInstance().createMetafacades(modelElements));                
                 }
+                
+                // filter out the model elements which shouldn't be processed
+                this.filterModelPackages(templateModelElements);
+                
+                processModelElements(
+                    template,
+                    templateModelElements,
+                    context);
+                
             }
+            
+        }        
+        
+        //set the context back
+        factory.setActiveNamespace(previousNamespace);
+    }
+    
+    /**
+     * Processes all <code>modelElements</code> for this template.
+     * 
+     * @param template the TemplateConfiguration object from which we process.
+     * @param modelElements the model elements to process.
+     * @param context the context for the cartridge
+     */
+    protected void processModelElements(
+        TemplateConfiguration template,
+        Collection modelElements, 
+        CodeGenerationContext context) {
+        final String methodName = "DefaultAndroMDACartridge.processModelElements";
 
-            addUserPropertiesToContext(
-                velocityContext,
-                context.getUserProperties());
-
-            // get the template to process
-            Template template = ve.getTemplate(tc.getSheet());
-
-            // Process the VSL template with the context and write out
-            // the result as the outFile.
-            template.merge(velocityContext, writer);
-
-            writer.flush();
-            writer.close();
+        if (logger.isDebugEnabled()) {
+        	logger.debug("performing " 
+                + methodName 
+                + " with template '" 
+                + template 
+                + "' modelElements '" 
+                + modelElements 
+                + "' and context ' " 
+                + context + "'");
         }
-        catch (Throwable th)
-        {
-            try
-            {
-                writer.flush();
-                writer.close();
-            }
-            catch (Exception e2)
-            {
-            }
-            String errMsg = "Error processing velocity script on --> '" 
-                + modelElementName + "'";
+        
+        if (modelElements != null && !modelElements.isEmpty()) {
 
-            logger.error(errMsg, th);
+            File outFile = null;
+            
+            CartridgeDescriptor descriptor = 
+                this.getDescriptor();
+            
+            Property outletProperty = 
+                Namespaces.instance().findNamespaceProperty(
+                        descriptor.getCartridgeName(), template.getOutlet());
+            
+            if (outletProperty != null && !outletProperty.isIgnore()) {
+                
+                String outputLocation = outletProperty.getValue();
+                        
+                try {       
+                
+                    long modelLastModified = context.getRepository().getLastModified();
+                    
+                    // send all model elements to one template since we are writing
+                    // to one file.
+                    if (template.isOutputToSingleFile()) {  
+                                
+                        // get rid of any duplicates (since we're outputting to
+                        // one file)
+                        modelElements = new HashSet(modelElements);
+                        this.processWithTemplate(
+                                template,
+                                modelElements,
+                                outletProperty,
+                                null,
+                                null);
+                                            
+                    } else {
+                        
+                        // process these model elements one at a time,
+                        // output a file for each
+                        Iterator modelElementIt = modelElements.iterator();
+                        while (modelElementIt.hasNext()) {
+    
+                            Object modelElement = modelElementIt.next();
 
-            throw new CartridgeException(errMsg, th);
-        }
-
-        // Handle file generation/removal if no files should be generated for
-        // empty output.
-        File outFile;
-
-        // find the outlet property that contains the location 
-        // to which the files will be generated.
-        Property property =
-            Namespaces.instance().findNamespaceProperty(
-                desc.getCartridgeName(),
-                tc.getOutlet());
-
-        // don't process if the outlet property is set to ignore (or its null)
-        if (property != null && !property.isIgnore())
-        {
-            if (tc.getOutputPattern().charAt(0) == '$')
-            {
-                outFile =
-                    outputFileFromVelocityContext(
-                        velocityContext,
-                        tc,
-                        property.getValue());
-            }
-            else
-            {
-                outFile =
-                    outputFileFromTemplateConfig(
-                        modelElementName,
-                        packageName,
-                        tc,
-                        property.getValue());
-            }
-
-            if (outFile != null)
-            {
-                byte[] result = content.toByteArray();
-                if (result.length > 0 || tc.isGenerateEmptyFiles())
-                {
-                    try
-                    {
-                        long modelLastModified =
-                            context.getRepository().getLastModified();
-
-                        // do not overwrite already generated file,
-                        // if that is a file that the user wants to edit.
-                        boolean writeOutputFile =
-                            !outFile.exists() || tc.isOverwrite();
-                        // only process files that have changed
-                        if (writeOutputFile
-                            && (!context.isLastModifiedCheck()
-                                || modelLastModified
-                                    > outFile.lastModified()))
-                        {
-                            ensureDirectoryFor(outFile);
-                            OutputStream out =
-                                new FileOutputStream(outFile);
-                            out.write(result);
-                            out.flush();
-                            out.close();
-                            logger.info("Output: " + outFile);
-                            StdoutLogger.info("Output: " + outFile);
+                            this.processWithTemplate(
+                                    template,
+                                    modelElement,
+                                    outletProperty,
+                                    context.getModelFacade().getName(modelElement),
+                                    context.getModelFacade().getPackageName(modelElement));
                         }
                     }
-                    catch (Throwable th)
-                    {
-                        String errMsg = "Error writing output file "
-                                + outFile.getName();
-                        StdoutLogger.error(th);
-                        throw new CartridgeException(errMsg,th);
-                    }
-                }
-                else
-                {
-                    if (outFile.exists())
-                    {
+                } catch (Throwable th) {
+                    if (outFile != null && outFile.exists()) {
+                        outFile.delete();
                         if (!outFile.delete())
                         {
                             logger.error(
@@ -389,11 +225,146 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                                 "Error removing output file "
                                     + outFile.getName());
                         }
-                        logger.info("Removed: " + outFile);
-                        StdoutLogger.info("Removed: " + outFile);
+                        logger.info("Removed --> '" + outFile + "'");
+                        StdoutLogger.info("Removed --> '" + outFile + "'");
                     }
+                    String errMsg = "Error performing " + methodName;
+                    if (MalformedURLException.class.isAssignableFrom(th.getClass())) {
+                        errMsg = "ERROR! '" + th.getMessage() 
+                        + "' Not a valid outputDirectory URI --> '" 
+                        + outputLocation + "' for cartridge '" + outletProperty.getValue()
+                        + "', please check configuration";
+                    }
+                    logger.error(errMsg, th);
+                    throw new CartridgeException(errMsg, th);
                 }
             }
+        }
+    }
+    
+    /**
+     * <p>
+     * Perform processing with the <code>template</code>.
+     * </p>
+     *
+     * @param template the TemplateConfiguration containing the template
+     *        sheet to process.
+     * @param variable the variable for which code should be generated.  It will
+     *        be either a single model element, or a collection of model elements
+     *        depending (if <code>outputToSingleFile</code> is set to true).
+     * @param outletProperty the property defining the outlet to which output
+     *        will be written.
+     * @param modelElementName the name of the model element (if we are processing
+     *        a single model element, otherwise this will be ignored).
+     * @param modelElementPackage the name of the package (if we are processing
+     *        a single model element, otherwise this will be ignored).
+     */
+    private void processWithTemplate(
+        TemplateConfiguration template,
+        Object variable,
+        Property outletProperty,
+        String modelElementName,
+        String modelElementPackage) {
+        
+        final String methodName = "DefaultAndroMDACartridge.processWithTemplate";
+        ExceptionUtils.checkNull(methodName, "variable", variable);
+        ExceptionUtils.checkNull(methodName, "outletProperty", outletProperty);
+
+        // by default we'll assume we're processing with
+        // one model element (as opposed to a collection)
+        String variableName = TEMPLATE_VARIABLE_SINGLE_ELEMENT;
+        if (Collection.class.isAssignableFrom(variable.getClass())) {
+            variableName = TEMPLATE_VARIABLE_ALL_ELEMENTS;
+        }
+        
+        File outFile = null;
+        try {
+
+            Map templateNamespace = new HashMap();
+            
+            // put the model element(s) into the context.           
+            templateNamespace.put(variableName, variable);
+            
+            // add regular properties to the template context
+            this.addPropertiesToContext(
+                templateNamespace, 
+                context.getUserProperties());
+            
+            // add all the TemplateObject objects to the template context
+            templateNamespace.putAll(this.getDescriptor().getTemplateObjects());
+
+            StringWriter output = new StringWriter();
+            
+            // process the template with the set TemplateEngine
+            this.getDescriptor().getTemplateEngine().processTemplate(
+                template.getSheet(), 
+                templateNamespace, 
+                output);
+            
+            if (template.getOutputPattern().charAt(0) == '$')
+            {
+                outFile = outputFileFromTemplateEngineContext(
+                    template, 
+                    outletProperty.getValue());
+            }
+            else
+            {
+                outFile =
+                    this.outputFileFromTemplateConfig(
+                            modelElementName,
+                            modelElementPackage,
+                            template,
+                            outletProperty.getValue());
+            }     
+            
+            if (outFile != null) {
+                
+                // do not overWrite already generated file,
+                // if that is a file that the user needs to edit
+                boolean writeOutputFile = !outFile.exists() || template.isOverwrite();
+                
+                long modelLastModified = context.getRepository().getLastModified();
+                
+                // only process files that have changed
+                if (writeOutputFile && 
+                        (!context.isLastModifiedCheck()|| 
+                                modelLastModified > outFile.lastModified())) {
+                 
+                    String outputString = output.toString();
+                    
+                    StdoutLogger.setLogger(this.getDescriptor().getCartridgeName());
+                    //check to see if generateEmptyFiles is true and if outString (when CLEANED)
+                    //isn't empty.
+                    if (StringUtils.trimToEmpty(outputString).length() > 0 || template.isGenerateEmptyFiles()) {
+                        OutputUtils.writeStringToFile(outputString, outFile, true);
+                        StdoutLogger.info("Output: '" + outFile.toURI() + "'");
+                    } else {
+                        StdoutLogger.info("Empty Output: '" + outFile.toURI() + "' --> not writing");
+                    }
+                    StdoutLogger.reset();
+                }
+           
+            }
+        } catch (Throwable th) {
+
+            logger.info("Removed: " + outFile);
+            StdoutLogger.info("Removed: " + outFile);
+            
+            // by default we'll assume we're processing with
+            // one model element (as opposed to a collection)
+            String variableType = "modelElement";
+
+            if (Collection.class.isAssignableFrom(variable.getClass())) {
+                variableType = "modelElements";         
+            }            
+            
+            String errMsg = "Error performing " + methodName 
+                + " with " + variableName + " '" 
+                + variable 
+                + "' and cartridge '" 
+                + this.getDescriptor().getCartridgeName() + "'";
+            logger.error(errMsg, th);
+            throw new CartridgeException(errMsg, th);
         }
     }
 
@@ -411,8 +382,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         String packageName,
         TemplateConfiguration tc,
         String outputLocation)
-    {
-
+    {        
         return tc.getFullyQualifiedOutputFile(
             modelElementName,
             packageName,
@@ -420,159 +390,96 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
     }
 
     /**
-     * Creates a File object from a variable in a Velocity context.
+     * Creates a File object from a variable in a TemplateEngine context.
      * 
-     * @param velocityContext the context
-     * @param tc the template configuration 
-     * @return File the output file
+     * @param template the template configuration 
+     * @return outputLocation the location to which the file will be output.
      */
-    private File outputFileFromVelocityContext(
-        VelocityContext velocityContext,
-        TemplateConfiguration tc,
+    private File outputFileFromTemplateEngineContext(
+        TemplateConfiguration template,
         String outputLocation)
     {
-        try
-        {
-            StringWriter writer = new StringWriter();
+        String fileName = 
+            this.getDescriptor().getTemplateEngine().getEvaluatedExpression(
+            template.getOutputPattern());
 
-            ve.evaluate(
-                velocityContext,
-                writer,
-                "mylogtag",
-                tc.getOutputPattern());
-
-            return new File(outputLocation, writer.getBuffer().toString());
-        }
-        catch (Throwable th)
-        {
-            String errMsg = "Error building file name from Velocity expression";
-            logger.error(errMsg, th);
-            throw new CartridgeException(errMsg, th);
-        }
+        return new File(outputLocation, fileName);
     }
-
+    
     /**
-     * Takes all the UserProperty values that were defined in the ant build.xml
-     * ile and adds them to the Velocity context.
+     * Takes all the Property values that were defined in the ant build.xml
+     * file and adds them to the template context.
      *
-     * @param  context  the Velocity context
-     * @param  userProperties the user properties
+     * @param  context  the template context
+     * @param  properties the user properties
      */
-    private void addUserPropertiesToContext(
-        VelocityContext context,
-        Collection userProperties)
+    private void addPropertiesToContext(
+        Map context,
+        Collection properties)
     {
-        for (Iterator it = userProperties.iterator(); it.hasNext();)
+        for (Iterator it = properties.iterator(); it.hasNext();)
         {
-            UserProperty up = (UserProperty) it.next();
-            context.put(up.getName(), up.getValue());
+            Property property = (Property) it.next();
+            context.put(property.getName(), property.getValue());
         }
     }
 
     /**
-     * <p>
-     *  Creates  directories as needed.
-     * </p>
-     *
-     *@param  targetFile a <code>File</code> whose parent directories need to
-     *                   exist
-     *@exception CartridgeException if the parent directories couldn't be created
+     * @see org.andromda.cartridges.interfaces.AndroMDACartridge#init(java.util.Properties)
      */
-    private void ensureDirectoryFor(File targetFile)
-        throws CartridgeException
+    public void init(Properties templateEngineProperties) throws Exception
     {
-        File directory = new File(targetFile.getParent());
-        if (!directory.exists())
-        {
-            if (!directory.mkdirs())
-            {
-                throw new CartridgeException(
-                    "Unable to create directory: "
-                        + directory.getAbsolutePath());
-            }
-        }
+        this.getDescriptor().getTemplateEngine().init(
+            this.getDescriptor().getCartridgeName(),
+            templateEngineProperties);
     }
-
+    
     /**
-     * @see org.andromda.cartridges.interfaces.IAndroMDACartridge#init(Properties)
-     */
-    public void init(Properties velocityProperties) throws Exception
-    {
-        initLogger();
-
-        ve = new VelocityEngine();
-
-        // Tell Velocity it should also use the classpath when searching for templates
-        ExtendedProperties ep =
-            ExtendedProperties.convertProperties(velocityProperties);
-
-        ep.addProperty(
-            VelocityEngine.RESOURCE_LOADER,
-            "andromda.cartridges,file");
-
-        ep.setProperty(
-            "andromda.cartridges."
-                + VelocityEngine.RESOURCE_LOADER
-                + ".class",
-            ClasspathResourceLoader.class.getName());
-
-        // Tell Velocity not to use its own logger but to use the logger
-        // of this cartridge.
-        ep.setProperty(
-            VelocityEngine.RUNTIME_LOG_LOGSYSTEM,
-            new VelocityLoggingReceiver());
-
-        // Let Velocity know about the macro libraries.
-        for (Iterator iter = getDescriptor().getMacroLibraries().iterator();
-            iter.hasNext();
-            )
-        {
-            String libraryName = (String) iter.next();
-            ep.addProperty(VelocityEngine.VM_LIBRARY, libraryName);
-        }
-
-        ve.setExtendedProperties(ep);
-        ve.init();
-    }
-
-    /* (non-Javadoc)
-     * @see org.andromda.cartridges.interfaces.IAndroMDACartridge#shutdown()
+     * @see org.andromda.cartridges.interfaces.AndroMDACartridge#shutdown()
      */
     public void shutdown()
     {
-        shutdownLogger();
+        this.getDescriptor().getTemplateEngine().shutdown();
     }
-
+    
     /**
-     * Opens a log file for this cartridge.
-     * @throws IOException if the file cannot be opened
-     */
-    private void initLogger() throws IOException
-    {
-        final String cartridgeName = getDescriptor().getCartridgeName();
-        logger =
-            Logger.getLogger("org.andromda.cartridges." + cartridgeName);
-        logger.setAdditivity(false);
-        logger.setLevel(Level.ALL);
-
-        String logfile = "andromda-" + cartridgeName + ".log";
-        FileAppender appender =
-            new FileAppender(new PatternLayout("%d - %m%n"), logfile, true);
-        logger.addAppender(appender);
-    }
-
-    /**
-     * Shutdown the associated logger.
+     * Filters out those model elements which <strong>should</strong>
+     * be processed.
      * 
+     * @param modelElements the Collection of modelElements.
      */
-    private void shutdownLogger()
-    {
-        Enumeration appenders = logger.getAllAppenders();
-        while (appenders.hasMoreElements())
-        {
-            Appender appender = (Appender) appenders.nextElement();
-            appender.close();
+    protected void filterModelPackages(Collection modelElements) {
+        class PackageFilter implements Predicate {
+            public boolean evaluate(Object modelElement) {
+                return context.getModelPackages().shouldProcess(
+                    context.getModelFacade().getPackageName(modelElement));
+            }
         }
+        CollectionUtils.filter(modelElements, new PackageFilter());
     }
-
+    
+    /**
+     * Resets the logger to the default name.
+     */
+    private void resetLogger() {
+        this.setLogger(DefaultAndroMDACartridge.class.getName());      
+    }
+    
+    /**
+     * Sets the logger to be used
+     * with this Cartridge
+     * 
+     * @param logger The logger to set.
+     */
+    private void setLogger(String loggerName) {
+        this.logger = Logger.getLogger(loggerName);
+    }
+    
+    /**
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+    	return ToStringBuilder.reflectionToString(this);
+    }
+    
 }

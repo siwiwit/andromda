@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.omg.uml.UmlPackage;
 
 import org.andromda.core.TestModel;
-import org.andromda.core.common.RepositoryReadException;
+import org.andromda.core.common.RepositoryFacadeException;
 
 /**
  * @author amowers
@@ -51,7 +51,7 @@ public class MDRepositoryFacadeTest extends TestCase
 		{
 			assertNull(ioe.getMessage(), ioe);
 		}
-		catch (RepositoryReadException rre)
+		catch (RepositoryFacadeException rre)
 		{
 			assertNull(rre.getMessage(), rre);
 		}
@@ -70,7 +70,7 @@ public class MDRepositoryFacadeTest extends TestCase
 		{
 			assertNull(ioe.getMessage(), ioe);
 		}
-		catch (RepositoryReadException rre)
+		catch (RepositoryFacadeException rre)
 		{
 			assertNull(rre.getMessage(), rre);
 		}
@@ -89,7 +89,7 @@ public class MDRepositoryFacadeTest extends TestCase
 		{
 			assertNull(ioe.getMessage(), ioe);
 		}
-		catch (RepositoryReadException rre)
+		catch (RepositoryFacadeException rre)
 		{
 			assertNull(rre.getMessage(), rre);
 		}

@@ -12,7 +12,7 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 import org.andromda.core.TestModel;
-import org.andromda.core.common.RepositoryReadException;
+import org.andromda.core.common.RepositoryFacadeException;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.ModelElement;
@@ -89,7 +89,7 @@ public class MDRepositoryTransformationTest extends TestCase {
 
 		} catch (IOException ioe) {
 			assertNull(ioe.getMessage(), ioe);
-		} catch (RepositoryReadException rre) {
+		} catch (RepositoryFacadeException rre) {
 			assertNull(rre.getMessage(), rre);
 		}
 	}

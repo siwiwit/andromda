@@ -1,4 +1,4 @@
-package org.andromda.core.uml14;
+package org.andromda.metafacades.uml;
 
 /**
  * Contains the common UML AndroMDA profile.  That is, it contains

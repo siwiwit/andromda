@@ -3,8 +3,8 @@ package org.andromda.metafacades.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.andromda.core.uml14.UMLProfile;
 import org.andromda.metafacades.uml.EntityAttributeFacade;
+import org.andromda.metafacades.uml.UMLProfile;
 
 
 /**
