@@ -36,20 +36,6 @@ $inputField.getDocumentation("     ")
 #end
 
     private java.lang.String trigger = null;
-#foreach ($servlet in $class.servlets)
-#set ($parameter = $servlet.dispatchParameter)
-    private java.lang.String $parameter = null;
-
-    public void set$str.upperCaseFirstLetter($parameter)(java.lang.String $parameter)
-    {
-        this.$parameter = $parameter;
-    }
-
-    public java.lang.String get$str.upperCaseFirstLetter($parameter)()
-    {
-        return $parameter;
-    }
-#end
 
     public void setTrigger(java.lang.String trigger)
     {
@@ -120,14 +106,8 @@ $inputField.getDocumentation("     ")
 
     public void reset(ActionMapping mapping, HttpServletRequest request)
     {
-        this.trigger = null;
-#foreach ($servlet in $class.servlets)
-#set ($parameter = $servlet.dispatchParameter)
-        this.$parameter = null;
+#foreach ($inputField in $class.resetInputFields)
+        this.$inputField.name = $inputField.name;
 #end
-
-###foreach ($inputField in $class.resetInputFields)
-##        this.$inputField.name = $inputField.name;
-###end
     }
 }
