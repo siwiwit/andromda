@@ -33,10 +33,7 @@ public class RepositoryConfiguration
     private Path moduleSearchPath = null;
     private static final String DEFAULT_REPOSITORY_CLASSNAME =
         "org.andromda.core.mdr.MDRepositoryFacade";
-    private static final String DEFAULT_SCRIPT_HELPER_CLASSNAME =
-        "org.andromda.core.simpleuml.SimpleOOHelper";
     private Class repositoryClass = null;
-    private Class scriptHelperClass = null;
 
     public RepositoryConfiguration(Project project)
     {
@@ -62,33 +59,6 @@ public class RepositoryConfiguration
             throw new BuildException(cnfe);
         }
 
-    }
-
-    /**
-     * Sets the name of the class that is used by AndroMDA to
-     * access object model elements from within he repository.  The
-     * class must implement the ScriptHelper interface.
-     * 
-     * <p> Unless specified otherwise by use of the
-     * <code>&lt;template&gt;</code> tag this transformer
-     * object will be the object used the code generation scripts
-     * to access the object model. </p>
-     * 
-     * @see org.andromda.cartridges.interfaces.TemplateConfiguration
-     * @see org.andromda.core.common.ScriptHelper
-     * 
-     * @param scriptHelperClassName
-     */
-    public void setTransformClassname(String scriptHelperClassName)
-    {
-        try
-        {
-            scriptHelperClass = Class.forName(scriptHelperClassName);
-        }
-        catch (ClassNotFoundException cnfe)
-        {
-            throw new BuildException(cnfe);
-        }
     }
 
     /**
