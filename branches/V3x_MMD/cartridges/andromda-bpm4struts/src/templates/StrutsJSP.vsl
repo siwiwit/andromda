@@ -102,14 +102,19 @@ ${indent}<html:$widgetType property="$field.name" titleKey="${messageKey}.$field
 #if ($field.isMultiple())
 #set ($multiple = 'multiple="true"')
 #else
-#set ($multiple = 'multiple="false"')
+#set ($multiple = '')
 #end
 #if ($field.isReadOnly())
 #set ($disabled = 'disabled="true"')
 #else
 #set ($disabled = '')
 #end
-${indent}<html:select $disabled $multiple property="$field.name" titleKey="${messageKey}.$field.titleKey">
+#if ($field.isCollection())
+#set ($selectProperty = "${field.name}AsArray")
+#else
+#set ($selectProperty = "$field.name")
+#end
+${indent}<html:select property="$selectProperty" titleKey="${messageKey}.$field.titleKey" $disabled $multiple>
 ${indent}    <html:options property="$field.backingListName"/>
 ${indent}</html:select>
 ##
@@ -135,6 +140,10 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
 #set ($variableName = $variable.name)
 #set ($variableType = $variable.type.fullyQualifiedName)
 <bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variableType" scope="request" toScope="page"/>
+#if ($variable.hasBackingList())
+#set ($variableName = $variable.backingListName)
+<bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variable.backingListType" scope="request" toScope="page"/>
+#end
 #end
 
 <html:html xhtml="true">
