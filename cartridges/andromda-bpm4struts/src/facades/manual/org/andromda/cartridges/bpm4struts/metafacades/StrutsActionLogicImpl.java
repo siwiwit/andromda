@@ -117,8 +117,14 @@ public class StrutsActionLogicImpl
 
     public java.lang.String getActionPath()
     {
-        return '/' + StringUtilsHelper.toJavaClassName(getActivityGraph().getUseCase().getName()) + '/' + getActionClassName();
+        return getActionPathRoot() + '/' + getActionClassName();
     }
+
+    public String getActionPathRoot()
+    {
+        return '/' + StringUtilsHelper.toJavaClassName(getActivityGraph().getUseCase().getName());
+    }
+
 
     public java.lang.String getActionRoles()
     {
