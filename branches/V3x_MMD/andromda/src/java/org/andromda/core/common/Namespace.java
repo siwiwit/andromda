@@ -18,10 +18,11 @@ public class Namespace {
 	
 	private String name;
 	private Map properties;
+    private boolean ignore = false;
 	private Collection initCollection = new ArrayList();
 	
 	/**
-	 * This method normally be unnecessary. It is here because of the way Ant behaves.
+	 * This method normally would be unnecessary. It is here because of the way Ant behaves.
 	 * Ant calls addProperty() before the PropertyReference javabean is fully
 	 * initialized (therefore the 'name' isn't set). So we kept the javabeans in an 
 	 * ArrayList that we have to copy into the properties Map.
@@ -90,4 +91,25 @@ public class Namespace {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	/**
+     * If a namespace is set to ignore then anything
+     * looking up or using a namespace can use it for its
+     * own purposes, for example if there is a plugin
+     * on the classpath (which is unavoidable) and you 
+     * want to ingore that plugin, the you may check
+     * to see if the namespace that configures that
+     * plugin is set to <code>true</code> for ignore.
+     * 
+	 * @return Returns the ignore value.
+	 */
+	public boolean isIgnore() {
+		return ignore;
+	}
+    
+	/**
+	 * @param ignore The ignore to set.
+	 */
+	public void setIgnore(boolean ignore) {
+		this.ignore = ignore;
+	}
 }

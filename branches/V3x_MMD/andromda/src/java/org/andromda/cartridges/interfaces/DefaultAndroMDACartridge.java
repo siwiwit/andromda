@@ -17,7 +17,9 @@ import java.util.Properties;
 
 import org.andromda.core.anttasks.UserProperty;
 import org.andromda.core.common.CodeGenerationContext;
+import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Namespaces;
+import org.andromda.core.common.Property;
 import org.andromda.core.common.StdoutLogger;
 import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.core.metadecorators.uml14.DecoratorFactory;
@@ -320,71 +322,85 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         // empty output.
         File outFile;
 
-        if (tc.getOutputPattern().charAt(0) == '$')
-        {
-            outFile = outputFileFromVelocityContext(velocityContext, tc);
-        }
-        else
-        {
-            outFile =
-                outputFileFromTemplateConfig(
-                    modelElementName,
-                    packageName,
-                    tc);
-        }
-
-        if (outFile != null)
-        {
-            byte[] result = content.toByteArray();
-            if (result.length > 0 || tc.isGenerateEmptyFiles())
+        // find the outlet property that contains the location 
+        // to which the files will be generated.
+        Property property = 
+            Namespaces.instance().findNamespaceProperty(
+            	desc.getCartridgeName(), tc.getOutlet());
+        
+        // don't process if the outlet property is set to ignore (or its null)
+        if (property != null && !property.isIgnore()) 
+        {        
+            if (tc.getOutputPattern().charAt(0) == '$')
             {
-                try
-                {
-                    long modelLastModified =
-                        context.getRepository().getLastModified();
-
-                    // do not overwrite already generated file,
-                    // if that is a file that the user wants to edit.
-                    boolean writeOutputFile =
-                        !outFile.exists() || tc.isOverwrite();
-                    // only process files that have changed
-                    if (writeOutputFile
-                        && (!context.isLastModifiedCheck()
-                            || modelLastModified > outFile.lastModified()
-                        ))
-                    {
-                        ensureDirectoryFor(outFile);
-                        OutputStream out = new FileOutputStream(outFile);
-                        out.write(result);
-                        out.flush();
-                        out.close();
-                        logger.info("Output: " + outFile);
-                        StdoutLogger.info("Output: " + outFile);
-                    }
-                }
-                catch (Exception e)
-                {
-                    StdoutLogger.error(e);
-                    throw new CartridgeException(
-                        "Error writing output file " + outFile.getName(),
-                        e);
-                }
+                outFile = outputFileFromVelocityContext(
+                    velocityContext, 
+                    tc, 
+                    property.getValue());
             }
             else
             {
-                if (outFile.exists())
+                outFile =
+                    outputFileFromTemplateConfig(
+                        modelElementName,
+                        packageName,
+                        tc,
+                        property.getValue());
+            }
+    
+            if (outFile != null)
+            {
+                byte[] result = content.toByteArray();
+                if (result.length > 0 || tc.isGenerateEmptyFiles())
                 {
-                    if (!outFile.delete())
+                    try
                     {
-                        logger.error(
-                            "Error removing output file "
-                                + outFile.getName());
-                        throw new CartridgeException(
-                            "Error removing output file "
-                                + outFile.getName());
+                        long modelLastModified =
+                            context.getRepository().getLastModified();
+    
+                        // do not overwrite already generated file,
+                        // if that is a file that the user wants to edit.
+                        boolean writeOutputFile =
+                            !outFile.exists() || tc.isOverwrite();
+                        // only process files that have changed
+                        if (writeOutputFile
+                            && (!context.isLastModifiedCheck()
+                                || modelLastModified > outFile.lastModified()
+                            ))
+                        {
+                            ensureDirectoryFor(outFile);
+                            OutputStream out = new FileOutputStream(outFile);
+                            out.write(result);
+                            out.flush();
+                            out.close();
+                            logger.info("Output: " + outFile);
+                            StdoutLogger.info("Output: " + outFile);
+                        }
                     }
-                    logger.info("Removed: " + outFile);
-                    StdoutLogger.info("Removed: " + outFile);
+                    catch (Exception e)
+                    {
+                        StdoutLogger.error(e);
+                        throw new CartridgeException(
+                            "Error writing output file " + outFile.getName(),
+                            e);
+                    }
+                }
+                else
+                {
+                    if (outFile.exists())
+                    {
+                        if (!outFile.delete())
+                        {
+                            logger.error(
+                                "Error removing output file "
+                                    + outFile.getName());
+                            throw new CartridgeException(
+                                "Error removing output file "
+                                    + outFile.getName());
+                        }
+                        logger.info("Removed: " + outFile);
+                        StdoutLogger.info("Removed: " + outFile);
+                    }
                 }
             }
         }
@@ -402,13 +418,10 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
     private File outputFileFromTemplateConfig(
         String modelElementName,
         String packageName,
-        TemplateConfiguration tc)
+        TemplateConfiguration tc,
+        String outputLocation)
     {
-        String outputLocation =
-            Namespaces.instance().findNamespaceProperty(
-                desc.getCartridgeName(),
-                tc.getOutlet());
-
+        
         return tc.getFullyQualifiedOutputFile(
             modelElementName,
             packageName,
@@ -424,7 +437,8 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
      */
     private File outputFileFromVelocityContext(
         VelocityContext velocityContext,
-        TemplateConfiguration tc)
+        TemplateConfiguration tc,
+        String outputLocation)
         throws CartridgeException
     {
         try
@@ -436,11 +450,6 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                 writer,
                 "mylogtag",
                 tc.getOutputPattern());
-
-            String outputLocation =
-                Namespaces.instance().findNamespaceProperty(
-                    desc.getCartridgeName(),
-                    tc.getOutlet());
 
             return new File(outputLocation, writer.getBuffer().toString());
         }

@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  * @author    <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author    Chad Brandon
  * @since     April 1, 2003
- * @version   $Revision: 1.3.2.2 $
+ * @version   $Revision: 1.3.2.3 $
  */
 public class CartridgeFinder
 {
@@ -36,7 +36,7 @@ public class CartridgeFinder
      *
      * @return a <code>List<code> of cartriges
      */
-    public static List findCartridges() throws IOException
+    public static List findCartridges() 
     {
         if (cartridges == null)
         {

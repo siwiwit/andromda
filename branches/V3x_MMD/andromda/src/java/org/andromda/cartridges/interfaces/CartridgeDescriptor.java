@@ -8,7 +8,7 @@ import java.util.Map;
  * Describes the capabilities of an AndroMDA cartridge.
  * 
  * @author  <a href="http://www.mbohlen.de">Matthias Bohlen</a>
- * 
+ * @author Chad Brandon
  */
 public interface CartridgeDescriptor {
     

@@ -12,6 +12,13 @@
 		<set-properties-rule>
  			<alias attr-name="name" prop-name="cartridgeName" />
  		</set-properties-rule>      
+ 		
+ 		
+ 		<pattern value="class">
+            <set-properties-rule>
+                <alias attr-name="name" prop-name="cartridgeClassName" />
+            </set-properties-rule>     		    		    
+ 		</pattern>
       		
       	<!-- add the properties to the Cartridge -->
       		

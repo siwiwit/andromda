@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Namespaces;
+import org.andromda.core.common.Property;
 import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.core.metafacade.MetafacadeMapping;
 import org.andromda.core.metafacade.MetafacadeMappings;
@@ -215,6 +216,7 @@ public class DecoratorFactory
 
 		// only add the property once per context
 		final String methodName = "DecoratorFactory.populatePropertyReferences";
+        ExceptionUtils.checkNull(methodName, "metafacade", metafacade);
 		ExceptionUtils.checkNull(methodName, "propertyReferences", propertyReferences);
 
 		Iterator referenceIt = propertyReferences.iterator();
@@ -226,25 +228,29 @@ public class DecoratorFactory
 			if (!this.isPropertyRegistered(
 					metafacade.getPropertyNamespace(),
 					reference)) {
-				String value =
+				Property property = 
 					Namespaces.instance().findNamespaceProperty(
 							this.getActiveNamespace(), reference);
-
-				if (this.internalGetLogger().isDebugEnabled())
-					this.internalGetLogger().debug("setting context property '"
-							+ this.getActiveNamespace() + "' with value '"
-							+ value + "'");
-
-				if (value != null) {
-					try {
-						PropertyUtils.setProperty(metafacade, reference, value);
-					} catch (Exception ex) {
-						String errMsg = "Error setting property '" + reference
-							+ "' on metafacade --> '" + metafacade + "'";
-						this.internalGetLogger().error(errMsg, ex);
-						//don't throw the exception
-					}
-				}
+				
+                // don't attempt to set if the property is null, or it's set to ignore.
+                if (property != null && !property.isIgnore()) {
+                    String value = property.getValue();
+    				if (this.internalGetLogger().isDebugEnabled())
+    					this.internalGetLogger().debug("setting context property '"
+    							+ this.getActiveNamespace() + "' with value '"
+    							+ value + "'");
+    
+    				if (value != null) {
+    					try {
+    						PropertyUtils.setProperty(metafacade, reference, value);
+    					} catch (Exception ex) {
+    						String errMsg = "Error setting property '" + reference
+    							+ "' on metafacade --> '" + metafacade + "'";
+    						this.internalGetLogger().error(errMsg, ex);
+    						//don't throw the exception
+    					}
+    				}
+                }
 			}
 		}
 	}
