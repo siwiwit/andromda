@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../project.xml</extend>
-  	<id>andromda-mdr-repository</id>
+  	<id>andromda-repository-mdr</id>
   	<name>MDR Repository</name>
   	<shortDescription>AndroMDA MDR Repository</shortDescription>
   	<description>

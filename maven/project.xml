@@ -25,12 +25,12 @@
 	<dependencies>
 		<dependency>
 	      	<groupId>andromda</groupId>
-	      	<artifactId>andromda-mdr-repository</artifactId>
+	      	<artifactId>andromda-repository-mdr</artifactId>
 	      	<version>3.0-SNAPSHOT</version>
 	    </dependency>
 		<dependency>
 	      	<groupId>andromda</groupId>
-	      	<artifactId>andromda-velocity-templateengine</artifactId>
+	      	<artifactId>andromda-templateengine-velocity</artifactId>
 	      	<version>3.0-SNAPSHOT</version>
 	    </dependency>
 	    <dependency>

@@ -2,7 +2,7 @@
 
 <project>
   	<extend>../project.xml</extend>
-  	<id>andromda-velocity-templateengine</id>
+  	<id>andromda-templateengine-velocity</id>
   	<name>Velocity Template Engine</name>
   	<shortDescription>The Velocity Template Engine</shortDescription>
   	<description>
