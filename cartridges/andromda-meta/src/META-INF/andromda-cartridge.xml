@@ -5,6 +5,8 @@
 <!-- the outlet names -->
     <outlet name="decorators" />
     <outlet name="decorator-impls" />
+    <outlet name="facades" />
+    <outlet name="facade-impls" />
 
 <!-- the template definitions -->
     <template
@@ -13,7 +15,6 @@
         outputPattern="{0}/{1}.java"
         outlet="decorators"
         overWrite="true"
-        transformClass="org.andromda.cartridges.meta.MetaScriptHelper"
     />
 
     <template
@@ -22,25 +23,22 @@
         outputPattern="{0}/{1}Impl.java"
         outlet="decorator-impls"
         overWrite="false"
-        transformClass="org.andromda.cartridges.meta.MetaScriptHelper"
     />
 
     <template
         stereotype="metafacade"
         sheet="templates/MetaclassDecorator.vsl"
         outputPattern="{0}/{1}.java"
-        outlet="decorators"
+        outlet="facades"
         overWrite="true"
-        transformClass="org.andromda.cartridges.meta.MetaScriptHelper"
     />
 
     <template
         stereotype="metafacade"
         sheet="templates/MetaclassDecoratorImpl.vsl"
         outputPattern="{0}/{1}Impl.java"
-        outlet="decorator-impls"
+        outlet="facade-impls"
         overWrite="false"
-        transformClass="org.andromda.cartridges.meta.MetaScriptHelper"
     />
 
 </cartridge>
