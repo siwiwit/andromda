@@ -262,6 +262,8 @@ public class AndroMDAGenTask extends MatchingTask
     {
         try
         {
+        	long startTime= System.currentTimeMillis();
+        	
             DirectoryScanner scanner;
             String[] list;
             String[] dirs;
@@ -329,6 +331,8 @@ public class AndroMDAGenTask extends MatchingTask
             }
 
             createRepository().createRepository().close();
+        	StdoutLogger.info("completed model processing, TIME --> " 
+        			+ ((System.currentTimeMillis() - startTime) / 1000.0) + "[s]");
 
         }
         finally
