@@ -1,6 +1,10 @@
 package org.andromda.core.metadecorators.uml14;
 
+import java.util.Collection;
 import java.util.Iterator;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 
 
 
@@ -13,6 +17,7 @@ import java.util.Iterator;
 public class EntityDecoratorImpl extends EntityDecorator
 {
     private final static String PRIMARY_KEY = "PrimaryKey";
+    private final static String FINDER_METHOD = "FinderMethod";
 
     // ---------------- constructor -------------------------------
     
@@ -27,6 +32,26 @@ public class EntityDecoratorImpl extends EntityDecorator
     // abstract in class EntityDecorator ...
 
     // ------------- relations ------------------
+    
+    public Collection getFinderMethods() {
+
+		class FinderMethodFilter implements Predicate {
+			public boolean evaluate(Object obj) {
+				boolean valid = false;    				
+				if (obj != null && obj.equals(FINDER_METHOD)) {
+					valid = true;
+				}
+				return valid;
+			}
+		}
+		
+		Collection finderMethods = this.getOperations();
+    	CollectionUtils.filter(
+    		finderMethods, 
+			new FinderMethodFilter());
+    
+    	return decoratedElements(finderMethods);
+    }
     
    /**
     *
