@@ -49,6 +49,7 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_INPUT_TYPE_CHOICE = "choice";
     public static final String TAGGED_VALUE_INPUT_TYPE_OPTION = "option";
     public static final String TAGGED_VALUE_INPUT_TYPE_SELECT = "select";
+    public static final String TAGGED_VALUE_INPUT_TYPE_PASSWORD = "password";
 
     private Bpm4StrutsProfile()
     {
