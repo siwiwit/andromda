@@ -1,5 +1,6 @@
 <project default="install"
-         xmlns:ant="jelly:ant">
+         xmlns:ant="jelly:ant"
+         xmlns:maven="jelly:maven">
 
   	<!-- ==================================================================
   			 Installs all libraries in the local repository                                                    
@@ -21,5 +22,23 @@
 			</ant:fileset>
 		</ant:delete>
   	</goal> 
-  	  	
+  	
+   	<!-- ==================================================================
+			Deploy/Undeploy the Application                                                  
+  		 ================================================================== --> 	
+   	<!-- ==================================================================
+			Deploy the Hibernate Application                                                  
+  		 ================================================================== -->   
+	<goal name="deploy-app">
+		<maven:maven
+			descriptor="${basedir}/app/project.xml"
+			goals="deploy"/>
+	</goal>
+	
+	<goal name="undeploy-app">
+		<maven:maven
+			descriptor="${basedir}/app/project.xml"
+			goals="undeploy"/>
+	</goal>  	  	  	
+	
 </project>
