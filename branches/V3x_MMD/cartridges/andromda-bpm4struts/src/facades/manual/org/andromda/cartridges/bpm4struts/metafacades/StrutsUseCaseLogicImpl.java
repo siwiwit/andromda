@@ -5,6 +5,7 @@ import org.andromda.core.common.StringUtilsHelper;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 
 /**
@@ -29,11 +30,23 @@ public class StrutsUseCaseLogicImpl
         return '/' + StringUtilsHelper.toJavaClassName(getName());
     }
 
+    public String getTitleKey()
+    {
+        return StringUtilsHelper.toResourceMessageKey(getFullyQualifiedName());
+    }
+
+    public String getTitleValue()
+    {
+        return StringUtilsHelper.toPhrase(getName());
+    }
+
+    public String getFullPath()
+    {
+        return getPackageName().replace('.','/') + '/' + StringUtilsHelper.toJavaClassName(getName());
+    }
+
     // ------------- relations ------------------
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsUseCase#getActivityGraph()
-     */
     public java.lang.Object handleGetActivityGraph()
     {
         Collection ownedElements = getOwnedElements();
@@ -46,4 +59,36 @@ public class StrutsUseCaseLogicImpl
         return null;
     }
 
+    protected Collection handleGetUsers()
+    {
+        final Collection users = new LinkedList();
+        final Collection allActors = getModel().getAllActors();
+
+        for (Iterator actorIterator = allActors.iterator(); actorIterator.hasNext();)
+        {
+            Object actor = shieldedElement(actorIterator.next());
+            if (actor instanceof StrutsUser)
+                users.add(actor);
+        }
+        return users;
+    }
+
+    protected Collection handleGetPages()
+    {
+        final Collection pages = new LinkedList();
+        final Collection allActionStates = getModel().getAllActionStates();
+
+        for (Iterator actionStateIterator = allActionStates.iterator(); actionStateIterator.hasNext();)
+        {
+            Object actionState = shieldedElement(actionStateIterator.next());
+            if (actionState instanceof StrutsJsp)
+                pages.add(actionState);
+        }
+        return pages;
+    }
+
+    protected Collection handleGetAllUseCases()
+    {
+        return getModel().getAllUseCases();
+    }
 }
