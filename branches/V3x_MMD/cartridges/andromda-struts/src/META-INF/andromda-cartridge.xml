@@ -40,8 +40,7 @@
       overWrite="true"
       outputToSingleFile="true">
         <modelElements variable="classes">
-            <modelElement 
-                stereotype="WebForm" variable="webForms"/>
+            <modelElement stereotype="WebForm" variable="webForms"/>
             <modelElement stereotype="WebAction" variable="webActions"/>
         </modelElements>  
     </template>
