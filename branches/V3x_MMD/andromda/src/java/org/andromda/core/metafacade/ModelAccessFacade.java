@@ -4,8 +4,8 @@ import java.util.Collection;
 
 /**
  * <p>
- * An interface for objects responsible for being a model that has
- * been loaded into a metadata repository.
+ *  Provides access to a model loaded by a Repository
+ *  and made available to be used by metafacades.
  * </p>
  * 
  * <p>
@@ -24,7 +24,7 @@ import java.util.Collection;
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author Chad Brandon
  */
-public interface MetafacadeModel
+public interface ModelAccessFacade
 {
     
     /**

@@ -21,7 +21,6 @@ import org.andromda.core.common.Namespace;
 import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.Property;
 import org.andromda.core.common.StdoutLogger;
-import org.andromda.core.metafacade.MetafacadeModel;
 import org.andromda.core.repository.RepositoryFacade;
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
@@ -348,12 +347,10 @@ public class AndroMDAGenTask extends MatchingTask
             RepositoryFacade repository = rc.createRepository();
             repository.open();
             repository.readModel(url, rc.createModuleSearchPath().list());
-
-            final MetafacadeModel model = repository.getModel();
+            
             context =
                 new CodeGenerationContext(
                     repository,
-                    model,
                     lastModifiedCheck,
                     packages,
                     userProperties);

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.andromda.core.common.ExceptionUtils;
-import org.andromda.core.metafacade.MetafacadeModel;
+import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -14,14 +14,14 @@ import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.ModelElement;
 
 /**
- * Contains a UML model, follows the MetafacadeModel interface
+ * Contains a UML model, follows the ModelAccessFacade interface
  * and can therefore be processed by AndroMDA.
  *
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  */
-public class UMLMetafacadeModel implements MetafacadeModel
+public class UMLModelAccessFacade implements ModelAccessFacade
 {
-    private Logger logger = Logger.getLogger(UMLMetafacadeModel.class);
+    private Logger logger = Logger.getLogger(UMLModelAccessFacade.class);
     
     private UmlPackage model;
     
@@ -96,7 +96,7 @@ public class UMLMetafacadeModel implements MetafacadeModel
     }
     
     /**
-     * @see edu.duke.dcri.mda.model.MetafacadeModel#findByStereotype(java.lang.String)
+     * @see edu.duke.dcri.mda.model.ModelAccessFacade#findByStereotype(java.lang.String)
      */
     public Collection findByStereotype(String stereotype) 
     {

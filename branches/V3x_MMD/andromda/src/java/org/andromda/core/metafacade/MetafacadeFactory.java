@@ -18,7 +18,7 @@ public class MetafacadeFactory
     private static MetafacadeFactory factory = new MetafacadeFactory();
 
     private String activeNamespace;
-    private MetafacadeModel model;
+    private ModelAccessFacade model;
 
     /**
      * Caches the registered properties used
@@ -393,7 +393,7 @@ public class MetafacadeFactory
     /**
      * @return the model
      */
-    public MetafacadeModel getModel()
+    public ModelAccessFacade getModel()
     {
         final String methodName = "MetafacadeFactory.getModel";
         if (this.model == null) {
@@ -406,7 +406,7 @@ public class MetafacadeFactory
     /**
      * @param model the model
      */
-    public void setModel(MetafacadeModel model)
+    public void setModel(ModelAccessFacade model)
     {
         this.model = model;
     }
