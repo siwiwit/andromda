@@ -103,11 +103,30 @@ public class EntityFacadeLogicImpl
      * @see org.andromda.metafacades.uml.EntityFacade#getAttributesAsList(boolean, boolean)
      */
     public String getAttributesAsList(boolean withTypeNames, boolean withIdentifiers) {
+        return this.getAttributesAsList(withTypeNames, withIdentifiers, false);
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.EntityFacade#getAttributesAsList(boolean, boolean, boolean)
+     */
+    public String getAttributesAsList(
+        boolean withTypeNames, 
+        boolean withIdentifiers, 
+        boolean follow) {
         StringBuffer buffer = new StringBuffer();
         String separator = "";
         buffer.append("(");
         
         Collection attributes = this.getAttributes();
+        
+        for (ClassifierFacade superClass = (ClassifierFacade) getGeneralization();
+        	superClass != null && follow;
+        	superClass = (ClassifierFacade) superClass.getGeneralization()) {
+            if (superClass.hasStereotype(UMLProfile.STEREOTYPE_ENTITY)) {
+                EntityFacade entity = (EntityFacade)superClass;
+                attributes.addAll(entity.getAttributes());
+            }
+       	}               
         
         if (attributes != null && !attributes.isEmpty()) {
             Iterator attributeIt = attributes.iterator();
