@@ -381,7 +381,6 @@ public class MetafacadeMappings {
 		} else {
 			try {
 				for (int ctr = 0; ctr < uris.length; ctr++) {
-					System.out.println("the uris[ctr]:" + uris[ctr]);
 					MetafacadeMappings mappings = MetafacadeMappings.getInstance(uris[ctr]);
 					String namespace = mappings.getNamespace();
 					if (StringUtils.isEmpty(namespace)) {
