@@ -44,7 +44,7 @@ public class StrutsParameterLogicImpl
     /**
      * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsParameter#getResetValue()()
      */
-    public java.lang.String getResetValue()
+    public java.lang.String getNullValue()
     {
         final String type = getFullyQualifiedName();
 
@@ -148,7 +148,23 @@ public class StrutsParameterLogicImpl
 
     public boolean isRequired()
     {
-        return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_REQUIRED);
+        return isTrue(findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_REQUIRED));
+    }
+
+    public boolean isReadOnly()
+    {
+        return isTrue(findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_READONLY));
+    }
+
+    private boolean isTrue(String string)
+    {
+        return "yes".equalsIgnoreCase(string) || "true".equalsIgnoreCase(string) ||
+               "on".equalsIgnoreCase(string)  || "1".equalsIgnoreCase(string);
+    }
+
+    public String getResetValue()
+    {
+        return "Reset";
     }
     // ------------- relations ------------------
 
