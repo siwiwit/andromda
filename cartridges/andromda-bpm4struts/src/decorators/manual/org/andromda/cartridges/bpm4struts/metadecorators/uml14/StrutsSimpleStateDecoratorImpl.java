@@ -2,7 +2,6 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.usecases.UseCase;
@@ -39,7 +38,7 @@ public class StrutsSimpleStateDecoratorImpl extends StrutsSimpleStateDecorator
 
         for (Iterator iterator = allUseCases.iterator(); iterator.hasNext();)
         {
-            StrutsUseCaseDecorator useCase = (StrutsUseCaseDecorator) DecoratorBase.decoratedElement((UseCase) iterator.next());
+            StrutsUseCaseDecorator useCase = (StrutsUseCaseDecorator) decoratedElement((UseCase) iterator.next());
             if (name.equalsIgnoreCase(useCase.getName()))
                 if (useCase.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE))
                     return useCase.metaObject;

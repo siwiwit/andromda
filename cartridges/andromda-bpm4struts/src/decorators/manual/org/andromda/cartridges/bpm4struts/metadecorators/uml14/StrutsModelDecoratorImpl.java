@@ -1,20 +1,11 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
-import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
-import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
-import org.andromda.core.metadecorators.uml14.DependencyDecorator;
+import org.andromda.core.metadecorators.uml14.*;
 import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.ModelElement;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -94,7 +85,7 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
             Object element = dependencyIterator.next();
             Dependency dep = (Dependency)((DependencyDecorator) element).getMetaObject();
             ModelElement supplier = (ModelElement) dep.getSupplier().iterator().next();
-            ModelElementDecorator supplierDecorator = (ModelElementDecorator)DecoratorBase.decoratedElement(supplier);
+            ModelElementDecorator supplierDecorator = (ModelElementDecorator)decoratedElement(supplier);
             if (supplierDecorator instanceof ClassifierDecorator && supplierDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_VIEW))
                 views.add(supplier);
         }

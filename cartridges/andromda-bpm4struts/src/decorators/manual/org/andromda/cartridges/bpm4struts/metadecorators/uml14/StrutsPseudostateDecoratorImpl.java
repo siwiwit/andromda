@@ -1,6 +1,5 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 
 import java.util.Collection;
@@ -29,7 +28,7 @@ public class StrutsPseudostateDecoratorImpl extends StrutsPseudostateDecorator
     // from org.omg.uml.behavioralelements.statemachines.StateVertex
     public Collection getOutgoing()
     {
-        return DecoratorBase.decoratedElements(metaObject.getOutgoing());
+        return decoratedElements(metaObject.getOutgoing());
     }
     // ------------- relations ------------------
 

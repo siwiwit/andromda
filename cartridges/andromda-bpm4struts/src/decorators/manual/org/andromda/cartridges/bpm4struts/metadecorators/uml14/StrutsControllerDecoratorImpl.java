@@ -2,11 +2,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
-import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
-import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.UseCaseDecorator;
+import org.andromda.core.metadecorators.uml14.*;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.ModelElement;
@@ -64,7 +60,7 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         for (Iterator iterator = allUseCases.iterator(); iterator.hasNext();)
         {
             UseCase useCase = (UseCase) iterator.next();
-            UseCaseDecorator useCaseDecorator = (UseCaseDecorator) DecoratorBase.decoratedElement(useCase);
+            UseCaseDecorator useCaseDecorator = (UseCaseDecorator) decoratedElement(useCase);
             if (useCaseDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE) &&
                 useCaseName.equalsIgnoreCase(useCase.getName()))
             {
@@ -104,14 +100,13 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
 
     public void validate() throws DecoratorValidationException
     {
-/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
-            throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
+            validationError("Name may not be empty or only contain whitespace");
 
         // the name must be unique
-        final UmlPackage model = MetaDecoratorUtil.getModel(this);
+        final UmlPackage model = MetaDecoratorUtil.getModel(metaObject);
         final Collection classes = model.getCore().getUmlClass().refAllOfType();
         // check that we don't accidentally generate the same names from more action states
         // if the name is specified using a tagged value that name must also be unique
@@ -127,8 +122,9 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
                 if (controllerName.equals(controllerDecorator.getServletName()))
                 {
                     if (controllerNameFound)
-                        throw new DecoratorValidationException(this,
-                            "There is another controller class in the model which generates a name clash with this one, please change one of the class names (The package namespace is not important)");
+                        validationError("There is another controller class in the model which generates " +
+                                "a name clash with this one, please change one of the class names " +
+                                "(The package namespace is not important)");
                     else
                         controllerNameFound = true;
                 }
@@ -138,13 +134,12 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         // there must be a tagged value pointing to a use-case
         final String useCaseName = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_USE_CASE);
         if ((useCaseName == null) || (useCaseName.trim().length() == 0))
-            throw new DecoratorValidationException(this,
-                "Missing tagged value to point to use-case (" + Bpm4StrutsProfile.TAGGED_VALUE_USE_CASE + ")");
+            validationError("Missing tagged value to point to use-case ("
+                    + Bpm4StrutsProfile.TAGGED_VALUE_USE_CASE + ")");
 
         // this use-case must exist
         if (getUseCase() == null)
-            throw new DecoratorValidationException(this,
-                "This controller points to a non-existing use-case (" + useCaseName + ")");
+            validationError("This controller points to a non-existing use-case (" + useCaseName + ")");
 
         // at most a single Model may be associated to this controller
         int modelCount = 0;
@@ -152,20 +147,21 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
             AssociationEndDecorator associationEnd = (AssociationEndDecorator) iterator.next();
-            Classifier participant = associationEnd.getOtherEnd().getParticipant();
+            ClassifierDecorator participant = associationEnd.getOtherEnd().getType();
 
             if (participant instanceof StrutsModelDecorator)
             {
                 ClassifierDecorator participantDecorator = (ClassifierDecorator) participant;
-                if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
+                if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL))
                 {
                     if (modelCount > 1)
-                        throw new DecoratorValidationException(this,
-                            "At most one model class may be associated with a controller class");
+                    {
+                        validationError("At most one model class may be associated with a controller class");
+                        break;
+                    }
                     modelCount++;
                 }
             }
         }
-*/
     }
 }
