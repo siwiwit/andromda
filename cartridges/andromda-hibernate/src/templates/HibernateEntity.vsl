@@ -17,11 +17,15 @@ package $class.packageName;
 /**
 $class.getDocumentation(" * ")
  *
+#if($superclass)  
+ * @hibernate.subclass
+ *    discriminator-value="${class.name}"
+#else
  * @hibernate.class
  *     table="HIB_$class.tableName"
- *
  * @hibernate.discriminator
  *     column="class"
+#end
  * 
 #foreach ( $tgv in $class.taggedValues )
 #if ($tgv.name != "documentation")
