@@ -1,27 +1,28 @@
 <cartridge name="ejb">
+
     <property name="persistence" value="ejb" />
 
-<!-- these are the new, official stereotypes -->
+	<!-- these are the new, official stereotypes -->
     <stereotype name="Entity" />
     <stereotype name="Service" />
 
-<!-- the outlet names -->
+	<!-- the outlet names -->
     <outlet name="session-beans" />
     <outlet name="entity-beans" />
     <outlet name="session-impls" />
     <outlet name="entity-impls" />
 
-<!-- library of macros used in templates -->
+	<!-- library of macros used in templates -->
     <macrolibrary name="templates/EJB.vm" />
     
-<!-- the official template definitions -->
+	<!-- the official template definitions -->
     <template
         stereotype="Entity"
         sheet="templates/EntityBean.vsl"
         outputPattern="{0}/{1}Bean.java"
         outlet="entity-beans"
         overWrite="true"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
     />
 
     <template
@@ -30,7 +31,7 @@
         outputPattern="{0}/{1}.java"
         outlet="entity-beans"
         overWrite="true"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
     />
 
     <template
@@ -39,7 +40,7 @@
         outputPattern="{0}/{1}LocalHome.java"
         outlet="entity-beans"
         overWrite="true"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
     />
 
     <template
@@ -48,7 +49,7 @@
         outputPattern="{0}/{1}BeanImpl.java"
         outlet="entity-impls"
         overWrite="false"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
     />
 
 <!--
@@ -64,7 +65,7 @@
         outputPattern="{0}/{1}Bean.java"
         outlet="session-beans"
         overWrite="true"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
     />
 
     <template
@@ -73,7 +74,7 @@
         outputPattern="{0}/{1}Local.java"
         outlet="session-beans"
         overWrite="true"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
         generateEmptyFiles="false"
     />
 
@@ -83,7 +84,7 @@
         outputPattern="{0}/{1}.java"
         outlet="session-beans"
         overWrite="true"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
         generateEmptyFiles="false"
     />
 
@@ -93,7 +94,7 @@
         outputPattern="{0}/{1}LocalHome.java"
         outlet="session-beans"
         overWrite="true"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
         generateEmptyFiles="false"
     />
 
@@ -103,7 +104,7 @@
         outputPattern="{0}/{1}Home.java"
         outlet="session-beans"
         overWrite="true"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
         generateEmptyFiles="false"
     />
 
@@ -113,7 +114,7 @@
         outputPattern="{0}/{1}BeanImpl.java"
         outlet="session-impls"
         overWrite="false"
-        transformClass="org.andromda.cartridges.ejb.EjbScriptHelper"
+        transformClass="org.andromda.cartridges.ejb.EJBScriptHelper"
     />
     
 </cartridge>

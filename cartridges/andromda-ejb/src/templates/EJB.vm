@@ -5,7 +5,7 @@
 ##
 ## ---------------- macro ejbRefName -----------------
 ##
-#macro(ejbRefName $class)ejb/${transform.replace($transform.findPackageName(${class.package}), '.', '/')}/${class.name}#end
+#macro(ejbRefName $class)ejb/${class.packageName}/${class.name}#end
 ##
 ## ---------------- macro firstJavadocParagraph -----------------
 ##
@@ -13,7 +13,7 @@
 #set ( $parIter = false )
 #foreach ( $tgv in $item.taggedValues )
 #if ( $tgv.tag == "documentation" && !$parIter)
-#set ($parIter = $transform.formatHTMLStringAsParagraphs($tgv.value).iterator())
+#set ($parIter = $tgv.formatHTMLStringAsParagraphs($tgv.value).iterator())
 #end
 #end
 #set ($text = "")
@@ -41,7 +41,7 @@ $text
 #set ($skip = true)
 #foreach ( $tgv in $item.taggedValues )
 #if ($tgv.tag == "documentation")
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tgv.value))
+#set ($paras = $tgv.formatHTMLStringAsParagraphs($tgv.value))
 #foreach ( $par in $paras )
 #if ($skip)
 #set ($skip = false)
@@ -63,7 +63,7 @@ ${indent}* </p>
 #macro ( generateDocumentation $item $indent)
 #foreach ( $tgv in $item.taggedValues )
 #if ($tgv.tag == "documentation")
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tgv.value))
+#set ($paras = $tgv.formatHTMLStringAsParagraphs($tgv.value))
 #foreach ( $par in $paras )
 ${indent}*
 ${indent}* <p>

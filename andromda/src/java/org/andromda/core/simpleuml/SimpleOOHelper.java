@@ -148,7 +148,7 @@ public class SimpleOOHelper extends UMLStaticHelper
      * Returns a string representing the component name
      * for the Bean. It does not append the 'local' suffix 
      * any more (deprecated).
-     *
+     * 
      * @param object
      * @return String
      */
@@ -298,7 +298,7 @@ public class SimpleOOHelper extends UMLStaticHelper
     /**
      * Builds a comma-separated parameter list 
      * (type and name of each parameter) of an operation.
-     *
+     * 
      * @param o the operation
      * @return String the parameter list
      */
@@ -373,34 +373,6 @@ public class SimpleOOHelper extends UMLStaticHelper
     }
 
     /**
-     * <p>Returns the JDBC type for an attribute.  It gets the type
-     * from the tag <code>andromda.persistence.JDBCType</code> for this.
-     * </p>
-     *
-     * @param attribute the attribute
-     * @return String the string to be used with JDBC
-     */
-    public String findAttributeJDBCType(Attribute attribute)
-    {
-        if (attribute == null)
-            return null;
-
-        String value = findTagValue(attribute, "andromda.persistence.JDBCType", true);
-
-        if (null == value)
-        {
-            Object type = attribute.getType();
-            value = findFullyQualifiedName(type);
-            if (typeMappings != null)
-            {
-                value = typeMappings.getJDBCType(value);
-            }
-        }
-
-        return value;
-    }
-
-    /**
     * <p>Returns the length for the SQL type of an attribute.  It
     * gets the length from the tag
     * <code>andromda.persistence.SQLFieldLength</code>.  This might return "50"
@@ -412,30 +384,6 @@ public class SimpleOOHelper extends UMLStaticHelper
     public String findAttributeSQLFieldLength(Attribute attribute)
     {
         String value = findTagValue(attribute, "andromda.persistence.SQLFieldLength", true);
-        return value;
-    }
-
-    /**
-     * <p>Returns the SQL type for an attribute.  Normally it gets the
-     * type from the tag <code>andromda.persistence.SQLType</code>.  If this tag
-     * doesn't exist, it uses {@link #findAttributeSQLFieldLength(Attribute)
-     * findAttributeSQLFieldLength()} and combines it's result with the standard
-     * SQL type for the attributes type from the type mapping configuration
-     * file.</p>
-     *
-     * @param attribute the attribute
-     * @return String the string to be used as SQL type
-     */
-    public String findAttributeSQLType(Attribute attribute)
-    {
-        String value = findTagValue(attribute, "andromda.persistence.SQLType", true);
-
-        if (null == value)
-        {
-            Object type = attribute.getType();
-            String typeName = findFullyQualifiedName(type);
-            value = this.typeMappings.getSQLType(typeName, findAttributeSQLFieldLength(attribute));
-        }
         return value;
     }
 

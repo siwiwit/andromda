@@ -1,4 +1,4 @@
-#set ($packagename = $transform.findPackageName(${class.package}))
+#set ($packagename = $class.packageName)
 package $packagename;
 
 import java.io.IOException;
@@ -44,11 +44,11 @@ import $transform.findFullyQualifiedName(${class2});
 #end
 
 #foreach ( $dep in $class.dependencies )
-    #set ($class2 = $transform.findClassById($dep.targetType))
+    #set ($class2 = $dep.targetType)
     #if ($class2)
-        #set ($class2packagename = $transform.findPackageName(${class2.package}))
+        #set ($class2packagename = $class2.packageName)
         #if ($class2packagename != $packagename)
-import $transform.findFullyQualifiedName(${class2});
+import ${class2.fullyQualifiedName};
         #end
     #end
 #end

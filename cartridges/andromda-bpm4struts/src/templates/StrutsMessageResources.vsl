@@ -1,0 +1,20 @@
+##
+##  Constant declarations
+##
+#set ($jsps = $class.formBean.jsps)
+##
+##  Loop over each view for this controller
+##
+#foreach ($jsp in $jsps)
+$jsp.titleMessageKey=$jsp.titleMessageValue
+## Handle each view's input field
+#foreach ($inputField in $jsp.inputFields)
+$inputField.messageKey=$inputField.messageValue
+#end
+## Handle each view's trigger transition
+#set ($triggerMessages = $jsp.triggerMessages)
+#foreach ($triggerMessage in $triggerMessages.keySet())
+$triggerMessage=$triggerMessages.get($triggerMessage)
+#end
+
+#end

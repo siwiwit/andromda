@@ -3,6 +3,8 @@ package org.andromda.core.metadecorators.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Dependency;
@@ -115,27 +117,23 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
 
         return null;
     }
-
+    
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getFullyQualifiedName()
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getFullyQualifiedName(boolean)
      */
-    public String getFullyQualifiedName()
-    {
-        String fullName = getName();
-
-        if (isPrimitiveType())
-        {
-            return fullName;
-        }
-
-        String packageName = getPackageName();
-        fullName =
-            "".equals(packageName)
-                ? fullName
-                : packageName + "." + fullName;
-
-        return fullName;
-    }
+    public java.lang.String getFullyQualifiedName() 
+	{
+    	String name = metaObject.getName();
+    	
+    	// TODO: this will be removed when I'm able to update the metadecorator
+    	// model to use datatypes; and in fact, this entire method
+    	// should just be moved down to model element and removed from
+    	// this element entirely.
+    	if (this.isPrimitiveType()) {
+    		return name;
+    	}
+    	return super.getFullyQualifiedName();
+    }	
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#isPrimitiveType()
@@ -194,7 +192,59 @@ public class ClassifierDecoratorImpl extends ClassifierDecorator
     {
         return metaObject.getNamespace();
     }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#isAbstract()
+     */
+    public boolean isAbstract() {
+    	return this.metaObject.isAbstract();
+    }
 
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getStaticAttributes()
+     */
+    public Collection getStaticAttributes() {
+    	Collection attributes = this.getAttributes();
+    	class StaticAttributeFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return ((AttributeDecorator)object).isStatic();
+    		}
+    	}
+    	CollectionUtils.filter(attributes, new StaticAttributeFilter());
+    	return attributes;
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getInstanceAttributes()
+     */
+    public java.util.Collection getInstanceAttributes() {
+    	Collection attributes = this.getAttributes();
+    	class StaticAttributeFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return !((AttributeDecorator)object).isStatic();
+    		}
+    	}
+    	CollectionUtils.filter(attributes, new StaticAttributeFilter());
+    	return attributes;		
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ClassifierDecorator#getAbstractions()
+     */
+    public Collection getAbstractions() {
+    	Collection clientDependencies =
+    		this.getDependencies();
+    		
+    	class AbstractionFilter implements Predicate {
+    		public boolean evaluate(Object object) {
+    			return object instanceof Abstraction;
+    		}
+    	}
+    	
+    	CollectionUtils.filter(clientDependencies, new AbstractionFilter());
+    	return clientDependencies;
+    }
+    
     // ------------------------------------------------------------
 
 }

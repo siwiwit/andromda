@@ -14,17 +14,18 @@ import java.util.Properties;
 
 import org.andromda.cartridges.interfaces.CartridgeException;
 import org.andromda.cartridges.interfaces.IAndroMDACartridge;
-import org.andromda.cartridges.interfaces.OutletDictionary;
 import org.andromda.cartridges.mgmt.CartridgeDictionary;
 import org.andromda.cartridges.mgmt.CartridgeFinder;
-
 import org.andromda.core.common.CodeGenerationContext;
-import org.andromda.core.common.DbMappingTable;
+import org.andromda.core.common.ModelFacade;
+import org.andromda.core.common.ModelPackage;
+import org.andromda.core.common.ModelPackages;
+import org.andromda.core.common.Namespace;
+import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
-import org.andromda.core.common.ScriptHelper;
 import org.andromda.core.common.StdoutLogger;
-
+import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
@@ -39,11 +40,21 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
  * 
  * @author    <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author    <A HREF="http://www.amowers.com">Anthony Mowers</A>
+ * @author    Chad Brandon
  */
 public class AndroMDAGenTask extends MatchingTask
 {
-    private static final String DEFAULT_DBMAPPING_TABLE_CLASSNAME =
-        "org.andromda.core.dbmapping.DigesterDbMappingTable";
+	
+    /**
+     * Set the context class loader so that any classes using it (the 
+     * contextClassLoader) have access to the correct loader.
+     */
+    static {
+        Thread.currentThread().setContextClassLoader(
+            AndroMDAGenTask.class.getClassLoader());
+    }
+    
+    private static final Logger logger = Logger.getLogger(AndroMDAGenTask.class);
 
     /**
      *  the base directory
@@ -56,14 +67,21 @@ public class AndroMDAGenTask extends MatchingTask
     private boolean lastModifiedCheck = true;
 
     /**
-     *  the mappings from java data types to JDBC and SQL datatypes.
-     */
-    private DbMappingTable typeMappings = null;
-
-    /**
      *  the file to get the velocity properties file
      */
     private File velocityPropertiesFile = null;
+
+    /**
+     * True/false whether we should process
+     * all packages contained within the model.
+     */
+    private boolean processAllModelPackages = true;
+
+    /**
+     * A Packages object which specify
+     * whether or not packages should be processed.
+     */
+    private ModelPackages packages = new ModelPackages();
 
     /**
      *  User properties that were specified by nested tags in the ant script.
@@ -71,17 +89,17 @@ public class AndroMDAGenTask extends MatchingTask
     private ArrayList userProperties = new ArrayList();
 
     private RepositoryConfiguration repositoryConfiguration = null;
+    
+    /**
+     * Temporary list of properties from the &lt;namespace&gt; subtask.
+     * Will be transferred to the Namespaces instance before execution starts.
+     */
+    private Collection namespaces = new ArrayList();
 
     /**
      * An optional URL to a model
      */
     private URL modelURL = null;
-
-    /**
-     * Dictionary of defined outlets. An outlet is a symbolic alias name
-     * for a physical directory.
-     */
-    private OutletDictionary outletDictionary = new OutletDictionary();
 
     /**
      * Temporary list of mappings from the &lt;outlet&gt; subtask.
@@ -106,11 +124,22 @@ public class AndroMDAGenTask extends MatchingTask
      */
     public AndroMDAGenTask()
     {
+        StdoutLogger.configure();
     }
 
     public void setModelURL(URL modelURL)
     {
         this.modelURL = modelURL;
+    }
+    
+    /**
+     * Adds a namespace for a Plugin.  Namespace objects
+     * are used to configure Plugins.
+     * 
+     * @param namespace a Namespace to add to this
+     */
+    public void addNamespace(Namespace namespace) {
+    	namespaces.add(namespace);
     }
 
     /**
@@ -137,48 +166,6 @@ public class AndroMDAGenTask extends MatchingTask
     {
         baseDir = dir;
     }
-
-    /**
-     *  <p>
-     *
-     *  Reads the configuration file for mappings of Java types to JDBC and SQL
-     *  types.</p>
-     *
-     *@param  dbMappingConfig  XML file with type to database mappings
-     *@throws  BuildException  if the file is not accessible
-     */
-    public void setTypeMappings(File dbMappingConfig)
-    {
-        try
-        {
-            Class mappingClass =
-                Class.forName(DEFAULT_DBMAPPING_TABLE_CLASSNAME);
-            typeMappings = (DbMappingTable) mappingClass.newInstance();
-
-            typeMappings.read(dbMappingConfig);
-        }
-        catch (IllegalAccessException iae)
-        {
-            throw new BuildException(iae);
-        }
-        catch (ClassNotFoundException cnfe)
-        {
-            throw new BuildException(cnfe);
-        }
-        catch (RepositoryReadException rre)
-        {
-            throw new BuildException(rre);
-        }
-        catch (IOException ioe)
-        {
-            throw new BuildException(ioe);
-        }
-        catch (InstantiationException ie)
-        {
-            throw new BuildException(ie);
-        }
-    }
-
     /**
      *  <p>
      *
@@ -236,75 +223,85 @@ public class AndroMDAGenTask extends MatchingTask
      */
     public void execute() throws BuildException
     {
-        DirectoryScanner scanner;
-        String[] list;
-        String[] dirs;
-
-        if (baseDir == null)
+        try
         {
-            // We directly change the user variable, because it
-            // shouldn't lead to problems
-            baseDir = project.resolveFile(".");
-        }
+        	long startTime= System.currentTimeMillis();
+        	
+        	this.initNamespaces();
+        	
+            DirectoryScanner scanner;
+            String[] list;
+            String[] dirs;
 
-        if (typeMappings == null)
-        {
-            throw new BuildException("The typeMappings attribute of <andromda> has not been set - it is needed for class attribute to database column mapping.");
-        }
-
-        initOutletDictionary();
-        initVelocityProperties();
-        List cartridges = initCartridges();
-
-        // log("Transforming into: " + destDir.getAbsolutePath(), Project.MSG_INFO);
-
-        createRepository().createRepository().open();
-
-        if (modelURL == null)
-        {
-            // find the files/directories
-            scanner = getDirectoryScanner(baseDir);
-
-            // get a list of files to work on
-            list = scanner.getIncludedFiles();
-
-            if (list.length > 0)
+            if (baseDir == null)
             {
-                for (int i = 0; i < list.length; ++i)
-                {
-                    URL modelURL = null;
-                    File inFile = new File(baseDir, list[i]);
+                // We directly change the user variable, because it
+                // shouldn't lead to problems
+                baseDir = this.getProject().resolveFile(".");
+            }
+            
+            initVelocityProperties();
+            List cartridges = initCartridges();
 
-                    try
+            createRepository().createRepository().open();
+
+            if (modelURL == null)
+            {
+                // find the files/directories
+                scanner = getDirectoryScanner(baseDir);
+
+                // get a list of files to work on
+                list = scanner.getIncludedFiles();
+
+                if (list.length > 0)
+                {
+                    for (int i = 0; i < list.length; ++i)
                     {
-                        modelURL = inFile.toURL();
-                        process(modelURL);
+                        URL modelURL = null;
+                        File inFile = new File(baseDir, list[i]);
+
+                        try
+                        {
+                            modelURL = inFile.toURL();
+                            process(modelURL);
+                        }
+                        catch (MalformedURLException mfe)
+                        {
+                            throw new BuildException(
+                                "Malformed model file URL: " + modelURL);
+                        }
                     }
-                    catch (MalformedURLException mfe)
-                    {
-                        throw new BuildException(
-                            "Malformed model file URL: " + modelURL);
-                    }
+                }
+                else
+                {
+                    throw new BuildException("Couldn't find any input xmi.");
                 }
             }
             else
             {
-                throw new BuildException("Couldn't find any input xmi.");
+                // get the model via URL
+                process(modelURL);
             }
-        }
-        else
-        {
-            // get the model via URL
-            process(modelURL);
-        }
 
-        for (Iterator iter = cartridges.iterator(); iter.hasNext();)
-        {
-            IAndroMDACartridge cart = (IAndroMDACartridge) iter.next();
-            cart.shutdown();
-        }
+            for (Iterator iter = cartridges.iterator(); iter.hasNext();)
+            {
+                IAndroMDACartridge cart = (IAndroMDACartridge) iter.next();
+                cart.shutdown();
+            }
 
-        createRepository().createRepository().close();
+            createRepository().createRepository().close();
+        	StdoutLogger.info("completed model processing, TIME --> " 
+        			+ ((System.currentTimeMillis() - startTime) / 1000.0) + "[s]");
+
+        }
+        finally
+        {
+            // Set the context class loader back ot its system class loaders
+            // so that any processes running after (i.e. XDoclet, etc) won't be trying to use
+            // the ClassLoader for this class.
+            Thread.currentThread().setContextClassLoader(
+                ClassLoader.getSystemClassLoader());
+        }
     }
 
     /**
@@ -362,31 +359,11 @@ public class AndroMDAGenTask extends MatchingTask
     }
 
     /**
-     * This method would normally be unnecessary. It is here because of a bug in
-     * ant. Ant calls addOutlet() before the OutletMapping javabean is fully
-     * initialized. So we kept the javabeans in an ArrayList that we have to
-     * copy into the dictionary now.
-     */
-    private void initOutletDictionary()
-    {
-        for (Iterator iter = outletMappingList.iterator(); iter.hasNext();)
-        {
-            OutletMapping om = (OutletMapping) iter.next();
-            outletDictionary.addOutletMapping(
-                om.getCartridge(),
-                om.getOutlet(),
-                om.getDir());
-        }
-        outletMappingList = null;
-    }
-
-    /**
      * Initialize the cartridge system. Discover all installed cartridges and
      * register them in the cartridge dictionary.
      */
     private List initCartridges() throws BuildException
     {
-        CartridgeFinder.initClasspath(getClass());
         try
         {
             List cartridges = CartridgeFinder.findCartridges();
@@ -405,9 +382,9 @@ public class AndroMDAGenTask extends MatchingTask
                 {
                     IAndroMDACartridge cartridge =
                         (IAndroMDACartridge) cartridgeIterator.next();
-                    
+
                     cartridge.init(velocityProperties);
-                    
+
                     List stereotypes =
                         cartridge.getDescriptor().getSupportedStereotypes();
                     for (Iterator stereotypeIterator =
@@ -443,26 +420,29 @@ public class AndroMDAGenTask extends MatchingTask
             StdoutLogger.info("Input:  " + url);
 
             // configure repository
-            RepositoryFacade repository =
-                createRepository().createRepository();
+            RepositoryConfiguration rc = createRepository();
+            RepositoryFacade repository = rc.createRepository();
             repository.open();
-            repository.readModel(url);
+            repository.readModel(url, rc.createModuleSearchPath().list());
 
-            // configure script helper
-            ScriptHelper scriptHelper =
-                createRepository().createTransform();
-            scriptHelper.setModel(repository.getModel());
-            scriptHelper.setTypeMappings(typeMappings);
-            // @TODO: why does scripthelper have to know typeMappings?
-            
-            context =
-                new CodeGenerationContext(
-                    repository,
-                    scriptHelper,
-                    typeMappings,
-                    outletDictionary,
-                    lastModifiedCheck,
-                    userProperties);
+            final ModelFacade model = repository.getModel();
+                context =
+                    new CodeGenerationContext(
+                        repository,
+                        model,
+                        null, // <-- no default script helper, yet!
+                        lastModifiedCheck,
+                        packages,
+                        userProperties);
+
+            // process all model elements
+            Collection elements = model.getModelElements();
+            StdoutLogger.debug("Model elements read: " + elements.size());
+            for (Iterator it = elements.iterator(); it.hasNext();)
+            {
+                processModelElement(context, it.next());
+            }
+            repository.close();
         }
         catch (FileNotFoundException fnfe)
         {
@@ -477,15 +457,21 @@ public class AndroMDAGenTask extends MatchingTask
         {
             throw new BuildException(mdre);
         }
-
-        // process all model elements
-        Collection elements = context.getScriptHelper().getModelElements();
-        for (Iterator it = elements.iterator(); it.hasNext();)
-        {
-            processModelElement(context, it.next());
-        }
-        context.getRepository().close();
-
+    }
+    
+    /**
+     * This method would normally be unnecessary. It is here because of a bug in
+     * ant. Ant calls addNamespace() before the Namespace javabean is fully
+     * initialized. So we kept the javabeans in an ArrayList that we have to
+     * copy into the Namespaces instance.
+     */
+    private void initNamespaces() {
+    	for (Iterator iter = namespaces.iterator(); iter.hasNext();) {
+    		Namespace namespace = (Namespace)iter.next();
+    		if (logger.isDebugEnabled())
+    			logger.debug("adding namespace --> '" + namespace + "'");
+    		Namespaces.instance().addNamespace(namespace);
+    	}
     }
 
     /**
@@ -501,9 +487,14 @@ public class AndroMDAGenTask extends MatchingTask
         Object modelElement)
         throws BuildException
     {
-        String name = context.getScriptHelper().getName(modelElement);
+        String name = context.getModelFacade().getName(modelElement);
+
+        if (!"org.omg.uml.foundation.core.Comment$Impl"
+            .equals(modelElement.getClass().getName()))
+            StdoutLogger.debug("processModelElement: name=" + name);
+
         Collection stereotypeNames =
-            context.getScriptHelper().getStereotypeNames(modelElement);
+            context.getModelFacade().getStereotypeNames(modelElement);
 
         for (Iterator i = stereotypeNames.iterator(); i.hasNext();)
         {
@@ -531,6 +522,12 @@ public class AndroMDAGenTask extends MatchingTask
         String stereotypeName)
         throws BuildException
     {
+        String name = context.getModelFacade().getName(modelElement);
+        StdoutLogger.debug(
+            "processModelElementStereotype: <<"
+                + stereotypeName
+                + ">> "
+                + name);
         Collection suitableCartridges =
             cartridgeDictionary.lookupCartridges(stereotypeName);
         // @todo: lookup cartridges not only by stereotype 
@@ -540,9 +537,19 @@ public class AndroMDAGenTask extends MatchingTask
 
         if (suitableCartridges == null)
         {
+            StdoutLogger.debug(
+                "processModelElementStereotype: <<"
+                    + stereotypeName
+                    + ">> "
+                    + name
+                    + " --> no cartridge");
             return;
         }
 
+        StdoutLogger.debug(
+            "processModelElementStereotype: found "
+                + suitableCartridges.size()
+                + " suitable cartridges");
         for (Iterator iter = suitableCartridges.iterator();
             iter.hasNext();
             )
@@ -577,10 +584,44 @@ public class AndroMDAGenTask extends MatchingTask
     {
         if (repositoryConfiguration == null)
         {
-            repositoryConfiguration = new RepositoryConfiguration();
+            repositoryConfiguration =
+                new RepositoryConfiguration(getProject());
         }
 
         return repositoryConfiguration;
     }
 
+    /**
+     * Specifies whether or not AndroMDA should process
+     * all packages. If this is set to true, then package elements
+     * should be specified if you want to keep certain packages
+     * from being processed.  If this is set to false, then you would want
+     * to define package elements to specify which packages SHOULD BE
+     * processed.  This is useful if you need to reference stereotyped model
+     * elements from other packages but you don't want
+     * to perform any generation from them. The default is true.
+     *
+     * @param processAllModelPackages
+     * @see addPackage(java.lang.String, boolean)
+     */
+    public void setProcessAllModelPackages(boolean processAllModelPackages)
+    {
+        this.packages.setProcessAllPackages(processAllModelPackages);
+    }
+
+    /**
+     * Adds the <code>packageName</code>.  If processAllModelPackages
+     * is set to true, then all packageNames added will be 
+     * skipped during processing.  If processAllModelPackages is
+     * set to false, then all packages specified by package names
+     * are the only packages that will be processed.
+     * 
+     * @param processPackage the Package that should/shouldn't be processed.
+     * 
+     * @see setProcessAllModelPackages(boolean)
+     */
+    public void addModelPackage(ModelPackage modelPackage)
+    {
+        this.packages.addPackage(modelPackage);
+    }
 }

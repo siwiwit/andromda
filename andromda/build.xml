@@ -63,7 +63,7 @@
     <!--                       Highlevel user tasks                    -->
     <!-- ============================================================= -->
 
-    <target name="build" depends="jar,javadoc"
+    <target name="build" depends="jar"
             description="Builds the andromda jar plus accompanying javadoc" />
 
     <target name="clean" description="Delete all built files">
@@ -93,17 +93,19 @@
             <fileset dir="${license.src.dir}" includes="LICENSE"/>
         </copy>
 
+<!--
         <copy todir="${dist.dir}/doc/javadoc">
             <fileset dir="${build.doc.dir}/javadoc">
             </fileset>
         </copy>
+-->
 
         <copy todir="${dist.dir}/lib/">
             <fileset dir="lib" includes="*"/>
         </copy>
 
-        <copy todir="${dist.dir}/src/xml">
-            <fileset dir="src/xml" includes="*"/>
+        <copy todir="${dist.dir}/conf/mappings">
+            <fileset dir="conf/mappings" includes="*"/>
         </copy>
 
     </target>
@@ -120,6 +122,11 @@
             <src refid="src.path.list"/>
             <classpath refid="build.class.path"/>
         </javac>
+        <copy todir="${build.classes.dir}">
+	    	<fileset dir="${java.src.dir}">
+	    		<include name="**/*.xml"/>
+	    	</fileset>
+	    </copy>
     </target>
 
 
@@ -127,6 +134,9 @@
         <jar jarfile="${build.jar.dir}andromda.jar">
             <fileset dir="${build.classes.dir}" includes="**/*.class" />
             <fileset dir="." includes="andromda-core.properties" />
+        	<fileset dir="${build.classes.dir}">
+        		<include name="**/*.xml"/>
+        	</fileset>
         </jar>
     </target>
 
@@ -151,6 +161,11 @@
             <src refid="test.path.list"/>
             <classpath refid="test.class.path"/>
         </javac>
+        <copy todir="${build.test.classes.dir}">
+	    	<fileset dir="${test.src.dir}">
+	    		<include name="**/*.xml"/>
+	    	</fileset>
+	    </copy>
         <junit printsummary="yes" haltonfailure="false">
             <classpath>
                 <path refid="test.class.path"/>
