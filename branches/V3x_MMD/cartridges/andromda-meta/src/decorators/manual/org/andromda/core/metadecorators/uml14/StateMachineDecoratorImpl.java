@@ -6,9 +6,7 @@ import org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState;
 import org.omg.uml.behavioralelements.statemachines.CompositeState;
 import org.omg.uml.behavioralelements.statemachines.FinalState;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
-import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.datatypes.PseudostateKindEnum;
-import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
