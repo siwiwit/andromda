@@ -35,15 +35,15 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
         String oldNamespace = df.getActiveNamespace();
         df.setActiveNamespace (getDescriptor().getCartridgeName());
 
+        /**
+         *
+         *      behavioralelements
+         *
+         */
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl",
             null,
             StrutsActionStateDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Classifier$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_CONTROLLER,
-            StrutsControllerDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.statemachines.Event$Impl",
@@ -61,56 +61,6 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             StrutsGuardDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            null,
-            StrutsTextFieldDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_VIEW_TEXTFIELD,
-            StrutsTextFieldDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_VIEW_TEXTAREA,
-            StrutsTextAreaDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_VIEW_CHECKBOX,
-            StrutsCheckBoxDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_VIEW_RADIOBUTTON,
-            StrutsRadioButtonDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_VIEW_COMBOBOX,
-            StrutsComboBoxDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_VIEW_LIST,
-            StrutsListDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_VIEW_MULTIBOX,
-            StrutsMultiBoxDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Attribute$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_VIEW_PASSWORD,
-            StrutsPasswordDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Classifier$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_MODEL,
-            StrutsModelDecoratorImpl.class.getName());
-
-        df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState$Impl",
             null,
             StrutsObjectFlowStateDecoratorImpl.class.getName());
@@ -125,8 +75,15 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             null,
             StrutsSimpleStateDecoratorImpl.class.getName());
 
+/*
         df.registerDecoratorClass(
             "org.omg.uml.behavioralelements.statemachines.StateMachine$Impl",
+            null,
+            StrutsStateMachineDecoratorImpl.class.getName());
+*/
+
+        df.registerDecoratorClass(
+            "org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl",
             null,
             StrutsStateMachineDecoratorImpl.class.getName());
 
@@ -140,10 +97,70 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             null,
             StrutsUseCaseDecoratorImpl.class.getName());
 
+        /**
+         *
+         *      core model elements
+         *
+         */
         df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Classifier$Impl",
+            "org.omg.uml.foundation.core.UmlClass$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_MODEL,
+            StrutsModelDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.UmlClass$Impl",
             Bpm4StrutsProfile.STEREOTYPE_VIEW,
             StrutsViewDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.UmlClass$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_CONTROLLER,
+            StrutsControllerDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            null,
+            StrutsTextFieldDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_TEXTFIELD,
+            StrutsTextFieldDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_TEXTAREA,
+            StrutsTextAreaDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_CHECKBOX,
+            StrutsCheckBoxDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_RADIOBUTTON,
+            StrutsRadioButtonDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_COMBOBOX,
+            StrutsComboBoxDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_LIST,
+            StrutsListDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_MULTIBOX,
+            StrutsMultiBoxDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.foundation.core.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_PASSWORD,
+            StrutsPasswordDecoratorImpl.class.getName());
 
         df.setActiveNamespace (oldNamespace);
     }
