@@ -1,7 +1,6 @@
 package org.andromda.core.metadecorators.uml14;
 
-import org.omg.uml.behavioralelements.statemachines.CompositeState;
-import org.omg.uml.behavioralelements.statemachines.StateMachine;
+
 
 
 /**
@@ -25,30 +24,6 @@ public class ActionStateDecoratorImpl extends ActionStateDecorator
     // abstract in class ActionStateDecorator ...
 
     // ------------- relations ------------------
-
-    /**
-     *
-     */
-    public org.omg.uml.foundation.core.ModelElement handleGetStateMachine()
-    {
-        StateMachine stateMachine = null;
-        CompositeState compositeState = metaObject.getContainer();
-
-        if (compositeState != null)
-        {
-            while (compositeState != null)
-            {
-                stateMachine = compositeState.getStateMachine();
-                compositeState = compositeState.getContainer();
-            }
-        }
-        else
-        {
-            stateMachine = compositeState.getStateMachine();
-        }
-
-        return stateMachine;
-    }
 
     // ------------------------------------------------------------
 
