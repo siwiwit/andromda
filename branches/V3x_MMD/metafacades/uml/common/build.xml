@@ -98,9 +98,10 @@
 
 			<namespace name="meta">
 				<!-- define the outlet locations -->
-				<property name="facades" value="${src.fac.gen.dir}"/>
+				<property name="facades"                 value="${src.fac.gen.dir}"/>
 				<property name="facade-logics"           ignore="true"/>
 				<property name="facade-logic-impls"      ignore="true"/>
+				<property name="facades-to-impls"        ignore="true"/>				
 				<property name="languageMappingsUri"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
             
