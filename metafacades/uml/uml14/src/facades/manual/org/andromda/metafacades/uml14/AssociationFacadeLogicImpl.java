@@ -3,7 +3,7 @@ package org.andromda.metafacades.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
+import org.andromda.metafacades.uml.AssociationEndFacade;
 
 
 /**
@@ -24,7 +24,7 @@ public class AssociationFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml14.AssociationDecorator#handleGetAssociationEnds()
+     * @see org.andromda.core.metadecorators.uml14.AssociationFacade#handleGetAssociationEnds()
      */
     public java.util.Collection handleGetAssociationEnds()
     {
@@ -32,13 +32,13 @@ public class AssociationFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getName()
+     * @see org.andromda.core.metadecorators.uml14.ModelElementFacade#getName()
      */
     public String getRelationName() {
         Collection ends = this.getAssociationEnds();
         Iterator endIt = ends.iterator();
-        AssociationEndDecorator firstEnd = (AssociationEndDecorator)endIt.next();
-        AssociationEndDecorator secondEnd = (AssociationEndDecorator)endIt.next();
+        AssociationEndFacade firstEnd = (AssociationEndFacade)endIt.next();
+        AssociationEndFacade secondEnd = (AssociationEndFacade)endIt.next();
         String relationName = MetafacadeUtils.toRelationName(firstEnd.getName(), secondEnd.getName(), "-");
         return relationName;
     }
