@@ -2,7 +2,6 @@ package org.andromda.cartridges.interfaces;
 
 import java.io.File;
 import java.io.StringWriter;
-import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -268,12 +267,6 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                 catch (Throwable th) 
                 {
                     String errMsg = "Error performing " + methodName;
-                    if (MalformedURLException.class.isAssignableFrom(th.getClass())) {
-                        errMsg = "ERROR! '" + th.getMessage() 
-                        + "' Not a valid outputDirectory URI --> '" 
-                        + outputLocation + "' for cartridge '" + outletProperty.getValue()
-                        + "', please check configuration";
-                    }
                     logger.error(errMsg, th);
                     throw new CartridgeException(errMsg, th);
                 }

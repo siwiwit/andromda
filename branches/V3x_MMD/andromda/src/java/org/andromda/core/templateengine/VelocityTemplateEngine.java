@@ -137,7 +137,7 @@ public class VelocityTemplateEngine implements TemplateEngine {
     /**
      * @see org.andromda.core.templateengine.TemplateEngine#getEvaluatedExpression(java.lang.String)
      */
-    public synchronized String getEvaluatedExpression(String expression) {
+    public String getEvaluatedExpression(String expression) {
     	String evaluatedExpression = null;
         if (this.velocityContext != null && StringUtils.isNotEmpty(expression)) {
             
