@@ -41,7 +41,7 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
     {
         if (hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE))
         {
-            final String name = getName();
+            final String name = metaObject.getName();
             final UmlPackage model = MetaDecoratorUtil.getModel(metaObject);
             final Collection allStates = model.getStateMachines().getState().refAllOfType();
 
@@ -69,7 +69,7 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
 
     protected ModelElement handleGetServlet()
     {
-        final String name = getName();
+        final String name = metaObject.getName();
         UmlPackage model = MetaDecoratorUtil.getModel(metaObject);
         Collection classifiers = model.getCore().getClassifier().refAllOfType();
 
@@ -77,10 +77,10 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
         {
             Classifier undecoratedClassifier = (Classifier) iterator.next();
             DecoratorBase classifier = decoratedElement(undecoratedClassifier);
-            if (classifier instanceof StrutsControllerDecorator)
+            if (classifier instanceof StrutsServletDecorator)
             {
-                StrutsControllerDecorator controller = (StrutsControllerDecorator)classifier;
-                if (controller.getUseCase().getName().equalsIgnoreCase(name))
+                StrutsServletDecorator servlet = (StrutsServletDecorator)classifier;
+                if (servlet.getUseCase().getName().equalsIgnoreCase(name))
                     return undecoratedClassifier;
             }
         }
