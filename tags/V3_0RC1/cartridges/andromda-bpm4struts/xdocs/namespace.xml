@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+    <properties>
+        <title>Bpm4Struts Cartridge Namespace</title>
+    </properties>
+    <body>
+        <section name="Bpm4Struts Cartridge Namespace Properties">
+            <p>
+                In addition to the applicable
+                <a href="../andromda-metafacades-uml/namespace.html">UML Metafacade</a> namespace
+                properties which may also be used, this page describes 
+                namespace properties specific to this cartridge only.
+            </p>
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>actions</td>
+                    <td>The location to which Struts actions are generated.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>forms</td>
+                    <td>The location to which Struts action forms are generated.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>configuration</td>
+                    <td>
+                        The location to which Struts configuration files are generated. These are the files
+                        that typically appear in WEB-INF, such as validation-rules.xml and tiles-defs.xml.
+                    </td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>controllers</td>
+                    <td>The location to which abstract controllers are generated.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>controller-impls</td>
+                    <td>The location to which the controller implementation classes are generated.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>messages</td>
+                    <td>The location to which message resource bundles are generated.</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>pages</td>
+                    <td>application JSP pages, login pages and stylesheets are outputted here</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>server</td>
+                    <td>
+                        The location where to store application server specific configuration, such as users.properties
+                        and roles.properties (in case security has been enabled)
+                    </td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>decorators</td>
+                    <td>
+                        The location where the displaytag table decorators will be generated (if any).
+                        Files generated into this outlet will not be overwritten upon regeneration, they
+                        are meant to be edited by hand.
+                    </td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>generateTableDecorators</td>
+                    <td>
+                        Whether or not to generate decorators for all tables.
+                    </td>
+                    <td>No, default is <code>false</code></td>
+                </tr>
+                <tr>
+                    <td>tableDecoratorSuffix</td>
+                    <td>
+                        The string to append to table decorator class names.
+                    </td>
+                    <td>No, default is <code>Decorator</code></td>
+                </tr>
+                <tr>
+                    <td>clientValidation</td>
+                    <td>true/false, denotes if the client should validate user input.</td>
+                    <td>
+                        No, default is
+                        <code>true</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>serverValidation</td>
+                    <td>true/false, denotes if the server should validate user input.</td>
+                    <td>
+                        No, default is
+                        <code>true</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>security</td>
+                    <td>Whether or not to render code enabling the security features (true/false)</td>
+                    <td>No, default is
+                        <code>false</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>securityRealm</td>
+                    <td>The security realm to use when security is enabled.</td>
+                    <td>
+                        No, default is
+                        <code>other</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>welcomeFileName</td>
+                    <td>The name of the JSP that is the welcome file.</td>
+                    <td>
+                        No, default is
+                        <code>index.jsp</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>xhtml</td>
+                    <td>true/false on whether or not xhtml should be rendered (instead of just normal html).</td>
+                    <td>
+                        No, default is
+                        <code>false</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>dummyData</td>
+                    <td>true/false, denotes whether or not to render dummy data in things like controllers.</td>
+                    <td>
+                        No, default is
+                        <code>true</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>hints</td>
+                    <td>
+                        True/false on whether or not hints should be rendered in the generated
+                        JSP pages.
+                    </td>
+                    <td>
+                        No, default is <code>true</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>maxBreadCrumbs</td>
+                    <td>
+                        An integer denoting the maximum number of breadcrumbs to appear on a
+                        page, specify zero to disable breadcrumbs
+                    </td>
+                    <td>
+                        No, default is
+                        <code>5</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>onlineHelp</td>
+                    <td>true/false, denotes whether or not to render online help pages.</td>
+                    <td>
+                        No, default is
+                        <code>true</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>defaultDateFormat</td>
+                    <td>
+                        The default date format to use in case it has not been explicitely
+                        specified, for example for event parameters of type Date.
+                        Take a look
+                        <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html">here</a>
+                        to see how to properly construct date formats.
+                    </td>
+                    <td>
+                        No, default is
+                        <code>dd/MM/yyyy</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>errorMessagesKey</td>
+                    <td>
+                        The key to lookup additional error handler messages from within the request scope, the value will be an
+                        <a href="http://struts.apache.org/api/org/apache/struts/action/ActionMessages.html">
+                        ActionMessages</a> instance
+                    </td>
+                    <td>
+                        No, default is <code>org.andromda.bpm4struts.errormessages</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>warningMessagesKey</td>
+                    <td>
+                        The key to lookup warning messages in a scope, the value will be an 
+                        <a href="http://struts.apache.org/api/org/apache/struts/action/ActionMessages.html">
+                        ActionMessages</a> instance
+                    </td>
+                    <td>
+                        No, default is
+                        <code>org.andromda.bpm4struts.warningmessages</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>successMessagesKey</td>
+                    <td>
+                        The key to lookup success messages in a scope, the value will be an 
+                        <a href="http://struts.apache.org/api/org/apache/struts/action/ActionMessages.html">
+                        ActionMessages</a> instance</td>
+                    <td>
+                        No, default is
+                        <code>org.andromda.bpm4struts.successmessages</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>defaultActionRedirect</td>
+                    <td>
+                        True/false on whether or not redirection should occur on all action forwards.
+                    </td>
+                    <td>
+                        No, default is <code>false</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>actionPathPrefix</td>
+                    <td>
+                        The pattern to use when rendering the action paths in <code>struts-config.xml</code>, use
+                        {0} for the package, /${use-case}/${action} is always appended.
+                        For use-case <code>"org.andromda.test.My UseCase"</code> the
+                        <code>"login"</code> action could be rendered using <code>/abc/{0}</code> which would
+                        result in <code>/abc/org/andromda/test/MyUseCase/Login</code>. Make sure to start the prefix
+                        using a forward slash character.
+                    </td>
+                    <td>
+                        No, by default there is no prefix.
+                    </td>
+                </tr>
+                <tr>
+                    <td>serviceAccessorPattern</td>
+                    <td>
+                        The pattern to use when constructing the accessor of a back end
+                        service to a controller.  For example say your controller referenced
+                        a service and you were using an axis webservice client stub to access the
+                        service, the value of your serviceAccessorPattern would be:
+                        <em>new {0}.ws.{1}Locator().get{1}()</em>, where <em>{0}</em> is
+                        the package name of the modeled service and <em>{1}</em> is the
+                        name of the modeled service.
+                    </td>
+                    <td>
+                        No, by default no accessors to backend-services are generated.
+                    </td>
+                </tr>
+                <tr>
+                    <td>servicePackageNamePattern</td>
+                    <td>
+                        Used in combination with the <code>serviceAccessorPattern</code> property,
+                        this is the pattern to use when constructing the back end service package name.
+                        This is useful when your package name may be different than the one
+                        in your model (for example when talking to a webservice your client
+                        stubs may be in a different package than your modeled ones). If this was the
+                        case you'd need to specify something like <em>{0}.ws</em> if your package
+                        name was <em>some.package.name</em> and you wanted <em>ws</em> added to each 
+                        package.
+                    </td>
+                    <td>
+                        No, default is <code>{0}</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>exceptionHandlerPattern</td>
+                    <td>
+                        Used to define the pattern used for retrieving message resource keys
+                        from exceptions.  This is useful when exceptions are thrown from the business
+                        tier and you want to map these to messages in your presentation. 
+                        Normally you won't need to change this pattern, however you may want to 
+                        if you want to enable it to handle exceptions you may have no control over 
+                        (i.e. SQLExceptions).  Currently the default pattern supports an exception with 
+                        an embedded <em>{some.resource.key}</em> type key.
+                    </td>
+                    <td>
+                        No, default is <code>(.*)(\\{\\s*([\\w|\\.+]*)\\s*\\})(.*)</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>exceptionHandlerPackage</td>
+                    <td>
+                        The package to which the exception handler that retrieves exception keys will 
+                        be generated.
+                    </td>
+                    <td>
+                        No, default is <code>org.andromda.presentation.bpm4struts</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>validatorPackage</td>
+                    <td>
+                        The package to which the validator (containing extra commons-validator
+                        handlers) will be generated.              
+                    </td>
+                    <td>
+                        No, default is <code>org.andromda.presentation.bpm4struts</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>customResourcesKey</td>
+                    <td>
+                        The key used to store the custom message resources (the message resources seperate
+                        from the standard application resources generated by this cartridge).
+                    </td>
+                    <td>
+                        No, default is <code>custom</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        xmlEncoding
+                    </td>
+                    <td>
+                        Encoding for xml's generated files.
+                    </td>
+                    <td>
+                        No, default is <code>UTF-8</code>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        generateWebXmlIds
+                    </td>
+                    <td>
+                        Indicates whether or not to generate <code>id</code>
+                        attributes in the XMl elements of the web.xml
+                        descriptor. Some application servers such as WebSphere
+                        need them, other application servers such as Resin
+                        can't handle them.
+                    </td>
+                    <td>
+                        No, default is <code>false</code>.
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </body>
+</document>

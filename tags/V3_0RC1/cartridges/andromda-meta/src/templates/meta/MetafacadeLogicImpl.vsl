@@ -1,0 +1,111 @@
+#set ($generatedFile = $metafacade.logicImplFile)
+#if ($metafacade.logicPackageName)
+package $metafacade.logicPackageName;
+#end
+
+#if ($metafacade.metaclassDirectDependency)
+#set ($shieldedMetaclassTypeName = $metafacade.metaclass.fullyQualifiedName)
+#else
+#set ($shieldedMetaclassTypeName = "Object")
+#end
+
+/**
+ * MetafacadeLogic implementation for $metafacade.fullyQualifiedName.
+ *
+ * @see $metafacade.fullyQualifiedName
+ */
+public class $metafacade.logicImplName
+    extends ${metafacade.name}Logic
+{
+    // ---------------- constructor -------------------------------
+
+    public ${metafacade.logicImplName} ($shieldedMetaclassTypeName metaObject, String context)
+    {
+        super (metaObject, context);
+    }
+#set ($attributes = $metafacade.attributes)
+#if (!$attributes.empty)
+
+#foreach ( $attribute in $attributes )
+#set ($methodName = $attribute.getterName)
+#set ($handleMethodName = "handle$stringUtils.capitalize($methodName)")
+#set ($typedArgumentList = "")
+#set ($returnTypeName = $attribute.type.fullyQualifiedName)
+    /**
+     * @see ${metafacade.fullyQualifiedName}#${attribute.getterName}()
+     */
+    protected $returnTypeName ${handleMethodName}($typedArgumentList)
+    {
+        // TODO: put your implementation here.
+
+        // Dummy return value, just that the file compiles
+#if (!$attribute.type.primitive)
+        return null;
+#elseif ("boolean" == $returnTypeName)
+        return false;
+#else
+        return ($returnTypeName)0;
+#end
+    }
+
+#end
+#end
+##
+#if (!$metafacade.operations.empty)
+#foreach ( $operation in $metafacade.operations)
+#set ($methodName = $operation.name)
+#set ($handleMethodName = "handle$stringUtils.capitalize($methodName)")
+#set ($typedArgumentList = $operation.typedArgumentList)
+#set ($returnTypeName = $operation.returnType.fullyQualifiedName)
+#if ($defaultException)
+    $operation.visibility $returnTypeName ${handleMethodName}($typedArgumentList)
+        throws $defaultException.name {
+#else
+    /**
+     * @see ${metafacade.fullyQualifiedName}#${operation.getSignature(false)}
+     */
+    protected $returnTypeName ${handleMethodName}($typedArgumentList)
+    {
+#end
+        // TODO: put your implementation here.
+#if ($operation.returnTypePresent)
+
+        // Dummy return value, just that the file compiles
+#if (!$operation.returnType.primitive)
+        return null;
+#elseif ("boolean" == $returnTypeName)
+        return false;
+#else
+        return ($returnTypeName)0;
+#end
+#end
+    }
+
+#end
+#end
+##
+#if (!$metafacade.associationEnds.empty)
+#foreach ( $associationEnd in $metafacade.associationEnds )
+#if ($associationEnd.otherEnd.navigable)
+#set ($memberTypeName = $associationEnd.otherEnd.getterSetterTypeName)
+#set ($methodName = $associationEnd.otherEnd.getterName)
+#set ($handleMethodName = "handle$stringUtils.capitalize($methodName)")
+#set ($typedArgumentList = "")
+#if ($associationEnd.otherEnd.many)
+#set ($returnTypeName = $associationEnd.otherEnd.getterSetterTypeName)
+#else
+#set ($returnTypeName = "java.lang.Object")
+#end
+    /**
+     * @see ${metafacade.fullyQualifiedName}#${associationEnd.otherEnd.getterName}()
+     */
+    protected $returnTypeName ${handleMethodName}($typedArgumentList)
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+
+#end
+#end
+#end
+}
