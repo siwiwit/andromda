@@ -57,8 +57,7 @@ public class EntityDecoratorImpl extends EntityDecorator
     	if (logger.isDebugEnabled())
     		logger.debug("performing " + methodName);
     	
-    	Collection attributes = this.getAttributes();
-    		Collection associationEnds = this.getAssociationEnds();				
+    	Collection attributes = this.getAttributes();		
     	MetafacadeUtils.filterByStereotype(
     			attributes, 
     			UMLProfile.STEREOTYPE_IDENTIFIER);

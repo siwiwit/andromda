@@ -44,7 +44,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
 #if($att.hasStereotype("EnvEntry"))
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
 #else
-#set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
+#set ($ATT_NAME = $att.columnName)
      * Get #firstJavadocParagraph(${att} "lower" "the $ATT_NAME constant")
 #end
 #remainingJavadocParagraphs($att "     ")

@@ -10,6 +10,7 @@ import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
+import org.andromda.core.metadecorators.uml14.MetafacadeUtils;
 import org.andromda.core.metadecorators.uml14.OperationDecorator;
 import org.andromda.core.uml14.UMLProfile;
 
@@ -54,39 +55,35 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	 *            the entity to check
 	 * @return a collection of {@link Attribute}objects
 	 */
-	public Collection getPrimaryKeyFields() {
+	public Collection getIdentifiers() {
 
+		Collection identifiers = new ArrayList();
 		Iterator iter = this.getDependencies().iterator();
 		while (iter.hasNext()) {
 			DependencyDecorator dep =
 				(DependencyDecorator) iter.next();
 			if (dep.hasStereotype(EJBProfile.STEREOTYPE_IDENTIFIER)) {
-				Collection allAttrib =
+				identifiers =
 					dep.getTargetType().getInstanceAttributes();
-				Collection publicAttrib = new ArrayList();
-				for (Iterator i = allAttrib.iterator(); i.hasNext();) {
-					AttributeDecorator att = (AttributeDecorator) i.next();
-					if ("public".equals(att.getVisibility())) {
-						publicAttrib.add(att);
-					}
-				}
-				return publicAttrib;
+				MetafacadeUtils.filterByStereotype(
+					identifiers, 
+					EJBProfile.STEREOTYPE_IDENTIFIER);
+				return identifiers;
 			}
 		}
+
 		// No PK dependency found - try a PK attribute
-		if (this.hasIdentifiers()) {
-			AttributeDecorator attr = (AttributeDecorator)this.getIdentifiers().iterator().next();
-			if (attr != null) {
-				Collection retval = new ArrayList(1);
-				retval.add(attr);
-				return retval;
-			}
+		if (super.getIdentifiers() != null && !super.getIdentifiers().isEmpty()) {
+			AttributeDecorator attr = (AttributeDecorator)super.getIdentifiers().iterator().next();
+			identifiers.add(attr);
+			return identifiers;
 		}
+		System.out.println("after has identifers!!!!!!!!!!!!!!!!");
 
 		// Still nothing found - recurse up the inheritance tree
 		EJBEntityDecorator decorator =
 			(EJBEntityDecorator) this.getSuperclass();
-		return decorator.getPrimaryKeyFields();
+		return decorator.getIdentifiers();
 	}
 
 	/**

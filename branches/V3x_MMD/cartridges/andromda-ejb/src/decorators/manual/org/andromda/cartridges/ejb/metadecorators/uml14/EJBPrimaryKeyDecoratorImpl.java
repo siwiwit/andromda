@@ -49,7 +49,7 @@ public class EJBPrimaryKeyDecoratorImpl extends EJBPrimaryKeyDecorator {
 	private AttributeDecorator getSimplePkField() {
 		AttributeDecorator primaryKey = null;
 		Collection primaryKeys =
-			((EJBEntityDecorator) this.getOwner()).getPrimaryKeyFields();
+			((EJBEntityDecorator) this.getOwner()).getIdentifiers();
 		if (primaryKeys.size() == 1) {
 			AttributeDecorator pkField =
 				(AttributeDecorator) primaryKeys.iterator().next();

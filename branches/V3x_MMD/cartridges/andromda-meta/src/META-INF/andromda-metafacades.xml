@@ -55,6 +55,7 @@
 		metaobjectClass="org.omg.uml.foundation.core.Interface$Impl"
 		metafacadeClass="org.andromda.core.metadecorators.uml14.EntityDecoratorImpl">
 		<stereotype>Entity</stereotype>
+		<property reference="maxSqlNameLength"/>
 	</metafacade>		
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"

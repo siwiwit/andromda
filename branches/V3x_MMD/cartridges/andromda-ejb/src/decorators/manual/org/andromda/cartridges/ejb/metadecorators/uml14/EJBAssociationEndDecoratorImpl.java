@@ -4,17 +4,14 @@ package org.andromda.cartridges.ejb.metadecorators.uml14;
  * Metaclass decorator implementation for org.omg.uml.foundation.core.AssociationEnd
  */
 public class EJBAssociationEndDecoratorImpl extends EJBAssociationEndDecorator {
-	// ---------------- constructor -------------------------------
 
 	public EJBAssociationEndDecoratorImpl(org.omg.uml.foundation.core.AssociationEnd metaObject) {
 		super(metaObject);
 	}
 
-	// -------------------- business methods ----------------------
-
-	// concrete business methods that were declared
-	// abstract in class EJBAssociationEndDecorator ...
-
+	/**
+	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBAssociationEndDecorator#getRelationName()
+	 */
 	public java.lang.String getRelationName() {
 		String relationName;
 		EJBAssociationEndDecorator target =
