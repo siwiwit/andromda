@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  	<extend>../project.xml</extend>
+  	<id>andromda-animal-quiz-sample-common</id>
+  	<groupId>andromda</groupId>
+  	<name>Animal Quiz Sample Common</name>
+  	<shortDescription>The Animal Quiz Sample</shortDescription>
+  	<description>
+  		Contains the Animal Quiz Sample common module.
+  	</description>
+	<dependencies>      
+		<dependency>
+			<groupId>andromda</groupId>
+			<artifactId>andromda-animal-quiz-sample-mda</artifactId>
+			<version>${pom.currentVersion}</version>
+			<type>pom</type>
+		</dependency>
+	</dependencies>
+	
+  	<build>
+    	<sourceDirectory>src/java</sourceDirectory>
+  	</build>
+
+</project>
