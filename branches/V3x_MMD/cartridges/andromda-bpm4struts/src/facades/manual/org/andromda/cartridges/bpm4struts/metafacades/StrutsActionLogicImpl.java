@@ -203,7 +203,7 @@ public class StrutsActionLogicImpl
 
     public String getTriggerKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(getTriggerValue());
+        return StringUtilsHelper.toResourceMessageKey(getActionClassName());
     }
 
     public String getTriggerValue()
