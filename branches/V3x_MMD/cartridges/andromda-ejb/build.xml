@@ -8,7 +8,10 @@
     <property name="src.cart.dir"     value="${src.dir}/java" />
     <property name="src.dec.gen.dir"  value="${src.dir}/decorators/generated" />
     <property name="src.dec.man.dir"  value="${src.dir}/decorators/manual" />
-    <property name="uml.dir"          value="${src.dir}/uml" />
+    <!-- <property name="uml.dir"          value="${src.dir}/uml" /> -->
+    <!-- temporarily point to the andromda-meta cartrige since we need to use 
+         that model until the HREF enabling is done -->
+    <property name="uml.dir"          value="${basedir}/../andromda-meta/src/uml" />
     <property name="src.test.dir"     value="${src.dir}/test/" />
 
     <property name="build.dir"              value="build" />
@@ -109,18 +112,19 @@
         <property name="g.cp" refid="generate.classpath"/>
         <echo message="generate.classpath = ${g.cp}"/>
 
-        <property name="model" value="jar:file:${uml.dir}/EJBMetadecoratorModel.xml.zip!/EJBMetadecoratorModel.xml"/>
+        <!-- <property name="model" value="jar:file:${uml.dir}/EJBMetadecoratorModel.xml.zip!/EJBMetadecoratorModel.xml"/> -->
+        <property name="model" value="jar:file:${uml.dir}/MetadecoratorModel.xml.zip!/MetadecoratorModel.xml"/>
 
         <andromda basedir="."
            modelURL="${model}"
            lastModifiedCheck="false"
            typeMappings="${andromda-core.home}/src/xml/TypeMapping.xml"
-           processAllModelPackages="true">
+           processAllModelPackages="false">
 
             <outlet cartridge="meta" outlet="decorators"       dir="${src.dec.gen.dir}" />
             <outlet cartridge="meta" outlet="decorator-impls"  dir="${src.dec.man.dir}" />
             
-            <modelPackage name="org.andromda.core.metadecorators.uml14" shouldProcess="false"/>
+            <modelPackage name="org.andromda.cartridges.ejb.metadecorators.uml14" shouldProcess="true"/>
 
         </andromda>
     </target>
