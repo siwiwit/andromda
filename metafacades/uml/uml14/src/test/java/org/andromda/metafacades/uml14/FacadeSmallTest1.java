@@ -203,7 +203,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
         {
             DependencyFacade dd = (DependencyFacade) i3.next();
             assertNotNull(dd);
-            String targetName = dd.getTargetType().getName();
+            String targetName = dd.getTargetElement().getName();
             assertNotNull(
                 "Unexpected class name: " + targetName,
                 expectedResults.get(targetName));

@@ -115,7 +115,7 @@ public class MetafacadeFacadeLogicImpl
             )
         {
             DependencyFacade dep = (DependencyFacade) iter.next();
-            ClassifierFacade target = dep.getTargetType();
+            ClassifierFacade target = (ClassifierFacade) dep.getTargetElement();
             Collection stereotypes = target.getStereotypeNames();
             if (stereotypes != null && stereotypes.size() > 0)
             {
@@ -129,7 +129,7 @@ public class MetafacadeFacadeLogicImpl
             }
         }
 
-        ClassifierFacade superclass = cl.getSuperclass();
+        ClassifierFacade superclass = (ClassifierFacade) cl.getGeneralization();
         return (superclass != null) ? getMetaclass(superclass) : null;
     }
     
@@ -144,7 +144,7 @@ public class MetafacadeFacadeLogicImpl
             DependencyFacade dependency = 
                 (DependencyFacade)dependencies.iterator().next();
             if (dependency != null) {
-                ModelElementFacade targetElement = dependency.getTargetType();
+                ModelElementFacade targetElement = dependency.getTargetElement();
                 if (targetElement != null) {
                     isMetaClassDirectDependency = 
                         targetElement.hasStereotype(MetaProfile.STEREOTYPE_METACLASS);
@@ -184,9 +184,9 @@ public class MetafacadeFacadeLogicImpl
         internalGetMethodDataForPSM(map, this);
         if (includeSuperclasses)
         {
-            for (ClassifierFacade cd = getSuperclass();
+            for (ClassifierFacade cd = (ClassifierFacade) getGeneralization();
                 cd != null;
-                cd = cd.getSuperclass())
+                cd = (ClassifierFacade) cd.getGeneralization())
             {
                 internalGetMethodDataForPSM(map, (MetafacadeFacade) cd);
             }

@@ -23,7 +23,7 @@ public class DependencyFacadeLogicImpl
     // concrete business methods that were declared
     // abstract in class DependencyDecorator ...
 
-    public Object handleGetTargetType()
+    public Object handleGetTargetElement()
     {
         return metaObject.getSupplier().iterator().next();
     }

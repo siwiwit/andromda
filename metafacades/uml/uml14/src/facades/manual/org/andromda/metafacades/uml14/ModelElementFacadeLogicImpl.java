@@ -12,7 +12,9 @@ import org.andromda.metafacades.uml.TaggedValueFacade;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.UmlPackage;
+import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Comment;
+import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.TaggedValue;
 import org.omg.uml.modelmanagement.Model;
@@ -306,5 +308,20 @@ public class ModelElementFacadeLogicImpl
                 .getModelManagement().refAllPackages();
         return (ModelElement) rootPackages.iterator().next();
     }
+
+    /**
+     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetDependencies()
+     */
+    public java.util.Collection handleGetDependencies()
+	{
+    	return new FilteredCollection(metaObject.getClientDependency())
+		{
+    		protected boolean accept(Object object)
+			{
+    			return (object instanceof Dependency)
+                    && !(object instanceof Abstraction);
+			}
+		};
+	}
 
 }

@@ -52,7 +52,7 @@ package $packagename;
 #end
 #foreach ( $dep in $class.dependencies )
 #if ($dep.hasStereotype("EntityRef") || $dep.hasStereotype("ServiceRef"))
-#set ($superclass = $dep.targetType)
+#set ($superclass = $dep.targetElement)
 #set ($viewtype = "")
 #set ($viewtype = $superclass.findTaggedValue("@andromda.ejb.viewType"))
 #if ($viewtype == "")
@@ -65,7 +65,7 @@ package $packagename;
  *     ref-name="ejb/${superclass.name}BeanRef"
 #end
 #if ($dep.hasStereotype("ResourceRef"))
-#set ($superclass = $dep.targetType)
+#set ($superclass = $dep.targetElement)
 #set ($jndiRef = $dep.findTaggedValue("@andromda.ejb.resource-ref.jndi-name"))
 #set ($resAuth = $dep.findTaggedValue("@andromda.ejb.resource-ref.res-auth"))
 #if (!$resAuth)
@@ -316,7 +316,7 @@ public abstract class ${servicename}Bean
 #foreach ( $dep in $class.dependencies )
 #set ($viewtype = "")
 #if ($dep.hasStereotype("EntityRef") || $dep.hasStereotype("ServiceRef"))
-#set ($referencedClass = $dep.targetType)
+#set ($referencedClass = $dep.targetElement)
 #set ($viewtype = $superclass.findTaggedValue("@andromda.ejb.viewType"))
 #if ($viewtype == "")
 #set ($viewtype = ${referencedClass.viewType})
@@ -370,7 +370,7 @@ public abstract class ${servicename}Bean
 #end
 #end
 #if ($dep.hasStereotype("ResourceRef"))
-#set ($referencedClass = $dep.targetType)
+#set ($referencedClass = $dep.targetElement)
 #set ($resClassName = "$referencedClass.fullyQualifiedName}")
 #set ($resName = $dep.name)
 #if (!$resName)
