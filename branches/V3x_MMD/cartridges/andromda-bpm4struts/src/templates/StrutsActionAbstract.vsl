@@ -37,10 +37,7 @@
 ${indent}return $str.toJavaMethodName($target.name)(mapping, form, request, response);
 #elseif ($transform.isActionState($target) || $transform.isFinalState($target))
 ${indent}return mapping.findForward("$str.separate($target.name,".").toLowerCase()");
-#elseif ($transform.isObjectFlowState($target))
-#set ($objectFlowStateName = $str.toJavaClassName($target.name))
-${indent}return set${objectFlowStateName}(mapping, form, request, response);
-#elseif ($transform.isDecisionPoint($target))
+#elseif ($transform.isObjectFlowState($target) || $transform.isDecisionPoint($target))
 ${indent}return ${str.toJavaMethodName($target.name)}Abstract(mapping, form, request, response);
 #else
 // illegal modelelement : $target.name ($target)
@@ -51,12 +48,11 @@ ${indent}return ${str.toJavaMethodName($target.name)}Abstract(mapping, form, req
 ##
 package $class.packageName;
 
-#if ($formBeanType == "ActionForm")
-import org.apache.struts.action.ActionForm;
-#elseif ($class.packageName != $class.formBean.packageName)
+#if (($formBeanType != "ActionForm") && ($class.packageName != $class.formBean.packageName))
 import $class.formBean.fullyQualifiedName;
 
 #end
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
@@ -121,10 +117,10 @@ public abstract class $className extends DispatchAction
 #foreach ($objectFlowState in $objectFlowStates)
 #set ($stateMethodNameParent = "$str.toJavaMethodName($objectFlowState.name)Abstract")
 #set ($stateMethodNameChild = "$str.toJavaMethodName($objectFlowState.name)")
-    private void ${stateMethodNameParent}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
+    private ActionForward ${stateMethodNameParent}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     {
         ${stateMethodNameChild}(mapping, ($formBeanType)form, request, response);
-#processTransition ( $objectFlowState.outgoingTransition "                " )
+#processTransition ( $objectFlowState.outgoingTransition "        " )
     }
 
     protected abstract void ${stateMethodNameChild}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response);
