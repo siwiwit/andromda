@@ -47,6 +47,10 @@
     <category name="org.andromda.core.mdr">
       <priority value="info" />
     </category>
+    
+    <category name="org.andromda.core.metafacade">
+      <priority value="info" />
+    </category>
 
   	<!-- ======================= -->
   	<!-- Setup the Root category -->

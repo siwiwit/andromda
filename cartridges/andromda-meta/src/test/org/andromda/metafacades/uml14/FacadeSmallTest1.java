@@ -56,7 +56,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
     {
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         ModelFacade md =
-            (ModelFacade) df.createFacadeObject(model);
+            (ModelFacade) df.createMetafacade(model);
         Collection packages =
             ((PackageFacade) md.getRootPackage()).getSubPackages();
         assertEquals(5, packages.size());
@@ -86,7 +86,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
     {
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         ModelFacade md =
-            (ModelFacade) df.createFacadeObject(model);
+            (ModelFacade) df.createMetafacade(model);
         Collection packages =
             ((PackageFacade) md.getRootPackage()).getSubPackages();
 
@@ -133,7 +133,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
     {
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         ModelFacade md =
-            (ModelFacade) df.createFacadeObject(model);
+            (ModelFacade) df.createMetafacade(model);
         ModelElement assClass =
             getModelElement(
                 (Namespace) md.getRootPackage(),
@@ -141,7 +141,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
                 0);
         assertNotNull(assClass);
         ClassifierFacade clazz =
-            (ClassifierFacade) df.createFacadeObject(assClass);
+            (ClassifierFacade) df.createMetafacade(assClass);
         for (Iterator i3 = clazz.getAssociationEnds().iterator();
             i3.hasNext();
             )
@@ -187,7 +187,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
     {
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         ModelFacade md =
-            (ModelFacade) df.createFacadeObject(model);
+            (ModelFacade) df.createMetafacade(model);
         ModelElement depClass =
             getModelElement(
                 (Namespace) md.getRootPackage(),
@@ -195,7 +195,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
                 0);
         assertNotNull(depClass);
         ClassifierFacade clazz =
-            (ClassifierFacade) df.createFacadeObject(depClass);
+            (ClassifierFacade) df.createMetafacade(depClass);
         Collection dependencies = clazz.getDependencies();
         assertNotNull(dependencies);
         assertEquals(3, dependencies.size());

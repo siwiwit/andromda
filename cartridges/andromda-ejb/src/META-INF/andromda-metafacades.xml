@@ -11,8 +11,8 @@
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.cartridges.ejb.metafacades.EJBPrimaryKeyFacadeLogicImpl">
 		<stereotype>PrimaryKey</stereotype>
-		<property reference="sqlMappings"/>
-		<property reference="jdbcMappings"/>
+		<property reference="sqlMappingsUri"/>
+		<property reference="jdbcMappingsUri"/>
 	</metafacade>
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
@@ -29,14 +29,14 @@
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
 		metafacadeClass="org.andromda.cartridges.ejb.metafacades.EJBAssociationEndFacadeLogicImpl">
-		<context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacadeLogicImpl</context>
+		<context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacade</context>
 		<property reference="foreignKeySuffix"/>
 	</metafacade>			
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.metafacades.uml14.EntityAttributeFacadeLogicImpl">
-		<context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacadeLogicImpl</context>
-		<property reference="sqlMappings"/>
-		<property reference="jdbcMappings"/>
+		<context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacade</context>
+		<property reference="sqlMappingsUri"/>
+		<property reference="jdbcMappingsUri"/>
 	</metafacade>		
 </metafacades>

@@ -27,11 +27,12 @@ public class MetafacadeFactory
      * Caches the registered properties used
      * within metafacades.
      */
-    private Map registeredProperties = new HashMap();
+    private Map registeredProperties = null;
 
     // constructor is private to make sure that nobody instantiates it
     private MetafacadeFactory()
     {
+        registeredProperties = new HashMap();
         MetafacadeMappings.instance().discoverMetafacades();
     }
 
@@ -73,11 +74,11 @@ public class MetafacadeFactory
      *                    model element is registered under.
      * @return the new metafacade
      */
-    public MetafacadeBase createFacadeObject(
+    public MetafacadeBase createMetafacade(
         Object metaobject,
         String contextName)
     {
-        return this.internalCreateFacadeObject(
+        return this.internalCreateMetafacade(
             metaobject,
             contextName,
             null);
@@ -90,16 +91,16 @@ public class MetafacadeFactory
      * @param contextName the name of the context the meta
      *                    model element is registered under.
      * @param metafacadeClass if not null, it contains the name of the metafacade class to be used
-     * @return the new metafacade
+     * @return the new metafacade 
      */
-    private MetafacadeBase internalCreateFacadeObject(
+    private MetafacadeBase internalCreateMetafacade(
         Object metaobject,
         String contextName,
         Class metafacadeClass)
     {
         // TODO: the source code for this class looks complicated and has to be refactored.
 
-        final String methodName = "MetafacadeFactory.createFacadeObject";
+        final String methodName = "MetafacadeFactory.createMetafacade";
 
         ExceptionUtils.checkNull(methodName, "metaobject", metaobject);
 
@@ -179,6 +180,10 @@ public class MetafacadeFactory
                 (MetafacadeBase) ConstructorUtils.invokeConstructor(
                     metafacadeClass,
                     metaobject);
+            
+            // make sure that the facade has a proper logger associated
+            // with it.
+            metafacade.setLogger(internalGetLogger());
 
             // set this namespace to the metafacade's namespace
             metafacade.setNamespace(this.getActiveNamespace());
@@ -193,8 +198,7 @@ public class MetafacadeFactory
                 this.populatePropertyReferences(
                     metafacade,
                     mapping.getPropertyReferences());
-            }
-
+            } 
             // validate the meta-facade
             metafacade.validate();
 
@@ -211,10 +215,6 @@ public class MetafacadeFactory
             throw new MetafacadeException(errMsg, th);
         }
 
-        // make sure that the facade has a proper logger associated
-        // with it.
-        metafacade.setLogger(internalGetLogger());
-
         return metafacade;
     }
 
@@ -225,9 +225,9 @@ public class MetafacadeFactory
      * @param metaobject the model element
      * @return MetafacadeBase the facade object (not yet attached to metaclass object)
      */
-    public MetafacadeBase createFacadeObject(Object metaobject)
+    public MetafacadeBase createMetafacade(Object metaobject)
     {
-        return this.internalCreateFacadeObject(metaobject, null, null);
+        return this.internalCreateMetafacade(metaobject, null, null);
     }
 
     /**
@@ -261,11 +261,29 @@ public class MetafacadeFactory
 
         try
         {
-            Class metafacadeClass = Class.forName(metafacadeClassName);
-            return this.internalCreateFacadeObject(
-                metaObject,
-                null,
-                metafacadeClass);
+            Class metafacadeClass = ClassUtils.loadClass(metafacadeClassName);
+            
+            MetafacadeBase metafacade = 
+                this.internalCreateMetafacade(
+                        metaObject,
+                        null,
+                        metafacadeClass);
+            
+            // Populate any property references that this facade impl might have 
+            // (we need to do this so that any sub metafacade that inherit from 
+            // one of these metafacades, can inherit its properties
+            MetafacadeMappings metafacadeMappings = MetafacadeMappings.instance();
+            Collection mappings = 
+                metafacadeMappings.findMappingsWithMetafacadeClass(
+                	this.getActiveNamespace(), 
+                    metafacadeClass);
+            Iterator mappingIt = mappings.iterator();
+            while (mappingIt.hasNext()) {
+            	MetafacadeMapping mapping = (MetafacadeMapping)mappingIt.next();
+                this.populatePropertyReferences(metafacade, mapping.getPropertyReferences());
+            }
+            
+            return metafacade;
         }
         catch (Throwable th)
         {
@@ -307,10 +325,10 @@ public class MetafacadeFactory
 
             // ensure that each property is only set once per context
             // for performance reasons
-            if (!this
-                .isPropertyRegistered(
-                    metafacade.getPropertyNamespace(),
-                    reference))
+            if (PropertyUtils.isWriteable(metafacade, reference) &&
+                !this.isPropertyRegistered(
+                 metafacade.getPropertyNamespace(),
+                 reference))
             {
                 Property property =
                     Namespaces.instance().findNamespaceProperty(
@@ -324,31 +342,15 @@ public class MetafacadeFactory
                     if (this.internalGetLogger().isDebugEnabled())
                         this.internalGetLogger().debug(
                             "setting context property '"
-                                + this.getActiveNamespace()
+                                + reference
                                 + "' with value '"
                                 + value
-                                + "'");
+                                + "' for namespace '" 
+                                + this.getActiveNamespace() + "'");
 
                     if (value != null)
                     {
-                        try
-                        {
-                            PropertyUtils.setProperty(
-                                metafacade,
-                                reference,
-                                value);
-                        }
-                        catch (Exception ex)
-                        {
-                            String errMsg =
-                                "Error setting property '"
-                                    + reference
-                                    + "' on metafacade --> '"
-                                    + metafacade
-                                    + "'";
-                            this.internalGetLogger().error(errMsg, ex);
-                            //don't throw the exception
-                        }
+                       metafacade.setProperty(reference, value);
                     }
                 }
             }
@@ -364,7 +366,7 @@ public class MetafacadeFactory
      *                    model element is registered under.
      * @return
      */
-    protected Collection createFacadeObjects(
+    protected Collection createMetafacades(
         Collection metaobjects,
         String contextName)
     {
@@ -375,7 +377,7 @@ public class MetafacadeFactory
             while (metaobjectIt.hasNext())
             {
                 metafacades.add(
-                    internalCreateFacadeObject(
+                    internalCreateMetafacade(
                         metaobjectIt.next(),
                         contextName,
                         null));
@@ -410,10 +412,9 @@ public class MetafacadeFactory
 
     /**
      * Registers a property with the specified <code>name</code>
-     * in the given <code>namespace</code>, having the specified <code>value</code>.
+     * in the given <code>namespace</code>>.
      * @param namespace the namespace in which the property is stored.
      * @param name the name of the property
-     * @param value the value of the property.
      */
     protected void registerProperty(
         String namespace,
@@ -458,7 +459,8 @@ public class MetafacadeFactory
     }
 
     /**
-     * Returns true if this property is registered, false otherwise.
+     * Gets the registered property registered under the <code>namespace</code>
+     * with the <code>name</code>
      * @param namespace the namespace of the property to check.
      * @param name the name of the property to check.
      * @return boolean
@@ -473,9 +475,10 @@ public class MetafacadeFactory
         {
             throw new MetafacadeException(
                 methodName
-                    + " - no properties registered under namespace --> '"
+                    + " - no properties registered under namespace '"
                     + namespace
-                    + "'");
+                    + "', can't retrieve property --> '" 
+                    + name + "'");
         }
         else
         {

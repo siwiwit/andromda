@@ -112,6 +112,10 @@
 	  	<from>datatype.Map</from>
 	 	<to>java.util.Map</to>
 	</mapping>
+	<mapping>
+	  	<from>datatype.Mappings</from>
+	 	<to>org.andromda.core.mapping.Mappings</to>
+	</mapping>
     <mapping>
         <from>datatype.URI</from>
         <to>java.net.URI</to>

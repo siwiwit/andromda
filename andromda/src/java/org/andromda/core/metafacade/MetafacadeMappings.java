@@ -12,6 +12,9 @@ import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.ResourceFinder;
 import org.andromda.core.common.XmlObjectFactory;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
@@ -284,9 +287,9 @@ public class MetafacadeMappings {
 	}
 	
 	/**
-	 * Gets all the child mappings for this MetafacadeMappings by
+	 * Gets all the child MetafacadeMapping instances for this MetafacadeMappings by
 	 * <code>namespace</code> (these include all child mappings
-	 * from the default mapping reference also).
+	 * from the <code>default</code> mapping reference also).
 	 * @param namespace the namespace of the mappings to retrieve.
 	 * @return Map the child mappings (MetafacadeMapping instances)
 	 */
@@ -297,6 +300,42 @@ public class MetafacadeMappings {
 		} 
 		return this.mappings;
 	}
+    
+    /**
+     * Finds all MetafacadeMapping instances that have the 
+     * given <code>metafacadeClass</code>
+     * 
+     * @param metafacadeClass the class of the metafacade on which we'll search.th
+     * @return the Collection of found MetafacadeMapping instances.
+     */
+    protected Collection findMappingsWithMetafacadeClass(String namespace, final Class metafacadeClass) {
+        final String methodName = "MetafacadeMappings.findMappingsWithMetafacadeClass";
+        ExceptionUtils.checkNull(methodName, "metafacadeClass", metafacadeClass);
+    	Map mappingsMap = this.getMappings(namespace);
+
+    	class MapTransformer implements Transformer {
+    		public Object transform(Object object) {
+    			return ((Map.Entry)object).getValue();
+            }
+        }
+        Collection mappings = 
+            CollectionUtils.collect(
+                mappingsMap.entrySet().iterator(), 
+                new MapTransformer());
+        
+        // filters out mappings have the given metafacadeClass
+        class MetafacadeClassFilter implements Predicate {
+        	public boolean evaluate(Object object) {
+        		MetafacadeMapping mapping = (MetafacadeMapping)object;
+                return mapping != null &&
+                       mapping.getMetafacadeClass() == metafacadeClass;
+            }
+        }
+        CollectionUtils.filter(mappings, new MetafacadeClassFilter());
+        if (logger.isDebugEnabled()) 
+            logger.debug("completed " + methodName + " with mappings --> '" + mappings + "'");
+        return mappings;
+    }
 	
 	/**
 	 * Attempts to get the MetafacadeMapping identified by the

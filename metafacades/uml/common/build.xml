@@ -12,9 +12,15 @@
     <property name="andromda-meta.new.home" location="dist"/>
     <property name="andromda-core.home"     location="${andromda.old.home}/andromda-core"/>
     <property name="andromda-meta.home"     location="${andromda.old.home}/cartridges/andromda-meta"/>
-
+    
+    <property name="metafacades.uml.home"        location="${andromda.old.home}/metafacades/uml"/>
+    <property name="andromda-metafacades-uml.home" location="${metafacades.uml.home}/common"/>
+    <property name="andromda-metafacades-uml14.home"  location="${metafacades.uml.home}/uml14"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
+    
+    <property file="${andromda-metafacades-uml.home}/andromda-metafacades-uml.properties"/>
+    <property file="${andromda-metafacades-uml14.home}/andromda-metafacades-uml14.properties"/>
 
     <path id="andromda.old.classpath">
        <pathelement location="${andromda-core.home}/andromda.jar"/>
@@ -68,6 +74,8 @@
         <path id="generate.classpath">
            <path refid="andromda.old.classpath" />
            <pathelement path="${andromda-meta.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml14.classpath}"/>  
         </path>
 
         <property name="g.cp" refid="generate.classpath"/>
@@ -92,7 +100,7 @@
 				<property name="facades" value="${src.fac.gen.dir}"/>
 				<property name="facade-logics"           ignore="true"/>
 				<property name="facade-logic-impls"      ignore="true"/>
-				<property name="languageMappings"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+				<property name="languageMappingsUri"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
             
             <modelPackage name="org.andromda.metafacades.uml14" shouldProcess="true"/>

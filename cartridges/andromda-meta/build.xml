@@ -41,11 +41,17 @@
     <property name="andromda-core.home"     location="${andromda.old.home}/andromda-core"/>
     <property name="andromda-meta.home"     location="${andromda.old.home}/cartridges/andromda-meta"/>
     
-    <property name="metafacades.uml.home"        location="${andromda.new.home}/metafacades/uml"/>
-    <property name="metafacades.uml.common.home" location="${metafacades.uml.home}/common"/>
-    <property name="metafacades.uml.uml14.home"  location="${metafacades.uml.home}/uml14"/>
+    <property name="metafacades.uml.old.home"        location="${andromda.old.home}/metafacades/uml"/>
+    <property name="andromda-metafacades-uml.home" location="${metafacades.uml.old.home}/common"/>
+    <property name="andromda-metafacades-uml14.home"  location="${metafacades.uml.old.home}/uml14"/>
+    
+    <property name="metafacades.uml.new.home"        location="${andromda.new.home}/metafacades/uml"/>
+	<property name="andromda-metafacades-uml.new.home" location="${metafacades.uml.new.home}/common"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
+    
+    <property file="${andromda-metafacades-uml.home}/andromda-metafacades-uml.properties"/>
+    <property file="${andromda-metafacades-uml14.home}/andromda-metafacades-uml14.properties"/>
 
     <path id="andromda.old.classpath">
        <pathelement location="${andromda-core.home}/andromda.jar"/>
@@ -101,6 +107,8 @@
         <path id="generate.classpath">
            <path refid="andromda.old.classpath" />
            <pathelement path="${andromda-meta.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml14.classpath}"/>  
         </path>
 
         <property name="g.cp" refid="generate.classpath"/>
@@ -124,7 +132,7 @@
 				<property name="facades" 				 value="${src.fac.gen.dir}" />
 				<property name="facade-logics"           value="${src.fac.gen.dir}"/>
 				<property name="facade-logic-impls"      value="${src.fac.man.dir}"/>
-				<property name="languageMappings"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+				<property name="languageMappingsUri"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
             
             <modelPackage name="org.andromda.cartridges.meta.metafacades"  shouldProcess="true"/>
@@ -141,6 +149,7 @@
     
     <target name="compile" depends="genjava"
             description="Builds the cartridge objects from the sources">
+		            
         <javac destdir="${build.cart.dir}" includeAntRuntime="false">
             <src path="${src.cart.dir}" />
             <src path="${src.fac.gen.dir}" />
@@ -148,7 +157,7 @@
             <include name="org/andromda/cartridges/meta/**/*.java" />
             <classpath>
                 <path refid="andromda.new.classpath"/>
-                <pathelement location="${metafacades.uml.common.home}/andromda-metafacades-uml.jar"/>
+               	<pathelement location="${andromda-metafacades-uml.new.home}/andromda-metafacades-uml.jar"/>	   
             </classpath>
         </javac>
 
@@ -172,8 +181,7 @@
         <mkdir dir="${build.test.classes.dir}"/>
         <mkdir dir="${build.test.reports.dir}"/>
         <path id="test.classpath">
-	       <pathelement location="${metafacades.uml.common.home}/andromda-metafacades-uml.jar"/>
-	       <pathelement location="${metafacades.uml.uml14.home}/andromda-metafacades-uml14.jar"/>
+	       <pathelement location="${andromda-metafacades-uml.new.home}/andromda-metafacades-uml.jar"/>
            <pathelement location="${build.test.classes.dir}"/>
            <path refid="generate.classpath" />
         </path>

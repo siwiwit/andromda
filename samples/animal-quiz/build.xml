@@ -57,7 +57,7 @@
             modelURL="${model}"
             lastModifiedCheck="false">
             <namespace name="default">
-                <property name="languageMappings" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>
+                <property name="languageMappingsUri" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>
             </namespace>
             <namespace name="bpm4struts">
                 <property name="forms" value="${src.dir}"/>

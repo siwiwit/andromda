@@ -3,6 +3,7 @@ package org.andromda.metafacades.uml14;
 import org.andromda.core.mapping.Mappings;
 import org.andromda.core.uml14.UMLProfile;
 import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.EntityFacade;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -32,7 +33,7 @@ public class EntityAttributeFacadeLogicImpl
         return EntityMetafacadeUtils.getSqlNameFromTaggedValue(
                 this, 
                 UMLProfile.TAGGEDVALUE_PERSISTENCE_COLUMN,
-                ((EntityFacadeLogicImpl)this.getOwner()).getMaxSqlNameLength());
+                ((EntityFacade)this.getOwner()).getMaxSqlNameLength());
     }
 
     protected String getColumnLength() {
@@ -103,9 +104,9 @@ public class EntityAttributeFacadeLogicImpl
     }   
     
     /**
-     * SQL type specific mappings property reference.
+     * Language specific mappings property reference.
      */
-    private static final String SQL_MAPPINGS = "sqlMappings";
+    private static final String SQL_MAPPINGS_URI = "sqlMappingsUri";
     
     /**
      * Allows the MetafacadeFactory to populate 
@@ -113,16 +114,15 @@ public class EntityAttributeFacadeLogicImpl
      * 
      * @param mappingUri the URI of the language mappings resource.
      */
-    public void setSqlMappings(String mappingUri) {
+    public void setSqlMappingsUri(String sqlMappingsUri) {
         try {
-            // register the mappings 
             this.registerConfiguredProperty(
-                SQL_MAPPINGS, 
-                Mappings.getInstance(mappingUri));
+            	SQL_MAPPINGS_URI, 
+                Mappings.getInstance(sqlMappingsUri));
         } catch (Throwable th) {
             String errMsg = "Error setting '" 
-                + SQL_MAPPINGS + "' --> '" 
-                + mappingUri + "'";
+                + SQL_MAPPINGS_URI + "' with --> '" 
+                + sqlMappingsUri + "'";
             logger.error(errMsg, th);
             //don't throw the exception
         }
@@ -133,31 +133,29 @@ public class EntityAttributeFacadeLogicImpl
      * for this entity attribute.
      * @return the SQL Mappings instance.
      */
-    protected Mappings getSqlMappings() {
-        return (Mappings)this.getConfiguredProperty(SQL_MAPPINGS);
+    public Mappings getSqlMappings() {
+        return (Mappings)this.getConfiguredProperty(SQL_MAPPINGS_URI);
     }
     
     /**
      * JDBC type specific mappings property reference.
      */
-    private static final String JDBC_MAPPINGS = "jdbcMappings";
+    private static final String JDBC_MAPPINGS_URI = "jdbcMappingsUri";
     
     /**
      * Allows the MetafacadeFactory to populate 
      * the language mappings for this model element.
      * 
-     * @param mappingUri the URI of the language mappings resource.
+     * @param jdbcMappingsUri the URI of the language mappings resource.
      */
-    public void setJdbcMappings(String mappingUri) {
+    public void setJdbcMappingsUri(String jdbcMappingsUri) {
         try {
-            // register the mappings 
             this.registerConfiguredProperty(
-                    JDBC_MAPPINGS, 
-                    Mappings.getInstance(mappingUri));
+                JDBC_MAPPINGS_URI, Mappings.getInstance(jdbcMappingsUri));
         } catch (Throwable th) {
             String errMsg = "Error setting '" 
-                + SQL_MAPPINGS + "' --> '" 
-                + mappingUri + "'";
+                + JDBC_MAPPINGS_URI + "' --> '" 
+                + jdbcMappingsUri + "'";
             logger.error(errMsg, th);
             //don't throw the exception
         }
@@ -166,8 +164,8 @@ public class EntityAttributeFacadeLogicImpl
     /**
      * Gets the JDBC mappings.
      */
-    protected Mappings getJdbcMappings() {
-        return (Mappings)this.getConfiguredProperty(JDBC_MAPPINGS);
+    public Mappings getJdbcMappings() {
+        return (Mappings)this.getConfiguredProperty(JDBC_MAPPINGS_URI);
     }
 
     // ------------- relations ------------------
