@@ -5,11 +5,6 @@
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
 		metafacadeClass="org.andromda.cartridges.meta.metafacades.MetafacadeFacadeImpl">
-		<stereotype>Decorator</stereotype>
-	</metafacade>	
-	<metafacade 
-		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
-		metafacadeClass="org.andromda.cartridges.meta.metafacades.MetafacadeFacadeImpl">
 		<stereotype>metafacade</stereotype>
 	</metafacade>	
 	<metafacade 
