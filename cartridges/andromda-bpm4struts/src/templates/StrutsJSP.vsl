@@ -139,7 +139,7 @@
 #else
 #set ($size = '')
 #end
-                        <html:select $disabled $size $multiple property="$inputField.name" $titleKey>
+                        <html:select $disabled $size $multiple property="$inputField.name" titleKey="$titleKey">
                           <html:options property="$inputField.backingPropertyName"/>
                         </html:select>
 #end
