@@ -41,7 +41,7 @@
     	<developer>
       		<name>Matthias Bohlen</name>
       		<id>mattes3</id>
-      		<email>mattes3@sourceforge.users.net</email>
+      		<email>mattes3@users.sourceforge.net</email>
             <roles>
                 <role>Project Admin</role>
                 <role>Developer</role>
@@ -51,7 +51,7 @@
     	<developer>
       		<name>Chad Brandon</name>
       		<id>cwbrandon</id>
-      		<email>cwbrandon@sourceforge.users.net</email>
+      		<email>cwbrandon@users.sourceforge.net</email>
             <roles>
                 <role>Developer</role>
             </roles>
@@ -59,7 +59,7 @@
     	<developer>
       		<name>Wouter Zoons</name>
       		<id>draftdog</id>
-      		<email>draftdog@sourceforge.users.net</email>
+      		<email>draftdog@users.sourceforge.net</email>
             <roles>
                 <role>Developer</role>
             </roles>
@@ -67,7 +67,7 @@
     	<developer>
       		<name>Tony Mowers</name>
       		<id>amowers</id>
-      		<email>amowers@sourceforge.users.net</email>
+      		<email>amowers@users.sourceforge.net</email>
             <roles>
                 <role>Project Admin</role>
                 <role>Developer</role>
@@ -76,7 +76,7 @@
     	<developer>
       		<name>Juegen Dufner</name>
       		<id>jdufner</id>
-      		<email>jdufner@sourceforge.users.net</email>
+      		<email>jdufner@users.sourceforge.net</email>
             <roles>
                 <role>Documentation</role>
             </roles>
@@ -84,7 +84,7 @@
     	<developer>
       		<name>Richard Kunze</name>
       		<id>rkunze</id>
-      		<email>rkunze@sourceforge.users.net</email>
+      		<email>rkunze@users.sourceforge.net</email>
             <roles>
                 <role>Developer</role>
             </roles>
@@ -92,7 +92,7 @@
     	<developer>
       		<name>Torsten Juergeleit</name>
       		<id>tjuerge</id>
-      		<email>tjuerge@sourceforge.users.net</email>
+      		<email>tjuerge@users.sourceforge.net</email>
             <roles>
                 <role>Documentation</role>
             </roles>
@@ -100,18 +100,18 @@
     	<developer>
       		<name>Dr. Gernot Stark</name>
       		<id>zorg42</id>
-      		<email>zorg42@sourceforge.users.net</email>
+      		<email>zorg42@users.sourceforge.net</email>
     	</developer>
     	<developer>
       		<name>Felix Ruessel</name>
       		<id>felixbert</id>
-      		<email>felixbert@sourceforge.users.net</email>
+      		<email>felixbert@users.sourceforge.net</email>
       		<role>Developer</role>
     	</developer>
     	<developer>
       		<name>Harald Weyhing</name>
       		<id>hweyhing</id>
-      		<email>hweyhing@sourceforge.users.net</email>
+      		<email>hweyhing@users.sourceforge.net</email>
       		<role>Developer</role>
     	</developer>
   	</developers>
