@@ -146,7 +146,7 @@ public class DecoratorSmallTest1 extends TestCase implements TestModel
             assertNotNull(aed);
             aed = (AssociationEndDecorator) aed.getOtherEnd();
             assertNotNull(aed);
-            String role = aed.getRoleName();
+            String role = aed.getName();
             if (role.equals(ONE2ONE))
             {
                 assertTrue(aed.isOne2One());

@@ -55,11 +55,11 @@ $class.getDocumentation(" ")
 #end
 #end
 #foreach ( $tgv in $class.taggedValues )
-#if ($tgv.tag != "documentation")
-#if ($tgv.tag == "---")
+#if ($tgv.name != "documentation")
+#if ($tgv.name == "---")
     #set ($tag = "")
 #else
-    #set ($tag = $tgv.tag)
+    #set ($tag = $tgv.name)
 #end
  * $tag    $tgv.value
 #end

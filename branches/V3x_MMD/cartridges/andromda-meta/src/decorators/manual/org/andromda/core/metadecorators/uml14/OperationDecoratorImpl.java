@@ -58,10 +58,12 @@ public class OperationDecoratorImpl extends OperationDecorator
 
             if (!ParameterDirectionKindEnum.PDK_RETURN.equals(p.getKind()))
             {
-                String type;
+                String type = null;
                 if (p.getType() == null)
                 {
-                    type = "int";
+                    this.logger.error("ERROR! No type specified for parameter --> '" 
+                    	+ p.getName() + "' on operation --> '" 
+						+ this.getName() + "', please chek your model");
                 }
                 else
                 {

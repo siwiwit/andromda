@@ -39,7 +39,7 @@ public class AttributeDecoratorImpl extends AttributeDecorator
             + StringUtilsHelper.upperCaseFirstLetter(metaObject.getName());
     }
 
-    public Object getDefaultValue()
+    public String getDefaultValue()
     {
         return metaObject.getInitialValue().getBody();
     }
