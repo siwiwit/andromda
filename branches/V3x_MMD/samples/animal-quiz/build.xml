@@ -93,6 +93,8 @@
                 <property name="forms" value="${web.output.dir}"/>
                 <property name="pages" value="${web.output.dir}"/>
                 <property name="actions" value="${web.output.dir}"/>
+                <property name="controllers" value="${web.output.dir}"/>
+                <property name="controller-impls" value="${web.src.dir}"/>
                 <property name="messages" value="${web.output.dir}"/>
                 <property name="validation" value="${build.dir}/WEB-INF"/>
                 <property name="xdoclet-merge" value="${merge.dir}"/>
@@ -285,7 +287,13 @@
     </target>
 
     <target name="web-compile" depends="init">
-        <javac srcdir="${web.output.dir}" destdir="${web.build.dir}/WEB-INF/classes" classpathref="classpath"/>
+        <javac destdir="${web.build.dir}/WEB-INF/classes" 
+        	   includes="**/*.java"
+               includeAntRuntime="false">
+            <src path="${web.src.dir}" />
+            <src path="${web.output.dir}" />
+            <classpath refid="classpath"/>
+        </javac>
     </target>
 
     <target name="web-build" depends="clean,web-xdoclet,web-compile">
