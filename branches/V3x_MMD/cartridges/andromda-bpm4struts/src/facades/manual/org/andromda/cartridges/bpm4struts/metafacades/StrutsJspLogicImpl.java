@@ -41,7 +41,7 @@ public class StrutsJspLogicImpl
 
     public String getTitleKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(getName()) + ".title";
+        return StringUtilsHelper.toResourceMessageKey(getUseCase().getName() + ' ' + getName()) + ".title";
     }
 
     public String getTitleValue()
