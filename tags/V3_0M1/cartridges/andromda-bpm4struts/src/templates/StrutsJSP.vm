@@ -1,0 +1,189 @@
+##
+##
+##      This macro takes care of rendering the appropriate Struts
+##      HTML hyperlink tags for the argument action
+##
+##
+#macro ( renderHyperlink $action $indent )
+#set ($roles = $action.actionRoles)
+#set ($triggerKey = $action.actionTrigger.triggerKey)
+#set ($parameters = $action.actionParameters)
+#set ($formBeanName = $action.activityGraph.useCase.formBeanName)
+#set ($security = ($securityEnabled=="true") && ($roles != "") )
+#if ($security)
+${indent}<logic:present role="$roles">
+#end
+#if(!$parameters.isEmpty())
+#set ($mapName = "$str.toJavaMethodName($triggerKey)Parameters")
+${indent}<%
+${indent}  java.util.Map $mapName = new java.util.HashMap();
+${indent}  pageContext.setAttribute("$mapName", $mapName, javax.servlet.jsp.PageContext.PAGE_SCOPE);
+${indent}%>
+#end
+#foreach ($parameter in $parameters)
+#if ($parameter.hasBackingList())
+${indent}<logic:iterate id="$parameter.name" name="$formBeanName" property="$parameter.backingListName" scope="page">
+${indent}<%
+${indent}    ${mapName}.put("$parameter.name", $parameter.name);
+${indent}%>
+#else
+${indent}<%
+${indent}    ${mapName}.put("$parameter.name", ${formBeanName}.${parameter.getterName}());
+${indent}%>
+#end
+#end
+${indent}    <p>
+#if($parameters.isEmpty())
+${indent}        <html:link action="$action.actionPath" titleKey="${action.messageKey}.$triggerKey" scope="page">
+#else
+${indent}        <html:link action="$action.actionPath" titleKey="${action.messageKey}.$triggerKey" name="$mapName" scope="page">
+#end
+${indent}            <bean:message key="${action.messageKey}.$triggerKey"/>:
+#if(!$parameters.isEmpty())
+${indent}            <bean:write name="$mapName" scope="page"/>
+#end
+${indent}        </html:link>
+${indent}    </p>
+#foreach ($parameter in $parameters)
+#if ($parameter.hasBackingList())
+${indent}    </logic:iterate>
+#end
+#end
+#if ($security)
+${indent}</logic:present>
+${indent}<logic:notPresent role="$roles">
+${indent}   <bean:message key="${action.messageKey}.$triggerKey"/> <br/>
+${indent}</logic:notPresent>
+#end
+#end
+##
+##
+##      This macro takes care of rendering the appropriate Struts
+##      HTML button tags for the argument action
+##
+##
+#macro ( renderFormButtons $action $indent )
+#set ($messageKey = $action.messageKey)
+#set ($trigger = $action.actionTrigger)
+#set ($roles = $action.actionRoles)
+#set ($security = ($securityEnabled=="true") && ($roles != "") )
+#if ($security)
+${indent}<logic:present role="$roles">
+#end
+${indent}   <html:submit titleKey="${messageKey}.$trigger.titleKey">
+${indent}       <bean:message key="${messageKey}.$trigger.triggerKey"/>
+${indent}   </html:submit>
+#if ($action.isResettable())
+${indent}   <html:reset titleKey="${messageKey}.$trigger.resetTitleKey">
+${indent}       <bean:message key="${messageKey}.$trigger.resetMessageKey"/>
+${indent}   </html:reset>
+#end
+#if ($security)
+${indent}</logic:present>
+${indent}<logic:notPresent role="$roles">
+${indent}   <html:submit titleKey="${messageKey}.$trigger.notAllowedTitleKey" disabled="true">
+${indent}       <bean:message key="${messageKey}.$trigger.triggerKey"/>
+${indent}   </html:submit>
+#if ($action.isResettable())
+${indent}   <html:reset titleKey="${messageKey}.$trigger.resetNotAllowedTitleKey" disabled="true">
+${indent}       <bean:message key="${messageKey}.$trigger.resetMessageKey"/>
+${indent}   </html:reset>
+#end
+${indent}</logic:notPresent>
+#end
+#end
+##
+##
+##      This macro takes care of rendering the appropriate Struts tags
+##      for the argument form field
+##
+##
+#macro ( renderFormField $action $field $indent)
+#set ($widgetType = $field.widgetType)
+#set ($formBeanName = $action.activityGraph.useCase.formBeanName)
+##
+##  Depending on the type of the input field we render a different widget
+##
+##
+##      R A D I O B U T T O N
+##
+#if ($widgetType == 'radio')
+#if ($field.isReadOnly())
+#set ($disabled = 'disabled="true"')
+#else
+#set ($disabled = '')
+#end
+${indent}<table>
+#foreach ($optionKey in $field.optionKeys)
+${indent}    <tr>
+${indent}        <td>
+${indent}            <html:$widgetType name="$formBeanName" property="$field.name" titleKey="${messageKey}.${optionKey}.title" value="$optionKey" $disabled/>
+${indent}            <bean:message key="${messageKey}.$optionKey"/>
+${indent}        </td>
+${indent}    </tr>
+#end
+${indent}</table>
+##
+##      C H E C K B O X
+##
+#elseif ($widgetType == 'checkbox')
+#if ($field.isReadOnly())
+#set ($disabled = 'disabled="true"')
+#else
+#set ($disabled = '')
+#end
+${indent}<html:$widgetType name="$formBeanName" property="$field.name" titleKey="${messageKey}.$field.titleKey" $disabled/>
+##
+##      T E X T F I E L D       &       P A S S W O R D
+##
+#elseif ( ($widgetType == 'text') || ($widgetType == 'password') )
+#if ($field.isReadOnly())
+#set ($readonly = 'readonly="true"')
+#else
+#set ($readonly = '')
+#end
+${indent}<html:$widgetType name="$formBeanName" property="$field.name" titleKey="${messageKey}.$field.titleKey" $readonly/>
+##
+##      T E X T A R E A
+##
+#elseif ($widgetType == 'textarea')
+#if ($field.isReadOnly())
+#set ($readonly = 'readonly="true"')
+#else
+#set ($readonly = '')
+#end
+${indent}<html:$widgetType name="$formBeanName" property="$field.name" titleKey="${messageKey}.$field.titleKey" $readonly/>
+##
+##      H I D D E N
+##
+#elseif ($widgetType == 'hidden')
+${indent}<html:$widgetType name="$formBeanName" property="$field.name" />
+##
+##      C O M B O B O X     &      L I S T
+##
+#elseif ($widgetType == 'select')
+#if ($field.isMultiple())
+#set ($multiple = 'multiple="true"')
+#else
+#set ($multiple = '')
+#end
+#if ($field.isReadOnly())
+#set ($disabled = 'disabled="true"')
+#else
+#set ($disabled = '')
+#end
+#if ($field.isCollection())
+#set ($selectProperty = "${field.name}AsArray")
+#else
+#set ($selectProperty = "$field.name")
+#end
+${indent}<html:select name="$formBeanName" property="$selectProperty" titleKey="${messageKey}.$field.titleKey" $disabled $multiple>
+${indent}    <html:options name="$formBeanName" property="$field.backingListName"/>
+${indent}</html:select>
+##
+##      Any other field will be rendered as plain text (no input)
+##
+#else
+${indent}<bean:write name="$formBeanName" property="$field.name" scope="request"/>
+#end
+#end

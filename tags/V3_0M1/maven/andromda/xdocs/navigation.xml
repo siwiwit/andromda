@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="AndroMDA Maven Plugin">
+  	<title>AndroMDA Maven Plugin</title>
+  	<body>
+    	<links>
+    		<item name="AndroMDA Maven Plugin" href="../maven-andromda-plugin/index.html"/>
+      		<item name="AndroMDA" href="../index.html"/>
+    	</links>
+    	<menu name="Overview">
+      		<item href="/goals.html" name="Goals"/>
+      		<item href="/properties.html" name="Properties"/>
+			<item name="Download" href="/download.html"/>
+    	</menu>
+  	</body>
+</project>

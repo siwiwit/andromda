@@ -1,0 +1,24 @@
+<cartridge name="andromda-ejb">
+
+    <template
+        sheet="EntityBean.vsl"
+        outputPattern="{0}/{1}Bean.java"
+        outlet="beans"
+        overWrite="true">
+        <modelElements variable="entity">
+            <modelElement stereotype="Entity"/>
+        </modelElements>
+    </template>
+
+    <template
+        sheet="EntityBeanImpl.vsl"
+        outputPattern="{0}/{1}BeanImpl.java"
+        outlet="impls"
+        overWrite="false"
+        generateEmptyFiles="true">
+        <modelElements variable="entity">
+            <modelElement stereotype="Entity"/>
+        </modelElements>
+    </template>
+    
+</cartridge>

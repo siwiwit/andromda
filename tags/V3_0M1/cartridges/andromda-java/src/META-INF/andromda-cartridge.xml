@@ -1,0 +1,45 @@
+<cartridge name="java">
+
+	<!-- template definitions -->
+    <template
+        sheet="templates/ValueObject.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="value-objects"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="ValueObject"/>  
+        </modelElements>       
+    </template>
+    
+	<template 
+		sheet="templates/ApplicationException.vsl" 
+		outputPattern="{0}/{1}.java"  
+		outlet="exceptions" 
+		overWrite="true">
+		<modelElements variable="class">
+            <modelElement stereotype="Exception"/>
+            <modelElement stereotype="ApplicationException"/>
+		</modelElements>
+	</template>
+	
+	<template 
+		sheet="templates/UnexpectedException.vsl" 
+		outputPattern="{0}/{1}.java"  
+		outlet="exceptions" 
+		overWrite="true">
+		<modelElements variable="class">
+            <modelElement stereotype="UnexpectedException"/>
+		</modelElements>
+	</template>
+	
+	<template 
+		sheet="templates/Enumeration.vsl" 
+		outputPattern="{0}/{1}.java"  
+		outlet="enumerations" 
+		overWrite="true">
+		<modelElements variable="class">
+            <modelElement stereotype="Enumeration"/>
+		</modelElements>
+	</template>
+
+</cartridge>

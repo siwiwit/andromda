@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  	<title>AndroMDA Bpm4Struts Docs</title>
+
+	<body>
+    	<links>
+      		<item name="Bpm4Struts" href="index.html"/>
+      		<item name="Cartridges" href="../andromda-cartridges/index.html"/>
+      		<item name="AndroMDA" href="../index.html"/>
+    	</links>
+		<menu name="Documentation">
+			<item name="Introduction" href="/index.html"/>
+			<item name="User guide" href="/user-guide.html"/>
+			<item name="How-to" href="/how-to.html"/>
+            <item name="FAQ" href="/faq.html"/>
+    	</menu>
+    	<menu name="Samples">
+    		<item name="[nothing yet]" href="/index.html"/>
+    	</menu>
+    	<menu name="Downloads">
+    		<item name="binary" href="http://team.andromda.org/maven/andromda-cartridges/jars/andromda-bpm4struts-cartridge-3.0-SNAPSHOT.jar"/>
+    	</menu>
+  	</body>
+</project>

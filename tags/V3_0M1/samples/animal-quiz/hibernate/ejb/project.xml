@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  	<extend>../project.xml</extend>
+  	<id>animal-quiz-sample-hibernate-ejb</id>
+  	<name>Animal Quiz Sample Hibernate EJB</name>
+  	<shortDescription>The Animal Quiz Sample Hibernate EJB Component</shortDescription>
+  	<description>
+  		Contains the car rental sample hibernate ejb module.
+  	</description>
+  	<build>
+    	<sourceDirectory>src/java</sourceDirectory>
+  	</build>
+
+</project>

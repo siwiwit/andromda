@@ -1,0 +1,98 @@
+#parse("templates/StrutsJSP.vm")
+#set ($generatedFile = "${class.fullPath}.jsp")
+##
+##  CONSTANTS
+##
+#set ($actions = $class.actions)
+#set ($useCase = $class.useCase)
+#set ($formBeanName = $useCase.formBeanName)
+#set ($formBeanType = $useCase.formBeanType)## this will be the name of the form, as used in this page
+##
+##  START TEMPLATE
+##
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="struts-html.tld" prefix="html" %>
+<%@ taglib uri="struts-tiles.tld" prefix="tiles" %>
+<%@ taglib uri="struts-logic.tld" prefix="logic" %>
+
+<tiles:insert definition="main.layout">
+
+##
+##  SETS THE TITLE
+##
+    <tiles:put name="title" type="string">
+        <bean:message key="$class.titleKey"/>
+    </tiles:put>
+
+##
+##  SETS THE JAVASCRIPT CONTENT
+##
+    <tiles:put name="javascript" type="string">
+## only load the static javascript when it will actually be used
+#set ($loadStaticScript = false)
+#foreach ($action in $actions)
+#if ($action.requiresValidation())
+#set ($loadStaticScript = true)
+#end
+#end
+#if ($loadStaticScript)
+        <script type="text/javascript" src="<html:rewrite page="/form-validation.jsp"/>"></script>
+#end
+#foreach ($action in $actions)
+#if ($action.requiresValidation())
+        <html:javascript formName="$action.formBeanName" method="$action.formValidationMethodName" dynamicJavascript="true" staticJavascript="false" htmlComment="true" cdata="false"/>
+#end
+#end
+    </tiles:put>
+
+##
+##  SETS THE BODY OF THIS PAGE
+##
+    <tiles:put name="body" type="string">
+        <bean:define id="$formBeanName" name="$formBeanName" type="$formBeanType" scope="request" toScope="page"/>
+
+#foreach ($variable in $class.pageVariables)
+#set ($variableName = $variable.name)
+#set ($variableType = $variable.type.fullyQualifiedName)
+        <logic:present name="$formBeanName" property="$variableName" scope="page">
+            <bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variableType" scope="page" toScope="page"/>
+        </logic:present>
+#if ($variable.hasBackingList())
+#set ($variableName = $variable.backingListName)
+        <logic:present name="$formBeanName" property="$variableName" scope="page">
+            <bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variable.backingListType" scope="page" toScope="page"/>
+        </logic:present>
+#end
+#end
+
+        <%--
+            If you want your own custom messages to be displayed
+            you do just need to edit the custom.properties resource bundle.
+
+            These properties can be used like this:
+
+                <bean:message key="propertyKey" bundle="custom"/>
+        --%>
+
+        <h1><bean:message key="$class.titleKey"/></h1>
+
+#foreach ($variable in $class.pageVariables)
+        <logic:present name="$variable.name" scope="page">
+            <h4><bean:write name="$variable.name" scope="page"/></h4> <br/>
+        </logic:present>
+        <logic:notPresent name="$variable.name" scope="page">
+            <h4>Missing from request: $variable.name</h4> <br/>
+        </logic:notPresent>
+
+#end
+#foreach ($action in $actions)
+        <tiles:insert page="${action.fullTilePath}.jsp" flush="false"/>
+
+#end
+        <blockquote>
+            <bean:message key="$class.documentationKey"/>
+        </blockquote>
+
+    </tiles:put>
+
+</tiles:insert>

@@ -1,0 +1,104 @@
+<project xmlns:j="jelly:core"
+  		 xmlns:ant="jelly:ant"
+  		 xmlns:artifact="artifact"
+  		 xmlns:velocity="jelly:velocity">
+  		 
+   <preGoal name="jar:jar">
+   	
+		<!-- The following builds the the bootstrap plugin. 
+			 You build the bootrap plugin, by supplying the 
+			 property 'maven.andromda.bootstrap.mode=true'-->
+		<j:set var="bootstrapMode" value="${maven.andromda.bootstrap.mode}"/>
+		<j:if test="${bootstrapMode == null or bootstrapMode == ''}">
+	        <j:set var="bootstrapMode" value="false"/>
+		</j:if>
+		<j:set var="bootstrapMetaCartridge" value=""/>
+		<j:set var="bootstrap" value=""/>
+		<j:if test="${bootstrapMode}">
+			<j:set var="bootstrap" value="-bootstrap"/>		
+			<j:set var="bootstrapPluginId" value="${pom.artifactId}-bootstrap"/>
+			<j:set var="dummy" value="${pom.setArtifactId(bootstrapPluginId)}"/>
+			<!-- set the meta cartridge bootstrap dependency 
+				 into the bootstap project.xml-->
+            <j:set var="bootstrapMetaCartridge" trim="false">
+        <dependency> 
+		    <groupId>andromda-cartridges</groupId>
+		    <artifactId>andromda-meta-cartridge${bootstrap}</artifactId>
+		    <version>${pom.currentVersion}</version>
+	    </dependency>
+            </j:set>
+		</j:if>
+		<!-- Just perform a replace on the '${bootstrap} property' -->
+        <ant:replace file="${maven.build.dest}/plugin.jelly" 
+        	token="$${bootstrap}"
+        	value="${bootstrap}">
+        </ant:replace> 
+		<velocity:merge
+			name="${maven.build.dest}/plugin.properties"
+			basedir="${basedir}"
+			template="/plugin.properties"/> 
+		<velocity:merge
+			name="${maven.build.dest}/project.xml"
+			basedir="${basedir}"
+			template="/project.xml"/>     
+				
+        <j:set var="pluginResources" value="plugin-resources/andromda"/>
+				
+		<j:set 
+			var="pluginResourceJ2eeDir" 
+			value="${pluginResources}/templates/j2ee-app"/>
+  		<!-- perform the below merges so we can add the 
+  			 current version of AndroMDA to the mda genapp module -->
+		<j:set 
+			var="mdaResourcesDir" 
+			value="${pluginResourceJ2eeDir}/mda"/>
+		<j:set 
+			var="mdaTemplatesDir" 
+			value="${basedir}/${mdaResourcesDir}"/>
+	    <velocity:merge
+			name="${maven.build.dest}/${mdaResourcesDir}/project-ejb.xml.vm"
+			basedir="${mdaTemplatesDir}"
+			template="/project-ejb.xml.vm"/>  
+	    <velocity:merge
+			name="${maven.build.dest}/${mdaResourcesDir}/project-hibernate.xml.vm"
+			basedir="${mdaTemplatesDir}"
+			template="/project-hibernate.xml.vm"/> 	
+		
+		<!-- copy over the mappings -->
+		<ant:copy todir="${maven.build.dest}/${pluginResources}/mappings">
+			<ant:fileset dir="${mappings.location}"/>
+		</ant:copy>		
+		<!-- copy over the db initialization scripts for hibernate -->
+        <ant:copy todir="${maven.build.dest}/${pluginResourceJ2eeDir}/hibernate/db/conf">
+            <ant:fileset dir="${hibernate.db.conf.location}"/>
+        </ant:copy>	
+   </preGoal>
+  	
+  	<!-- this is here because the plugin:install goal from the
+  		 maven-plugin-plugin doesn't copy to the 
+  		 '${maven.repo.local}/plugins' directory -->
+  	<goal name="plugin:install" >	
+  		<attainGoal name="clean:clean"/>
+    	<attainGoal name="jar:jar"/>
+    	<!-- don't insert add bootstrap cartridge into 
+    		 the $MAVEN_HOME/plugins -->
+    	<j:if test="${!bootstrapMode}">
+            <ant:delete verbose="false" failonerror="false">
+                <ant:fileset dir="${maven.home}/plugins">
+                	<!-- first remove any old plugins -->
+                    <ant:include name="${pom.artifactId}-*.jar" />
+                </ant:fileset>
+            </ant:delete>
+			<ant:copy todir="${maven.home}/plugins">
+				<ant:fileset dir="target">
+					<include name="*.jar"/>
+				</ant:fileset>
+			</ant:copy>	
+		</j:if>
+		<artifact:install 
+			artifact="${maven.build.dir}/${maven.final.name}.jar" 
+			type="plugin" 
+			project="${pom}"/>	
+  	</goal>
+
+</project>
