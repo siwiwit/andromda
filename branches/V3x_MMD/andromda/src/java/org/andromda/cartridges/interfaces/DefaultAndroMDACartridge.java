@@ -17,11 +17,9 @@ import java.util.Properties;
 
 import org.andromda.core.anttasks.UserProperty;
 import org.andromda.core.common.CodeGenerationContext;
-import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.Property;
 import org.andromda.core.common.StdoutLogger;
-import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.core.metadecorators.uml14.DecoratorFactory;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.log4j.Appender;

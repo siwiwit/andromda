@@ -1,6 +1,5 @@
 package org.andromda.cartridges.mgmt;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +19,7 @@ import org.apache.log4j.Logger;
  * @author    <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author    Chad Brandon
  * @since     April 1, 2003
- * @version   $Revision: 1.3.2.3 $
+ * @version   $Revision: 1.3.2.4 $
  */
 public class CartridgeFinder
 {
