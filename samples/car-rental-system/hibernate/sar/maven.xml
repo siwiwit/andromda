@@ -1,0 +1,80 @@
+<project xmlns:ant="jelly:ant"
+  		 xmlns:maven="jelly:maven"
+  		 xmlns:j="jelly:core">
+  		 
+    <preGoal name="java:compile"> 
+    	
+        <ant:taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask">
+            <ant:classpath>
+				<ant:path refid="maven.dependency.classpath"/>
+				<ant:pathelement path="${pom.dependencyClasspath}"/>
+            </ant:classpath>
+        </ant:taskdef>
+        
+        <hibernatedoclet destdir="${xdoclet.hibernate.gen.dir}">
+            <fileset dir="${maven.build.src}">
+                <include name="**/*.java" />
+            </fileset>
+            <fileset dir="${maven.src.dir}">
+                <include name="**/*.java" />
+            </fileset>
+
+            <hibernate version="2.0" />
+
+            <jbossservice
+                destdir="${xdoclet.hibernate.gen.dir}/META-INF"
+                transactionManagerStrategy="net.sf.hibernate.transaction.JBossTransactionManagerLookup"
+                transactionStrategy="net.sf.hibernate.transaction.JTATransactionFactory"
+                userTransactionName="java:/UserTransaction"
+                jndiname="java:/hibernate/SessionFactory"
+                servicename="CarRentalSystemHibernateSessionFactory"
+                dialect="net.sf.hibernate.dialect.HSQLDialect"
+                datasource="java:/DefaultDS"
+                showSql="true"
+            />
+        </hibernatedoclet>
+        <!--
+             hibernatedoclet has a bug under Windows: It generates
+             resource references in jboss-service.xml, using "\\"
+             instead of "/" as a package path separator.
+
+             Let's compensate for this using the following "replace" task.
+         -->
+        <replace 
+			file="${xdoclet.hibernate.gen.dir}/META-INF/jboss-service.xml"
+			token="\"
+			value="/">
+        </replace>
+    	
+    </preGoal>
+    
+    <!-- ===================================================================
+         These is necessary since there isn't any downloadable
+         maven-sar-plugin (when there is, the below goals should be removed).
+         This goals are used by the sample modules.                     
+         =================================================================== -->
+	<ant:property 
+		name="jar.file"
+  		value="${maven.final.name}.jar"/>
+	<ant:property 
+  		name="sar.file"
+  		value="${maven.final.name}.sar"/>
+  	<postGoal name="jar:jar">	
+  		<j:set var="jarLocation" value="${maven.build.dir}/${jar.file}"/>
+  		<j:set var="sarLocation" value="${maven.build.dir}/${sar.file}"/>
+      	<ant:copy
+      		file="${jarLocation}"
+      		toFile="${sarLocation}"/>
+  		<ant:echo>Renamed '${jarLocation}' to '${sarLocation}'</ant:echo>
+  	</postGoal>
+  
+  	<postGoal name="jar:install">
+  		<j:set var="jarLocation" value="${maven.repo.local}/${pom.artifactDirectory}/jars/${jar.file}"/>
+  		<j:set var="sarLocation" value="${maven.repo.local}/${pom.artifactDirectory}/sars/${sar.file}"/>
+      	<ant:move 
+      		file="${jarLocation}"
+      		toFile="${sarLocation}"/>
+  		<ant:echo>Renamed '${jarLocation}' to '${sarLocation}'</ant:echo>
+  	</postGoal>
+      		 
+</project>

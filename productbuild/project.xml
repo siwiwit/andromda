@@ -8,7 +8,7 @@
 	<currentVersion>3.0-SNAPSHOT</currentVersion>
   	<inceptionYear>2003</inceptionYear>
   	<organization>
-    	<name>Matthias Bohlen and the AndroMDA team</name>
+    	<name>Matthias Bohlen and the AndroMDA Team</name>
     	<logo>http://www.andromda.org/docs/images/project.png</logo>
     	<!-- <url></url> -->
   	</organization>
@@ -115,36 +115,6 @@
       		<role>Developer</role>
     	</developer>
   	</developers>
-  	
-  	<build>
-    	<sourceDirectory>src/java</sourceDirectory>
-    	<unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-    
-    	<!-- Unit test classes -->
-    	<unitTest>
-	      	<includes>
-	        	<include>**/Test*.java</include>
-	     	</includes>
-    	</unitTest>
-    
-		<resources>
-			<resource>
-				<directory>src/java</directory>
-	  			<includes>
-	    			<include>**/*.xml</include>
-	    			<include>**/*.properties</include>
-	  			</includes>
-	  		</resource>
-	  		<resource>
-				<directory>src</directory>
-	        	<excludes>
-	        		<exclude>**/*.java</exclude>
-	        		<exclude>uml/**/*</exclude>
-	        		<exclude>test/**/*</exclude>
-	        	</excludes>
-	  		</resource>
-		</resources>
-  	</build>
   	
   	<!-- restrict the reports generated -->
   	<reports>
