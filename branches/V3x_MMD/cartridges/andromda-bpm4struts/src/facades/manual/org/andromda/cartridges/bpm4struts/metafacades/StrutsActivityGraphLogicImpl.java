@@ -40,7 +40,7 @@ public class StrutsActivityGraphLogicImpl
             if (obj instanceof StrutsUseCase)
             {
                 StrutsUseCase useCase = (StrutsUseCase)obj;
-                if (useCase.getOwnedElements().contains(this))
+                if (this.equals(useCase.getActivityGraph()))
                 {
                     return useCase;
                 }
