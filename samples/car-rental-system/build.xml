@@ -155,9 +155,9 @@
 
 			<namespace name="default">
 				<!-- set the language mappings for the default namespace -->			
-				<property name="languageMappings" value="file:/${basedir}/conf/mappings/JavaMappings.xml"/>	
-				<property name="jdbcTypeMappings" value="file:/${basedir}/conf/mappings/JdbcMappings.xml"/>
-				<property name="sqlTypeMappings" value="file:/${basedir}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="languageMappings" value="file:/${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+				<property name="jdbcTypeMappings" value="file:/${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlTypeMappings" value="file:/${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
 				<property name="foreignKeySuffix" value="_FK"/>
 			</namespace>
 
@@ -197,9 +197,9 @@
         >
 			<namespace name="default">
 				<!-- set the language mappings for the default namespace -->			
-				<property name="languageMappings" value="file:/${basedir}/conf/mappings/JavaMappings.xml"/>	
-				<property name="jdbcTypeMappings" value="file:/${basedir}/conf/mappings/JdbcMappings.xml"/>
-				<property name="sqlTypeMappings" value="file:/${basedir}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="languageMappings" value="file:/${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+				<property name="jdbcTypeMappings" value="file:/${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlTypeMappings" value="file:/${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
 				<property name="foreignKeySuffix" value="_FK"/>
 			</namespace>
 

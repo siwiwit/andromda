@@ -104,8 +104,8 @@
             <fileset dir="lib" includes="*"/>
         </copy>
 
-        <copy todir="${dist.dir}/src/xml">
-            <fileset dir="src/xml" includes="*"/>
+        <copy todir="${dist.dir}/conf/mappings">
+            <fileset dir="conf/mappings" includes="*"/>
         </copy>
 
     </target>
