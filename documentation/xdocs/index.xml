@@ -5,7 +5,7 @@
   <properties>
     <author email="mbohlen@mbohlen.de">Matthias Bohlen</author>
     <title>AndroMDA - Homepage</title>
-    <gennews>no</gennews>
+    <gennews>yes</gennews>
   </properties>
 
   <body>
@@ -44,6 +44,32 @@
       </p>
 
     </freetext>
+
+    <news name="Wikiweb is online" href="/tiki/">
+      <p>
+          Our brand-new Wikiweb is on-line! Share your ideas with other AndroMDA
+          users, see what the developers have on their TODO-list and much more...
+          The Wikiweb is easy to use. Register as a user and join the community!
+      </p>
+    </news>
+
+    <news name="Partnering with NoMagic, Inc." href="http://www.magicdraw.com/">
+      <p>
+          We have chosen MagicDraw UML to use on our development and support it
+          with AndroMDA for our user community. MagicDraw has won several prizes
+          in the Java developer community. We found that it features a very
+          good performance and is stable and mature. Recommended!
+      </p>
+    </news>
+
+    <news name="AndroMDA as a Poseidon plug-in" href="http://www.gentleware.com/products/download.php4">
+      <p>
+          AndroMDA now runs as a plug-in with Poseidon, Gentleware's widely known
+          CASE tool. You will see that code generation runs much faster than in
+          stand-alone mode because AndroMDA can now access the model directly in
+          Poseidon's memory.
+      </p>
+    </news>
 
   </body>
 </document>
