@@ -292,7 +292,10 @@
                includeAntRuntime="false">
             <src path="${web.src.dir}" />
             <src path="${web.output.dir}" />
-            <classpath refid="classpath"/>
+            <classpath>
+                <path refid="classpath"/>
+                <pathelement location="${ear.build.dir}/${sample.name}-Hibernate.jar" />
+            </classpath>
         </javac>
     </target>
 
