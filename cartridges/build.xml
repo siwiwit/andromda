@@ -78,10 +78,9 @@
         <antcall target="buildCartridge">
             <param name="cartridge.name" value="andromda-struts"/>
         </antcall>
-        <!--
         <antcall target="buildCartridge">
             <param name="cartridge.name" value="andromda-bpm4struts"/>
-        </antcall> -->
+        </antcall>
     </target>
 
 </project>
