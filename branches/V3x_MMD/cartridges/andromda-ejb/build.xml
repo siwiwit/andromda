@@ -51,8 +51,6 @@
             <fileset dir="${build.dir}"/>
             <fileset dir="${src.dec.gen.dir}"/>
         </delete>
-        <!-- cleanup the copied base model -->
-        <delete file="${uml.dir}/MetadecoratorModel.xml.zip"/>
     </target>
 
     <!-- ============================================================= -->
