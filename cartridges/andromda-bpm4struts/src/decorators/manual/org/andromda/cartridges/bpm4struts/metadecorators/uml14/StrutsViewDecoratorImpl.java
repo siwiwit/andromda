@@ -1,16 +1,19 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.ActionStateDecorator;
-import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
+import org.andromda.core.metadecorators.uml14.ActivityGraphDecorator;
 import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.ActivityGraphDecorator;
+import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
+import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 import org.omg.uml.behavioralelements.activitygraphs.ActivityGraph;
 import org.omg.uml.behavioralelements.usecases.UseCase;
+import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
@@ -38,19 +41,20 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
     // concrete business methods that were declared
     // abstract in class StrutsViewDecorator ...
 
-    /**
-     * Returns a new collection containing all the classes associated with this one.
-     */
-    private Collection getAssociatedClasses()
+    private Collection getSupplierDependencies()
     {
-        final Collection associatedClasses = new LinkedList();
-        final Collection associationEnds = getAssociationEnds();
-        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+        final UmlPackage model = MetaDecoratorUtil.getModel(metaObject);
+        final Collection allDependencies = model.getCore().getDependency().refAllOfType();
+        final Collection supplierDependencies = new LinkedList();
+
+        for (Iterator iterator = allDependencies.iterator(); iterator.hasNext();)
         {
-            final AssociationEndDecorator associationEnd = (AssociationEndDecorator)iterator.next();
-            associatedClasses.add(associationEnd.getOtherEnd().getType());
+            Dependency dependency = (Dependency) iterator.next();
+            Object supplier = dependency.getSupplier().iterator().next();
+            if (metaObject.equals(supplier))
+                supplierDependencies.add(dependency);
         }
-        return associatedClasses;
+        return supplierDependencies;
     }
 
     /**
@@ -58,12 +62,16 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
      */
     private Collection getAssociatedModelClasses()
     {
-        final Collection associatedClasses = getAssociatedClasses();
-        for (Iterator iterator = associatedClasses.iterator(); iterator.hasNext();)
+        final Collection associatedClasses = new LinkedList();
+        Collection supplierDependencies = getSupplierDependencies();
+        for (Iterator dependencyIterator=supplierDependencies.iterator(); dependencyIterator.hasNext();)
         {
-            ClassifierDecorator classifier = (ClassifierDecorator) iterator.next();
-            if (!classifier.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL))
-                iterator.remove();
+            Object element = dependencyIterator.next();
+            Dependency dep = (Dependency) element;
+            ModelElement client = (ModelElement) dep.getClient().iterator().next();
+            ModelElementDecorator clientDecorator = (ModelElementDecorator)DecoratorBase.decoratedElement(client);
+            if (clientDecorator instanceof ClassifierDecorator && clientDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL))
+                associatedClasses.add(clientDecorator);
         }
         return associatedClasses;
     }
