@@ -15,9 +15,9 @@ import org.apache.struts.action.ActionMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public final class $class.name implements ${class.name}Interface
+public class $class.name implements ${class.name}Interface
 {
-    private final static $class.name INSTANCE = new ${class.name}();
+    private static $class.name instance = null;
 
     /**
      * Singleton constructor
@@ -31,7 +31,11 @@ public final class $class.name implements ${class.name}Interface
      */
     public static ${class.name} getInstance()
     {
-        return INSTANCE;
+        if (instance == null)
+        {
+            instance = new ${class.name}();
+        }
+        return instance;
     }
 
 #foreach ($operation in $class.operations)
