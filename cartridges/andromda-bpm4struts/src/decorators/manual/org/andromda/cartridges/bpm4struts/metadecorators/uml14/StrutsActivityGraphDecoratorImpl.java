@@ -56,8 +56,8 @@ public class StrutsActivityGraphDecoratorImpl extends StrutsActivityGraphDecorat
         for (Iterator iterator = finalStates.iterator(); iterator.hasNext();)
         {
             FinalStateDecorator finalStateDecorator = (FinalStateDecorator) iterator.next();
-            FinalState actionState = (FinalState)finalStateDecorator.getMetaObject();
-            transitions.addAll(actionState.getIncoming());
+            FinalState finalState = (FinalState)finalStateDecorator.getMetaObject();
+            transitions.addAll(finalState.getIncoming());
         }
 
         return transitions;
