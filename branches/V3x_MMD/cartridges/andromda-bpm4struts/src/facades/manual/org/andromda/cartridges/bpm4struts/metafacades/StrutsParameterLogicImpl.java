@@ -103,7 +103,14 @@ public class StrutsParameterLogicImpl
     {
         final String fieldType = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE);
 
-        if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_TEXTBLOCK.equalsIgnoreCase(fieldType))
+        if (fieldType == null)
+        {
+            final String parameterType = getType().getFullyQualifiedName();
+            if (isValidatorBoolean(parameterType)) return "checkbox";
+            if (isCollection() || isArray()) return "select";
+            return "text";
+        }
+        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_TEXTBLOCK.equalsIgnoreCase(fieldType))
         {
             return "textarea";
         }
@@ -167,7 +174,7 @@ public class StrutsParameterLogicImpl
 
     public boolean isReadOnly()
     {
-        return isTrue(findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_REQUIRED));
+        return isTrue(findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_READONLY));
     }
 
     private boolean isTrue(String string)
@@ -243,7 +250,7 @@ public class StrutsParameterLogicImpl
 
     public String getValidatorMsgKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(getName());
+        return getMessageKey();
     }
 
     public java.util.Collection getValidatorArgs(java.lang.String validatorType)
@@ -317,44 +324,49 @@ public class StrutsParameterLogicImpl
     }
 
     // ------------------------------------------
+    private boolean isValidatorBoolean(String type)
+    {
+        return "boolean".equals(type) || Boolean.class.getName().equals(type);
+    }
+
     private boolean isValidatorByte(String type)
     {
-        return "byte".equals(type) || "java.lang.Byte".equals(type);
+        return "byte".equals(type) || Byte.class.getName().equals(type);
     }
 
     private boolean isValidatorShort(String type)
     {
-        return "short".equals(type) || "java.lang.Short".equals(type);
+        return "short".equals(type) || Short.class.getName().equals(type);
     }
 
     private boolean isValidatorInteger(String type)
     {
-        return "int".equals(type) || "java.lang.Integer".equals(type);
+        return "int".equals(type) || Integer.class.getName().equals(type);
     }
 
     private boolean isValidatorLong(String type)
     {
-        return "long".equals(type) || "java.lang.Long".equals(type);
+        return "long".equals(type) || Long.class.getName().equals(type);
     }
 
     private boolean isValidatorFloat(String type)
     {
-        return "float".equals(type) || "java.lang.Float".equals(type);
+        return "float".equals(type) || Float.class.getName().equals(type);
     }
 
     private boolean isValidatorDouble(String type)
     {
-        return "double".equals(type) || "java.lang.Double".equals(type);
+        return "double".equals(type) || Double.class.getName().equals(type);
     }
 
     private boolean isValidatorDate(String type)
     {
-        return "java.util.Date".equals(type) || "java.sql.Date".equals(type);
+        return java.util.Date.class.getName().equals(type) || java.sql.Date.class.getName().equals(type);
     }
 
     private boolean isValidatorString(String type)
     {
-        return "java.lang.String".equals(type);
+        return String.class.getName().equals(type);
     }
 
     private boolean isEmailFormat(String format)
