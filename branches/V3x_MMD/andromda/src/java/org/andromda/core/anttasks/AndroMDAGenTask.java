@@ -20,9 +20,9 @@ import org.andromda.cartridges.mgmt.CartridgeFinder;
 
 import org.andromda.core.common.CodeGenerationContext;
 import org.andromda.core.common.DbMappingTable;
+import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
-import org.andromda.core.common.ScriptHelper;
 import org.andromda.core.common.StdoutLogger;
 
 import org.apache.tools.ant.BuildException;
@@ -448,21 +448,25 @@ public class AndroMDAGenTask extends MatchingTask
             repository.open();
             repository.readModel(url);
 
-            // configure script helper
-            ScriptHelper scriptHelper =
-                createRepository().createTransform();
-            scriptHelper.setModel(repository.getModel());
-            scriptHelper.setTypeMappings(typeMappings);
-            // @TODO: why does scripthelper have to know typeMappings?
-            
+            final ModelFacade model = repository.getModel();
             context =
                 new CodeGenerationContext(
                     repository,
-                    scriptHelper,
+                    model,
+                    null, // <-- no default script helper, yet! 
                     typeMappings,
                     outletDictionary,
                     lastModifiedCheck,
                     userProperties);
+
+            // process all model elements
+            Collection elements = model.getModelElements();
+            StdoutLogger.debug("Model elements read: " + elements.size());
+            for (Iterator it = elements.iterator(); it.hasNext();)
+            {
+                processModelElement(context, it.next());
+            }
+            repository.close();
         }
         catch (FileNotFoundException fnfe)
         {
@@ -477,15 +481,6 @@ public class AndroMDAGenTask extends MatchingTask
         {
             throw new BuildException(mdre);
         }
-
-        // process all model elements
-        Collection elements = context.getScriptHelper().getModelElements();
-        for (Iterator it = elements.iterator(); it.hasNext();)
-        {
-            processModelElement(context, it.next());
-        }
-        context.getRepository().close();
-
     }
 
     /**
@@ -501,9 +496,10 @@ public class AndroMDAGenTask extends MatchingTask
         Object modelElement)
         throws BuildException
     {
-        String name = context.getScriptHelper().getName(modelElement);
+        String name = context.getModelFacade().getName(modelElement);
+        StdoutLogger.debug("processModelElement: " + name);
         Collection stereotypeNames =
-            context.getScriptHelper().getStereotypeNames(modelElement);
+            context.getModelFacade().getStereotypeNames(modelElement);
 
         for (Iterator i = stereotypeNames.iterator(); i.hasNext();)
         {
@@ -531,6 +527,8 @@ public class AndroMDAGenTask extends MatchingTask
         String stereotypeName)
         throws BuildException
     {
+        String name = context.getModelFacade().getName(modelElement);
+        StdoutLogger.debug("processModelElementStereotype: <<" + stereotypeName + ">> " + name);
         Collection suitableCartridges =
             cartridgeDictionary.lookupCartridges(stereotypeName);
         // @todo: lookup cartridges not only by stereotype 
@@ -540,9 +538,11 @@ public class AndroMDAGenTask extends MatchingTask
 
         if (suitableCartridges == null)
         {
+            StdoutLogger.debug("processModelElementStereotype: <<" + stereotypeName + ">> " + name + " --> no cartridge");
             return;
         }
 
+        StdoutLogger.debug("processModelElementStereotype: found " + suitableCartridges.size() + " suitable cartridges");
         for (Iterator iter = suitableCartridges.iterator();
             iter.hasNext();
             )

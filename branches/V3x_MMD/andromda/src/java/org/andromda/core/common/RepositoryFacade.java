@@ -11,8 +11,6 @@ import java.net.URL;
  * the model can be loaded.  The repository must be able to load the object model 
  * given a URL. Any repository that supports this API can be used by AndroMDA. </p>
  * 
- * @see org.andromda.core.common.ScriptHelper
- * 
  * @author    <A HREF="http://www.amowers.com">Anthony Mowers</A>
  */
 public interface RepositoryFacade
@@ -51,10 +49,10 @@ public interface RepositoryFacade
 	public long getLastModified();
 
 	/**
-	 *  returns the top-level model object from the repository
+	 *  returns a facade for the top-level model object from the repository
 	 *
 	 *@return    The model value
 	 */
-	public Object getModel();
+	public ModelFacade getModel();
 
 }

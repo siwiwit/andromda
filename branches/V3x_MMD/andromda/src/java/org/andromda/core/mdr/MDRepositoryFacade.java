@@ -10,9 +10,11 @@ import javax.jmi.model.MofPackage;
 import javax.jmi.reflect.RefPackage;
 import javax.jmi.xmi.MalformedXMIException;
 
+import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
 import org.andromda.core.common.StdoutLogger;
+import org.andromda.core.uml14.UMLModelFacade;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRManager;
 import org.netbeans.api.mdr.MDRepository;
@@ -143,9 +145,9 @@ public class MDRepositoryFacade implements RepositoryFacade
     /**
      * @see org.andromda.core.common.RepositoryFacade#getModel()
      */
-    public Object getModel()
+    public ModelFacade getModel()
     {
-        return this.model;
+        return new UMLModelFacade(this.model);
     }
 
     /**
