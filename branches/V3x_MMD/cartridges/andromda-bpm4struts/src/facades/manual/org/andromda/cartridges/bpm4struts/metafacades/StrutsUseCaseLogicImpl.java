@@ -38,6 +38,11 @@ public class StrutsUseCaseLogicImpl
         return getActivityGraph().getFirstAction().getActionPath();
     }
 
+    public String getActionPathRoot()
+    {
+        return getActivityGraph().getFirstAction().getActionPathRoot();
+    }
+
     public String getFullFormBeanPath()
     {
         return '/' + getFormBeanPackageName().replace('.','/') + '/' + StringUtilsHelper.toJavaClassName(getName()) + "Form";
