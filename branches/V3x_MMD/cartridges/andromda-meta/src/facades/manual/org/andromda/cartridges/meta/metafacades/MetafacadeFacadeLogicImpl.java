@@ -37,7 +37,7 @@ public class MetafacadeFacadeLogicImpl
     
     // ---------------- constructor -------------------------------
     
-    public MetafacadeFacadeLogicImpl (org.omg.uml.foundation.core.Classifier metaObject)
+    public MetafacadeFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }
@@ -87,13 +87,13 @@ public class MetafacadeFacadeLogicImpl
 
     // ------------- relations ------------------
 
-    /**
-     * Returns the class tagged with &lt;&lt;metaclass&gt;&gt;&gt; that is
-     * connected to the metaobject via a dependency. If no metaclass is
-     * directly connected, the method walks up the supertype hierarchy.
-     *
-     * @return the metaclass object
-     */
+        /**
+         * Returns the class tagged with &lt;&lt;metaclass&gt;&gt;&gt; that is
+         * connected to the metaobject via a dependency. If no metaclass is
+         * directly connected, the method walks up the supertype hierarchy.
+         *
+         * @return the metaclass object
+         */
     public Object handleGetMetaclass()
     {
         // delegate to recursive method
@@ -132,6 +132,27 @@ public class MetafacadeFacadeLogicImpl
         ClassifierFacade superclass = cl.getSuperclass();
         return (superclass != null) ? getMetaclass(superclass) : null;
     }
+    
+    /**
+     * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#isMetaclassDirectDependency()
+     */
+    public boolean isMetaclassDirectDependency() {
+        boolean isMetaClassDirectDependency = false;
+        Collection dependencies = this.getDependencies();
+        if (dependencies != null && !dependencies.isEmpty()) {
+            // there should be only one.
+            DependencyFacade dependency = 
+                (DependencyFacade)dependencies.iterator().next();
+            if (dependency != null) {
+                ModelElementFacade targetElement = dependency.getTargetType();
+                if (targetElement != null) {
+                    isMetaClassDirectDependency = 
+                        targetElement.hasStereotype(MetaProfile.STEREOTYPE_METACLASS);
+                }
+            }
+        }
+        return isMetaClassDirectDependency;
+    }   
 
     /* (non-Javadoc)
      * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#getInterfacePackageName()

@@ -29,7 +29,7 @@ public class EJBEntityFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EJBEntityFacadeLogicImpl (org.omg.uml.foundation.core.Classifier metaObject)
+    public EJBEntityFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }

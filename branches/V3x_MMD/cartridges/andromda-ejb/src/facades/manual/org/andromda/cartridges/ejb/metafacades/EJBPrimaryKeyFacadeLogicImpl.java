@@ -18,7 +18,7 @@ public class EJBPrimaryKeyFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EJBPrimaryKeyFacadeLogicImpl (org.omg.uml.foundation.core.Attribute metaObject)
+    public EJBPrimaryKeyFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }

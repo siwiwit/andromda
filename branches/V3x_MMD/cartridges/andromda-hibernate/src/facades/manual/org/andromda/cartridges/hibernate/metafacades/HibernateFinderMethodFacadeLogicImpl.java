@@ -22,7 +22,7 @@ public class HibernateFinderMethodFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public HibernateFinderMethodFacadeLogicImpl (org.omg.uml.foundation.core.Operation metaObject)
+    public HibernateFinderMethodFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }

@@ -5,8 +5,11 @@
 package $packagename;
 
 ## calculate metaclass and superclass
-#set ($shieldedMetaclass = $class.metaclass)
-#set ($shieldedMetaclassTypeName = $shieldedMetaclass.fullyQualifiedName)
+#if ($class.metaclassDirectDependency)
+#set ($shieldedMetaclassTypeName = $class.metaclass.fullyQualifiedName)
+#else
+#set ($shieldedMetaclassTypeName = "java.lang.Object")
+#end
 ##
 #set ($superclass = $class.superclass)
 ##
@@ -27,13 +30,8 @@ public abstract class ${class.name}Logic
     public ${class.name}Logic ($shieldedMetaclassTypeName metaObject) {
         super (metaObject);
 #if ($superclass)
-		// set the context for the metafacade as the interface name, we
-		// need to do this since inheritance really doesn't exist, and really
-		// the context should be dependant on the interface and not
-		// the implementation
-        this.setContext("$class.fullyQualifiedInterfaceName");
-        this.super_ =
-            (${superclass.fullyQualifiedInterfaceName})
+        this.super_ = 
+           (${superclass.fullyQualifiedInterfaceName})
             org.andromda.core.metafacade.MetafacadeFactory
                 .getInstance()
                 .createFacadeImpl(
