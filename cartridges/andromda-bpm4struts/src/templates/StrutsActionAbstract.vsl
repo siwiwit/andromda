@@ -93,8 +93,10 @@ $actionState.getDocumentation("     ")
         String trigger = request.getParameter("trigger");
         if (trigger != null)
             trigger = trigger.toLowerCase();
+#set ($keyPrefix = $str.separate($actionState.jsp.name, ".").toLowerCase())
 #foreach ($triggerTransition in $actionState.triggerTransitions)
-        if ("${triggerTransition.triggerName.toLowerCase()}".equals(trigger))
+#set ($key = $str.separate(${triggerTransition.triggerName}, ".").toLowerCase())
+        if ("${keyPrefix}.${key}".equals(trigger))
 #processTransition ( $triggerTransition "            " )
 #end
 
