@@ -43,6 +43,15 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
  */
 public class AndroMDAGenTask extends MatchingTask
 {
+	
+	/**
+	 * Set the context class loader so that any classes using it (the 
+	 * contextClassLoader) have access to the correct loader.
+	 */
+	static {
+		Thread.currentThread().setContextClassLoader(AndroMDAGenTask.class.getClassLoader());	
+	}
+
     private static final String DEFAULT_DBMAPPING_TABLE_CLASSNAME =
         "org.andromda.core.dbmapping.DigesterDbMappingTable";
 
@@ -250,75 +259,82 @@ public class AndroMDAGenTask extends MatchingTask
      */
     public void execute() throws BuildException
     {
-        DirectoryScanner scanner;
-        String[] list;
-        String[] dirs;
-
-        if (baseDir == null)
-        {
-            // We directly change the user variable, because it
-            // shouldn't lead to problems
-            baseDir = project.resolveFile(".");
+    	try 
+		{
+	        DirectoryScanner scanner;
+	        String[] list;
+	        String[] dirs;
+	
+	        if (baseDir == null)
+	        {
+	            // We directly change the user variable, because it
+	            // shouldn't lead to problems
+	            baseDir = this.getProject().resolveFile(".");
+	        }
+	
+	        if (typeMappings == null)
+	        {
+	            throw new BuildException("The typeMappings attribute of <andromda> has not been set - it is needed for class attribute to database column mapping.");
+	        }
+	
+	        initOutletDictionary();
+	        initVelocityProperties();
+	        List cartridges = initCartridges();
+	
+	        createRepository().createRepository().open();
+	
+	        if (modelURL == null)
+	        {
+	            // find the files/directories
+	            scanner = getDirectoryScanner(baseDir);
+	
+	            // get a list of files to work on
+	            list = scanner.getIncludedFiles();
+	
+	            if (list.length > 0)
+	            {
+	                for (int i = 0; i < list.length; ++i)
+	                {
+	                    URL modelURL = null;
+	                    File inFile = new File(baseDir, list[i]);
+	
+	                    try
+	                    {
+	                        modelURL = inFile.toURL();
+	                        process(modelURL);
+	                    }
+	                    catch (MalformedURLException mfe)
+	                    {
+	                        throw new BuildException(
+	                            "Malformed model file URL: " + modelURL);
+	                    }
+	                }
+	            }
+	            else
+	            {
+	                throw new BuildException("Couldn't find any input xmi.");
+	            }
+	        }
+	        else
+	        {
+	            // get the model via URL
+	            process(modelURL);
+	        }
+	
+	        for (Iterator iter = cartridges.iterator(); iter.hasNext();)
+	        {
+	            IAndroMDACartridge cart = (IAndroMDACartridge) iter.next();
+	            cart.shutdown();
+	        }
+	
+	        createRepository().createRepository().close();
+        
+    	} finally {
+        	// Set the context class loader back ot its system class loaders
+    		// so that any processes running after (i.e. XDoclet, etc) won't be trying to use
+    		// the ClassLoader for this class.
+        	Thread.currentThread().setContextClassLoader(ClassLoader.getSystemClassLoader());	
         }
-
-        if (typeMappings == null)
-        {
-            throw new BuildException("The typeMappings attribute of <andromda> has not been set - it is needed for class attribute to database column mapping.");
-        }
-
-        initOutletDictionary();
-        initVelocityProperties();
-        List cartridges = initCartridges();
-
-        // log("Transforming into: " + destDir.getAbsolutePath(), Project.MSG_INFO);
-
-        createRepository().createRepository().open();
-
-        if (modelURL == null)
-        {
-            // find the files/directories
-            scanner = getDirectoryScanner(baseDir);
-
-            // get a list of files to work on
-            list = scanner.getIncludedFiles();
-
-            if (list.length > 0)
-            {
-                for (int i = 0; i < list.length; ++i)
-                {
-                    URL modelURL = null;
-                    File inFile = new File(baseDir, list[i]);
-
-                    try
-                    {
-                        modelURL = inFile.toURL();
-                        process(modelURL);
-                    }
-                    catch (MalformedURLException mfe)
-                    {
-                        throw new BuildException(
-                            "Malformed model file URL: " + modelURL);
-                    }
-                }
-            }
-            else
-            {
-                throw new BuildException("Couldn't find any input xmi.");
-            }
-        }
-        else
-        {
-            // get the model via URL
-            process(modelURL);
-        }
-
-        for (Iterator iter = cartridges.iterator(); iter.hasNext();)
-        {
-            IAndroMDACartridge cart = (IAndroMDACartridge) iter.next();
-            cart.shutdown();
-        }
-
-        createRepository().createRepository().close();
     }
 
     /**
