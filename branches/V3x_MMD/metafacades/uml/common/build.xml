@@ -2,7 +2,7 @@
 
     <property name="src.dir"          value="${basedir}/src" />
     <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
-    <property name="uml.dir"          value="../../../cartridges/andromda-meta/src/uml" />
+    <property name="uml.dir"          value="${src.dir}/uml" />
 
     <property name="build.dir"        value="build" />
     <property name="dist.dir"         value="dist" />
@@ -71,7 +71,7 @@
         
         <property 
         	name="model" 
-        	value="jar:file:${uml.dir}/MetadecoratorModel.xml.zip!/MetadecoratorModel.xml"/>
+        	value="jar:file:${uml.dir}/UMLMetafacadeModel.xml.zip!/UMLMetafacadeModel.xml"/>
 
         <andromda basedir="."
            modelURL="${model}"
@@ -86,7 +86,7 @@
 				<property name="languageMappings"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
             
-            <modelPackage name="org.andromda.core.metadecorators.uml14" shouldProcess="true"/>
+            <modelPackage name="org.andromda.metafacades.uml14" shouldProcess="true"/>
 
         </andromda>
         
