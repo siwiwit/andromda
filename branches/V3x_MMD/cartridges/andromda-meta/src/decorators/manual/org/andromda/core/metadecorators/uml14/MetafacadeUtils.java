@@ -32,4 +32,36 @@ public class MetafacadeUtils {
 		}	
 		CollectionUtils.filter(modelElements, new StereotypeFilter());
 	}
+	
+    /**
+     * <p>Returns a consistent name for a relation, independent from
+     * the end of the relation one is looking at.</p>
+     *
+     * <p>In order to guarantee consistency with relation names, they
+     * must appear the same whichever angle (ie entity) that you come
+     * from.  For example, if you are at Customer end of a
+     * relationship to an Address then your relation may appear with
+     * the name Customer-Address.  But if you are in the Address
+     * entity looking at the Customer then you will get an error
+     * because the relation will be called Address-Customer.  A simple
+     * way to guarantee that both ends of the relationship have the
+     * same name is merely to use alphabetical ordering.</p>
+     *
+     * @param roleName       name of role in relation
+     * @param targetRoleName name of target role in relation
+     * @param separator      character used to separate words
+     * @return uniform mapping name (in alphabetical order)
+     */
+    public static String toRelationName(
+    	String roleName, 
+		String targetRoleName,
+        String separator) {
+        if (roleName.compareTo(targetRoleName) <= 0) {
+            return (roleName + separator + targetRoleName);
+        }
+
+        return (targetRoleName + separator + roleName);
+    }
+
+	
 }

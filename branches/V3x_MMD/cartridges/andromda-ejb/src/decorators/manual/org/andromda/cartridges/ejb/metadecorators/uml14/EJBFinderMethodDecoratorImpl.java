@@ -3,6 +3,7 @@ package org.andromda.cartridges.ejb.metadecorators.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.metadecorators.uml14.ParameterDecorator;
 import org.apache.commons.lang.StringUtils;
 
@@ -28,8 +29,13 @@ public class EJBFinderMethodDecoratorImpl extends EJBFinderMethodDecorator {
 
 	public java.lang.String getQuery() {
 
-		//first see if there is a query stored as a tagged value
+    	// first see if we can retrieve the query from the super class.
 		String queryString = super.getQuery();
+		
+		// now see if there is a query stored as a tagged value
+		if (StringUtils.isEmpty(queryString)) {
+			queryString = this.findTaggedValue(EJBProfile.TAGGEDVALUE_EJB_QUERY);
+		}
 
 		//if there wasn't any stored query, create one by default.
 		if (StringUtils.isEmpty(queryString)) {

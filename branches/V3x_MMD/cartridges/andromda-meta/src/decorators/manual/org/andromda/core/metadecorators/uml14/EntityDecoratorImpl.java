@@ -1,6 +1,7 @@
 package org.andromda.core.metadecorators.uml14;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.andromda.core.uml14.UMLProfile;
 
@@ -84,6 +85,40 @@ public class EntityDecoratorImpl extends EntityDecorator
 				this, 
 				UMLProfile.TAGGEDVALUE_PERSISTENCE_TABLE,
 				this.getMaxSqlNameLength());
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.EntityDecorator#getAttributesAsList(boolean, boolean)
+     */
+    public String getAttributesAsList(boolean withTypeNames, boolean withIdentifiers) {
+        StringBuffer buffer = new StringBuffer();
+        String separator = "";
+        buffer.append("(");
+        
+        Collection attributes = this.getAttributes();
+        
+        if (attributes != null && !attributes.isEmpty()) {
+        	Iterator attributeIt = attributes.iterator();
+        	while (attributeIt.hasNext()) {
+        		EntityAttributeDecorator attribute = 
+        			(EntityAttributeDecorator)attributeIt.next();
+        		if (withIdentifiers || !attribute.isIdentifier()) {
+                    buffer.append(separator);
+        			if (withTypeNames) {
+	                    String typeName = attribute.getType().getFullyQualifiedName();
+	                    buffer.append(typeName);
+	                    buffer.append(" ");
+	                    buffer.append(attribute.getName());    
+        			} else {
+	                	buffer.append(attribute.getGetterName());
+	                	buffer.append("()");
+	                }
+                    separator = ", ";
+        		}
+        	}
+        }
+        buffer.append(")");
+        return buffer.toString();
     }
     
 	/**

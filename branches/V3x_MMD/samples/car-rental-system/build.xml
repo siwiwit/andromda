@@ -202,6 +202,7 @@
 				<property name="jdbcMappings" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
 				<property name="sqlMappings" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
 				<property name="foreignKeySuffix" value="_FK"/>
+				<property name="maxSqlNameLength" value="30"/>
 			</namespace>
 
 			<namespace name="java">
