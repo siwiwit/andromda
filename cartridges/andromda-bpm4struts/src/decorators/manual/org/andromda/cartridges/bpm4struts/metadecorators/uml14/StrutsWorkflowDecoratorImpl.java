@@ -2,8 +2,11 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.statemachines.StateMachine;
+import org.omg.uml.behavioralelements.statemachines.StateVertex;
+import org.omg.uml.behavioralelements.statemachines.Transition;
 import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.ModelElement;
 
@@ -87,6 +90,40 @@ public class StrutsWorkflowDecoratorImpl extends StrutsWorkflowDecorator
         }
         return null;
     }
+
+    protected ModelElement handleGetFirstServlet()
+    {
+        // get the first state in the workflow
+        Transition transition = (Transition)getActivityGraph().getInitialState().metaObject.getOutgoing().iterator().next();
+        StateVertex firstState = (StateVertex)transition.getTarget();
+        final String initialStateName = firstState.getName();
+
+        // lookup this state as a use-case in the model (same name)
+        Collection allUseCases = MetaDecoratorUtil.getModel(metaObject).getUseCases().getUseCase().refAllOfType();
+        for (Iterator iterator = allUseCases.iterator(); iterator.hasNext();)
+        {
+            UseCase useCase = (UseCase) iterator.next();
+            // does it have the same name
+            if (initialStateName.equalsIgnoreCase(useCase.getName()))
+            {
+                StrutsUseCaseDecorator useCaseDecorator = (StrutsUseCaseDecorator)decoratedElement(useCase);
+                return useCaseDecorator.getServlet().getMetaObject();
+            }
+        }
+
+        return null;
+    }
+
     // ------------------------------------------------------------
 
+    public void validate() throws DecoratorValidationException
+    {
+        // there must be an initial state
+
+        // this initial state must have one and only one outgoing transition
+
+        // this transition must have an action state as a target
+
+        // all action states must have a corresponding use-case
+    }
 }
