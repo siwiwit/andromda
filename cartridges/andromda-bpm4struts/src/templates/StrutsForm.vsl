@@ -65,11 +65,12 @@ $inputField.getDocumentation("     ")
 #set ($commaOne = "")
 #end
      * @struts.validator
-     *    type="$required$commaOne$mask"
+     *   msgkey="$inputField.validationMsgKey"
+     *     type="$required$commaOne$mask"
      *
 #if ($inputField.maskPattern)
      * @struts.validator-var
-     *    name="$mask"
+     *     name="$mask"
      *    value="$inputField.maskPattern"
      *
 #end
