@@ -4,7 +4,7 @@
 <metafacades namespace="hibernate">
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Operation$Impl"
-		metafacadeClass="org.andromda.cartridges.hibernate.metafacade.HibernateFinderMethodFacadeLogicImpl">
+		metafacadeClass="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodFacadeLogicImpl">
 		<stereotype>FinderMethod</stereotype>
 	</metafacade>	
 </metafacades>

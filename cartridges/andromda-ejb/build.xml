@@ -28,13 +28,16 @@
     <property name="andromda-ejb.home" location="dist"/>
     
     <property name="metafacades.uml.home"        location="${andromda.home}/metafacades/uml"/>
-    <property name="metafacades.uml.common.home" location="${metafacades.uml.home}/common"/>
-    <property name="metafacades.uml.uml14.home"  location="${metafacades.uml.home}/uml14"/>
+    <property name="andromda-metafacades-uml.home" location="${metafacades.uml.home}/common"/>
+    <property name="andromda-metafacades-uml14.home"  location="${metafacades.uml.home}/uml14"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
     
     <property name="andromda-meta.home" value="${andromda-meta.dir}/dist"/>
     <property file="${andromda-meta.dir}/andromda-meta.properties"/>
+    
+    <property file="${andromda-metafacades-uml.home}/andromda-metafacades-uml.properties"/>
+    <property file="${andromda-metafacades-uml14.home}/andromda-metafacades-uml14.properties"/>
 
     <path id="andromda.classpath">
        <pathelement location="${andromda-core.home}/andromda.jar"/>
@@ -81,8 +84,8 @@
         <path id="generate.classpath">
            <path refid="andromda.classpath" />
            <pathelement path="${andromda-meta.classpath}"/>
-	       <pathelement location="${metafacades.uml.common.home}/andromda-metafacades-uml.jar"/>
-	       <pathelement location="${metafacades.uml.uml14.home}/andromda-metafacades-uml14.jar"/>          
+	       <pathelement path="${andromda-metafacades-uml.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml14.classpath}"/>      
         </path>
     
         <property name="g.cp" refid="generate.classpath"/>
@@ -128,7 +131,7 @@
             <classpath>
             	<path refid="generate.classpath"/>
  			   	<pathelement path="${andromda-meta.classpath}"/>     
-	       	   	<pathelement location="${metafacades.uml.common.home}/andromda-metafacades-uml.jar"/>	       
+       			<pathelement path="${andromda-metafacades-uml.classpath}"/>
             </classpath>
             <src path="${src.cart.dir}" />
             <src path="${src.fac.gen.dir}" />

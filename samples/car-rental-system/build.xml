@@ -8,6 +8,10 @@
     <property name="andromda-ejb.home" location="${andromda.home}/cartridges/andromda-ejb"/>
     <property name="andromda-hibernate.home" location="${andromda.home}/cartridges/andromda-hibernate"/>
     <property name="andromda-struts.home" location="${andromda.home}/cartridges/andromda-struts"/>
+    
+    <property name="metafacades.uml.home"        location="${andromda.home}/metafacades/uml"/>
+    <property name="andromda-metafacades-uml.home" location="${metafacades.uml.home}/common"/>
+    <property name="andromda-metafacades-uml14.home"  location="${metafacades.uml.home}/uml14"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
     <property file="${andromda-core.home}/xdoclet.properties"/>
@@ -15,6 +19,8 @@
     <property file="${andromda-ejb.home}/andromda-ejb.properties"/>
     <property file="${andromda-hibernate.home}/andromda-hibernate.properties"/>
     <property file="${andromda-struts.home}/andromda-struts.properties"/>
+    <property file="${andromda-metafacades-uml.home}/andromda-metafacades-uml.properties"/>
+    <property file="${andromda-metafacades-uml14.home}/andromda-metafacades-uml14.properties"/>
 
     <!-- classpath for using AndroMDA to compile UML -->
     <path id="andromda.classpath">
@@ -24,6 +30,8 @@
        <pathelement path="${andromda-ejb.classpath}"/>
        <pathelement path="${andromda-hibernate.classpath}"/>
        <pathelement path="${andromda-struts.classpath}"/>
+       <pathelement path="${andromda-metafacades-uml.classpath}"/>
+       <pathelement path="${andromda-metafacades-uml14.classpath}"/>
     </path>
     
     <path id="j2ee.classpath">
