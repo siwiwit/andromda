@@ -70,6 +70,7 @@ public class Property {
     public boolean isIgnore() {
         return ignore;
     }
+    
     /**
      * @see getIgnore()
      * 

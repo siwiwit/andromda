@@ -1,6 +1,7 @@
 package org.andromda.cartridges.interfaces;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,17 @@ public interface CartridgeDescriptor {
      * @return List the properties
      */
     public Map getProperties();
+    
+    /**
+     * Returns the propery references supplised with this
+     * cartridge. Property references are references to 
+     * properties that are expected to be supplied by
+     * the calling client.  These properties are then
+     * made available to the template. 
+     * 
+     * @param reference
+     */
+    public Collection getPropertyReferences();
     
     /**
      * Returns the list of templates configured in this cartridge.

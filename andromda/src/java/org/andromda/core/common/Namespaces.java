@@ -95,20 +95,33 @@ public class Namespaces {
 		if (property == null) {
 			if (logger.isDebugEnabled())
 				logger.debug("no namespace with name '" 
-					+ namespaceName + "' found, looking for '" + DEFAULT + "'");
+					+ namespaceName 
+                    + "' found, looking for '" 
+                    + DEFAULT + "'");
 			namespace = (Namespace)namespaces.get(DEFAULT);
 
 			if (namespace != null) {
 				property = namespace.getProperty(propertyName);
 			}
 		}
-
-		if (property == null) {
-			logger.error("ERROR! No '" + DEFAULT + "' or '" 
-				+ namespaceName + "' namespace defined for property '"
-				+ propertyName + "' --> please define a namespace with" 
-				+ " at least one of these names.  If you want to 'ignore' this property, " 
-                + "add the property with ignore set to 'true'");
+        
+        if (namespace == null) {
+            
+            logger.warn("WARNING! No '" + DEFAULT + "' or '" 
+                + namespaceName + "' namespace found, "
+                + "--> please define a namespace with" 
+                + " at least one of these names, if you would like "
+                + "to ignore this message, define the namespace with "
+                + "ignore set to 'true'");            
+            
+        } else if (property == null) {
+            
+			logger.warn("WARNING! Namespaces '" + DEFAULT + "' and '" 
+				+ namespaceName + "' have no property '"
+				+ propertyName + "' defined --> please define this " 
+                + "property in AT LEAST ONE of these two namespaces. " 
+                + " If you want to 'ignore' this message, add the " 
+                + "property to the namespace with ignore set to 'true'");
 		}
 
 		return property;

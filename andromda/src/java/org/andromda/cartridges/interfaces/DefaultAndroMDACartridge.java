@@ -307,9 +307,7 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
 		{
                         
             // add regular properties to the template context
-            this.addPropertiesToContext(
-                templateContext, 
-                context.getUserProperties());
+            this.addPropertiesToContext(templateContext);
             
             // add all the TemplateObject objects to the template context
             templateContext.putAll(this.getDescriptor().getTemplateObjects());
@@ -424,20 +422,36 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
     }
     
     /**
-     * Takes all the Property values that were defined in the ant build.xml
-     * file and adds them to the template context.
+     * Takes all the property references defined in the
+     * cartridge descriptor and looks up the corresponding
+     * values supplied by the calling client and supplies
+     * the to the template.
      *
      * @param  context  the template context
      * @param  properties the user properties
      */
-    private void addPropertiesToContext(
-        Map context,
-        Collection properties)
+    private void addPropertiesToContext(Map context)
     {
-        for (Iterator it = properties.iterator(); it.hasNext();)
+        Collection propertyReferences = 
+            this.getDescriptor().getPropertyReferences();
+        if (propertyReferences != null && !propertyReferences.isEmpty()) 
         {
-            Property property = (Property) it.next();
-            context.put(property.getName(), property.getValue());
+            Iterator referenceIt = propertyReferences.iterator();
+            while (referenceIt.hasNext()) 
+            {
+                String reference = (String)referenceIt.next();
+                // find the property from the namespace
+                Property property = 
+                    Namespaces.instance().findNamespaceProperty(
+                        this.getDescriptor().getCartridgeName(), 
+                        reference);
+                // if property isn't ignore, then add it to 
+                // the context
+                if (property != null && !property.isIgnore()) 
+                {
+                    context.put(property.getName(), property.getValue());
+                }
+            }
         }
     }
 
