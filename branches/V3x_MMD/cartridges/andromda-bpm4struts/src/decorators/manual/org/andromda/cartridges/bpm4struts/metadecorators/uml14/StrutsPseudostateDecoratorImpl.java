@@ -1,5 +1,6 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 
 
 /**
@@ -11,7 +12,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 public class StrutsPseudostateDecoratorImpl extends StrutsPseudostateDecorator
 {
     // ---------------- constructor -------------------------------
-    
+
     public StrutsPseudostateDecoratorImpl (org.omg.uml.behavioralelements.statemachines.Pseudostate metaObject)
     {
         super (metaObject);
@@ -22,13 +23,15 @@ public class StrutsPseudostateDecoratorImpl extends StrutsPseudostateDecorator
     // concrete business methods that were declared
     // abstract in class StrutsPseudostateDecorator ...
 
-    public java.lang.Boolean isChoice() {
-        // TODO: put your implementation here.
-
-        // Dummy return value, just that the file compiles
-        return null;
+    public String getImplementationMethodName()
+    {
+        return MetaDecoratorUtil.toJavaMethodName(metaObject);
     }
 
+    public String getAbstractMethodName()
+    {
+        return getImplementationMethodName() + "Abstract";
+    }
     // ------------- relations ------------------
-    
+
 }

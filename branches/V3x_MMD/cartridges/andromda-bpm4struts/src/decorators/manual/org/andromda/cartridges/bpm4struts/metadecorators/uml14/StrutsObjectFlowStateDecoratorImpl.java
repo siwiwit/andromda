@@ -1,5 +1,6 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 
 
 /**
@@ -11,7 +12,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 public class StrutsObjectFlowStateDecoratorImpl extends StrutsObjectFlowStateDecorator
 {
     // ---------------- constructor -------------------------------
-    
+
     public StrutsObjectFlowStateDecoratorImpl (org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState metaObject)
     {
         super (metaObject);
@@ -22,6 +23,16 @@ public class StrutsObjectFlowStateDecoratorImpl extends StrutsObjectFlowStateDec
     // concrete business methods that were declared
     // abstract in class StrutsObjectFlowStateDecorator ...
 
-    // ------------- relations ------------------
+    public String getImplementationMethodName()
+    {
+        return MetaDecoratorUtil.toJavaMethodName(metaObject);
+    }
+
+    public String getAbstractMethodName()
+    {
+        return getImplementationMethodName() + "Abstract";
+    }
     
+    // ------------- relations ------------------
+
 }
