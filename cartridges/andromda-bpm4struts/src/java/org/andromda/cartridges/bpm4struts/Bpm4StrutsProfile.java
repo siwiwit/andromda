@@ -40,6 +40,7 @@ public class Bpm4StrutsProfile
 
     public static final String TAGGED_VALUE_ACTION_TYPE_HYPERLINK = "hyperlink";
     public static final String TAGGED_VALUE_ACTION_TYPE_FORM = "form";
+    public static final String TAGGED_VALUE_ACTION_DEFAULT_TYPE = TAGGED_VALUE_ACTION_TYPE_FORM;
 
     public static final String TAGGED_VALUE_INPUT_TYPE_TEXTBLOCK = "textblock";
     public static final String TAGGED_VALUE_INPUT_TYPE_CHOICE = "choice";
