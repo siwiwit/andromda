@@ -1,7 +1,6 @@
 package org.andromda.samples.carrental.contracts;
 
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -11,13 +10,13 @@ import javax.ejb.EJBException;
 import javax.ejb.RemoveException;
 import javax.naming.NamingException;
 
+import net.sf.hibernate.HibernateException;
+
 import org.andromda.samples.carrental.customers.Customer;
 import org.andromda.samples.carrental.customers.CustomerFactory;
 import org.andromda.samples.carrental.inventory.InventoryException;
 import org.andromda.samples.carrental.inventory.InventoryService;
 import org.andromda.samples.carrental.inventory.InventoryServiceHome;
-
-import cirrus.hibernate.HibernateException;
 
 public class ContractServiceBeanImpl
     extends ContractServiceBean
@@ -27,7 +26,7 @@ public class ContractServiceBeanImpl
     // abstract in class ContractServiceBean ...
 
     protected java.util.Collection handleSearchForReservationsOfCustomer(
-        cirrus.hibernate.Session sess,
+        net.sf.hibernate.Session sess,
         java.lang.String customerId)
         throws ContractException
     {
@@ -48,10 +47,6 @@ public class ContractServiceBeanImpl
         {
             return new ArrayList();
         }
-        catch (SQLException e)
-        {
-            throw new EJBException(e);
-        }
     }
 
     /**
@@ -68,7 +63,7 @@ public class ContractServiceBeanImpl
     }
 
     protected void handleReserve(
-        cirrus.hibernate.Session sess,
+        net.sf.hibernate.Session sess,
         java.lang.String customerId,
         java.lang.String comfortClass,
         java.util.Date reservationDate)
@@ -121,10 +116,6 @@ public class ContractServiceBeanImpl
             throw new EJBException(e);
         }
         catch (HibernateException e)
-        {
-            throw new EJBException(e);
-        }
-        catch (SQLException e)
         {
             throw new EJBException(e);
         }
