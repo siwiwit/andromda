@@ -1,6 +1,8 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
+import org.andromda.metafacades.uml.StateVertexFacade;
+import org.andromda.core.common.StringUtilsHelper;
 
 
 /**
@@ -29,8 +31,13 @@ public class StrutsExceptionHandlerLogicImpl
      */
     public java.lang.String getExceptionKey()
     {
-        final String key = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_EXCEPTION_KEY);
-        return (key == null) ? "" : key;
+        final String type = getExceptionType();
+        final int dotIndex = type.lastIndexOf('.');
+
+        return StringUtilsHelper.toResourceMessageKey(
+                (dotIndex < type.length() - 1)   // the dot may not be the last character
+                    ?  type.substring(dotIndex + 1)
+                    :  type );
     }
 
     /**
@@ -51,7 +58,10 @@ public class StrutsExceptionHandlerLogicImpl
      */
     public java.lang.String getExceptionPath()
     {
-        return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_EXCEPTION_PATH);
+        final StateVertexFacade target = getTarget();
+        return (target instanceof StrutsJsp)
+            ? ((StrutsJsp)target).getFullPath() + ".jsp"
+            : "";
     }
 
     // ------------- relations ------------------
