@@ -10,7 +10,8 @@
 #set ($triggerKey = $action.actionTrigger.triggerKey)
 #set ($parameters = $action.actionParameters)
 #set ($formBeanName = $action.activityGraph.useCase.formBeanName)
-#if ($roles != "")
+#set ($security = ($securityEnabled=="true") && ($roles != "") )
+#if ($security)
 ${indent}<logic:present role="$roles">
 #end
 #set ($mapName = "$str.toJavaMethodName($triggerKey)Parameters")
@@ -45,7 +46,7 @@ ${indent}    </logic:iterate>
 #end
 #end
 ${indent}</table>
-#if ($roles != "")
+#if ($security)
 ${indent}</logic:present>
 ${indent}<logic:notPresent role="$roles">
 ${indent}   <bean:message key="${action.messageKey}.$triggerKey"/>
@@ -62,7 +63,8 @@ ${indent}</logic:notPresent>
 #set ($messageKey = $action.messageKey)
 #set ($trigger = $action.actionTrigger)
 #set ($roles = $action.actionRoles)
-#if ($roles != "")
+#set ($security = ($securityEnabled=="true") && ($roles != "") )
+#if ($security)
 ${indent}<logic:present role="$roles">
 #end
 ${indent}   <html:submit titleKey="${messageKey}.$trigger.titleKey">
@@ -73,10 +75,8 @@ ${indent}   <html:reset titleKey="${messageKey}.$trigger.resetTitleKey">
 ${indent}       <bean:message key="${messageKey}.$trigger.resetMessageKey"/>
 ${indent}   </html:reset>
 #end
-#if ($roles != "")
+#if ($security)
 ${indent}</logic:present>
-#end
-#if ($roles != "")
 ${indent}<logic:notPresent role="$roles">
 ${indent}   <html:submit titleKey="${messageKey}.$trigger.notAllowedTitleKey" disabled="true">
 ${indent}       <bean:message key="${messageKey}.$trigger.triggerKey"/>
