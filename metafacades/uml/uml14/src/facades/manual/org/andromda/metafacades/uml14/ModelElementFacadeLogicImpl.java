@@ -171,12 +171,21 @@ public class ModelElementFacadeLogicImpl
             stereotypeNames.add(StringUtils.trimToEmpty(stereotype.getName()));
         }
         return stereotypeNames;
-    }   
-    
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ModelElementFacade#getDocumentation(java.lang.String)
-     */
-    public java.lang.String getDocumentation(String indent) {
+    }
+
+    public String getDocumentation(String indent)
+    {
+        return getDocumentation(indent, 64);
+    }
+
+    public String getDocumentation(String indent, int lineLength)
+    {
+        return getDocumentation(indent, lineLength, true);
+    }
+
+    // todo : the lineLength does not work yet
+    public String getDocumentation(String indent, int lineLength, boolean htmlStyle)
+    {
         if (StringUtils.isEmpty(indent)) {
             indent = " ";
         }
@@ -201,32 +210,30 @@ public class ModelElementFacadeLogicImpl
             }
         }
         try {
-            String star = "* ";
             String newLine = "\n";
-            String startParaTag = "<p>";
-            String endParaTag = "</p>";
+            String startParaTag = (htmlStyle) ? "<p>" : "";
+            String endParaTag = (htmlStyle) ? "</p>" : "";
             Collection paragraphs =
                 new HTMLAnalyzer().htmlToParagraphs(documentation.toString());
             if (paragraphs != null && !paragraphs.isEmpty()) {
                 documentation = new StringBuffer();
-                Iterator paragraphIt = paragraphs.iterator();
-                for (int ctr = 0; paragraphIt.hasNext(); ctr++) {
+                for (Iterator paragraphIt = paragraphs.iterator(); paragraphIt.hasNext();) {
                     HTMLParagraph paragraph = (HTMLParagraph)paragraphIt.next();
-                    documentation.append(indent + star + startParaTag + newLine);
+                    documentation.append(indent + startParaTag + newLine);
                     Collection lines = paragraph.getLines();
                     if (lines != null && !lines.isEmpty()) {
                         Iterator lineIt = lines.iterator();
                         while (lineIt.hasNext()) {
-                            documentation.append(indent + star + lineIt.next() + newLine);
+                            documentation.append(indent + lineIt.next() + newLine);
                         }
                     }
-                    documentation.append(indent + star + endParaTag);
+                    documentation.append(indent + endParaTag);
                     if (paragraphIt.hasNext()) {
                         documentation.append(newLine);
                     }
                 }
             } else {
-                documentation.append(indent + star);
+                documentation.append(indent);
             }
         } catch (Throwable th) {
             final String errMsg = 
