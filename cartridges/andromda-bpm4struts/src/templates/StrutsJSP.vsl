@@ -23,7 +23,7 @@
 #set ($dynamicJavaScriptURI = "${class.fullPathName}JS.jsp")
         <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="$staticJavaScriptURI"/>"></script>
 <!--        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="$dynamicJavaScriptURI"/>"></script>-->
-<html:javascript formName="$formBeanName" dynamicJavascript="true" staticJavascript="false" htmlComment="truea"/>
+<html:javascript formName="$formBeanName" dynamicJavascript="true" staticJavascript="false" htmlComment="true"/>
         <script type="text/javascript" language="Javascript1.1">
         <!--
             function submitForm(form,trigger)
