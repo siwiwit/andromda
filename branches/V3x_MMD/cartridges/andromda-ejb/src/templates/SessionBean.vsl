@@ -37,7 +37,7 @@ package $packagename;
 ## Generate environment entries for all static, readonly attributes stereotyped
 ## as <<EnvEntry>>
 #foreach($att in $class.staticAttributes)
-#if ($att.stereotypeName == "EnvEntry")
+#if ($att.hasStereotype("EnvEntry"))
 #set ($value = $att.defaultValue)
 ## Add string delimiters if they are not already present
 #if (!$value.startsWith('"') || !$value.endsWith('"'))
@@ -51,21 +51,21 @@ package $packagename;
 #end
 #end
 #foreach ( $dep in $class.dependencies )
-#if ($dep.stereotypeName == "EntityRef" || $dep.stereotypeName == "ServiceRef")
-#set ($myClass = $dep.targetType)
+#if ($dep.hasStereotype("EntityRef") || $dep.hasStereotype("ServiceRef"))
+#set ($superclass = $dep.targetType)
 #set ($viewtype = "")
-#set ($viewtype = $myClass.findTaggedValue("@andromda.ejb.viewType"))
+#set ($viewtype = $superclass.findTaggedValue("@andromda.ejb.viewType"))
 #if ($viewtype == "")
-#set ($viewtype = ${myClass.type.viewType})
+#set ($viewtype = ${superclass.type.viewType})
 #end
  *
  * @ejb.ejb-ref 
- *     ejb-name="${myClass.name}" 
+ *     ejb-name="${superclass.name}" 
  *     view-type="$viewtype" 
- *     ref-name="ejb/${myClass.name}BeanRef"
+ *     ref-name="ejb/${superclass.name}BeanRef"
 #end
-#if ($dep.stereotypeName == "ResourceRef")
-#set ($myClass = $dep.targetType)
+#if ($dep.hasStereotype("ResourceRef"))
+#set ($superclass = $dep.targetType)
 #set ($jndiRef = $dep.findTaggedValue("@andromda.ejb.resource-ref.jndi-name"))
 #set ($resAuth = $dep.findTaggedValue("@andromda.ejb.resource-ref.res-auth"))
 #if (!$resAuth)
@@ -73,12 +73,12 @@ package $packagename;
 #end
 #set ($resName = $dep.name)
 #if (!$resName)
-#set ($resName = $myClass.name)
+#set ($resName = $superclass.name)
 #end
  *
  * @ejb.resource-ref 
  *     res-ref-name="resource/$resName" 
- *     res-type="${myClass.fullyQualifiedName}" 
+ *     res-type="${superclass.fullyQualifiedName}" 
  *     res-auth="$resAuth"
 #if ($jndiRef)
  *
@@ -97,7 +97,7 @@ public abstract class ${servicename}Bean
 {
     // ----------- constant definitions --------------------
 #foreach($att in $class.staticAttributes)
-#if ($att.stereotypeName != "EnvEntry")
+#if (!$att.hasStereotype("EnvEntry"))
 #set ($attType = $att.type.fullyQualifiedName)
 #set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
     private static final $attType $ATT_NAME = $att.defaultValue;
@@ -110,7 +110,7 @@ public abstract class ${servicename}Bean
 #set ($visibility = $att.visibility)
 
     /**
-#if($att.stereotypeName == "EnvEntry")
+#if($att.hasStereotype("EnvEntry"))
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
 #else
 #set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
@@ -124,7 +124,7 @@ public abstract class ${servicename}Bean
 #end
      */
     $visibility $attType ${att.getterName}(){
-#if($att.stereotypeName == "EnvEntry")
+#if($att.hasStereotype("EnvEntry"))
         javax.naming.InitialContext initialContext = null;
         try {
             initialContext = new javax.naming.InitialContext();
@@ -207,7 +207,7 @@ public abstract class ${servicename}Bean
     // ---------------- business methods  ----------------------
 
 #foreach ( $op in $class.operations)
-#if ($op.stereotypeName != "CreateMethod")
+#if (!$op.hasStereotype("CreateMethod"))
 #set ($transactionType = $op.findTaggedValue("@andromda.ejb.transactionType", true))
 #set ($msig = $op.signature)
 #set ($visibility = $op.visibility)
@@ -242,7 +242,7 @@ public abstract class ${servicename}Bean
 ## what the user intended to do with the arbitrary parameters to these methods,
 ## we generate an abstract ejbCreate() and delegate the implementation to the user.
 #foreach ( $op in $class.operations)
-#if ($op.stereotypeName == "CreateMethod")
+#if ($op.hasStereotype("CreateMethod"))
 #set ($transactionType = $op.findTaggedValue("@andromda.ejb.transactionType", true))
 
     /**
@@ -315,9 +315,9 @@ public abstract class ${servicename}Bean
 
 #foreach ( $dep in $class.dependencies )
 #set ($viewtype = "")
-#if ($dep.stereotypeName == "EntityRef" || $dep.stereotypeName == "ServiceRef")
+#if ($dep.hasStereotype("EntityRef") || $dep.hasStereotype("ServiceRef"))
 #set ($referencedClass = $dep.targetType)
-#set ($viewtype = $myClass.findTaggedValue("@andromda.ejb.viewType"))
+#set ($viewtype = $superclass.findTaggedValue("@andromda.ejb.viewType"))
 #if ($viewtype == "")
 #set ($viewtype = ${referencedClass.viewType})
 #end
@@ -369,7 +369,7 @@ public abstract class ${servicename}Bean
     }
 #end
 #end
-#if ($dep.stereotypeName == "ResourceRef")
+#if ($dep.hasStereotype("ResourceRef"))
 #set ($referencedClass = $dep.targetType)
 #set ($resClassName = "$referencedClass.fullyQualifiedName}")
 #set ($resName = $dep.name)

@@ -12,7 +12,6 @@ import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DependencyDecorator;
 import org.andromda.core.metadecorators.uml14.OperationDecorator;
 import org.andromda.core.uml14.UMLProfile;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Metaclass decorator implementation for
@@ -61,9 +60,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		while (iter.hasNext()) {
 			DependencyDecorator dep =
 				(DependencyDecorator) iter.next();
-			if (EJBProfile
-				.STEREOTYPE_PRIMARY_KEY
-				.equals(dep.getStereotypeName())) {
+			if (dep.hasStereotype(EJBProfile.STEREOTYPE_PRIMARY_KEY)) {
 				Collection allAttrib =
 					dep.getTargetType().getInstanceAttributes();
 				Collection publicAttrib = new ArrayList();
@@ -171,8 +168,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 	 * @see org.andromda.cartridges.ejb.metadecorators.uml14.EJBEntityDecorator#getViewType()
 	 */
 	public String getViewType() {
-		if (UMLProfile.STEREOTYPE_ENTITY.equals(
-			StringUtils.trimToEmpty(this.getStereotypeName()))) {
+		if (this.hasStereotype(UMLProfile.STEREOTYPE_ENTITY)) {
 			return "local";
 		}
 
@@ -250,8 +246,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 			Collection ops = this.getOperations();
 			for (Iterator i = ops.iterator(); i.hasNext();) {
 				OperationDecorator op = (OperationDecorator) i.next();
-				if (StringUtils.trimToEmpty(op.getStereotypeName()).equals(
-					EJBProfile.STEREOTYPE_CREATE_METHOD)) {
+				if (op.hasStereotype(EJBProfile.STEREOTYPE_CREATE_METHOD)) {
 					retval.add(op);
 				}
 			}
@@ -274,8 +269,7 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 			Collection ops = this.getOperations();
 			for (Iterator i = ops.iterator(); i.hasNext();) {
 				OperationDecorator op = (OperationDecorator) i.next();
-				if (StringUtils.trimToEmpty(op.getStereotypeName()).equals(
-					EJBProfile.STEREOTYPE_SELECT_METHOD)) {
+				if (op.hasStereotype(EJBProfile.STEREOTYPE_SELECT_METHOD)) {
 					retval.add(op);
 				}
 			}

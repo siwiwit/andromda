@@ -2,13 +2,11 @@
 ## Include global definitions. ##
 #parse("templates/EJBglobals.vm")
 ##
-#set ($parentClass = $class.superclass)
-#if ($parentClass)
-#set ($parentStereotype = $myClass.stereotypeName)
-#if ( $parentStereotype == "Entity")
+#if ($superclass)
+#if ($superclass.hasStereotype("Entity"))
 ## Extend the component interface of the super type if the super type 
 ## is an <<Entity>>
-#set ($parentInterface = "${parentClass.fullyQualifiedName}")
+#set ($parentInterface = "${superclass.fullyQualifiedName}")
 #end
 #end
 #if (!$parentInterface)
@@ -41,7 +39,7 @@ extends $parentInterface
 #if($visibility == "public")
 #set($attType = $att.type.fullyQualifiedName)
     /**
-#if($att.stereotypeName == "EnvEntry")
+#if($att.hasStereotype("EnvEntry"))
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
 #else
 #set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
@@ -100,7 +98,7 @@ extends $parentInterface
     // ---------------- business methods  ----------------------
 
 #foreach ( $op in $class.operations)
-#if ($op.stereotypeName != "FinderMethod" && $op.stereotypeName != "CreateMethod" && $op.stereotypeName != "SelectMethod")
+#if (!$op.hasStereotype("FinderMethod") && !$op.hasStereotype("CreateMethod") && !$op.hasStereotype("SelectMethod"))
 #set ($visibility = $op.visibility.toString())
 ## Only expose public, nonstatic methods (public static methods go on the home
 ## interface)
