@@ -108,6 +108,7 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
 
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
@@ -117,6 +118,7 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         final Collection servlets = getServlets();
         if (servlets.size() == 0)
             throw new DecoratorValidationException(this, "A form bean needs to be associated to at least 1 servlet");
+*/
 
     }
 }

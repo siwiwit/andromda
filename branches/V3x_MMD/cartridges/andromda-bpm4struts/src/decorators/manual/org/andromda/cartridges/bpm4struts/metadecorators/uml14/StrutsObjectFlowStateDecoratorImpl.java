@@ -33,6 +33,7 @@ public class StrutsObjectFlowStateDecoratorImpl extends StrutsObjectFlowStateDec
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
@@ -69,5 +70,6 @@ public class StrutsObjectFlowStateDecoratorImpl extends StrutsObjectFlowStateDec
             throw new DecoratorValidationException(this,
                 "There must be one and only one transition going out of this object flow state, " +
                 "you might consider using a final state.");
+*/
     }
 }

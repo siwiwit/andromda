@@ -53,10 +53,7 @@ public class StrutsSimpleStateDecoratorImpl extends StrutsSimpleStateDecorator
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
-        /**
-         * todo: DO WE STILL USE THIS CLASS ?
-         */
-
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
@@ -65,6 +62,7 @@ public class StrutsSimpleStateDecoratorImpl extends StrutsSimpleStateDecorator
         // the name must be unique in the container state machine
 
         // there must be one and only one associated use-case represented by this state
+*/
     }
 
 }

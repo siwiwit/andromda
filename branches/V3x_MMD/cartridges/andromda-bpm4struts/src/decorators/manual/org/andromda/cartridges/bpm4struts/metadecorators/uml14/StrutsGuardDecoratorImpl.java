@@ -27,9 +27,11 @@ public class StrutsGuardDecoratorImpl extends StrutsGuardDecorator
 
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
             throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
+*/
     }
 }

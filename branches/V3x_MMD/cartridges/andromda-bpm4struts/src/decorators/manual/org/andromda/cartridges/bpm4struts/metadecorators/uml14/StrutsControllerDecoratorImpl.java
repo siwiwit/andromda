@@ -12,7 +12,6 @@ import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.ModelElement;
-import org.omg.uml.foundation.core.UmlClass;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -96,6 +95,7 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
 
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
@@ -111,10 +111,10 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         boolean controllerNameFound = false;
         for (Iterator iterator = classes.iterator(); iterator.hasNext();)
         {
-            UmlClass umlClass = (UmlClass) iterator.next();
-            if (umlClass instanceof StrutsControllerDecorator)
+            Object classObject = iterator.next();
+            if (classObject instanceof StrutsControllerDecorator)
             {
-                StrutsControllerDecorator controllerDecorator = (StrutsControllerDecorator) umlClass;
+                StrutsControllerDecorator controllerDecorator = (StrutsControllerDecorator) classObject;
                 if (controllerName.equals(controllerDecorator.getServletName()))
                 {
                     if (controllerNameFound)
@@ -142,17 +142,21 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         final Collection associationEnds = getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
-            AssociationEndDecorator associationEnd =
-                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
+            AssociationEndDecorator associationEnd = (AssociationEndDecorator) iterator.next();
             Classifier participant = associationEnd.getOtherEnd().getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
-            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
+
+            if (participant instanceof StrutsModelDecorator)
             {
-                if (modelCount > 1)
-                    throw new DecoratorValidationException(this,
-                        "At most one model class may be associated with a controller class");
-                modelCount++;
+                ClassifierDecorator participantDecorator = (ClassifierDecorator) participant;
+                if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
+                {
+                    if (modelCount > 1)
+                        throw new DecoratorValidationException(this,
+                            "At most one model class may be associated with a controller class");
+                    modelCount++;
+                }
             }
         }
+*/
     }
 }

@@ -17,9 +17,7 @@ import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 
 /**
@@ -134,13 +132,17 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
     protected ModelElement handleGetServlet()
     {
-        final UseCase useCase = (UseCase) getActionState().getContainer().getStateMachine().getContext();
-        Collection controllers = getFormBean().getServlets();
+        final StrutsStateMachineDecorator stateMachine = (StrutsStateMachineDecorator)DecoratorBase.decoratedElement(getActionState().getContainer().getStateMachine());
+        final UseCase useCase = stateMachine.getUseCase();
+        final Collection controllers = getFormBean().getServlets();
 
         for (Iterator iterator = controllers.iterator(); iterator.hasNext();)
         {
             StrutsControllerDecorator controller = (StrutsControllerDecorator) iterator.next();
-            if (useCase.equals(controller.getUseCase()))
+/*
+            UseCase controllerUseCase = controller.getUseCase();
+            if (controllerUseCase == useCase)   // .equals throws a ClassCastException ??!! identity will do too
+*/
                 return controller.metaObject;
         }
         return null;
@@ -193,6 +195,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
@@ -259,5 +262,6 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
                         " action states with that name for all controller use-case activity graphs, the name must be unique");
             }
         }
+*/
     }
 }

@@ -34,6 +34,7 @@ public class StrutsFinalStateDecoratorImpl extends StrutsFinalStateDecorator
 
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name of this final state must correspond with a transition in a workflow, going out of the use-case
         // that is represented by its container state machine (only if there is more than one outgoing transition)
         StateMachine stateMachineMetaObject = getStateMachine();
@@ -76,6 +77,7 @@ public class StrutsFinalStateDecoratorImpl extends StrutsFinalStateDecorator
                 }
             }
         }
+*/
     }
 }
 

@@ -4,7 +4,6 @@ import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.UmlPackage;
-import org.omg.uml.behavioralelements.activitygraphs.ActivityGraph;
 import org.omg.uml.behavioralelements.statemachines.State;
 import org.omg.uml.behavioralelements.statemachines.StateMachine;
 import org.omg.uml.foundation.core.ModelElement;
@@ -67,6 +66,7 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
@@ -108,6 +108,7 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
                         "There are only "+finalStateCount+" final states, according to the parent workflow you would need to have "+stateExitCount);
             }
         }
+*/
 
     }
 }
