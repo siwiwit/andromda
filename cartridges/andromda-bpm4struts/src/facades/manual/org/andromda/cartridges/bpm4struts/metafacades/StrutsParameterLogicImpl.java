@@ -1,7 +1,6 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
-import org.omg.uml.foundation.core.Parameter;
 
 
 /**
@@ -13,14 +12,11 @@ public class StrutsParameterLogicImpl
         extends StrutsParameterLogic
         implements org.andromda.cartridges.bpm4struts.metafacades.StrutsParameter
 {
-    private Parameter parameter = null;
-
     // ---------------- constructor -------------------------------
     
     public StrutsParameterLogicImpl(java.lang.Object metaObject, java.lang.String context)
     {
         super(metaObject, context);
-        this.parameter = (Parameter)metaObject;
     }
 
     // -------------------- business methods ----------------------
@@ -70,7 +66,7 @@ public class StrutsParameterLogicImpl
      */
     public java.lang.String getMessageKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(parameter.getNamespace().getName() + ' ' + getName());
+        return StringUtilsHelper.toResourceMessageKey(getNameSpace().getName() + ' ' + getName());
     }
 
     /**
@@ -97,6 +93,20 @@ public class StrutsParameterLogicImpl
         return getMessageValue();
     }
 
+    public String getWidgetType()
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public boolean hasBackingList()
+    {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public String getBackingListName()
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
     // ------------- relations ------------------
 
 }
