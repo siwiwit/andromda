@@ -18,7 +18,7 @@
                 <include name="**/*Bean.java" />
             </fileset>
 
-            <utilobject kind="physical" />
+            <utilobject kind="logical" cacheHomes="true"/>
 
             <remoteinterface/>
             <homeinterface/>
