@@ -106,6 +106,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
     public Map getTriggerMessages()
     {
+/*
         Map triggerMessages = new TreeMap();
         String keyPrefix = StringUtilsHelper.separate(getName(), ".") + '.';
         Collection triggers = getTriggers();
@@ -117,11 +118,18 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
             triggerMessages.put(key, val);
         }
         return triggerMessages;
+*/
+        return null;    // todo remove this method
+    }
+
+    public String getMessageKey()
+    {
+        return StringUtilsHelper.separate(getName(), ".").toLowerCase();
     }
 
     public String getTitleMessageKey()
     {
-        return (StringUtilsHelper.separate(getName(), ".") + ".title").toLowerCase();
+        return getMessageKey() + ".title";
     }
 
     public String getTitleMessageValue()
@@ -147,6 +155,12 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
     public String getValidationMethodName()
     {
         return "validate" + StringUtilsHelper.upperCaseFirstLetter(getFormBeanName());
+    }
+
+    public StrutsInputFieldDecorator getFirstInputField()
+    {
+        Collection inputFields = getInputFields();
+        return (inputFields.isEmpty()) ? null : (StrutsInputFieldDecorator)inputFields.iterator().next();
     }
 
     // ------------- relations ------------------
