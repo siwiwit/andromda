@@ -169,7 +169,9 @@ public class StrutsActionLogicImpl
 
     public String getMessageKey()
     {
-        return StringUtilsHelper.toResourceMessageKey(getActivityGraph().getUseCase().getName() + ' ' + getInput().getName());
+        String messageKey = getActivityGraph().getUseCase().getName() + ' ';
+        messageKey += (isUseCaseStart()) ? messageKey : getInput().getName();
+        return StringUtilsHelper.toResourceMessageKey(messageKey);
     }
 
     public String getSuccessMessageKey()
