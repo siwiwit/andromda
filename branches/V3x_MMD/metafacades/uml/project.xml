@@ -16,6 +16,12 @@
 	<dependencies>     
     	<dependency>
 	      	<groupId>andromda</groupId>
+	      	<artifactId>maven-andromda-plugin</artifactId>
+	      	<version>${pom.currentVersion}</version>
+	      	<type>plugin</type>
+	    </dependency>
+    	<dependency>
+	      	<groupId>andromda</groupId>
 	      	<artifactId>andromda-core</artifactId>
 	      	<version>${pom.currentVersion}</version>
 	    </dependency>
@@ -23,17 +29,7 @@
     		<groupId>andromda-cartridges</groupId>
       		<artifactId>andromda-meta-cartridge-bootstrap</artifactId>
      		<version>3.0-SNAPSHOT</version>
-    	</dependency> 	
-    	<dependency>
-    	    <groupId>andromda</groupId>
-    	    <artifactId>andromda-metafacades-uml-bootstrap</artifactId>
-    	    <version>3.0-SNAPSHOT</version>
-    	</dependency>  
-    	<dependency>
-    	    <groupId>andromda</groupId>
-    	    <artifactId>andromda-metafacades-uml14-bootstrap</artifactId>
-    	    <version>3.0-SNAPSHOT</version>
-    	</dependency>    
+    	</dependency> 	 
 	</dependencies>
 	
   	<build>

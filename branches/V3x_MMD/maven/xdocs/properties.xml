@@ -85,7 +85,7 @@
 	        			metafacades implementations during template processing.  
 	        			Default is the UML 1.4 implementation <code>org.andromda.metafacades.uml14.Uml14ModelFacade</code>.
 	        		</td>
-	        	</tr>     		  	 		        	        		        	   	    	        		        	        	        	     	             	        	
+	        	</tr>     	 		        	        		        	   	    	        		        	        	        	     	             	        	
 	        </table>
     	</section>
   	</body>
