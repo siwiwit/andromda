@@ -11,7 +11,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 public class StrutsRadioButtonDecoratorImpl extends StrutsRadioButtonDecorator
 {
     // ---------------- constructor -------------------------------
-    
+
     public StrutsRadioButtonDecoratorImpl (org.omg.uml.foundation.core.Attribute metaObject)
     {
         super (metaObject);
@@ -22,6 +22,10 @@ public class StrutsRadioButtonDecoratorImpl extends StrutsRadioButtonDecorator
     // concrete business methods that were declared
     // abstract in class StrutsRadioButtonDecorator ...
 
+    public String getFieldType()
+    {
+        return "radio";
+    }
     // ------------- relations ------------------
-    
+
 }

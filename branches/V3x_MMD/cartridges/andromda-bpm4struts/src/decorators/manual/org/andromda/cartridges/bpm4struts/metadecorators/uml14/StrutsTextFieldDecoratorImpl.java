@@ -43,6 +43,10 @@ public class StrutsTextFieldDecoratorImpl extends StrutsTextFieldDecorator
         }
     }
 
+    public String getFieldType()
+    {
+        return "text";
+    }
     // ------------- relations ------------------
 
 }

@@ -43,6 +43,10 @@ public class StrutsListDecoratorImpl extends StrutsListDecorator
         }
     }
 
+    public String getFieldType()
+    {
+        return "select";
+    }
     // ------------- relations ------------------
 
 }
