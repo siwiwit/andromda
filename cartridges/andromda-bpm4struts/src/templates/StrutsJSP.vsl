@@ -1,37 +1,56 @@
-#set ($generatedFile = "${class.fullPathName}")
-
+#set ($generatedFile = "${class.fullPath}.jsp")
 ##
 ##
 ##      This macro takes care of rendering the appropriate Struts
-##      HTML hyperlink tags for the argument trigger
+##      HTML hyperlink tags for the argument action
 ##
 ##
 #macro ( renderHyperlink $action $indent )
 #set ($triggerKey = $action.triggerKey)
-${indent}<html:link forward="$action.forwardName" titleKey="$triggerKey" paramName="request" paramProperty="parameterMap">
-${indent}    <bean:message key="$triggerKey"/>
-${indent}</html:link>
+#set ($roles = $action.actionRoles)
+${indent}<logic:present role="$roles">
+${indent}   <html:link forward="$action.forwardName" titleKey="${action.messageKey}.$triggerKey" paramName="request" paramProperty="parameterMap">
+${indent}       <bean:message key="${action.messageKey}.$triggerKey"/>
+${indent}   </html:link>
+${indent}</logic:present>
+${indent}<logic:notPresent role="$roles">
+${indent}   <bean:message key="${action.messageKey}.$triggerKey"/>
+${indent}</logic:notPresent>
 #end
 ##
 ##
 ##      This macro takes care of rendering the appropriate Struts
-##      HTML button tags for the argument trigger
+##      HTML button tags for the argument action
 ##
 ##
-#macro ( renderFormButton $trigger $indent )
-#if ($trigger.isCancelTrigger())
-${indent}<input type="button" name="<%=org.apache.struts.Globals.CANCEL_KEY%>"
-${indent}    onclick="submitForm(this.form,'$trigger.messageKey');"
-${indent}    title="<bean:message key="$trigger.titleKey"/>"
-${indent}    value="<bean:message key="$trigger.messageKey"/>">
-#elseif ($trigger.isResetTrigger())
-${indent}<input type="reset"
-${indent}    title="<bean:message key="$trigger.titleKey"/>"
-${indent}    value="<bean:message key="$trigger.messageKey"/>">
-#else
-${indent}<input type="submit"
-${indent}    title="<bean:message key="$trigger.triggerKey"/>"
-${indent}    value="<bean:message key="$trigger.triggerKey"/>"/>
+#macro ( renderFormButtons $action $indent )
+#set ($trigger = $action.actionTrigger)
+#set ($roles = $action.actionRoles)
+#if ($roles != "")
+${indent}<logic:present role="$roles">
+#end
+${indent}   <html:submit titleKey="${action.messageKey}.$trigger.titleKey">
+${indent}       <bean:message key="${action.messageKey}.$trigger.triggerKey"/>
+${indent}   </html:submit>
+#if ($action.isResettable())
+${indent}   <html:reset titleKey="${action.messageKey}.$trigger.resetTitleKey">
+${indent}       <bean:message key="${action.messageKey}.$trigger.resetMessageKey"/>
+${indent}   </html:reset>
+#end
+#if ($roles != "")
+${indent}</logic:present>
+#end
+#if ($roles != "")
+${indent}<logic:notPresent role="$roles">
+${indent}   <html:submit titleKey="${action.messageKey}.$trigger.notAllowedTitleKey" disabled="true">
+${indent}       <bean:message key="${action.messageKey}.$trigger.notAllowedKey"/>
+${indent}   </html:submit>
+#if ($action.isResettable())
+${indent}   <html:reset titleKey="${action.messageKey}.$trigger.resetNotAllowedTitleKey" disabled="true">
+${indent}       <bean:message key="${action.messageKey}.$trigger.resetNotAllowedKey"/>
+${indent}   </html:reset>
+#end
+${indent}</logic:notPresent>
 #end
 #end
 ##
@@ -83,17 +102,7 @@ ${indent}<html:$widgetType property="$field.name" $readonly $value/>
 #else
 #set ($readonly = '')
 #end
-#if ($field.columnCount)
-#set ($cols = 'cols="$field.columnCount"')
-#else
-#set ($cols = '')
-#end
-#if ($field.rowCount)
-#set ($rows = 'rows="$field.rowCount"')
-#else
-#set ($rows = '')
-#end
-${indent}<html:$widgetType property="$field.name" titleKey="$field.titleKey" $readonly $cols $rows $value/>
+${indent}<html:$widgetType property="$field.name" titleKey="$field.titleKey" $readonly $value/>
 ##
 ##      C O M B O B O X     &      L I S T
 ##
@@ -108,53 +117,38 @@ ${indent}<html:$widgetType property="$field.name" titleKey="$field.titleKey" $re
 #else
 #set ($disabled = '')
 #end
-#if ($field.size)
-#set ($size = 'size="$field.size"')
-#else
-#set ($size = '')
-#end
-${indent}<html:select $disabled $size $multiple property="$field.name" titleKey="$field.titleKey">
-${indent}    <html:options property="$field.backingPropertyName"/>
+${indent}<html:select $disabled $multiple property="$field.name" titleKey="$field.titleKey">
+${indent}    <html:options property="$field.backingListName"/>
 ${indent}</html:select>
 ##
 ##      Any other field will be rendered as plain text (no input)
 ##
 #else
-${indent}<bean:write name="$action.formName" property="$field.name" scope="request"/>
+${indent}<bean:write name="$action.actionName" property="$field.name" scope="request"/>
 #end
 #end
-
-
-
-
-
 <%@ taglib uri="struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="struts-html.tld" prefix="html" %>
 <%@ taglib uri="struts-logic.tld" prefix="logic" %>
-
+##
+##  CONSTANTS
+##
 #set ($actions = $class.actions)
+#set ($formBeanName = $class.useCase.formBeanName)
+##
+##  START TEMPLATE
+##
 
-#foreach ($variable in $)
+#foreach ($variable in $class.pageVariables)
 #set ($variableName = $variable.name)
-#set ($variableType = $variable.type)
-<bean:define id="$variableName" name="$variableName" type="$variableType" scope="request" toScope="page"/>
+#set ($variableType = $variable.type.fullyQualifiedName)
+<bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variableType" scope="request" toScope="page"/>
 #end
-
-
 
 <html:html xhtml="true">
 
     <head>
         <title><bean:message key="$class.titleKey"/></title>
-#if ($class.hasForms())
-#foreach ($action in $actions)
-#if ($action.isFormAction())
-<!--
-        <script type="text/javascript" language="Javascript1.1" src="<html:rewrite page="${action.fullPathName}JS.jsp"/>"></script>
--->
-#end
-#end
-#end
     </head>
 
     <body>
@@ -163,20 +157,20 @@ ${indent}<bean:write name="$action.formName" property="$field.name" scope="reque
 
         <logic:messagesPresent>
             <html:messages id="error">
-                ERR: <bean:write name="error"/> <br/>
+                ERROR: <bean:write name="error"/> <br/>
             </html:messages>
         </logic:messagesPresent>
 
         <logic:messagesPresent message="true">
             <html:messages id="message">
-                MSG: <bean:write name="message"/> <br/>
+                MESSAGE: <bean:write name="message"/> <br/>
             </html:messages>
         </logic:messagesPresent>
 
 #foreach ($action in $actions)
-#if ($action.isHyperlinkAction())
+#if ($action.isHyperlink())
 #renderHyperlink($action "        ")
-#elseif ($action.isFormAction())
+#elseif ($action.isFormPost())
         <html:form action="${action.actionPath}.do">
             <table cellpadding="5" cellspacing="5" border="0">
 #foreach ($field in $action.actionParameters)
@@ -189,7 +183,7 @@ ${indent}<bean:write name="$action.formName" property="$field.name" scope="reque
 #end
                 <tr>
                     <td>
-#renderFormButton($action "                        ")
+#renderFormButtons($action "                        ")
                     </td>
                 </tr>
             </table>
@@ -200,7 +194,5 @@ ${indent}<bean:write name="$action.formName" property="$field.name" scope="reque
     </body>
 
 </html:html>
-
-
 
 
