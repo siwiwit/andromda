@@ -129,6 +129,11 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         return StringUtilsHelper.upperCaseFirstLetter(StringUtilsHelper.separate(getName(), " "));
     }
 
+    public String getFullPathName()
+    {
+        return '/' + getFormBean().getPackageName().replace('.','/') + '/' + getName();
+    }
+
     // ------------- relations ------------------
     public ModelElement handleGetActionState()
     {
