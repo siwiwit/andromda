@@ -1,2 +1,5 @@
 
   <message-resources parameter="application" null="false" />
+
+  <message-resources parameter="custom" null="false" />
+
