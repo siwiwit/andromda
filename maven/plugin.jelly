@@ -14,7 +14,7 @@
          allows us to swich back and forth between normal and 'bootstrap' mode.
          If the '-Dbootstrap=true' option is set, then this cartridge will be
          run in bootstrap mode using the AndroMDA bootstrap dependencies instead
-         of the most current dependencies.  A bootstrap dependency has the same
+         of the most current dependencies.  A bootstrap dependency has the samef
          name as a normal dependencies with '-bootrap' inserted between 
          the artifactId and the version, for (i.e. andromda-core-bootstrap-3.0.jar).                        
          =================================================================== -->  
@@ -194,7 +194,7 @@
             value="${maven.repo.local}/${pom.artifactDirectory}/jars"/>
         <ant:copy
             file="${maven.build.dir}/${maven.final.name}.jar"
-            tofile="${libLocation}/${maven.andromda.bootstrap.name}.jar"
+            tofile="${libLocation}/${pom.artifactId}-bootstrap-${pom.currentVersion}.jar"
             overwrite="true"/>
 	</goal>
 	
@@ -202,16 +202,18 @@
          Deploys a bootrap version to the remote repository                           
          =================================================================== -->
 	<goal name="andromda:bootstrap-deploy"
-	      description="Deploys a bootstrap jar to the remote repository">
+	      description="Deploys a bootstrap jar to the remote repository">	      
 	      
         <maven:user-check user="${maven.username}"/>
 	    <attainGoal name="jar:jar"/>
         <ant:copy
             file="${maven.build.dir}/${maven.final.name}.jar"
-            tofile="${maven.build.dir}/${maven.andromda.bootstrap.name}.jar"
+            tofile="${maven.build.dir}/${pom.artifactId}-bootstrap-${pom.currentVersion}.jar"
             overwrite="true"/>
 
-        <ant:property name="maven.jar.to.deploy" value="${maven.andromda.bootstrap.name}.jar"/>
+        <ant:property 
+        	name="maven.jar.to.deploy" 
+        	value="${pom.artifactId}-bootstrap-${pom.currentVersion}.jar"/>
         
         <j:set var="sl" value="/"/>
         <util:replace var="jarToDeploy" oldChar="\" newChar="/">${maven.build.dir}/${maven.jar.to.deploy}</util:replace>
