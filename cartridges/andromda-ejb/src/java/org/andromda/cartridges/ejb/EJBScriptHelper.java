@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
-import org.omg.uml.foundation.core.Attribute;
 
 /**
  * Transform class for the EJB cartridge.
