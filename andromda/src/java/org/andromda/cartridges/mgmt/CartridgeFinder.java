@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
  * @author    <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author    Chad Brandon
  * @since     April 1, 2003
- * @version   $Revision: 1.3.2.5 $
+ * @version   $Revision: 1.3.2.6 $
  */
 public class CartridgeFinder
 {
@@ -54,7 +54,6 @@ public class CartridgeFinder
             }
         }
 
-        // some debugging output
         for (Iterator iter = cartridges.iterator(); iter.hasNext();)
         {
             AndroMDACartridge element =

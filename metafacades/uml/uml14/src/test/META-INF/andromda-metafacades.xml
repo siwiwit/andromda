@@ -2,15 +2,14 @@
 
 <!-- contains the default metafacade mappings -->
 <metafacades namespace="default">
-	<default className="org.andromda.metafacades.uml14.TestMetafacade1LogicImpl"/>
+	<default className="org.andromda.core.metafacade.TestMetafacade1LogicImpl"/>
 	<metafacade 
-		metaobjectClass="org.andromda.metafacades.uml14.TestMetaobject1"
-		metafacadeClass="org.andromda.metafacades.uml14.TestMetafacade1LogicImpl"/>
+		metaobjectClass="org.andromda.core.metafacade.TestMetaobject1"
+		metafacadeClass="org.andromda.core.metafacade.TestMetafacade1LogicImpl"/>
 	<metafacade 
-		metaobjectClass="org.andromda.metafacades.uml14.TestMetaobject2"
-		metafacadeClass="org.andromda.metafacades.uml14.TestMetafacade2LogicImpl"/>
+		metaobjectClass="org.andromda.core.metafacade.TestMetaobject2"
+		metafacadeClass="org.andromda.core.metafacade.TestMetafacade2LogicImpl"/>
 	<metafacade 
-		metaobjectClass="org.andromda.metafacades.uml14.TestMetaobject3"
-		metafacadeClass="org.andromda.metafacades.uml14.TestMetafacade3LogicImpl"/>
-												
+		metaobjectClass="org.andromda.core.metafacade.TestMetaobject3"
+		metafacadeClass="org.andromda.core.metafacade.TestMetafacade3LogicImpl"/>											
 </metafacades>

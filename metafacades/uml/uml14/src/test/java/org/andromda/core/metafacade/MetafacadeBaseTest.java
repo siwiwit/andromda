@@ -1,4 +1,4 @@
-package org.andromda.metafacades.uml14;
+package org.andromda.core.metafacade;
 
 import java.net.URL;
 
@@ -8,7 +8,7 @@ import junit.framework.TestSuite;
 
 import org.andromda.core.common.XmlObjectFactory;
 import org.andromda.core.mdr.MDRepositoryFacade;
-import org.andromda.core.metafacade.MetafacadeFactory;
+import org.andromda.metafacades.uml14.TestModel;
 import org.apache.log4j.Logger;
 
 public class MetafacadeBaseTest extends TestCase implements TestModel
