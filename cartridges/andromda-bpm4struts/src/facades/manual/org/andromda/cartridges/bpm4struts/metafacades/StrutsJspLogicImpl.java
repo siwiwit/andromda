@@ -4,6 +4,7 @@ import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EventFacade;
 import org.andromda.metafacades.uml.TransitionFacade;
+import org.andromda.metafacades.uml.ActivityGraphFacade;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -50,9 +51,19 @@ public class StrutsJspLogicImpl
 
     public String getFullPath()
     {
-        return '/' + (getPackageName() + '.' + StringUtilsHelper.toWebFileName(getName())).replace('.', '/') + ".jsp";
+        return '/' + (getPackageName() + '.' + StringUtilsHelper.toWebFileName(getName())).replace('.', '/');
     }
     // ------------- relations ------------------
+
+    protected Object handleGetUseCase()
+    {
+        final ActivityGraphFacade graph = getActivityGraph();
+        if (graph instanceof StrutsActivityGraph)
+        {
+            return ((StrutsActivityGraph)graph).getUseCase();
+        }
+        return null;
+    }
 
     protected Collection handleGetActions()
     {
@@ -61,7 +72,7 @@ public class StrutsJspLogicImpl
 
     protected Object handleGetForward()
     {
-        return getOutgoing().iterator().next();    
+        return getOutgoing().iterator().next();
     }
 
     protected Collection handleGetPageVariables()
