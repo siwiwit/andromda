@@ -40,7 +40,7 @@ public class $class.name implements ${class.name}Interface
     /**
      * Singleton instance accessor
      */
-    public static ${class.name} getInstance()
+    public static synchronized ${class.name} getInstance()
     {
         if (instance == null)
         {
