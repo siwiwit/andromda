@@ -198,18 +198,6 @@ public class StrutsParameterLogicImpl
         return "\"" + name + "-test" + "\"";
     }
 
-    public boolean isArray()
-    {
-        try
-        {
-            return Class.forName(getType().getFullyQualifiedName()).isArray();
-        }
-        catch(Exception exception)
-        {
-            return false;
-        }
-    }
-
     protected String getValidatorFormat()
     {
         final String format = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_FORMAT);
