@@ -21,8 +21,8 @@
 package $packagename;
 
 /**
- * Local component interface for #firstJavadocParagraph(${class} "lower" "the $servicename session bean.")
-#remainingJavadocParagraphs($class " ")
+ * Local component interface for the $servicename session bean.
+$class.getDocumentation(" ")
  *
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType" ])
  *
@@ -39,12 +39,12 @@ extends $parentInterface#foreach($intf in $class.abstractions),
 #set($attType = $att.type.fullyQualifiedName)
     /**
 #if($att.hasStereotype("EnvEntry"))
-     * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
+     * Get the ${att.name} environment entry
 #else
 #set ($ATT_NAME = $att.name)
-     * Get #firstJavadocParagraph(${att} "lower" "the $ATT_NAME constant")
+     * Get the $ATT_NAME constant
 #end
-#remainingJavadocParagraphs($att "     ")
+$att.getDocumentation("     ")
      */
     public $attType $att.getterName();
     
@@ -57,14 +57,14 @@ extends $parentInterface#foreach($intf in $class.abstractions),
 #if($visibility == "public")
 #set($attType = $att.type.fullyQualifiedName)    
     /**
-     * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
-#remainingJavadocParagraphs($att "     ")
+     * Get the ${att.name} property
+$att.getDocumentation("     ")
      */
     public $attType ${att.getterName}();
 
 #if(!$att.readOnly)
     /**
-     * Set #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
+     * Set the ${att.name} property
      * @param value the new value
      */
     public void ${att.setterName}($attType value);
@@ -85,7 +85,7 @@ extends $parentInterface#foreach($intf in $class.abstractions),
 #end
 
    /**
-#generateDocumentation ($op "    ")
+$op.getDocumentation("    ")
     */
 #set ($returntype = $op.type.fullyQualifiedName)
 #if ($exceptions)

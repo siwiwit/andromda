@@ -20,8 +20,8 @@
 package $packagename;
 
 /**
- * Home interface for #firstJavadocParagraph(${class} "lower" "the $entityname entity bean.")
-#remainingJavadocParagraphs($class " ")
+ * Home interface for the $entityname entity bean.
+$class.getDocumentation(" ")
  *
 #copyTaggedValues($class " " [ "@andromda.ejb.viewType", "@andromda.ejb.transactionType",  "@andromda.ejb.noSyntheticCreateMethod" ])
  */
@@ -42,12 +42,12 @@ public interface ${entityname}LocalHome  extends $parentInterface {
 
     /**
 #if($att.hasStereotype("EnvEntry"))
-     * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
+     * Get the ${att.name} environment entry
 #else
 #set ($ATT_NAME = $att.columnName)
-     * Get #firstJavadocParagraph(${att} "lower" "the $ATT_NAME constant")
+     * Get the $ATT_NAME constant
 #end
-#remainingJavadocParagraphs($att "     ")
+$att.getDocumentation("     ")
      */
     public $attType get$AttName();
 #end
@@ -61,7 +61,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
 #if ($visibility == "public" && $op.static) 
 #set ($msig = $op.signature)
    /**
-#generateDocumentation ($op "    ")
+$op.getDocumentation("    ")
     */
 #set ($returntype = $op.type.fullyQualifiedName)
 #if ($defaultException)
@@ -88,7 +88,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
 #if ($op.hasStereotype("FinderMethod"))
 #set ($msig = $op.signature)
    /**
-#generateDocumentation ($op "    ")
+$op.getDocumentation("    ")
     */
     public ${op.type.fullyQualifiedName} ${msig} 
            throws javax.ejb.FinderException;
@@ -100,7 +100,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
 #foreach ( $op in $class.getCreateMethods(true))
 
     /**
-#generateDocumentation ($op "    ")
+$op.getDocumentation("    ")
      *
      */
     public ${entityname} create${op.typedParameterList}
@@ -115,7 +115,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
      * Create method with all CMP attribute values.
 #set ($allAttributes = $transform.filterByVisibility($class.allInstanceAttributes, "public"))
 #foreach($att in $allAttributes)
-     * @param $att.name Value for #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
+     * @param $att.name Value for the ${att.name} property
 #end
      */
     public ${entityname} create(${transform.getAttributesAsList($allAttributes, true, true)})
@@ -126,10 +126,10 @@ public interface ${entityname}LocalHome  extends $parentInterface {
     /**
      * Create method with all CMP attribute values and CMR relations.
 #foreach($att in $allAttributes)
-     * @param $att.name Value for #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
+     * @param $att.name Value for the ${att.name} property
 #end
 #foreach ($rel in $relations)
-     * @param $rel.otherEnd.name Value for #firstJavadocParagraph(${rel.target} "lower" "the ${rel.otherEnd.name} relation role")
+     * @param $rel.otherEnd.name Value for the ${rel.otherEnd.name} relation role
 #end
      */
     public ${entityname} create(${transform.getAttributesAsList($allAttributes, true, true)}#foreach ($rel in $relations), ${rel.relationType} $rel.otherEnd.name#end)
