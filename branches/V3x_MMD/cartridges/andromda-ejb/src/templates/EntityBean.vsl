@@ -27,7 +27,7 @@ package $packagename;
 ## *     primkey-field = "$transform.getSimplePkField($class).name"
 ###end
 #if (!$class.primaryKeyAttribute.complex)
-*     primkey-field = "$class.primaryKeyAttribute.name"
+ *     primkey-field = "${class.primaryKeyAttribute.name}"
 #end
  *
  * @ejb.interface generate="false" local-class="${packagename}.${entityname}"
@@ -50,8 +50,8 @@ package $packagename;
 #end
 ## Generate environment entries for all static, readonly attributes stereotyped
 ## as <<EnvEntry>>
-#foreach($att in $transform.getStaticAttributes($class))
-#if ($transform.getStereotype($att) == "EnvEntry")
+#foreach($att in $class.staticAttributes))
+#if ($att.stereotypeName == "EnvEntry")
 #set ($value = $att.initialValue.body)
 ## Add string delimiters if they are not already present
 #if (!$value.startsWith('"') || !$value.endsWith('"'))
@@ -59,15 +59,15 @@ package $packagename;
 #end
  * @ejb.env-entry 
  *     name = "$att.name"
- *     type = "$transform.getFullyQualifiedName($att.type)"
+ *     type = "$att.type.fullyQualifiedName"
  *     value = $value
  *
 #end
 #end
 #foreach ( $dep in $class.dependencies )
-#if ($transform.getStereotype($dep.id) == "EntityRef" || $transform.getStereotype($dep.id) == "ServiceRef")
+#if ($dep.stereotypeName == "EntityRef" || $dep.stereotypeName == "ServiceRef")
 #set ($myClass = $transform.findClassById($dep.targetType))
-#set ($viewtype = $transform.findTagValue($myClass.taggedValues, "@andromda.ejb.viewType"))
+#set ($viewtype = $class.findTaggedValue("@andromda.ejb.viewType"))
 #if (!$viewtype || $viewtype == "")
 #set ($viewtype = $transform.getEjbRefViewType(${myClass}))
 #end
@@ -77,10 +77,10 @@ package $packagename;
  *     view-type="$viewtype" 
  *     ref-name="ejb/${myClass.name}BeanRef"
 #end
-#if ($transform.getStereotype($dep.id) == "ResourceRef")
+#if ($dep.stereotypeName == "ResourceRef")
 #set ($myClass = $transform.findClassById($dep.targetType))
-#set ($jndiRef = $transform.findTagValue($dep.id, "@andromda.ejb.resource-ref.jndi-name"))
-#set ($resAuth = $transform.findTagValue($dep.id, "@andromda.ejb.resource-ref.res-auth"))
+#set ($jndiRef = $dep.findTaggedValue("@andromda.ejb.resource-ref.jndi-name"))
+#set ($resAuth = $dep.findTaggedValue("@andromda.ejb.resource-ref.res-auth"))
 #if (!$resAuth)
 #set ($resAuth = "Container")
 #end
@@ -91,7 +91,7 @@ package $packagename;
  *
  * @ejb.resource-ref 
  *     res-ref-name="resource/$resName" 
- *     res-type="${transform.findFullyQualifiedName($myClass)}" 
+ *     res-type="$myClass.type.fullyQualifiedName" 
  *     res-auth="$resAuth"
 #if ($jndiRef)
  *
@@ -102,9 +102,9 @@ package $packagename;
 #end
 #end
 #foreach ( $op in $class.operations )
-#if ($transform.getStereotype($op.id) == "FinderMethod")
+#if ($op.stereotypeName == "FinderMethod")
 #set($querystring = "")
-#set($querystring = $transform.findTagValue($op.taggedValues, "@andromda.ejb.query"))
+#set($querystring = $op.findTaggedValue("@andromda.ejb.query"))
 #if($querystring == "")
 #set($querystring = "SELECT DISTINCT OBJECT(c) FROM $class.name AS c")
 #if($op.parameters.size() >0 )
@@ -117,7 +117,7 @@ package $packagename;
 #end
 #end
 #end
-#if($transform.findTagValue($op.taggedValues, "@andromda.ejb.query.dialect") == "JBossQL")
+#if($op.findTaggedValue("@andromda.ejb.query.dialect") == "JBossQL")
  *
  * @ejb.finder signature="${transform.findFullyQualifiedName($op.getType())} ${transform.getOperationSignature($op)}"
  *             query="This finder method is only supported on the JBoss application server"
@@ -138,22 +138,22 @@ public abstract class ${entityname}Bean
        implements javax.ejb.EntityBean
 {
     // ----------- constant definitions --------------------
-#foreach($att in $transform.getStaticAttributes($class))
-#if ($transform.getStereotype($att) != "EnvEntry")
-#set ($attType = $transform.getFullyQualifiedName($att.type))
+#foreach($att in $class.staticAttributes)
+#if ($att.stereotypeName != "EnvEntry")
+#set ($attType = $att.type.fullyQualifiedName)
 #set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
     private static final $attType $ATT_NAME = $att.initialValue.body;
 #end
 #end
     
     // -- accessors for environment entries and constants --
-#foreach($att in $transform.getStaticAttributes($class))
+#foreach($att in $class.staticAttributes)
 #set($attType = $transform.getFullyQualifiedName($att.type))
 #set($AttName = $str.upperCaseFirstLetter($att.name))
 #set ($visibility = $transform.getVisibility($att))
 
     /**
-#if($transform.getStereotype($att) == "EnvEntry")
+#if($att.stereotypeName == "EnvEntry")
      * Get #firstJavadocParagraph(${att} "lower" "the <em>${att.name}</em> environment entry")
 #else
 #set ($ATT_NAME = $str.toDatabaseAttributeName($att.name, '_'))
@@ -167,7 +167,7 @@ public abstract class ${entityname}Bean
 #end
      */
     $visibility $attType get$AttName(){
-#if($transform.getStereotype($att) == "EnvEntry")
+#if($att.stereotypeName == "EnvEntry")
         javax.naming.InitialContext initialContext = null;
         try {
             initialContext = new javax.naming.InitialContext();
@@ -222,7 +222,7 @@ public abstract class ${entityname}Bean
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
 #remainingJavadocParagraphs($att "     ")
      *
-#if ($transform.getStereotype($att) == "PrimaryKey")
+#if ($att.stereotypeName == "PrimaryKey")
      * @ejb.pk-field
 #end
      * @ejb.persistence
@@ -263,7 +263,7 @@ public abstract class ${entityname}Bean
 ## are accessible in the *BeanImpl class
 #if ($class.isAbstract())
 #foreach ( $assoc in $class.entityRelations) )
-#if(!($transform.findTagValue($assoc.source.association, "@andromda.ejb.generateCMR") == "false"))
+#if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
 #set ($assocname = $assoc.relationName)
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.target.roleName)})
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
@@ -289,10 +289,10 @@ public abstract class ${entityname}Bean
 ## Generate the real CMR methods.
 #foreach ( $assoc in $class.allEntityRelations )
 ## relations not flagged as CMR are generated below under business methods
-#if(!($transform.findTagValue($assoc.source.association, "@andromda.ejb.generateCMR") == "false"))
+#if(!($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false"))
 #set ($assocname = $assoc.relationName)
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.target.roleName)})
-#set ($transactionType = $transform.findTagValue($assoc.source.association, "@andromda.ejb.transactionType"))
+#set ($transactionType = $assoc.association.findTaggedValue("@andromda.ejb.transactionType"))
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
 
    /**
@@ -314,7 +314,7 @@ public abstract class ${entityname}Bean
     * @ejb.transaction type="$transactionType"
 #end
     *
-#if ($assoc.isOne2Many() || $assoc.isMany2Many() || $transform.findTagValue($assoc.target, "@andromda.jboss.autoKeyFields") == "true")
+#if ($assoc.isOne2Many() || $assoc.isMany2Many() || $assoc.otherEnd.findTaggedValue("@andromda.jboss.autoKeyFields") == "true")
     * @jboss.auto-key-fields
 #else
 #set ($pkfields = $transform.findPkFields($assoc.target.participant))
@@ -352,8 +352,8 @@ public abstract class ${entityname}Bean
 ## Generate business methods for relations flagged as non-CMR even when the class
 ## is abstract. That way, we can implement them in the base class
 #foreach ( $assoc in $class.entityRelations) )
-#if($transform.findTagValue($assoc.source.association, "@andromda.ejb.generateCMR") == "false")
-#set ($transactionType = $transform.findTagValue($assoc.source.association, "@andromda.ejb.transactionType"))
+#if($assoc.association.findTaggedValue("@andromda.ejb.generateCMR") == "false")
+#set ($transactionType = $assoc.association.findTaggedValue("@andromda.ejb.transactionType"))
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.target.roleName)})
 
@@ -380,13 +380,13 @@ public abstract class ${entityname}Bean
 #end ## foreach 
 
 #foreach ( $op in $class.operations)
-#if ($transform.getStereotype($op.id) != "FinderMethod" && $transform.getStereotype($op.id) != "CreateMethod" && $transform.getStereotype($op.id) != "SelectMethod")
+#if ($op.stereotypeName != "FinderMethod" && $op.stereotypeName != "CreateMethod" && $op.stereotypeName != "SelectMethod")
 #set ($transactionType = $transform.findTagValue($op, "@andromda.ejb.transactionType", true))
 #set ($msig = $transform.getOperationSignature($op))
 #set ($interfaceType = "interface")
 #set ($visibility = $transform.getVisibility($op))
 #set ($exceptions = "")
-#set ($exceptions = $transform.findTagValue($op.taggedValues, "@andromda.java.throws"))
+#set ($exceptions = $op.findTaggedValue("@andromda.java.throws"))
 #if ($exceptions == "")
 #set ($exceptions = $transform.findFullyQualifiedName($defaultException))
 #end
@@ -415,9 +415,9 @@ public abstract class ${entityname}Bean
         throws $exceptions;
 #end
 #end
-#if ($transform.getStereotype($op.id) == "SelectMethod")
+#if ($op.stereotypeName == "SelectMethod")
 #set($querystring = "")
-#set($querystring = $transform.findTagValue($op.taggedValues, "@andromda.ejb.query"))
+#set($querystring = $op.findTaggedValue("@andromda.ejb.query"))
 #if($querystring == "")
 #set($querystring = "SELECT DISTINCT OBJECT(c) FROM $class.name AS c")
 #if($op.parameters.size() >0 )
@@ -448,7 +448,7 @@ public abstract class ${entityname}Bean
 ## we generate an abstract ejbCreateImpl() and delegate the implementation to 
 ## the user.
 #foreach ( $op in $class.operations)
-#if ($transform.getStereotype($op.id) == "CreateMethod")
+#if ($op.stereotypeName == "CreateMethod")
 #set ($transactionType = $transform.findTagValue($op, "@andromda.ejb.transactionType", true))
 
     /**
@@ -522,7 +522,7 @@ public abstract class ${entityname}Bean
 ##if (!$transform.hasComplexPrimaryKey($class))
 #if (!$class.primaryKeyAttribute.complex)
 #set ($primKey = $class.primaryKeyAttribute)
-#if ($transform.getFullyQualifiedName($primKey.type) == "java.lang.String")
+#if ($primKey.type == "java.lang.String")
         if ($primKey.name == null) {
             $primKey.name = new java.rmi.server.UID().toString();
         }
@@ -536,7 +536,7 @@ public abstract class ${entityname}Bean
 
 ## Only generate create methods with all CMP and CMR fields for concrete EJBs, 
 ## and only if it is not explicitly switched off
-#if (!$class.isAbstract() && !$transform.findTagValue($class, "@andromda.ejb.noSyntheticCreateMethod"))
+#if (!$class.isAbstract() && !$class.findTaggedValue("@andromda.ejb.noSyntheticCreateMethod"))
     /**
      * Create method with all CMP attribute values.
 #foreach($att in $allAttributes)
@@ -565,7 +565,7 @@ public abstract class ${entityname}Bean
     }
 #set ($relations = $class.allEntityRelations)
 #if (!$relations.isEmpty())
-#if (!$class.isAbstract() && !$transform.findTagValue($class, "@andromda.ejb.noSyntheticCreateMethod"))
+#if (!$class.isAbstract() && !$class.findTaggedValue("@andromda.ejb.noSyntheticCreateMethod"))
     /**
      * Create method with all CMP attribute values and CMR relations.
 #foreach($att in $allAttributes)
@@ -604,9 +604,9 @@ public abstract class ${entityname}Bean
 
 #foreach ( $dep in $class.dependencies )
 #set ($viewtype = "")
-#if ($transform.getStereotype($dep.id) == "EntityRef" || $transform.getStereotype($dep.id) == "ServiceRef")
+#if ($dep.stereotypeName == "EntityRef" || $dep.stereotypeName == "ServiceRef")
 #set ($referencedClass = $transform.findClassById($dep.targetType))
-#set ($viewtype = $transform.findTagValue($referencedClass.taggedValues, "@andromda.ejb.viewType"))
+#set ($viewtype = $referencedClass.findTaggedValue("@andromda.ejb.viewType"))
 #if ($viewtype == "")
 #set ($viewtype = $transform.getEjbRefViewType($referencedClass))
 #end
@@ -658,7 +658,7 @@ public abstract class ${entityname}Bean
     }
 #end
 #end
-#if ($transform.getStereotype($dep.id) == "ResourceRef")
+#if ($dep.stereotypeName == "ResourceRef")
 #set ($referencedClass = $transform.findClassById($dep.targetType))
 #set ($resClassName = "${transform.findFullyQualifiedName($referencedClass)}")
 #set ($resName = $dep.name)
