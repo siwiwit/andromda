@@ -1,5 +1,6 @@
 package org.andromda.core.common;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -13,6 +14,11 @@ import org.apache.log4j.Logger;
 public class StdoutLogger
 {
     private static Logger logger = Logger.getLogger("andromda");
+    
+    static
+    {
+        logger.setLevel(Level.ALL);
+    }
     
     public static void debug (Object o)
     {

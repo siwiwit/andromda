@@ -15,6 +15,7 @@ import org.andromda.cartridges.interfaces.OutletDictionary;
 public class CodeGenerationContext
 {
     private RepositoryFacade repository = null;
+    private ModelFacade modelFacade = null;
     private ScriptHelper scriptHelper = null;
     private DbMappingTable typeMappings = null;
     private OutletDictionary outletDictionary = null;
@@ -23,6 +24,7 @@ public class CodeGenerationContext
 
     public CodeGenerationContext(
         RepositoryFacade rf,
+        ModelFacade mf,
         ScriptHelper sh,
         DbMappingTable typeMappings,
         OutletDictionary outletDictionary,
@@ -31,6 +33,7 @@ public class CodeGenerationContext
     {
         this.repository = rf;
         this.scriptHelper = sh;
+        this.modelFacade = mf;
         this.typeMappings = typeMappings;
         this.outletDictionary = outletDictionary;
         this.lastModifiedCheck = lastModifiedCheck;
@@ -47,21 +50,30 @@ public class CodeGenerationContext
     }
 
     /**
-     * Returns the scriptHelper.
-     * @return ScriptHelper
-     */
-    public ScriptHelper getScriptHelper()
-    {
-        return scriptHelper;
-    }
-
-    /**
      * Sets the repository.
      * @param repository The repository to set
      */
     public void setRepository(RepositoryFacade repository)
     {
         this.repository = repository;
+    }
+
+    /**
+     * Returns the model facade for this code generation step.
+     * @return the model facade
+     */
+    public ModelFacade getModelFacade()
+    {
+        return modelFacade;
+    }
+
+    /**
+     * Returns the scriptHelper.
+     * @return ScriptHelper
+     */
+    public ScriptHelper getScriptHelper()
+    {
+        return scriptHelper;
     }
 
     /**
