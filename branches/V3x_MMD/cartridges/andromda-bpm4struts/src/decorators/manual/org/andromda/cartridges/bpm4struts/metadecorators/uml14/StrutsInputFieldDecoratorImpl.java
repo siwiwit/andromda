@@ -66,6 +66,11 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
         return StringUtilsHelper.upperCaseFirstLetter(StringUtilsHelper.separate(getName(), " "));
     }
 
+    public String getValidationMsgKey()
+    {
+        return StringUtilsHelper.separate(getJsp().getFormBean().getFormBeanName() + '.' +getName(), ".").toLowerCase();
+    }
+
     public abstract String getFieldType();
 
     // ------------- relations ------------------
