@@ -21,7 +21,7 @@ public class TransitionFacadeLogicImpl
 
     protected Object handleGetSource()
     {
-        return metaObject.getTarget();
+        return metaObject.getSource();
     }
 
     protected Object handleGetTarget()
