@@ -4,7 +4,7 @@
     <classpathentry kind="src" path="src/META-INF"/>
     <classpathentry kind="src" path="src/templates"/>
     <classpathentry kind="src" path="src/facades/manual"/>
-    <classpathentry kind="src" path="src/facades/generated"/>
+    <classpathentry kind="src" path="target/src/andromda/meta"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="src" path="/andromda3"/>
     <classpathentry kind="lib" path="/andromda3/lib/jmi.jar"/>
