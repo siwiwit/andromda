@@ -2,7 +2,6 @@
 
     <!-- define the template objects that are made availble to the template -->
     <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
-    <templateObject name="transform" className="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
 
     <template
         sheet="templates/StrutsAction.vsl"
@@ -21,6 +20,16 @@
         overWrite="true">
         <modelElements variable="class">
             <modelElement stereotype="FrontEndEvent"/>
+        </modelElements>
+    </template>
+
+    <template
+        sheet="templates/StrutsUseCaseForm.vsl"
+        outputPattern="$generatedFile"
+        outlet="forms"
+        overWrite="true">
+        <modelElements variable="class">
+            <modelElement stereotype="FrontEndUseCase"/>
         </modelElements>
     </template>
 
