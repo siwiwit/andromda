@@ -1,8 +1,11 @@
 #set ($packagename = $class.package.fullyQualifiedName)
 package $packagename;
 
-#set ($shieldedMetaclass = $class.metaclass)
-#set ($shieldedMetaclassTypeName = $shieldedMetaclass.fullyQualifiedName)
+#if ($class.metaclassDirectDependency)
+#set ($shieldedMetaclassTypeName = $class.metaclass.fullyQualifiedName)
+#else
+#set ($shieldedMetaclassTypeName = "java.lang.Object")
+#end 
 
 /**
  * MetafacadeLogic implementation.

@@ -22,7 +22,7 @@ public class EJBFinderMethodFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EJBFinderMethodFacadeLogicImpl (org.omg.uml.foundation.core.Operation metaObject)
+    public EJBFinderMethodFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }

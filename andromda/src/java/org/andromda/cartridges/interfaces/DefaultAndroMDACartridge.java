@@ -254,12 +254,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
 
             // TODO: this has to be optimized so that decorators are not created each time we come here!!!
             Object model = context.getModelFacade().getModel();
-            MetafacadeFactory df = MetafacadeFactory.getInstance();
+            MetafacadeFactory factory = MetafacadeFactory.getInstance();
 
-            velocityContext.put("model", df.createMetafacade(model));
+            velocityContext.put("model", factory.createMetafacade(model));
             velocityContext.put(
                 "class",
-                df.createMetafacade(modelElement));
+                factory.createMetafacade(modelElement));
 
             // add any template objects to the context now
             Map templateObjects = this.getDescriptor().getTemplateObjects();

@@ -15,7 +15,7 @@ public class EJBAssociationEndFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EJBAssociationEndFacadeLogicImpl (org.omg.uml.foundation.core.AssociationEnd metaObject)
+    public EJBAssociationEndFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }

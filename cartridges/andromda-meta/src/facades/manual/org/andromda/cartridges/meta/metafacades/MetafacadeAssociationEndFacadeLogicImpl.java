@@ -22,7 +22,7 @@ public class MetafacadeAssociationEndFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public MetafacadeAssociationEndFacadeLogicImpl (org.omg.uml.foundation.core.AssociationEnd metaObject)
+    public MetafacadeAssociationEndFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }

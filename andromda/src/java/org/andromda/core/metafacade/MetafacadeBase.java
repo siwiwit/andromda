@@ -53,24 +53,26 @@ public class MetafacadeBase
 		Collection metafacades = MetafacadeFactory.getInstance().createMetafacades(
 				metaobjects,
 				this.getContext());
-		class MetafacadeContextTransformer implements Transformer {
-			public Object transform(Object object) {
-				MetafacadeBase metafacade = (MetafacadeBase)object;
-				// keep passing the context along from the
-				// very first one (i.e. the first metafacade)
-				metafacade.setContext(getContext());
-
-				if (logger.isDebugEnabled())
-					logger.debug("set context as --> '"
-						+ metafacade.getContext()
-						+ "'");
-
-				return metafacade;
-			}
-		}
-		CollectionUtils.transform(
-			metafacades,
-			new MetafacadeContextTransformer());
+        if (StringUtils.isNotEmpty(this.context)) {
+    		class MetafacadeContextTransformer implements Transformer {
+    			public Object transform(Object object) {
+    				MetafacadeBase metafacade = (MetafacadeBase)object;
+    				// keep passing the context along from the
+    				// very first one (i.e. the first metafacade)
+                    
+				    metafacade.setContext(getContext());
+    				if (logger.isDebugEnabled())
+    					logger.debug("set context as --> '"
+    						+ metafacade.getContext()
+    						+ "'");
+                    
+    				return metafacade;
+    			}
+    		}
+    		CollectionUtils.transform(
+    			metafacades,
+    			new MetafacadeContextTransformer());
+        }
 		return metafacades;
     }
 
