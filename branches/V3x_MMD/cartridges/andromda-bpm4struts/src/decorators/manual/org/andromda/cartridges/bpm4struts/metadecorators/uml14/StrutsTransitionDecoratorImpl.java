@@ -1,5 +1,8 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.omg.uml.behavioralelements.statemachines.StateVertex;
+import org.omg.uml.behavioralelements.statemachines.Transition;
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 
 
 /**
@@ -11,7 +14,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
 {
     // ---------------- constructor -------------------------------
-    
+
     public StrutsTransitionDecoratorImpl (org.omg.uml.behavioralelements.statemachines.Transition metaObject)
     {
         super (metaObject);
@@ -22,13 +25,35 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
     // concrete business methods that were declared
     // abstract in class StrutsTransitionDecorator ...
 
-    public java.lang.Boolean isGuarded() {
-        // TODO: put your implementation here.
+    public String getGuardName()
+    {
+        return metaObject.getGuard().getName();
+    }
 
-        // Dummy return value, just that the file compiles
-        return null;
+    public String getTriggerName()
+    {
+        return metaObject.getTrigger().getName();
+    }
+
+    public StateVertex getFinalTarget()
+    {
+        Transition transition = metaObject;
+        StateVertex target = transition.getTarget();
+
+        while ( MetaDecoratorUtil.isMergePoint(target) )
+        {
+            transition = (Transition)target.getOutgoing().iterator().next();
+            target = transition.getTarget();
+        }
+
+        return target;
+    }
+
+    public Integer getGuardValue()
+    {
+        return new Integer(getGuardName().hashCode());
     }
 
     // ------------- relations ------------------
-    
+
 }
