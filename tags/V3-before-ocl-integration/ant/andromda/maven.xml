@@ -1,0 +1,28 @@
+<project
+    default="jar:install"
+    xmlns:ant="jelly:ant"
+    xmlns:maven="jelly:maven"
+    xmlns:j="jelly:core"
+    xmlns:velocity="jelly:velocity">
+
+    <preGoal name="jar:jar">
+        <!-- copy shared resources -->
+        <ant:copy todir="${maven.build.dest}/templates/j2ee-app/mda/src/mappings">
+            <ant:fileset dir="${mappings.location}"/>
+        </ant:copy>
+        <ant:copy todir="${maven.build.dest}/templates/j2ee-app/hibernate/db/conf">
+            <ant:fileset dir="${hibernate.db.conf.location}"/>
+        </ant:copy>
+    </preGoal>
+    
+    <postGoal name="jar:jar">
+    	<!-- create over the initialization build file -->
+	    <velocity:merge
+			name="${maven.build.dir}/build.xml"
+			basedir="${maven.src.dir}/templates"
+			template="/build.xml.vsl"/> 
+		<!-- copy over the readme -->
+	    <copy tofile="${maven.build.dir}/readme.txt" file="${maven.src.dir}/templates/readme.txt"/>
+    </postGoal>
+
+</project>

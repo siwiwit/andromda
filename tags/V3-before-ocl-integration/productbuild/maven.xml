@@ -1,0 +1,391 @@
+<project default="install"
+         xmlns:maven="jelly:maven"
+         xmlns:j="jelly:core"
+         xmlns:ant="jelly:ant"
+         xmlns:util="jelly:util"
+         xmlns:artifact="artifact">
+         
+  	<!-- ==================================================================
+  			 Installs all component libraries into the local repository                                                    
+  		 ================================================================== -->
+  	<goal name="install-components">
+ 		<maven:set 
+ 			var="maven.multiproject.includes" 
+ 			value="${component.install.includes}"/>
+		<attainGoal name="multiproject:install"/>	
+  	</goal> 
+  	
+  	<!-- ==================================================================
+  			 Installs all sample libraries into the local repository                                                    
+  		 ================================================================== -->
+  	<goal name="install-samples">
+ 		<maven:set 
+ 			var="maven.multiproject.includes" 
+ 			value="${sample.install.includes}"/>
+		<attainGoal name="multiproject:install"/>	
+  	</goal> 
+
+  	<!-- ==================================================================
+  			 Installs all libraries into the local repository                                                    
+  		 ================================================================== -->
+  	<goal name="install">
+ 		<attainGoal name="install-components"/>
+ 		<attainGoal name="install-samples"/>
+  	</goal> 
+ 
+  	<!-- ==================================================================
+  			 Deploys all libraries into the remote repository                                                    
+  		 ================================================================== --> 	
+  	<goal name="deploy">
+ 		<maven:set 
+ 			var="maven.multiproject.includes" 
+ 			value="${component.install.includes}"/>
+		<attainGoal name="multiproject:deploy"/>	  		
+  	</goal>
+  	
+  	<!-- ==================================================================
+  			 Clean                                                     
+  		 ================================================================== -->
+  	<goal name="clean">  		
+ 		<maven:set 
+ 			var="maven.multiproject.includes" 
+ 			value="**/project.xml"/>
+ 		<maven:set 
+ 			var="maven.multiproject.excludes" 
+ 			value="project.xml,**/target/**"/>
+		<attainGoal name="multiproject:clean"/>
+		<attainGoal name="clean:clean"/>
+		<!-- get rid of all the log files -->
+		<ant:delete>
+			<ant:fileset dir=".">
+				<ant:include name="**/*.log*"/>
+				<ant:exclude name="maven.log"/>
+			</ant:fileset>
+		</ant:delete>
+  	</goal> 
+  	    
+  	<!-- ==================================================================
+  			 Builds ALL documentation                                                   
+  		 ================================================================== --> 
+    <goal name="docs">
+		<maven:maven 
+			descriptor="${basedir}/documentation/project.xml"
+			goals="build"/> 
+    </goal>
+    
+    <!-- ======================= DISTRIBUTION GOALS ======================= -->
+ 
+	<!-- ==================================================================
+			 Creates the AndroMDA distributions                                                    
+		 ================================================================== --> 
+	<goal name="dist">
+		<attainGoal name="dist-src"/>
+		<attainGoal name="dist-bin"/>
+	</goal>
+		
+	<!-- ==================================================================
+			 Creates the AndroMDA binary distribution                                                     
+		 ================================================================== --> 	
+	<goal name="dist-bin" prereqs="dist-init">
+		    			
+        <ant:delete dir="${binaryDistDir}"/>
+	    <attainGoal name="install-components"/>
+		<ant:mkdir dir="${binaryDistLibDir}"/>
+				
+		<!-- first add the components -->
+		<maven:reactor
+		  basedir="${basedir}"
+		  banner="Gathering Components: "
+		  includes="${component.install.includes}"
+		  postProcessing="true"
+		  ignoreFailures="false"/>  
+								
+		<j:forEach var="reactorProject" items="${reactorProjects}">			
+			<ant:echo>Adding Component: '${reactorProject}'</ant:echo>
+			<j:set var="fromDir" value="${reactorProject.file.parent}/target"/>
+			<j:set 
+				var="type" 
+				value="${reactorProject.context.getVariable('maven.multiproject.type')}"/>
+			<j:if test="${type == null || type == ''}">
+				<j:set var="type" value="jar"/>
+			</j:if>
+			<j:choose>
+				<!-- we handle the andromda-ant module a little different 
+					(we don't want it bundled maven style) -->
+				<j:when test="${reactorProject.artifactId.indexOf('andromda-ant') ne '-1'}">
+			        <j:set var="toDir" value="${binaryDistDir}/ant"/>
+			   		<ant:copy todir="${toDir}">
+					    <ant:fileset dir="${fromDir}">
+						    <ant:include name="*.jar"/>
+						    <ant:include name="*.xml"/>
+						    <ant:include name="*.txt"/>
+					    </ant:fileset>				
+				    </ant:copy>
+				</j:when>
+				<j:otherwise>
+			        <j:set var="toDir" value="${binaryDistDir}/${reactorProject.groupId}/${type}s"/>
+					<ant:copy todir="${toDir}">
+						<ant:fileset dir="${fromDir}">
+							<ant:include name="*.jar"/>
+						</ant:fileset>				
+					</ant:copy>			    					
+				</j:otherwise>
+			</j:choose>
+			<ant:copy todir="${toDir}/../..">
+				<ant:fileset dir="${fromDir}/..">
+					<ant:include name="LICENSE"/>
+				</ant:fileset>
+			</ant:copy>
+			<!-- don't copy the dependencies for the maven plugin -->
+			<j:if test="${reactorProject.artifactId.indexOf('maven') eq '-1'}">
+				<j:forEach var="lib" items="${reactorProject.artifacts}">
+					<!-- don't copy 'andromda' dependencies -->
+					<j:set var="dep" value="${lib.dependency}"/>
+					<j:if test="${lib.dependency.groupId.indexOf('andromda') eq '-1'}">
+						<ant:copy todir="${binaryDistLibDir}/${dep.artifactDirectory}">
+							<ant:fileset dir="${maven.repo.local}/${dep.artifactDirectory}">
+								<ant:include name="${dep.type}s/${dep.artifactId}-${dep.version}.${dep.extension}"/>
+							</ant:fileset>
+						</ant:copy>
+					</j:if>
+				</j:forEach> 
+			</j:if> 
+		</j:forEach> 
+		
+		<!-- now add the samples -->
+		<attainGoal name="dist-samples"/>  	
+		
+		<!-- add docs -->
+		<attainGoal name="docs"/>
+		<ant:copy todir="${binaryDistDir}">
+			<ant:fileset dir="documentation/target">
+				<ant:include name="*.zip"/>
+			</ant:fileset>
+		</ant:copy>
+ 
+		<!-- zip it all up -->
+        <j:set var="zipFile" value="${distribution.dir}/${distName}.zip"/>
+		<ant:zip zipfile="${zipFile}">
+            <ant:zipfileset dir="${binaryDistDir}" prefix="${distName}"/>
+        </ant:zip>	
+        		
+	</goal>
+	
+	<!-- ==================================================================
+	         Performs the distribution initialization                                                   
+		 ================================================================== --> 	
+	<goal name="dist-init">
+		<j:set 
+			var="distName" 
+			value="${pom.groupId}-bin-${pom.currentVersion}"/>	
+		<j:set 
+			var="binaryDistDir" 
+			value="${distribution.dir}/${distName}"/>
+		<j:set
+			var="binaryDistLibDir"
+			value="${binaryDistDir}/lib"/>
+	</goal>
+	
+	<!-- ==================================================================
+	         Adds the samples to the distribution                                                   
+		 ================================================================== --> 
+	<goal name="dist-samples" prereqs="dist-init">
+		
+	    <attainGoal name="install-samples"/>
+		
+		<maven:reactor
+		  basedir="${basedir}"
+		  banner="Gathering Samples: "
+		  includes="${sample.dist.includes}"
+		  postProcessing="true"
+		  ignoreFailures="false"/>   
+		
+		<j:forEach var="project" items="${reactorProjects}" varStatus="counter">		
+			<j:set var="fromDir" value="${project.file.parentFile}"/>
+			<j:set var="toDir" value="${binaryDistDir}/${fromDir.parentFile.name}/${project.artifactId}"/>
+			<ant:copy todir="${toDir}">
+				<ant:fileset dir="${fromDir}">
+					<ant:exclude name="**/*.log*"/>
+					<ant:exclude name="**/target/**"/>
+				</ant:fileset>				
+			</ant:copy>
+			<j:set var="toDir" value="${binaryDistDir}/${fromDir.parentFile.name}"/>
+			<j:set var="fromDir" value="${project.file.parentFile.parent}"/>
+			<ant:copy todir="${toDir}">
+				<ant:fileset dir="${fromDir}">
+					<ant:include name="*.txt"/>
+					<ant:include name="*.properties"/>
+				</ant:fileset>				
+			</ant:copy>
+		</j:forEach>  
+
+		<!-- copy all dependencies for samples -->
+		<maven:reactor
+		  basedir="${basedir}"
+		  includes="${sample.install.includes}"
+		  postProcessing="true"
+		  ignoreFailures="false"/> 
+		  		
+		<j:forEach var="project" items="${reactorProjects}">
+			<j:forEach var="lib" items="${project.artifacts}">
+				<j:set var="dep" value="${lib.dependency}"/>
+				<!-- don't copy andromda dependencies -->
+				<j:if test="${lib.dependency.groupId.indexOf('andromda') == '-1'}">
+					<ant:copy todir="${binaryDistLibDir}/${dep.artifactDirectory}">
+						<ant:fileset dir="${maven.repo.local}/${dep.artifactDirectory}">
+							<ant:include name="${dep.type}s/${dep.artifactId}-${dep.version}.${dep.extension}"/>
+						</ant:fileset>
+					</ant:copy>
+				</j:if>
+			</j:forEach> 
+		</j:forEach>
+		
+		<!-- create the distribution maven files we need for the samples -->
+		<j:set var="templatesDir" value="${basedir}/samples/templates"/>
+		<!-- create the distribution project.xml -->
+		<j:set var="distPom" value="${templatesDir}/distribution-pom.jelly"/>
+		<j:file name="${toDir}/project.xml" trim="false">
+			<j:import file="${distPom}" inherit="true"/>
+		</j:file>	
+		<!-- copy the distribution maven.xml -->
+		<j:set var="distMavenXml" value="${templatesDir}/distribution-maven.xml"/>
+		<ant:copy file="${distMavenXml}" tofile="${toDir}/maven.xml"/>
+		
+	</goal>
+		
+	<!-- ==================================================================
+			 Creates the AndroMDA source distribution                                                     
+		 ================================================================== --> 	
+	<goal name="dist-src">
+		<j:set var="distName" value="${pom.groupId}-src-${pom.currentVersion}"/>
+		<ant:mkdir dir="${distribution.dir}"/>
+        <!-- zip everything into the source archive -->
+        <j:set var="zipFile" value="${distribution.dir}/${distName}.zip"/>
+        <ant:zip zipfile="${zipFile}">
+            <ant:zipfileset dir="${basedir}" prefix="${distName}">
+                <ant:exclude name="**/*.log*"/>
+                <ant:exclude name="**/target/**"/>
+            </ant:zipfileset>
+        </ant:zip>			
+	</goal>
+	
+	<!-- ======================== BOOTSTRAP GOALS ======================== -->
+	
+	<!-- =================================================================
+			 Install all bootstrap artifacts to the local repository
+			 IMPORTANT: Since bootstrap dependencies depend on each other,
+			 we need to install them ALL at the end at once (instead of
+			 one at a time).
+		 ================================================================= -->
+	<goal name="bootstrap-install">
+		
+		<attainGoal name="preprocess-bootstrap-modules"/>
+		
+		<echo>+-------------------------------------------------------------------+</echo>
+		<echo>|   I N S T A L L I N G    B O O T S T R A P    A R T I F A C T S   |</echo>	
+		<echo>+-------------------------------------------------------------------+</echo>
+		<j:forEach var="bootstrapProject" items="${bootstrapProjects}" begin="0" varStatus="index">		
+			<attainGoal name="initialize-bootstrap-properties"/>
+			<artifact:install 
+				artifact="${artifactFile}" 
+				type="${bootstrapTypes.get(index)}" 
+				project="${bootstrapProject}"/>
+		</j:forEach>
+						
+	</goal>
+			
+		<!-- =================================================================
+				 Deploys all bootstrap artifacts to the remote repository
+				 IMPORTANT: Since bootstrap dependencies depend on each other,
+				 we need to deploy them ALL at the end of the build at once 
+				 (instead of one at a time).  
+				 IMPORTANT: Normally the Maven deploy plugin would
+				 be used, but it isn't possible to use it the way its currently
+				 implemented as it expects each artifact to be deployed 
+				 after its built.  This allows us to deploy them all at
+				 the same time after they've all been built.
+			 ================================================================= -->
+	<goal name="bootstrap-deploy"
+		  description="Deploys a bootstrap jar to the remote repository">
+			
+		<attainGoal name="preprocess-bootstrap-modules"/>
+		
+		<echo>+-----------------------------------------------------------------+</echo>
+		<echo>|   D E P L O Y I N G    B O O T S T R A P    A R T I F A C T S   |</echo>	
+		<echo>+-----------------------------------------------------------------+</echo>
+		<j:forEach var="bootstrapProject" items="${bootstrapProjects}" begin="0" varStatus="index">			
+			<attainGoal name="initialize-bootstrap-properties"/>				
+			<artifact:deploy 
+				artifact="${artifactFile}" 
+				type="${bootstrapTypes.get(index)}" 
+				project="${bootstrapProject}"/>
+		</j:forEach>
+			
+	</goal>
+	
+	<!-- =================================================================
+		 Performs preprocessing on the bootstrap modules, basically
+		 executs them and loads the modules and their types into lists.
+		 ================================================================= -->  
+	<goal name="preprocess-bootstrap-modules">
+		
+		<!-- set bootstrap mode to true -->
+		<j:set var="maven.andromda.bootstrap.mode" value="true" scope="parent"/>
+		
+		<util:tokenize 
+			var="bootstrapModules" 
+			delim=",">${bootstrap.modules}</util:tokenize>
+			
+		<j:set var="listType" value="java.util.ArrayList"/>
+		<j:useList var="bootstrapProjects" class="${listType}"/>
+		<j:useList var="bootstrapTypes" class="${listType}"/>
+		<j:forEach var="bootstrapModule" items="${bootstrapModules}">
+			<util:tokenize 
+				var="moduleAndType" 
+				delim=":">${bootstrapModule}</util:tokenize>	
+			<j:set var="module" value="${moduleAndType.get(0)}"/>
+			<j:set var="type" value="${moduleAndType.get(1)}"/>		
+			<maven:reactor
+				basedir="${basedir}"
+				includes="${module}"
+				goals="clean:clean,jar:jar"
+				ignoreFailures="false"
+				postProcessing="true"
+				banner="Processing Bootstrap Artifact:"/>  
+				
+			<!-- load up the bootstrapLists -->
+			<j:forEach var="reactorProject" items="${reactorProjects}">		
+				<!-- add the reactor project to the list of bootstrap projects -->	
+				<j:set var="dummy" value="${bootstrapProjects.add(reactorProject)}"/>
+				<!-- add the bootstrap type to the list of bootsrap project types -->
+				<j:set var="dummy" value="${bootstrapTypes.add(type)}"/>
+			</j:forEach>				
+						
+		</j:forEach>
+	</goal>
+		
+	<!-- =================================================================
+		 Initializes the bootstrap properties for each bootstrapProject
+		 ================================================================= -->  	
+	<goal name="initialize-bootstrap-properties">
+		<j:set var="bootstrapSuffix" value="-bootstrap"/>
+		<j:set var="artifactId" value="${bootstrapProject.artifactId}"/>
+		<j:if test="${!artifactId.endsWith(bootstrapSuffix)}">
+		    <j:set var="bootstrapArtifactId" value="${artifactId}${bootstrapSuffix}"/>
+		    <j:set var="dummy" value="${bootstrapProject.setArtifactId(bootstrapArtifactId)}"/>	
+		</j:if>
+		<j:set
+			var="repoLocation" 
+			value="${maven.repo.local}/${bootstrapProject.artifactDirectory}/${bootstrapTypes.get(index)}s"/>
+		<j:set 
+			var="artifactDirectory"
+			value="${bootstrapProject.file.parent}/target"/>
+		<j:set 
+			var="artifactName"
+			value="${artifactId}-${bootstrapProject.currentVersion}.jar"/>
+		<util:file 
+			var="artifactFile" 
+			name="${artifactDirectory}/${artifactName}"/>  	
+	</goal>
+  	  	
+</project>

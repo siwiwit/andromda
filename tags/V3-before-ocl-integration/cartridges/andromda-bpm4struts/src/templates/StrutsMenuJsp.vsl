@@ -1,0 +1,48 @@
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="struts-html.tld" prefix="html" %>
+
+<div class="box1">
+     <h4>Latest News</h4>
+
+     <p><b>AndroMDA 3.0</b><br/>
+
+     - Completely new engine core<br/>
+     - New cartridges, lots of new features...<br/>
+     </p>
+     <p><a href="http://team.andromda.org/docs" title="AndroMDA homepage">more &raquo;</a></p>
+</div>
+
+<p class="spacer"></p>
+
+#set ($useCases = $class.allUseCases)
+#if ($useCases.size()>1)
+<div class="box2">
+    <h4><bean:message key="menu.title"/></h4>
+    <ul>
+#foreach ($useCase in $useCases)
+#set ($roles = $useCase.actionRoles)
+#set ($security = ($securityEnabled=="true") && ($roles != "") )
+#if ($security)
+        <logic:present role="$roles">
+#end
+            <li><html:link action="$useCase.actionPath" titleKey="$useCase.titleKey">$useCase.name</html:link></li>
+#if ($security)
+        </logic:present>
+        <logic:notPresent role="$roles">
+            <li>$useCase.name</li>
+        </logic:notPresent>
+    </ul>
+#end
+#end
+</div>
+#end
+
+<div class="box3">
+    <p>This web application has been generated using AndroMDA&#146;s Bpm4Struts cartridge, check the
+       <a href="http://team.andromda.org/tiki/tiki-index.php" title="AndroMDA WiKi">WiKi</a>
+       for more information.</p>
+    <p class="author">
+       The AndroMDA Team <br/>
+       &copy; 2004</p>
+</div>
+

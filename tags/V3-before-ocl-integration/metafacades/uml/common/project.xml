@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  	<extend>../project.xml</extend>
+  	<id>andromda-metafacades-uml</id>
+  	<name>UML Common Metafacades</name>
+  	<shortDescription>UML Common  Metafacade Library</shortDescription>
+  	<description>
+  		The common UML metafacades.  This is the set of core UML metafacades
+  		used to provide access UML meta models. 
+  	</description>
+  	<repository>
+    	<connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot:andromda/metafacades/uml/common</connection>
+    	<url>http://cvs.sourceforge.net/viewcvs.py/andromda/metafacades/uml/common</url>
+  	</repository>
+	<dependencies>
+    	<dependency>
+	      	<groupId>andromda</groupId>
+	      	<artifactId>maven-andromda-plugin-bootstrap</artifactId>
+	      	<version>3.0M1</version>
+	      	<type>plugin</type>
+	      	<properties>
+	      		<logical.languageMappingsUri>Java</logical.languageMappingsUri>
+	      		<facades>${basedir}/target/src</facades>
+	      		<facade-logics.ignore/>
+	      		<facades-to-impls.ignore/>
+	      		<facade-logic-impls.ignore/>
+	      	</properties>
+	    </dependency>
+    </dependencies>
+</project>

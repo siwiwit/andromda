@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="mda" name="mda" basedir=".">
+
+    <property name="app.root.dir" value="${basedir}/.."/>
+
+    <property file="${basedir}/build.properties"/>
+    <property file="${app.root.dir}/build.properties"/>
+
+    <mkdir dir="${app.root.dir}/${lib.dir}"/>
+
+    <path id="classpath">
+        <fileset id="libraries" dir="${app.root.dir}/${lib.dir}">
+            <include name="*.jar"/>
+            <exclude name="andromda-meta-cartridge*"/>
+            <exclude name="andromda-struts-cartridge*"/>  
+#if ($persistenceType == 'hibernate')
+            <exclude name="andromda-ejb-cartridge*"/>
+#else
+            <exclude name="andromda-hibernate-cartridge*"/>
+#end
+        </fileset>
+    </path>
+
+    <target name="mda">
+        <taskdef name="andromda" classname="org.andromda.core.anttasks.AndroMDAGenTask" classpathref="classpath"/>
+        <andromda modelURL="file:${basedir}/${uml.model.path}">
+            <namespace name="default" ignore="false">
+                <property name="languageMappingsUri" value="file:${basedir}/${mappings.src.dir}/JavaMappings.xml"/>
+            </namespace>
+            <namespace name="java" ignore="false">
+                <property name="exceptions" value="${app.root.dir}/common/${java.src.dir}"/>
+                <property name="enumerations" value="${app.root.dir}/common/${java.src.dir}"/>
+                <property name="value-objects" value="${app.root.dir}/common/${java.src.dir}"/>
+            </namespace>
+#if ($persistenceType == 'hibernate')
+            <namespace name="hibernate" ignore="false">
+#else
+            <namespace name="hibernate" ignore="true">
+#end
+                <property name="jdbcMappingsUri" value="file:${basedir}/${mappings.src.dir}/JdbcMappings.xml"/>
+                <property name="sqlMappingsUri" value="file:${basedir}/${mappings.src.dir}/HypersonicSqlMappings.xml"/>
+                <property name="foreignKeySuffix" value="_FK"/>
+                <property name="maxSqlNameLength" value="30"/>
+                <property name="entities" value="${app.root.dir}/${hibernate.dir}/${hibernate.ejb.dir}/${mda.build.dir}"/>
+                <property name="entity-impls" value="${app.root.dir}/${hibernate.dir}/${hibernate.ejb.dir}/${java.src.dir}"/>
+                <property name="session-beans" value="${app.root.dir}/${hibernate.dir}/${hibernate.ejb.dir}/${mda.build.dir}"/>
+                <property name="session-impls" value="${app.root.dir}/${hibernate.dir}/${hibernate.ejb.dir}/${java.src.dir}"/>
+            </namespace>
+#if ($persistenceType == 'hibernate')
+            <namespace name="ejb" ignore="true">
+#else
+            <namespace name="ejb" ignore="false">
+#end
+                <property name="jdbcMappingsUri" value="file:${basedir}/${mappings.src.dir}/JdbcMappings.xml"/>
+                <property name="sqlMappingsUri" value="file:${basedir}/${mappings.src.dir}/HypersonicSqlMappings.xml"/>
+                <property name="foreignKeySuffix" value="_FK"/>
+                <property name="maxSqlNameLength" value="30"/>
+                <property name="entity-beans" value="${app.root.dir}/${ejb.dir}/${mda.build.dir}"/>
+                <property name="entity-impls" value="${app.root.dir}/${ejb.dir}/${java.src.dir}"/>
+                <property name="session-beans" value="${app.root.dir}/${ejb.dir}/${mda.build.dir}"/>
+                <property name="session-impls" value="${app.root.dir}/${ejb.dir}/${java.src.dir}"/>
+            </namespace>
+            <namespace name="bpm4struts" ignore="false">
+                <property name="securityEnabled" value="false"/>
+                <property name="securityRealm" value="other"/>
+                <property name="pages" value="${app.root.dir}/${web.dir}/${jsp.src.dir}"/>
+                <property name="forms" value="${app.root.dir}/${web.dir}/${mda.build.dir}"/>
+                <property name="actions" value="${app.root.dir}/${web.dir}/${mda.build.dir}"/>
+                <property name="controllers" value="${app.root.dir}/${web.dir}/${mda.build.dir}"/>
+                <property name="controller-impls" value="${app.root.dir}/${web.dir}/${java.src.dir}"/>
+                <property name="messages" value="${app.root.dir}/${web.dir}/${properties.src.dir}"/>
+                <property name="configuration" value="${app.root.dir}/${web.dir}/${mda.build.dir}"/>
+                <property name="xdoclet-merge" value="${app.root.dir}/${web.dir}/${xdoclet.merge.dir}"/>
+            </namespace>
+        </andromda>
+    </target>
+
+</project>
