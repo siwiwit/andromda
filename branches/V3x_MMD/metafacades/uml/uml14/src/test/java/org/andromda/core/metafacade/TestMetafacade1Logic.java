@@ -1,6 +1,5 @@
-package org.andromda.metafacades.uml14;
+package org.andromda.core.metafacade;
 
-import org.andromda.core.metafacade.MetafacadeBase;
 
 
 public class TestMetafacade1Logic extends MetafacadeBase {

@@ -26,6 +26,9 @@ public class MetafacadeBase
 
     // ---------------- essential overrides -----------------------
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     public boolean equals(Object obj)
     {
         if (obj instanceof MetafacadeBase)
@@ -36,6 +39,9 @@ public class MetafacadeBase
         return false;
     }
 
+    /**
+     * @see java.lang.Object#hashCode()
+     */
     public int hashCode()
     {
         return metaObject.hashCode();
@@ -104,7 +110,7 @@ public class MetafacadeBase
 	 *
 	 * @return the context name.
 	 */
-	protected String getContext() {
+	String getContext() {
 		return this.context;
 	}
 
@@ -271,7 +277,7 @@ public class MetafacadeBase
      */
     protected void validationError(String error)
     {
-        System.out.println("  [error] " + metaObject + " : " + error);
+        System.out.println("[error] " + metaObject + " : " + error);
     }
 
     /**

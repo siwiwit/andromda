@@ -152,7 +152,8 @@
         </path>
         
         <copy todir="${build.test.classes.dir}">
-        	<fileset dir="${src.test.dir}" includes="META-INF/*metafacades.xml" />
+        	<fileset dir="${src.test.dir}" includes="META-INF/*" />
+        	<fileset dir="${src.test.dir}" includes="**/*.properties" />
         </copy>
 
         <javac debug="true" destdir="${build.test.classes.dir}" includes="**/*.java" includeAntRuntime="false">

@@ -35,7 +35,7 @@ public class MDRepositoryFacadeTest extends TestCase
 		super.setUp();
 		if (modelURL == null)
 		{
-			modelURL = new URL(TestModel.XMI_FILE_URL);
+			modelURL = TestModel.MODEL_URI;
 			repository = new MDRepositoryFacade();
 		}
 

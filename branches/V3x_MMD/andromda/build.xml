@@ -26,6 +26,7 @@
     <property name="template.src.dir" value="${src.dir}/templates/" />
     <property name="license.src.dir" value="./" />
     <property name="test.src.dir" value="${src.dir}/test/" />
+    <property name="test.src.java.dir" value="${test.src.dir}/java" />    
 
     <!-- Build directories -->
     <property name="build.dir" value="build/" />
@@ -46,7 +47,7 @@
 
     <path id="test.class.path">
         <pathelement location="${build.test.classes.dir}" />
-        <pathelement location="${test.src.dir}" />
+        <pathelement location="${test.src.java.dir}" />
         <path refid="build.class.path"/>
     </path>
 
@@ -55,7 +56,7 @@
     </path>
 
     <path id="test.path.list">
-        <pathelement location="${test.src.dir}"/>
+        <pathelement location="${test.src.java.dir}"/>
     </path>
 
 
@@ -160,8 +161,11 @@
             <classpath refid="test.class.path"/>
         </javac>
         <copy todir="${build.test.classes.dir}">
-	    	<fileset dir="${test.src.dir}">
-	    		<include name="**/*.xml"/>
+	    	<fileset dir="${test.src.java.dir}">
+	    		<exclude name="**/*.java"/>
+	    	</fileset>
+	    	<fileset dir="${test.src.dir}/uml">
+	    		<include name="**/*"/>
 	    	</fileset>
 	    </copy>
         <junit printsummary="yes" haltonfailure="false">
@@ -172,7 +176,7 @@
             <formatter type="plain"/>
 
             <batchtest fork="yes" todir="${build.test.reports.dir}">
-                <fileset dir="${test.src.dir}">
+                <fileset dir="${test.src.java.dir}">
                     <include name="**/*Test.java"/>
                 </fileset>
             </batchtest>

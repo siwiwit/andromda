@@ -1,4 +1,5 @@
-package org.andromda.metafacades.uml14;
+package org.andromda.core.metafacade;
+
 
 
 
