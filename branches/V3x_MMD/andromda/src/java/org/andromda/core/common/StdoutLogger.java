@@ -3,9 +3,8 @@ package org.andromda.core.common;
 import java.net.URL;
 
 import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
 /**
@@ -18,7 +17,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  */
 public class StdoutLogger
 {
-    private static Log logger = LogFactory.getLog("andromda");
+    private static Logger logger = Logger.getLogger("andromda");
     
     /**
      * Configures logging for the AndroMDA application
@@ -26,9 +25,8 @@ public class StdoutLogger
      * the same package as this class.     
      */
     public static void configure() {
-    	String methodName = "configure";
-    	String loggingConfiguration = 
-    		ClassUtils.getPackageName(StdoutLogger.class);
+    	final String methodName = "StdoutLogger.configure";
+    	String loggingConfiguration = ClassUtils.getPackageName(StdoutLogger.class);
     	loggingConfiguration = "/" + loggingConfiguration.replace('.', '/') + "/log4j.xml";
     	URL url = StdoutLogger.class.getResource(loggingConfiguration);
     	if (url == null) {

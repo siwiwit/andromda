@@ -6,8 +6,7 @@ import java.util.HashMap;
 
 import javax.jmi.reflect.RefPackage;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.netbeans.api.xmi.XMIInputConfig;
 import org.netbeans.lib.jmi.xmi.XmiContext;
 
@@ -22,7 +21,7 @@ import org.netbeans.lib.jmi.xmi.XmiContext;
  */
 public class MDRXmiReferenceResolverContext extends XmiContext {
 	
-	private static Log logger = LogFactory.getLog(MDRXmiReferenceResolverContext.class);
+	private static Logger logger = Logger.getLogger(MDRXmiReferenceResolverContext.class);
 	
 	private HashMap urlMap = new HashMap();
 
