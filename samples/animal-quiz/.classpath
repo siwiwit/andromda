@@ -4,6 +4,7 @@
     <classpathentry kind="src" path="output/web"/>
     <classpathentry kind="src" path="src/common/java"/>
     <classpathentry kind="src" path="src/hibernate/java"/>
+    <classpathentry kind="src" path="src/web/java"/>
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry kind="lib" path="/andromda3-bpm4struts/lib/commons-validator.jar"/>
     <classpathentry kind="lib" path="/andromda3-bpm4struts/lib/servletapi-2.3.jar"/>
