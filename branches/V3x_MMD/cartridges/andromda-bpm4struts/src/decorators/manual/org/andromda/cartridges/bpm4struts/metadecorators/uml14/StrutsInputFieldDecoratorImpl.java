@@ -1,10 +1,9 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
-import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
-import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.ClassifierDecoratorImpl;
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.Classifier;
 
@@ -21,8 +20,7 @@ import java.util.Iterator;
 public class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDecorator
 {
     // ---------------- constructor -------------------------------
-
-    public StrutsInputFieldDecoratorImpl(org.omg.uml.foundation.core.Classifier metaObject)
+    public StrutsInputFieldDecoratorImpl(org.omg.uml.foundation.core.Attribute metaObject)
     {
         super(metaObject);
     }
@@ -35,23 +33,49 @@ public class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDecorator
 
     public java.lang.Boolean isReadOnly()
     {
-        return null;
+        final String readOnlyValue = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_READONLY);
+        return makeBoolean(readOnlyValue);
     }
 
     public java.lang.Integer getMaximumLength()
     {
-        // TODO: put your implementation here.
+        final String maximumLengthValue = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_MAXLENGTH);
+        Integer maxLength = null;
 
-        // Dummy return value, just that the file compiles
-        return null;
+        if (maximumLengthValue!=null)
+        {
+            try
+            {
+                maxLength = new Integer(maximumLengthValue.trim());
+            }
+            catch(NumberFormatException nfe)
+            {
+                maxLength = null;
+            }
+        }
+
+        return maxLength;
     }
 
     public java.lang.Boolean isRequired()
     {
-        // TODO: put your implementation here.
+        final String requiredValue = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_REQUIRED);
+        return makeBoolean(requiredValue);
+    }
 
-        // Dummy return value, just that the file compiles
-        return null;
+    private Boolean makeBoolean(String string)
+    {
+        if ( string!=null &&
+            !"true".equalsIgnoreCase(string) &&
+            !"yes".equalsIgnoreCase(string) &&
+            !"0".equals(string) )
+        {
+            return Boolean.FALSE;
+        }
+        else
+        {
+            return Boolean.TRUE;
+        }
     }
 
     // ------------- relations ------------------
@@ -61,12 +85,13 @@ public class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDecorator
      */
     public org.omg.uml.foundation.core.ModelElement handleGetJsp()
     {
-        final Collection associationEnds = getAssociationEnds();
+        final ClassifierDecorator owner = (ClassifierDecorator)DecoratorBase.decoratedElement(getOwner());
+        final Collection associationEnds = owner.getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
             AssociationEnd associationEnd = (AssociationEnd) iterator.next();
             Classifier participant = associationEnd.getParticipant();
-            ClassifierDecorator participantDecorator = new ClassifierDecoratorImpl(participant);
+            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
             if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
                 return participant; // undecorated
         }
