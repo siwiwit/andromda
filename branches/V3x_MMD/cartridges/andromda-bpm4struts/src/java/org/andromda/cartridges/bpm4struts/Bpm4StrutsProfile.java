@@ -36,10 +36,15 @@ public class Bpm4StrutsProfile
 
     /* ----------------- Default Values ------------------- */
     public static final String TAGGED_VALUE_INPUT_DEFAULT_REQUIRED = "true";
+    public static final String TAGGED_VALUE_EXCEPTION_DEFAULT_TYPE = "java.lang.Exception";
 
     public static final String TAGGED_VALUE_ACTION_TYPE_HYPERLINK = "hyperlink";
     public static final String TAGGED_VALUE_ACTION_TYPE_FORM = "form";
-    public static final String TAGGED_VALUE_EXCEPTION_DEFAULT_TYPE = "java.lang.Exception";
+
+    public static final String TAGGED_VALUE_INPUT_TYPE_TEXTBLOCK = "textblock";
+    public static final String TAGGED_VALUE_INPUT_TYPE_CHOICE = "choice";
+    public static final String TAGGED_VALUE_INPUT_TYPE_OPTION = "option";
+    public static final String TAGGED_VALUE_INPUT_TYPE_SELECT = "select";
 
     private Bpm4StrutsProfile()
     {
