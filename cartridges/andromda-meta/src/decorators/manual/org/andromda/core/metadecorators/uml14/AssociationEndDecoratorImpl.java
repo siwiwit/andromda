@@ -3,6 +3,7 @@ package org.andromda.core.metadecorators.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.AggregationKindEnum;
@@ -59,6 +60,20 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
         }
 
         return roleName;
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getName()
+     */
+    public String getName() {
+    	String name = super.getName();
+    	//if name is empty, then get the name from the type
+    	if (StringUtils.isEmpty(name)) {
+    		ClassifierDecorator type = this.getType();
+    		name = StringUtils.uncapitalize(
+    				StringUtils.trimToEmpty(type.getName()));
+    	}
+    	return name;
     }
 
     /* (non-Javadoc)
