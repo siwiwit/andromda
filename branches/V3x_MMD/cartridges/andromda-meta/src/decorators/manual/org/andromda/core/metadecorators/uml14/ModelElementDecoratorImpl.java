@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.andromda.core.common.HTMLAnalyzer;
 import org.andromda.core.common.HTMLParagraph;
+import org.andromda.core.mapping.Mappings;
 import org.andromda.core.uml14.UMLProfile;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Comment;
@@ -236,5 +237,40 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     {
         return metaObject;
     }
+    
+    /**
+     * Language specific mappings property reference.
+     */
+    private static final String LANGUAGE_MAPPINGS = "languageMappings";
+    
+    /**
+     * Allows the MetaFacadeFactory to populate 
+     * the language mappings for this model element.
+     * 
+     * @param mappingUri the URI of the language mappings resource.
+     */
+    public void setLanguageMappings(String mappingUri) {
+    	try {
+    		Mappings mappings = Mappings.getInstance(mappingUri);
+    		// register the mappings with the component container.
+    		this.registerConfiguredProperty(LANGUAGE_MAPPINGS, mappings);
+    	} catch (Throwable th) {
+    		String errMsg = "Error setting '" 
+    			+ LANGUAGE_MAPPINGS + "' --> '" 
+    			+ mappingUri + "'";
+    		logger.error(errMsg, th);
+    		//don't throw the exception
+    	}
+    }
+    
+    /**
+     * Gets the language mappings that have been
+     * set for this model elemnt.
+     * @return the Mappings instance.
+     */
+    protected Mappings getLanguageMappings() {
+    	return (Mappings)this.getConfiguredProperty(LANGUAGE_MAPPINGS);
+    }
+    
 
 }
