@@ -45,7 +45,7 @@ public class MDRepositoryFacadeTest extends TestCase
 	{
 		try
 		{
-			repository.readModel(modelURL);
+			repository.readModel(modelURL, null);
 		}
 		catch (IOException ioe)
 		{
@@ -61,7 +61,7 @@ public class MDRepositoryFacadeTest extends TestCase
 	{
 		try
 		{
-			repository.readModel(modelURL);
+			repository.readModel(modelURL, null);
 			assertEquals(
 				modelURL.openConnection().getLastModified(),
 				repository.getLastModified());
@@ -82,8 +82,8 @@ public class MDRepositoryFacadeTest extends TestCase
 
 		try
 		{
-			repository.readModel(modelURL);
-			assertTrue(repository.getModel() instanceof UmlPackage);
+			repository.readModel(modelURL, null);
+			assertTrue(repository.getModel().getModel() instanceof UmlPackage);
 		}
 		catch (IOException ioe)
 		{

@@ -7,27 +7,28 @@
   2) A jar with classes that come from a generation step using this cartridge!
      This second jar is used inside the AndroMDA core (yes! AndroMDA is used
      to compile itself, just like a Java compiler compiles itself!).
-     
+
   This requires a manual step at the end of the build process:
   - Build this cartridge normally, using the "dist" target.
   - If you are sure that the result is good, copy it into the AndroMDA core,
-    using the "deploy" target.
+    using the "copyjar" target.
 -->
 
     <!-- ============================================================= -->
     <!--               Directory settings                              -->
     <!-- ============================================================= -->
 
-    <property name="src.dir"          value="src" />
+    <property name="src.dir"          value="${basedir}/src" />
     <property name="src.cart.dir"     value="${src.dir}/java" />
-    <property name="src.dec.gen.dir"  value="${src.dir}/decorators/generated" />
-    <property name="src.dec.man.dir"  value="${src.dir}/decorators/manual" />
+    <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
+    <property name="src.fac.man.dir"  value="${src.dir}/facades/manual" />
+    <property name="uml.common.model.dir" value="${basedir}/../../metafacades/uml/common/src/uml"/>
     <property name="uml.dir"          value="${src.dir}/uml" />
     <property name="src.test.dir"     value="${src.dir}/test/" />
 
     <property name="build.dir"              value="build" />
     <property name="build.cart.dir"         value="build/cartridge" />
-    <property name="build.dec.dir"          value="build/decorators" />
+    <property name="build.fac.dir"          value="build/decorators" />
     <property name="build.test.dir"         value="${build.dir}/test" />
     <property name="build.test.classes.dir" value="${build.test.dir}/classes" />
     <property name="build.test.reports.dir" value="${build.test.dir}/reports" />
@@ -35,23 +36,40 @@
     <property name="dist.dir"         value="dist" />
 
     <property file="build.properties" />
-    <property name="andromda-core.home" location="${andromda.home}/andromda-core"/>
-    <property name="andromda-meta.home" location="dist"/>
+    <property name="andromda-core.new.home" location="${andromda.new.home}/andromda-core"/>
+    <property name="andromda-meta.new.home" location="dist"/>
+    <property name="andromda-core.home"     location="${andromda.old.home}/andromda-core"/>
+    <property name="andromda-meta.home"     location="${andromda.old.home}/cartridges/andromda-meta"/>
+    
+    <property name="metafacades.uml.old.home"        location="${andromda.old.home}/metafacades/uml"/>
+    <property name="andromda-metafacades-uml.home" location="${metafacades.uml.old.home}/common"/>
+    <property name="andromda-metafacades-uml14.home"  location="${metafacades.uml.old.home}/uml14"/>
+    
+    <property name="metafacades.uml.new.home"        location="${andromda.new.home}/metafacades/uml"/>
+	<property name="andromda-metafacades-uml.new.home" location="${metafacades.uml.new.home}/common"/>
 
     <property file="${andromda-core.home}/andromda-core.properties"/>
+    
+    <property file="${andromda-metafacades-uml.home}/andromda-metafacades-uml.properties"/>
+    <property file="${andromda-metafacades-uml14.home}/andromda-metafacades-uml14.properties"/>
 
-    <path id="andromda.classpath">
+    <path id="andromda.old.classpath">
        <pathelement location="${andromda-core.home}/andromda.jar"/>
        <pathelement path="${andromda-core.classpath}"/>
     </path>
-    
+
+    <path id="andromda.new.classpath">
+       <pathelement location="${andromda-core.new.home}/andromda.jar"/>
+       <fileset dir="${andromda-core.new.home}/lib" includes="*.jar" excludes="metadecorators.jar"/>
+    </path>
+
     <!-- Setup directory structure -->
     <target name="init">
         <tstamp/>
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.cart.dir}"/>
-        <mkdir dir="${build.dec.dir}"/>
+        <mkdir dir="${build.fac.dir}"/>
     </target>
 
     <!-- Remove directory structure structure -->
@@ -59,7 +77,7 @@
         <delete includeEmptyDirs="true" quiet="true">
             <fileset dir="${dist.dir}"/>
             <fileset dir="${build.dir}"/>
-            <fileset dir="${src.dec.gen.dir}"/>
+            <fileset dir="${src.fac.gen.dir}"/>
         </delete>
     </target>
 
@@ -75,7 +93,7 @@
       </copy>
     </target>
 
-    <target name="build" depends="compile2"
+    <target name="build" depends="compile"
             description="Builds the objects from the sources">
     </target>
 
@@ -83,17 +101,74 @@
     <!--               Internal tasks                                  -->
     <!-- ============================================================= -->
 
-    <target name="compile1" depends="init"
+    <target name="genjava" depends="init">
+        <property file="${andromda-meta.home}/andromda-meta.properties"/>
+
+        <path id="generate.classpath">
+           <path refid="andromda.old.classpath" />
+           <pathelement path="${andromda-meta.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml14.classpath}"/>  
+        </path>
+
+        <property name="g.cp" refid="generate.classpath"/>
+        <echo message="generate.classpath = ${g.cp}"/>
+
+        <taskdef name="andromda"
+                 classname="org.andromda.core.anttasks.AndroMDAGenTask"
+                 classpathref="generate.classpath"
+        />
+        
+        <property 
+        	name="model" 
+        	value="jar:file:${uml.dir}/MetaMetafacadeModel.xml.zip!/MetaMetafacadeModel.xml"/>
+
+        <andromda basedir="."
+           modelURL="${model}"
+           lastModifiedCheck="false"
+           processAllModelPackages="false">
+
+			<namespace name="meta">
+				<property name="facades" 				 value="${src.fac.gen.dir}" />
+				<property name="facade-logics"           value="${src.fac.gen.dir}"/>
+				<property name="facade-logic-impls"      value="${src.fac.man.dir}"/>
+				<property name="languageMappingsUri"  value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+			</namespace>
+            
+            <modelPackage name="org.andromda.cartridges.meta.metafacades"  shouldProcess="true"/>
+
+			<repository>
+				<moduleSearchPath>
+					<pathelement location="${uml.common.model.dir}" />
+				</moduleSearchPath>
+			</repository>
+
+        </andromda>
+        
+    </target>
+    
+    <target name="compile" depends="genjava"
             description="Builds the cartridge objects from the sources">
-        <javac destdir="${build.cart.dir}" includes="**/*.java"
-               includeAntRuntime="false">
+		            
+        <javac destdir="${build.cart.dir}" includeAntRuntime="false">
             <src path="${src.cart.dir}" />
-            <classpath refid="andromda.classpath"/>
+            <src path="${src.fac.gen.dir}" />
+            <src path="${src.fac.man.dir}" />
+            <include name="org/andromda/cartridges/meta/**/*.java" />
+            <classpath>
+                <path refid="andromda.new.classpath"/>
+               	<pathelement location="${andromda-metafacades-uml.new.home}/andromda-metafacades-uml.jar"/>	   
+            </classpath>
         </javac>
 
+		<copy file="${src.dir}/META-INF/andromda-metafacades.xml" 
+		      tofile="${build.cart.dir}/META-INF/andromda-metafacades.xml"
+		/>
+		
         <jar jarfile="${build.dir}/andromda-meta.jar">
             <fileset dir="${src.dir}" includes="templates/*" />
-            <fileset dir="${src.dir}" includes="META-INF/*" />
+            <fileset dir="${src.dir}" includes="META-INF/*cartridge.xml" />
+            <fileset dir="${build.cart.dir}" includes="META-INF/andromda-metafacades.xml" />
             <fileset dir="${build.cart.dir}" includes="**/*.class" />
         </jar>
         <copy todir="${dist.dir}" >
@@ -102,59 +177,13 @@
         </copy>
     </target>
 
-    <target name="genjava" depends="compile1">
-        <property file="${andromda-meta.home}/andromda-meta.properties"/>
-    
-        <path id="generate.classpath">
-           <path refid="andromda.classpath" />
-           <pathelement path="${andromda-meta.classpath}"/>
-        </path>
-    
-        <taskdef name="andromda"
-                 classname="org.andromda.core.anttasks.AndroMDAGenTask"
-                 classpathref="generate.classpath"
-        />
-
-        <property name="g.cp" refid="generate.classpath"/>
-        <echo message="generate.classpath = ${g.cp}"/>
-
-        <!--property name="model" value="jar:file:${uml.dir}/ProfileForMetamodelDecorators.zuml!/ProfileForMetamodelDecorators.xmi"/-->
-        <property name="model" value="jar:file:${uml.dir}/MetadecoratorModel.xml.zip!/MetadecoratorModel.xml"/>
-
-        <andromda basedir="."
-           modelURL="${model}"
-           lastModifiedCheck="false"
-           typeMappings="${andromda-core.home}/src/xml/TypeMapping.xml">
-
-            <outlet cartridge="meta" outlet="decorators"       dir="${src.dec.gen.dir}" />
-            <outlet cartridge="meta" outlet="decorator-impls"  dir="${src.dec.man.dir}" />
-
-        </andromda>
-    </target>
-
-    <target name="compile2" depends="genjava"
-            description="Builds the decorator objects from the generated and hand-written sources">
-        <javac destdir="${build.dec.dir}" includes="**/*.java"
-               includeAntRuntime="false">
-            <src path="${src.dec.gen.dir}" />
-            <src path="${src.dec.man.dir}" />
-            <classpath>
-               <path refid="generate.classpath"/>
-            </classpath>
-        </javac>
-
-        <jar jarfile="${build.dir}/metadecorators.jar">
-            <fileset dir="${build.dec.dir}" includes="**/*.class" />
-        </jar>
-    </target>
-
-    <target name="test" depends="compile2">
+    <target name="test" depends="compile">
         <mkdir dir="${build.test.classes.dir}"/>
         <mkdir dir="${build.test.reports.dir}"/>
         <path id="test.classpath">
-           <path refid="generate.classpath" />
-           <pathelement location="${build.dir}/metadecorators.jar" />
+	       <pathelement location="${andromda-metafacades-uml.new.home}/andromda-metafacades-uml.jar"/>
            <pathelement location="${build.test.classes.dir}"/>
+           <path refid="generate.classpath" />
         </path>
 
         <javac debug="true" destdir="${build.test.classes.dir}" includes="**/*.java" includeAntRuntime="false">
@@ -175,12 +204,6 @@
                 </fileset>
             </batchtest>
         </junit>
-    </target>
-
-    <target name="copyjar">
-        <copy todir="../../../../V3x_MMD/andromda-all/andromda/lib">
-            <fileset dir="${build.dir}" includes="metadecorators.jar" />
-        </copy>
     </target>
 
 </project>
