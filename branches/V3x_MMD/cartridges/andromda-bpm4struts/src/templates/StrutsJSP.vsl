@@ -249,10 +249,10 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
 
 #foreach ($variable in $class.pageVariables)
         <logic:present name="$variable.name" scope="page">
-            <bean:write name="$variable.name" scope="page"/>
+            <bean:write name="$variable.name" scope="page"/> <br/>
         </logic:present>
         <logic:notPresent name="$variable.name" scope="page">
-            Missing from request: $variable.name
+            Missing from request: $variable.name <br/>
         </logic:notPresent>
 #end
 
