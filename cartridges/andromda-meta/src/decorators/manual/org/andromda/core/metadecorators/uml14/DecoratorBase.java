@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.omg.uml.foundation.core.ModelElement;
 
@@ -56,6 +57,68 @@ public class DecoratorBase
             result.add(df.createDecoratorObject(element));
         }
         return result;
+    }
+    
+    /**
+     * Stores the context for this metafacade
+     */
+    private String context = null;
+    
+    /**
+     * Gets the context for this metafacade.
+     * 
+     * @return the context name.
+     */
+    protected String getContext() {
+    	if (StringUtils.isEmpty(this.context)) {
+    		this.context = this.getClass().getName();
+    	}
+    	return this.context;
+    }
+    
+    /**
+     * Stores the property context for this Metafacade
+     */
+    private String propertyNamespace = null;
+    
+    /**
+     * Gets the current property context for this metafacade.
+     * This is the context in which properties for this metafacade
+     * are stored.
+     * 
+     * @return String
+     */
+    protected String getPropertyNamespace() {
+    	if (StringUtils.isEmpty(this.propertyNamespace)) {
+    		this.propertyNamespace = this.getContext() + ":property";
+    	}
+    	return this.propertyNamespace;
+    }
+    
+    /**
+     * Gets a configured property from the container.  Note
+     * that the configured property must be registered first.
+     * 
+     * @param property the property name
+     * @return Object the configured property instance (mappings, etc)
+     */
+    protected Object getConfiguredProperty(String property) {
+    	return DecoratorFactory.getInstance().getRegisteredProperty(
+    			this.getPropertyNamespace(),
+				property);		
+    }
+    
+    /**
+     * Registers a configured property with the container.
+     * 
+     * @param property the name of the property.
+     * @param value the value of the configured instance.
+     */
+    protected void registerConfiguredProperty(String property, Object value) {
+    	DecoratorFactory.getInstance().registerProperty(
+    			this.getPropertyNamespace(), 
+				property, 
+				value);
     }
 
     /**
