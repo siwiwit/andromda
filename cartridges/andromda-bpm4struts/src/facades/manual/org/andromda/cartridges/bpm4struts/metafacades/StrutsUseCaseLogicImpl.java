@@ -71,6 +71,18 @@ public class StrutsUseCaseLogicImpl
     }
 
     // ------------- relations ------------------
+    protected Collection handleGetAllServices()
+    {
+        // find all controller dependencies on <<Service>> classes
+        final Collection useCases = getAllUseCases();
+        final Collection services = new HashSet();
+        for (Iterator iterator = useCases.iterator(); iterator.hasNext();)
+        {
+            StrutsUseCase useCase = (StrutsUseCase) iterator.next();
+            services.addAll(useCase.getController().getServices());
+        }
+        return services;
+    }
 
     public java.lang.Object handleGetActivityGraph()
     {
