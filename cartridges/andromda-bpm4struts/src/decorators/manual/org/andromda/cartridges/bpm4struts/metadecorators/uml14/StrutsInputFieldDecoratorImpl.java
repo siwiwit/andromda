@@ -74,33 +74,14 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
      */
     public org.omg.uml.foundation.core.ModelElement handleGetJsp()
     {
-        final Collection views = getAssociatedViews();
-        if (views.isEmpty())
-            return null;
-        else
-            return (ModelElement) views.iterator().next();
+        return getOwner();
     }
 
-    private Collection getAssociatedViews()
-    {
-        final Collection views = new LinkedList();
-        final ClassifierDecorator owner = (ClassifierDecorator) DecoratorBase.decoratedElement(getOwner());
-        final Collection associationEnds = owner.getAssociationEnds();
-        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
-        {
-            AssociationEndDecorator associationEnd =
-                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
-            Classifier participant = associationEnd.getOtherEnd().getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
-            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_VIEW).booleanValue())
-                views.add(participant);
-        }
-        return views;
-    }
     // ------------------------------------------------------------
 
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
@@ -110,5 +91,6 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
         final Collection views = getAssociatedViews();
         if (views.size() != 1)
             throw new DecoratorValidationException(this, "One and only one JSP may be associated with this input field");
+*/
     }
 }

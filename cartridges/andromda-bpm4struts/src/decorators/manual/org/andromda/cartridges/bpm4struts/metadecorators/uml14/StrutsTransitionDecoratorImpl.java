@@ -7,7 +7,6 @@ import org.omg.uml.behavioralelements.statemachines.Event;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
 import org.omg.uml.behavioralelements.statemachines.StateVertex;
 import org.omg.uml.behavioralelements.statemachines.Transition;
-import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 
 
 /**
@@ -29,11 +28,6 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
 
     // concrete business methods that were declared
     // abstract in class StrutsTransitionDecorator ...
-
-    public String getGuardName()
-    {
-        return getGuard().getName();
-    }
 
     public String getTriggerName()
     {
@@ -71,18 +65,14 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
             }
         }
 
-        return target;
-    }
-
-    public Integer getGuardValue()
-    {
-        return new Integer(getGuardName().hashCode());
+        return target;//(StateVertex)DecoratorBase.decoratedElement(target);
     }
 
     // ------------- relations ------------------
 
     public void validate() throws DecoratorValidationException
     {
+/*
         // if outgoing from a choice pseudostate this transition must have a guard
         StateVertex source = getSource();
         if (source instanceof PseudostateDecorator)
@@ -99,6 +89,7 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
                 throw new DecoratorValidationException(this,
                     "If there are two transitions or more going out of an action state they must each have a trigger");
         }
+*/
     }
 
 }

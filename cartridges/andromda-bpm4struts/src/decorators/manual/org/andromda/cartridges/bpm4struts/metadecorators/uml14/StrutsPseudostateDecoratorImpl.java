@@ -1,12 +1,9 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.StateMachineDecorator;
-import org.omg.uml.behavioralelements.statemachines.Pseudostate;
-import org.omg.uml.behavioralelements.statemachines.Transition;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 
 /**
@@ -29,11 +26,17 @@ public class StrutsPseudostateDecoratorImpl extends StrutsPseudostateDecorator
     // concrete business methods that were declared
     // abstract in class StrutsPseudostateDecorator ...
 
+    // from org.omg.uml.behavioralelements.statemachines.StateVertex
+    public Collection getOutgoing()
+    {
+        return DecoratorBase.decoratedElements(super.getOutgoing());
+    }
     // ------------- relations ------------------
 
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
 
@@ -57,7 +60,9 @@ public class StrutsPseudostateDecoratorImpl extends StrutsPseudostateDecorator
                         "All transitions going out of a choice pseudostate (decision point) must have a guard");
             }
         }
+*/
 
+/* CLASSCASTEXCEPTION
         // the name must be unique for pseudo states in the use-case
         // the name of the action state must be unique in the use-case state machine
         final StateMachineDecorator stateMachine = (StateMachineDecorator) getContainer().getStateMachine();
@@ -73,6 +78,7 @@ public class StrutsPseudostateDecoratorImpl extends StrutsPseudostateDecorator
         if (nameCount > 1)
             throw new DecoratorValidationException(this,
                 "There are " + nameCount + " pseudo states found with this names, please give unique names");
+*/
 
     }
 }

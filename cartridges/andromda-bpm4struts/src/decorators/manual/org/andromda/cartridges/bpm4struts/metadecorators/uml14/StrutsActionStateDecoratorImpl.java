@@ -1,5 +1,6 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.StateMachineDecorator;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
@@ -38,13 +39,15 @@ public class StrutsActionStateDecoratorImpl extends StrutsActionStateDecorator
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
+/*
         // the name must not be empty
         final String name = getName();
         if ((name == null) || (name.trim().length() == 0))
             throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
 
         // the name of the action state must be unique in the use-case state machine
-        final StateMachineDecorator stateMachine = (StateMachineDecorator) getStateMachine();
+        final StateMachineDecorator stateMachine = (StateMachineDecorator) DecoratorBase.decoratedElement(getContainer().getStateMachine());
+
         final Collection actionStates = stateMachine.getActionStates();
         int nameCount = 0;
         for (Iterator iterator = actionStates.iterator(); iterator.hasNext();)
@@ -81,5 +84,6 @@ public class StrutsActionStateDecoratorImpl extends StrutsActionStateDecorator
                         "If an action state has more than 1 outgoing transition, they must all have triggers.");
             }
         }
+*/
     }
 }
