@@ -289,6 +289,13 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
 #end
 
 #end
+
+        <div>
+            <i><font color="#808080">
+$class.getDocumentation("                ")
+            </font></i>
+        </div>
+
     </body>
 
 </html:html>
