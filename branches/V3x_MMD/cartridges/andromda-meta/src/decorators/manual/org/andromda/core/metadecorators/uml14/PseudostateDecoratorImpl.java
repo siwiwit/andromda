@@ -25,37 +25,37 @@ public class PseudostateDecoratorImpl extends PseudostateDecorator
 
     public boolean isChoice()
     {
-        return (PseudostateKindEnum.PK_CHOICE.equals(metaObject.getKind())) ? true : false;
+        return PseudostateKindEnum.PK_CHOICE.equals(metaObject.getKind());
     }
 
     public boolean  isInitialState()
     {
-        return (PseudostateKindEnum.PK_INITIAL.equals(metaObject.getKind())) ? true : false;
+        return PseudostateKindEnum.PK_INITIAL.equals(metaObject.getKind());
     }
 
     public boolean isJoin()
     {
-        return (PseudostateKindEnum.PK_JOIN.equals(metaObject.getKind())) ? true : false;
+        return PseudostateKindEnum.PK_JOIN.equals(metaObject.getKind());
     }
 
     public boolean isDeepHistory()
     {
-        return (PseudostateKindEnum.PK_DEEP_HISTORY.equals(metaObject.getKind())) ? true : false;
+        return PseudostateKindEnum.PK_DEEP_HISTORY.equals(metaObject.getKind());
     }
 
     public boolean isFork()
     {
-        return (PseudostateKindEnum.PK_FORK.equals(metaObject.getKind())) ? true : false;
+        return PseudostateKindEnum.PK_FORK.equals(metaObject.getKind());
     }
 
     public boolean isJunction()
     {
-        return (PseudostateKindEnum.PK_JUNCTION.equals(metaObject.getKind())) ? true : false;
+        return PseudostateKindEnum.PK_JUNCTION.equals(metaObject.getKind());
     }
 
     public boolean isShallowHistory()
     {
-        return (PseudostateKindEnum.PK_SHALLOW_HISTORY.equals(metaObject.getKind())) ? true : false;
+        return PseudostateKindEnum.PK_SHALLOW_HISTORY.equals(metaObject.getKind());
     }
 
     public boolean isDecisionPoint()
@@ -65,11 +65,10 @@ public class PseudostateDecoratorImpl extends PseudostateDecorator
         if (isChoice() || isJunction())
         {
             isDecisionPoint = true;
-            isDecisionPoint = isDecisionPoint && (metaObject.getIncoming().size() == 1);
             isDecisionPoint = isDecisionPoint && (metaObject.getOutgoing().size() > 1);
         }
 
-        return (isDecisionPoint) ? true : false;
+        return isDecisionPoint;
     }
 
     public boolean isMergePoint()
@@ -83,7 +82,7 @@ public class PseudostateDecoratorImpl extends PseudostateDecorator
             isMergePoint = isMergePoint && (metaObject.getOutgoing().size() == 1);
         }
 
-        return (isMergePoint) ? true : false;
+        return isMergePoint;
     }
 
     // ------------- relations ------------------
