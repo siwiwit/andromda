@@ -24,11 +24,11 @@ import java.util.Set;
  *
  *
  */
-public class StrutsStateMachineDecoratorImpl extends StrutsStateMachineDecorator
+public class StrutsActivityGraphDecoratorImpl extends StrutsActivityGraphDecorator
 {
     // ---------------- constructor -------------------------------
 
-    public StrutsStateMachineDecoratorImpl(org.omg.uml.behavioralelements.statemachines.StateMachine metaObject)
+    public StrutsActivityGraphDecoratorImpl(org.omg.uml.behavioralelements.activitygraphs.ActivityGraph metaObject)
     {
         super(metaObject);
     }
