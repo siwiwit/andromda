@@ -1,8 +1,12 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
+import org.andromda.metafacades.uml.GeneralizableElementFacade;
+import org.andromda.metafacades.uml.GeneralizationFacade;
 
-import java.util.Collections;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 
 /**
@@ -46,44 +50,42 @@ public class StrutsUserLogicImpl
 
     // ------------- relations ------------------
 
-    public java.util.Collection handleGetGeneralizedByUsers()
-    {
-/*
-        final Collection parentActors = new LinkedList();
-        final Collection generalizations = getGeneralization();
-
-        for (Iterator iterator = generalizations.iterator(); iterator.hasNext();)
-        {
-            Generalization generalization = (Generalization) iterator.next();
-            GeneralizableElement parent = generalization.getParent();
-            MetafacadeBase decoratedParent = shieldedElement(parent);
-            if (decoratedParent instanceof StrutsUser)
-                parentActors.add(parent);
-        }
-
-        return parentActors;
-*/
-        return Collections.EMPTY_LIST;
-    }
-
     public java.util.Collection handleGetGeneralizedUsers()
     {
-/*
-        final Collection childActors = new LinkedList();
-        final Collection generalizations = actor.getGeneralization();
-
+        final Collection parentActors = new LinkedList();
+        final Collection generalizations = getGeneralizations();
         for (Iterator iterator = generalizations.iterator(); iterator.hasNext();)
         {
-            Generalization generalization = (Generalization) iterator.next();
-            GeneralizableElement child = generalization.getChild();
-            MetafacadeBase decoratedChild = shieldedElement(child);
-            if (decoratedChild instanceof StrutsUser)
-                childActors.add(child);
+            GeneralizationFacade generalization = (GeneralizationFacade) iterator.next();
+            GeneralizableElementFacade parent = generalization.getParent();
+            if (parent instanceof StrutsUser)
+                parentActors.add(parent);
         }
-
-        return childActors;
-*/
-        return Collections.EMPTY_LIST;
+        return parentActors;
     }
 
+    public java.util.Collection handleGetGeneralizedByUsers()
+    {
+        final Collection allActors = getModel().getAllActors();
+        final Collection childUsers = new LinkedList();
+        for (Iterator iterator = allActors.iterator(); iterator.hasNext();)
+        {
+            Object object = (Object) iterator.next();
+            if (object instanceof StrutsUser)
+            {
+                StrutsUser anyUser = (StrutsUser)object;
+                Collection generalizedUsers = anyUser.getGeneralizedUsers();
+                for (Iterator userIterator = generalizedUsers.iterator(); userIterator.hasNext();)
+                {
+                    Object strutsUserObject = userIterator.next();
+                    if (this.equals(strutsUserObject))
+                    {
+                        childUsers.add(anyUser);
+                        break;
+                    }
+                }
+            }
+        }
+        return childUsers;
+    }
 }
