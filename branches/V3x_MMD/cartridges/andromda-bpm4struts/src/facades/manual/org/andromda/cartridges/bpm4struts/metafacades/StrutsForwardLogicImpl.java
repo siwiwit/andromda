@@ -1,8 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
-import org.andromda.metafacades.uml.EventFacade;
-import org.andromda.metafacades.uml.StateVertexFacade;
+import org.andromda.metafacades.uml.*;
 
 import java.util.Collections;
 
@@ -27,6 +26,33 @@ public class StrutsForwardLogicImpl
 
     // concrete business methods that were declared
     // abstract in class StrutsForward ...
+
+    public String getGuardName()
+    {
+        final GuardFacade guard = getGuard();
+        return (guard == null) ? null : guard.getName();
+    }
+
+    public boolean isTargettingActionState()
+    {
+        return getTarget() instanceof StrutsActionState;
+    }
+
+    public boolean isTargettingFinalState()
+    {
+        return getTarget() instanceof StrutsFinalState;
+    }
+
+    public boolean isTargettingDecisionPoint()
+    {
+        final StateVertexFacade target = getTarget();
+        return target instanceof PseudostateFacade && ((PseudostateFacade)target).isDecisionPoint();
+    }
+
+    public boolean isTargettingPage()
+    {
+        return getTarget() instanceof StrutsJsp;
+    }
 
     public java.lang.String getForwardName()
     {
@@ -57,7 +83,7 @@ public class StrutsForwardLogicImpl
      */
     public java.util.Collection handleGetForwardParameters()
     {
-        EventFacade trigger = getTrigger();
+        final EventFacade trigger = getTrigger();
         return (trigger == null) ? Collections.EMPTY_LIST : trigger.getParameters();
     }
 }
