@@ -53,23 +53,23 @@ public class ${class.name}Impl extends ${class.name}
 
 #foreach ( $op in $class.operations)
 #set ($msig = $op.signature)
-#set ($returntype = $op.type.fullyQualifiedName)
+#set ($returnTypeName = $op.type.fullyQualifiedName)
 #if ($defaultException)
-    $op.visibility $returntype ${msig}
+    $op.visibility $returnTypeName ${msig}
         throws $defaultException.name {
 #else
-    $op.visibility $returntype ${msig} {
+    $op.visibility $returnTypeName ${msig} {
 #end
         // TODO: put your implementation here.
-#if ("void" != $returntype)
+#if ("void" != $returnTypeName)
 
         // Dummy return value, just that the file compiles
-#if (!$returntype.primitiveType)
+#if (!$op.type.primitiveType)
         return null;
-#elseif ("boolean" == $returntype)
+#elseif ("boolean" == $returnTypeName)
         return false;
 #else
-        return ($returntype)0;
+        return ($returnTypeName)0;
 #end
 #end
     }
