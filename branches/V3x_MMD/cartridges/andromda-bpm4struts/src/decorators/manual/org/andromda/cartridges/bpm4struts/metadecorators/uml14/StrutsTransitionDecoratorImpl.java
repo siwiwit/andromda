@@ -3,6 +3,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
 import org.andromda.core.metadecorators.uml14.PseudostateDecorator;
+import org.andromda.core.common.StringUtilsHelper;
 import org.omg.uml.behavioralelements.statemachines.Event;
 import org.omg.uml.behavioralelements.statemachines.Pseudostate;
 import org.omg.uml.behavioralelements.statemachines.StateVertex;
@@ -57,6 +58,11 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
     }
 
     // ------------- relations ------------------
+
+    public String getForwardName()
+    {
+        return StringUtilsHelper.separate(getTriggerName(), ".").toLowerCase();
+    }
 
     public void validate() throws DecoratorValidationException
     {
