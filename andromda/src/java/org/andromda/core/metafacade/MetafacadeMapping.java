@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.andromda.core.common.ClassUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 
 /**
