@@ -38,14 +38,14 @@
 ##    implementation class If no parent class is specified in the UML model, 
 ##    this value defaults to 'java.lang.Object'
 ##  
-#set ($packagename = $transform.findPackageName(${class.package}))
-#if ($transform.getStereotype($class.id) == "Entity")
+#set ($packagename = $class.packageName)
+#if ($class.stereotypeName == "Entity")
 #set ($entityname = $class.name)
-#set ($pkclassname = $transform.findPkTypeName($class, "java.lang.String"))
+#set ($pkclassname = $class.primaryKeyAttribute.type.fullyQualifiedName)
 #end
-#if ($transform.getStereotype($class.id) == "Service")
+#if ($class.stereotypeName == "Service")
 #set ($servicename = $class.name)
-#if (${transform.getAllInstanceAttributes(${class.id}).isEmpty()})
+#if (${transform.getAllInstanceAttributes(${class.id}).empty})
 #set ($servicetype = "Stateless")
 #else 
 #set ($servicetype = "Stateful")
