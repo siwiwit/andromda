@@ -67,30 +67,6 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
     }
 
     /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#getId()
-     */
-    public String getId()
-    {
-        return metaObject.refMofId();
-    }
-
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#getSource()
-     */
-    public ModelElement handleGetSource()
-    {
-        return this;
-    }
-
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#getTarget()
-     */
-    public ModelElement handleGetTarget()
-    {
-        return getOtherEnd();
-    }
-
-    /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isOne2Many()
      */
     public boolean isOne2Many()
