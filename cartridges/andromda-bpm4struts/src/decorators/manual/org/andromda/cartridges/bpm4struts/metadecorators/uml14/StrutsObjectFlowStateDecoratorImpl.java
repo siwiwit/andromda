@@ -1,6 +1,8 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
+import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
+import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 
 
 /**
@@ -25,14 +27,23 @@ public class StrutsObjectFlowStateDecoratorImpl extends StrutsObjectFlowStateDec
 
     public String getImplementationMethodName()
     {
-        return MetaDecoratorUtil.toJavaMethodName(metaObject);
+        return MetaDecoratorUtil.toJavaMethodName(getName()) + Bpm4StrutsProfile.DEFAULT_IMPLEMENTATION_METHOD_SUFFIX;
     }
 
     public String getAbstractMethodName()
     {
-        return getImplementationMethodName() + "Abstract";
+        return MetaDecoratorUtil.toJavaMethodName(getName()) + Bpm4StrutsProfile.DEFAULT_ABSTRACT_METHOD_SUFFIX;
     }
-    
+
     // ------------- relations ------------------
 
+    public void validate() throws DecoratorValidationException
+    {
+        // the name must not be empty
+        final String name = getName();
+        if ( (name==null) || (name.trim().length()==0) )
+            throw new DecoratorValidationException(this, "Name may not be empty or only contain whitespace");
+
+        // the name must be unique for object flow states in the use-case
+    }
 }
