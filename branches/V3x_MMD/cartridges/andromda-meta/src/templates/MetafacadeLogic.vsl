@@ -11,7 +11,7 @@ package $packagename;
 #set ($shieldedMetaclassTypeName = "java.lang.Object")
 #end
 ##
-#set ($superclass = $class.superclass)
+#set ($superclass = $class.generalization)
 ##
 /**
  * MetafacadeLogic for $shieldedMetaclassTypeName

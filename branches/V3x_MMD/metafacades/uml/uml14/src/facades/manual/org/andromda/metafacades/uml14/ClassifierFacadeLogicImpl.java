@@ -10,8 +10,6 @@ import org.apache.commons.collections.Predicate;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.Attribute;
-import org.omg.uml.foundation.core.Dependency;
-import org.omg.uml.foundation.core.Generalization;
 import org.omg.uml.foundation.core.Operation;
 
 
@@ -68,28 +66,9 @@ public class ClassifierFacadeLogicImpl
             }
         };
     }
-
-    // ------------------------------------------------------------
-
+    
     /**
-     *
-     */
-    public java.util.Collection handleGetDependencies()
-    {
-        return new FilteredCollection(metaObject.getClientDependency())
-        {
-            protected boolean accept(Object object)
-            {
-                return (object instanceof Dependency)
-                    && !(object instanceof Abstraction);
-            }
-        };
-    }
-
-    // ------------------------------------------------------------
-
-    /**
-     *
+     * 
      */
     public java.util.Collection handleGetAssociationEnds()
     {
@@ -98,30 +77,9 @@ public class ClassifierFacadeLogicImpl
             .getAParticipantAssociation()
             .getAssociation(metaObject);
     }
-
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#handleGetSuperclass()
-     */
-    protected Object handleGetSuperclass()
-    {
-        Collection generalizations = metaObject.getGeneralization();
-        if (generalizations == null)
-        {
-            return null;
-        }
-        Iterator i = generalizations.iterator();
-
-        if (i.hasNext())
-        {
-            Generalization generalization = (Generalization) i.next();
-            return generalization.getParent();
-        }
-
-        return null;
-    }
-
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#isPrimitiveType()
+    
+    /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#isPrimitiveType()
      */
     public boolean isPrimitiveType()
     {
@@ -138,8 +96,8 @@ public class ClassifierFacadeLogicImpl
                 || "boolean".equals(name));
     }
 
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.ClassifierFacade#getAttributesAsList(boolean)
+    /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#getAttributesAsList(boolean)
      */
     public String getAttributesAsList(boolean withTypeNames)
     {

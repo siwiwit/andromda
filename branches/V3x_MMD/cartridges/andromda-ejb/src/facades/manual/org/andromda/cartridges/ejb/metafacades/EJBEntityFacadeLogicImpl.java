@@ -46,7 +46,7 @@ public class EJBEntityFacadeLogicImpl
                 (DependencyFacade) iter.next();
             if (dep.hasStereotype(EJBProfile.STEREOTYPE_IDENTIFIER)) {
                 identifiers =
-                    dep.getTargetType().getInstanceAttributes();
+                    ((ClassifierFacade)dep.getTargetElement()).getInstanceAttributes();
                 MetafacadeUtils.filterByStereotype(
                     identifiers, 
                     EJBProfile.STEREOTYPE_IDENTIFIER);
@@ -63,7 +63,7 @@ public class EJBEntityFacadeLogicImpl
 
         // Still nothing found - recurse up the inheritance tree
         EJBEntityFacade decorator =
-            (EJBEntityFacade) this.getSuperclass();
+            (EJBEntityFacade) this.getGeneralization();
         return decorator.getIdentifiers();
     }
 
@@ -81,14 +81,14 @@ public class EJBEntityFacadeLogicImpl
         Collection result = new ArrayList();
         result.addAll(getEntityRelations());
 
-        ClassifierFacade classifier = this.getSuperclass();
+        ClassifierFacade classifier = (ClassifierFacade)this.getGeneralization();
         while (classifier != null
             && classifier instanceof EJBEntityFacade
             && classifier.isAbstract()) {
 
             EJBEntityFacade entity = (EJBEntityFacade) classifier;
             result.add(entity.getEntityRelations());
-            classifier = this.getSuperclass();
+            classifier = (ClassifierFacade)this.getGeneralization();
         }
         return result;
     }
@@ -151,7 +151,7 @@ public class EJBEntityFacadeLogicImpl
      * @see org.andromda.cartridges.hibernate.metadecorators.uml14.EJBEntityFacade#getInheritedInstanceAttributes()
      */
     public List getInheritedInstanceAttributes() {
-        EJBEntityFacade current = (EJBEntityFacade)this.getSuperclass();
+        EJBEntityFacade current = (EJBEntityFacade)this.getGeneralization();
         if (current == null) {
             return new ArrayList();
         } else {
@@ -175,7 +175,7 @@ public class EJBEntityFacadeLogicImpl
                 }
             }
             if (all) {
-                entity = (EJBEntityFacade)this.getSuperclass();
+                entity = (EJBEntityFacade)this.getGeneralization();
             } else {
                 break;
             }
@@ -198,7 +198,7 @@ public class EJBEntityFacadeLogicImpl
                 }
             }
             if (all) {
-                entity = (EJBEntityFacade)this.getSuperclass();
+                entity = (EJBEntityFacade)this.getGeneralization();
             } else {
                 break;
             }

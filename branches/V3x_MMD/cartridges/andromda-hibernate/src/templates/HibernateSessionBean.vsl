@@ -9,7 +9,7 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
 
 #foreach ( $dep in $class.dependencies )
-#set ($targetType = $dep.targetType)
+#set ($targetType = $dep.targetElement)
 #if ($targetType)
 #if ($dep.hasStereotype("ServiceRef"))
 #set ($targetTypePackageName = $targetType.packageName)
@@ -50,7 +50,7 @@ $class.getDocumentation(" ")
  * @ejb.util generate="physical"
 #foreach ( $dep in $class.dependencies )
 #if ($dep.hasStereotype("ServiceRef"))
- #set ($targetType = $dep.targetType)
+ #set ($targetType = $dep.targetElement)
  * @ejb.ejb-ref ejb-name="${targetType.name}" view-type="${remote}" ref-name="ejb/${targetType}BeanRef"
 #end
 #end
@@ -258,7 +258,7 @@ $op.getDocumentation("     ")
 
 #foreach ( $dep in $class.dependencies )
 #if ($dep.hasStereotype("ServiceRef"))
-   #set ($referencedClass = $dep.targetType)
+   #set ($referencedClass = $dep.targetElement)
    #set ($homeInterfaceName = "${referencedClass.name}Home")
    /**
     * This is to get the reference to the ${referencedClass.name} bean.

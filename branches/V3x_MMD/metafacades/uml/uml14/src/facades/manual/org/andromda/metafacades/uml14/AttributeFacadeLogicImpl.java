@@ -89,7 +89,7 @@ public class AttributeFacadeLogicImpl
             ClassifierFacade type = this.getType();
             while (value == null && type != null) {
                 value = type.findTaggedValue(name);
-                type = type.getSuperclass();
+                type = (ClassifierFacade)type.getGeneralization();
             }
         }
         return value;

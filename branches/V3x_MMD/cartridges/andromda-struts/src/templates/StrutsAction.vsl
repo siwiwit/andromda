@@ -28,7 +28,7 @@ import ${class2.fullyQualifiedName};
 #end
 
 #foreach ( $dep in $class.dependencies )
-    #set ($class2 = $dep.targetType)
+    #set ($class2 = $dep.targetElement)
     #if ($class2)
         #set ($class2packagename = $class2.packageName)
         #if ($class2packagename != $packagename)

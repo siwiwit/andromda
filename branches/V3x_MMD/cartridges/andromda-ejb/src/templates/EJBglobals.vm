@@ -55,14 +55,14 @@
 ## 
 ## Find the default exception class
 #foreach ( $dep in $class.dependencies )
-#set ($class2 = $dep.targetType)
+#set ($class2 = $dep.targetElement)
 #if ($dep.hasStereotype("Exception"))
 #set ($defaultException = $class2)
 #end
 #end
 ##
 ## Set the "$beanparentclass" property.
-#set ($superclass = $class.superclass)
+#set ($superclass = $class.generalization)
 #if ($superclass)
 #if ($superclass.hasStereotype("Entity") || $superclass.hasStereotype("Service"))
 ## Extend the implementation class if the super type is an <<Entity>> or <<Service>>
