@@ -318,7 +318,7 @@ public class MetafacadeMappings {
 		Collection stereotypes, 
 		String namespace,
 		String context) {
-		final String methodName = "MetafacadeMappings.getMetafacadeClass";
+		final String methodName = "MetafacadeMappings.getMetafacadeMapping";
 		if (logger.isDebugEnabled())
 			logger.debug("performing '" 
 				+ methodName 
@@ -345,9 +345,17 @@ public class MetafacadeMappings {
 		
 		// if the namespace mappings weren't found, try the default
 		if (metafacadeClass == null) {
+            if (logger.isDebugEnabled()) 
+                logger.debug("namespace mapping not found finding default");
 			mapping = this.getMapping(metaobjectClass, stereotypes, context);
 		}
 		
+        if (logger.isDebugEnabled()) 
+        	logger.debug("found mapping --> '" 
+                + mapping 
+                + "' with metafacadeClass --> '" 
+                + metafacadeClass + "'");
+
 		return mapping;
 	}
 	

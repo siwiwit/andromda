@@ -96,6 +96,15 @@ public class MetafacadeBase
 	private void setContext(String context) {
 		this.context = StringUtils.trimToEmpty(context);
 	}
+    
+    /**
+     * Resets the context to null, this is called when
+     * constructing metafacades and and an actual metafacade
+     * itself is passed in.
+     */
+    protected void resetContext() {
+    	this.context = null;
+    }
 
     /**
      * Stores the property context for this Metafacade
@@ -175,6 +184,10 @@ public class MetafacadeBase
      */
     public MetafacadeBase shieldedElement(Object metaObject)
     {
+        if (metaObject instanceof MetafacadeBase)
+        {
+            return (MetafacadeBase)metaObject;
+        }
 		MetafacadeBase metafacade = null;
 		if (metaObject != null) {
 			metafacade =

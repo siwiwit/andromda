@@ -66,9 +66,10 @@
           <param name="cartridge.name" value="andromda-meta"/>
         </antcall>
 
-   <!--     <antcall target="buildCartridge">
+        <antcall target="buildCartridge">
           <param name="cartridge.name" value="andromda-ejb"/>
         </antcall>
+        <!--
         <antcall target="buildCartridge">
           <param name="cartridge.name" value="andromda-java"/>
         </antcall>

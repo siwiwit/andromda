@@ -2,19 +2,11 @@ package org.andromda.cartridges.ejb;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
-import org.andromda.core.metadecorators.uml14.AttributeDecorator;
-import org.andromda.core.metadecorators.uml14.ModelElementDecorator;
-import org.omg.uml.foundation.core.AssociationEnd;
+import org.andromda.metafacades.uml.AttributeFacade;
+import org.andromda.metafacades.uml.ModelElementFacade;
 import org.omg.uml.foundation.core.Attribute;
-import org.omg.uml.foundation.core.Classifier;
-import org.omg.uml.foundation.core.Feature;
-import org.omg.uml.foundation.core.GeneralizableElement;
-import org.omg.uml.foundation.datatypes.ChangeableKindEnum;
-import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 
 /**
  * Transform class for the EJB cartridge.
@@ -44,7 +36,7 @@ public class EJBScriptHelper {
     	String separator = "";
 
     	for (Iterator it = attributes.iterator(); it.hasNext();) {
-    		AttributeDecorator attr = (AttributeDecorator)it.next();
+    		AttributeFacade attr = (AttributeFacade)it.next();
     		sb.append(separator);
     		separator = ", ";
     		if (includeTypes) {
@@ -68,7 +60,7 @@ public class EJBScriptHelper {
     public Collection filterByVisibility(Collection list, String visibility) { 
         Collection retval = new ArrayList(list.size());
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-            ModelElementDecorator elem = (ModelElementDecorator)iter.next();
+            ModelElementFacade elem = (ModelElementFacade)iter.next();
             if (visibility.equals(elem.getVisibility().toString())) {
                 retval.add(elem);
             }

@@ -5,16 +5,9 @@
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
 		metafacadeClass="org.andromda.cartridges.meta.metafacades.MetafacadeFacadeLogicImpl">
-		<stereotype>metafacade</stereotype>
 	</metafacade>	
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
 		metafacadeClass="org.andromda.cartridges.meta.metafacades.MetafacadeAssociationEndFacadeLogicImpl">
-		<context>org.andromda.cartridges.meta.metafacades.MetafacadeFacadeLogicImpl</context>
-	</metafacade>			
-	<metafacade 
-		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
-		metafacadeClass="org.andromda.cartridges.meta.metafacades.MetafacadeAssociationEndFacadeImpl">
-		<context>org.andromda.cartridges.meta.metafacades.MetafacadeAssociationEndFacadeLogicImpl</context>
-	</metafacade>		
+	</metafacade>				
 </metafacades>

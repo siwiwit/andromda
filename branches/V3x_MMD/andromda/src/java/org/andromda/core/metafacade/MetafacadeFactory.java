@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.Namespaces;
 import org.andromda.core.common.Property;
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 public class MetafacadeFactory
@@ -106,7 +108,7 @@ public class MetafacadeFactory
         //metafacade from a metafacade.
         if (metaobject instanceof MetafacadeBase)
         {
-            return (MetafacadeBase) metaobject;
+            return (MetafacadeBase)metaobject;
         }
 
         MetafacadeBase metafacade = null;
@@ -240,21 +242,21 @@ public class MetafacadeFactory
         String interfaceName,
         Object metaObject)
     {
+        final String methodName = "MetafacadeFactory.createFacadeImpl";
+        ExceptionUtils.checkEmpty(methodName, "interfaceName", interfaceName);
+        ExceptionUtils.checkNull(methodName, "metaObject", metaObject);
         // TODO: this string processing is a temporary(!) hack(!) 
         // until we implement interface class to
         // implementation class name mapping in this factory, based on XML files
         // that define that mapping.
 
         // Example:
-        // org.andromda.metafacades.uml.IClassifierFacade will be mapped to
-        // org.andromda.core.metafacades.uml14.ClassifierFacadeImpl
+        // org.andromda.metafacades.uml.ClassifierFacade will be mapped to
+        // org.andromda.core.metafacades.uml14.ClassifierFacadeLogicImpl
 
-        int lastDot = interfaceName.lastIndexOf(".");
-        String metafacadeClassName =
-            "org.andromda.core.metafacades.uml14"
-                + interfaceName.substring(lastDot + 2)
-                + "Impl";
-
+        String shortInterfaceName = ClassUtils.getShortClassName(interfaceName);
+        String metafacadeClassName = 
+        	"org.andromda.metafacades.uml14." + shortInterfaceName + "LogicImpl";
         // End of temporary(!) string hack.
 
         try
@@ -265,7 +267,7 @@ public class MetafacadeFactory
                 null,
                 metafacadeClass);
         }
-        catch (ClassNotFoundException e)
+        catch (Throwable th)
         {
             String errMsg =
                 "Failed to construct a meta facade of type '"
@@ -273,8 +275,8 @@ public class MetafacadeFactory
                     + "' with metaobject of type --> '"
                     + metaObject.getClass().getName()
                     + "'";
-            internalGetLogger().error(errMsg, e);
-            throw new MetafacadeException(errMsg, e);
+            internalGetLogger().error(errMsg, th);
+            throw new MetafacadeException(errMsg, th);
         }
     }
 
