@@ -119,4 +119,8 @@ public class ActivityGraphFacadeLogicImpl
         return filteredCollection;
     }
 
+    protected Object handleGetContextElement()
+    {
+        return metaObject.getContext();
+    }
 }
