@@ -25,7 +25,7 @@ public class DecoratorFactory
     }
 
     /**
-     * 
+     *
      */
     private void registerCoreDecoratorClasses()
     {
@@ -87,7 +87,7 @@ public class DecoratorFactory
     /**
      * Sets the active namespace. The AndroMDA core and each cartridge
      * have their own namespace for decorator registrations.
-     *  
+     *
      * @param namespaceName the name of the namespace
      */
     public void setActiveNamespace(String namespaceName)
@@ -103,7 +103,7 @@ public class DecoratorFactory
 
     /**
      * Returns the name of the active namespace.
-     * 
+     *
      * @return String the namespace name
      */
     public String getActiveNamespace()
@@ -114,7 +114,7 @@ public class DecoratorFactory
     /**
      * Registers a decorator class for a given metaclass and (optionally)
      * a stereotype.
-     * 
+     *
      * @param umlMetaClassName the FQCN of the metaclass
      * @param stereotypeName the stereotype name (may be null)
      * @param decoratorClassName the FQCN of the decorator class
@@ -136,7 +136,7 @@ public class DecoratorFactory
      * Method (package local) for testing the behavior of the dictionary.
      * Looks up a registered decorator class name for a metaclass name and
      * (optionally) a stereotype.
-     * 
+     *
      * @param umlMetaClassName the FQCN of the metaclass
      * @param stereotypeName the stereotype name (may be null)
      * @return the FQCN of the decorator class to be instantiated
@@ -180,7 +180,7 @@ public class DecoratorFactory
     /**
      * Internal helper class for lookup. Called twice, once with the
      * active namespace, once more with the "core" namespace.
-     * 
+     *
      * @param namespace the namespace to search
      * @param umlMetaClassName the FQCN of the metaclass
      * @param stereotypeName the stereotype name (may be null)
@@ -208,19 +208,19 @@ public class DecoratorFactory
     /**
      * Returns a decorator for a metaobject, depending on its
      * metaclass and (optionally) its stereotype.
-     * 
+     *
      * @param metaobject the model element
      * @return DecoratorBase the decorator object (not yet attached to metaclass object)
      */
     public DecoratorBase createDecoratorObject(ModelElement metaobject)
     {
     	ExceptionUtils.checkNull("createDecoratorObject", "metaobject", metaobject);
-    	
-    	//if the metaobject ALREADY IS a Decorator 
+
+    	//if the metaobject ALREADY IS a Decorator
     	//(its class is assignable to an instance of DecoratorBase),
-    	//return the metaobject since we don't want to try and create a 
+    	//return the metaobject since we don't want to try and create a
     	//Decorator from a Decorator.
-    	if (DecoratorBase.class.isAssignableFrom(metaobject.getClass())) 
+    	if (DecoratorBase.class.isAssignableFrom(metaobject.getClass()))
     	{
     		return (DecoratorBase)metaobject;
     	}
@@ -234,7 +234,7 @@ public class DecoratorFactory
         if (decoratorClassName == null)
         {
             // if no special decorator is registered, simply
-            // return a decorator for a standard model element. 
+            // return a decorator for a standard model element.
             result = new ModelElementDecoratorImpl(metaobject);
         }
         else
@@ -250,6 +250,8 @@ public class DecoratorFactory
                 result =
                     (DecoratorBase) constructor.newInstance(
                         constructorParams);
+
+                result.validate();
             }
             catch (Exception e)
             {
@@ -259,8 +261,9 @@ public class DecoratorFactory
         }
 
         // make sure that the decorator has a proper logger associated
-        // with it.        
+        // with it.
         result.setLogger(internalGetLogger());
+
         return result;
     }
 
@@ -268,7 +271,7 @@ public class DecoratorFactory
      * Finds the right constructor to create an object of class
      * <code>dynamicClass</code>, using a parameter of type
      * <code>parameterClass</code>.
-     * 
+     *
      * @param dynamicClass class in which the constructor should be found
      * @param parameterClass type of parameter that the constructor should accept
      * @return the appropriate constructor or null
@@ -292,7 +295,7 @@ public class DecoratorFactory
 
     /**
      * Create a decorator for the whole model itself.
-     * 
+     *
      * @param model the model as a package
      * @return a decorator for the model
      */
@@ -343,7 +346,7 @@ public class DecoratorFactory
         return Logger.getRootLogger();
     }
 
-    // ----------- these methods support unit testing --------------- 
+    // ----------- these methods support unit testing ---------------
 
     int getNamespaceCount()
     {
