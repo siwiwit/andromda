@@ -1,6 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
+import org.andromda.core.common.StringUtilsHelper;
 import org.omg.uml.foundation.core.ModelElement;
 
 
@@ -23,6 +24,10 @@ public class StrutsObjectFlowStateDecoratorImpl extends StrutsObjectFlowStateDec
 
     // concrete business methods that were declared
     // abstract in class StrutsObjectFlowStateDecorator ...
+    public String getActionMethodName()
+    {
+        return StringUtilsHelper.toJavaMethodName(metaObject.getName());
+    }
 
     // ------------- relations ------------------
     protected ModelElement handleGetOutgoingTransition()
