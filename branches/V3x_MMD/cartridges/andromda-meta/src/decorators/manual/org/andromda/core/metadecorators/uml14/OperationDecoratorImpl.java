@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
+import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 
 /**
  *
@@ -164,16 +165,26 @@ public class OperationDecoratorImpl extends OperationDecorator
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.OperationDecorator#findTaggedValue(java.lang.String, boolean)
      */
-    public String findTaggedValue(String name, boolean follow) {
+    public String findTaggedValue(String name, boolean follow) 
+	{
     	name = StringUtils.trimToEmpty(name);
     	String value = findTaggedValue(name);
     	ModelElement element = this.getType();
-    	while ((value == null) && (element != null)) {
+    	while ((value == null) && (element != null)) 
+    	{
     		value = findTaggedValue(name);
     		element = ((ClassifierDecorator)this.getType()).getSuperclass();
     	}
 
     	return value;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AttributeDecorator#isStatic()
+     */
+    public boolean isStatic() 
+	{
+    	return ScopeKindEnum.SK_CLASSIFIER.equals(this.metaObject.getOwnerScope());
     }
 
     // ------------- relations ------------------
