@@ -68,7 +68,11 @@ public class EntityDecoratorImpl extends EntityDecorator
 
         return null;
     }
-
+    
+    public String getTableName() {
+    	// TODO: implement getTableName()
+    	return null;
+    }
     // ------------------------------------------------------------
 
 }
