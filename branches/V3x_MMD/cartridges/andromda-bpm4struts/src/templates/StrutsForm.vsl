@@ -12,6 +12,8 @@
 ##
 package $class.packageName;
 
+import java.io.Serializable;
+
 #if ($class.packageName != $useCase.formBeanPackage)
 
 import $useCase.formBeantype;
@@ -21,7 +23,7 @@ import $useCase.formBeantype;
  * @struts.form
  *      name="$formBeanName"
  */
-public final class $formBeanClassName extends $useCase.formBeanClassName
+public final class $formBeanClassName extends $useCase.formBeanClassName implements Serializable
 {
 #foreach ($field in $fields)
 #set ($fieldType = $field.type.fullyQualifiedName)
