@@ -1,7 +1,7 @@
 <project name="AndroMDAAsAWholePackage" default="dist">
 
-    <property name="version" value="3.0.0" />
-    <property name="version.suffix" value="300" />
+    <property name="version" value="2.0.4" />
+    <property name="version.suffix" value="204" />
 
     <!-- ============================================================= -->
     <!--               Directory settings                              -->
@@ -61,6 +61,13 @@
 
         <antcall target="cleanComponent">
           <param name="component.name" value="documentation"/>
+        </antcall>
+    </target>
+
+    <target name="cartridges" depends="init">
+        <antcall target="buildComponent">
+          <param name="component.name" value="cartridges"/>
+          <param name="prefix" value="cartridges"/>
         </antcall>
     </target>
 

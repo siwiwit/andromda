@@ -1,9 +1,5 @@
 package org.andromda.cartridges.interfaces;
 
-import java.util.Properties;
-
-import org.andromda.core.common.CodeGenerationContext;
-
 /**
  * Interface between an AndroMDA code generator cartridge
  * and the generator's core.
@@ -11,15 +7,9 @@ import org.andromda.core.common.CodeGenerationContext;
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * 
  */
-public interface IAndroMDACartridge
-{
-    /**
-     * Initializes the cartridge.
-     * @param velocityExtendedProperties the properties to use when initializing the Velocity engine
-     */
-    public void init (Properties velocityProperties)
-        throws Exception;
-    
+public interface IAndroMDACartridge {
+	
+	
     /**
      * Returns the descriptor data of this particular cartridge.
      * 
@@ -34,20 +24,5 @@ public interface IAndroMDACartridge
      * @param d the new cartridge descriptor
      * 
      */
-    public void setDescriptor(ICartridgeDescriptor d);
-
-    /**
-     * Generates code for one model element.
-     * 
-     * @param context the code generation context
-     * @param modelElement the model element to generate code for
-     * @param stereotypeName the name of the stereotype that selected the model
-     * element
-     * @throws CartridgeException if something goes wrong
-     */
-    public void processModelElement(
-        CodeGenerationContext context,
-        Object modelElement,
-        String stereotypeName)
-        throws CartridgeException;
+    public void setDescriptor (ICartridgeDescriptor d);
 }
