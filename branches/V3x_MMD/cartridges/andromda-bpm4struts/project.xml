@@ -6,7 +6,10 @@
   	<name>BPM4Struts Cartridge</name>
   	<shortDescription>Business Process Modeling For Struts</shortDescription>
   	<description>
-		To be written by Wouter.
+		The Bpm4Struts cartridge is used to generate Struts applications
+        from UML models using both static and dynamic model elements.
+        Generated applications have default security and internationalization
+        implementations and can be deployed as they are.
   	</description>
   	<developers>
     	<developer>
