@@ -36,6 +36,8 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_EXCEPTION_TYPE = "@andromda.struts.exception.type";
     public static final String TAGGED_VALUE_EXCEPTION_PATH = "@andromda.struts.exception.path";
     public static final String TAGGED_VALUE_EXCEPTION_KEY = "@andromda.struts.exception.key";
+    public static String TAGGED_VALUE_INPUT_VALIDWHEN = "???"; // TODO: put correct name here!
+    public static String TAGGED_VALUE_INPUT_FORMAT = "???"; // TODO: put correct name here!
 
     /* ----------------- Default Values ------------------- */
     public static final String TAGGED_VALUE_ACTION_DEFAULT_PARAMETER = "state";
