@@ -6,6 +6,8 @@ import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.TaggedValue;
+import org.omg.uml.foundation.datatypes.VisibilityKind;
+import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 import org.omg.uml.modelmanagement.Model;
 
 /**
@@ -119,6 +121,31 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
         ModelElement stereotype =
             (ModelElement) stereotypes.iterator().next();
         return stereotype.getName();
+    }
+    
+    // -------------------- business methods ----------------------
+
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#getVisibility()
+     */
+    public VisibilityKind getVisibility()
+	{
+    	VisibilityKind visibility = metaObject.getVisibility();
+    	
+    	if (VisibilityKindEnum.VK_PRIVATE.equals(visibility))
+    	{
+    		return JavaVisibilityEnum.PRIVATE;
+    	}
+    	else if (VisibilityKindEnum.VK_PROTECTED.equals(visibility))
+    	{
+    		return JavaVisibilityEnum.PROTECTED;
+    	}
+    	else if (VisibilityKindEnum.VK_PUBLIC.equals(visibility))
+    	{
+    		return JavaVisibilityEnum.PUBLIC;
+    	}
+
+    	return JavaVisibilityEnum.PACKAGE;
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.AggregationKindEnum;
+import org.omg.uml.foundation.datatypes.ChangeableKindEnum;
 import org.omg.uml.foundation.datatypes.Multiplicity;
 import org.omg.uml.foundation.datatypes.MultiplicityRange;
 import org.omg.uml.foundation.datatypes.OrderingKind;
@@ -161,6 +162,14 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
     {
         return AggregationKindEnum.AK_COMPOSITE.equals(
             metaObject.getAggregation());
+    }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isReadOnly()
+     */
+    public boolean isReadOnly() 
+	{
+    	return ChangeableKindEnum.CK_FROZEN.equals(metaObject.getChangeability());
     }
 
     // ------------- relations ------------------
