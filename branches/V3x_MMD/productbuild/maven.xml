@@ -72,5 +72,5 @@
       		goals="andromda:bootstrap-deploy"
       		ignoreFailures="false"/>  	  	    
   	</goal>
-    	
+  	  	
 </project>
