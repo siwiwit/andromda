@@ -42,12 +42,16 @@ public class MetafacadeAssociationEndFacadeLogicImpl
                 : lm.getTo("datatype.Collection");
         }
 
+        String typeName = null;
         // If single element, then return the type.
         // However, return the interface type, not the
         // implementation class type!
         MetafacadeFacade otherMetafacade =
-            (MetafacadeFacade) (getOtherEnd().getType());
-        return otherMetafacade.getFullyQualifiedInterfaceName();
+            (MetafacadeFacade) getOtherEnd().getType();
+        if (otherMetafacade != null) {
+            typeName = otherMetafacade.getFullyQualifiedInterfaceName();
+        }
+        return typeName;
     }
     
     /**
