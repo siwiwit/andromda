@@ -170,6 +170,14 @@ public class OperationDecoratorImpl extends OperationDecorator
 
         return null;
     }
+   
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#handleGetOwner()
+     */
+    public ModelElement handleGetOwner() 
+	{
+    	return this.metaObject.getOwner();
+    }
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.OperationDecorator#handleGetParameters()

@@ -51,6 +51,14 @@ public class AttributeDecoratorImpl extends AttributeDecorator
     {
         return metaObject.getType();
     }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#handleGetOwner()
+     */
+    public ModelElement handleGetOwner() 
+	{
+    	return this.metaObject.getOwner();
+    }
 
     /* (non-Javadoc)
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isReadOnly()
