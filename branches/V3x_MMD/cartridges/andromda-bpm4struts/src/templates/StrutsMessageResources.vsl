@@ -6,6 +6,10 @@ main.title=$class.name
 login.username=User
 login.password=Password
 login.failed=Login failed, please try again
+login.submit=Login
+login.submit.title=Click to submit these credentials
+login.reset=Reset
+login.reset.title=Click to reset these credentials
 
 #
 #   Messages for the validator plugin
