@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<document>
+
+  <properties>
+    <author email="mbohlen@mbohlen.de">Matthias Bohlen</author>
+    <title>AndroMDA - Installation</title>
+    <gennews>yes</gennews>
+  </properties>
+
+  <body>
+
+    <freetext name="Section 1">
+      <h1>How to install AndroMDA</h1>
+      <p class="std">
+        <b>Download, unzip, CLASSPATH!</b><br />
+        (or was it "Ready ... steady ... go!" ?)
+      </p>
+      <p class="std">
+        The installation of AndroMDA itself is quite easy (the real challenge
+        will come later!).
+      </p>
+      <p class="std">
+        Download the distribution files  from
+        the
+        <a href="http://sourceforge.net/project/showfiles.php?group_id=73047">
+          AndroMDA file list
+        </a>
+        on SourceForge's web site and unzip them into the same directory of your choice.
+        You will notice that there are quite a number of them and that they all have
+        a release number at the end of the filename:
+      </p>
+      <table border="1" cellpadding="2" cellspacing="2" class="std">
+        <tr>
+          <td><b>File name</b></td>
+          <td><b>Contents</b></td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-core.zip</code>
+          </td>
+          <td>
+            Core of the generator, along with documentation and source files.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-libs.zip</code>
+          </td>
+          <td>
+            External jar files required for the operation of AndroMDA. Among
+            others, it contains NetBeans Metadata Repository, Velocity and XDoclet.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-car-rental-system.zip</code>
+          </td>
+          <td>
+            Complete J2EE sample application (a car rental system), generated
+            with AndroMDA from a UML model that is also included.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-docs.zip</code>
+          </td>
+          <td>
+            This documentation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-ejb.zip</code>
+          </td>
+          <td>
+            The EJB cartridge. When plugged into the kernel, it can generate
+            Enterprise JavaBeans.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-hibernate.zip</code>
+          </td>
+          <td>
+            The Hibernate cartridge. When plugged into the kernel, it can generate
+            persistent classes for use with the O/R mapper Hibernate.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-java.zip</code>
+          </td>
+          <td>
+            The Java cartridge. When plugged into the kernel, it can generate
+            generic plain Java classes.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-model-report.zip</code>
+          </td>
+          <td>
+            A sample "application" that can generate a report of all model
+            elements contained in a given UML model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>andromda-struts.zip</code>
+          </td>
+          <td>
+            The Struts cartridge. When plugged into the kernel, it can generate
+            web pages, forms and action classes for use with Jakarta Struts.
+          </td>
+        </tr>
+      </table>
+      <p class="std">
+        Unzip the files you need into a directory of your choice. Be prepared to
+        insert jar files from these directories onto the classpath of your
+        build.properties script (see instructions later in this text). AndroMDA will auto-detect
+        a cartridge if its main jar file (e.g. andromda-hibernate.jar) is on
+        the classpath when AndroMDA is run.
+      </p>
+      <p class="std">
+        <b>Other software that you will need</b>
+      </p>
+      <p class="std">
+        AndroMDA is based upon some other software components that
+        you will need to download from the Internet and include in
+        the CLASSPATH of your build script. These components
+        are:
+        <ul>
+          <li class="std">
+            <code>Ant</code> - the famous build tool, made by the Apache Jakarta project.
+            You can download it from
+            <a href="http://jakarta.apache.org/ant">
+              the Apache Ant website
+            </a>
+            . Unpack ant into a directory of your choice and set the property
+            <code>myant.home</code> in your file <code>build.properties</code>
+            before you run your personal Ant build script.
+          </li>
+          <li class="std">
+            <code>JBoss</code> - a very popular open source application server.
+            You can download it from
+            <a href="http://www.jboss.org/">
+              the JBoss website
+            </a>
+            . Unpack it into a directory and set the property <code>jboss.home</code>
+            in your <code>build.properties</code> before you run your ant build scripts.
+          </li>
+        </ul>
+
+      </p>
+    </freetext>
+
+    <news name="Velocity" href="http://jakarta.apache.org/velocity/">
+      <p>
+        Velocity is a product written by the famous <b>Apache
+        Jakarta</b> project. It can be used to generate Java, web
+        pages, SQL, PostScript and other output from
+        templates. It can be used either as a standalone
+        utility for generating source code and reports, or as
+        an integrated component of other systems.
+      </p>
+    </news>
+
+    <news name="JUnit" href="http://www.junit.org">
+      <p>
+        JUnit is a regression testing framework written by 
+        Erich Gamma and Kent Beck. It is used by the developer who implements 
+        unit tests in Java. JUnit is Open Source Software, released under the 
+        IBM's Common Public License Version 1.0 and hosted on SourceForge.
+      </p>
+    </news>
+    
+    <news name="XDoclet" href="http://www.xdoclet.org">
+      <p>
+         XDoclet is a code generation engine. It enables Attribute-Oriented 
+         Programming for java. In short, this means that you can add more significance 
+         to your code by adding meta data (attributes) to your java sources. 
+         This is done in special JavaDoc tags. 
+      </p>
+    </news>
+    
+  </body>
+</document>
