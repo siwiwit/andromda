@@ -136,13 +136,9 @@ $target.getDocumentation("    ")
     
 #end
 #if ($associationEnd.one2One || $associationEnd.many2One)
-#if ($associationEnd.many2One)
-    *   @hibernate.many-to-one
-#end
-#if ($associationEnd.one2One)
-    *   @hibernate.one-to-one
-#end
-    *       column="${target.columnName}"
+    * @hibernate.many-to-one
+    *     column="${target.columnName}"
+    *     class="$targetTypeName"
     */
     public ${targetTypeName} ${target.getterName}()
     {
