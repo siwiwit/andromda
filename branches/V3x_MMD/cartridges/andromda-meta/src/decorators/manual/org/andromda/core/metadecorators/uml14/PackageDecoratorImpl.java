@@ -21,15 +21,8 @@ public class PackageDecoratorImpl extends PackageDecorator
         super(metaObject);
     }
 
-    // -------------------- business methods ----------------------
-
-    // concrete business methods that were declared
-    // abstract in class PackageDecorator ...
-
-    // ------------- relations ------------------
-
     /**
-     *
+     * @see org.andromda.core.metadecorators.uml14.PackageDecorator#handleGetClasses()
      */
     public java.util.Collection handleGetClasses()
     {
@@ -42,8 +35,8 @@ public class PackageDecoratorImpl extends PackageDecorator
         };
     }
 
-    /* (non-Javadoc)
-     * @see org.andromda.core.metadecorators.uml14.PackageDecorator#handleGetPackages()
+    /**
+     * @see org.andromda.core.metadecorators.uml14.PackageDecorator#handleGetSubPackages()
      */
     protected Collection handleGetSubPackages()
     {
@@ -54,6 +47,18 @@ public class PackageDecoratorImpl extends PackageDecorator
                 return object instanceof UmlPackage;
             }
         };
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.PackageDecorator#handleGetModelElements()
+     */
+    protected Collection handleGetModelElements() {
+    	return DecoratorFactory
+            .getInstance()
+            .getModel()
+            .getCore()
+            .getModelElement()
+            .refAllOfType();
     }
 
     // ------------------------------------------------------------

@@ -78,7 +78,7 @@ public class DecoratorFactory
      */
     protected DecoratorBase createDecoratorObject(ModelElement metaobject, String contextName) {
 
-    	String methodName = "DecoratorFactory.createMetafacade";
+    	final String methodName = "DecoratorFactory.createDecoratorObject";
 
     	ExceptionUtils.checkNull(
     			methodName,
