@@ -1,13 +1,13 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.core.common.StringUtilsHelper;
-import org.andromda.metafacades.uml.ActionFacade;
-import org.andromda.metafacades.uml.CallActionFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.EventFacade;
+import org.andromda.metafacades.uml.TransitionFacade;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Collections;
+import java.util.LinkedList;
 
 
 /**
@@ -38,26 +38,6 @@ public class StrutsJspLogicImpl
         return classifier.getPackageName();
     }
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsJsp#getFullPathName()()
-     */
-    public java.lang.String getFullPathName()
-    {
-        return '/' + (getPackageName() + '.' + StringUtilsHelper.toWebFileName(getName())).replace('.', '/') + ".jsp";
-    }
-
-    public boolean hasForms()
-    {
-        Collection actions = getActions();
-        for (Iterator actionIterator = actions.iterator(); actionIterator.hasNext();)
-        {
-            StrutsAction action = (StrutsAction) actionIterator.next();
-            if (action.isFormAction())
-                return true;
-        }
-        return false;
-    }
-
     public String getTitleKey()
     {
         return StringUtilsHelper.toResourceMessageKey(getName()) + ".title";
@@ -67,6 +47,11 @@ public class StrutsJspLogicImpl
     {
         return StringUtilsHelper.toPhrase(getName());
     }
+
+    public String getFullPath()
+    {
+        return '/' + (getPackageName() + '.' + StringUtilsHelper.toWebFileName(getName())).replace('.', '/') + ".jsp";
+    }
     // ------------- relations ------------------
 
     protected Collection handleGetActions()
@@ -74,18 +59,17 @@ public class StrutsJspLogicImpl
         return getOutgoing();
     }
 
-    protected Collection handleGetVariables()
+    protected Collection handleGetPageVariables()
     {
-        ActionFacade action = getEntry();
-
-        if (action instanceof CallActionFacade)
+        final Collection variables = new LinkedList();
+        final Collection incoming = getIncoming();
+        for (Iterator iterator = incoming.iterator(); iterator.hasNext();)
         {
-            CallActionFacade callAction = (CallActionFacade)action;
-            return callAction.getOperation().getParameters();
+            TransitionFacade transition = (TransitionFacade) iterator.next();
+            EventFacade trigger = transition.getTrigger();
+            if (trigger != null)
+                variables.addAll( trigger.getParameters() );
         }
-        else
-        {
-            return Collections.EMPTY_LIST;
-        }
+        return variables;
     }
 }
