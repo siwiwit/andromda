@@ -19,6 +19,12 @@ public class MetafacadeFactory
 
     private String activeNamespace;
     private ModelAccessFacade model;
+    
+    /**
+     * Stores the metafacades that have been created
+     * so that we don't need to construct new ones.
+     */
+    private Map metafacadeCache = new HashMap();
 
     /**
      * Caches the registered properties used
@@ -102,132 +108,140 @@ public class MetafacadeFactory
 
         ExceptionUtils.checkNull(methodName, "metaobject", metaobject);
 
-        //if the metaobject ALREADY IS a metafacade
-        //return the metaobject since we don't want to try and create a
-        //metafacade from a metafacade.
-        if (metaobject instanceof MetafacadeBase)
-        {
-            return (MetafacadeBase)metaobject;
+        MetafacadeBase metafacade = 
+            (MetafacadeBase)this.metafacadeCache.get(metaobject);
+        
+        // only create if it hasn't already been created
+        if (metafacade == null) {
+        
+	        //if the metaobject ALREADY IS a metafacade
+	        //return the metaobject since we don't want to try and create a
+	        //metafacade from a metafacade.
+	        if (metaobject instanceof MetafacadeBase)
+	        {
+	            return (MetafacadeBase)metaobject;
+	        }
+	
+	        Class metaobjectClass = null;
+	        try
+	        {
+	            metaobjectClass = metaobject.getClass();
+	            String metaobjectClassName = metaobjectClass.getName();
+	
+	            MetafacadeMappings mappings = MetafacadeMappings.instance();
+	
+	            Collection stereotypeNames =
+	                this.getModel().getStereotypeNames(metaobject);
+	            
+	            if (stereotypeNames == null) {
+	            	throw new MetafacadeFactoryException(methodName
+	                    + " - could not retrieve stereotypes for metaobject --> '" + metaobject + "'");
+	            }
+	            
+	            MetafacadeMapping mapping = null;
+	
+	            if (this.internalGetLogger().isDebugEnabled())
+	                this.internalGetLogger().debug(
+	                    "metaobject stereotype names --> '"
+	                        + stereotypeNames
+	                        + "'");
+	            mapping =
+	                mappings.getMetafacadeMapping(
+	                    metaobjectClassName,
+	                    stereotypeNames,
+	                    this.getActiveNamespace(),
+	                    contextName);
+	                
+	            if (metafacadeClass == null)
+	            {
+	            
+	                if (mapping != null)
+	                {
+	                    metafacadeClass = mapping.getMetafacadeClass();
+	                }
+	                else
+	                {
+	                    // get the default since no mapping was found.
+	                    metafacadeClass =
+	                        mappings.getDefaultMetafacadeClass(
+	                            this.activeNamespace);
+	                    if (this.internalGetLogger().isDebugEnabled())
+	                        this.internalGetLogger().debug(
+	                            "Meta object model class '"
+	                                + metaobjectClass
+	                                + "' has no corresponding meta facade class, default is being used --> '"
+	                                + metafacadeClass
+	                                + "'");
+	                }
+	            }
+	
+	            if (metafacadeClass == null)
+	            {
+	                throw new MetafacadeMappingsException(
+	                    methodName
+	                        + " metafacadeClass was not retrieved from mappings"
+	                        + " or specified as an argument in this method for metaobject --> '"
+	                        + metaobject
+	                        + "'");
+	            }
+	
+	            if (internalGetLogger().isDebugEnabled())
+	                if (internalGetLogger().isDebugEnabled())
+	                    internalGetLogger().debug(
+	                        "lookupFacadeClass: "
+	                            + metaobjectClassName
+	                            + " -> "
+	                            + metafacadeClass);
+	
+	            metafacade =
+	                (MetafacadeBase) ConstructorUtils.invokeConstructor(
+	                    metafacadeClass,
+	                    new Object[] {
+	                        metaobject, 
+	                        contextName
+	                    },
+	                    new Class[] {
+	                        metaobject.getClass(), 
+	                        java.lang.String.class
+	                    });
+	            
+	            // make sure that the facade has a proper logger associated
+	            // with it.
+	            metafacade.setLogger(internalGetLogger());
+	
+	            // set this namespace to the metafacade's namespace
+	            metafacade.setNamespace(this.getActiveNamespace());
+	            this.populatePropertyReferences(
+	                metafacade,
+	                mappings.getPropertyReferences(this.getActiveNamespace()));
+	
+	            // now populate any context property references (if
+	            // we have any)
+	            if (mapping != null)
+	            {
+	                this.populatePropertyReferences(
+	                    metafacade,
+	                    mapping.getPropertyReferences());
+	            } 
+	            // validate the meta-facade
+	            metafacade.validate();
+	
+	        }
+	        catch (Throwable th)
+	        {
+	            String errMsg =
+	                "Failed to construct a meta facade of type '"
+	                    + metafacadeClass
+	                    + "' with metaobject of type --> '"
+	                    + metaobjectClass
+	                    + "'";
+	            internalGetLogger().error(errMsg, th);
+	            throw new MetafacadeFactoryException(errMsg, th);
+	        }
+	        
+	        this.metafacadeCache.put(metaobject, metafacade);
         }
-
-        MetafacadeBase metafacade = null;
-        Class metaobjectClass = null;
-        try
-        {
-            metaobjectClass = metaobject.getClass();
-            String metaobjectClassName = metaobjectClass.getName();
-
-            MetafacadeMappings mappings = MetafacadeMappings.instance();
-
-            Collection stereotypeNames =
-                this.getModel().getStereotypeNames(metaobject);
-            
-            if (stereotypeNames == null) {
-            	throw new MetafacadeFactoryException(methodName
-                    + " - could not retrieve stereotypes for metaobject --> '" + metaobject + "'");
-            }
-            
-            MetafacadeMapping mapping = null;
-
-            if (this.internalGetLogger().isDebugEnabled())
-                this.internalGetLogger().debug(
-                    "metaobject stereotype names --> '"
-                        + stereotypeNames
-                        + "'");
-            mapping =
-                mappings.getMetafacadeMapping(
-                    metaobjectClassName,
-                    stereotypeNames,
-                    this.getActiveNamespace(),
-                    contextName);
-                
-            if (metafacadeClass == null)
-            {
-            
-                if (mapping != null)
-                {
-                    metafacadeClass = mapping.getMetafacadeClass();
-                }
-                else
-                {
-                    // get the default since no mapping was found.
-                    metafacadeClass =
-                        mappings.getDefaultMetafacadeClass(
-                            this.activeNamespace);
-                    if (this.internalGetLogger().isDebugEnabled())
-                        this.internalGetLogger().debug(
-                            "Meta object model class '"
-                                + metaobjectClass
-                                + "' has no corresponding meta facade class, default is being used --> '"
-                                + metafacadeClass
-                                + "'");
-                }
-            }
-
-            if (metafacadeClass == null)
-            {
-                throw new MetafacadeMappingsException(
-                    methodName
-                        + " metafacadeClass was not retrieved from mappings"
-                        + " or specified as an argument in this method for metaobject --> '"
-                        + metaobject
-                        + "'");
-            }
-
-            if (internalGetLogger().isDebugEnabled())
-                if (internalGetLogger().isDebugEnabled())
-                    internalGetLogger().debug(
-                        "lookupFacadeClass: "
-                            + metaobjectClassName
-                            + " -> "
-                            + metafacadeClass);
-
-            metafacade =
-                (MetafacadeBase) ConstructorUtils.invokeConstructor(
-                    metafacadeClass,
-                    new Object[] {
-                        metaobject, 
-                        contextName
-                    },
-                    new Class[] {
-                        metaobject.getClass(), 
-                        java.lang.String.class
-                    });
-            
-            // make sure that the facade has a proper logger associated
-            // with it.
-            metafacade.setLogger(internalGetLogger());
-
-            // set this namespace to the metafacade's namespace
-            metafacade.setNamespace(this.getActiveNamespace());
-            this.populatePropertyReferences(
-                metafacade,
-                mappings.getPropertyReferences(this.getActiveNamespace()));
-
-            // now populate any context property references (if
-            // we have any)
-            if (mapping != null)
-            {
-                this.populatePropertyReferences(
-                    metafacade,
-                    mapping.getPropertyReferences());
-            } 
-            // validate the meta-facade
-            metafacade.validate();
-
-        }
-        catch (Throwable th)
-        {
-            String errMsg =
-                "Failed to construct a meta facade of type '"
-                    + metafacadeClass
-                    + "' with metaobject of type --> '"
-                    + metaobjectClass
-                    + "'";
-            internalGetLogger().error(errMsg, th);
-            throw new MetafacadeFactoryException(errMsg, th);
-        }
-
+	        
         return metafacade;
     }
 
@@ -261,33 +275,42 @@ public class MetafacadeFactory
         ExceptionUtils.checkEmpty(methodName, "interfaceName", interfaceName);
         ExceptionUtils.checkNull(methodName, "metaObject", metaObject);
 
-        Class metafacadeClass = null;
-        try
-        {
-            
-            metafacadeClass = 
-                MetafacadeImpls.instance().getMetafacadeImplClass(
-                    interfaceName);
-            
-            MetafacadeBase metafacade = 
-                this.internalCreateMetafacade(
-                        metaObject,
-                        contextName,
-                        metafacadeClass);   
-            
-            return metafacade;
+        MetafacadeBase metafacade = (MetafacadeBase)
+        this.metafacadeCache.get(metaObject);
+               
+        // only construct a new one, if we haven't already 
+        // constructed one previously
+        if (metafacade == null) {
+            Class metafacadeClass = null;
+	        try
+	        {
+	                                    
+	            metafacadeClass = 
+	                MetafacadeImpls.instance().getMetafacadeImplClass(
+	                    interfaceName);
+	            
+	            metafacade = 
+	                this.internalCreateMetafacade(
+	                        metaObject,
+	                        contextName,
+	                        metafacadeClass);  
+	            
+	            this.metafacadeCache.put(metaObject, metafacade);
+	            
+	        }
+	        catch (Throwable th)
+	        {
+	            String errMsg =
+	                "Failed to construct a meta facade of type '"
+	                    + metafacadeClass
+	                    + "' with metaobject of type --> '"
+	                    + metaObject.getClass().getName()
+	                    + "'";
+	            internalGetLogger().error(errMsg, th);
+	            throw new MetafacadeFactoryException(errMsg, th);
+	        }
         }
-        catch (Throwable th)
-        {
-            String errMsg =
-                "Failed to construct a meta facade of type '"
-                    + metafacadeClass
-                    + "' with metaobject of type --> '"
-                    + metaObject.getClass().getName()
-                    + "'";
-            internalGetLogger().error(errMsg, th);
-            throw new MetafacadeFactoryException(errMsg, th);
-        }
+        return metafacade;
     }
 
     /**
