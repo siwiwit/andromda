@@ -187,18 +187,32 @@ public class AssociationEndDecoratorImpl extends AssociationEndDecorator
     	return ChangeableKindEnum.CK_FROZEN.equals(metaObject.getChangeability());
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#isNavigable()
      */
     public boolean isNavigable()
     {
         return metaObject.isNavigable();
     }
-
-    // ------------- relations ------------------
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#getGetterName()
+     */
+    public java.lang.String getGetterName() {
+    	return "get" + StringUtils.capitalize(this.getName());
+    }
+    
+    /**
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#getSetterName()
+     */
+    public java.lang.String getSetterName() {
+    	return "set" + StringUtils.capitalize(this.getName());	
+    }
+    
+    // relations
 
     /**
-     * Create AssociationDecorator instances for each UmlAssociation instance.
+     * @see org.andromda.core.metadecorators.uml14.AssociationEndDecorator#handleGetAssociation()
      */
     protected org.omg.uml.foundation.core.ModelElement handleGetAssociation() {
     	return metaObject.getAssociation();
