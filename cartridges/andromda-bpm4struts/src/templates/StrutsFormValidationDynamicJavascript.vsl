@@ -1,0 +1,3 @@
+<%@ taglib uri="struts-html.tld" prefix="html" %>
+
+<html:javascript formName="$class.formBeanName" dynamicJavascript="true" staticJavascript="false" htmlComment="false"/>
