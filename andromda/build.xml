@@ -63,7 +63,7 @@
     <!--                       Highlevel user tasks                    -->
     <!-- ============================================================= -->
 
-    <target name="build" depends="jar,javadoc"
+    <target name="build" depends="jar"
             description="Builds the andromda jar plus accompanying javadoc" />
 
     <target name="clean" description="Delete all built files">
@@ -93,10 +93,12 @@
             <fileset dir="${license.src.dir}" includes="LICENSE"/>
         </copy>
 
+<!--
         <copy todir="${dist.dir}/doc/javadoc">
             <fileset dir="${build.doc.dir}/javadoc">
             </fileset>
         </copy>
+-->
 
         <copy todir="${dist.dir}/lib/">
             <fileset dir="lib" includes="*"/>
@@ -127,6 +129,9 @@
         <jar jarfile="${build.jar.dir}andromda.jar">
             <fileset dir="${build.classes.dir}" includes="**/*.class" />
             <fileset dir="." includes="andromda-core.properties" />
+        	<fileset dir="${java.src.dir}">
+        		<include name="**/*.xml"/>
+        	</fileset>
         </jar>
     </target>
 

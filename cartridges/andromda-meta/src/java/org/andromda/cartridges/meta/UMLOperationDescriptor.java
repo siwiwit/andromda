@@ -2,6 +2,7 @@ package org.andromda.cartridges.meta;
 
 import java.util.Iterator;
 
+import org.andromda.core.common.ExceptionUtils;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Operation;
@@ -96,16 +97,21 @@ public class UMLOperationDescriptor extends MethodDescriptor
         return packageName;
     }
 
-    private static String getFullyQualifiedName(Classifier c)
+    private static String getFullyQualifiedName(Classifier classifier)
     {
-        String fullName = c.getName();
+    	ExceptionUtils.checkNull(
+    		"getFullyQualifiedName", 
+			"classifier", 
+			classifier);
+    	
+        String fullName = classifier.getName();
 
         if (isPrimitiveType(fullName))
         {
             return fullName;
         }
 
-        String packageName = getPackageName(c);
+        String packageName = getPackageName(classifier);
         fullName =
             "".equals(packageName)
                 ? fullName

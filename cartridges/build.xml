@@ -18,7 +18,10 @@
         <delete includeEmptyDirs="true" quiet="true">
             <fileset dir="${dist.dir}"/>
         </delete>
-        
+
+        <antcall target="cleanCartridge">
+          <param name="cartridge.name" value="andromda-meta"/>
+        </antcall>
         <antcall target="cleanCartridge">
           <param name="cartridge.name" value="andromda-java"/>
         </antcall>
@@ -29,9 +32,12 @@
           <param name="cartridge.name" value="andromda-hibernate"/>
         </antcall>
         <antcall target="cleanCartridge">
-          <param name="cartridge.name" value="andromda-struts"/>
+            <param name="cartridge.name" value="andromda-struts"/>
         </antcall>
-        
+        <antcall target="cleanCartridge">
+            <param name="cartridge.name" value="andromda-bpm4struts"/>
+        </antcall>
+
     </target>
 
     <!-- ============================================================= -->
@@ -57,6 +63,9 @@
             description="Builds core, cartridges, samples and website">
 
         <antcall target="buildCartridge">
+          <param name="cartridge.name" value="andromda-meta"/>
+        </antcall>
+        <antcall target="buildCartridge">
           <param name="cartridge.name" value="andromda-java"/>
         </antcall>
         <antcall target="buildCartridge">
@@ -66,7 +75,10 @@
           <param name="cartridge.name" value="andromda-hibernate"/>
         </antcall>
         <antcall target="buildCartridge">
-          <param name="cartridge.name" value="andromda-struts"/>
+            <param name="cartridge.name" value="andromda-struts"/>
+        </antcall>
+        <antcall target="buildCartridge">
+            <param name="cartridge.name" value="andromda-bpm4struts"/>
         </antcall>
 
     </target>

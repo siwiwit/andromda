@@ -16,9 +16,10 @@ import java.util.Properties;
 
 import org.andromda.core.anttasks.UserProperty;
 import org.andromda.core.common.CodeGenerationContext;
-import org.andromda.core.common.StdoutLogger;
 import org.andromda.core.common.ScriptHelper;
+import org.andromda.core.common.StdoutLogger;
 import org.andromda.core.common.StringUtilsHelper;
+import org.andromda.core.metadecorators.uml14.DecoratorFactory;
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
@@ -31,6 +32,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.LogSystem;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.ModelElement;
 
 /**
@@ -38,6 +40,7 @@ import org.omg.uml.foundation.core.ModelElement;
  * Can be customized by derived cartridge classes.
  * 
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
+ * @author Chad Brandon
  *
  */
 public class DefaultAndroMDACartridge implements IAndroMDACartridge
@@ -130,9 +133,41 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         String stereotypeName)
         throws CartridgeException
     {
-        String name = context.getScriptHelper().getName(modelElement);
+        DecoratorFactory df = DecoratorFactory.getInstance();
+        String previousNamespace = df.getActiveNamespace();
+        
+        df.setActiveNamespace(
+            getDescriptor().getCartridgeName());
+        
+        df.setModel((UmlPackage)context.getModelFacade().getModel());
+        
+        try
+        {
+            internalProcessModelElement(context, modelElement, stereotypeName);
+        }
+        finally
+        {
+            df.setActiveNamespace(previousNamespace);
+        }
+    }
+
+    private void internalProcessModelElement(
+        CodeGenerationContext context,
+        Object modelElement,
+        String stereotypeName)
+        throws CartridgeException
+    {
+        String name = context.getModelFacade().getName(modelElement);
         String packageName =
-            context.getScriptHelper().getPackageName(modelElement);
+            context.getModelFacade().getPackageName(modelElement);
+        
+        //if the package name shouldn't be processed,
+        //skip it.
+        if (!context.getModelPackages().shouldProcess(packageName))
+        {
+        	return;
+        }
+        
         long modelLastModified = context.getRepository().getLastModified();
 
         List templates = getDescriptor().getTemplateConfigurations();
@@ -153,7 +188,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                                 .getTransformClass()
                                 .newInstance());
                         context.getScriptHelper().setModel(
-                            context.getRepository().getModel());
+                            context.getModelFacade().getModel());
                         context.getScriptHelper().setTypeMappings(
                             context.getTypeMappings());
                     }
@@ -243,7 +278,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                     + "<< using template "
                     + styleSheetName);
 
-            internalProcessModelElementWithOneTemplate(context, modelElement, styleSheetName, outFile, generateEmptyFile);
+            internalProcessModelElementWithOneTemplate(
+                context,
+                modelElement,
+                styleSheetName,
+                outFile,
+                generateEmptyFile);
         }
         finally
         {
@@ -254,7 +294,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                     + styleSheetName);
         }
     }
-    
+
     private void internalProcessModelElementWithOneTemplate(
         CodeGenerationContext context,
         Object modelElement,
@@ -297,12 +337,16 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             VelocityContext velocityContext = new VelocityContext();
 
             // put some objects into the velocity context
-            velocityContext.put(
-                "model",
-                context.getScriptHelper().getModel());
+
+            // TODO: this has to be optimized so that decorators are not created each time we come here!!!
+            UmlPackage model =
+                (UmlPackage) context.getModelFacade().getModel();
+            DecoratorFactory df = DecoratorFactory.getInstance();
+
+            velocityContext.put("model", df.createDecoratorObject(model));
             velocityContext.put("transform", context.getScriptHelper());
             velocityContext.put("str", new StringUtilsHelper());
-            velocityContext.put("class", modelElement);
+            velocityContext.put("class", df.createDecoratorObject((ModelElement) modelElement));
             velocityContext.put("date", new java.util.Date());
 
             addUserPropertiesToContext(
@@ -484,8 +528,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
     {
         final String cartridgeName = getDescriptor().getCartridgeName();
         logger =
-            Logger.getLogger(
-                "org.andromda.cartridges." + cartridgeName);
+            Logger.getLogger("org.andromda.cartridges." + cartridgeName);
         logger.setAdditivity(false);
         logger.setLevel(Level.ALL);
 
@@ -508,6 +551,5 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             appender.close();
         }
     }
-
 
 }

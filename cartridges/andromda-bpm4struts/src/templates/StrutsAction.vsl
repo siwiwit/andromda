@@ -1,73 +1,74 @@
 ##
-## Set global invariants
+## Some global invariants
 ##
-#set ($stateMachine = $transform.getStateMachine($class))
-#set ($controllerClassName = $transform.toJavaClassName($transform.getControllerClass($class)))
-#set ($controllerFormName = $transform.toJavaClassName($transform.getControllerForm($class)))
-#if (!$controllerFormName)
-#set ($controllerFormName = "ActionForm")
+#set ($stateMachine = $class.useCase.stateMachine)
+#set ($forwardTransitionNames = $stateMachine.forwardTransitionNames)
+#set ($choices = $stateMachine.decisionPoints)
+#set ($objectFlowStates = $stateMachine.objectFlowStates)
+##
+## Specific to this class
+##
+#set ($className = $str.toJavaClassName($class.name))
+#set ($formBeanType = $class.formBean.name)
+#if (!$formBeanType)
+#set ($formBeanType = "ActionForm")
 #end
-#set ($className = "${controllerClassName}")
-#set ($parentClassName = "${controllerClassName}Abstract")
 ##
 ## Package declaration and imports
 ##
-package $transform.getPackageName($class);
+package $class.packageName;
 
+#if ($formBeanType == "ActionForm")
 import org.apache.struts.action.ActionForm;
+#elseif ($class.packageName != $class.formBean.packageName)
+import $class.formBean.fullyQualifiedName;
+
+#end
 import org.apache.struts.action.ActionMapping;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-##
-## This macro will render documentation into HTML paragraphs
-##
-#macro ( generateDocumentation $item $indent )
-#set ($tagValue = $transform.staticHelper.findTagValue( $item, "documentation"))
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tagValue))
-#foreach ( $par in $paras )
-${indent}*
-${indent}* <p>
-#foreach ( $line in $par.lines )
-${indent}* $line
+/**
+ * @struts.action
+ *        name="$str.toJavaMethodName($class.formBean.name)"
+ *        path="/$str.toJavaClassName($class.servletName)"
+ *       scope="request"
+ *   parameter="$class.dispatchParameter"
+ *  validation="true"
+ *
+#foreach ($forwardTransitionName in $forwardTransitionNames)
+ * @struts.action-forward
+ *        name="$str.separate($forwardTransitionName, ".").toLowerCase()"
+ *        path="/$str.separate($class.packageName, "/")/${str.toWebFileName($forwardTransitionName)}.jsp"
+ *    redirect="false"
+ *
 #end
-${indent}* </p>
+#foreach ($exceptionHandler in $class.exceptionHandlers)
+ * @struts.action-exception
+ *         key="$exceptionHandler.key"
+ *        type="$exceptionHandler.exceptionType"
+#if ($exceptionHandler.path)
+ *        path="$exceptionHandler.path"
 #end
+ *       scope="request"
+ *
 #end
-##
-## Set collections from which methods will be rendered, we convert them to sets
-## because we don't want to render doubles (just to make sure)
-##
-#set ($decisionPoints = $transform.toSet($transform.dynamicHelper.getDecisionPoints($stateMachine)))
-#set ($objectFlowStates = $transform.toSet($transform.dynamicHelper.getObjectFlowStates($stateMachine)))
-#set ($actionStates = $transform.toSet($transform.dynamicHelper.getActionStates($stateMachine)))
-##
-## Start of the class declaration, notice how it extends the parent
-##
-public class $className extends $parentClassName
+ */
+public final class $className extends ${className}Abstract
 {
-#foreach ($decisionPoint in $decisionPoints)
-#if ($transform.dynamicHelper.isGuardedDecisionPoint($decisionPoint))
-#set ($methodName = $transform.toJavaMethodName($decisionPoint))
-    protected final int ${methodName}Impl(ActionMapping mapping, $controllerFormName form, HttpServletRequest request, HttpServletResponse response)
+#foreach ($choice in $choices)
+#set ($choiceMethodName = "$str.toJavaMethodName($choice.name)")
+    protected final int ${choiceMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
-        return 0;
+        return 1; // source is compilable this way
     }
 
 #end
-#end
-##
-## Each object flow state needs to reflect the change in the 'back-end', the user will need to code this
-## manually
-##
 #foreach ($objectFlowState in $objectFlowStates)
-#set ($objectFlowStateName = $transform.toJavaClassName($objectFlowState))
-#set ($objectFlowTypeName = $transform.toJavaClassName($objectFlowState.type))
-#set ($objectFlowStateState = $transform.getObjectFlowStateState($objectFlowState))
-#set ($methodName = "set$objectFlowStateName$transform.toJavaClassName($objectFlowStateState)")
-    protected final void ${methodName}Impl(ActionMapping mapping, $controllerFormName form, HttpServletRequest request, HttpServletResponse response) throws Exception
+#set ($stateMethodName = "$str.toJavaMethodName($objectFlowState.name)")
+    protected final void ${stateMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
     {
-//      $objectFlowTypeName $transform.toJavaMethodName($objectFlowState) = null;
     }
 
 #end

@@ -60,8 +60,8 @@ public class MDRepositoryTransformationTest extends TestCase {
 	 */
 	public void testTransformModel() throws Exception {
 		try {
-			repository.readModel(modelURL);
-			UmlPackage umlPackage = (UmlPackage) repository.getModel();
+			repository.readModel(modelURL, null);
+			UmlPackage umlPackage = (UmlPackage) repository.getModel().getModel();
 			ModelManagementPackage modelManagementPackage =
 				umlPackage.getModelManagement();
                 
@@ -75,9 +75,9 @@ public class MDRepositoryTransformationTest extends TestCase {
 					.next());
                     
             // look for a class with the name 'org.EntityBean'
-			String[] fqn = { "org", "EntityBean" };
+			String[] fqn = { "org", "andromda", "ClassA" };
 
-			UmlClass umlClass = (UmlClass) getModelElement(model, fqn, 0);
+            UmlClass umlClass = (UmlClass) getModelElement(model, fqn, 0);
             
             // create an attribute
 			Attribute attribute =

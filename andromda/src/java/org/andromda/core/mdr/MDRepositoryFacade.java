@@ -10,9 +10,11 @@ import javax.jmi.model.MofPackage;
 import javax.jmi.reflect.RefPackage;
 import javax.jmi.xmi.MalformedXMIException;
 
+import org.andromda.core.common.ModelFacade;
 import org.andromda.core.common.RepositoryFacade;
 import org.andromda.core.common.RepositoryReadException;
 import org.andromda.core.common.StdoutLogger;
+import org.andromda.core.uml14.UMLModelFacade;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRManager;
 import org.netbeans.api.mdr.MDRepository;
@@ -81,10 +83,10 @@ public class MDRepositoryFacade implements RepositoryFacade
         MDRManager.getDefault().getDefaultRepository().endTrans(true);
     }
 
-    /**
-     * @see org.andromda.core.common.RepositoryFacade#readModel(URL)
+    /* (non-Javadoc)
+     * @see org.andromda.core.common.RepositoryFacade#readModel(java.net.URL, java.lang.String[])
      */
-    public void readModel(URL modelURL)
+    public void readModel(URL modelURL, String[] moduleSearchPath)
         throws RepositoryReadException, IOException
     {
         log("MDR: creating repository");
@@ -98,7 +100,7 @@ public class MDRepositoryFacade implements RepositoryFacade
         {
             MofPackage metaModel = loadMetaModel(metaModelURL, repository);
 
-            this.model = loadModel(modelURL, metaModel, repository);
+            this.model = loadModel(modelURL, moduleSearchPath, metaModel, repository);
         }
         catch (CreationFailedException cfe)
         {
@@ -143,9 +145,9 @@ public class MDRepositoryFacade implements RepositoryFacade
     /**
      * @see org.andromda.core.common.RepositoryFacade#getModel()
      */
-    public Object getModel()
+    public ModelFacade getModel()
     {
-        return this.model;
+        return new UMLModelFacade(this.model);
     }
 
     /**
@@ -209,6 +211,7 @@ public class MDRepositoryFacade implements RepositoryFacade
      */
     private static RefPackage loadModel(
         URL modelURL,
+        String[] moduleSearchPath,
         MofPackage metaModel,
         MDRepository repository)
         throws CreationFailedException, IOException, MalformedXMIException
@@ -226,7 +229,10 @@ public class MDRepositoryFacade implements RepositoryFacade
         model = repository.createExtent("MODEL", metaModel);
         log("MDR: created model extent");
 
-        XMIReader xmiReader = XMIReaderFactory.getDefault().createXMIReader();
+        XMIReader xmiReader =
+        	XMIReaderFactory.getDefault().createXMIReader(
+        			new MDRXmiReferenceResolver(
+        					new RefPackage[] { model }, moduleSearchPath));
 
         log("MDR: reading XMI - " + modelURL.toExternalForm());
         try

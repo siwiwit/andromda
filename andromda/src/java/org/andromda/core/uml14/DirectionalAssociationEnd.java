@@ -83,8 +83,9 @@ public class DirectionalAssociationEnd
         Multiplicity multiplicity = ae.getMultiplicity();
         if (multiplicity == null)
         {
-            return false;  // no multiplicity means multiplicity==1
+            return false;  // no multiplicity means multiplicity "1"
         }
+        
         Collection ranges = multiplicity.getRange();
         
         for (Iterator i = ranges.iterator(); i.hasNext() ; )

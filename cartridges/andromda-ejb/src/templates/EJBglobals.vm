@@ -30,12 +30,6 @@
 ##    "java.lang.String"
 ##    Empty if the current class is a <<Service>>
 ##
-## $pkfieldname
-##    set to the name of the attribute stereotyped <<PrimaryKey>> if the primary
-##    key class has been defined from such an attribute. If not, this property
-##    is not set.
-##    Empty if the current class is a <<Service>>
-##
 ## $beanparentclass
 ##    the fully qualified classname of the parent class for the generated
 ##    bean class. If this entity has a parent class in the UML model, this is
@@ -44,14 +38,14 @@
 ##    implementation class If no parent class is specified in the UML model, 
 ##    this value defaults to 'java.lang.Object'
 ##  
-#set ($packagename = $transform.findPackageName(${class.package}))
-#if ($transform.getStereotype($class.id) == "Entity")
+#set ($packagename = $class.packageName)
+#if ($class.stereotypeName == "Entity")
 #set ($entityname = $class.name)
-#set ($pkclassname = $transform.findPkTypeName($class, "java.lang.String"))
+#set ($pkclassname = $class.primaryKeyAttribute.type.fullyQualifiedName)
 #end
-#if ($transform.getStereotype($class.id) == "Service")
+#if ($class.stereotypeName == "Service")
 #set ($servicename = $class.name)
-#if (${transform.getAllInstanceAttributes(${class.id}).isEmpty()})
+#if (${transform.getAllInstanceAttributes(${class.id}).empty})
 #set ($servicetype = "Stateless")
 #else 
 #set ($servicetype = "Stateful")
@@ -61,20 +55,20 @@
 ## Find the default exception class
 #foreach ( $dep in $class.dependencies )
 #set ($class2 = $transform.findClassById($dep.targetType))
-#if ($transform.getStereotype($dep.id) == "Exception")
+#if ($dep.stereotypeName == "Exception")
 #set ($defaultException = $class2)
 #end
 #end
 ##
 ## Set the "$beanparentclass" property.
-#set ($myClass = $transform.getGeneralization($class.id))
+#set ($myClass = $class.superclass)
 #if ($myClass)
-#set ($myStereotype = $transform.getStereotype($myClass))
+#set ($myStereotype = $myClass.stereotypeName)
 #if ( $myStereotype == "Entity" || $myStereotype == "Service" )
 ## Extend the implementation class if the super type is an <<Entity>> or <<Service>>
-#set ($beanparentclass = "${transform.findFullyQualifiedName($myClass)}BeanImpl")
+#set ($beanparentclass = "${myClass.type.fullyQualifiedName}BeanImpl")
 #else
-#set ($beanparentclass = ${transform.findFullyQualifiedName($myClass)})
+#set ($beanparentclass = $myClass.fullyQualifiedName)
 #end
 #else
 #set ($beanparentclass = 'java.lang.Object')

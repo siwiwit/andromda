@@ -116,19 +116,16 @@
 #set ($actionForwardName = $transform.toForwardName($finalState))
 #set ($actionForwardPath = $transform.toJavaClassName($transform.getControllerClass($nextUseCase)))
 ##
-## In order to allow parameters to be passed onto the next controller we forward instead
-## of redirecting.
+## Notice how we redirect instead of forward to the next use case, we explicitly want a new request
+## object to be sent to the provided path
 ##
-         <forward name="$actionForwardName" path="/${actionForwardPath}.do" redirect="false"/>
+         <forward name="$actionForwardName" path="/${actionForwardPath}.do" redirect="true"/>
 #set ($nextUseCase = false)
 #end
 #end
       </action>
 #end
    </action-mappings>
-
-   <!-- i18n messages go in 'application.properties' -->
-   <message-resources parameter="application" null="false" />
 
    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
       <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
