@@ -19,19 +19,34 @@
 <html:html>
     <head>
         <title><bean:message key="$class.titleMessageKey"/></title>
-        <html:javascript formName="$str.toJavaMethodName($class.name)" />
-        <script type="text/javascript">
+#if ($inputFields.size() > 0)
+        <script type="text/javascript" language="Javascript1.1">
         <!--
-            /**
-             * This script is needed to be able to use i18n on button labels
-             */
             function submitForm(form,trigger)
             {
                 form.trigger.value = trigger;
-                form.submit();
+
+                if (true == ${formBean.validationMethodName}(form))
+                    form.submit();
+            }
+
+            var bCancel = false;
+
+            function ${formBean.validationMethodName}(form)
+            {
+               return (bCancel) ? true : validateRequired(form);
+            }
+
+            function required()
+            {
+#foreach ($inputField in $inputFields)
+               this.a$velocityCount = new Array("$inputField.name", "$str.upperCaseFirstLetter($inputField.name)", new Function ("varName", " return this[varName];"));
+#end
             }
         //-->
         </script>
+        <html:javascript formName="$formBean.formBeanName" method="${formBean.validationMethodName}" dynamicJavascript="false" staticJavascript="true"/>
+#end
     </head>
     <body>
 
@@ -46,7 +61,7 @@
 ##
 ##  If the view is backed by a model (indicating request parameters) we render a form
 ##
-        <html:form action="$servletName?$servlet.dispatchParameter=$dispatchMethodName">
+        <html:form action="$servletName?$servlet.dispatchParameter=$dispatchMethodName" onsubmit="return ${formBean.validationMethodName}(this);">
 ##  This next field hold the trigger requests parameter that will be sent to the server
             <html:hidden property="trigger" value=""/>
             <table cellpadding="5" cellspacing="5" border="0">
