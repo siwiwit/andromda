@@ -1,0 +1,76 @@
+package ${class.formBeanPackageName};
+
+#set (${fields} = ${class.actionParameters})
+
+import java.io.Serializable;
+
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.validator.ValidatorForm;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+$class.getDocumentation(" ")
+ *
+ * @struts.form
+ *        name="${class.formName}"
+ */
+public final class ${class.formBeanClassName} extends ValidatorForm implements Serializable
+{
+#foreach (${field} in ${fields})
+    /**
+${field.getDocumentation("     ")}
+     */
+    private ${field.type.fullyQualifiedName} ${field.name};
+#end
+
+#foreach (${field} in ${fields})
+    /**
+#foreach (${validatorType} in ${field.validatorTypes})
+     * @struts.validator
+     *          type="${validatorType}"
+     *  arg0resource="${field.validatorMsgKey}"
+#foreach (${validatorArg} in ${field.getValidatorArgs($validatorType)})
+     *     arg${velocityCount}value="${validatorArg}"
+#end
+     *
+#end
+#if (${field.validWhen})
+     * @struts.validator
+     *       type="validwhen"
+     *  arg0value="${field.validatorMsgKey}"
+     *
+#end
+#foreach (${validatorVar} in ${field.validatorVars})
+     * @struts.validator-var
+     *          name="${validatorVar.get(0)}"
+     *         value="${validatorVar.get(1)}"
+#end
+#if (${field.validWhen})
+     * @struts.validator-var
+     *          name="test"
+     *         value="${field.validWhen}"
+#end
+     */
+#end
+    public void ${field.getterName}(${field.type.fullyQualifiedName} ${field.name})
+    {
+        this.${field.name} = ${field.name};
+    }
+
+    public ${field.type.fullyQualifiedName} ${field.getterName}()
+    {
+        return this.${field.name};
+    }
+
+#end
+    public void reset(ActionMapping mapping, HttpServletRequest request)
+    {
+#foreach (${field} in ${fields})
+#if (${field.mustReset()})
+        this.$field.name = $field.resetValue;
+#end
+#end
+    }
+}

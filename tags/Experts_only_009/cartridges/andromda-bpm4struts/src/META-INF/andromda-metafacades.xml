@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!-- contains the bpm4struts cartridge metafacade mappings -->
+<metafacades namespace="bpm4struts">
+
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsUseCaseImpl">
+        <stereotype>FrontEndUseCase</stereotype>
+    </metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.usecases.Actor$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActorImpl">
+        <stereotype>FrontEndActor</stereotype>
+    </metafacade>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsFormBeanImpl">
+		<stereotype>FrontEndModel</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsJspImpl">
+		<stereotype>FrontEndView</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActionImpl">
+		<stereotype>FrontEndController</stereotype>
+	</metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActionExceptionImpl">
+        <stereotype>FrontEndException</stereotype>
+    </metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsHyperlinkTileImpl">
+        <stereotype>FrontEndReadOnlyForm</stereotype>
+    </metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsFormTileImpl">
+        <stereotype>FrontEndReadWriteForm</stereotype>
+    </metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldImpl">
+		<stereotype>FrontEndViewTextField</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextAreaImpl">
+		<stereotype>FrontEndViewTextArea</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsCheckBoxImpl">
+		<stereotype>FrontEndViewTextCheckBox</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsRadioButtonImpl">
+		<stereotype>FrontEndViewRadioButton</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsComboBoxImpl">
+		<stereotype>FrontEndViewComboBox</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsListImpl">
+		<stereotype>FrontEndViewList</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPasswordImpl">
+		<stereotype>FrontEndViewPassword</stereotype>
+	</metafacade>
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsStringImpl">
+	</metafacade>
+
+</metafacades>

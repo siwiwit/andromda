@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.0//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_0.dtd">
+
+<struts-config>
+
+  <!-- ========== Form Bean Definitions =================================== -->
+  <form-beans>
+#foreach ( $onePackage in $model.packages )
+#foreach ( $oneClass in $onePackage.classes )
+    #if ($oneClass.hasStereotype("WebForm"))
+    <form-bean
+      name="$oneClass.name"
+      type="$oneClass.type.fullyQualifiedName"
+    />
+
+    #end
+#end
+#end
+  </form-beans>
+
+  <!-- ========== Action Mapping Definitions =================================== -->
+   <action-mappings>
+#foreach ( $onePackage in $model.packages )
+  #foreach ( $oneClass in $onePackage.classes )
+    #if ($oneClass.hasStereotype("WebAction"))
+      #set ($formClass = false)
+      #set ($pageClass = false)
+      #foreach ( $associationEnd in $oneClass.associationEnds )
+		#set($target = $associationEnd.otherEnd)
+		#if ($target.navigable)
+        #if ($target.name == "form")
+            #set ($formClass = $target.type)
+        #end
+            #if ($target.name == "page")
+                #set ($pageClass = $target.type)
+            #end
+          #end
+      #end
+    <action
+      path="/$oneClass.name"
+      type="$oneClass.type.fullyQualifiedName"
+#if ($formClass)
+      name="$formClass.name"
+#end
+      scope="request"
+#if ($pageClass)
+      input="/${pageClass.name}.jsp"
+#end
+      unknown="false"
+      validate="true"
+    >
+      #foreach ( $associationEnd in $oneClass.associationEnds )
+		#set($target = $associationEnd.otherEnd)
+          #set ($targetPath = false)
+          #if ($target.navigable)
+            #set ($name = $target.name)
+            #if (($name != "form") && ($name != "page"))
+              #set ($target = $target.type)
+              #if ($target.hasStereotype("WebPage"))
+                #set ($targetPath = "${target.name}.jsp")
+              #else
+                #set ($targetPath = "${target.name}.do")
+              #end
+      <forward
+        name="$name"
+        path="/$targetPath"
+        redirect="false"
+      />
+            #end
+          #end
+      #end
+    </action>
+
+    #end
+  #end
+#end
+   </action-mappings>
+
+</struts-config>

@@ -1,0 +1,109 @@
+#parse("/templates/StrutsAction.vm")
+
+#set (${actionPackage} = ${class.actionPackageName})
+#set (${actionClassName} = ${class.actionClassName})
+#set (${formBeanType} = ${class.formBeanType})
+#set (${formBeanPackage} = ${class.formBeanPackageName})
+#set (${formBeanClassName} = ${class.formBeanClassName})
+
+#set (${controller} = ${class.controller})
+#set (${controllerType} = ${controller.controllerHelperType})
+#set (${controllerPackage} = ${controller.controllerHelperPackageName})
+#set (${controllerClassName} = ${controller.controllerHelperClassName})
+
+#set (${roles} = ${class.actionRoles})
+
+#set (${forwardActionTransitions} = ${class.forwardActionTransitions})
+
+package ${class.actionPackageName};
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+
+#if (${actionPackage} != ${formBeanPackage})
+import ${formBeanType};
+#end
+#if (${actionPackage} != ${controllerPackage})
+import ${controllerType};
+#end
+
+/**
+$class.getDocumentation(" ")
+ *
+ * @struts.action
+#if ($formBean)
+ *        name="${class.actionName}"
+#end
+ *        path="${class.actionPath}"
+ *       input="${class.input.path}"
+ *       scope="request"
+#if (${roles})
+ *       roles="${roles}"
+#end
+ *     unknown="false"
+ *    validate="true"
+ *
+#foreach (${forwardActionTransition} in ${forwardActionTransitions})
+ * @struts.action-forward
+ *        name="${forwardActionTransition.forwardName}"
+ *        path="${forwardActionTransition.forwardPath}"
+#end
+ *
+#foreach (${exceptionHandler} in ${class.exceptionHandlers})
+ * @struts.action-exception
+ *         key="${exceptionHandler.exceptionKey}"
+ *        type="${exceptionHandler.exceptionType}"
+ *        path="${exceptionHandler.exceptionPath}"
+ *       scope="request"
+#end
+ */
+public final class ${actionClassName} extends Action
+{
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        #processTransition(${class.actionTransition})
+#if (${class.hasSuccessMessage()})
+
+        ActionMessages messages = new ActionMessages();
+        ActionMessage message = new ActionMessage(${class.successMessageKey});
+        messages.add(ActionMessages.GLOBAL_MESSAGE, message);
+        saveMessages(request, messages);
+#end
+    }
+
+#foreach (${transition} in ${class.decisionTransitions})
+#set (${methodName} = ${transition.methodName})
+#set (${parameters} = ${transition.eventParameters})
+#set (${outcomes}   = ${transition.targetOutcomes})
+    private ActionForward ${methodName}(ActionMapping mapping, ${formBeanType} form, HttpServletRequest request, HttpServletResponse response)  throws Exception
+    {
+#foreach (${parameter} in ${parameters})
+        final ${parameter.type.fullyQualifiedName} ${parameter.name} = form.${parameter.getterName};
+#end
+
+        final int value = ${controllerClassName}.${methodName}(${transition.getParametersAsList(false)});
+
+        switch (value)
+        {
+#foreach (${outcome} in ${outcomes})
+            case ${controllerClassName}.${outcome.guardName}: #processTransition(${outcome})
+#end
+        }
+
+        return null;    // application bug: invalid return value
+    }
+
+#end
+
+#foreach (${transition} in ${class.effectTransitions})
+#set (${methodName} = ${transition.methodName})
+#set (${parameters} = ${transition.eventParameters})
+    private ActionForward ${methodName}(ActionMapping mapping, ${formBeanType} form, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+        ${controllerClassName}.${methodName}(${transition.getParametersAsList(false)});
+        #processTransition(${transition})
+    }
+
+#end
+}
+
