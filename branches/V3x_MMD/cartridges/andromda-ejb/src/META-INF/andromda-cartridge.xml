@@ -1,8 +1,5 @@
 <cartridge name="ejb">
 
-	<!-- defines the class to use -->
-	<class name="org.andromda.cartridges.ejb.EJBCartridge"/>
-
     <property name="persistence" value="ejb" />
 
 	<!-- these are the new, official stereotypes -->

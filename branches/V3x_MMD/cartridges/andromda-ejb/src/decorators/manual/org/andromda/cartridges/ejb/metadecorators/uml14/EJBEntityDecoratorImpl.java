@@ -147,17 +147,14 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		}
 
 		Collection result = new ArrayList();
-		System.out.println("before getEntityRelations()");
 		result.addAll(getEntityRelations());
 
-		System.out.println("after getEntityRelations()");
 		ClassifierDecorator classifier = this.getSuperclass();
 		while (classifier != null
 			&& classifier instanceof EJBEntityDecorator
 			&& classifier.isAbstract()) {
 
 			EJBEntityDecorator entity = (EJBEntityDecorator) classifier;
-			System.out.println("after (EJBEntityDecorator) classifier");
 			result.add(entity.getEntityRelations());
 			classifier = this.getSuperclass();
 		}
