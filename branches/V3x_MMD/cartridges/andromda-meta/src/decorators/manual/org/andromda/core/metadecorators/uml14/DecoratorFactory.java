@@ -50,7 +50,7 @@ public class DecoratorFactory
             AssociationEndDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.UmlAssociation$Impl",
-            AssociationEndDecoratorImpl.class.getName());
+            AssociationDecoratorImpl.class.getName());
         registerDecoratorClass(
             "org.omg.uml.foundation.core.Dependency$Impl",
             DependencyDecoratorImpl.class.getName());
