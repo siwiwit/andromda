@@ -6,7 +6,7 @@
   	<name>Maven AndroMDA Plugin</name>
   	<shortDescription>Maven AndroMDA Plugin</shortDescription>
   	<description>
-		The AndroMDA framework is wrapped within a maven plugin, this allows you to get started 
+		This wraps the AndroMDA framework within a maven plugin, alloing you to get started 
 		using all existing cartridges without having to configure an Ant build.xml file or worry about 
 		setting up a classpath, etc. 
   	</description>
