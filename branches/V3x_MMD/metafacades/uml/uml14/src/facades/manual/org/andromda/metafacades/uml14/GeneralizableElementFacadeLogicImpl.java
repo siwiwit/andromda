@@ -66,4 +66,8 @@ public class GeneralizableElementFacadeLogicImpl
         return null;
     }
 
+    protected Collection handleGetGeneralizations()
+    {
+        return metaObject.getGeneralization();
+    }
 }
