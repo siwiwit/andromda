@@ -16,7 +16,7 @@ public class AnimalImpl
 
     public java.lang.String getPrompt()
     {
-        return "Is it a(n) " + getName();
+        return "Is it a(n) " + getName() + "?";
     }
 
 }
