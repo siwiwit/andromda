@@ -1,5 +1,4 @@
 <%@ taglib uri="struts-html.tld" prefix="html" %>
-
 ##
 ##  Constant declarations
 ##
@@ -15,14 +14,21 @@
 ##
 ## Title
 ##
-<h2>$str.separate("$class.name", " ")</h2>
+#set ($title = $str.separate("$class.name", " "))
+<html:html>
+    <head>
+        <title>$title</title>
+        <html:javascript formName="$str.toJavaMethodName($class.name)" />
+    </head>
+    <body>
+
+<h2>$title</h2>
 <p>
 ##
 ##  In case no model has been specified we assume no parameter needed to be posted
 ##  and we use a hyperlink
 ##
 #if ($inputFields.size() > 0)
-<html:javascript formName="$str.toJavaMethodName($class.name)" />
 
 ##
 ##  If the view is backed by a model (indicating request parameters) we render a form
@@ -132,7 +138,7 @@
 #else
 #set ($triggerName = "submit")
 #end
-        <html:submit value="$triggerName"/>
+        <html:submit property="trigger" value="$triggerName"/>
 #end
       </td>
     </tr>
@@ -144,7 +150,7 @@
 ##
 <ol>
 #foreach ($trigger in $triggers)
-## get the trigger name
+## get the trigger name (or take the default one if not present)
 #if ($trigger.triggerName)
 #set ($triggerName = $trigger.triggerName)
 #else
@@ -152,32 +158,23 @@
 #end
 ## different scenarios depending on the number of triggers
 #if ($triggers.size() > 1)
-#set ($linkParams = 'paramId="trigger" paramName="$formBean.formBeanName" paramProperty="$triggerName"')
-#set ($linkQuery = '&trigger=$triggerName')
+#set ($linkQuery = "trigger=$triggerName")
 #else
-#set ($linkParams = '')
 #set ($linkQuery = '')
 #if ($triggerName != "submit")
 #set ($triggerName = "Go to $triggerName")
 #end
 #end
-## in case we have a form we better use it
-#if ($formBean)
   <li>
-    <html:link action="$servletName?$servlet.dispatchParameter=$dispatchMethodName" $linkParams>
+    <html:link action="${servletName}?${servlet.dispatchParameter}=${dispatchMethodName}&${linkQuery}">
       $str.separate("$triggerName"," ")
     </html:link>
   </li>
-#else
-  <li>
-    <html:link action="$servletName?$servlet.dispatchParameter=${dispatchMethodName}${linkQuery}">
-      $str.separate("$triggerName"," ")
-    </html:link>
-  </li>
-#end
 #end
 </ol>
 ##
 ##
 #end
 
+    </body>
+</html:html>
