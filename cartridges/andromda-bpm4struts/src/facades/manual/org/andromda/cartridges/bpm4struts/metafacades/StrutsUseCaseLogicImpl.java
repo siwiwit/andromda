@@ -42,7 +42,7 @@ public class StrutsUseCaseLogicImpl
 
     public String getFullFormBeanPath()
     {
-        return '/' + getPackageName().replace('.','/') + '/' + StringUtilsHelper.toJavaClassName(getName()) + "Form";
+        return '/' + getFormBeanPackageName().replace('.','/') + '/' + StringUtilsHelper.toJavaClassName(getName()) + "Form";
     }
 
     public String getFormBeanName()
@@ -64,6 +64,12 @@ public class StrutsUseCaseLogicImpl
     {
         return getController().getPackageName();
     }
+
+    public String getPackagePath()
+    {
+        return '/' + getPackageName().replace('.','/');
+    }
+
     // ------------- relations ------------------
 
     public java.lang.Object handleGetActivityGraph()
@@ -79,6 +85,15 @@ public class StrutsUseCaseLogicImpl
     }
 
     protected Collection handleGetUsers()
+    {
+        final Collection users = new LinkedList();
+
+        // todo: only collect those users that have been associated with this use-case
+
+        return users;
+    }
+
+    protected Collection handleGetAllUsers()
     {
         final Collection users = new LinkedList();
         final Collection allActors = getModel().getAllActors();
