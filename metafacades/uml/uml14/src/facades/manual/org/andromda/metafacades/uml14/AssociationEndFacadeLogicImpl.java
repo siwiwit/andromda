@@ -37,8 +37,6 @@ public class AssociationEndFacadeLogicImpl
      */
     public Object handleGetOtherEnd()
     {
-        AssociationEnd otherEnd;
-
         Collection ends = metaObject.getAssociation().getConnection();
         for (Iterator i = ends.iterator(); i.hasNext();)
         {
