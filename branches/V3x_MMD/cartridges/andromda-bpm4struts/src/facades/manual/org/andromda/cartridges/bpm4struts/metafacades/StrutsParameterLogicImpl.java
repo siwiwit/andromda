@@ -47,9 +47,8 @@ public class StrutsParameterLogicImpl
     public java.lang.String getNullValue()
     {
         final String type = getFullyQualifiedName();
-
         if ("boolean".equals(type)) return "false";
-        else if (getType().isPrimitiveType()) return "0";
+        else if (isPrimitive()) return "0";
         else return "null";
     }
 
@@ -67,7 +66,6 @@ public class StrutsParameterLogicImpl
      */
     public java.lang.String getMessageKey()
     {
-        // todo: prefix with the action message key
         return StringUtilsHelper.toResourceMessageKey(getName());
     }
 
@@ -153,7 +151,7 @@ public class StrutsParameterLogicImpl
 
     public boolean isReadOnly()
     {
-        return isTrue(findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_READONLY));
+        return isTrue(findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_REQUIRED));
     }
 
     private boolean isTrue(String string)
@@ -164,8 +162,59 @@ public class StrutsParameterLogicImpl
 
     public String getResetValue()
     {
-        return "Reset";
+        final String name = getName();
+        final String type = getType().getFullyQualifiedName();
+
+        if ("java.lang.String".equals(type)) return name + "-test";
+        
+        if ("boolean".equals(type)) return "false";
+        if (isPrimitive()) return String.valueOf(name.hashCode());
+
+        final String array = "new Object[] {\""+name+"-1\", \""+name+"-2\", \""+name+"-3\", \""+name+"-4\", \""+name+"-5\"}";
+        if (isArray()) return array;
+        if (isCollection()) return "java.util.Collections.asList("+array+")";
+
+        return name + "-test";
     }
+
+    public boolean isArray()
+    {
+        try
+        {
+            return Class.forName(getType().getFullyQualifiedName()).isArray();
+        }
+        catch(Exception exception)
+        {
+            return false;
+        }
+    }
+
+    public boolean isPrimitive()
+    {
+        try
+        {
+            return Class.forName(getType().getFullyQualifiedName()).isPrimitive();
+        }
+        catch(Exception exception)
+        {
+            return false;
+        }
+    }
+
+    public boolean isCollection()
+    {
+        try
+        {
+            Class parameterClass = Class.forName(getType().getFullyQualifiedName());
+            Class collectionClass = Class.forName("java.util.Collection");
+            return collectionClass.isAssignableFrom(parameterClass);
+        }
+        catch(Exception exception)
+        {
+            return false;
+        }
+    }
+
     // ------------- relations ------------------
 
 }
