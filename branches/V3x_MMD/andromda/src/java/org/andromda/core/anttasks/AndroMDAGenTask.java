@@ -207,8 +207,7 @@ public class AndroMDAGenTask extends MatchingTask
 
             DirectoryScanner scanner;
             String[] list;
-            String[] dirs;
-
+            
             if (baseDir == null)
             {
                 // We directly change the user variable, because it
@@ -290,7 +289,6 @@ public class AndroMDAGenTask extends MatchingTask
      */
     private void initTemplateEngineProperties() throws BuildException
     {
-        boolean hasProperties = false;
         templateEngineProperties = new Properties();
 
         if (templateEnginePropertiesFile == null)
@@ -307,7 +305,6 @@ public class AndroMDAGenTask extends MatchingTask
             // (unlikely?) case that another task has changed them.
             fis = new FileInputStream(templateEnginePropertiesFile);
             templateEngineProperties.load(fis);
-            hasProperties = true;
         }
         catch (FileNotFoundException fnfex)
         {
