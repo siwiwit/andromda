@@ -62,19 +62,6 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
         return getSubvertices(filter);
     }
 
-    protected Collection handleGetChoicePseudostates()
-    {
-        final CollectionFilter filter = new CollectionFilter()
-        {
-            public boolean accept(Object object)
-            {
-                return (object instanceof Pseudostate) &&
-                    (PseudostateKindEnum.PK_CHOICE.equals(((Pseudostate)(object)).getKind()));
-            }
-        };
-        return getSubvertices(filter);
-    }
-
     protected Collection handleGetActionStates()
     {
         final CollectionFilter filter = new CollectionFilter()
@@ -111,13 +98,7 @@ public class StateMachineDecoratorImpl extends StateMachineDecorator
         return getSubvertices(filter);
     }
 
-    protected ModelElement handleGetUseCaseContainer()
-    {
-        ModelElement context = getContext();
-        return (context instanceof UseCase) ? context : null;
-    }
-
-    private Collection getSubvertices(CollectionFilter collectionFilter)
+    protected Collection getSubvertices(CollectionFilter collectionFilter)
     {
         CompositeState compositeState = (CompositeState) metaObject.getTop();
         return filter(compositeState.getSubvertex(), collectionFilter);
