@@ -1,12 +1,12 @@
 package org.andromda.cartridges.interfaces;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -136,15 +136,17 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
     {
         DecoratorFactory df = DecoratorFactory.getInstance();
         String previousNamespace = df.getActiveNamespace();
-        
-        df.setActiveNamespace(
-            getDescriptor().getCartridgeName());
-        
-        df.setModel((UmlPackage)context.getModelFacade().getModel());
-        
+
+        df.setActiveNamespace(getDescriptor().getCartridgeName());
+
+        df.setModel((UmlPackage) context.getModelFacade().getModel());
+
         try
         {
-            internalProcessModelElement(context, modelElement, stereotypeName);
+            internalProcessModelElement(
+                context,
+                modelElement,
+                stereotypeName);
         }
         finally
         {
@@ -158,18 +160,15 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         String stereotypeName)
         throws CartridgeException
     {
-        String name = context.getModelFacade().getName(modelElement);
         String packageName =
             context.getModelFacade().getPackageName(modelElement);
-        
+
         //if the package name shouldn't be processed,
         //skip it.
         if (!context.getModelPackages().shouldProcess(packageName))
         {
-        	return;
+            return;
         }
-        
-        long modelLastModified = context.getRepository().getLastModified();
 
         List templates = getDescriptor().getTemplateConfigurations();
         for (Iterator it = templates.iterator(); it.hasNext();)
@@ -200,50 +199,11 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                         throw new CartridgeException(ie);
                     }
                 }
-                
-                String outputLocation = 
-                	Namespaces.instance().findNamespaceProperty(
-                			desc.getCartridgeName(), tc.getOutlet());
 
-                File outFile =
-                    tc.getFullyQualifiedOutputFile(
-                        name,
-                        packageName,
-                        outputLocation);
-                
-                
-
-                if (outFile != null)
-                {
-                    try
-                    {
-                        // do not overwrite already generated file,
-                        // if that is a file that the user wants to edit.
-                        boolean writeOutputFile =
-                            !outFile.exists() || tc.isOverwrite();
-                        // only process files that have changed
-                        if (writeOutputFile
-                            && (!context.isLastModifiedCheck()
-                                || modelLastModified > outFile.lastModified()
-                            /*
-                        *  || styleSheetLastModified > outFile.lastModified()
-                        */
-                            ))
-                        {
-                            processModelElementWithOneTemplate(
-                                context,
-                                modelElement,
-                                tc.getSheet(),
-                                outFile,
-                                tc.isGenerateEmptyFiles());
-                        }
-                    }
-                    catch (CartridgeException e)
-                    {
-                        outFile.delete();
-                        throw new CartridgeException(e);
-                    }
-                }
+                processModelElementWithOneTemplate(
+                    context,
+                    modelElement,
+                    tc);
 
                 // restore original script helper in case we were
                 // using a custom template script helper
@@ -269,9 +229,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
     private void processModelElementWithOneTemplate(
         CodeGenerationContext context,
         Object modelElement,
-        String styleSheetName,
-        File outFile,
-        boolean generateEmptyFile)
+        TemplateConfiguration tc)
         throws CartridgeException
     {
         try
@@ -281,14 +239,12 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                 "------------------- Processing model element >>"
                     + ((ModelElement) modelElement).getName()
                     + "<< using template "
-                    + styleSheetName);
+                    + tc.getSheet());
 
             internalProcessModelElementWithOneTemplate(
                 context,
                 modelElement,
-                styleSheetName,
-                outFile,
-                generateEmptyFile);
+                tc);
         }
         finally
         {
@@ -296,51 +252,31 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                 "------------------- Finished processing model element >>"
                     + ((ModelElement) modelElement).getName()
                     + "<< using template "
-                    + styleSheetName);
+                    + tc.getSheet());
         }
     }
 
     private void internalProcessModelElementWithOneTemplate(
         CodeGenerationContext context,
         Object modelElement,
-        String styleSheetName,
-        File outFile,
-        boolean generateEmptyFile)
+        TemplateConfiguration tc)
         throws CartridgeException
     {
+        String modelElementName =
+            context.getModelFacade().getName(modelElement);
+        String packageName =
+            context.getModelFacade().getPackageName(modelElement);
+
         Writer writer = null;
         ByteArrayOutputStream content = null;
 
-        ensureDirectoryFor(outFile);
-        try
-        {
-            if (generateEmptyFile)
-            {
-                writer =
-                    new BufferedWriter(
-                        new OutputStreamWriter(
-                            new FileOutputStream(outFile)));
-            }
-            else
-            {
-                content = new ByteArrayOutputStream();
-                writer = new OutputStreamWriter(content);
-            }
-        }
-        catch (Exception e)
-        {
-            logger.error(
-                "Error opening output file " + outFile.getName(),
-                e);
-            throw new CartridgeException(
-                "Error opening output file " + outFile.getName(),
-                e);
-        }
+        content = new ByteArrayOutputStream();
+        writer = new OutputStreamWriter(content);
+
+        VelocityContext velocityContext = new VelocityContext();
 
         try
         {
-            VelocityContext velocityContext = new VelocityContext();
-
             // put some objects into the velocity context
 
             // TODO: this has to be optimized so that decorators are not created each time we come here!!!
@@ -351,7 +287,9 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             velocityContext.put("model", df.createDecoratorObject(model));
             velocityContext.put("transform", context.getScriptHelper());
             velocityContext.put("str", new StringUtilsHelper());
-            velocityContext.put("class", df.createDecoratorObject((ModelElement) modelElement));
+            velocityContext.put(
+                "class",
+                df.createDecoratorObject((ModelElement) modelElement));
             velocityContext.put("date", new java.util.Date());
 
             addUserPropertiesToContext(
@@ -359,7 +297,7 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
                 context.getUserProperties());
 
             // get the template to process
-            Template template = ve.getTemplate(styleSheetName);
+            Template template = ve.getTemplate(tc.getSheet());
 
             // Process the VSL template with the context and write out
             // the result as the outFile.
@@ -380,56 +318,144 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             }
 
             logger.error(
-                "Error processing velocity script on " + outFile.getName(),
+                "Error processing velocity script on " + modelElementName,
                 e);
 
             throw new CartridgeException(
-                "Error processing velocity script on " + outFile.getName(),
+                "Error processing velocity script on " + modelElementName,
                 e);
         }
 
         // Handle file generation/removal if no files should be generated for
         // empty output.
-        if (!generateEmptyFile)
+        File outFile;
+
+        if (tc.getOutputPattern().charAt(0) == '$')
         {
-            byte[] result = content.toByteArray();
-            if (result.length > 0)
+            outFile =
+                outputFileFromVelocityContext(
+                    velocityContext,
+                    tc.getOutputPattern());
+        }
+        else
+        {
+            outFile =
+                outputFileFromTemplateConfig(
+                    modelElementName,
+                    packageName,
+                    tc);
+        }
+
+        byte[] result = content.toByteArray();
+        if (result.length > 0 || tc.isGenerateEmptyFiles())
+        {
+            try
             {
-                try
+                long modelLastModified =
+                    context.getRepository().getLastModified();
+
+                // do not overwrite already generated file,
+                // if that is a file that the user wants to edit.
+                boolean writeOutputFile =
+                    !outFile.exists() || tc.isOverwrite();
+                // only process files that have changed
+                if (writeOutputFile
+                    && (!context.isLastModifiedCheck()
+                        || modelLastModified > outFile.lastModified()
+                    /*
+                *  || styleSheetLastModified > outFile.lastModified()
+                */
+                    ))
                 {
+                    ensureDirectoryFor(outFile);
                     OutputStream out = new FileOutputStream(outFile);
                     out.write(result);
+                    out.flush();
+                    out.close();
                     logger.info("Output: " + outFile);
                     StdoutLogger.info("Output: " + outFile);
                 }
-                catch (Exception e)
-                {
-                    throw new CartridgeException(
-                        "Error writing output file " + outFile.getName(),
-                        e);
-                }
             }
-            else
+            catch (Exception e)
             {
-                if (outFile.exists())
-                {
-                    if (!outFile.delete())
-                    {
-                        logger.error(
-                            "Error removing output file "
-                                + outFile.getName());
-                        throw new CartridgeException(
-                            "Error removing output file "
-                                + outFile.getName());
-                    }
-                    logger.info("Removed: " + outFile);
-                    StdoutLogger.info("Removed: " + outFile);
-                }
+                StdoutLogger.error(e);
+                throw new CartridgeException(
+                    "Error writing output file " + outFile.getName(),
+                    e);
             }
         }
         else
         {
-            StdoutLogger.info("Output: " + outFile);
+            if (outFile.exists())
+            {
+                if (!outFile.delete())
+                {
+                    logger.error(
+                        "Error removing output file " + outFile.getName());
+                    throw new CartridgeException(
+                        "Error removing output file " + outFile.getName());
+                }
+                logger.info("Removed: " + outFile);
+                StdoutLogger.info("Removed: " + outFile);
+            }
+        }
+    }
+
+    /**
+     * Creates a File object from an output pattern in the
+     * template configuration.
+     * 
+     * @param modelElementName the name of the model element
+     * @param packageName the name of the package
+     * @param tc the template configuration
+     * @return File the output file
+     */
+    private File outputFileFromTemplateConfig(
+        String modelElementName,
+        String packageName,
+        TemplateConfiguration tc)
+    {
+        String outputLocation =
+            Namespaces.instance().findNamespaceProperty(
+                desc.getCartridgeName(),
+                tc.getOutlet());
+
+        return tc.getFullyQualifiedOutputFile(
+            modelElementName,
+            packageName,
+            outputLocation);
+    }
+
+    /**
+     * Creates a File object from a variable in a Velocity context.
+     * 
+     * @param velocityContext the context
+     * @param velocityExpression the expression that evaluates to a file name 
+     * @return File the output file
+     */
+    private File outputFileFromVelocityContext(
+        VelocityContext velocityContext,
+        String velocityExpression)
+        throws CartridgeException
+    {
+        try
+        {
+            StringWriter writer = new StringWriter();
+
+            ve.evaluate(
+                velocityContext,
+                writer,
+                "mylogtag",
+                velocityExpression);
+
+            return new File(writer.getBuffer().toString());
+        }
+        catch (Exception e)
+        {
+            logger.error(e);
+            throw new CartridgeException(
+                "Error building file name from Velocity expression",
+                e);
         }
     }
 
