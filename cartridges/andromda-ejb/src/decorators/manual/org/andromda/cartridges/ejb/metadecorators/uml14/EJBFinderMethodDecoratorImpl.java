@@ -3,8 +3,8 @@ package org.andromda.cartridges.ejb.metadecorators.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.andromda.core.metadecorators.uml14.ParameterDecorator;
 import org.apache.commons.lang.StringUtils;
-import org.omg.uml.foundation.core.Parameter;
 
 /**
  * Metaclass decorator implementation for
@@ -40,17 +40,18 @@ public class EJBFinderMethodDecoratorImpl extends EJBFinderMethodDecorator {
 			if (this.getParameters().size() > 0) {
 				queryString = queryString + " WHERE";
 				Collection parameters = this.getParameters();
-				if (parameters != null && parameters.isEmpty()) {
+				if (parameters != null && !parameters.isEmpty()) {
 					Iterator parameterIt = parameters.iterator();
 					for (int ctr = 0; parameterIt.hasNext(); ctr++) {
-						Parameter param = (Parameter) parameterIt.next();
+						Object test = parameterIt.next();
+						ParameterDecorator param = (ParameterDecorator) test;
 						queryString =
 							queryString
 								+ " c."
 								+ param.getName()
 								+ " = ?"
 								+ ctr;
-						if (parameters.size() != ctr) {
+						if (parameterIt.hasNext()) {
 							queryString = queryString + " AND";
 						}
 					}

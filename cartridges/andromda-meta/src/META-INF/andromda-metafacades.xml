@@ -37,6 +37,9 @@
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
 		metafacadeClass="org.andromda.core.metadecorators.uml14.AttributeDecoratorImpl"/>		
+	<metafacade 
+		metaobjectClass="org.omg.uml.foundation.core.Parameter$Impl"
+		metafacadeClass="org.andromda.core.metadecorators.uml14.ParameterDecoratorImpl"/>	
 		
 	<!-- Entity  metafacades -->
 	<metafacade 
