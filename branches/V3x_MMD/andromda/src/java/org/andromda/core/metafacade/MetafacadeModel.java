@@ -1,4 +1,4 @@
-package org.andromda.core.common;
+package org.andromda.core.metafacade;
 
 import java.util.Collection;
 
@@ -22,8 +22,9 @@ import java.util.Collection;
  * </p>
  *
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen</a>
+ * @author Chad Brandon
  */
-public interface ModelFacade
+public interface MetafacadeModel
 {
     
     /**
@@ -73,6 +74,5 @@ public interface ModelFacade
      * @return Collection
      */
     public Collection findByStereotype(String stereotype);
-
 
 }
