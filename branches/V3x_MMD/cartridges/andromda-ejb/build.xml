@@ -98,7 +98,7 @@
 
         <property 
         	name="model" 
-        	value="jar:file:${uml.dir}/EJBMetadecoratorModel.xml.zip!/EJBMetadecoratorModel.xml"/>
+        	value="jar:file:${uml.dir}/EJBMetafacadeModel.xml.zip!/EJBMetafacadeModel.xml"/>
 
         <andromda basedir="."
            modelURL="${model}"

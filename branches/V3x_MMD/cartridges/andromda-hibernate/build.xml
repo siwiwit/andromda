@@ -98,7 +98,7 @@
 
         <property 
         	name="model" 
-        	value="jar:file:${uml.dir}/HibernateMetadecoratorModel.xml.zip!/HibernateMetadecoratorModel.xml"/>
+        	value="jar:file:${uml.dir}/HibernateMetafacadeModel.xml.zip!/HibernateMetafacadeModel.xml"/>
 
         <andromda basedir="."
            modelURL="${model}"
