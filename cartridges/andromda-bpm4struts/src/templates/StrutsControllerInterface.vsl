@@ -54,7 +54,7 @@ $operation.getDocumentation("     ")
      * </table>
 #end
      */
-    $visibility $returnType ${operation.name}(ActionMapping mapping, $formBeanClassName form, HttpServletRequest request, HttpServletResponse reponse);
+    $visibility $returnType ${operation.name}(ActionMapping mapping, $formBeanClassName form, HttpServletRequest request, HttpServletResponse reponse) throws Exception;
 
 #set ($returnType = false)
 #end
