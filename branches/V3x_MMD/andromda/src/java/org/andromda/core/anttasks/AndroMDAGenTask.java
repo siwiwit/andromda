@@ -44,7 +44,7 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
  */
 public class AndroMDAGenTask extends MatchingTask
 {
-	
+
     /**
      * Set the context class loader so that any classes using it (the 
      * contextClassLoader) have access to the correct loader.
@@ -53,8 +53,9 @@ public class AndroMDAGenTask extends MatchingTask
         Thread.currentThread().setContextClassLoader(
             AndroMDAGenTask.class.getClassLoader());
     }
-    
-    private static final Logger logger = Logger.getLogger(AndroMDAGenTask.class);
+
+    private static final Logger logger =
+        Logger.getLogger(AndroMDAGenTask.class);
 
     /**
      *  the base directory
@@ -89,7 +90,7 @@ public class AndroMDAGenTask extends MatchingTask
     private ArrayList userProperties = new ArrayList();
 
     private RepositoryConfiguration repositoryConfiguration = null;
-    
+
     /**
      * Temporary list of properties from the &lt;namespace&gt; subtask.
      * Will be transferred to the Namespaces instance before execution starts.
@@ -131,15 +132,16 @@ public class AndroMDAGenTask extends MatchingTask
     {
         this.modelURL = modelURL;
     }
-    
+
     /**
      * Adds a namespace for a Plugin.  Namespace objects
      * are used to configure Plugins.
      * 
      * @param namespace a Namespace to add to this
      */
-    public void addNamespace(Namespace namespace) {
-    	namespaces.add(namespace);
+    public void addNamespace(Namespace namespace)
+    {
+        namespaces.add(namespace);
     }
 
     /**
@@ -213,10 +215,10 @@ public class AndroMDAGenTask extends MatchingTask
     {
         try
         {
-        	long startTime= System.currentTimeMillis();
-        	
-        	this.initNamespaces();
-        	
+            long startTime = System.currentTimeMillis();
+
+            this.initNamespaces();
+
             DirectoryScanner scanner;
             String[] list;
             String[] dirs;
@@ -227,7 +229,7 @@ public class AndroMDAGenTask extends MatchingTask
                 // shouldn't lead to problems
                 baseDir = this.getProject().resolveFile(".");
             }
-            
+
             initVelocityProperties();
             List cartridges = initCartridges();
 
@@ -278,8 +280,10 @@ public class AndroMDAGenTask extends MatchingTask
             }
 
             createRepository().createRepository().close();
-        	StdoutLogger.info("completed model processing, TIME --> " 
-        			+ ((System.currentTimeMillis() - startTime) / 1000.0) + "[s]");
+            StdoutLogger.info(
+                "completed model processing, TIME --> "
+                    + ((System.currentTimeMillis() - startTime) / 1000.0)
+                    + "[s]");
 
         }
         finally
@@ -409,23 +413,24 @@ public class AndroMDAGenTask extends MatchingTask
 
             // configure repository
             RepositoryConfiguration rc = createRepository();
-            RepositoryFacade repository = rc.createRepository();   
+            RepositoryFacade repository = rc.createRepository();
             repository.open();
             repository.readModel(url, rc.createModuleSearchPath().list());
 
             final ModelFacade model = repository.getModel();
-                context =
-                    new CodeGenerationContext(
-                        repository,
-                        model,
-                        null, // <-- no default script helper, yet!
-                        lastModifiedCheck,
-                        packages,
-                        userProperties);
-   
+            context =
+                new CodeGenerationContext(
+                    repository,
+                    model,
+                    null, // <-- no default script helper, yet!
+                    lastModifiedCheck,
+                    packages,
+                    userProperties);
+
             // process all model elements
             Collection elements = model.getModelElements();
-            StdoutLogger.debug("Model elements read: '" + elements.size() + "'");
+            StdoutLogger.debug(
+                "Model elements read: '" + elements.size() + "'");
             for (Iterator it = elements.iterator(); it.hasNext();)
             {
                 processModelElement(context, it.next());
@@ -434,32 +439,37 @@ public class AndroMDAGenTask extends MatchingTask
         }
         catch (FileNotFoundException fnfe)
         {
-            throw new BuildException("Model file not found --> '" + modelURL + "'");
+            throw new BuildException(
+                "Model file not found --> '" + modelURL + "'");
         }
         catch (IOException ioe)
         {
             throw new BuildException(
-                "Exception encountered while processing model --> '" + modelURL + "'");
+                "Exception encountered while processing model --> '"
+                    + modelURL
+                    + "'");
         }
         catch (RepositoryReadException mdre)
         {
             throw new BuildException(mdre);
         }
     }
-    
+
     /**
      * This method would normally be unnecessary. It is here because of a bug in
      * ant. Ant calls addNamespace() before the Namespace javabean is fully
      * initialized. So we kept the javabeans in an ArrayList that we have to
      * copy into the Namespaces instance.
      */
-    private void initNamespaces() {
-    	for (Iterator iter = namespaces.iterator(); iter.hasNext();) {
-    		Namespace namespace = (Namespace)iter.next();
-    		if (logger.isDebugEnabled())
-    			logger.debug("adding namespace --> '" + namespace + "'");
-    		Namespaces.instance().addNamespace(namespace);
-    	}
+    private void initNamespaces()
+    {
+        for (Iterator iter = namespaces.iterator(); iter.hasNext();)
+        {
+            Namespace namespace = (Namespace) iter.next();
+            if (logger.isDebugEnabled())
+                logger.debug("adding namespace --> '" + namespace + "'");
+            Namespaces.instance().addNamespace(namespace);
+        }
     }
 
     /**
@@ -477,9 +487,10 @@ public class AndroMDAGenTask extends MatchingTask
     {
         String name = context.getModelFacade().getName(modelElement);
 
-        if (!"org.omg.uml.foundation.core.Comment$Impl"
-            .equals(modelElement.getClass().getName()))
-            StdoutLogger.debug("processModelElement: name=" + name);
+        if (logger.isDebugEnabled())
+            if (!"org.omg.uml.foundation.core.Comment$Impl"
+                .equals(modelElement.getClass().getName()))
+                logger.debug("processModelElement: name=" + name);
 
         Collection stereotypeNames =
             context.getModelFacade().getStereotypeNames(modelElement);
@@ -511,11 +522,12 @@ public class AndroMDAGenTask extends MatchingTask
         throws BuildException
     {
         String name = context.getModelFacade().getName(modelElement);
-        StdoutLogger.debug(
-            "processModelElementStereotype: <<"
-                + stereotypeName
-                + ">> "
-                + name);
+        if (logger.isDebugEnabled())
+            logger.debug(
+                "processModelElementStereotype: <<"
+                    + stereotypeName
+                    + ">> "
+                    + name);
         Collection suitableCartridges =
             cartridgeDictionary.lookupCartridges(stereotypeName);
         // @todo: lookup cartridges not only by stereotype 
@@ -525,19 +537,22 @@ public class AndroMDAGenTask extends MatchingTask
 
         if (suitableCartridges == null)
         {
-            StdoutLogger.debug(
-                "processModelElementStereotype: <<"
-                    + stereotypeName
-                    + ">> "
-                    + name
-                    + " --> no cartridge");
+            if (logger.isDebugEnabled())
+                logger.debug(
+                    "processModelElementStereotype: <<"
+                        + stereotypeName
+                        + ">> "
+                        + name
+                        + " --> no cartridge");
             return;
         }
 
-        StdoutLogger.debug(
-            "processModelElementStereotype: found "
-                + suitableCartridges.size()
-                + " suitable cartridges");
+        if (logger.isDebugEnabled())
+            logger.debug(
+                "processModelElementStereotype: found "
+                    + suitableCartridges.size()
+                    + " suitable cartridges");
+
         for (Iterator iter = suitableCartridges.iterator();
             iter.hasNext();
             )
