@@ -1,11 +1,11 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
-import org.andromda.core.common.StringUtilsHelper;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
+import org.andromda.core.common.StringUtilsHelper;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.Arrays;
 
 
 /**
@@ -114,7 +114,7 @@ public class StrutsParameterLogicImpl
         {
             return "textarea";
         }
-        else if (Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_CHOICE.equalsIgnoreCase(fieldType))
+        else if (fieldType.toLowerCase().startsWith(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_CHOICE))
         {
             return "radio";
         }
@@ -321,6 +321,39 @@ public class StrutsParameterLogicImpl
     public java.lang.String getValidWhen()
     {
         return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_VALIDWHEN);
+    }
+
+    public Collection getOptionKeys()
+    {
+        final String key = getMessageKey() + '.';
+        final Collection optionKeys = new LinkedList();
+        final int optionCount = getOptionCount() + 1;
+        for (int i=1; i<optionCount; i++) optionKeys.add(key + i);
+        return optionKeys;
+    }
+
+    private int getOptionCount()
+    {
+        if ("radio".equals(getWidgetType()))
+        {
+            String fieldType = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE);
+            if (fieldType.length() > Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_OPTION.length())
+            {
+                try
+                {
+                    return Integer.parseInt(fieldType.substring(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_TYPE_OPTION.length()).trim());
+                }
+                catch(Exception exception)
+                {
+                    // let the next return statement handle this
+                }
+            }
+            return 3;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     // ------------------------------------------
