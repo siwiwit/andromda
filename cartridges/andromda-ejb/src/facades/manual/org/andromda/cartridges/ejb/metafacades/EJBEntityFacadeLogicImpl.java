@@ -100,7 +100,6 @@ public class EJBEntityFacadeLogicImpl
         if (this.hasStereotype(UMLProfile.STEREOTYPE_ENTITY)) {
             return "local";
         }
-
         return "remote";
     }
 
