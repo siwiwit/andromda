@@ -4,8 +4,9 @@
 ##
 #set ($fields = $class.actionParameters)
 #set ($useCase = $class.activityGraph.useCase)
+#set ($formBeanName = $class.formBeanName)
 #set ($formBeanClassName = $class.formBeanClassName)
-#set ($messageKeyPrefix = $str.toResourceMessageKey("$useCase.name $formBeanClassName"))
+#set ($messageKey = $class.messageKey)
 ##
 ##  START TEMPLATE
 ##
@@ -16,6 +17,10 @@ package $class.packageName;
 import $useCase.formBeantype;
 #end
 
+/**
+ * @struts.form
+ *      name="$formBeanName"
+ */
 public final class $formBeanClassName extends $useCase.formBeanClassName
 {
 #foreach ($field in $fields)
@@ -27,7 +32,7 @@ public final class $formBeanClassName extends $useCase.formBeanClassName
 #foreach ($validatorType in $validatorTypes)
      * @struts.validator
      *          type="$validatorType"
-     *  arg0resource="${messageKeyPrefix}.$field.validatorMsgKey"
+     *  arg0resource="${messageKey}.$field.validatorMsgKey"
 #foreach ($validatorArg in $field.getValidatorArgs($validatorType))
      *     arg${velocityCount}value="$validatorArg"
 #end
