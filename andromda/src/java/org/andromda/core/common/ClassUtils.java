@@ -21,10 +21,6 @@ public class ClassUtils extends org.apache.commons.lang.ClassUtils {
 	 * @param className the name of the class to load.
 	 * @return Class the loaded class
 	 * @throws ClassNotFoundException if the class can not be found
-	 * @throws NoSuchFieldException if the className is a primative and its corresponding
-	 *         type field can not be retrieved.
-	 * @throws IllegalAccessException if the className is a primative and its corresponding
-	 *         type field is illegal accessed.
 	 */
 	public static Class loadClass(String className) 
 		throws ClassNotFoundException {
