@@ -33,8 +33,8 @@ public class ExceptionUtils {
 		
 		//this is what the method is actually for
 		if (argument == null) {
-			throw new IllegalArgumentException(methodExecuteName + 
-				" - " + argumentName + " can not be null");
+			throw new IllegalArgumentException("methodName: " + methodExecuteName + 
+				" - '" + argumentName + "' can not be null");
 		}
     }
     
