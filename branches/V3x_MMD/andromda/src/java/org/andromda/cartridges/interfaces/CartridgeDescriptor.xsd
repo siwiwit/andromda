@@ -14,7 +14,8 @@
 	</xs:element>
 	<xs:element name="property">
 		<xs:complexType>
-			<!-- defines a reference to a <property/> element defined within a namespace element in your build file -->
+			<!-- defines a reference to a <property/> element defined within 
+				 a namespace element in your build file -->
 			<xs:attribute name="reference" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -36,8 +37,9 @@
 			<!-- a stereotype name from the model that will be processed (i.e. entity, enumeration, etc.) -->
 			<xs:attribute name="stereotype" use="required"/>
 			<!-- defines the variable name that should be placed into the template engine context,
-			     for all model elements having the modelElement with the stereotype attribute, if this is not
-			     defined, then the variable from the enclosing <modelElements/> element will be used. -->
+			     for all model elements having the modelElement with the stereotype attribute, 
+			     if this is not defined, then the variable from the 
+			     enclosing <modelElements/> element will be used. -->
 			<xs:attribute name="variable" use="optional"/>
 		</xs:complexType>
 	</xs:element>
