@@ -280,14 +280,6 @@ public class MetafacadeFactory
 
     /**
      * Populates the metafacade with the values retrieved from the property references
-     * in the <code>propertyuReferences</code> Map.
-     * They are keyed by the <code>context</code> member of an an instance of
-     * this class.
-     *
-     * @param propertyReferences the collection of property references to add.
-     */
-    /**
-     * Populates the metafacade with the values retrieved from the property references
      * found in the <code>propertyReferences</code> collection.
      *
      * @param propertyReferences the collection of property references which we'll populate.
