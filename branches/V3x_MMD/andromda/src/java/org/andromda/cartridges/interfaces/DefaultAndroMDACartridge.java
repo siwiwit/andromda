@@ -416,7 +416,7 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
     {
         String fileName = 
             this.getDescriptor().getTemplateEngine().getEvaluatedExpression(
-            template.getOutputPattern());
+                template.getOutputPattern());
 
         return new File(outputLocation, fileName);
     }
