@@ -9,6 +9,11 @@
         <stereotype>FrontEndUser</stereotype>
     </metafacade>
 
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsUseCaseLogicImpl">
+    </metafacade>
+
 	<metafacade
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsControllerLogicImpl">
@@ -16,9 +21,24 @@
 	</metafacade>
 
 	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.Parameter$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsParameterLogicImpl">
+	</metafacade>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsActivityGraphLogicImpl">
+	</metafacade>
+
+	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActionState$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsJspLogicImpl">
 		<stereotype>FrontEndView</stereotype>
+	</metafacade>
+
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.FinalState$Impl"
+		metafacadeClass="org.andromda.cartridges.bpm4struts.metafacades.StrutsFinalStateLogicImpl">
 	</metafacade>
 
 	<metafacade
