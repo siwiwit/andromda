@@ -16,10 +16,7 @@ public class AnimalImpl
 
     public java.lang.String getPrompt()
     {
-        // TODO: put your implementation here.
-
-        // Dummy return value, just that the file compiles
-        return null;
+        return "Is it a(n) " + getName();
     }
 
 }
