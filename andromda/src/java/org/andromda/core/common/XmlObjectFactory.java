@@ -44,18 +44,6 @@ public class XmlObjectFactory {
     private boolean validating = false;
     
     /**
-     * The validation feature.
-     */
-    protected static final String VALIDATION = 
-        "http://xml.org/sax/features/validation";
-        
-    /**
-     * The schema validation feature.
-     */
-    protected static final String VALIDATION_SCHEMA =
-        "http://apache.org/xml/features/validation/schema";
-    
-    /**
      * Creates an instance of this XmlObjectFactory with the
      * given <code>objectRulesXml</code>
      * @param objectRulesXml
