@@ -17,9 +17,9 @@ public class StrutsCheckBoxDecoratorImpl extends StrutsCheckBoxDecorator
     }
 
     // -------------------- business methods ----------------------
-    public Boolean isResetField()
+    public boolean isResetField()
     {
-        return Boolean.TRUE;
+        return true;
     }
 
     public String getFieldType()
