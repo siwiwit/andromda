@@ -198,12 +198,17 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
 #foreach ($variable in $class.pageVariables)
 #set ($variableName = $variable.name)
 #set ($variableType = $variable.type.fullyQualifiedName)
-<bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variableType" scope="page" toScope="page"/>
+<logic:present name="$formBeanName" property="$variableName" scope="page">
+    <bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variableType" scope="page" toScope="page"/>
+</logic:present>
 #if ($variable.hasBackingList())
 #set ($variableName = $variable.backingListName)
-<bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variable.backingListType" scope="page" toScope="page"/>
+<logic:present name="$formBeanName" property="$variableName" scope="page">
+    <bean:define id="$variableName" name="$formBeanName" property="$variableName" type="$variable.backingListType" scope="page" toScope="page"/>
+</logic:present>
 #end
 #end
+
 <html:html>
 
     <head>
@@ -232,7 +237,12 @@ ${indent}<bean:write name="$action.actionName" property="$field.name" scope="req
         </logic:messagesPresent>
 
 #foreach ($variable in $class.pageVariables)
-        <bean:write name="$variable.name" scope="page"/>
+        <logic:present name="$variable.name" scope="page">
+            <bean:write name="$variable.name" scope="page"/>
+        </logic:present>
+        <logic:notPresent name="$variable.name" scope="page">
+            Missing from request: $variable.name
+        </logic:notPresent>
 #end
 
 #set ($isFocusSet = false)## only one field per JSP page can have focus
