@@ -12,7 +12,7 @@ $class.getDocumentation(" ")
  * Metafacade interface to be used by AndroMDA cartridges.
  *
  */
-public interface $class.interfaceName
+public interface $class.name
 #set ($superclass = $class.superclass)
 #if ($superclass)
        extends $superclass.fullyQualifiedInterfaceName

@@ -14,7 +14,6 @@ package $packagename;
 $class.getDocumentation(" ")
  *
  * Metaclass facade for $shieldedMetaclassTypeName
- *
  */
 public abstract class ${class.name}Logic
        extends        org.andromda.core.metafacade.MetafacadeBase
@@ -85,7 +84,6 @@ $op.getDocumentation("    ")
     
    /**
 $assocEnd.otherEnd.getDocumentation("    ")
-    *
     */
     public $returnTypeName get${utrn}() {
         return shieldedElements(handleGet${utrn}());
@@ -95,7 +93,6 @@ $assocEnd.otherEnd.getDocumentation("    ")
     
    /**
 $assocEnd.otherEnd.getDocumentation("    ")
-    *
     */
     public $returnTypeName get${utrn}() {
         return 

@@ -148,15 +148,7 @@ public class MetafacadeFacadeLogicImpl
      */
     public String getFullyQualifiedInterfaceName()
     {
-        return getInterfacePackageName() + "." + getInterfaceName();
-    }
-
-    /* (non-Javadoc)
-     * @see org.andromda.cartridges.meta.metafacades.MetafacadeFacade#getInterfaceName()
-     */
-    public String getInterfaceName()
-    {
-        return getName();
+        return getInterfacePackageName() + "." + this.getName();
     }
 
     /* (non-Javadoc)
