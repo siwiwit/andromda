@@ -36,8 +36,8 @@
     <template
         sheet="templates/StrutsController.vsl"
         outputPattern="$generatedFile"
-        outlet="actions"
-        overWrite="true">
+        outlet="controller-impls"
+        overWrite="false">
         <modelElements variable="class">
             <modelElement stereotype="FrontEndController"/>
         </modelElements>
@@ -46,7 +46,7 @@
     <template
         sheet="templates/StrutsControllerInterface.vsl"
         outputPattern="$generatedFile"
-        outlet="actions"
+        outlet="controllers"
         overWrite="true">
         <modelElements variable="class">
             <modelElement stereotype="FrontEndController"/>
