@@ -2,7 +2,7 @@ package org.andromda.metafacades.uml14;
 
 import java.util.Collection;
 
-import org.andromda.core.metadecorators.uml14.DecoratorFactory;
+import org.andromda.core.metafacade.MetafacadeFactory;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.UmlClass;
 
@@ -55,7 +55,7 @@ public class PackageFacadeLogicImpl
      * @see org.andromda.core.metadecorators.uml14.PackageDecorator#handleGetModelElements()
      */
     protected Collection handleGetModelElements() {
-        return ((UmlPackage)DecoratorFactory.getInstance().getModel())
+        return ((UmlPackage)MetafacadeFactory.getInstance().getModel())
             .getCore()
             .getModelElement()
             .refAllOfType();
