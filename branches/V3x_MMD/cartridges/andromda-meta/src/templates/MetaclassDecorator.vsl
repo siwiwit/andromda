@@ -113,7 +113,12 @@ public abstract class ${class.name}
 #set ($utrn = $str.upperCaseFirstLetter($trn))
 ##
 #if ($assocEnd.isOne2Many() || $assocEnd.isMany2Many())
-    protected abstract java.util.Collection handleGet${utrn}();
+#set ($returnType = "java.util.Collection")
+## if the association end is 'ordered', then return a List
+#if ($assocEnd.isOrdered())
+#set ($returnType = "java.util.List")
+#end
+    protected abstract $returnType handleGet${utrn}();
     
    /**
 #generateDocumentation ($assocEnd.otherEnd "    ")

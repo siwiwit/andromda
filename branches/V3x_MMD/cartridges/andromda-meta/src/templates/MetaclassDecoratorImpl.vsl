@@ -94,7 +94,12 @@ public class ${class.name}Impl extends ${class.name}
 ##    * target navigable: $assocEnd.otherEnd.navigable
     *
     */
-    public java.util.Collection handleGet${utrn}()
+#set ($returnType = "java.util.Collection")
+## if the association end is 'ordered', then return a List
+#if ($assocEnd.ordered)
+#set ($returnType = "java.util.List")
+#end
+    public $returnType handleGet${utrn}()
     {
         // TODO: add your implementation here!
         return null;
