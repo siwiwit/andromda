@@ -1,0 +1,86 @@
+<%@ taglib uri="struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="struts-html.tld" prefix="html" %>
+
+##
+## This macro will render documentation
+##
+#macro ( generateJSPDocumentation $item $indent )
+#set ($tagValue = $transform.staticHelper.findTagValue( $item, "documentation"))
+#set ($paras = $transform.formatHTMLStringAsParagraphs($tagValue))
+${indent}[
+${indent}[  documentation:
+${indent}[
+#if ($paras)
+#foreach ( $par in $paras )
+${indent}[
+#foreach ( $line in $par.lines )
+${indent}[  $line
+#end
+#end
+#else
+${indent}[        NO DOCUMENTATION HAS BEEN SUPPLIED
+#end
+${indent}[
+#end
+##
+## Set global invariants
+##
+#set ($stateMachine = $transform.dynamicHelper.getStateMachineContext($class))
+#set ($useCase = $transform.getUseCaseContext($stateMachine))
+#set ($controllerForm = $transform.getControllerForm($useCase))
+#set ($controllerClass = $transform.getControllerClass($useCase))
+#set ($actionName  = $transform.toJavaClassName($controllerClass))
+#set ($methodName  = $transform.toJavaMethodName($class))
+#set ($formName = $transform.toJavaMethodName($controllerForm))
+#set ($fullyQualifiedFormName = $transform.toFullyQualifiedJavaClassName($controllerForm))
+#set ($triggeredTransitions = $transform.getNextTriggeredTransitions($class))
+##
+## Start JSP body
+##
+
+
+<!--
+        Use this piece of code if you want to have only hyperlinks
+
+#if ($triggeredTransitions.size() > 0)
+#foreach ($transition in $triggeredTransitions)
+#set ($triggerName = $transform.toFinalMemberName($transition.trigger))
+    <html:link action="/$actionName?target=$methodName&trigger=$triggerName">$triggerName</html:link>
+#end
+#else
+    <html:link action="/$actionName?target=$methodName">$transition.target.name</html:link>
+#end
+
+-->
+
+#if ($controllerForm)
+<!--
+        Use this piece of code when you want additional information passed into the form
+        (you will need to manually add input fields)
+
+        Valid input field examples are:
+#foreach ($attribute in $transform.staticHelper.getAttributes($controllerForm))
+#set ($attributeName = $attribute.name)
+#set ($typeName = $attribute.type.name)
+#if ($attributeName == "trigger")## do nothing
+#elseif ($typeName == "String")
+            <html:text property="$attributeName"/>
+#elseif ($typeName == "boolean")
+            <html:checkbox property="$attributeName"/>
+#elseif ($typeName.endsWith("[]") || $typeName == "Collection")
+            <html:select property="$attributeName"/>
+#end
+#end
+
+    <html:form action="/$actionName?target=$methodName">
+#if ($triggeredTransitions.size() > 0)
+#foreach ($transition in $triggeredTransitions)
+        <html:submit property="trigger" value="$transform.toFinalMemberName($transition.trigger)"/>
+#end
+#else
+        <html:submit value="submit"/>
+#end
+    </html:form>
+
+-->
+#end

@@ -1,0 +1,74 @@
+##
+## Set global invariants
+##
+#set ($stateMachine = $transform.getStateMachine($class))
+#set ($controllerClassName = $transform.toJavaClassName($transform.getControllerClass($class)))
+#set ($controllerFormName = $transform.toJavaClassName($transform.getControllerForm($class)))
+#if (!$controllerFormName)
+#set ($controllerFormName = "ActionForm")
+#end
+#set ($className = "${controllerClassName}")
+#set ($parentClassName = "${controllerClassName}Abstract")
+##
+## Package declaration and imports
+##
+package $transform.getPackageName($class);
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMapping;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+##
+## This macro will render documentation into HTML paragraphs
+##
+#macro ( generateDocumentation $item $indent )
+#set ($tagValue = $transform.staticHelper.findTagValue( $item, "documentation"))
+#set ($paras = $transform.formatHTMLStringAsParagraphs($tagValue))
+#foreach ( $par in $paras )
+${indent}*
+${indent}* <p>
+#foreach ( $line in $par.lines )
+${indent}* $line
+#end
+${indent}* </p>
+#end
+#end
+##
+## Set collections from which methods will be rendered, we convert them to sets
+## because we don't want to render doubles (just to make sure)
+##
+#set ($decisionPoints = $transform.toSet($transform.dynamicHelper.getDecisionPoints($stateMachine)))
+#set ($objectFlowStates = $transform.toSet($transform.dynamicHelper.getObjectFlowStates($stateMachine)))
+#set ($actionStates = $transform.toSet($transform.dynamicHelper.getActionStates($stateMachine)))
+##
+## Start of the class declaration, notice how it extends the parent
+##
+public class $className extends $parentClassName
+{
+#foreach ($decisionPoint in $decisionPoints)
+#if ($transform.dynamicHelper.isGuardedDecisionPoint($decisionPoint))
+#set ($methodName = $transform.toJavaMethodName($decisionPoint))
+    protected final int ${methodName}Impl(ActionMapping mapping, $controllerFormName form, HttpServletRequest request, HttpServletResponse response)
+    {
+        return 0;
+    }
+
+#end
+#end
+##
+## Each object flow state needs to reflect the change in the 'back-end', the user will need to code this
+## manually
+##
+#foreach ($objectFlowState in $objectFlowStates)
+#set ($objectFlowStateName = $transform.toJavaClassName($objectFlowState))
+#set ($objectFlowTypeName = $transform.toJavaClassName($objectFlowState.type))
+#set ($objectFlowStateState = $transform.getObjectFlowStateState($objectFlowState))
+#set ($methodName = "set$objectFlowStateName$transform.toJavaClassName($objectFlowStateState)")
+    protected final void ${methodName}Impl(ActionMapping mapping, $controllerFormName form, HttpServletRequest request, HttpServletResponse response) throws Exception
+    {
+//      $objectFlowTypeName $transform.toJavaMethodName($objectFlowState) = null;
+    }
+
+#end
+}
