@@ -35,7 +35,7 @@ public class NamespacesTest extends TestCase {
 		namespace.addProperty(outletLocation);
 		Namespaces.instance().addNamespace(namespace);
 
-		assertEquals(TEST_LOCATION, 
+		assertEquals(outletLocation, 
 			Namespaces.instance().findNamespaceProperty(
 				TEST_NAMESPACE, 
 				TEST_OUTLET));
