@@ -1,6 +1,7 @@
 <project name="andromda-uml-facades" default="dist">
 
     <property name="src.dir"          value="${basedir}/src" />
+    <property name="src.java.dir"     value="${src.dir}/java"/>
     <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
     <property name="uml.dir"          value="${src.dir}/uml" />
 
@@ -115,6 +116,7 @@
         <echo message="andromda.new.classpath = ${n.cp}"/>
         <javac destdir="${build.dir}" includes="**/*.java"
                includeAntRuntime="false">
+            <src path="${src.java.dir}"/>
             <src path="${src.fac.gen.dir}" />
             <classpath>
                <path refid="andromda.new.classpath"/>

@@ -39,7 +39,7 @@ public interface RepositoryFacade
 	 * @throws MetaDataReadException if model syntax is violated
 	 * @throws IOException if io error occurs during file read
 	 */
-	public void readModel(URL modelURL, String[] moduleSearchPath) throws RepositoryReadException, IOException;
+	public void readModel(URL modelURL, String[] moduleSearchPath) throws RepositoryFacadeException, IOException;
 
 	/**
 	 *  returns the date and time of when the model was last modified

@@ -1,6 +1,6 @@
 package org.andromda.cartridges.ejb;
 
-import org.andromda.core.uml14.UMLProfile;
+import org.andromda.metafacades.uml.UMLProfile;
 
 /**
  * The EJB profile. Contains

@@ -25,6 +25,14 @@ import java.util.Collection;
  */
 public interface ModelFacade
 {
+    
+    /**
+     * Sets the object that represents the entire model.
+     * 
+     * @param model the model to set.
+     */
+    public void setModel(Object model);
+    
     /**
      * Returns an object that represents the entire model.
      * Data type is defined by the implementor of this interface.
@@ -32,12 +40,6 @@ public interface ModelFacade
      * @return Object
      */
     public Object getModel();
-
-    /**
-     * Returs all elements of the model.
-     * @return Collection of model elements. Data type is defined by the implementor of this interface.
-     */
-    public Collection getModelElements();
     
     /**
      * Returns the name of a model element (whatever that means for a concrete model).
@@ -61,6 +63,16 @@ public interface ModelFacade
      * @return Collection of Strings with stereotype names
      */
     public Collection getStereotypeNames(Object modelElement);
+    
+    /**
+     * Finds all the model elements that have the specified 
+     * <code>stereotype</code>.
+     * 
+     * @param stereotype the name of the stereotype, they are matched
+     *        without regard to case.
+     * @return Collection
+     */
+    public Collection findByStereotype(String stereotype);
 
 
 }

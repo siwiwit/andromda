@@ -1,6 +1,6 @@
 package org.andromda.cartridges.meta;
 
-import org.andromda.core.uml14.UMLProfile;
+import org.andromda.metafacades.uml.UMLProfile;
 
 /**
  * The Meta profile. Contains the profile information 

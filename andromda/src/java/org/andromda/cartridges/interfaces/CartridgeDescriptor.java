@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import org.andromda.core.templateengine.TemplateEngine;
+
 /**
  * Describes the capabilities of an AndroMDA cartridge.
  * 
@@ -39,14 +41,6 @@ public interface CartridgeDescriptor {
      * @see TemplateConfiguration
      */
     public List getTemplateConfigurations();
-
-    /**
-     * Returns the list of macro libraries with commonly used
-     * scripting engine macros.
-     * 
-     * @return List the list of macros
-     */
-    public List getMacroLibraries();
     
     /**
      * Returns the Map of template objects made available to
@@ -78,4 +72,14 @@ public interface CartridgeDescriptor {
      * @return String
      */
     public String getCartridgeClassName();
+    
+    /**
+     * Gets the TemplateEngine which implements the template 
+     * processing.
+     * 
+     * @see org.andromda.core.templateengine.TemplateEngine
+     * 
+     * @return TemplateEngine
+     */
+    public TemplateEngine getTemplateEngine();
 }

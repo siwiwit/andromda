@@ -389,6 +389,18 @@ public class MetafacadeFactory
         }
         return metafacades;
     }
+    
+    /**
+     * Returns a metafacade for each metaobject, contained within the <code>metaobjects</code>
+     * collection depending on its <code>metaclass</code>.
+     * @param metaobjects the meta model element.
+     * @return Collection of metafacades
+     */
+    public Collection createMetafacades(
+        Collection metaobjects)
+    {
+        return this.createMetafacades(metaobjects, null);
+    }
 
     /**
      * @return the model

@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.andromda.cartridges.ejb.EJBProfile;
-import org.andromda.core.uml14.UMLProfile;
+import org.andromda.metafacades.uml.UMLProfile;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;

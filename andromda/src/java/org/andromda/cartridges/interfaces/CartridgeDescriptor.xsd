@@ -42,6 +42,9 @@
 			<xs:attribute name="overWrite" type="xs:boolean" use="required"/>
 			<!-- true/false on whether we should allow generation of empty files-->
 			<xs:attribute name="generateEmptyFiles" type="xs:boolean"/>
+			<!-- true/false on whether we should output all model elments 
+			     having valid stereotypes to one file -->
+			<xs:attribute name="outputToSingleFile" type="xs:boolean"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="templateObject">

@@ -9,9 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.XmlObjectFactory;
+import org.andromda.core.templateengine.TemplateEngine;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 /**
  * A default implementation of the CartridgeDescriptor interface.
@@ -24,14 +27,16 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DefaultCartridgeDescriptor implements CartridgeDescriptor
 {
+    private static Logger logger = Logger.getLogger(DefaultCartridgeDescriptor.class);
+    
     private String cartridgeName;
     private Map properties = new HashMap();
     private List supportedStereotypes = null;
     private List templates = new ArrayList();
-    private List macrolibs = new ArrayList();
     private Map templateObjects = new HashMap();
     private URL definitionURL;
     private String cartridgeClassName = null;
+    private TemplateEngine templateEngine = null;
     
     /**
      * Returns a new configured instance of this DefaultCartridgeDescriptor as 
@@ -188,15 +193,7 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
      */
     public void addMacroLibrary(String libraryName)
     {
-        macrolibs.add(libraryName);
-    }
-    
-    /**
-     * @see org.andromda.cartridges.interfaces.CartridgeDescriptor#getMacroLibraries()
-     */
-    public List getMacroLibraries()
-    {
-        return macrolibs;
+        this.templateEngine.addMacroLibrary(libraryName);
     }
     
     /**
@@ -205,7 +202,8 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
      * 
      * @param templateObject
      */
-    public void addTemplateObject(TemplateObject templateObject) {
+    public void addTemplateObject(TemplateObject templateObject) 
+    {
         final String methodName = "DefaultCartridgeDescriptor.addTemplateObject";
         ExceptionUtils.checkNull(methodName, "templateObject", templateObject);
         templateObject.setResource(this.getDefinitionURL());
@@ -222,5 +220,54 @@ public class DefaultCartridgeDescriptor implements CartridgeDescriptor
     {
         return this.templateObjects;
     }
+    
+    /**
+     * This currently contains the default template engine,
+     * but templateengines should be moved into their own
+     * module and then a META-INF/service properties file should be used instead
+     * of hard coding this value.  Then depending on what is on
+     * the classpath can be set as the default template engine
+     */
+    private static final String DEFAULT_TEMPLATE_ENGINE =
+        "org.andromda.core.templateengine.VelocityTemplateEngine";
 
+    /**
+     * Sets the template engine class for this cartridge.
+     * 
+     * @param templateEngineClassName
+     */
+    public void setTemplateEngineClass(String templateEngineClassName) {
+        final String methodName = "DefaultCartridgeDescriptor.setTemplateEngine";
+        try {
+            this.templateEngine = 
+                (TemplateEngine)
+                    ClassUtils.loadClass(
+                        templateEngineClassName).newInstance();
+        } catch (Throwable th) {
+            String errMsg = "Error performing " + methodName;
+            logger.error(errMsg, th);
+            throw new CartridgeException(errMsg, th);
+        }
+    }
+    
+    /**
+     * @see org.andromda.cartridges.interfaces.CartridgeDescriptor#getTemplateEngine()
+     */
+    public TemplateEngine getTemplateEngine() {
+        final String methodName = "DefaultCartridgeDescriptor.getTemplateEngine";
+        if (this.templateEngine == null) {
+            try {
+                this.templateEngine = 
+                    (TemplateEngine)
+                        ClassUtils.loadClass(
+                            DEFAULT_TEMPLATE_ENGINE).newInstance();
+            } catch (Throwable th) {
+                String errMsg = "Error performing " + methodName;
+                logger.error(errMsg, th);
+                throw new CartridgeException(errMsg, th);
+            }
+        }
+        return this.templateEngine;
+    }
+    
 }

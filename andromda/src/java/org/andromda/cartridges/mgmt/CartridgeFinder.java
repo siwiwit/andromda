@@ -8,7 +8,7 @@ import java.util.List;
 import org.andromda.cartridges.interfaces.CartridgeDescriptor;
 import org.andromda.cartridges.interfaces.DefaultAndroMDACartridge;
 import org.andromda.cartridges.interfaces.DefaultCartridgeDescriptor;
-import org.andromda.cartridges.interfaces.IAndroMDACartridge;
+import org.andromda.cartridges.interfaces.AndroMDACartridge;
 import org.andromda.core.common.ResourceFinder;
 import org.apache.log4j.Logger;
 
@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
  * @author    <a href="http://www.mbohlen.de">Matthias Bohlen</a>
  * @author    Chad Brandon
  * @since     April 1, 2003
- * @version   $Revision: 1.3.2.4 $
+ * @version   $Revision: 1.3.2.5 $
  */
 public class CartridgeFinder
 {
@@ -48,7 +48,7 @@ public class CartridgeFinder
             	URL cartridgeUri = cartridgeUris[ctr];
                 CartridgeDescriptor cDescriptor = 
                     DefaultCartridgeDescriptor.getInstance(cartridgeUri);
-                IAndroMDACartridge cartridge =
+                AndroMDACartridge cartridge =
                     instantiateCartridge(cDescriptor);
                 cartridges.add(cartridge);
             }
@@ -57,8 +57,8 @@ public class CartridgeFinder
         // some debugging output
         for (Iterator iter = cartridges.iterator(); iter.hasNext();)
         {
-            IAndroMDACartridge element =
-                (IAndroMDACartridge) iter.next();
+            AndroMDACartridge element =
+                (AndroMDACartridge) iter.next();
 			logger.info("found cartridge --> '" + element.getDescriptor().getCartridgeName() + "'");
 
         }
@@ -68,9 +68,9 @@ public class CartridgeFinder
     /**
      * Instantiates a cartridge from a descriptor.
      * @param cDescriptor the cartridge descriptor
-     * @return IAndroMDACartridge
+     * @return AndroMDACartridge
      */
-    private static IAndroMDACartridge instantiateCartridge(CartridgeDescriptor cd)
+    private static AndroMDACartridge instantiateCartridge(CartridgeDescriptor cd)
 	{
     	String className = cd.getCartridgeClassName();
     	if (className == null)
@@ -78,7 +78,7 @@ public class CartridgeFinder
     	try
 		{
     		Class cl = Class.forName(className);
-    		IAndroMDACartridge ac = (IAndroMDACartridge) cl.newInstance();
+    		AndroMDACartridge ac = (AndroMDACartridge) cl.newInstance();
     		ac.setDescriptor(cd);
     		return ac;
     	}

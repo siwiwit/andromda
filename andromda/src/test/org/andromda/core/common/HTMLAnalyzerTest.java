@@ -29,7 +29,7 @@ public class HTMLAnalyzerTest extends TestCase
                             + "<p>The purpose of this class is to read an HTML string from the"
                             + " contents of an XMI documentation element and translate it to"
                             + " a list of paragraphs.</p>"
-                            + "The list of paragraphs can be used in a Velocity template"
+                            + "The list of paragraphs can be used in a VelocityTemplateEngine template"
                             + " to generate JavaDoc documentation for a class, an attribute or a"
                             + " method.</p>");
         

@@ -1,6 +1,6 @@
 package org.andromda.cartridges.hibernate;
 
-import org.andromda.core.uml14.UMLProfile;
+import org.andromda.metafacades.uml.UMLProfile;
 
 /**
  * The Hibernate profile. Contains

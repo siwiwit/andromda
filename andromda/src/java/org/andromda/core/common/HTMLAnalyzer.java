@@ -16,7 +16,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  * into an HTML paragraph.
  * 
  * <p>
- * The list of paragraphs can be used in a Velocity template to generate
+ * The list of paragraphs can be used in a VelocityTemplateEngine template to generate
  * JavaDoc documentation for a class, an attribute or a method.
  * </p>
  * 
