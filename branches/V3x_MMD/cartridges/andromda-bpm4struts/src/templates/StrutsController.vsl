@@ -1,41 +1,92 @@
-#set ($generatedFile = "${class.fullPathName}.java")
-
-#set ($packageName = $class.packageName)
-
-#set ($actions = $class.actions)
-
-package $packageName;
+#set ($generatedFile = "${class.fullPath}.java")
+##
+##  CONSTANTS
+##
+#set ($useCase = $class.useCase)
+#set ($formBeanClassName = $useCase.formBeanClassName)
+##
+##  START TEMPLATE
+##
+package $class.packageName;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-#foreach ($action in $actions)
-#set ($formBeanPackage = $action.formBeanPackageName)
-#if ($formBeanPackage != $packageName)
-import $action.formBeanType;
-#end
-#end
-
 public final class $class.name
 {
 #foreach ($operation in $class.operations)
+#set ($parameters = $operation.parameters)
+#set ($visibility = $operation.visibility)
 #set ($returnType = $operation.type.fullyQualifiedName)
 #if (!$returnType)
 #set ($returnType = "void")
 #end
-#set ($signature = "${operation.name}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception")
-#set ($visibility = $operation.visibility)
-    $visibility static $returnType $signature
+    /**
+$operation.getDocumentation("     ")
+#if ($parameters.size() == 0)
+     * <p/>
+     * This method does not receive any parameters through the form bean.
+#elseif ($parameters.size() == 1)
+#set ($parameter = $parameters.iterator().next())
+     * <p/>
+     * This method receives the "$parameter.name" parameter,
+     * it is of type <code>$parameter.type.name</code> and is available
+     * through the argument form bean.
+#else
+     * <p/>
+     * This method receives the following parameters; they are all available
+     * through the argument form bean.
+     * <p/>
+     * <table cellpadding="3" rules="all">
+     *    <tr>
+     *       <th>Parameter Name</th>
+     *       <th>Parameter Type</th>
+     *    </tr>
+#foreach ($parameter in $parameters)
+     *    <tr>
+     *       <td>$parameter.name</td>
+     *       <td>$parameter.type.name</td>
+     *    </tr>
+#end
+     * </table>
+#end
+     */
+    $visibility static $returnType ${operation.name}(ActionMapping mapping, $formBeanClassName form, HttpServletRequest request, HttpServletResponse reponse)
     {
+#foreach ($parameter in $parameters)
+        final $parameter.type.name $parameter.name = form.${parameter.getterName}();
+#end
+
+        /*
+         * By default this method populates the complete form, it is up to you to replace this
+         * by those fields that are required (this cannot be determined here because it might be
+         * that case that many action call this controller method, each with their own set of
+         * parameters
+         */
+        populateForm(form);
 #if ($returnType != "void")
+
         return null;
 #end
     }
 
 #set ($returnType = false)
 #end
+
+    /**
+     * This method exists solely to make the application work at runtime by populating
+     * the complete form with default values.
+     * <p/>
+     * You may remove this method if you want.
+     */
+    private static void populateForm($formBeanClassName form)
+    {
+#foreach ($field in $useCase.formFields)
+        form.${field.setterName}("$field.resetValue");
+#end
+    }
 }
+

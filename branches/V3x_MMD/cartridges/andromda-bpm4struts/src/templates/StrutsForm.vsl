@@ -1,82 +1,35 @@
-#set ($generatedFile = "${class.formFullPathName}.java")
-
-package $class.formBeanPackageName;
-
+#set ($generatedFile = "${class.fullFormBeanPath}.java")
+##
+##  CONSTANTS
+##
+#set ($formBeanClassName = $class.formBeanClassName)
 #set ($fields = $class.actionParameters)
+#set ($useCase = $class.activityGraph.useCase)
+##
+##  START TEMPLATE
+##
+package $class.packageName;
 
 import java.io.Serializable;
 
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.validator.ValidatorForm;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
 
 import javax.servlet.http.HttpServletRequest;
+#if ($class.packageName != $useCase.formBeanPackage)
 
-/**
-$class.getDocumentation(" ")
- *
- * @struts.form
- *        name="$class.formName"
- */
-public final class $class.formBeanClassName extends ValidatorForm implements Serializable
+import $useCase.formBeantype;
+#end
+
+public final class $formBeanClassName extends $useCase.formBeanClassName
 {
 #foreach ($field in $fields)
-    /**
-$field.getDocumentation("     ")
-     */
-    private $field.type.fullyQualifiedName $field.name;
-#set ($list = $field.backingListName)
-#if ($list)
-    private java.util.Collection $list = null;
-#end
-#set ($list = false)
-#end
-
-#foreach ($field in $fields)
-    /**
-#foreach ($validatorType in $field.validatorTypes)
-     * @struts.validator
-     *          type="$validatorType"
-     *  arg0resource="$field.validatorMsgKey"
-#foreach ($validatorArg in $field.getValidatorArgs($validatorType))
-     *     arg${velocityCount}value="$validatorArg"
-#end
-     *
-#end
-#if ($field.validWhen)
-     * @struts.validator
-     *       type="validwhen"
-     *  arg0value="$field.validatorMsgKey"
-     *
-#end
-#foreach ($validatorVar in $field.validatorVars)
-     * @struts.validator-var
-     *          name="$validatorVar.get(0)"
-     *         value="$validatorVar.get(1)"
-#end
-#if ($field.validWhen)
-     * @struts.validator-var
-     *          name="test"
-     *         value="$field.validWhen"
-#end
-     */
-    public void ${field.setterName}($field.type.fullyQualifiedName $field.name)
+#set ($fieldType = $field.type.fullyQualifiedName)
+#set ($fieldName = $field.name)
+    public void ${field.setterName}($fieldType $fieldName)
     {
-        this.$field.name = $field.name;
-    }
-
-    public $field.type.fullyQualifiedName ${field.getterName}()
-    {
-        return this.$field.name;
+        super.${field.setterName}($fieldName);
     }
 
 #end
-    public void reset(ActionMapping mapping, HttpServletRequest request)
-    {
-#foreach ($field in $fields)
-#if ($field.mustReset())
-        this.$field.name = $field.resetValue;
-#end
-#end
-    }
 }
