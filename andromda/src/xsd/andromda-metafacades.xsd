@@ -9,7 +9,7 @@
 	     to a simple "AttributeFacade" and therefore would NOT need the context -->
 	<xs:element name="context" type="xs:string"/>
 	<!-- specifies the default metafacade (if a metafacade is not explicitly 
-	     defined for an element -->
+	     defined for an element this will be used instead) -->
 	<xs:element name="default">
 		<xs:complexType>
 			<xs:attribute name="className" type="xs:string" use="required"/>
