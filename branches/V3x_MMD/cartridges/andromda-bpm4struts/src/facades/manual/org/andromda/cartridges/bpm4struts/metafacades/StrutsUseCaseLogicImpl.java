@@ -1,11 +1,11 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
 import org.andromda.metafacades.uml.ActivityGraphFacade;
+import org.andromda.metafacades.uml.TransitionFacade;
+import org.andromda.metafacades.uml.EventFacade;
 import org.andromda.core.common.StringUtilsHelper;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 
 /**
@@ -45,6 +45,20 @@ public class StrutsUseCaseLogicImpl
         return getPackageName().replace('.','/') + '/' + StringUtilsHelper.toJavaClassName(getName());
     }
 
+    public String getFormBeanClassName()
+    {
+        return StringUtilsHelper.toJavaClassName(getName()) + "Form";
+    }
+
+    public String getFormBeanType()
+    {
+        return getFormBeanPackageName() + '.' + getFormBeanClassName();
+    }
+
+    public String getFormBeanPackageName()
+    {
+        return getController().getPackageName();
+    }
     // ------------- relations ------------------
 
     public java.lang.Object handleGetActivityGraph()
@@ -90,5 +104,26 @@ public class StrutsUseCaseLogicImpl
     protected Collection handleGetAllUseCases()
     {
         return getModel().getAllUseCases();
+    }
+
+    protected Object handleGetController()
+    {
+        return getActivityGraph().getController();
+    }
+
+    protected Collection handleGetFormFields()
+    {
+        final Map formFieldsMap = new HashMap();
+        final Collection transitions = getActivityGraph().getTransitions();
+        for (Iterator iterator = transitions.iterator(); iterator.hasNext();)
+        {
+            TransitionFacade transition = (TransitionFacade) iterator.next();
+            EventFacade trigger = transition.getTrigger();
+            if (trigger != null)
+            {
+                formFieldsMap.put(trigger.getName(), trigger);
+            }
+        }
+        return formFieldsMap.values();
     }
 }
