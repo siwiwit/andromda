@@ -2,20 +2,15 @@
 ##
 ##  CONSTANTS
 ##
-#set ($formBeanClassName = $class.formBeanClassName)
 #set ($fields = $class.actionParameters)
 #set ($useCase = $class.activityGraph.useCase)
+#set ($formBeanClassName = $class.formBeanClassName)
+#set ($messageKeyPrefix = $str.toResourceMessageKey("$useCase.name $formBeanClassName"))
 ##
 ##  START TEMPLATE
 ##
 package $class.packageName;
 
-import java.io.Serializable;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-
-import javax.servlet.http.HttpServletRequest;
 #if ($class.packageName != $useCase.formBeanPackage)
 
 import $useCase.formBeantype;
@@ -26,6 +21,30 @@ public final class $formBeanClassName extends $useCase.formBeanClassName
 #foreach ($field in $fields)
 #set ($fieldType = $field.type.fullyQualifiedName)
 #set ($fieldName = $field.name)
+#set ($validatorTypes = $field.validatorTypes)
+#if (!$validatorTypes.isEmpty())
+    /**
+#foreach ($validatorType in $validatorTypes)
+     * @struts.validator
+     *          type="$validatorType"
+     *  arg0resource="${messageKeyPrefix}.$field.validatorMsgKey"
+#foreach ($validatorArg in $field.getValidatorArgs($validatorType))
+     *     arg${velocityCount}value="$validatorArg"
+#end
+     *
+#end
+#foreach ($validatorVar in $field.validatorVars)
+     * @struts.validator-var
+     *          name="$validatorVar.get(0)"
+     *         value="$validatorVar.get(1)"
+#end
+#if ($field.validWhen)
+     * @struts.validator-var
+     *          name="test"
+     *         value="$field.validWhen"
+#end
+     */
+#end
     public void ${field.setterName}($fieldType $fieldName)
     {
         super.${field.setterName}($fieldName);
