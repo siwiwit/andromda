@@ -108,7 +108,7 @@
         
         <property 
         	name="model" 
-        	value="jar:file:${uml.dir}/MetadecoratorModel.xml.zip!/MetadecoratorModel.xml"/>
+        	value="jar:file:${uml.dir}/MetaMetafacadeModel.xml.zip!/MetaMetafacadeModel.xml"/>
 
         <andromda basedir="."
            modelURL="${model}"
@@ -122,7 +122,14 @@
 				<property name="languageMappings" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
             
-            <modelPackage name="org.andromda.core.metadecorators.uml14" shouldProcess="true"/>
+            <modelPackage name="org.andromda.core.metadecorators.uml14"    shouldProcess="true"/>
+            <modelPackage name="org.andromda.cartridges.meta.metafacades"  shouldProcess="true"/>
+
+			<repository>
+				<moduleSearchPath>
+					<pathelement location="${uml.dir}" />
+				</moduleSearchPath>
+			</repository>
 
         </andromda>
         
@@ -132,35 +139,47 @@
             description="Builds the decorator objects from the generated and hand-written sources">
         <property name="n.cp" refid="andromda.new.classpath"/>
         <echo message="andromda.new.classpath = ${n.cp}"/>
-        <javac destdir="${build.dec.dir}" includes="**/*.java"
-               includeAntRuntime="false">
+        <javac destdir="${build.dec.dir}" includeAntRuntime="false">
+            <src path="${src.cart.dir}" />
             <src path="${src.dec.gen.dir}" />
             <src path="${src.dec.man.dir}" />
+            <include name="org/andromda/core/**/*.java" />
             <classpath>
                <path refid="andromda.new.classpath"/>
             </classpath>
         </javac>
 
+		<copy file="${src.dir}/META-INF/andromda-default-metafacades.xml" 
+		      tofile="${build.dec.dir}/META-INF/andromda-metafacades.xml"
+		/>
+		
         <jar jarfile="${build.dir}/metadecorators.jar">
             <fileset dir="${build.dec.dir}" includes="**/*.class" />
-		    <fileset dir="${src.dir}" includes="META-INF/*metafacades.xml" />
+		    <fileset dir="${build.dec.dir}" includes="META-INF/andromda-metafacades.xml" />
         </jar>
     </target>
 
     <target name="compile2" depends="compile1"
             description="Builds the cartridge objects from the sources">
-        <javac destdir="${build.cart.dir}" includes="**/*.java"
-               includeAntRuntime="false">
+        <javac destdir="${build.cart.dir}" includeAntRuntime="false">
             <src path="${src.cart.dir}" />
+            <src path="${src.dec.gen.dir}" />
+            <src path="${src.dec.man.dir}" />
+            <include name="org/andromda/cartridges/meta/**/*.java" />
             <classpath>
                 <path refid="andromda.new.classpath"/>
                 <pathelement location="${build.dir}/metadecorators.jar"/>
             </classpath>
         </javac>
 
+		<copy file="${src.dir}/META-INF/andromda-meta-metafacades.xml" 
+		      tofile="${build.cart.dir}/META-INF/andromda-metafacades.xml"
+		/>
+		
         <jar jarfile="${build.dir}/andromda-meta.jar">
             <fileset dir="${src.dir}" includes="templates/*" />
             <fileset dir="${src.dir}" includes="META-INF/*cartridge.xml" />
+            <fileset dir="${build.cart.dir}" includes="META-INF/andromda-metafacades.xml" />
             <fileset dir="${build.cart.dir}" includes="**/*.class" />
         </jar>
         <copy todir="${dist.dir}" >
