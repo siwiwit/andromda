@@ -8,7 +8,7 @@
 #if ( $parentStereotype == "Entity")
 ## Extend the component interface of the super type if the super type 
 ## is an <<Entity>>
-#set ($parentInterface = "${$parentClass.fullyQualifiedName}")
+#set ($parentInterface = "${parentClass.fullyQualifiedName}")
 #end
 #end
 #if (!$parentInterface)
@@ -36,11 +36,10 @@ extends $parentInterface
 
     // -- accessors for environment entries and constants --
 #foreach($att in $class.staticAttributes)
-#set ($visibility = $att.visibility)
+#set ($visibility = $att.visibility.toString())
 ## Only expose the method to the component interface if it is public.
 #if($visibility == "public")
 #set($attType = $att.type.fullyQualifiedName)
-#set($AttName = $str.upperCaseFirstLetter($att.name))
     /**
 #if($att.stereotypeName == "EnvEntry")
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} environment entry")
@@ -50,7 +49,7 @@ extends $parentInterface
 #end
 #remainingJavadocParagraphs($att "     ")
      */
-    public $attType get$AttName();
+    public $attType ${att.getterName}();
     
 #end
 #end
@@ -58,23 +57,22 @@ extends $parentInterface
     // ------------- attributes ----------------
     
 #foreach ( $att in $class.instanceAttributes)
-#set ($visibility = $att.visibility)
+#set ($visibility = $att.visibility.toString())
 ## Only expose the method to the component interface if it is public.
 #if($visibility == "public")
 #set($attType = $att.type.fullyQualifiedName)
-#set($AttName = $str.upperCaseFirstLetter($att.name))
     /**
      * Get #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
 #remainingJavadocParagraphs($att "     ")
      */
-    public $attType get$AttName();
+    public $attType ${att.getterName}();
 
 #if(!$att.readOnly)
     /**
      * Set #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
      * @param value the new value
      */
-    public void set$AttName($attType value);
+    public void ${att.setterName}($attType value);
     
 #end
 #end
@@ -83,6 +81,7 @@ extends $parentInterface
     // ------------- relations ------------------
 
 #foreach ( $assoc in $class.entityRelations) )
+//class.entityRelations = $class.entityRelations
 #set ($assocname = $assoc.relationName)
 #set ($TargetRoleName = ${str.upperCaseFirstLetter($assoc.otherEnd.roleName)})
 #set ($targetTypeName = $transform.getRelationTargetType($assoc))
@@ -103,7 +102,7 @@ extends $parentInterface
 
 #foreach ( $op in $class.operations)
 #if ($op.stereotypeName != "FinderMethod" && $op.stereotypeName != "CreateMethod" && $op.stereotypeName != "SelectMethod")
-#set ($visibility = $op.visibility)
+#set ($visibility = $op.visibility.toString())
 ## Only expose public, nonstatic methods (public static methods go on the home
 ## interface)
 #if ($visibility == "public" && !$op.static) 

@@ -35,7 +35,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
 #end
 
 #foreach($att in $class.staticAttributes)
-#set ($visibility = $att.visibility)
+#set ($visibility = $att.visibility.toString())
 ## Only expose the method to the home interface if it is public.
 #if($visibility == "public")
 #set($attType = $att.type.fullyQualifiedName)
@@ -56,7 +56,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
     // ---------------- home methods  ----------------------
 #foreach ( $op in $class.operations)
 #if ($op.stereotypeName != "FinderMethod" && $op.stereotypeName != "CreateMethod" && $op.stereotypeName != "SelectMethod")
-#set ($visibility = $op.visibility)
+#set ($visibility = $op.visibility.toString())
 ## Only expose public static methods (public nonstatic methods go on the
 ## component interface)
 #if ($visibility == "public" && $op.static) 
@@ -119,7 +119,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
      * @param $att.name Value for #firstJavadocParagraph(${att} "lower" "the ${att.name} property")
 #end
      */
-    public ${entityname} create($transform.getAttributesAsList($allAttributes, true, true))
+    public ${entityname} create(${transform.getAttributesAsList($allAttributes, true, true)})
            throws javax.ejb.CreateException;
 #set ($relations = $class.allEntityRelations)
 #if (!$relations.isEmpty())
@@ -133,7 +133,7 @@ public interface ${entityname}LocalHome  extends $parentInterface {
      * @param $rel.target.roleName Value for #firstJavadocParagraph(${rel.target} "lower" "the ${rel.target.roleName} relation role")
 #end
      */
-    public ${entityname} create($transform.($allAttributes, true)#foreach ($rel in $relations), ${transform.getRelationTargetType($rel)} $rel.target.roleName#end)
+    public ${entityname} create(${transform.getAttributesAsList($allAttributes, true, true)}#foreach ($rel in $relations), ${transform.getRelationTargetType($rel)} $rel.target.roleName#end)
            throws javax.ejb.CreateException;
 #end
 #end
