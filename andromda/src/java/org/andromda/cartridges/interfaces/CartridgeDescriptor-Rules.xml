@@ -118,7 +118,7 @@
 	 		</set-properties-rule> 	 			      	
 	      		      	 
 			<set-properties-rule>
-	 			<alias attr-name="overWrite" prop-name="overWrite" />
+	 			<alias attr-name="overWrite" prop-name="overwrite" />
 	 		</set-properties-rule> 	 	 	
 	 		
 			<set-properties-rule>
