@@ -15,6 +15,7 @@ import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 
 /**
@@ -81,16 +82,31 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         final Collection associationEnds = getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
-            AssociationEndDecorator associationEnd =
+            final AssociationEndDecorator associationEnd =
                 (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
-            Classifier participant = associationEnd.getOtherEnd().getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
+            final Classifier participant = associationEnd.getOtherEnd().getParticipant();
+            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
             if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
-                return participant; // undecorated
+                return participant;
         }
         return null;
     }
 
+    protected Collection handleGetExceptionHandlers()
+    {
+        final Collection exceptionHandlers = new LinkedList();
+        final Collection associationEnds = getAssociationEnds();
+        for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+        {
+            final AssociationEndDecorator associationEnd =
+                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
+            final Classifier participant = associationEnd.getOtherEnd().getParticipant();
+            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
+            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_EXCEPTION).booleanValue())
+                exceptionHandlers.add(participant);
+        }
+        return exceptionHandlers;
+    }
     // ------------- validation ------------------
 
     public void validate() throws DecoratorValidationException
