@@ -145,7 +145,11 @@ public class StrutsParameterLogicImpl
     {
         return getName() + "BackingList";
     }
-    
+
+    public boolean isRequired()
+    {
+        return null != findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_REQUIRED);
+    }
     // ------------- relations ------------------
 
 }
