@@ -113,9 +113,6 @@
     
     <target name="hibernate-xdoclet" depends="mda">
     
-    	<property name="path" refid="classpath"/>
-    	<echo>path=${path}</echo>
-    
         <delete>
             <fileset dir="${hibernate.build.dir}/service" includes="**/*.hbm.xml" />
         </delete>
@@ -230,6 +227,49 @@
             <fileset dir="${hibernate.build.dir}/stage" includes="**/*"/>
         </jar>
     </target>
+    
+    <!-- Generate the SQL database schema from the hibernate mapping files -->
+    <target name="hibernate-schema" description="Generates database schema" depends="hibernate-build">
+        <path id="schema.classpath">
+            <path refid="classpath"/>
+            <pathelement location="${ear.build.dir}/${sample.name}-Hibernate.jar"/>
+        </path>
+
+        <fileset id="hibernate.mapping.files" dir="${hibernate.build.dir}/service">
+            <include name="**/*.hbm.xml"/>
+        </fileset>
+
+        <pathconvert refid="hibernate.mapping.files" property="hibernate.mappings" pathsep=" "/>
+
+        <java classname="net.sf.hibernate.tool.hbm2ddl.SchemaExport" fork="true">
+            <arg value="--output=${hibernate.build.dir}/hibernate-schema-initialize.sql"/>
+            <arg value="--text"/>
+            <arg value="--quiet"/>
+            <arg line="${hibernate.mappings}"/>
+            <jvmarg value="-Dhibernate.dialect=net.sf.hibernate.dialect.HSQLDialect"/>
+            <classpath refid="schema.classpath" />
+        </java>
+
+        <copy file="${hibernate.build.dir}/hibernate-schema-initialize.sql"
+              tofile="${hibernate.build.dir}/hibernate-schema-reinitialize.sql"
+        />      
+        
+        <replaceregexp file="${hibernate.build.dir}/hibernate-schema-initialize.sql"
+                       match="^(alter table .* drop constraint|drop table)"
+                       replace="-- SKIP \1"
+                       flags="i"
+                       byline="true"/>
+
+        <java classname="net.sf.hibernate.tool.hbm2ddl.SchemaExport" fork="true">
+            <arg value="--output=${hibernate.build.dir}/hibernate-schema-remove.sql"/>
+            <arg value="--text"/>
+            <arg value="--quiet"/>
+            <arg value="--drop"/>
+            <arg line="${hibernate.mappings}"/>
+            <jvmarg value="-Dhibernate.dialect=net.sf.hibernate.dialect.HSQLDialect"/>
+            <classpath refid="schema.classpath" />
+        </java>
+    </target>
 
     <target name="web-xdoclet" depends="mda">
         <taskdef name="webdoclet" classname="xdoclet.modules.web.WebDocletTask" classpathref="classpath"/>
@@ -280,7 +320,7 @@
         </war>
     </target>
 
-    <target name="dist" depends="hibernate-build,web-build">
+    <target name="dist" depends="hibernate-schema,web-build">
         <copy taskname="app-xml"
               file="${conf.dir}/ear/META-INF/application.xml"
               tofile="${ear.build.dir}/META-INF/application.xml"/>
