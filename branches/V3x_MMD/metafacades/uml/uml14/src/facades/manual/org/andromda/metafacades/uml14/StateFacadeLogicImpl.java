@@ -3,6 +3,8 @@ package org.andromda.metafacades.uml14;
 import org.omg.uml.behavioralelements.statemachines.CompositeState;
 import org.omg.uml.behavioralelements.statemachines.StateMachine;
 
+import java.util.Collection;
+
 
 /**
  * 
@@ -30,7 +32,7 @@ public class StateFacadeLogicImpl
     /**
      *
      */
-    public Object handleGetActivityGraph()
+    protected Object handleGetActivityGraph()
     {
         StateMachine stateMachine = null;
         CompositeState compositeState = metaObject.getContainer();
@@ -51,4 +53,8 @@ public class StateFacadeLogicImpl
         return stateMachine;
     }
 
+    protected Collection handleGetDeferrableEvents()
+    {
+        return metaObject.getDeferrableEvent();
+    }
 }
