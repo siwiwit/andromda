@@ -32,9 +32,8 @@ public class AdminServiceBeanImpl
                 administrators = klh.findAll();
                 if (administrators.size() == 0)
                 { // empty database, create 1st admin account
-                    // TODO: omit primary key parameter in EJB cartridge template
                     Administrator al =
-                        klh.create(null, name, accountNo, password);
+                        klh.create(name, accountNo, password);
                     return al.getId();
                 }
             }
