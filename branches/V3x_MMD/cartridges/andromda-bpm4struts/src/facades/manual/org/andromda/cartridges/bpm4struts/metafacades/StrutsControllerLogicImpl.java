@@ -1,7 +1,12 @@
 package org.andromda.cartridges.bpm4struts.metafacades;
 
+import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.ModelElementFacade;
+import org.andromda.metafacades.uml.ServiceFacade;
+
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 
 /**
@@ -34,6 +39,20 @@ public class StrutsControllerLogicImpl
     }
 
     // ------------- relations ------------------
+
+    protected Collection handleGetServices()
+    {
+        final Collection services = new LinkedList();
+        final Collection dependencies = getDependencies();
+        for (Iterator iterator = dependencies.iterator(); iterator.hasNext();)
+        {
+            DependencyFacade dependency = (DependencyFacade) iterator.next();
+            ModelElementFacade target = dependency.getTargetElement();
+            if (target instanceof ServiceFacade)
+                services.add(target);
+        }
+        return services;
+    }
 
     protected Object handleGetUseCase()
     {
