@@ -1,0 +1,53 @@
+<!--
+    This is the descriptor for the AndroMDA cartridge for
+    the O/R mapper "Hibernate".
+
+    Matthias Bohlen, April 2003
+-->
+
+<cartridge name="hibernate">
+    
+    <!-- define the template objects that are made availble to the template -->
+    <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
+
+    <template
+        sheet="templates/HibernateEntity.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="entities"
+        overWrite="true">
+        <stereotype name="Entity"/>    
+    </template>
+
+    <template
+        sheet="templates/HibernateEntityImpl.vsl"
+        outputPattern="{0}/{1}Impl.java"
+        outlet="entity-impls"
+        overWrite="false">
+        <stereotype name="Entity"/>    
+    </template>
+
+    <template
+        sheet="templates/HibernateEntityFactory.vsl"
+        outputPattern="{0}/{1}Factory.java"
+        outlet="entities"
+        overWrite="true">
+        <stereotype name="Entity"/>    
+    </template>
+
+    <template
+        sheet="templates/HibernateSessionBean.vsl"
+        outputPattern="{0}/{1}Bean.java"
+        outlet="session-beans"
+        overWrite="true">
+         <stereotype name="Service"/>    
+    </template>
+
+    <template
+        sheet="templates/HibernateSessionBeanImpl.vsl"
+        outputPattern="{0}/{1}BeanImpl.java"
+        outlet="session-impls"
+        overWrite="false">
+         <stereotype name="Service"/> 
+    </template>
+
+</cartridge>

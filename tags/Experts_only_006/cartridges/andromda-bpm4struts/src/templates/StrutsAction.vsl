@@ -1,0 +1,95 @@
+##
+## Some global invariants
+##
+#set ($activityGraph = $class.useCase.activityGraph)
+#set ($forwardTransitions = $activityGraph.forwardTransitions)
+#set ($choices = $activityGraph.decisionPoints)
+#set ($objectFlowStates = $activityGraph.objectFlowStates)
+##
+## Specific to this class
+##
+#set ($className = $class.name)
+#set ($formBean = $class.formBean)
+#set ($formBeanType = $formBean.name)
+#if (!$formBeanType)
+#set ($formBeanType = "ActionForm")
+#end
+##
+## Package declaration and imports
+##
+package $class.packageName;
+
+#if ($formBeanType == "ActionForm")
+import org.apache.struts.action.ActionForm;
+#elseif ($class.packageName != $class.formBean.packageName)
+import $class.formBean.fullyQualifiedName;
+
+#end
+import org.apache.struts.action.ActionMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * @struts.action
+#if ($formBean)
+ *        name="${formBean.formName}"
+#end
+ *        path="/${class.servletName}"
+ *       scope="request"
+ *       input="/${class.servletName}.do"
+ *    validate="true"
+ *   parameter="${class.dispatchParameter}"
+ *
+#foreach ($forwardTransition in $forwardTransitions)
+#set ($forwardTransitionName = $forwardTransition.triggerName)
+ * @struts.action-forward
+ *        name="$forwardTransition.forwardName"
+#if ($transform.isFinalState($forwardTransition.finalTarget.metaObject))
+#set ($servletName = $forwardTransition.finalTarget.useCase.servlet.servletName)
+ *        path="/${class.servletName}.do"
+#else## in this case we are dealing with an action state
+#set ($jsp = $forwardTransition.finalTarget.jsp)
+ *        path="${jsp.fullPathName}.jsp"
+#end
+ *    redirect="false"
+ *
+#end
+#foreach ($exceptionHandler in $class.exceptionHandlers)
+ * @struts.action-exception
+#if ($exceptionHandler.messageKey)
+ *         key="$exceptionHandler.messageKey"
+#end
+ *        type="$exceptionHandler.exceptionType"
+#if ($exceptionHandler.path)
+ *        path="$exceptionHandler.path"
+#end
+ *       scope="request"
+ *     handler="$exceptionHandler.fullyQualifiedName"
+ *
+#end
+ */
+public final class $className extends ${className}Abstract
+{
+#foreach ($choice in $choices)
+#set ($choiceMethodName = "$choice.actionMethodName")
+    protected int ${choiceMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
+    {
+        return 1; // source is compilable this way
+    }
+
+#end
+#foreach ($objectFlowState in $objectFlowStates)
+#set ($stateMethodName = "$objectFlowState.actionMethodName")
+    protected void ${stateMethodName}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response)
+    {
+#foreach ($inputField in $formBean.inputFields)
+#if ($inputField.backingPropertyName)
+        // we add some default values, you may remove this line but make sure you initialize it too
+        form.set$str.upperCaseFirstLetter($inputField.backingPropertyName) (java.util.Arrays.asList(new String[] { "$inputField.name test-1", "$inputField.name test-2", "$inputField.name test-3" } ));
+#end
+#end
+    }
+
+#end
+}

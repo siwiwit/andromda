@@ -1,0 +1,120 @@
+<project name="animal-quiz-sample" default="dist">
+
+    <!-- ============================================================= -->
+    <!--               Directory settings                              -->
+    <!-- ============================================================= -->
+
+    <property file="build.properties" />
+    <property name="andromda-core.home" location="${andromda.home}/andromda-core"/>
+
+    <property file="${andromda-core.home}/andromda-core.properties"/>
+
+    <property name="andromda-meta.home" value="${andromda-meta.home}/dist"/>
+    <property file="${andromda-meta.home}/andromda-meta.properties"/>
+
+    <path id="classpath">
+        <pathelement path="${andromda-core.classpath}"/>
+        <pathelement location="${andromda-core.home}/andromda.jar"/>
+        <pathelement location="${andromda-bpm4struts.home}/andromda-bpm4struts.jar"/>
+        <fileset dir="${andromda-core.home}/lib">
+            <include name="xjavadoc-*.jar"/>
+            <include name="xdoclet-*.jar"/>
+        </fileset>
+        <fileset dir="${lib.dir}">
+            <include name="struts-1.1.jar"/>
+            <include name="servletapi-2.3.jar"/>
+            <include name="commons-validator.jar"/>
+        </fileset>
+    </path>
+
+    <!-- ============================================================= -->
+    <!--               Internal tasks                                  -->
+    <!-- ============================================================= -->
+
+    <target name="init">
+        <mkdir dir="${src.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${merge.dir}"/>
+        <mkdir dir="${build.dir}/WEB-INF/lib"/>
+        <mkdir dir="${build.dir}/WEB-INF/classes"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${src.dir}"/>
+        <delete dir="${dist.dir}"/>
+        <delete dir="${build.dir}/WEB-INF/classes"/>
+        <antcall target="init"/>
+    </target>
+
+    <target name="mda" depends="init">
+        <taskdef name="andromda"
+            classname="org.andromda.core.anttasks.AndroMDAGenTask"
+            classpathref="classpath"/>
+
+        <property name="model" value="jar:file:${basedir}/${sample.name}.xml.zip!/${sample.name}.xml"/>
+
+        <andromda basedir="."
+            modelURL="${model}"
+            lastModifiedCheck="false">
+            <namespace name="default">
+                <property name="languageMappingsUri" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>
+            </namespace>
+            <namespace name="bpm4struts">
+                <property name="forms" value="${src.dir}"/>
+                <property name="pages" value="${src.dir}"/>
+                <property name="actions" value="${src.dir}"/>
+                <property name="messages" value="${src.dir}"/>
+                <property name="validation" value="${build.dir}/WEB-INF"/>
+                <property name="xdoclet-merge" value="${merge.dir}"/>
+            </namespace>
+        </andromda>
+    </target>
+
+    <target name="xdoclet" depends="mda">
+        <taskdef name="webdoclet" classname="xdoclet.modules.web.WebDocletTask" classpathref="classpath"/>
+        <webdoclet destdir="${build.dir}/WEB-INF" force="true" verbose="true" mergedir="${merge.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+            <strutsconfigxml version="1.1"/>
+            <strutsvalidationxml/>
+            <deploymentdescriptor/>
+            <jbosswebxml/>
+        </webdoclet>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" classpathref="classpath"/>
+    </target>
+
+    <target name="build" depends="clean,xdoclet,compile">
+        <copy todir="${build.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.jsp"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}/WEB-INF/classes" flatten="true">
+            <fileset dir="${src.dir}">
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}/WEB-INF/tld">
+            <fileset dir="${lib.dir}">
+                <include name="struts-*.tld"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/struts-1.1.jar"/>
+        <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/servletapi-2.3.jar"/>
+        <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/commons-validator.jar"/>
+    </target>
+
+    <target name="dist" depends="build">
+        <war destfile="${dist.dir}/${sample.name}.war"
+             webxml="${build.dir}/WEB-INF/web.xml">
+            <fileset dir="${build.dir}">
+                <exclude name="WEB-INF/web.xml"/>
+            </fileset>
+        </war>
+    </target>
+
+</project>

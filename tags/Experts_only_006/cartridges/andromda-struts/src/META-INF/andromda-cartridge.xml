@@ -1,0 +1,38 @@
+<cartridge name="struts">
+    
+    <!-- define the template objects that are made availble to the template -->
+    <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
+
+    <template
+      sheet="templates/StrutsForm.vsl"
+      outputPattern="{0}/{1}.java"
+      outlet="forms"
+      overWrite="true">
+        <stereotype name="WebForm"/>   
+    </template>
+
+    <template
+      sheet="templates/StrutsAction.vsl"
+      outputPattern="{0}/{1}.java"
+      outlet="actions"
+      overWrite="false">
+        <stereotype name="WebAction"/>  
+    </template>
+
+    <template
+      sheet="templates/StrutsJSP.vsl"
+      outputPattern="{1}.jsp"
+      outlet="pages"
+      overWrite="false">
+        <stereotype name="WebPage"/>    
+    </template>
+
+    <template
+      sheet="templates/StrutsConfig.vsl"
+      outputPattern="struts-config.xml"
+      outlet="config"
+      overWrite="true">
+        <stereotype name="WebAppConfig"/>   
+    </template>
+
+</cartridge>

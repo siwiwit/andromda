@@ -1,0 +1,12 @@
+<cartridge name="java">
+
+<!-- the official template definitions -->
+    <template
+        sheet="templates/ValueObject.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="value-objects"
+        overWrite="true">
+         <stereotype name="ValueObject"/>         
+    </template>
+
+</cartridge>
