@@ -97,13 +97,33 @@ ${indent}</logic:notPresent>
 ##
 #macro ( renderFormField $action $field $indent)
 #set ($widgetType = $field.widgetType)
+#set ($formBeanName = $action.activityGraph.useCase.formBeanName)
 ##
 ##  Depending on the type of the input field we render a different widget
 ##
 ##
-##      C H E C K B O X     &      R A D I O B U T T O N
+##      R A D I O B U T T O N
 ##
-#if ( ($widgetType == 'radio') || ($widgetType == 'checkbox') )
+#if ($widgetType == 'radio')
+#if ($field.isReadOnly())
+#set ($disabled = 'disabled="true"')
+#else
+#set ($disabled = '')
+#end
+${indent}<table>
+#foreach ($optionKey in $field.optionKeys)
+${indent}    <tr>
+${indent}        <td>
+${indent}            <html:$widgetType property="$field.name" titleKey="${messageKey}.${optionKey}.title" value="$optionKey" $disabled/>
+${indent}            <bean:message key="${messageKey}.$optionKey"/>
+${indent}        </td>
+${indent}    </tr>
+#end
+${indent}</table>
+##
+##      C H E C K B O X
+##
+#elseif ($widgetType == 'checkbox')
 #if ($field.isReadOnly())
 #set ($disabled = 'disabled="true"')
 #else
