@@ -37,21 +37,29 @@ public class EntityFacadeLogicImpl
      * @see org.andromda.metafacades.uml.EntityFacade#getFinders
      */
     public java.util.Collection getFinders() {
-        final String methodName = "EntityFacadeImpl.getFinders";
-        if (logger.isDebugEnabled())
-            logger.debug("performing " + methodName);
+        return this.getFinders(false);
+    }   
+    
+    /**
+     * @see org.andromda.metafacades.uml.EntityFacade#getFinders(boolean)
+     */
+    public java.util.Collection getFinders(boolean follow) {
+        Collection finders = this.getOperations();
         
-        Collection operations = this.getOperations();
         MetafacadeUtils.filterByStereotype(
-                operations, 
+                finders, 
                 UMLProfile.STEREOTYPE_FINDER_METHOD);
         
-        if (logger.isDebugEnabled())
-            logger.debug("completed " + methodName + 
-                    " with finders --> '" + operations + "'");
-
-        return operations;
-    }   
+        for (ClassifierFacade superClass = (ClassifierFacade) getGeneralization();
+             superClass != null && follow;
+             superClass = (ClassifierFacade) superClass.getGeneralization()) {
+            if (superClass.hasStereotype(UMLProfile.STEREOTYPE_ENTITY)) {
+                EntityFacade entity = (EntityFacade)superClass;
+                finders.addAll(entity.getFinders(follow));
+            }               
+        }
+        return finders;
+    }
     
     /**
      * @see org.andromda.metafacades.uml.EntityFacade#getIdentifiers()
