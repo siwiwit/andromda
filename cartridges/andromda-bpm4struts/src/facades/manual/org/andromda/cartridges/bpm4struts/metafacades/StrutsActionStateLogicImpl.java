@@ -46,7 +46,6 @@ public class StrutsActionStateLogicImpl
         for (Iterator iterator = deferrableEvents.iterator(); iterator.hasNext();)
         {
             EventFacade event = (EventFacade) iterator.next();
-            System.out.println("event = " + event);
             if (event instanceof CallEventFacade)
             {
                 controllerCalls.add(((CallEventFacade)event).getOperation());
