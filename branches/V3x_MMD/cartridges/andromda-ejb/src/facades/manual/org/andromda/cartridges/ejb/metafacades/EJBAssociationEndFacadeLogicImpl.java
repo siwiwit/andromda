@@ -20,9 +20,6 @@ public class EJBAssociationEndFacadeLogicImpl
         super (metaObject);
     }
 
-    /**
-     * @see org.andromda.cartridges.hibernate.metadecorators.uml14.EJBAssociationEndDecorator#getRelationType()
-     */
     public String getRelationType() {
         String targetType;
         if (this.isMany2Many() || this.isOne2Many()) {
