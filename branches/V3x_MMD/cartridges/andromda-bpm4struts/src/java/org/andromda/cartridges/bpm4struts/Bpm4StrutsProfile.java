@@ -39,7 +39,7 @@ public class Bpm4StrutsProfile
     public static final String TAGGED_VALUE_EXCEPTION_KEY = "@andromda.struts.exception.key";
 
     /* ----------------- Default Values ------------------- */
-    public static final String TAGGED_VALUE_ACTION_DEFAULT_PARAMETER = "state";
+    public static final String TAGGED_VALUE_ACTION_DEFAULT_PARAMETER = "___state";
     public static final String TAGGED_VALUE_EXCEPTION_DEFAULT_TYPE = "java.lang.Exception";
     public static final String DEFAULT_ABSTRACT_CLASS_SUFFIX = "Abstract";
     public static final String DEFAULT_IMPLEMENTATION_CLASS_SUFFIX = "";
