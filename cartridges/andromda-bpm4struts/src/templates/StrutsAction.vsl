@@ -49,16 +49,14 @@ import $controllerType;
 $class.getDocumentation(" ")
  *
  * @struts.action
-#if ($formBean)
- *        name="$class.actionName"
-#end
  *        path="$class.actionPath"
+ *        name="$class.formName"
 #if ($isUseCaseStart == false)
  *       input="$class.input.fullPathName"
  *    validate="true"
 #end
  *       scope="request"
-#if ($roles)
+#if ($roles != "")
  *       roles="$roles"
 #end
  *     unknown="false"
@@ -114,10 +112,7 @@ public final class $actionClassName extends Action
 #set ($triggerMethodName = $transition.triggerMethodName)
     private ActionForward ${methodName}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-#if ($effectMethodName)
-        ${controllerClassName}.${effectMethodName}(mapping, form, request, response);
-#end
-        final String value = String.valueOf($controllerClassName.${triggerMethodName}(mapping, form, request, response));
+        final String value = String.valueOf(${controllerClassName}.${effectMethodName}(mapping, form, request, response));
 
 #foreach ($outcome in $outcomes)
         if (value.equals("$outcome.guardName")) return ${outcome.methodName}(mapping, form, request, response);
