@@ -3,10 +3,7 @@ package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
 import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
-import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.omg.uml.foundation.core.AssociationEnd;
-import org.omg.uml.foundation.core.Classifier;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -51,9 +48,8 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         final Collection views = getJsps();
         for (Iterator iterator = views.iterator(); iterator.hasNext();)
         {
-            Classifier view = (Classifier) iterator.next();
-            StrutsViewDecorator viewDecorator = (StrutsViewDecorator) DecoratorBase.decoratedElement(view);
-            inputFields.addAll(viewDecorator.getInputFields());
+            StrutsViewDecorator view = (StrutsViewDecorator) iterator.next();
+            inputFields.addAll(view.getInputFields());
         }
         return inputFields;
     }
@@ -64,9 +60,8 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         final Collection views = getJsps();
         for (Iterator iterator = views.iterator(); iterator.hasNext();)
         {
-            Classifier view = (Classifier) iterator.next();
-            StrutsViewDecorator viewDecorator = (StrutsViewDecorator) DecoratorBase.decoratedElement(view);
-            resetInputFields.addAll(viewDecorator.getResetInputFields());
+            StrutsViewDecorator view = (StrutsViewDecorator) iterator.next();
+            resetInputFields.addAll(view.getResetInputFields());
         }
         return resetInputFields;
     }
@@ -78,12 +73,10 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         final Collection associationEnds = getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
-            AssociationEndDecorator associationEnd =
-                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
-            Classifier participant = associationEnd.getOtherEnd().getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
-            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_CONTROLLER).booleanValue())
-                controllerClasses.add(participant);
+            final AssociationEndDecorator associationEnd = (AssociationEndDecorator)iterator.next();
+            final ClassifierDecorator otherEnd = associationEnd.getOtherEnd().getType();
+            if (otherEnd.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_CONTROLLER))
+                controllerClasses.add(otherEnd.getMetaObject());
         }
         return controllerClasses;
     }
@@ -94,12 +87,10 @@ public class StrutsModelDecoratorImpl extends StrutsModelDecorator
         final Collection associationEnds = getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
-            AssociationEndDecorator associationEnd =
-                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
-            Classifier participant = associationEnd.getOtherEnd().getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(participant);
-            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_VIEW).booleanValue())
-                views.add(participant);
+            final AssociationEndDecorator associationEnd = (AssociationEndDecorator)iterator.next();
+            final ClassifierDecorator otherEnd = associationEnd.getOtherEnd().getType();
+            if (otherEnd.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_VIEW))
+                views.add(otherEnd.getMetaObject());
         }
         return views;
     }

@@ -1,10 +1,11 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
+import org.andromda.cartridges.bpm4struts.metadecorators.MetaDecoratorUtil;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.StateMachineDecorator;
-import org.omg.uml.behavioralelements.activitygraphs.ActionState;
-import org.omg.uml.behavioralelements.statemachines.Transition;
+import org.omg.uml.UmlPackage;
+import org.omg.uml.foundation.core.Classifier;
+import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,9 +34,31 @@ public class StrutsActionStateDecoratorImpl extends StrutsActionStateDecorator
     // ------------- relations ------------------
     protected Collection handleGetTriggerTransitions()
     {
-        return getOutgoing();
+        return metaObject.getOutgoing();
     }
 
+    protected ModelElement handleGetJsp()
+    {
+        UmlPackage model = MetaDecoratorUtil.getModel(metaObject);
+        Collection umlClasses = model.getCore().getUmlClass().refAllOfType();
+
+        for (Iterator iterator = umlClasses.iterator(); iterator.hasNext();)
+        {
+            Classifier undercoratedClassifier = (Classifier) iterator.next();
+            DecoratorBase classifier = DecoratorBase.decoratedElement(undercoratedClassifier);
+
+            if (classifier instanceof StrutsViewDecorator)
+            {
+                StrutsViewDecorator view = (StrutsViewDecorator)classifier;
+                // todo: find a more stable way
+                if (view.getActionState().getName().equalsIgnoreCase(metaObject.getName()))
+                {
+                    return undercoratedClassifier;
+                }
+            }
+        }
+        return null;
+    }
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {

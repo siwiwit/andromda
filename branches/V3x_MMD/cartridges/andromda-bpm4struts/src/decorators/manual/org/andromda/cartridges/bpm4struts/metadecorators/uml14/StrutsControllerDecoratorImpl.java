@@ -9,8 +9,6 @@ import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
 import org.andromda.core.metadecorators.uml14.UseCaseDecorator;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.behavioralelements.usecases.UseCase;
-import org.omg.uml.foundation.core.AssociationEnd;
-import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
@@ -60,15 +58,14 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
     protected ModelElement handleGetUseCase()
     {
         final String useCaseName = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_USE_CASE);
-        final UmlPackage model = MetaDecoratorUtil.getModel(this);
+        final UmlPackage model = MetaDecoratorUtil.getModel(this.metaObject);
 
         final Collection allUseCases = model.getUseCases().getUseCase().refAllOfType();
         for (Iterator iterator = allUseCases.iterator(); iterator.hasNext();)
         {
             UseCase useCase = (UseCase) iterator.next();
             UseCaseDecorator useCaseDecorator = (UseCaseDecorator) DecoratorBase.decoratedElement(useCase);
-
-            if (useCaseDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE).booleanValue() &&
+            if (useCaseDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE) &&
                 useCaseName.equalsIgnoreCase(useCase.getName()))
             {
                 return useCase;
@@ -82,12 +79,10 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         final Collection associationEnds = getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
-            final AssociationEndDecorator associationEnd =
-                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
-            final Classifier participant = associationEnd.getOtherEnd().getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
-            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
-                return participant;
+            final AssociationEndDecorator associationEnd = (AssociationEndDecorator)iterator.next();
+            final ClassifierDecorator otherEnd = associationEnd.getOtherEnd().getType();
+            if (otherEnd.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL))
+                return otherEnd.getMetaObject();
         }
         return null;
     }
@@ -98,12 +93,10 @@ public class StrutsControllerDecoratorImpl extends StrutsControllerDecorator
         final Collection associationEnds = getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
-            final AssociationEndDecorator associationEnd =
-                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
-            final Classifier participant = associationEnd.getOtherEnd().getParticipant();
-            ClassifierDecorator participantDecorator = (ClassifierDecorator)DecoratorBase.decoratedElement(participant);
-            if (participantDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_EXCEPTION).booleanValue())
-                exceptionHandlers.add(participant);
+            final AssociationEndDecorator associationEnd = (AssociationEndDecorator)iterator.next();
+            final ClassifierDecorator otherEnd = associationEnd.getOtherEnd().getType();
+            if (otherEnd.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_EXCEPTION))
+                exceptionHandlers.add(otherEnd.getMetaObject());
         }
         return exceptionHandlers;
     }

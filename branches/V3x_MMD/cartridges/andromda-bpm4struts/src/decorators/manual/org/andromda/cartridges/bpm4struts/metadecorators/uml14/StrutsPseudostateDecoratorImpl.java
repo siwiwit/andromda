@@ -29,7 +29,7 @@ public class StrutsPseudostateDecoratorImpl extends StrutsPseudostateDecorator
     // from org.omg.uml.behavioralelements.statemachines.StateVertex
     public Collection getOutgoing()
     {
-        return DecoratorBase.decoratedElements(super.getOutgoing());
+        return DecoratorBase.decoratedElements(metaObject.getOutgoing());
     }
     // ------------- relations ------------------
 

@@ -34,15 +34,15 @@ public class StrutsSimpleStateDecoratorImpl extends StrutsSimpleStateDecorator
     public org.omg.uml.behavioralelements.usecases.UseCase getCorrespondingUseCase()
     {
         final String name = getName();
-        final UmlPackage model = MetaDecoratorUtil.getModel(this);
+        final UmlPackage model = MetaDecoratorUtil.getModel(this.metaObject);
         final Collection allUseCases = model.getUseCases().getUseCase().refAllOfType();
 
         for (Iterator iterator = allUseCases.iterator(); iterator.hasNext();)
         {
             StrutsUseCaseDecorator useCase = (StrutsUseCaseDecorator) DecoratorBase.decoratedElement((UseCase) iterator.next());
             if (name.equalsIgnoreCase(useCase.getName()))
-                if (useCase.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE).booleanValue())
-                    return useCase;
+                if (useCase.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_USECASE))
+                    return useCase.metaObject;
         }
 
         return null;

@@ -1,6 +1,7 @@
 package org.andromda.cartridges.bpm4struts.metadecorators.uml14;
 
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsProfile;
+import org.andromda.core.metadecorators.uml14.ActionStateDecorator;
 import org.andromda.core.metadecorators.uml14.AssociationEndDecorator;
 import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
@@ -10,9 +11,6 @@ import org.andromda.core.metadecorators.uml14.StateMachineDecorator;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 import org.omg.uml.behavioralelements.activitygraphs.ActivityGraph;
 import org.omg.uml.behavioralelements.usecases.UseCase;
-import org.omg.uml.foundation.core.AssociationEnd;
-import org.omg.uml.foundation.core.Attribute;
-import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.ModelElement;
 
 import java.util.Collection;
@@ -49,9 +47,8 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         final Collection associationEnds = getAssociationEnds();
         for (Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
         {
-            AssociationEndDecorator associationEnd =
-                (AssociationEndDecorator) DecoratorBase.decoratedElement((AssociationEnd) iterator.next());
-            associatedClasses.add(associationEnd.getOtherEnd().getParticipant());
+            final AssociationEndDecorator associationEnd = (AssociationEndDecorator)iterator.next();
+            associatedClasses.add(associationEnd.getOtherEnd().getType());
         }
         return associatedClasses;
     }
@@ -64,9 +61,8 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         final Collection associatedClasses = getAssociatedClasses();
         for (Iterator iterator = associatedClasses.iterator(); iterator.hasNext();)
         {
-            Classifier classifier = (Classifier) iterator.next();
-            ClassifierDecorator classifierDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(classifier);
-            if (!classifierDecorator.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL).booleanValue())
+            ClassifierDecorator classifier = (ClassifierDecorator) iterator.next();
+            if (!classifier.hasStereotype(Bpm4StrutsProfile.STEREOTYPE_MODEL))
                 iterator.remove();
         }
         return associatedClasses;
@@ -84,7 +80,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         for (Iterator iterator = controllers.iterator(); iterator.hasNext();)
         {
             StrutsControllerDecorator controller = (StrutsControllerDecorator) iterator.next();
-            graphs.addAll(controller.getUseCase().getOwnedElement());
+            graphs.addAll(controller.getUseCase().metaObject.getOwnedElement());
         }
 
         // collect all the action states from these graphs
@@ -103,17 +99,18 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
     public Collection getTriggers()
     {
-        return DecoratorBase.decoratedElements(getActionState().getOutgoing());
+        return DecoratorBase.decoratedElements(getActionState().metaObject.getOutgoing());
     }
 
     // ------------- relations ------------------
-    public ActionState getActionState()
+    public ModelElement handleGetActionState()
     {
         final String actionStateName = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_ACTION_STATE);
         final Collection actionStates = getPossibleActionStates();
         for (Iterator actionStateIterator = actionStates.iterator(); actionStateIterator.hasNext();)
         {
-            ActionState actionState = (ActionState) actionStateIterator.next();
+            ActionStateDecorator actionStateDecorator = (ActionStateDecorator) actionStateIterator.next();
+            ActionState actionState = (ActionState)actionStateDecorator.getMetaObject();
             if (actionStateName.equalsIgnoreCase(actionState.getName()))
                 return actionState;
         }
@@ -126,14 +123,14 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
         if (models.isEmpty())
             return null;
         else
-            return (ModelElement) models.iterator().next();
+            return ((ClassifierDecorator) models.iterator().next()).getMetaObject();
     }
 
 
     protected ModelElement handleGetServlet()
     {
-        final StrutsStateMachineDecorator stateMachine = (StrutsStateMachineDecorator)DecoratorBase.decoratedElement(getActionState().getContainer().getStateMachine());
-        final UseCase useCase = stateMachine.getUseCase();
+        final StrutsStateMachineDecorator stateMachine = (StrutsStateMachineDecorator)DecoratorBase.decoratedElement(getActionState().metaObject.getContainer().getStateMachine());
+        final UseCase useCase = stateMachine.getUseCase().metaObject;
         final Collection controllers = getFormBean().getServlets();
 
         for (Iterator iterator = controllers.iterator(); iterator.hasNext();)
@@ -143,7 +140,7 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
             UseCase controllerUseCase = controller.getUseCase();
             if (controllerUseCase == useCase)   // .equals throws a ClassCastException ??!! identity will do too
 */
-                return controller.metaObject;
+                return controller.getMetaObject();
         }
         return null;
     }
@@ -158,11 +155,10 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
         for (Iterator iterator = attributes.iterator(); iterator.hasNext();)
         {
-            Attribute attribute = (Attribute) iterator.next();
-            AttributeDecorator attributeDecorator = (AttributeDecorator) DecoratorBase.decoratedElement(attribute);
-            if (attributeDecorator instanceof StrutsInputFieldDecorator)
+            AttributeDecorator attribute = (AttributeDecorator) iterator.next();
+            if (attribute instanceof StrutsInputFieldDecorator)
             {
-                inputFields.add(attribute);
+                inputFields.add(attribute.getMetaObject());
             }
         }
 
@@ -176,15 +172,14 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
         for (Iterator iterator = attributes.iterator(); iterator.hasNext();)
         {
-            Attribute attribute = (Attribute) iterator.next();
-            AttributeDecorator attributeDecorator = (AttributeDecorator) DecoratorBase.decoratedElement(attribute);
-            if (attributeDecorator instanceof StrutsInputFieldDecorator)
+            AttributeDecorator attribute = (AttributeDecorator) iterator.next();
+            if (attribute instanceof StrutsInputFieldDecorator)
             {
-                ClassifierDecorator classifierDecorator = (ClassifierDecorator) DecoratorBase.decoratedElement(attributeDecorator.getType());
+                ClassifierDecorator classifierDecorator = attribute.getType();
                 final String fqType = classifierDecorator.getFullyQualifiedName();
                 if ("boolean".equals(fqType))
                 {
-                    resetInputFields.add(attribute);
+                    resetInputFields.add(attribute.getMetaObject());
                 }
             }
         }
