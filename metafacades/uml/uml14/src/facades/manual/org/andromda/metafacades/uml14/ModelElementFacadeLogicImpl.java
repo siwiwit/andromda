@@ -10,6 +10,8 @@ import org.andromda.core.mapping.Mappings;
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.metafacades.uml.TaggedValueFacade;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.metafacades.uml.ModelFacade;
+import org.andromda.metafacades.uml.ModelElementFacade;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.UmlPackage;
 import org.omg.uml.foundation.core.Abstraction;
@@ -265,7 +267,7 @@ public class ModelElementFacadeLogicImpl
      * Allows the MetaFacadeFactory to populate 
      * the language mappings for this model element.
      * 
-     * @param mappingUri the URI of the language mappings resource.
+     * @param mappingsUri the URI of the language mappings resource.
      */
     public void setLanguageMappingsUri(String mappingsUri) {
         try {
@@ -299,7 +301,7 @@ public class ModelElementFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelElementDecorator#handleGetRootPackage()
+     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetRootPackage()
      */
     protected Object handleGetRootPackage() 
     {
@@ -323,10 +325,14 @@ public class ModelElementFacadeLogicImpl
 			}
 		};
 	}
-    
 
-    protected Object handleGetNamespace()
+    protected Object handleGetNameSpace()
     {
         return metaObject.getNamespace();
+    }
+
+    protected Object handleGetModel()
+    {
+        return MetafacadeFactory.getInstance().getModel().getModel();
     }
 }
