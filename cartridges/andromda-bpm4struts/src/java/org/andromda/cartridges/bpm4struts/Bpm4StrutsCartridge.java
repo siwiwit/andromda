@@ -5,7 +5,6 @@ import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsControllerD
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsEventDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsFinalStateDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsGuardDecoratorImpl;
-import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsInputFieldDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsModelDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsObjectFlowStateDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPseudostateDecoratorImpl;
@@ -14,6 +13,14 @@ import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsStateMachin
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTransitionDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsUseCaseDecoratorImpl;
 import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsViewDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextFieldDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsTextAreaDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsCheckBoxDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsRadioButtonDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsComboBoxDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsListDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsMultiBoxDecoratorImpl;
+import org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsPasswordDecoratorImpl;
 import org.andromda.cartridges.interfaces.DefaultAndroMDACartridge;
 import org.andromda.core.metadecorators.uml14.DecoratorFactory;
 
@@ -54,9 +61,49 @@ public class Bpm4StrutsCartridge extends DefaultAndroMDACartridge {
             StrutsGuardDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
-            "org.omg.uml.core.foundation.Classifier$Impl",
-            Bpm4StrutsProfile.STEREOTYPE_INPUTFIELD,
-            StrutsInputFieldDecoratorImpl.class.getName());
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            null,
+            StrutsTextFieldDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_TEXTFIELD,
+            StrutsTextFieldDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_TEXTAREA,
+            StrutsTextAreaDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_CHECKBOX,
+            StrutsCheckBoxDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_RADIOBUTTON,
+            StrutsRadioButtonDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_COMBOBOX,
+            StrutsComboBoxDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_LIST,
+            StrutsListDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_MULTIBOX,
+            StrutsMultiBoxDecoratorImpl.class.getName());
+
+        df.registerDecoratorClass(
+            "org.omg.uml.core.foundation.Attribute$Impl",
+            Bpm4StrutsProfile.STEREOTYPE_VIEW_PASSWORD,
+            StrutsPasswordDecoratorImpl.class.getName());
 
         df.registerDecoratorClass(
             "org.omg.uml.core.foundation.Classifier$Impl",
