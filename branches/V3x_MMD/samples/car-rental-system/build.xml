@@ -156,11 +156,10 @@
 			<namespace name="default">
 				<!-- set the language mappings for the default namespace -->			
 				<property name="languageMappings" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
-				<property name="jdbcMappings" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
-				<property name="sqlMappings" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
-				<property name="foreignKeySuffix" value="_FK"/>
-				<property name="maxSqlNameLength" value="30"/>
 			</namespace>
+			
+			<!-- ignore hibernate since its on the class path -->
+			<namespace name="hibernate" ignore="true"/>
 
 			<namespace name="java">
 				<!-- define output location -->
@@ -172,6 +171,10 @@
 				<property name="session-beans" value="${andromda.ejb.generated.dir}"/>	
 				<property name="entity-impls" value="${andromda.ejb.manual.dir}"/>	
 				<property name="session-impls" value="${andromda.ejb.manual.dir}"/>		
+				<property name="jdbcMappings" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlMappings" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="foreignKeySuffix" value="_FK"/>
+				<property name="maxSqlNameLength" value="30"/>
 			</namespace>
 			<namespace name="struts">
 				<!-- define output location -->
@@ -180,7 +183,7 @@
 				<property name="pages" value="${andromda.web.page.dir}"/>
 				<property name="config" value="${src.webconfig.dir}/generated"/>		
 			</namespace>
-
+			
         </andromda>
     </target>
 
@@ -196,6 +199,11 @@
                  includes="CarRentalSystem20.xmi"
                  lastModifiedCheck="false"
         >
+        				
+			<!-- ignore ejb and struts since they are on the class path -->
+			<namespace name="ejb" ignore="true"/>
+			<namespace name="struts" ignore="true"/>
+        
 			<namespace name="default">
 				<!-- set the language mappings for the default namespace -->			
 				<property name="languageMappings" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
