@@ -43,7 +43,7 @@ public abstract class ${class.name}Factory {
         
 #foreach ( $att in $class.attributes)
 #if (!$att.identifier)
-        object.${attr.setterName} (${att.name});
+        object.${att.setterName} (${att.name});
 #end
 #end
 
