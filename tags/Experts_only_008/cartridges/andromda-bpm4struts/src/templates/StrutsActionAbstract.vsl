@@ -1,0 +1,203 @@
+##
+## Some global invariants
+##
+#set ($activityGraph = $class.useCase.activityGraph)
+#set ($choiceTransitions = $activityGraph.outgoingDecisionPointTransitions)
+#set ($actionStates = $activityGraph.actionStates)
+#set ($choices = $activityGraph.decisionPoints)
+#set ($objectFlowStates = $activityGraph.objectFlowStates)
+#set ($formBean = $class.formBean)
+##
+## Specific to this class
+##
+#set ($className = "$str.toJavaClassName($class.name)Abstract")
+#set ($formBeanType = $class.formBean.name)
+#if (!$formBeanType)
+#set ($formBeanType = "ActionForm")
+#end
+##
+## This small macro will handle the processing of the argument transition.
+## Depending on this transition's target it will rendered different code:
+##
+## A guarded decision point
+##   there is a method for each of these nodes, it will be called here
+##
+## ActionState & FinalState
+##    it will render the action forward from the mapping for this target
+##
+## ObjectFlowState
+##    there is a method for each object flow state, it will be called here
+##
+## Please note that any merge points are simply skipped, they do not add
+## any specific logic.
+##
+#macro ( processTransition $transition $indent )
+#set ($target = $transition.finalTarget.metaObject)
+#set ($triggerName = $transition.triggerName)
+#if ($target.guard)
+${indent}return $str.toJavaMethodName($target.name)(mapping, form, request, response);
+#elseif ($transform.isActionState($target) || $transform.isFinalState($target))
+${indent}return mapping.findForward("$transition.forwardName");
+#elseif ($transform.isObjectFlowState($target) || $transform.isDecisionPoint($target))
+${indent}return ${str.toJavaMethodName($target.name)}Abstract(mapping, form, request, response);
+#else
+// illegal modelelement : $target.name ($target)
+#end
+#end
+##
+## Package declaration and imports
+##
+package $class.packageName;
+
+#if (($formBeanType != "ActionForm") && ($class.packageName != $class.formBean.packageName))
+import $class.formBean.fullyQualifiedName;
+
+#end
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DispatchAction;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.lang.reflect.Method;
+
+/**
+$class.getDocumentation(" ")
+ */
+public abstract class $className extends DispatchAction
+{
+    private final String dispatchGuardAttributeKey = "org.andromda.cartridges.bpm4struts.dispatchguard";
+    private final Object dispatchGuardDummyValue   = Boolean.TRUE;
+
+#foreach ($choiceTransition in $choiceTransitions)
+    protected final int $choiceTransition.metaObject.guard.name.toUpperCase() = $velocityCount;
+#end
+
+    public final ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    {
+#processTransition ( $activityGraph.initialState.outgoing.iterator().next() "        " )
+    }
+
+#foreach ($actionState in $actionStates)
+#set ($dispatchMethodName = "$str.toJavaMethodName($actionState.name)")
+    /**
+$actionState.getDocumentation("     ")
+     */
+    public final ActionForward ${dispatchMethodName}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    {
+#if ($actionState.triggerTransitions.size() == 1)
+#processTransition( $actionState.triggerTransitions.iterator().next() "        " )
+#else
+        String trigger = request.getParameter("trigger");
+        if (trigger != null)
+            trigger = trigger.toLowerCase();
+#foreach ($triggerTransition in $actionState.triggerTransitions)
+        if ("${triggerTransition.messageKey}".equals(trigger))
+#processTransition ( $triggerTransition "            " )
+#end
+
+        return null; // if this happens the page specified an illegal trigger: application bug!
+#end
+    }
+
+#end
+#foreach ($choice in $choices)
+#set ($choiceMethodNameParent = "$str.toJavaMethodName($choice.name)Abstract")
+#set ($choiceMethodNameChild = "$str.toJavaMethodName($choice.name)")
+    private ActionForward ${choiceMethodNameParent}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    {
+        final int choiceValue = ${choiceMethodNameChild}(mapping, ($formBeanType)form, request, response);
+
+        switch(choiceValue)
+        {
+#foreach ($choiceTransition in $choiceTransitions)
+            case $choiceTransition.metaObject.guard.name.toUpperCase() :
+#processTransition ( $choiceTransition "                " )
+#end
+            default :
+                return null;
+        }
+    }
+
+    /**
+$choice.getDocumentation("     ")
+     */
+    protected abstract int ${choiceMethodNameChild}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response);
+
+#end
+#foreach ($objectFlowState in $objectFlowStates)
+#set ($stateMethodNameParent = "$str.toJavaMethodName($objectFlowState.name)Abstract")
+#set ($stateMethodNameChild = "$str.toJavaMethodName($objectFlowState.name)")
+    private ActionForward ${stateMethodNameParent}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    {
+        ${stateMethodNameChild}(mapping, ($formBeanType)form, request, response);
+#processTransition ( $objectFlowState.outgoingTransition "        " )
+    }
+
+    /**
+$objectFlowState.getDocumentation("     ")
+     */
+    protected abstract void ${stateMethodNameChild}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response);
+
+#end
+
+    /**
+     * In some cases it may happen that a single client request is passed onto several controllers, Struts with Tiles
+     * is an example: when requesting a page constructed with tiles each tile will receive the same client request.
+     * <p>
+     * In general this works fine, but with DispatchActions there is a side effect: all controllers will be requested
+     * to dispatch to a specific method, and most of the time this method will only exist in one controller.
+     * <p>
+     * This method takes care of these cases by handling unfound dispatch methods by calling the
+     * <code>unspecified()</code> method instead.
+     */
+    protected final Method getMethod(String s) throws NoSuchMethodException
+    {
+        Method method = null;
+
+        try
+        {
+            method = super.getMethod(s);
+        }
+        catch (NoSuchMethodException e)
+        {
+            method = super.getMethod("unspecified");
+        }
+
+        return method;
+    }
+
+    /**
+     * A client request contains a parameter that holds the name of the controller's dispatch method to call.
+     * Typically this request originates from a page on the client machine and targets a specific controller
+     * feature.
+     * <p>
+     * If the controller decides to forward to another controller this parameter will also be passed on, making
+     * the latter controller think he needs to dispatch also to this method. When this method name does not exist
+     * the <code>getMethod()</code> method of the controller will handle it, but consider the case where a controller
+     * decides to target itself: it will result in an endless-loop because the same dispatch method is
+     * called over and over again.
+     * <p>
+     * In fact, dispatching may only occur once per request. When a controller targets a controller
+     * it can only call the <code>unspecified()</code> method (architectural convention).
+     * <p>
+     * In order to guarantee this this class has a mechanism built-in that sets flag into the request indicating
+     * dispatching occurred. The flag is set here if it is not yet present. In case it is present we forward to
+     * the <code>unspecified()</code> method.
+     */
+    protected final ActionForward dispatchMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String name) throws Exception
+    {
+        if (request.getAttribute(dispatchGuardAttributeKey) == null)
+        {
+            request.setAttribute(dispatchGuardAttributeKey, dispatchGuardDummyValue);
+            return super.dispatchMethod(mapping, form, request, response, name);
+        }
+        else
+        {
+            return unspecified(mapping, form, request, response);
+        }
+    }
+
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="cartridge">
+		<xs:complexType>
+			<xs:sequence>
+                <xs:element ref="class" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="templateObject" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="macrolibrary" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="template" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="property">
+		<xs:complexType>
+			<!-- defines a reference to a property element defined within a namespace element in your build file -->
+			<xs:attribute name="reference" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="stereotype">
+		<xs:complexType>
+			<!-- a stereotype name from the model that will be processed (i.e. entity, enumeration, etc.) -->
+			<xs:attribute name="name" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="template">
+		<xs:complexType>
+			<!-- You can have as many stereotypes as you want for a template -->
+			<xs:sequence>
+				<xs:element ref="stereotype" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<!-- the template to process -->
+			<xs:attribute name="sheet" type="xs:string" use="required"/>
+			<!-- the pattern to output {0} - represents the package, {1}, 
+				 represents the class name -->
+			<xs:attribute name="outputPattern" type="xs:string" use="required"/>
+			<!-- the location where the output of the run will be generated (this will be
+			     retrieved from a namespace property defined in your build file)-->
+			<xs:attribute name="outlet" type="xs:string" use="required"/>
+			<!-- true/false on whether we should overwrite results of previous run -->
+			<xs:attribute name="overWrite" type="xs:boolean" use="required"/>
+			<!-- true/false on whether we should allow generation of empty files-->
+			<xs:attribute name="generateEmptyFiles" type="xs:boolean"/>
+			<!-- true/false on whether we should output all model elments 
+			     having valid stereotypes to one file -->
+			<xs:attribute name="outputToSingleFile" type="xs:boolean"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="templateObject">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="property" minOccurs="0"/>
+			</xs:sequence>
+			<!-- the name of the templateObject (this is the scripting variable name 
+			     made available to the template being processed) -->
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<!-- the class of the templateObject (must have a default constructor) -->
+			<xs:attribute name="className" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+    <!-- Defines a macro library that can be used with commonly used scripting engine macros -->
+	<xs:element name="macrolibrary">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+	</xs:element>
+	<!-- defines a cartridge class that may override the existing default cartridge class implementation -->
+	<xs:element name="class">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+	</xs:element>	
+</xs:schema>

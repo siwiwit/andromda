@@ -1,0 +1,185 @@
+<project name="andromda-hibernate" default="dist">
+
+    <!-- ============================================================= -->
+    <!--               Directory settings                              -->
+    <!-- ============================================================= -->
+
+	<property name="andromda-meta.dir" value="../andromda-meta"/>
+
+    <property name="src.dir"          value="${basedir}/src" />
+    <property name="src.cart.dir"     value="${src.dir}/java" />
+    <property name="src.fac.gen.dir"  value="${src.dir}/facades/generated" />
+    <property name="src.fac.man.dir"  value="${src.dir}/facades/manual" />
+    <property name="uml.dir"          value="${src.dir}/uml" /> 
+    <property name="lib.dir"          value="lib" />
+
+	<!-- the model which our model extends -->
+    <property name="uml.common.model.dir" value="${basedir}/../../metafacades/uml/common/src/uml"/>
+    <property name="src.test.dir"     value="${src.dir}/test/" />
+
+    <property name="build.dir"         		value="build/classes" />
+    <property name="build.test.dir"         value="${build.dir}/test" />
+    <property name="build.test.classes.dir" value="${build.test.dir}/classes" />
+    <property name="build.test.reports.dir" value="${build.test.dir}/reports" />
+
+    <property name="dist.dir"         value="dist" />
+
+    <property file="build.properties" />
+    <property name="andromda-core.home" location="${andromda.home}/andromda-core"/>
+    <property name="andromda-hibernate.home" location="dist"/>
+    
+    <property name="metafacades.uml.home"        location="${andromda.home}/metafacades/uml"/>
+    <property name="andromda-metafacades-uml.home" location="${metafacades.uml.home}/common"/>
+    <property name="andromda-metafacades-uml14.home"  location="${metafacades.uml.home}/uml14"/>
+
+    <property file="${andromda-core.home}/andromda-core.properties"/>
+    
+    <property name="andromda-meta.home" value="${andromda-meta.dir}/dist"/>
+    <property file="${andromda-meta.dir}/andromda-meta.properties"/>
+    
+    <property file="${andromda-metafacades-uml.home}/andromda-metafacades-uml.properties"/>
+    <property file="${andromda-metafacades-uml14.home}/andromda-metafacades-uml14.properties"/>
+
+    <path id="andromda.classpath">
+       <pathelement location="${andromda-core.home}/andromda.jar"/>
+       <pathelement path="${andromda-core.classpath}"/>
+    </path>
+    
+    <!-- Setup directory structure -->
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+    <!-- Remove directory structure structure -->
+    <target name="clean" description="Removes all generated files">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${dist.dir}"/>
+            <fileset dir="${build.dir}"/>
+            <fileset dir="${src.fac.gen.dir}"/>
+        </delete>
+    </target>
+
+    <!-- ============================================================= -->
+    <!--               Highlevel user tasks                            -->
+    <!-- ============================================================= -->
+
+    <target name="dist" depends="clean,build"
+            description="Builds the distribution structure">
+      <copy todir="${dist.dir}" >
+          <fileset dir="${build.dir}" includes="*.jar" />
+          <fileset dir="." includes="andromda-hibernate.properties" />
+      </copy>
+      <copy todir="${dist.dir}/lib" >
+          <fileset dir="${lib.dir}" includes="**/*" />
+      </copy>
+    </target>
+
+    <target name="build" depends="compile"
+            description="Builds the objects from the sources">
+    </target>
+
+    <!-- ============================================================= -->
+    <!--               Internal tasks                                  -->
+    <!-- ============================================================= -->
+    
+    <target name="genjava" depends="init">    
+        <path id="generate.classpath">
+           <path refid="andromda.classpath" />
+           <pathelement path="${andromda-meta.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml.classpath}"/>
+	       <pathelement path="${andromda-metafacades-uml14.classpath}"/>           
+        </path>
+    
+        <property name="g.cp" refid="generate.classpath"/>
+        <echo message="generate.classpath = ${g.cp}"/>
+    
+        <taskdef name="andromda"
+                 classname="org.andromda.core.anttasks.AndroMDAGenTask"
+                 classpathref="generate.classpath"
+        />
+
+        <property 
+        	name="model" 
+        	value="jar:file:${uml.dir}/HibernateMetafacadeModel.xml.zip!/HibernateMetafacadeModel.xml"/>
+
+        <andromda basedir="."
+           modelURL="${model}"
+           lastModifiedCheck="false"
+           processAllModelPackages="false">
+
+			<namespace name="meta">
+				<property name="facades" 				 value="${src.fac.gen.dir}" />
+				<property name="facade-logics"           value="${src.fac.gen.dir}"/>
+				<property name="facade-logic-impls"      value="${src.fac.man.dir}"/>
+				<property name="languageMappingsUri"  		 value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+			</namespace>
+            
+            <modelPackage name="org.andromda.cartridges.hibernate.metafacades" shouldProcess="true"/>
+
+			<repository>
+				<moduleSearchPath>
+					<pathelement location="${uml.common.model.dir}" />
+				</moduleSearchPath>
+			</repository>
+
+        </andromda>
+        
+    </target>
+
+    <target name="compile" depends="genjava"
+            description="Builds the cartridge objects from the sources">
+        <javac destdir="${build.dir}" includes="**/*.java"
+               includeAntRuntime="false">
+            <classpath>
+            	<path refid="generate.classpath"/>
+ 			   	<pathelement path="${andromda-meta.classpath}"/>     
+	       		<pathelement path="${andromda-metafacades-uml.classpath}"/>     
+            </classpath>
+            <src path="${src.cart.dir}" />
+            <src path="${src.fac.gen.dir}" />
+            <src path="${src.fac.man.dir}" />
+        </javac>
+
+        <jar jarfile="${build.dir}/andromda-hibernate.jar">
+            <fileset dir="${src.dir}" includes="templates/*" />
+            <fileset dir="${src.dir}" includes="META-INF/*" />
+            <fileset dir="${build.dir}" includes="**/*.class" />
+        </jar>
+        <copy todir="${dist.dir}" >
+            <fileset dir="${build.dir}" includes="andromda-hibernate.jar" />
+            <fileset dir="." includes="andromda-hibernate.properties" />
+        </copy>
+    </target>
+
+    <target name="test" depends="compile">
+        <mkdir dir="${build.test.classes.dir}"/>
+        <mkdir dir="${build.test.reports.dir}"/>
+        <path id="test.classpath">
+           <path refid="generate.classpath" />
+           <pathelement location="${build.dir}/${dist.lib.name}.jar" />
+           <pathelement location="${build.test.classes.dir}"/>
+        </path>
+
+        <javac debug="true" destdir="${build.test.classes.dir}" includes="**/*.java" includeAntRuntime="false">
+            <src path="${src.test.dir}"/>
+            <classpath refid="test.classpath"/>
+        </javac>
+        <junit printsummary="yes" haltonfailure="false">
+            <classpath>
+                <path refid="test.classpath"/>
+            </classpath>
+
+            <formatter type="plain"/>
+
+            <batchtest fork="yes" todir="${build.test.reports.dir}">
+                <fileset dir="${src.test.dir}">
+                    <include name="**/*Test.java"/>
+                    <exclude name="**/Sample*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+</project>

@@ -1,0 +1,134 @@
+<cartridge name="bpm4struts">
+
+    <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
+    <templateObject name="transform" className="org.andromda.cartridges.bpm4struts.StrutsScriptHelper"/>
+
+    <template
+        sheet="templates/StrutsAction.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="actions"
+        overWrite="true">
+        <stereotype name="FrontEndController"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsActionAbstract.vsl"
+        outputPattern="{0}/{1}Abstract.java"
+        outlet="actions"
+        overWrite="true">
+        <stereotype name="FrontEndController"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsForm.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="forms"
+        overWrite="true">
+        <stereotype name="FrontEndModel"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsFormValidationDynamicJavascript.vsl"
+        outputPattern="{0}/{1}JS.jsp"
+        outlet="pages"
+        overWrite="true">
+        <stereotype name="FrontEndView"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsJSP.vsl"
+        outputPattern="{0}/{1}.jsp"
+        outlet="pages"
+        overWrite="true">
+        <stereotype name="FrontEndView"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsFormView.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="forms"
+        overWrite="true">
+        <stereotype name="FrontEndMessage"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsFormValidationStaticJavascript.vsl"
+        outputPattern="{0}/form-validation.jsp"
+        outlet="pages"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsFormValidationRules.vsl"
+        outputPattern="validator-rules.xml"
+        outlet="validation"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsIndexJsp.vsl"
+        outputPattern="index.jsp"
+        outlet="pages"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsMessageResources.vsl"
+        outputPattern="application-resources.properties"
+        outlet="messages"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergeMessageResources.vsl"
+        outputPattern="struts-message-resources.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergePlugins.vsl"
+        outputPattern="struts-plugins.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergeServletMapping.vsl"
+        outputPattern="servlet-mappings.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergeServlets.vsl"
+        outputPattern="servlets.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergeTagLibs.vsl"
+        outputPattern="taglibs.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+    <template
+        sheet="templates/StrutsXDocletMergeWelcomeFiles.vsl"
+        outputPattern="welcomefiles.xml"
+        outlet="xdoclet-merge"
+        overWrite="true">
+        <stereotype name="FrontEndWorkflow"/>
+    </template>
+
+</cartridge>

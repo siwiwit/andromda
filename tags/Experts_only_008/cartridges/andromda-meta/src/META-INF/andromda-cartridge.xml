@@ -1,0 +1,31 @@
+<cartridge name="meta">
+
+    <!-- define the template objects that are made availble to the template -->
+    <templateObject name="str" className="org.andromda.core.common.StringUtilsHelper"/>
+
+    <!-- the template definitions -->
+    <template
+        sheet="templates/MetafacadeLogic.vsl"
+        outputPattern="{0}/{1}Logic.java"
+        outlet="facade-logics"
+        overWrite="true">
+        <stereotype name="metafacade" />
+    </template>
+
+    <template
+        sheet="templates/MetafacadeLogicImpl.vsl"
+        outputPattern="{0}/{1}LogicImpl.java"
+        outlet="facade-logic-impls"
+        overWrite="false">
+        <stereotype name="metafacade" />
+    </template>
+
+    <template
+        sheet="templates/Metafacade.vsl"
+        outputPattern="$myOutputFile"
+        outlet="facades"
+        overWrite="true">
+        <stereotype name="metafacade" />
+    </template>
+
+</cartridge>

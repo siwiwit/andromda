@@ -1,0 +1,180 @@
+/**
+ * Attention: Generated source! Do not modify by hand!
+ */
+package $class.packageName;
+
+#set ($primKey = $class.identifiers().iterator().next())
+#set ($primKeyTypeName = $primKey.type.fullyQualifiedName)
+##
+#foreach ( $dep in $class.dependencies )
+    #set ($class2 = $dep.targetType)
+    #if ($dep.hasStereotype("Exception"))
+        #set ($defaultException = $class2)
+    #end
+#end
+
+/**
+$class.getDocumentation(" ")
+ *
+ * @hibernate.class
+ *     table="HIB_$class.tableName"
+ *
+ * @hibernate.discriminator
+ *     column="class"
+ * 
+ *
+#foreach ( $tgv in $class.taggedValues )
+#if ($tgv.name != "documentation")
+#if ($tgv.name == "---")
+    #set ($tag = "")
+#else
+    #set ($tag = $tgv.name)
+#end
+ * $tag    $tgv.value
+#end
+#end
+ *
+ */
+public abstract class ${class.name} {
+
+    // --------------- attributes ---------------------
+#foreach ( $att in $class.attributes )
+#set ($atttypename = $att.type.fullyQualifiedName)
+
+    private $atttypename ${att.name};
+   
+   /**
+$att.getDocumentation("     ")
+    *
+#set ($attcolumnname = $att.columnName)
+#set ($attjdbctype   = $attr.jdbcType)
+#set ($attsqltype    = $att.sqlType)
+#if ($att.identifier)
+    * @hibernate.id 
+    *     generator-class="uuid.hex"
+#else
+    * @hibernate.property
+#end
+    *     column="$attcolumnname"
+    *
+    * @hibernate.column
+    *     name="$attcolumnname"
+    *     sql-type="$attsqltype"
+    *
+    */
+    public $atttypename get${str.upperCaseFirstLetter(${att.name})}()
+    {
+        return this.${att.name};
+    }
+    
+    public void set${str.upperCaseFirstLetter(${att.name})}(${atttypename} newValue)
+    {
+        this.${att.name} = newValue;
+    }
+
+
+#end
+
+    // ------------- relations ------------------
+
+#foreach ( $associationEnd in $class.associationEnds )
+	#set ($target = $associationEnd.otherEnd)
+    #set ($sourceType = $associationEnd.type)
+    #set ($targetType = $target.type)
+    #set ($targetTypeName = $targetType.fullyQualifiedName)
+#if ($target.navigable)
+   /**
+$target.getDocumentation("    ")
+    *
+#if ($associationEnd.one2Many)
+    * @hibernate.set
+    *     role="$target.name"
+    *     lazy="true"
+    * @hibernate.collection-key
+    *     column="$target.columnName"
+    * @hibernate.collection-one-to-many
+    *     class="$targetTypeName"
+    */
+    public java.util.Collection ${target.getterName}()
+    {
+        return this.${target.name};
+    }
+
+    public void ${target.setterName}(java.util.Collection ${target.name})
+    {
+        this.${target.name} = ${target.name};
+    }
+
+    private java.util.Collection ${target.name};
+    
+#end
+#if ($associationEnd.many2Many)
+##
+    * @hibernate.set
+    *     lazy="true"
+    *     table="HIB_${associationEnd.association.relationName}"
+    * @hibernate.collection-key
+    *     column="$associationEnd.columnName"
+    * @hibernate.collection-many-to-many
+    *     column="$target.columnName"
+    *     class="$targetTypeName"
+    */
+    public java.util.Collection ${target.getterName}()
+    {
+        return this.${target.name};
+    }
+
+    public void ${target.setterName}(java.util.Collection ${target.name})
+    {
+        this.${target.name} = ${target.name};
+    }
+
+    private java.util.Collection ${target.name};
+    
+#end
+#if ($associationEnd.one2One || $associationEnd.many2One)
+#if ($associationEnd.many2One)
+    *   @hibernate.many-to-one
+#end
+#if ($associationEnd.one2One)
+    *   @hibernate.one-to-one
+#end
+    *       column="${target.columnName}"
+    */
+    public ${targetTypeName} ${target.getterName}()
+    {
+        return this.${target.name};
+    }
+    
+    public void ${target.setterName}(${targetTypeName} ${target.name})
+    {
+        this.${target.name} = ${target.name};
+    }
+
+    private ${targetTypeName} ${target.name};
+
+#end
+
+
+#end
+#end
+
+    // ---------------- business methods  ----------------------
+
+#foreach ( $op in $class.operations)
+#if (!$op.hasStereotype("FinderMethod"))
+   /**
+$op.getDocumentation("     ")
+    */
+#set ($msig = $op.signature)
+#set ($returntype = $op.type.fullyQualifiedName)
+#if ($defaultException)
+    $op.visibility abstract $returntype ${msig}
+        throws $defaultException.name;
+#else
+    $op.visibility abstract $returntype ${msig};
+#end
+#end
+#end
+
+}
