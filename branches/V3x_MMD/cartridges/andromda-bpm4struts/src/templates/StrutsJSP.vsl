@@ -1,86 +1,72 @@
-<%@ taglib uri="struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="struts-html.tld" prefix="html" %>
+#set ($inputFields = $class.inputFields)
+#set ($controllerClass = $class.controllerClass)
+#set ($triggers = $class.triggers)
 
 ##
-## This macro will render documentation
+##  In case no model has been specified we assume no parameter needed to be posted
+##  and we use a hyperlink
 ##
-#macro ( generateJSPDocumentation $item $indent )
-#set ($tagValue = $transform.staticHelper.findTagValue( $item, "documentation"))
-#set ($paras = $transform.formatHTMLStringAsParagraphs($tagValue))
-${indent}[
-${indent}[  documentation:
-${indent}[
-#if ($paras)
-#foreach ( $par in $paras )
-${indent}[
-#foreach ( $line in $par.lines )
-${indent}[  $line
-#end
-#end
+#if ($class.isWithoutModel())
+  <html:link action="$controllerClass.controllerName?$controllerClass.parameter=$class.abstractMethodName">
+    $class.abstractMethodName
+  </html:link>
 #else
-${indent}[        NO DOCUMENTATION HAS BEEN SUPPLIED
-#end
-${indent}[
-#end
 ##
-## Set global invariants
+##  If the view is backed by a model (indicating request parameters) we render a form
 ##
-#set ($stateMachine = $transform.dynamicHelper.getStateMachineContext($class))
-#set ($useCase = $transform.getUseCaseContext($stateMachine))
-#set ($controllerForm = $transform.getControllerForm($useCase))
-#set ($controllerClass = $transform.getControllerClass($useCase))
-#set ($actionName  = $transform.toJavaClassName($controllerClass))
-#set ($methodName  = $transform.toJavaMethodName($class))
-#set ($formName = $transform.toJavaMethodName($controllerForm))
-#set ($fullyQualifiedFormName = $transform.toFullyQualifiedJavaClassName($controllerForm))
-#set ($triggeredTransitions = $transform.getNextTriggeredTransitions($class))
+  <html:form action="$controllerClass.controllerName?$controllerClass.parameter=$class.abstractMethodName">
+    <table>
 ##
-## Start JSP body
+##  Render a new row for each input field on this view
 ##
-
-
-<!--
-        Use this piece of code if you want to have only hyperlinks
-
-#if ($triggeredTransitions.size() > 0)
-#foreach ($transition in $triggeredTransitions)
-#set ($triggerName = $transform.toFinalMemberName($transition.trigger))
-    <html:link action="/$actionName?target=$methodName&trigger=$triggerName">$triggerName</html:link>
-#end
+#foreach ($inputField in $inputFields)
+      <tr>
+        <td>$inputField.name</td>
+        <td>
+##
+##  Check if the input field is read only
+##
+#if ($inputField.isReadOnly())
+#set ($readOnly = "readonly=true")
 #else
-    <html:link action="/$actionName?target=$methodName">$transition.target.name</html:link>
+#set ($readOnly = "")
 #end
-
--->
-
-#if ($controllerForm)
-<!--
-        Use this piece of code when you want additional information passed into the form
-        (you will need to manually add input fields)
-
-        Valid input field examples are:
-#foreach ($attribute in $transform.staticHelper.getAttributes($controllerForm))
-#set ($attributeName = $attribute.name)
-#set ($typeName = $attribute.type.name)
-#if ($attributeName == "trigger")## do nothing
-#elseif ($typeName == "String")
-            <html:text property="$attributeName"/>
-#elseif ($typeName == "boolean")
-            <html:checkbox property="$attributeName"/>
-#elseif ($typeName.endsWith("[]") || $typeName == "Collection")
-            <html:select property="$attributeName"/>
-#end
-#end
-
-    <html:form action="/$actionName?target=$methodName">
-#if ($triggeredTransitions.size() > 0)
-#foreach ($transition in $triggeredTransitions)
-        <html:submit property="trigger" value="$transform.toFinalMemberName($transition.trigger)"/>
-#end
+##
+##  Check if the input field should be disabled
+##
+#if ($inputField.isDisabled())
+#set ($disabled = "disabled=true")
 #else
-        <html:submit value="submit"/>
+#set ($disabled = "")
 #end
-    </html:form>
+##
+##  Depending on the type of the input field we render a different widget
+##
+#if ($inputField.isCheckbox())
+          <html:checkbox $readOnly $disabled property="$inputField.name"/>
+#else if ($inputField.isRadiobutton())
+          <html:radio $readOnly $disabled property="$inputField.name"/>
+#else if ($inputField.isTextField())
+          <html:text $readOnly $disabled property="$inputField.name"/>
+#else if ($inputField.isTextArea())
+          <html:textarea $readOnly $disabled property="$inputField.name"/>
+#else if ($inputField.isCombobox())
+          <html:select $readOnly $disabled property="${inputField.name}Selected">
+            <html:options property="$inputField.name"/>
+          </html:select>
+#else if ($inputField.isList())
+          <html:optionsCollection $readOnly $disabled property="$inputField.name"/>
+#end
+##
+##  Triggers are represented by submit buttons that will post the form to the action
+##
+#foreach ($trigger in $triggers)
+          <html:submit property="$trigger.name"/>
+#end
+        </td>
+      </tr>
+#end
+    </table>
+  </html:form>
+#end
 
--->
-#end
