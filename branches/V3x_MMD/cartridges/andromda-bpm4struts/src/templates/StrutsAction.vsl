@@ -1,10 +1,10 @@
 ##
 ## Some global invariants
 ##
-#set ($stateMachine = $class.useCase.stateMachine)
-#set ($forwardTransitions = $stateMachine.forwardTransitions)
-#set ($choices = $stateMachine.decisionPoints)
-#set ($objectFlowStates = $stateMachine.objectFlowStates)
+#set ($activityGraph = $class.useCase.activityGraph)
+#set ($forwardTransitions = $activityGraph.forwardTransitions)
+#set ($choices = $activityGraph.decisionPoints)
+#set ($objectFlowStates = $activityGraph.objectFlowStates)
 ##
 ## Specific to this class
 ##

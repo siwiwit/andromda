@@ -7,7 +7,7 @@ import org.andromda.core.metadecorators.uml14.AttributeDecorator;
 import org.andromda.core.metadecorators.uml14.ClassifierDecorator;
 import org.andromda.core.metadecorators.uml14.DecoratorBase;
 import org.andromda.core.metadecorators.uml14.DecoratorValidationException;
-import org.andromda.core.metadecorators.uml14.StateMachineDecorator;
+import org.andromda.core.metadecorators.uml14.ActivityGraphDecorator;
 import org.omg.uml.behavioralelements.activitygraphs.ActionState;
 import org.omg.uml.behavioralelements.activitygraphs.ActivityGraph;
 import org.omg.uml.behavioralelements.usecases.UseCase;
@@ -90,8 +90,8 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
             ModelElement modelElement = (ModelElement) iterator.next();
             if (modelElement instanceof ActivityGraph)
             {
-                StateMachineDecorator stateMachine = (StateMachineDecorator) DecoratorBase.decoratedElement(modelElement);
-                actionStates.addAll(stateMachine.getActionStates());
+                ActivityGraphDecorator activityGraph = (ActivityGraphDecorator) DecoratorBase.decoratedElement(modelElement);
+                actionStates.addAll(activityGraph.getActionStates());
             }
         }
         return actionStates;
@@ -129,17 +129,16 @@ public class StrutsViewDecoratorImpl extends StrutsViewDecorator
 
     protected ModelElement handleGetServlet()
     {
-        final StrutsStateMachineDecorator stateMachine = (StrutsStateMachineDecorator)DecoratorBase.decoratedElement(getActionState().metaObject.getContainer().getStateMachine());
-        final UseCase useCase = stateMachine.getUseCase().metaObject;
+        final StrutsActivityGraphDecorator activityGraph = (StrutsActivityGraphDecorator)DecoratorBase.decoratedElement(getActionState().metaObject.getContainer().getStateMachine());
+        final UseCase useCase = activityGraph.getUseCase().metaObject;
         final Collection controllers = getFormBean().getServlets();
 
         for (Iterator iterator = controllers.iterator(); iterator.hasNext();)
         {
             StrutsControllerDecorator controller = (StrutsControllerDecorator) iterator.next();
-/*
-            UseCase controllerUseCase = controller.getUseCase();
-            if (controllerUseCase == useCase)   // .equals throws a ClassCastException ??!! identity will do too
-*/
+//            UseCase controllerUseCase = controller.getUseCase();
+//            if (controllerUseCase == useCase)   // .equals throws a ClassCastException ??!! identity will do too: todo
+
                 return controller.getMetaObject();
         }
         return null;

@@ -53,7 +53,7 @@ public class StrutsUseCaseDecoratorImpl extends StrutsUseCaseDecorator
     }
 
     // ------------- relations ------------------
-    protected ModelElement handleGetStateMachine()
+    protected ModelElement handleGetActivityGraph()
     {
         final Collection ownedElements = metaObject.getOwnedElement();
         for (Iterator iterator = ownedElements.iterator(); iterator.hasNext();)
