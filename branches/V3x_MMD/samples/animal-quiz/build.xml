@@ -4,9 +4,13 @@
     <!--               Directory settings                              -->
     <!-- ============================================================= -->
 
+	<property environment="env"/>
+	
+    <property name="jboss.home" value="${env.JBOSS_HOME}"/>
+
     <property file="build.properties" />
     <property name="andromda-core.home" location="${andromda.home}/andromda-core"/>
-
+    
     <property file="${andromda-core.home}/andromda-core.properties"/>
 
     <property name="andromda-meta.home" value="${andromda-meta.home}/dist"/>
@@ -18,21 +22,32 @@
     <property file="${andromda-metafacades-uml.home}/andromda-metafacades-uml.properties"/>
     <property file="${andromda-metafacades-uml14.home}/andromda-metafacades-uml14.properties"/>
 
+    <path id="j2ee.classpath">
+      <pathelement location="${jboss.home}/server/default/lib/jboss-j2ee.jar"/>
+      <pathelement location="${jboss.home}/server/default/lib/javax.servlet.jar"/>
+    </path>
+
     <path id="classpath">
-        <pathelement path="${andromda-core.classpath}"/>
+    	<pathelement path="${andromda-core.classpath}"/>
         <pathelement location="${andromda-core.home}/andromda.jar"/>
         <pathelement location="${andromda-bpm4struts.home}/andromda-bpm4struts.jar"/>
-	       <pathelement path="${andromda-metafacades-uml.classpath}"/>
-	       <pathelement path="${andromda-metafacades-uml14.classpath}"/>
+        <pathelement location="${andromda-hibernate.home}/andromda-hibernate.jar"/>
+        <pathelement location="${andromda-java.home}/andromda-java.jar"/>
+       	<pathelement path="${andromda-metafacades-uml.classpath}"/>
+       	<pathelement path="${andromda-metafacades-uml14.classpath}"/>
         <fileset dir="${andromda-core.home}/lib">
             <include name="xjavadoc-*.jar"/>
             <include name="xdoclet-*.jar"/>
         </fileset>
-        <fileset dir="${lib.dir}">
+        <fileset dir="${bpm4struts.lib.dir}">
             <include name="struts-1.1.jar"/>
             <include name="servletapi-2.3.jar"/>
             <include name="commons-validator.jar"/>
         </fileset>
+        <fileset dir="${hibernate.lib.dir}">
+        	<include name="*.jar"/>
+        </fileset>
+        <path refid="j2ee.classpath"/>
     </path>
 
     <!-- ============================================================= -->
@@ -43,8 +58,11 @@
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${merge.dir}"/>
         <mkdir dir="${output.dir}"/>
-        <mkdir dir="${build.dir}/WEB-INF/lib"/>
-        <mkdir dir="${build.dir}/WEB-INF/classes"/>
+        <mkdir dir="${web.build.dir}/WEB-INF/lib"/>
+        <mkdir dir="${web.build.dir}/WEB-INF/classes"/>
+        <mkdir dir="${ear.build.dir}"/>
+        <mkdir dir="${hibernate.build.dir}/stage"/>
+        <mkdir dir="${hibernate.build.dir}/service"/>
     </target>
 
     <target name="clean">
@@ -66,22 +84,157 @@
             lastModifiedCheck="false">
             <namespace name="default">
                 <property name="languageMappingsUri" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>
+				<property name="jdbcMappingsUri" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlMappingsUri" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="foreignKeySuffix" value="_FK"/>
+				<property name="maxSqlNameLength" value="30"/>
             </namespace>
             <namespace name="bpm4struts">
-                <property name="forms" value="${output.dir}"/>
-                <property name="pages" value="${output.dir}"/>
-                <property name="actions" value="${output.dir}"/>
-                <property name="messages" value="${output.dir}"/>
+                <property name="forms" value="${web.output.dir}"/>
+                <property name="pages" value="${web.output.dir}"/>
+                <property name="actions" value="${web.output.dir}"/>
+                <property name="messages" value="${web.output.dir}"/>
                 <property name="validation" value="${build.dir}/WEB-INF"/>
                 <property name="xdoclet-merge" value="${merge.dir}"/>
             </namespace>
+			<namespace name="java">
+				<!-- define output location -->
+				<property name="value-objects" value="${hibernate.output.dir}"/>				
+			</namespace>
+			<namespace name="hibernate">
+				<!-- define output locations -->
+				<property name="entities" value="${hibernate.output.dir}"/>	
+				<property name="entity-impls" value="${hibernate.src.dir}"/>	
+				<property name="session-beans" value="${hibernate.output.dir}"/>	
+				<property name="session-impls" value="${hibernate.src.dir}"/>	
+			</namespace>
         </andromda>
     </target>
+    
+    <target name="hibernate-xdoclet" depends="mda">
+    
+    	<property name="path" refid="classpath"/>
+    	<echo>path=${path}</echo>
+    
+        <delete>
+            <fileset dir="${hibernate.build.dir}/service" includes="**/*.hbm.xml" />
+        </delete>
 
-    <target name="xdoclet" depends="mda">
+        <taskdef
+            name="hibernatedoclet"
+            classname="xdoclet.modules.hibernate.HibernateDocletTask"
+            classpathref="classpath"
+        />
+
+        <hibernatedoclet destdir="${hibernate.build.dir}/service">
+            <fileset dir="${hibernate.output.dir}">
+                <include name="**/*.java" />
+            </fileset>
+            <fileset dir="${hibernate.src.dir}">
+                <include name="**/*.java" />
+            </fileset>
+
+            <hibernate version="2.0" />
+
+            <jbossservice
+                destdir="${hibernate.build.dir}/service/META-INF"
+                transactionManagerStrategy="net.sf.hibernate.transaction.JBossTransactionManagerLookup"
+                transactionStrategy="net.sf.hibernate.transaction.JTATransactionFactory"
+                userTransactionName="java:/UserTransaction"
+                jndiname="java:/hibernate/SessionFactory"
+                servicename="CarRentalSystemHibernateSessionFactory"
+                dialect="net.sf.hibernate.dialect.HSQLDialect"
+                datasource="java:/DefaultDS"
+                showSql="true"
+            />
+        </hibernatedoclet>
+        <!--
+             hibernatedoclet has a bug under Windows: It generates
+             resource references in jboss-service.xml, using "\\"
+             instead of "/" as a package path separator.
+
+             Let's compensate for this using the following "replace" task.
+         -->
+        <replace file="${hibernate.build.dir}/service/META-INF/jboss-service.xml" >
+            <replacetoken><![CDATA[\]]></replacetoken>
+            <replacevalue><![CDATA[/]]></replacevalue>
+        </replace>
+
+
+        <taskdef name="ejbdoclet"
+                 classname="xdoclet.modules.ejb.EjbDocletTask"
+                 classpathref="classpath"
+        />
+
+        <ejbdoclet destdir="${hibernate.output.dir}"
+                   ejbspec="2.0"
+                   force="false">
+
+            <fileset dir="${hibernate.output.dir}">
+                <include name="**/*Bean.java" />
+            </fileset>
+
+            <utilobject kind="physical" />
+
+            <remoteinterface/>
+            <homeinterface/>
+            <localinterface/>
+            <localhomeinterface/>
+
+            <deploymentdescriptor
+                destdir="${hibernate.build.dir}/stage/META-INF/"/>
+
+            <jboss version="3.0"
+                   xmlencoding="UTF-8"
+                   typemapping="Hypersonic SQL"
+                   datasource="java:/DefaultDS"
+                   destdir="${hibernate.build.dir}/stage/META-INF/"/>
+
+        </ejbdoclet>
+
+        <!--
+             XDoclet stores the *Bean classes into ejb-jar.xml
+             but the used andromda templates have created
+             subclasses *BeanImpl.  Replace
+             the names in the deployment descriptor so that
+             everyone is happy.
+         -->
+        <replace file="${hibernate.build.dir}/stage/META-INF/ejb-jar.xml" >
+            <replacetoken><![CDATA[ServiceBean</hibernate-class>]]></replacetoken>
+            <replacevalue><![CDATA[ServiceBeanImpl</hibernate-class>]]></replacevalue>
+        </replace>
+
+    </target>
+    
+    <target name="hibernate-compile" depends="init">
+        <!-- Compile hibernate classes -->
+        <javac destdir="${hibernate.build.dir}/stage" 
+        	   includes="**/*.java"
+               includeAntRuntime="false">
+            <src path="${hibernate.output.dir}" />
+            <src path="${hibernate.src.dir}" />
+            <src path="${common.src.dir}"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+    
+    <target name="hibernate-build" depends="clean,hibernate-xdoclet,hibernate-compile">
+        <!-- Copy the hibernate libraries -->
+        <copy todir="${hibernate.build.dir}/stage/lib">
+            <fileset dir="${andromda-hibernate.home}/lib" includes="*.jar"/>
+        </copy>
+        <jar taskname="hibernate-sar" jarfile="${ear.build.dir}/${sample.name}-Hibernate.sar">
+            <fileset dir="${hibernate.build.dir}/service" includes="**/*"/>
+        </jar>
+        <jar taskname="hibernate-jar" jarfile="${ear.build.dir}/${sample.name}-Hibernate.jar">
+            <fileset dir="${hibernate.build.dir}/stage" includes="**/*"/>
+        </jar>
+    </target>
+
+    <target name="web-xdoclet" depends="mda">
         <taskdef name="webdoclet" classname="xdoclet.modules.web.WebDocletTask" classpathref="classpath"/>
-        <webdoclet destdir="${build.dir}/WEB-INF" force="true" verbose="true" mergedir="${merge.dir}">
-            <fileset dir="${output.dir}">
+        <webdoclet destdir="${web.build.dir}/WEB-INF" force="true" verbose="true" mergedir="${merge.dir}">
+            <fileset dir="${web.output.dir}">
                 <include name="**/*.java"/>
             </fileset>
             <strutsconfigxml version="1.1"/>
@@ -91,48 +244,56 @@
         </webdoclet>
     </target>
 
-    <target name="compile" depends="init">
-        <javac srcdir="${output.dir}" destdir="${build.dir}/WEB-INF/classes" classpathref="classpath"/>
+    <target name="web-compile" depends="init">
+        <javac srcdir="${web.output.dir}" destdir="${web.build.dir}/WEB-INF/classes" classpathref="classpath"/>
     </target>
 
-    <target name="build" depends="clean,xdoclet,compile">
-        <copy todir="${build.dir}">
-            <fileset dir="${output.dir}">
+    <target name="web-build" depends="clean,web-xdoclet,web-compile">
+        <copy todir="${web.build.dir}">
+            <fileset dir="${web.output.dir}">
                 <include name="**/*.jsp"/>
             </fileset>
         </copy>
-        <copy todir="${build.dir}/WEB-INF/classes" flatten="true">
-            <fileset dir="${output.dir}">
+        <copy todir="${web.build.dir}/WEB-INF/classes" flatten="true">
+            <fileset dir="${web.output.dir}">
                 <include name="**/*.properties"/>
             </fileset>
         </copy>
-        <copy todir="${build.dir}/WEB-INF/tld">
-            <fileset dir="${lib.dir}">
+        <copy todir="${web.build.dir}/WEB-INF/tld">
+            <fileset dir="${bpm4struts.lib.dir}">
                 <include name="struts-*.tld"/>
             </fileset>
         </copy>
-        <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/struts-1.1.jar"/>
-        <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/servletapi-2.3.jar"/>
-        <copy todir="${build.dir}/WEB-INF/lib" file="${lib.dir}/commons-validator.jar"/>
-        <copy todir="${build.dir}/WEB-INF/lib" >
+        <copy todir="${web.build.dir}/WEB-INF/lib" file="${bpm4struts.lib.dir}/struts-1.1.jar"/>
+        <copy todir="${web.build.dir}/WEB-INF/lib" file="${bpm4struts.lib.dir}/servletapi-2.3.jar"/>
+        <copy todir="${web.build.dir}/WEB-INF/lib" file="${bpm4struts.lib.dir}/commons-validator.jar"/>
+        <copy todir="${web.build.dir}/WEB-INF/lib" >
             <fileset dir="${andromda-core.home}/lib">
                 <include name="commons-*.jar"/>
             </fileset>
         </copy>
-    </target>
-
-    <target name="dist" depends="build">
-        <war destfile="${dist.dir}/${sample.name}.war"
-             webxml="${build.dir}/WEB-INF/web.xml">
-            <fileset dir="${build.dir}">
+        <war destfile="${ear.build.dir}/${sample.name}.war"
+             webxml="${web.build.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.build.dir}">
                 <exclude name="WEB-INF/web.xml"/>
             </fileset>
         </war>
     </target>
 
+    <target name="dist" depends="hibernate-build,web-build">
+        <copy taskname="app-xml"
+              file="${conf.dir}/ear/META-INF/application.xml"
+              tofile="${ear.build.dir}/META-INF/application.xml"/>
+        <jar taskname="app-ear" jarfile="${build.dir}/${sample.name}.ear">
+            <fileset dir="${ear.build.dir}" includes="**/*"/>
+        </jar>
+        <copy file="${build.dir}/${sample.name}.ear"
+        	  tofile="${dist.dir}/${sample.name}.ear"/>
+    </target>
+
     <target name="deploy">
         <echo message="JBoss.home = ${jboss.home}" />
-        <copy file="${dist.dir}/${sample.name}.war" 
+        <copy file="${dist.dir}/${sample.name}.ear" 
               todir="${jboss.home}/server/default/deploy" />
     </target>
 

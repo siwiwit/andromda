@@ -4,12 +4,17 @@
  */
 package $class.packageName;
 
+#set ($superclass = $class.generalization)
 /**
  * @hibernate.subclass
  *    discriminator-value="${class.name}Impl"
  */
+#if ($class.abstract)
+public abstract class ${class.name}Impl
+#else
 public class ${class.name}Impl
-       extends ${class.name}
+#end
+    extends ${class.name}
 {
     // concrete business methods that were declared
     // abstract in class ${class.name} ...
@@ -19,11 +24,16 @@ public class ${class.name}Impl
 #set ($msig = $op.signature)
 #set ($returntype = $op.type.fullyQualifiedName)
 #if ($defaultException)
-    $op.visibility $returntype ${msig}
-        throws $defaultException.name {
+#set ($throws = " throws $defaultException.name")
 #else
-    $op.visibility $returntype ${msig} {
+#set ($throws = "")
 #end
+#if ($op.abstract)
+    $op.visibility abstract $returntype ${msig}$throws;
+    
+#else 
+    $op.visibility $returntype ${msig}$throws
+    {
         // TODO: put your implementation here.
 #if ("void" != $returntype)
 
@@ -38,6 +48,7 @@ public class ${class.name}Impl
 #end
     }
 
+#end
 #end
 #end
 }

@@ -3,6 +3,7 @@
  */
 package $class.packageName;
 
+#set ($superclass = $class.generalization)
 #set ($primKey = $class.identifiers().iterator().next())
 #set ($primKeyTypeName = $primKey.type.fullyQualifiedName)
 ##
@@ -22,7 +23,6 @@ $class.getDocumentation(" ")
  * @hibernate.discriminator
  *     column="class"
  * 
- *
 #foreach ( $tgv in $class.taggedValues )
 #if ($tgv.name != "documentation")
 #if ($tgv.name == "---")
@@ -35,7 +35,11 @@ $class.getDocumentation(" ")
 #end
  *
  */
-public abstract class ${class.name} {
+public abstract class ${class.name} 
+#if($superclass)  
+	extends ${superclass.fullyQualifiedName}Impl
+#end
+{
 
     // --------------- attributes ---------------------
 #foreach ( $att in $class.attributes )
@@ -44,7 +48,7 @@ public abstract class ${class.name} {
     private $atttypename ${att.name};
    
    /**
-$att.getDocumentation("     ")
+$att.getDocumentation("    ")
     *
 #set ($attcolumnname = $att.columnName)
 #set ($attjdbctype   = $attr.jdbcType)
@@ -71,8 +75,7 @@ $att.getDocumentation("     ")
     {
         this.${att.name} = newValue;
     }
-
-
+    
 #end
 
     // ------------- relations ------------------
@@ -154,17 +157,15 @@ $target.getDocumentation("    ")
     private ${targetTypeName} ${target.name};
 
 #end
-
-
 #end
 #end
 
     // ---------------- business methods  ----------------------
-
+    
 #foreach ( $op in $class.operations)
 #if (!$op.hasStereotype("FinderMethod"))
    /**
-$op.getDocumentation("     ")
+$op.getDocumentation("    ")
     */
 #set ($msig = $op.signature)
 #set ($returntype = $op.type.fullyQualifiedName)
