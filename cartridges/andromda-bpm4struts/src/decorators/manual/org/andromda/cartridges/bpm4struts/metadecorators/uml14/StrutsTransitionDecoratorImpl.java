@@ -97,7 +97,7 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
 
     public String getForwardName()
     {
-        return StringUtilsHelper.separate(getTriggerName(), ".").toLowerCase();
+        return StringUtilsHelper.separate(metaObject.getSource().getName() + '.' + getTriggerName(), ".").toLowerCase();
     }
 
     public void validate() throws DecoratorValidationException
