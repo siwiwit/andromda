@@ -116,6 +116,9 @@
 	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Transition$Impl"
 		metafacadeClass="org.andromda.metafacades.uml14.TransitionFacadeLogicImpl"/>
+	<metafacade
+		metaobjectClass="org.omg.uml.behavioralelements.statemachines.Guard$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.GuardFacadeLogicImpl"/>
 
 	<metafacade
 		metaobjectClass="org.omg.uml.behavioralelements.usecases.Actor$Impl"
