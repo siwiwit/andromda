@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
@@ -158,6 +159,21 @@ public class OperationDecoratorImpl extends OperationDecorator
         }
 
         return ret;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.OperationDecorator#findTaggedValue(java.lang.String, boolean)
+     */
+    public String findTaggedValue(String name, boolean follow) {
+    	name = StringUtils.trimToEmpty(name);
+    	String value = findTaggedValue(name);
+    	ModelElement element = this.getType();
+    	while ((value == null) && (element != null)) {
+    		value = findTaggedValue(name);
+    		element = ((ClassifierDecorator)this.getType()).getSuperclass();
+    	}
+
+    	return value;
     }
 
     // ------------- relations ------------------
