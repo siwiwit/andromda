@@ -173,11 +173,12 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
             
             if (outletProperty != null && !outletProperty.isIgnore()) 
             {
-  
+
                 try 
                 {                     
                     
-                    Collection allModelElements = templateModelElements.getAllModelElements();
+                    Collection allModelElements = 
+                        templateModelElements.getAllModelElements();
 
                     // if isOutputToSingleFile flag is true, then
                     // we get the collections of templateModelElements and 
@@ -256,8 +257,7 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
                                 templateContext,
                                 outletProperty,
                                 context.getModelFacade().getName(modelElement),
-                                context.getModelFacade().getPackageName(modelElement));
-                           
+                                context.getModelFacade().getPackageName(modelElement));   
                         }
                         
                     }
@@ -369,8 +369,11 @@ public class DefaultAndroMDACartridge implements AndroMDACartridge
         } 
         catch (Throwable th) 
         {
-            logger.info("Removed --> '" + outFile + "'");
-            StdoutLogger.info("Removed --> '" + outFile + "'");
+            if (outFile != null) {
+                outFile.delete();
+                logger.info("Removed --> '" + outFile + "'");
+                StdoutLogger.info("Removed --> '" + outFile + "'");
+            }
             
             String errMsg = "Error performing " + methodName 
                 + " with template context '" 
