@@ -169,6 +169,11 @@ public class StrutsActivityGraphDecoratorImpl extends StrutsActivityGraphDecorat
         return metaObject.getNamespace();
     }
 
+    protected ModelElement handleGetWorkflow()
+    {
+        return metaObject.getNamespace();
+    }
+
     // ------------- validation ------------------
     public void validate() throws DecoratorValidationException
     {
