@@ -1,5 +1,6 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.Collection;
 
 
 /**
@@ -21,5 +22,10 @@ public class EventFacadeLogicImpl
     public String getName()
     {
         return metaObject.getName();
+    }
+
+    public Collection handleGetParameters()
+    {
+        return metaObject.getParameter();
     }
 }
