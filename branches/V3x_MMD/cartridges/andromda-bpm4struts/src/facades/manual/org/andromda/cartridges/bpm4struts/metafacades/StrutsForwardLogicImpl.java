@@ -97,9 +97,6 @@ public class StrutsForwardLogicImpl
 
     // ------------- relations ------------------
 
-    /**
-     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsForward#getForwardParameters()
-     */
     protected java.util.Collection handleGetForwardParameters()
     {
         final EventFacade trigger = getTrigger();
