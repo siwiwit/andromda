@@ -105,7 +105,7 @@
 				<property name="decorators" value="${src.dec.gen.dir}"/>
 				<property name="decorator-impls" value="${src.dec.man.dir}"/>	
 				<!-- define the language mappings -->
-				<property name="languageMappings" value="file:${basedir}/../conf/mappings/JavaMappings.xml"/>			
+				<property name="languageMappings" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>		
 			</namespace>
             
             <modelPackage name="org.andromda.cartridges.hibernate.metadecorators.uml14" shouldProcess="true"/>

@@ -63,8 +63,20 @@
 	  	<to>java.lang.Boolean</to>
 	</mapping>
 	<mapping>
+	  	<from>datatype.boolean</from>
+	  	<to>boolean</to>
+	</mapping>
+	<mapping>
 	  	<from>datatype.Collection</from>
 	 	<to>java.util.Collection</to>
+	</mapping>
+	<mapping>
+	  	<from>datatype.List</from>
+	 	<to>java.util.List</to>
+	</mapping>
+	<mapping>
+	  	<from>datatype.Set</from>
+	 	<to>java.util.Set</to>
 	</mapping>
 	<mapping>
 	  	<from>datatype.Clob</from>
