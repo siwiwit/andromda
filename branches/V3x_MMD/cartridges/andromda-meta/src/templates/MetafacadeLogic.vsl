@@ -11,9 +11,9 @@ package $packagename;
 #set ($superclass = $class.superclass)
 ##
 /**
-$class.getDocumentation(" ")
+ * MetafacadeLogic for $shieldedMetaclassTypeName
  *
- * Metaclass facade for $shieldedMetaclassTypeName
+ * @see $class.fullyQualifiedInterfaceName
  */
 public abstract class ${class.name}Logic
        extends        org.andromda.core.metafacade.MetafacadeBase
@@ -27,6 +27,11 @@ public abstract class ${class.name}Logic
     public ${class.name}Logic ($shieldedMetaclassTypeName metaObject) {
         super (metaObject);
 #if ($superclass)
+		// set the context for the metafacade as the interface name, we
+		// need to do this since inheritance really doesn't exist, and really
+		// the context should be dependant on the interface and not
+		// the implementation
+        this.setContext("$class.fullyQualifiedInterfaceName");
         this.super_ =
             (${superclass.fullyQualifiedInterfaceName})
             org.andromda.core.metafacade.MetafacadeFactory
@@ -58,10 +63,9 @@ $att.getDocumentation("    ")
     // ---------------- real business methods ----------------------
 
 #foreach ( $op in $ops)
-   /**
-$op.getDocumentation("    ")
-    *
-    */
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}()
+	 */
     $op.visibility abstract $op.type.fullyQualifiedName ${op.signature};
     
 #end
@@ -82,18 +86,18 @@ $op.getDocumentation("    ")
 #if ($assocEnd.one2Many || $assocEnd.many2Many) 
     protected abstract $returnTypeName handleGet${utrn}();
     
-   /**
-$assocEnd.otherEnd.getDocumentation("    ")
-    */
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}#${assocEnd.otherEnd.getterName}()
+	 */
     public $returnTypeName get${utrn}() {
         return shieldedElements(handleGet${utrn}());
     }
 #else
     protected abstract java.lang.Object handleGet${utrn}();
     
-   /**
-$assocEnd.otherEnd.getDocumentation("    ")
-    */
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}#${assocEnd.otherEnd.getterName}()
+	 */
     public $returnTypeName get${utrn}() {
         return 
             (${returnTypeName})

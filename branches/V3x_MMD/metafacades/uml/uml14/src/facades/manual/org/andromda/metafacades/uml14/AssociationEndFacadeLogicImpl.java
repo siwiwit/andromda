@@ -250,39 +250,5 @@ public class AssociationEndFacadeLogicImpl
         // if single element, then return the type
         return getOtherEnd().getType().getFullyQualifiedName();
     }
-    
-    /**
-     * Language specific mappings property reference.
-     */
-    private static final String LANGUAGE_MAPPINGS = "languageMappings";
-    
-    /**
-     * Allows the MetaFacadeFactory to populate 
-     * the language mappings for this model element.
-     * 
-     * @param mappingUri the URI of the language mappings resource.
-     */
-    public void setLanguageMappings(String mappingUri) {
-        try {
-            Mappings mappings = Mappings.getInstance(mappingUri);
-            // register the mappings with the component container.
-            this.registerConfiguredProperty(LANGUAGE_MAPPINGS, mappings);
-        } catch (Throwable th) {
-            String errMsg = "Error setting '" 
-                + LANGUAGE_MAPPINGS + "' --> '" 
-                + mappingUri + "'";
-            logger.error(errMsg, th);
-            //don't throw the exception
-        }
-    }
-    
-    /**
-     * Gets the language mappings that have been
-     * set for this model elemnt.
-     * @return the Mappings instance.
-     */
-    protected Mappings getLanguageMappings() {
-        return (Mappings)this.getConfiguredProperty(LANGUAGE_MAPPINGS);
-    }
 
 }

@@ -163,7 +163,7 @@
 
 			<namespace name="default">
 				<!-- set the language mappings for the default namespace -->			
-				<property name="languageMappings" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+				<property name="languageMappingsUri" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
 			
 			<!-- ignore hibernate since its on the class path -->
@@ -179,8 +179,8 @@
 				<property name="session-beans" value="${andromda.ejb.generated.dir}"/>	
 				<property name="entity-impls" value="${andromda.ejb.manual.dir}"/>	
 				<property name="session-impls" value="${andromda.ejb.manual.dir}"/>		
-				<property name="jdbcMappings" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
-				<property name="sqlMappings" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="jdbcMappingsUri" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlMappingsUri" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
 				<property name="foreignKeySuffix" value="_FK"/>
 				<property name="maxSqlNameLength" value="30"/>
 			</namespace>
@@ -214,9 +214,9 @@
         
 			<namespace name="default">
 				<!-- set the language mappings for the default namespace -->			
-				<property name="languageMappings" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
-				<property name="jdbcMappings" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
-				<property name="sqlMappings" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
+				<property name="languageMappingsUri" value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+				<property name="jdbcMappingsUri" value="file:${andromda-core.home}/conf/mappings/JdbcMappings.xml"/>
+				<property name="sqlMappingsUri" value="file:${andromda-core.home}/conf/mappings/HypersonicSqlMappings.xml"/>
 				<property name="foreignKeySuffix" value="_FK"/>
 				<property name="maxSqlNameLength" value="30"/>
 			</namespace>

@@ -125,7 +125,7 @@ public class EntityFacadeLogicImpl
     /**
      * SQL type specific mappings property reference.
      */
-    private static final String MAX_SQL_NAME_LENGTH = "maxSqlNameLength";
+    private final static String MAX_SQL_NAME_LENGTH = "maxSqlNameLength";
     
     /**
      * Sets the maximum lenght to which a persistent SQL
@@ -134,25 +134,14 @@ public class EntityFacadeLogicImpl
      * @param maxSqlNameLength the maximum length a SQL name 
      *        may be.
      */
-    public void setMaxSqlNameLength(String maxSqlNameLength) {
-        try {
-            // register the mappings 
-            this.registerConfiguredProperty(
-                    MAX_SQL_NAME_LENGTH, 
-                    Short.valueOf(maxSqlNameLength));
-        } catch (Throwable th) {
-            String errMsg = "Error setting '" 
-                + MAX_SQL_NAME_LENGTH + "' --> '" 
-                + maxSqlNameLength + "'";
-            logger.error(errMsg, th);
-            //don't throw the exception
-        }
+    public void setMaxSqlNameLength(Short maxSqlNameLength) {
+        this.registerConfiguredProperty(MAX_SQL_NAME_LENGTH, maxSqlNameLength);
     }
     
     /**
      * Gets the maximum name length SQL names may be 
      */
-    protected Short getMaxSqlNameLength() {
+    public Short getMaxSqlNameLength() {
         return (Short)this.getConfiguredProperty(MAX_SQL_NAME_LENGTH);
     }
 

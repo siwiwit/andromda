@@ -7,13 +7,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.andromda.cartridges.meta.MetaProfile;
-import org.andromda.core.mapping.Mappings;
+import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.OperationFacade;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -32,6 +33,8 @@ public class MetafacadeFacadeLogicImpl
        extends MetafacadeFacadeLogic
        implements org.andromda.cartridges.meta.metafacades.MetafacadeFacade
 {
+    private static Logger logger = Logger.getLogger(MetafacadeFacadeLogicImpl.class);
+    
     // ---------------- constructor -------------------------------
     
     public MetafacadeFacadeLogicImpl (org.omg.uml.foundation.core.Classifier metaObject)
@@ -174,92 +177,65 @@ public class MetafacadeFacadeLogicImpl
 
     private static void internalGetMethodDataForPSM(HashMap map, MetafacadeFacade cd)
     {
-        final String fullyQualifiedInterfaceName =
-            cd.getFullyQualifiedInterfaceName();
-
-        // translate UML attributes to getter methods
-        for (Iterator iter = cd.getAttributes().iterator();
-            iter.hasNext();
-            )
-        {
-            AttributeFacade att = (AttributeFacade) iter.next();
-            final MethodData md =
-                new MethodData(
-                    fullyQualifiedInterfaceName,
-                    "public",
-                    false,
-                    att.getType().getFullyQualifiedName(),
-                    att.getGetterName(),
-                    att.getDocumentation("    "));
-            map.put(md.buildCharacteristicKey(), md);
-        }
-
-        // translate UML operations to methods
-        for (Iterator iter = cd.getOperations().iterator();
-            iter.hasNext();
-            )
-        {
-            OperationFacade op = (OperationFacade) iter.next();
-            final UMLOperationData md =
-                new UMLOperationData(fullyQualifiedInterfaceName, op);
-            map.put(md.buildCharacteristicKey(), md);
-        }
-
-        // translate UML associations to getter methods
-        for (Iterator iter = cd.getAssociationEnds().iterator();
-            iter.hasNext();
-            )
-        {
-            AssociationEndFacade ae =
-                (AssociationEndFacade) iter.next();
-            AssociationEndFacade otherEnd = ae.getOtherEnd();
-            if (otherEnd.isNavigable())
+        final String methodName = "MetafacadeFacadeLogicImpl.internaleGetMethodDataForPSM";
+        try {
+            final String fullyQualifiedInterfaceName =
+                cd.getFullyQualifiedInterfaceName();
+    
+            // translate UML attributes to getter methods
+            for (Iterator iter = cd.getAttributes().iterator();
+                iter.hasNext();
+                )
             {
+                AttributeFacade att = (AttributeFacade) iter.next();
                 final MethodData md =
                     new MethodData(
                         fullyQualifiedInterfaceName,
                         "public",
                         false,
-                        ae.getGetterSetterTypeName(),
-                        otherEnd.getGetterName(),
-                        otherEnd.getDocumentation("    "));
+                        att.getType().getFullyQualifiedName(),
+                        att.getGetterName(),
+                        att.getDocumentation("    "));
                 map.put(md.buildCharacteristicKey(), md);
             }
-        }
-    }
     
-    /**
-     * Language specific mappings property reference.
-     */
-    private static final String LANGUAGE_MAPPINGS = "languageMappings";
+            // translate UML operations to methods
+            for (Iterator iter = cd.getOperations().iterator();
+                iter.hasNext();
+                )
+            {
+                OperationFacade op = (OperationFacade) iter.next();
+                final UMLOperationData md =
+                    new UMLOperationData(fullyQualifiedInterfaceName, op);
+                map.put(md.buildCharacteristicKey(), md);
+            }
     
-    /**
-     * Allows the MetaFacadeFactory to populate 
-     * the language mappings for this model element.
-     * 
-     * @param mappingUri the URI of the language mappings resource.
-     */
-    public void setLanguageMappings(String mappingUri) {
-        try {
-            Mappings mappings = Mappings.getInstance(mappingUri);
-            // register the mappings with the component container.
-            this.registerConfiguredProperty(LANGUAGE_MAPPINGS, mappings);
+            // translate UML associations to getter methods
+            for (Iterator iter = cd.getAssociationEnds().iterator();
+                iter.hasNext();
+                )
+            {
+                AssociationEndFacade ae =
+                    (AssociationEndFacade) iter.next();
+                AssociationEndFacade otherEnd = ae.getOtherEnd();
+                if (otherEnd.isNavigable())
+                {
+                    final MethodData md =
+                        new MethodData(
+                            fullyQualifiedInterfaceName,
+                            "public",
+                            false,
+                            ae.getGetterSetterTypeName(),
+                            otherEnd.getGetterName(),
+                            otherEnd.getDocumentation("    "));
+                    map.put(md.buildCharacteristicKey(), md);
+                }
+            }
         } catch (Throwable th) {
-            String errMsg = "Error setting '" 
-                + LANGUAGE_MAPPINGS + "' --> '" 
-                + mappingUri + "'";
+        	String errMsg = "Error performing " + methodName;
             logger.error(errMsg, th);
-            //don't throw the exception
+            throw new MetafacadeException(errMsg, th);
         }
-    }
-    
-    /**
-     * Gets the language mappings that have been
-     * set for this model elemnt.
-     * @return the Mappings instance.
-     */
-    protected Mappings getLanguageMappings() {
-        return (Mappings)this.getConfiguredProperty(LANGUAGE_MAPPINGS);
     }
 
     // ------------------------------------------------------------

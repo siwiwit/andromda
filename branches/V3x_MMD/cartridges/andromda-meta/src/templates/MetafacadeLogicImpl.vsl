@@ -5,10 +5,9 @@ package $packagename;
 #set ($shieldedMetaclassTypeName = $shieldedMetaclass.fullyQualifiedName)
 
 /**
-$class.getDocumentation(" ")
+ * MetafacadeLogic implementation.
  *
- * Metaclass facade implementation.
- *
+ * @see $class.fullyQualifiedInterfaceName
  */
 public class ${class.name}LogicImpl
        extends ${class.name}Logic
@@ -28,8 +27,7 @@ public class ${class.name}LogicImpl
 #set ($returnTypeName = $att.type.fullyQualifiedName)
 
    /**
-$att.getDocumentation("    ")
-    *
+	* @see ${att.type.fullyQualifiedName}#${att.getterName}()
     */
     public $returnTypeName ${att.getterName}() {
         // TODO: put your implementation here.
@@ -60,9 +58,15 @@ $att.getDocumentation("    ")
 #set ($msig = $op.signature)
 #set ($returnTypeName = $op.type.fullyQualifiedName)
 #if ($defaultException)
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}#${op.signature}()
+	 */
     $op.visibility $returnTypeName ${msig}
         throws $defaultException.name {
 #else
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}#${op.signature}()
+	 */
     $op.visibility $returnTypeName ${msig} {
 #end
         // TODO: put your implementation here.
@@ -97,10 +101,9 @@ $att.getDocumentation("    ")
 #else
 #set ($returnTypeName = "java.lang.Object")
 #end
-   /**
-$assocEnd.otherEnd.getDocumentation("    ")
-    *
-    */
+	/**
+	 * @see ${class.fullyQualifiedInterfaceName}#${assocEnd.otherEnd.getterName}()
+	 */
     public $returnTypeName handleGet${utrn}()
     {
         // TODO: add your implementation here!

@@ -1,6 +1,7 @@
 package org.andromda.cartridges.meta.metafacades;
 
 import org.andromda.core.mapping.Mappings;
+import org.andromda.core.metafacade.MetafacadeException;
 
 
 /**
@@ -33,10 +34,16 @@ public class MetafacadeAssociationEndFacadeLogicImpl
 
     public java.lang.String getGetterSetterTypeName()
     {
+        final String methodName = 
+            "MetafacadeAssociationEndFacadeLogicImpl.getGetterSetterTypeName";
         // if many, then list or collection
         if (isOne2Many() || isMany2Many())
         {
             Mappings lm = getLanguageMappings();
+            if (lm == null) {
+            	throw new MetafacadeException(methodName
+                    + " - languageMappings could not be retrieved!");
+            }
             return isOrdered()
                 ? lm.getTo("datatype.List")
                 : lm.getTo("datatype.Collection");
@@ -48,44 +55,8 @@ public class MetafacadeAssociationEndFacadeLogicImpl
         // implementation class type!
         MetafacadeFacade otherMetafacade =
             (MetafacadeFacade) getOtherEnd().getType();
-        if (otherMetafacade != null) {
-            typeName = otherMetafacade.getFullyQualifiedInterfaceName();
-        }
-        return typeName;
-    }
-    
-    /**
-     * Language specific mappings property reference.
-     */
-    private static final String LANGUAGE_MAPPINGS = "languageMappings";
-    
-    /**
-     * Allows the MetaFacadeFactory to populate 
-     * the language mappings for this model element.
-     * 
-     * @param mappingUri the URI of the language mappings resource.
-     */
-    public void setLanguageMappings(String mappingUri) {
-        try {
-            Mappings mappings = Mappings.getInstance(mappingUri);
-            // register the mappings with the component container.
-            this.registerConfiguredProperty(LANGUAGE_MAPPINGS, mappings);
-        } catch (Throwable th) {
-            String errMsg = "Error setting '" 
-                + LANGUAGE_MAPPINGS + "' --> '" 
-                + mappingUri + "'";
-            logger.error(errMsg, th);
-            //don't throw the exception
-        }
-    }
-    
-    /**
-     * Gets the language mappings that have been
-     * set for this model elemnt.
-     * @return the Mappings instance.
-     */
-    protected Mappings getLanguageMappings() {
-        return (Mappings)this.getConfiguredProperty(LANGUAGE_MAPPINGS);
+
+        return otherMetafacade.getFullyQualifiedInterfaceName();
     }
 
     // ------------- relations ------------------

@@ -257,7 +257,7 @@ public class ModelElementFacadeLogicImpl
     /**
      * Language specific mappings property reference.
      */
-    private static final String LANGUAGE_MAPPINGS = "languageMappings";
+    private static final String LANGUAGE_MAPPINGS_URI = "languageMappingsUri";
     
     /**
      * Allows the MetaFacadeFactory to populate 
@@ -265,15 +265,15 @@ public class ModelElementFacadeLogicImpl
      * 
      * @param mappingUri the URI of the language mappings resource.
      */
-    public void setLanguageMappings(String mappingUri) {
+    public void setLanguageMappingsUri(String mappingsUri) {
         try {
-            Mappings mappings = Mappings.getInstance(mappingUri);
-            // register the mappings with the component container.
-            this.registerConfiguredProperty(LANGUAGE_MAPPINGS, mappings);
+            this.registerConfiguredProperty(
+            	LANGUAGE_MAPPINGS_URI, 
+                Mappings.getInstance(mappingsUri));
         } catch (Throwable th) {
             String errMsg = "Error setting '" 
-                + LANGUAGE_MAPPINGS + "' --> '" 
-                + mappingUri + "'";
+                + LANGUAGE_MAPPINGS_URI + "' --> '" 
+                + mappingsUri + "'";
             logger.error(errMsg, th);
             //don't throw the exception
         }
@@ -284,8 +284,8 @@ public class ModelElementFacadeLogicImpl
      * set for this model elemnt.
      * @return the Mappings instance.
      */
-    protected Mappings getLanguageMappings() {
-        return (Mappings)this.getConfiguredProperty(LANGUAGE_MAPPINGS);
+    public Mappings getLanguageMappings() {
+        return (Mappings)this.getConfiguredProperty(LANGUAGE_MAPPINGS_URI);
     }
 
     /* (non-Javadoc)

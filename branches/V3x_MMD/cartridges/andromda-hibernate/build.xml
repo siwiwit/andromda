@@ -109,7 +109,7 @@
 				<property name="facades" 				 value="${src.fac.gen.dir}" />
 				<property name="facade-logics"           value="${src.fac.gen.dir}"/>
 				<property name="facade-logic-impls"      value="${src.fac.man.dir}"/>
-				<property name="languageMappings"  		 value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
+				<property name="languageMappingsUri"  		 value="file:${andromda-core.home}/conf/mappings/JavaMappings.xml"/>	
 			</namespace>
             
             <modelPackage name="org.andromda.cartridges.hibernate.metafacades" shouldProcess="true"/>

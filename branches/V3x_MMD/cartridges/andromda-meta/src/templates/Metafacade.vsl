@@ -10,7 +10,6 @@ package ${class.interfacePackageName};
 $class.getDocumentation(" ")
  *
  * Metafacade interface to be used by AndroMDA cartridges.
- *
  */
 public interface $class.name
 #set ($superclass = $class.superclass)
@@ -22,7 +21,6 @@ public interface $class.name
 
    /**
 $method.documentation
-    *
     */
     ${method.buildMethodDeclaration(true)};
 #end

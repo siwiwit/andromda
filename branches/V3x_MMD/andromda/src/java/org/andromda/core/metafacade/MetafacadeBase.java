@@ -2,6 +2,9 @@ package org.andromda.core.metafacade;
 
 import java.util.Collection;
 
+import org.andromda.core.common.ExceptionUtils;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
@@ -47,7 +50,7 @@ public class MetafacadeBase
         {
             return null;   // a decorated null is still a null! :-)
         }
-		Collection metafacades = MetafacadeFactory.getInstance().createFacadeObjects(
+		Collection metafacades = MetafacadeFactory.getInstance().createMetafacades(
 				metaobjects,
 				this.getContext());
 		class MetafacadeContextTransformer implements Transformer {
@@ -93,18 +96,9 @@ public class MetafacadeBase
 	 *
 	 * @param context the context class to set
 	 */
-	private void setContext(String context) {
+	protected void setContext(String context) {
 		this.context = StringUtils.trimToEmpty(context);
 	}
-    
-    /**
-     * Resets the context to null, this is called when
-     * constructing metafacades and and an actual metafacade
-     * itself is passed in.
-     */
-    protected void resetContext() {
-    	this.context = null;
-    }
 
     /**
      * Stores the property context for this Metafacade
@@ -156,9 +150,9 @@ public class MetafacadeBase
      * @return Object the configured property instance (mappings, etc)
      */
     protected Object getConfiguredProperty(String property) {
-    	return MetafacadeFactory.getInstance().getRegisteredProperty(
-    			this.getPropertyNamespace(),
-				property);
+        return MetafacadeFactory.getInstance().getRegisteredProperty(
+                this.getPropertyNamespace(),
+                property);
     }
 
     /**
@@ -168,10 +162,10 @@ public class MetafacadeBase
      * @param value the value of the configured instance.
      */
     protected void registerConfiguredProperty(String property, Object value) {
-    	MetafacadeFactory.getInstance().registerProperty(
-			this.getPropertyNamespace(),
-			property,
-			value);
+        MetafacadeFactory.getInstance().registerProperty(
+            this.getPropertyNamespace(),
+            property,
+            value);
     }
 
     /**
@@ -191,7 +185,7 @@ public class MetafacadeBase
 		MetafacadeBase metafacade = null;
 		if (metaObject != null) {
 			metafacade =
-				MetafacadeFactory.getInstance().createFacadeObject(
+				MetafacadeFactory.getInstance().createMetafacade(
 					metaObject,
 					this.getContext());
 			// keep passing the context along from the
@@ -206,6 +200,39 @@ public class MetafacadeBase
 		}
 		return metafacade;
     }
+    
+    /**
+     * Attempts to set the property with <code>name</code>
+     * having the specified <code>value</code>
+     * on this metafacade.
+     */
+    protected void setProperty(String name, Object value) {
+        final String methodName = "MetafacadeBase.setProperty";
+        ExceptionUtils.checkEmpty(methodName, "name", name);
+
+        try
+        {
+            if (PropertyUtils.isWriteable(this, name)) {
+                BeanUtils.setProperty(
+                        this,
+                        name,
+                        value);
+             }
+        }
+        catch (Exception ex)
+        {
+            String errMsg =
+                "Error setting property '"
+                    + name
+                    + "' with value '" 
+                    + value 
+                    + "' on metafacade --> '"
+                    + this
+                    + "'";
+            this.logger.error(errMsg, ex);
+            //don't throw the exception
+        }
+    }
 
     /**
      * Package-local setter, called by facade factory.
@@ -216,8 +243,7 @@ public class MetafacadeBase
     {
         logger = l;
     }
-
-
+ 
     /**
      * This method handles a validation error.
      * <p>

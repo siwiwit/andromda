@@ -1,6 +1,7 @@
 package org.andromda.metafacades.uml14;
 
 import org.andromda.core.uml14.UMLProfile;
+import org.andromda.metafacades.uml.EntityFacade;
 
 
 /**
@@ -34,14 +35,14 @@ public class EntityAssociationEndFacadeLogicImpl
         return EntityMetafacadeUtils.getSqlNameFromTaggedValue(
             this, 
             UMLProfile.TAGGEDVALUE_PERSISTENCE_COLUMN,
-            ((EntityFacadeLogicImpl)this.getType()).getMaxSqlNameLength(),
+            ((EntityFacade)this.getType()).getMaxSqlNameLength(),
             this.getForeignKeySuffix());
     }   
 
     /**
      * The foreign key suffix.
      */
-    private static final String FOREIGN_KEY_SUFFIX = "foreignKeySuffix";
+    private final static String FOREIGN_KEY_SUFFIX = "foreignKeySuffix";
     
     /**
      * Sets the suffix for foreign keys.
@@ -50,25 +51,14 @@ public class EntityAssociationEndFacadeLogicImpl
      * (i.e. '_FK').
      */
     public void setForeignKeySuffix(String foreignKeySuffix) {
-        try {
-            // register the mappings 
-            this.registerConfiguredProperty(
-                    FOREIGN_KEY_SUFFIX, 
-                    foreignKeySuffix);
-        } catch (Throwable th) {
-            String errMsg = "Error setting '" 
-                + FOREIGN_KEY_SUFFIX + "' --> '" 
-                + foreignKeySuffix + "'";
-            logger.error(errMsg, th);
-            //don't throw the exception
-        }
+    	this.registerConfiguredProperty(FOREIGN_KEY_SUFFIX, foreignKeySuffix);
     }
     
     /**
      * Gets the maximum name length SQL names may be 
      */
-    protected String getForeignKeySuffix() {
-        return (String)this.getConfiguredProperty(FOREIGN_KEY_SUFFIX );
+    public String getForeignKeySuffix() {
+        return (String)this.getConfiguredProperty(FOREIGN_KEY_SUFFIX);
     }
     
 

@@ -256,10 +256,10 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
             Object model = context.getModelFacade().getModel();
             MetafacadeFactory df = MetafacadeFactory.getInstance();
 
-            velocityContext.put("model", df.createFacadeObject(model));
+            velocityContext.put("model", df.createMetafacade(model));
             velocityContext.put(
                 "class",
-                df.createFacadeObject(modelElement));
+                df.createMetafacade(modelElement));
 
             // add any template objects to the context now
             Map templateObjects = this.getDescriptor().getTemplateObjects();
