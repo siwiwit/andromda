@@ -5,8 +5,8 @@
 
     <!-- the template definitions -->
     <template
-        sheet="templates/MetaclassDecorator.vsl"
-        outputPattern="{0}/{1}.java"
+        sheet="templates/MetafacadeDecorator.vsl"
+        outputPattern="{0}/{1}Decorator.java"
         outlet="facades"
         overWrite="true">
         <stereotype name="Decorator" />
@@ -14,8 +14,8 @@
     </template>
 
     <template
-        sheet="templates/MetaclassDecoratorImpl.vsl"
-        outputPattern="{0}/{1}Impl.java"
+        sheet="templates/MetafacadeDecoratorImpl.vsl"
+        outputPattern="{0}/{1}DecoratorImpl.java"
         outlet="facade-impls"
         overWrite="false">
         <stereotype name="Decorator" />
