@@ -13,7 +13,7 @@ public class ServiceFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ServiceFacadeLogicImpl (org.omg.uml.foundation.core.Classifier metaObject)
+    public ServiceFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }

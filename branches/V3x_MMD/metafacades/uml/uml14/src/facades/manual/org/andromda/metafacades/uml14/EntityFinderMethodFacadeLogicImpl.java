@@ -13,7 +13,7 @@ public class EntityFinderMethodFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EntityFinderMethodFacadeLogicImpl (org.omg.uml.foundation.core.Operation metaObject)
+    public EntityFinderMethodFacadeLogicImpl (java.lang.Object metaObject)
     {
         super (metaObject);
     }
