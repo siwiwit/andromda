@@ -289,6 +289,13 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     protected Mappings getLanguageMappings() {
     	return (Mappings)this.getConfiguredProperty(LANGUAGE_MAPPINGS);
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.andromda.core.metadecorators.uml14.ModelElementDecorator#handleGetPackage()
+     */
+    protected ModelElement handleGetPackage()
+    {
+        return metaObject.getNamespace();
+    }
 
 }
