@@ -13,8 +13,8 @@ public class ServiceFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ServiceFacadeLogicImpl (java.lang.Object metaObject)
+    public ServiceFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 }

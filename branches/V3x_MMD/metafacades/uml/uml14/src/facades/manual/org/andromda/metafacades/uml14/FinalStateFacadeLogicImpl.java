@@ -16,9 +16,9 @@ public class FinalStateFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public FinalStateFacadeLogicImpl (org.omg.uml.behavioralelements.statemachines.FinalState metaObject)
+    public FinalStateFacadeLogicImpl (org.omg.uml.behavioralelements.statemachines.FinalState metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     // -------------------- business methods ----------------------
 

@@ -27,9 +27,9 @@ public class ClassifierFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ClassifierFacadeLogicImpl (org.omg.uml.foundation.core.Classifier metaObject)
+    public ClassifierFacadeLogicImpl (org.omg.uml.foundation.core.Classifier metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

@@ -186,7 +186,14 @@ public class MetafacadeFactory
             metafacade =
                 (MetafacadeBase) ConstructorUtils.invokeConstructor(
                     metafacadeClass,
-                    metaobject);
+                    new Object[] {
+                        metaobject, 
+                        contextName
+                    },
+                    new Class[] {
+                        metaobject.getClass(), 
+                        java.lang.String.class
+                    });
             
             // make sure that the facade has a proper logger associated
             // with it.
@@ -275,9 +282,9 @@ public class MetafacadeFactory
             MetafacadeBase metafacade = 
                 this.internalCreateMetafacade(
                         metaObject,
-                        null,
+                        contextName,
                         metafacadeClass);   
-            metafacade.setContext(contextName);
+            //metafacade.setContext(contextName);
            
             
             return metafacade;

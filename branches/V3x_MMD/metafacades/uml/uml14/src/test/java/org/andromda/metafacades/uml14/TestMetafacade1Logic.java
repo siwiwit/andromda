@@ -7,8 +7,8 @@ public class TestMetafacade1Logic extends MetafacadeBase {
     
     protected java.lang.Object metaObject;
 
-    public TestMetafacade1Logic (java.lang.Object metaObject) {
-        super (metaObject);
+    public TestMetafacade1Logic (java.lang.Object metaObject, String context) {
+        super (metaObject, context);
         this.metaObject = metaObject;
     }
     

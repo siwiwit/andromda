@@ -10,16 +10,23 @@ public class TestMetafacade3Logic extends MetafacadeBase {
     protected java.lang.Object metaObject;
     private TestMetafacade2Logic super_;
 
-    public TestMetafacade3Logic (java.lang.Object metaObject) {
-        super (metaObject);
+    public TestMetafacade3Logic (java.lang.Object metaObject, String contextName) {
+        super (metaObject, getContextName(contextName));
         this.super_ = (TestMetafacade2Logic)
             org.andromda.core.metafacade.MetafacadeFactory
                 .getInstance()
                 .createFacadeImpl(
                     "org.andromda.metafacades.uml.TestMetafacade2",
                     metaObject,
-                    CONTEXT_NAME);
+                    getContextName(contextName));
         this.metaObject = metaObject;
+    }
+    
+    private static String getContextName(String contextName) {
+    	if (contextName == null) {
+            contextName = CONTEXT_NAME;
+        }
+        return contextName;
     }
     
     // from org.andromda.metafacades.uml14.TestMetafacade2Logic

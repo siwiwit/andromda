@@ -19,9 +19,9 @@ public class EntityFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EntityFacadeLogicImpl (java.lang.Object metaObject)
+    public EntityFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

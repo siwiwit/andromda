@@ -21,9 +21,9 @@ public class TaggedValueFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public TaggedValueFacadeLogicImpl (org.omg.uml.foundation.core.TaggedValue metaObject)
+    public TaggedValueFacadeLogicImpl (org.omg.uml.foundation.core.TaggedValue metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

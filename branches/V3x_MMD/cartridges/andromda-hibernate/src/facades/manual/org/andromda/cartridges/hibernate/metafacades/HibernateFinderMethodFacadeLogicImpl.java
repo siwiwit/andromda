@@ -22,9 +22,9 @@ public class HibernateFinderMethodFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public HibernateFinderMethodFacadeLogicImpl (java.lang.Object metaObject)
+    public HibernateFinderMethodFacadeLogicImpl (Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     
     /**

@@ -18,9 +18,9 @@ public class EntityAssociationEndFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EntityAssociationEndFacadeLogicImpl (java.lang.Object metaObject)
+    public EntityAssociationEndFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

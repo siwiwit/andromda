@@ -37,9 +37,9 @@ public class MetafacadeFacadeLogicImpl
     
     // ---------------- constructor -------------------------------
     
-    public MetafacadeFacadeLogicImpl (java.lang.Object metaObject)
+    public MetafacadeFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     // -------------------- business methods ----------------------

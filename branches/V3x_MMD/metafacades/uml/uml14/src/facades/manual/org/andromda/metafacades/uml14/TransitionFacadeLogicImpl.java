@@ -13,8 +13,8 @@ public class TransitionFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public TransitionFacadeLogicImpl (org.omg.uml.behavioralelements.statemachines.Transition metaObject)
+    public TransitionFacadeLogicImpl (org.omg.uml.behavioralelements.statemachines.Transition metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 }

@@ -18,9 +18,9 @@ public class ${class.name}LogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ${class.name}LogicImpl ($shieldedMetaclassTypeName metaObject)
+    public ${class.name}LogicImpl ($shieldedMetaclassTypeName metaObject, java.lang.String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 #set ($atts = $class.attributes)
 #if ($atts.size() > 0)

@@ -17,8 +17,6 @@ import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.ModelFacade;
 import org.andromda.metafacades.uml.PackageFacade;
 import org.omg.uml.UmlPackage;
-import org.omg.uml.foundation.core.ModelElement;
-import org.omg.uml.foundation.core.Namespace;
 
 public class FacadeSmallTest1 extends TestCase implements TestModel
 {
@@ -58,8 +56,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         ModelFacade md =
             (ModelFacade) df.createMetafacade(model);
-        Collection packages =
-            ((PackageFacade) md.getRootPackage()).getSubPackages();
+        Collection packages = md.getRootPackage().getSubPackages();
         assertEquals(5, packages.size());
         ArrayList expectedResults = new ArrayList();
         expectedResults.add("org");
@@ -88,8 +85,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
         MetafacadeFactory df = MetafacadeFactory.getInstance();
         ModelFacade md =
             (ModelFacade) df.createMetafacade(model);
-        Collection packages =
-            ((PackageFacade) md.getRootPackage()).getSubPackages();
+        Collection packages = md.getRootPackage().getSubPackages();
 
         HashMap expectedResults = new HashMap();
         expectedResults.put("ClassAA", "associations");
@@ -150,7 +146,7 @@ public class FacadeSmallTest1 extends TestCase implements TestModel
             AssociationEndFacade aed =
                 (AssociationEndFacade) i3.next();
             assertNotNull(aed);
-            aed = (AssociationEndFacade) aed.getOtherEnd();
+            aed = aed.getOtherEnd();
             assertNotNull(aed);
             String role = aed.getName();
             if (role.equals(ONE2ONE))

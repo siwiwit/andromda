@@ -27,8 +27,8 @@ public abstract class ${class.name}Logic
     private $superclass.fullyQualifiedInterfaceName super_;
 #end
 
-    public ${class.name}Logic ($shieldedMetaclassTypeName metaObject) {
-        super (metaObject);
+    public ${class.name}Logic ($shieldedMetaclassTypeName metaObject, java.lang.String context) {
+        super (metaObject, getContext(context));
 #if ($superclass)
         this.super_ = 
            (${superclass.fullyQualifiedInterfaceName})
@@ -37,10 +37,21 @@ public abstract class ${class.name}Logic
                 .createFacadeImpl(
                     "${superclass.fullyQualifiedInterfaceName}",
                     metaObject,
-                    "${class.fullyQualifiedInterfaceName}");
+                    getContext(context));
 #end
         this.metaObject = metaObject;
     }
+    
+    /**
+     * Gets the context for this metafacade logic instance.
+     */
+    private static String getContext(String context) {
+    	if (context == null) {
+            context = "${class.fullyQualifiedInterfaceName}";
+        }
+        return context;
+    }
+   
 ##
 
 #set ($atts = $class.attributes)

@@ -16,9 +16,9 @@ public class StateFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public StateFacadeLogicImpl (org.omg.uml.behavioralelements.statemachines.State metaObject)
+    public StateFacadeLogicImpl (org.omg.uml.behavioralelements.statemachines.State metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
     // -------------------- business methods ----------------------
 

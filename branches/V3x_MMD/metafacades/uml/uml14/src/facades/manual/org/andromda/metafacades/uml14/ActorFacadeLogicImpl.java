@@ -13,8 +13,8 @@ public class ActorFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public ActorFacadeLogicImpl (org.omg.uml.behavioralelements.usecases.Actor metaObject)
+    public ActorFacadeLogicImpl (org.omg.uml.behavioralelements.usecases.Actor metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 }

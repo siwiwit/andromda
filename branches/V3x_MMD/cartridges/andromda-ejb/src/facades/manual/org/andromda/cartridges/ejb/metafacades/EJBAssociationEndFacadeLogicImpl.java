@@ -15,9 +15,9 @@ public class EJBAssociationEndFacadeLogicImpl
 {
     // ---------------- constructor -------------------------------
     
-    public EJBAssociationEndFacadeLogicImpl (java.lang.Object metaObject)
+    public EJBAssociationEndFacadeLogicImpl (java.lang.Object metaObject, String context)
     {
-        super (metaObject);
+        super (metaObject, context);
     }
 
     public String getRelationType() {
