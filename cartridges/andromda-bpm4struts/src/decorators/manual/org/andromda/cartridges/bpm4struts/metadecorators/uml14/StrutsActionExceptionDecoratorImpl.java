@@ -31,7 +31,7 @@ public class StrutsActionExceptionDecoratorImpl extends StrutsActionExceptionDec
     // concrete business methods that were declared
     // abstract in class StrutsActionExceptionDecorator ...
 
-    public java.lang.String getKey()
+    public java.lang.String getMessageKey()
     {
         return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_EXCEPTION_KEY);
     }
