@@ -159,5 +159,12 @@
 		<context>org.andromda.metafacades.uml.EntityFacade</context>
 		<property reference="foreignKeySuffix"/>
 	</metafacade>
-												
+
+	<!-- Service  metafacades -->
+	<metafacade
+		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
+		metafacadeClass="org.andromda.metafacades.uml14.ServiceFacadeLogicImpl">
+		<stereotype>Service</stereotype>
+	</metafacade>
+
 </metafacades>
