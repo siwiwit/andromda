@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="output"/>
+    <classpathentry kind="lib" path="build/WEB-INF/lib/commons-validator.jar"/>
+    <classpathentry kind="lib" path="build/WEB-INF/lib/struts-1.1.jar"/>
+    <classpathentry kind="lib" path="build/WEB-INF/lib/servletapi-2.3.jar"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="output" path="eclipse-build"/>
+</classpath>
