@@ -1,6 +1,11 @@
 #set ($useCases = $class.allUseCases)
 
-<!-- TEMPORARILY COMMENTED OUT TO MAKE APPS WORK IN DEVELOPMENT 
+<!-- TEMPORARILY COMMENTED OUT TO MAKE APPS WORK IN DEVELOPMENT
+
+##
+##  We don't use security-role-refs at this point, maybe in a later step
+##
+
 #foreach ($useCase in $useCases)
   <security-constraint>
     <web-resource-collection>
@@ -10,11 +15,7 @@
         as well as the actions called in the "$useCase.name" use-case
       </description>
       <url-pattern>${useCase.packagePath}/*</url-pattern>
-#foreach ($page in $useCase.pages)
-#foreach ($action in $page.actions)
-      <url-pattern>${action.actionPath}.do</url-pattern>
-#end
-#end
+      <url-pattern>${useCase.actionPathRoot}/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
 #foreach($user in $useCase.users)
