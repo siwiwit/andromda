@@ -36,14 +36,28 @@
 		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState$Impl"
 		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsObjectFlowStateDecoratorImpl">
 	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActivityGraphDecoratorImpl">
-	</metafacade>
-	<metafacade
-		metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
-		metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsUseCaseDecoratorImpl">
-	</metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActivityGraphDecoratorImpl">
+    </metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.activitygraphs.StateMachine$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsActivityGraphDecoratorImpl">
+    </metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsWorkflowDecoratorImpl">
+        <stereotype>FrontEndWorkflow</stereotype>
+    </metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsUseCaseDecoratorImpl">
+        <stereotype>FrontEndUseCase</stereotype>
+    </metafacade>
+    <metafacade
+        metaobjectClass="org.omg.uml.behavioralelements.usecases.UseCase$Impl"
+        metafacadeClass="org.andromda.cartridges.bpm4struts.metadecorators.uml14.StrutsUseCaseDecoratorImpl">
+    </metafacade>
 
 	<!-- core model elements -->
 	<metafacade
