@@ -51,8 +51,7 @@ public abstract class ${class.name}Logic
 #set ($atttypename = $att.type.fullyQualifiedName)
 
    /**
-$att.getDocumentation("    ")
-    *
+	* @see ${att.type.fullyQualifiedName}#${att.getterName}()
     */
     public abstract $atttypename ${att.getterName}();
 #end
@@ -64,7 +63,7 @@ $att.getDocumentation("    ")
 
 #foreach ( $op in $ops)
 	/**
-	 * @see ${class.fullyQualifiedInterfaceName}()
+	 * @see ${class.fullyQualifiedInterfaceName}#${op.signature}()
 	 */
     $op.visibility abstract $op.type.fullyQualifiedName ${op.signature};
     
