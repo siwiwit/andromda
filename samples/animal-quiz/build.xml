@@ -45,7 +45,7 @@
         <antcall target="init"/>
     </target>
 
-    <target name="books" depends="init">
+    <target name="mda" depends="init">
         <taskdef name="andromda"
             classname="org.andromda.core.anttasks.AndroMDAGenTask"
             classpathref="classpath"/>
@@ -60,13 +60,14 @@
             </namespace>
             <namespace name="bpm4struts">
                 <property name="forms" value="${src.dir}"/>
-                <property name="actions" value="${src.dir}"/>
                 <property name="pages" value="${src.dir}"/>
+                <property name="actions" value="${src.dir}"/>
+                <property name="messages" value="${src.dir}"/>
             </namespace>
         </andromda>
     </target>
 
-    <target name="xdoclet" depends="books">
+    <target name="xdoclet" depends="mda">
         <taskdef name="webdoclet" classname="xdoclet.modules.web.WebDocletTask" classpathref="classpath"/>
         <webdoclet destdir="${build.dir}/WEB-INF" force="true" verbose="true" mergedir="${merge.dir}">
             <fileset dir="${src.dir}">
@@ -87,6 +88,11 @@
         <copy todir="${build.dir}">
             <fileset dir="${src.dir}">
                 <include name="**/*.jsp"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}/WEB-INF/classes" flatten="true">
+            <fileset dir="${src.dir}">
+                <include name="**/*.properties"/>
             </fileset>
         </copy>
         <copy todir="${build.dir}/WEB-INF/tld">
