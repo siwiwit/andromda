@@ -2,6 +2,8 @@ package org.andromda.metafacades.uml14;
 
 import org.omg.uml.foundation.datatypes.Expression;
 
+import java.util.Collection;
+
 
 /**
  * 
@@ -29,6 +31,33 @@ public class ParameterFacadeLogicImpl
     {
         final Expression expression = metaObject.getDefaultValue();
         return (expression == null) ? "" : expression.getBody();
+    }
+
+    public boolean isPrimitive()
+    {
+        final String type = getType().getFullyQualifiedName();
+        return  "int".equals(type) ||
+                "float".equals(type) ||
+                "double".equals(type) ||
+                "short".equals(type) ||
+                "long".equals(type) ||
+                "byte".equals(type) ||
+                "char".equals(type) ||
+                "boolean".equals(type);
+    }
+
+    public boolean isCollection()
+    {
+        try
+        {
+            Class parameterClass = Class.forName(getType().getFullyQualifiedName());
+            Class collectionClass = Class.forName(Collection.class.getName());
+            return collectionClass.isAssignableFrom(parameterClass);
+        }
+        catch(Exception exception)
+        {
+            return false;
+        }
     }
 
     // ------------- relations ------------------
