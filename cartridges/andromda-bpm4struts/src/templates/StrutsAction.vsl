@@ -67,6 +67,7 @@ $class.getDocumentation(" ")
  * @struts.action-forward
  *        name="$forwardActionTransition.forwardName"
  *        path="$forwardActionTransition.forwardPath"
+ *
 #end
  *
 #foreach ($exceptionHandler in $class.exceptionHandlers)
