@@ -3,77 +3,77 @@
 <!-- contains the default metafacade mappings -->
 <metafacades namespace="default">
 	<property reference="languageMappings" />
-	<default className="org.andromda.metafacades.uml14.ModelElementDecoratorImpl"/>
+	<default className="org.andromda.metafacades.uml14.ModelElementFacadeLogicImpl"/>
 	<metafacade 
 		metaobjectClass="org.omg.uml.modelmanagement.UmlPackage$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.PackageDecoratorImpl"/>
+		metafacadeClass="org.andromda.metafacades.uml14.PackageFacadeLogicImpl"/>
 	<metafacade 
 		metaobjectClass="org.omg.uml.UmlPackage$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.ModelDecoratorImpl"/>
+		metafacadeClass="org.andromda.metafacades.uml14.ModelFacadeLogicImpl"/>
 	<metafacade 
 		metaobjectClass="org.omg.uml.modelmanagement.Model$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.PackageDecoratorImpl"/>
+		metafacadeClass="org.andromda.metafacades.uml14.PackageFacadeLogicImpl"/>
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.ClassifierDecoratorImpl"/>		
+		metafacadeClass="org.andromda.metafacades.uml14.ClassifierFacadeLogicImpl"/>		
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.DataType$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.ClassifierDecoratorImpl"/>			
+		metafacadeClass="org.andromda.metafacades.uml14.ClassifierFacadeLogicImpl"/>			
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Interface$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.ClassifierDecoratorImpl"/>	
+		metafacadeClass="org.andromda.metafacades.uml14.ClassifierFacadeLogicImpl"/>	
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.AssociationEndDecoratorImpl"/>	
+		metafacadeClass="org.andromda.metafacades.uml14.AssociationEndFacadeLogicImpl"/>	
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.UmlAssociation$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.AssociationDecoratorImpl"/>	
+		metafacadeClass="org.andromda.metafacades.uml14.AssociationFacadeLogicImpl"/>	
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Dependency$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.DependencyDecoratorImpl"/>	
+		metafacadeClass="org.andromda.metafacades.uml14.DependencyFacadeLogicImpl"/>	
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.TaggedValue$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.TaggedValueDecoratorImpl"/>		
+		metafacadeClass="org.andromda.metafacades.uml14.TaggedValueFacadeLogicImpl"/>		
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Operation$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.OperationDecoratorImpl"/>			
+		metafacadeClass="org.andromda.metafacades.uml14.OperationFacadeLogicImpl"/>			
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.AttributeDecoratorImpl"/>		
+		metafacadeClass="org.andromda.metafacades.uml14.AttributeFacadeLogicImpl"/>		
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Parameter$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.ParameterDecoratorImpl"/>	
+		metafacadeClass="org.andromda.metafacades.uml14.ParameterFacadeLogicImpl"/>	
 		
 	<!-- Entity  metafacades -->
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Classifier$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.EntityDecoratorImpl">
+		metafacadeClass="org.andromda.metafacades.uml14.EntityFacadeLogicImpl">
 		<stereotype>Entity</stereotype>
 		<property reference="maxSqlNameLength"/>
 	</metafacade>	
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.UmlClass$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.EntityDecoratorImpl">
+		metafacadeClass="org.andromda.metafacades.uml14.EntityFacadeLogicImpl">
 		<stereotype>Entity</stereotype>
 		<property reference="maxSqlNameLength"/>
 	</metafacade>	
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Interface$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.EntityDecoratorImpl">
+		metafacadeClass="org.andromda.metafacades.uml14.EntityFacadeLogicImpl">
 		<stereotype>Entity</stereotype>
 		<property reference="maxSqlNameLength"/>
 	</metafacade>		
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.Attribute$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.EntityAttributeDecoratorImpl">
-		<context>org.andromda.metafacades.uml14.EntityDecoratorImpl</context>
+		metafacadeClass="org.andromda.metafacades.uml14.EntityAttributeFacadeLogicImpl">
+		<context>org.andromda.metafacades.uml14.EntityFacadeLogicImpl</context>
 		<property reference="sqlMappings"/>
 		<property reference="jdbcMappings"/>
 	</metafacade>
 	<metafacade 
 		metaobjectClass="org.omg.uml.foundation.core.AssociationEnd$Impl"
-		metafacadeClass="org.andromda.metafacades.uml14.EntityAssociationEndDecoratorImpl">
-		<context>org.andromda.metafacades.uml14.EntityDecoratorImpl</context>
+		metafacadeClass="org.andromda.metafacades.uml14.EntityAssociationEndFacadeLogicImpl">
+		<context>org.andromda.metafacades.uml14.EntityFacadeLogicImpl</context>
 		<property reference="foreignKeySuffix"/>
 	</metafacade>
 												
