@@ -62,6 +62,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.lang.reflect.Method;
 
+/**
+$class.getDocumentation(" ")
+ */
 public abstract class $className extends DispatchAction
 {
 #foreach ($choiceTransition in $choiceTransitions)
@@ -75,6 +78,9 @@ public abstract class $className extends DispatchAction
 
 #foreach ($actionState in $actionStates)
 #set ($dispatchMethodName = "$str.toJavaMethodName($actionState.name)")
+    /**
+$actionState.getDocumentation("     ")
+     */
     public final ActionForward ${dispatchMethodName}(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     {
 #if ($actionState.triggerTransitions.size() == 1)
@@ -111,6 +117,9 @@ public abstract class $className extends DispatchAction
         }
     }
 
+    /**
+$choice.getDocumentation("     ")
+     */
     protected abstract int ${choiceMethodNameChild}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response);
 
 #end
@@ -123,6 +132,9 @@ public abstract class $className extends DispatchAction
 #processTransition ( $objectFlowState.outgoingTransition "        " )
     }
 
+    /**
+$objectFlowState.getDocumentation("     ")
+     */
     protected abstract void ${stateMethodNameChild}(ActionMapping mapping, $formBeanType form, HttpServletRequest request, HttpServletResponse response);
 
 #end
