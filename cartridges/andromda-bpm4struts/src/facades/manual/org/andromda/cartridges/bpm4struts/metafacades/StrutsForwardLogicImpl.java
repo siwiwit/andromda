@@ -56,9 +56,7 @@ public class StrutsForwardLogicImpl
 
     public java.lang.String getForwardName()
     {
-        final EventFacade trigger = getTrigger();
-        final String name = (trigger == null) ? getTarget().getName() : trigger.getName();
-        return StringUtilsHelper.toResourceMessageKey(name);
+        return StringUtilsHelper.toResourceMessageKey(resolveName());
     }
 
     public java.lang.String getForwardPath()
@@ -66,14 +64,35 @@ public class StrutsForwardLogicImpl
         final StateVertexFacade target = getTarget();
         if (target instanceof StrutsJsp)
         {
-            return ((StrutsJsp)target).getFullPath();
+            return ((StrutsJsp)target).getFullPath() + ".jsp";
         }
         else if (target instanceof StrutsFinalState)
         {
-            return ((StrutsFinalState)target).getFullPath();
+            return ((StrutsFinalState)target).getFullPath() + ".do";
         }
         else
             return null;
+    }
+
+    public String getActionMethodName()
+    {
+        return StringUtilsHelper.toJavaMethodName(resolveName());
+    }
+
+    private String resolveName()
+    {
+        String forwardName = null;
+        //trigger
+        final EventFacade trigger = getTrigger();
+        if (trigger != null) forwardName = trigger.getName();
+        //name
+        if (forwardName == null) forwardName = getName();
+        //target
+        if (forwardName == null) forwardName = getTarget().getName();
+        // else
+        if (forwardName == null) forwardName = "unknown";
+        // return
+        return forwardName;
     }
 
     // ------------- relations ------------------
@@ -81,9 +100,14 @@ public class StrutsForwardLogicImpl
     /**
      * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsForward#getForwardParameters()
      */
-    public java.util.Collection handleGetForwardParameters()
+    protected java.util.Collection handleGetForwardParameters()
     {
         final EventFacade trigger = getTrigger();
         return (trigger == null) ? Collections.EMPTY_LIST : trigger.getParameters();
+    }
+
+    protected Object handleGetDecisionTrigger()
+    {
+        return getTrigger();
     }
 }
