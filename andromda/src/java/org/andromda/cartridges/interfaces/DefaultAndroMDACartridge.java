@@ -138,6 +138,8 @@ public class DefaultAndroMDACartridge implements IAndroMDACartridge
         df.setActiveNamespace(
             getDescriptor().getCartridgeName());
         
+        df.setModel((UmlPackage)context.getModelFacade().getModel());
+        
         try
         {
             internalProcessModelElement(context, modelElement, stereotypeName);
