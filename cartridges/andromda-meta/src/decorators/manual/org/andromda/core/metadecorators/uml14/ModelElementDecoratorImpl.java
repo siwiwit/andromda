@@ -228,6 +228,9 @@ public class ModelElementDecoratorImpl extends ModelElementDecorator
     					}
     				}
     				documentation.append(indent + star + endParaTag);
+                    if (paragraphIt.hasNext()) {
+                    	documentation.append(newLine);
+                    }
     			}
     		} else {
     			documentation.append(indent + star);
