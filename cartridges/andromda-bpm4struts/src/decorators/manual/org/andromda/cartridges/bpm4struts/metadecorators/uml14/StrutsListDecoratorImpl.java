@@ -48,9 +48,9 @@ public class StrutsListDecoratorImpl extends StrutsListDecorator
         return "select";
     }
 
-    public Boolean isMultiple()
+    public boolean isMultiple()
     {
-        return Boolean.TRUE;
+        return true;
     }
 
     public java.lang.String getBackingPropertyName()

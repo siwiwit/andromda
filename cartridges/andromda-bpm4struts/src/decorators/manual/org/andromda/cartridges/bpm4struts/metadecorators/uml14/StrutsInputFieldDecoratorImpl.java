@@ -25,25 +25,18 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
     // abstract in class StrutsInputFieldDecorator ...
 
 
-    public java.lang.Boolean isRequired()
+    public boolean isRequired()
     {
         final String requiredValue = findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_REQUIRED);
         return makeBoolean(requiredValue);
     }
 
-    private Boolean makeBoolean(String string)
+    private boolean makeBoolean(String string)
     {
-        if (string != null &&
+        return (string != null &&
             !"true".equalsIgnoreCase(string) &&
             !"yes".equalsIgnoreCase(string) &&
-            !"0".equals(string))
-        {
-            return Boolean.FALSE;
-        }
-        else
-        {
-            return Boolean.TRUE;
-        }
+            !"0".equals(string));
     }
 
     public String getMaskPattern()
@@ -51,9 +44,9 @@ public abstract class StrutsInputFieldDecoratorImpl extends StrutsInputFieldDeco
         return findTaggedValue(Bpm4StrutsProfile.TAGGED_VALUE_INPUT_PATTERN);
     }
 
-    public Boolean isResetField()
+    public boolean isResetField()
     {
-        return Boolean.FALSE;
+        return false;
     }
 
     public String getMessageKey()

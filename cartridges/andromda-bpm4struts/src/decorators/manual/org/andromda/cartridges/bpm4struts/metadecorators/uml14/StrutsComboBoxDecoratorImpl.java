@@ -48,9 +48,9 @@ public class StrutsComboBoxDecoratorImpl extends StrutsComboBoxDecorator
         return "select";
     }
 
-    public Boolean isMultiple()
+    public boolean isMultiple()
     {
-        return Boolean.FALSE;
+        return false;
     }
 
     public java.lang.String getBackingPropertyName()

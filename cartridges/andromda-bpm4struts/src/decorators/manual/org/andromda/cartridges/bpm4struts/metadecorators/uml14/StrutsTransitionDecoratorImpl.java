@@ -45,7 +45,7 @@ public class StrutsTransitionDecoratorImpl extends StrutsTransitionDecorator
         while ((target instanceof Pseudostate) && (isMergePoint))
         {
             PseudostateDecorator pseudostate = (PseudostateDecorator) decoratedElement(target);
-            isMergePoint = pseudostate.isMergePoint().booleanValue();
+            isMergePoint = pseudostate.isMergePoint();
 
             if (isMergePoint)
             {
