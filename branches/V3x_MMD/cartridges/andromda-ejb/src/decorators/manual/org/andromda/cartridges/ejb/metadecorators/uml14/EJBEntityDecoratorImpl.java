@@ -282,5 +282,22 @@ public class EJBEntityDecoratorImpl extends EJBEntityDecorator {
 		return retval;
 	}
 	
+	
+	/**
+	 * Returns a string representing the name of the
+	 * home interface for the Bean.
+	 *
+	 *@param  object bean class
+	 *@return string homeInterfaceName 
+	 */
+	public String getHomeInterfaceName() {
+		String homeInterfaceName;
+		if (this.hasStereotype(UMLProfile.STEREOTYPE_ENTITY)) {
+			homeInterfaceName = this.getName() + "LocalHome";
+		} else {
+			homeInterfaceName = this.getName() + "Home";
+		}
+		return homeInterfaceName;
+	}
 
 }
