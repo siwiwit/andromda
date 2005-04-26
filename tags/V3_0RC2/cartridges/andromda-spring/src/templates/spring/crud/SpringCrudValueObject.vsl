@@ -1,0 +1,68 @@
+#set ($generatedFile = "${manageable.manageableValueObjectFullPath}.java")
+##
+##  START TEMPLATE
+##
+// license-header java merge-point
+package $manageable.manageablePackageName;
+
+public final class $manageable.manageableValueObjectClassName
+    implements java.io.Serializable
+{
+#foreach ($member in $manageable.attributes)
+//$member
+    private $member.type.fullyQualifiedName $member.name;
+
+    $member.visibility $member.type.fullyQualifiedName ${member.getterName}()
+    {
+        return this.$member.name;
+    }
+
+    $member.visibility void ${member.setterName}($member.type.fullyQualifiedName $member.name)
+    {
+        this.$member.name = $member.name;
+    }
+
+#* THIS IS WHAT WE NEED, IT JUST DOES NOT WORK YET FOR SOME REASON
+    private $member.type.fullyQualifiedName $member.manageableName;
+
+    $member.visibility $member.type.fullyQualifiedName ${member.manageableGetterName}()
+    {
+        return this.$member.manageableName;
+    }
+
+    $member.visibility void ${member.manageableSetterName}($member.type.fullyQualifiedName $member.manageableName)
+    {
+        this.$member.manageableName = $member.manageableName;
+    }
+*#
+#end
+#foreach ($member in $manageable.manageableAssociationEnds)
+    private $member.manageableIdentifier.type.fullyQualifiedName $member.manageableName;
+
+    $member.visibility $member.manageableIdentifier.type.fullyQualifiedName ${member.manageableGetterName}()
+    {
+        return this.$member.manageableName;
+    }
+
+    $member.visibility void ${member.manageableSetterName}($member.manageableIdentifier.type.fullyQualifiedName $member.manageableName)
+    {
+        this.$member.manageableName = $member.manageableName;
+    }
+
+#if ($member.type.displayAttribute.name != $member.manageableIdentifier.name)
+#set ($qualifiedType = $member.type.displayAttribute.type.fullyQualifiedName)
+    private $qualifiedType ${member.manageableName}Label;
+
+    $member.visibility $qualifiedType ${member.manageableGetterName}Label()
+    {
+        return this.${member.manageableName}Label;
+    }
+
+    $member.visibility void ${member.manageableSetterName}Label($qualifiedType ${member.manageableName}Label)
+    {
+        this.${member.manageableName}Label = ${member.manageableName}Label;
+    }
+
+#end
+#end
+}

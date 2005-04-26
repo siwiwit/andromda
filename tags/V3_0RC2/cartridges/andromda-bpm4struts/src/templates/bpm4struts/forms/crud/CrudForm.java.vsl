@@ -1,0 +1,140 @@
+#set ($generatedFile = "${manageable.formBeanFullPath}.java")
+##
+##
+##
+#macro (resetField $fieldName $fieldType)
+#if ($fieldType.primitive)
+#if ($fieldType.fullyQualifiedName == 'boolean')
+$fieldName = false;
+#else
+$fieldName = 0;
+#end
+#else
+$fieldName = null;
+#end
+#end
+##
+##  START TEMPLATE
+##
+// license-header java merge-point
+package $manageable.manageablePackageName;
+
+public final class $manageable.formBeanClassName
+    extends org.apache.struts.validator.ValidatorForm
+    implements java.io.Serializable
+{
+    /**
+     * Returns the name of the currently managed entity.
+     */
+    public String getEntityName()
+    {
+        return "$manageable.manageableName";
+    }
+
+#if ($manageable.referencingManageables.empty)
+    private static final java.util.Map ENTITIES = java.util.Collections.EMPTY_MAP;
+#else
+    private static java.util.Map ENTITIES = new java.util.HashMap($manageable.referencingManageables.size(), 1);
+    static
+    {
+#foreach ($manageable in $manageable.referencingManageables)
+        ENTITIES.put("$manageable.manageableName", Boolean.TRUE);
+#end
+        ENTITIES = java.util.Collections.unmodifiableMap(ENTITIES);
+    }
+#end
+
+    /**
+     * Returns the names of the entities referencing this entity.
+     */
+    public java.util.Map getReferencingEntityNames()
+    {
+        return ENTITIES;
+    }
+
+    private java.util.List $manageable.listName = null;
+
+    public java.util.List ${manageable.listGetterName}()
+    {
+        return this.$manageable.listName;
+    }
+
+    public void ${manageable.listSetterName}(java.util.List $manageable.listName)
+    {
+        this.$manageable.listName = $manageable.listName;
+    }
+
+#set ($identifier = $manageable.identifiers.iterator().next())
+    private ${identifier.type.fullyQualifiedName}[] selectedRows = null;
+
+    public ${identifier.type.fullyQualifiedName}[] getSelectedRows()
+    {
+        return this.selectedRows;
+    }
+
+    public void setSelectedRows(${identifier.type.fullyQualifiedName}[] selectedRows)
+    {
+        this.selectedRows = selectedRows;
+    }
+
+#foreach ($member in $manageable.attributes)
+#if ($member.type.enumeration)
+#set ($memberType = $member.type.literalType.fullyQualifiedName)
+#else
+#set ($memberType = $member.type.fullyQualifiedName)
+#end
+    private $memberType $member.manageableName;
+
+    $member.visibility $memberType ${member.manageableGetterName}()
+    {
+        return this.$member.manageableName;
+    }
+
+    $member.visibility void ${member.manageableSetterName}($memberType $member.manageableName)
+    {
+        this.$member.manageableName = $member.manageableName;
+    }
+    
+#end
+#foreach ($member in $manageable.manageableAssociationEnds)
+#set ($identifier = $member.type.manageableIdentifier)
+    private $member.manageableIdentifier.type.fullyQualifiedName $member.manageableName;
+
+    $member.visibility $member.manageableIdentifier.type.fullyQualifiedName ${member.manageableGetterName}()
+    {
+        return this.$member.manageableName;
+    }
+
+    $member.visibility void ${member.manageableSetterName}($member.manageableIdentifier.type.fullyQualifiedName $member.manageableName)
+    {
+        this.$member.manageableName = $member.manageableName;
+    }
+
+    private java.util.List ${member.manageableName}BackingList;
+
+    $member.visibility java.util.List ${member.manageableGetterName}BackingList()
+    {
+        return this.${member.manageableName}BackingList;
+    }
+
+    public void ${member.manageableSetterName}BackingList(java.util.List ${member.manageableName}BackingList)
+    {
+        this.${member.manageableName}BackingList = ${member.manageableName}BackingList;
+    }
+
+#end
+    /**
+     * @see org.apache.struts.validator.ValidatorForm#reset(org.apache.struts.action.ActionMapping,javax.servlet.http.HttpServletRequest)
+     */
+    public void reset(org.apache.struts.action.ActionMapping mapping, javax.servlet.http.HttpServletRequest request)
+    {
+#foreach ($member in $manageable.attributes)
+        #resetField($member.manageableName $member.type)
+#end
+#foreach ($member in $manageable.manageableAssociationEnds)
+#set ($identifier = $member.type.manageableIdentifier)
+        #resetField($member.manageableName $identifier.type)
+        ${member.manageableName}BackingList = null;
+#end
+    }
+}

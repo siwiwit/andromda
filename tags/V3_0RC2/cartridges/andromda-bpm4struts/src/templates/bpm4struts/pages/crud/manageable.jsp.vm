@@ -1,0 +1,104 @@
+##
+##
+##
+#macro ( renderAttribute $field $indent )
+#if ($field.type.fullyQualifiedName == 'boolean' || $field.type.fullyQualifiedName == 'java.lang.Boolean')
+${indent}<html:checkbox name="manageableForm" property="$field.manageableName" styleClass="criteriaField" styleId="$field.manageableName"/>
+#elseif ($field.type.enumeration)
+${indent}<html:select name="manageableForm" property="$field.manageableName">
+#foreach ($literal in $field.type.literals)
+#if ($literal.type.stringType)#set ($quote = '')#else#set ($quote = '"')#end
+${indent}    <html:option value=${quote}${literal.enumerationValue}${quote}>$literal.name</html:option>
+#end
+${indent}</html:select>
+#else
+${indent}<html:text name="manageableForm" property="$field.manageableName" styleClass="criteriaField" styleId="$field.manageableName"/>
+#if ($field.type.dateType)
+${indent}<html:img page="/layout/calendar/calendar.gif" styleId="${field.manageableName}_trigger" styleClass="calendar"/>
+${indent}<script type="text/javascript">
+#if ($xhtml == "true")
+${indent}//<![CDATA[
+#else
+${indent}//<!--
+#end
+#set ($calendarFieldFormat = $dateUtils.formatJavaToPerl($field.dateFormat))
+${indent}    Calendar.setup({
+${indent}        inputField     :    "$field.manageableName",
+${indent}        ifFormat       :    "$calendarFieldFormat",
+${indent}        daFormat       :    "$calendarFieldFormat",
+${indent}        showsTime      :    $dateUtils.containsTimeFormat($calendarFieldFormat),
+${indent}        button         :    "${field.manageableName}_trigger",
+${indent}        singleClick    :    true
+${indent}    });
+#if ($xhtml == "true")
+${indent}//]]>
+#else
+${indent}//-->
+#end
+${indent}</script>
+#end
+#end
+#end
+##
+##
+##
+#macro ( renderAssociationEnd $field $indent )
+${indent}<c:choose>
+#set ($list = "manageableForm.${field.manageableName}BackingList")
+#set ($test = "empty $list")
+${indent}    <c:when test="${${test}}">
+${indent}        <select name="$field.manageableName" disabled="disabled"/>
+${indent}    </c:when>
+${indent}    <c:otherwise>
+#if ($field.type.resolveable)
+${indent}        <select name="$field.manageableName">
+${indent}            <option value=""><bean:message key="select.option.blank"/></option>
+${indent}            <c:forEach var="valueLabel" items="${${list}}">
+${indent}                <c:choose>
+#set ($test = "valueLabel[0] eq $field.manageableName")
+${indent}                    <c:when test="${${test}}">
+#set ($value = '${valueLabel[0]}')
+#set ($label = '${valueLabel[1]}')
+${indent}                        <option value="$value" selected="selected">$label</option>
+${indent}                    </c:when>
+${indent}                    <c:otherwise>
+${indent}                        <option value="$value">$label</option>
+${indent}                    </c:otherwise>
+${indent}                </c:choose>
+${indent}            </c:forEach>
+${indent}        </select>
+#else
+${indent}        <html:text name="manageableForm" property="$field.manageableName"/>
+#end
+${indent}    </c:otherwise>
+${indent}</c:choose>
+#end
+##
+##
+##
+#macro ( renderAssociationLink $field $indent )
+#if ($field.type.manageable)## only render the link when the entity can be managed too
+#if ($security == 'true')
+${indent}<logic:present role="#commaSeparatedNames($field.type.users)">
+#end
+${indent}    <html:link action="$field.type.actionPath"><bean:message key="$field.type.messageKey"/></html:link>
+#if ($security == 'true')
+${indent}</logic:present>
+${indent}<logic:notPresent role="#commaSeparatedNames($field.type.users)">
+${indent}    <bean:message key="$field.type.messageKey"/>
+${indent}</logic:notPresent>
+#end
+#end
+#end
+##
+## This stuff *must* be rendered on a single line
+##
+#macro ( renderJavascriptCopyRow $manageable )#foreach($member in $manageable.manageableMembers)#set($property = "row.${member.manageableName}")document.${manageable.formBeanName}.${member.manageableName}.value='${${property}}';#end#end
+##
+## convenient helper for converting collections into strings
+##
+#macro (commaSeparatedNames $items)
+#set($comma='')
+#foreach($item in $items)${comma}${item.name}#set($comma=',')#end
+#end
+##

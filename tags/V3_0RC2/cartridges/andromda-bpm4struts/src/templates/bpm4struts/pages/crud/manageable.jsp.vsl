@@ -1,0 +1,110 @@
+#parse("templates/bpm4struts/pages/crud/manageable.jsp.vm")
+#set ($generatedFile = "$manageable.pageFullPath")
+##
+#set ($tableVariable = "manageableForm.${manageable.listName}")
+#set ($tablePresentTest = "!empty $tableVariable")
+#set ($tablePresentTest = "${${tablePresentTest}}")
+##
+<%@ include file="/taglib-imports.jspf" %>
+##
+<tiles:insert definition="main.layout">
+
+    <tiles:put name="title" type="string">
+        <bean:message key="$manageable.pageTitleKey"/>
+    </tiles:put>
+
+    <tiles:put name="style" type="string">
+        <link rel="stylesheet" type="text/css" media="screen" href="<html:rewrite page="/layout/default-manageable.css"/>"></link>
+        <link rel="stylesheet" type="text/css" media="all" href="<html:rewrite page="/layout/default-calendar.css"/>"/>
+    </tiles:put>
+
+    <tiles:put name="javascript" type="string">
+        <script type="text/javascript" src="<html:rewrite page="/layout/calendar-js.jsp"/>"></script>
+    </tiles:put>
+
+    <tiles:put name="body" type="string">
+
+        <html:form action="$manageable.actionPath" method="post">
+            <input type="hidden" name="$manageable.actionParameter" value=""/>
+            <div id="criteria">
+                <table>
+#foreach ($member in $manageable.attributes)
+                    <tr>
+                        <td><bean:message key="$member.messageKey"/></td>
+                        <td>
+#renderAttribute($member "                            ")
+                        </td>
+                    </tr>
+#end
+#foreach ($member in $manageable.manageableAssociationEnds)
+                    <tr>
+                        <td>
+#renderAssociationLink($member "                            ")
+                        </td>
+                        <td>
+#renderAssociationEnd($member "                            ")
+                        </td>
+                    </tr>
+#end
+                </table>
+
+#if ($manageable.read)
+                <input type="submit" value="<bean:message key="button.read"/>" onclick="this.form.${manageable.actionParameter}.value='read';"/>
+#end
+#if ($manageable.create)
+                <input type="submit" value="<bean:message key="button.create"/>" onclick="this.form.${manageable.actionParameter}.value='create';"/>
+#end
+#if ($manageable.delete)
+                <input type="submit" value="<bean:message key="button.delete"/>" onclick="this.form.${manageable.actionParameter}.value='delete';"/>
+#end
+#if ($manageable.update)
+                <input type="submit" value="<bean:message key="button.update"/>" onclick="this.form.${manageable.actionParameter}.value='update';"/>
+#end
+                <tiles:insert page="/entity-switcher.jsp" flush="false"/>
+
+            </div>
+
+            <div id="${manageable.listName}" class="table">
+                <c:if test="$tablePresentTest">
+#set ($listBean = "manageableForm.${manageable.listName}")
+                    <display:table name="${${listBean}}" id="row" requestURI="${pageContext.request.requestURI}"
+                            export="true" pagesize="$manageable.pageSize" sort="list">
+                        <display:column media="html" sortable="false">
+                            <a href="#" onclick="#renderJavascriptCopyRow($manageable)return false;"><bean:message key="copy.row.values"/></a>
+#if ($manageable.delete)
+#set ($identifierValue = "row.${manageable.identifiers.iterator().next().name}")
+                            <input type="checkbox" name="selectedRows" value="${${identifierValue}}"/>
+#end
+                        </display:column>
+#foreach ($member in $manageable.manageableMembers)
+#if ($member.type.fullyQualifiedName == 'boolean' || $member.type.fullyQualifiedName == 'java.lang.Boolean')
+                        <display:column media="html" headerClass="$member.manageableName" titleKey="$member.messageKey">
+                            <html:checkbox name="row" property="$member.manageableName" disabled="true"/>
+                        </display:column>
+                        <display:column media="xml csv excel pdf" property="$member.manageableName"
+                            headerClass="$member.manageableName" paramId="$member.manageableName"
+                            sortProperty="$member.manageableName" sortable="true" titleKey="$member.messageKey"/>
+#elseif ($member.type.dateType)
+                        <display:column media="all"
+                            headerClass="$member.manageableName" paramId="$member.manageableName" maxLength="$manageableFieldMaxLength"
+                            sortProperty="$member.manageableName" sortable="true" titleKey="$member.messageKey">
+#set ($dateValue = "row.${member.manageableName}")
+                            <fmt:formatDate var="date" value="${${dateValue}}" pattern="${member.dateFormat}"/>${date}
+                        </display:column>
+#else
+#if($member.type.displayAttribute.name!=$member.manageableIdentifier.name)#set($propertySuffix='Label')#else#set($propertySuffix='')#end
+                        <display:column media="all" property="${member.manageableName}${propertySuffix}"
+                            headerClass="$member.manageableName" paramId="$member.manageableName" maxLength="$manageableFieldMaxLength"
+                            sortProperty="${member.manageableName}${propertySuffix}" sortable="true" titleKey="$member.messageKey"/>
+#end
+#end
+                    </display:table>
+                </c:if>
+            </div>
+
+        </html:form>
+
+    </tiles:put>
+
+</tiles:insert>
+
