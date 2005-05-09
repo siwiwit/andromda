@@ -1,0 +1,139 @@
+##
+##
+##
+#macro ( renderHiddenAttribute $field $indent )
+${indent}<html:hidden name="$manageableFormName" property="$field.name"/>
+#end
+##
+##
+##
+#macro ( renderAttribute $field $indent )
+#if ($field.type.fullyQualifiedName == 'boolean' || $field.type.fullyQualifiedName == 'java.lang.Boolean')
+${indent}<html:checkbox name="$manageableFormName" property="$field.name" styleClass="criteriaField" styleId="$field.name"/>
+#elseif ($field.type.enumeration)
+${indent}<html:select name="$manageableFormName" property="$field.name">
+${indent}    <option value=""><bean:message key="select.option.blank"/></option>
+#foreach ($literal in $field.type.literals)
+#if ($literal.type.stringType)#set ($quote = '')#else#set ($quote = '"')#end
+${indent}    <html:option value=${quote}${literal.enumerationValue}${quote}>$literal.name</html:option>
+#end
+${indent}</html:select>
+#elseif ($field.type.dateType)
+${indent}<html:text name="$manageableFormName" property="${field.name}AsString" styleClass="criteriaField" styleId="$field.name"/>
+${indent}<html:img page="/layout/calendar/calendar.gif" styleId="${field.name}_trigger" styleClass="calendar"/>
+${indent}<script type="text/javascript">
+#if ($xhtml == "true")
+${indent}//<![CDATA[
+#else
+${indent}//<!--
+#end
+#set ($calendarFieldFormat = $dateUtils.formatJavaToPerl($field.dateFormat))
+${indent}    Calendar.setup({
+${indent}        inputField     :    "$field.name",
+${indent}        ifFormat       :    "$calendarFieldFormat",
+${indent}        daFormat       :    "$calendarFieldFormat",
+${indent}        showsTime      :    $dateUtils.containsTimeFormat($calendarFieldFormat),
+${indent}        button         :    "${field.name}_trigger",
+${indent}        singleClick    :    true
+${indent}    });
+#if ($xhtml == "true")
+${indent}//]]>
+#else
+${indent}//-->
+#end
+${indent}</script>
+#else
+${indent}<html:text name="$manageableFormName" property="$field.name" styleClass="criteriaField" styleId="$field.name"/>
+#end
+#end
+##
+##
+##
+#macro ( renderAssociationEnd $field $indent )
+${indent}<c:choose>
+#set ($list = "${manageableFormName}.${field.name}BackingList")
+#set ($test = "empty $list")
+${indent}    <c:when test="${${test}}">
+${indent}        <select name="$field.name" disabled="disabled"/>
+${indent}    </c:when>
+${indent}    <c:otherwise>
+#if ($field.type.resolveable)
+${indent}        <select name="$field.name">
+${indent}            <option value=""><bean:message key="select.option.blank"/></option>
+${indent}            <c:forEach var="valueLabel" items="${${list}}">
+${indent}                <c:choose>
+#set ($test = "valueLabel[0] eq $field.name")
+${indent}                    <c:when test="${${test}}">
+#set ($value = '${valueLabel[0]}')
+#set ($label = '${valueLabel[1]}')
+${indent}                        <option value="$value" selected="selected">$label</option>
+${indent}                    </c:when>
+${indent}                    <c:otherwise>
+${indent}                        <option value="$value">$label</option>
+${indent}                    </c:otherwise>
+${indent}                </c:choose>
+${indent}            </c:forEach>
+${indent}        </select>
+#else
+${indent}        <html:text name="$manageableFormName" property="$field.name"/>
+#end
+${indent}    </c:otherwise>
+${indent}</c:choose>
+#end
+##
+##
+##
+#macro ( renderAssociationLink $field $indent )
+#if ($field.type.manageable)## only render the link when the entity can be managed too
+#if ($security == 'true')
+${indent}<logic:present role="#commaSeparatedNames($field.type.users)">
+#end
+${indent}    <html:link action="$field.type.actionPath"><bean:message key="$field.messageKey"/></html:link>
+#if ($security == 'true')
+${indent}</logic:present>
+${indent}<logic:notPresent role="#commaSeparatedNames($field.type.users)">
+${indent}    <bean:message key="$field.messageKey"/>
+${indent}</logic:notPresent>
+#end
+#end
+#end
+##
+## This stuff *must* be rendered on a single line, it assumes date fields have been properly formatted
+## into a xxxFomatted variables
+##
+#macro ( renderJavascriptCopyRow $manageable )
+#foreach($member in $manageable.manageableMembers)
+document.forms['${manageable.formBeanName}'].elements['${member.name}'].## no newline
+#set($property = "row.${member.name}")## by default we take the property straight for the row value object
+#if ($member.type.fullyQualifiedName == 'boolean' || $member.type.fullyQualifiedName == 'java.lang.Boolean')
+checked=${${property}};## no newline
+#else
+#if ($member.type.dateType)
+#set($property = "${member.name}Formatted")## this variable is expected to be in page scope
+#end
+value='<formatting:escape language="javascript">${${property}}</formatting:escape>';## no newline
+#end
+#end
+#end
+##
+## This stuff *must* be rendered on a single line, it will clear all fields, except the ones that
+## are not displayed. Checkboxes are set to false.
+##
+#macro ( renderJavascriptClearFields $manageable )
+#foreach($member in $manageable.manageableMembers)
+document.forms['${manageable.formBeanName}'].elements['${member.name}'].## no newline
+#if ($member.type.fullyQualifiedName == 'boolean' || $member.type.fullyQualifiedName == 'java.lang.Boolean')
+checked=false;## no newline
+#else
+value='';## no newline
+#end
+#end
+#end
+##
+## convenient helper for converting collections into strings
+##
+#macro (commaSeparatedNames $items)
+#set($comma='')
+#foreach($item in $items)${comma}${item.name}#set($comma=',')#end
+#end
+##
