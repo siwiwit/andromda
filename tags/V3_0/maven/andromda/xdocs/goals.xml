@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+	<properties>
+    	<title>AndroMDA Maven Plug-in Goals</title>
+  	</properties>
+  	<body>
+		<goals>
+			<goal>
+				<name>andromda:run</name>
+				<description> 
+					Runs the AndroMDA processor with AndroMDA plugins (i.e. cartridges
+					and translation-libraries) found on your CLASSPATH. 
+				</description>
+			</goal>
+			<goal>
+				<name>andromda:schema2xmi</name>
+				<description> 
+					Runs AndroMDA's 
+					<a href="../andromda-schema2xmi/index.html">Schema2XMI</a>
+					to provide XMI generation from a database schema.  See 
+					<a href="properties.html#schema2xmi">Plugin Settings</a> for more 
+					information on how to configure this goal. 
+				</description>
+			</goal>
+		</goals>
+  	</body>
+</document>
