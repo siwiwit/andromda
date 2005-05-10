@@ -74,7 +74,7 @@
 #if ($member.identifier)#set ($displayId = false)#end
 #else
                         <tr>
-                            <td><bean:message key="$member.messageKey"/></td>
+                            <td>#if ($member.required)<nobr><bean:message key="$member.messageKey"/> <div class="important">*</div></nobr>#else<bean:message key="$member.messageKey"/>#end</td>
                             <td>
 #renderAttribute($member "                                ")
                             </td>
@@ -100,19 +100,19 @@
 #else
 #set ($onclickEvent = "")
 #end
-                    <input type="submit" value="<bean:message key="button.read"/>" onclick="${onclickEvent}setAction('read');"/>
+                    <input type="submit" id="readButton" class="button" value="<bean:message key="button.read"/>" onclick="${onclickEvent}setAction('read');"/>
 #end
 #if ($manageable.create)
-                    <input type="submit" value="<bean:message key="button.create"/>" onclick="setAction('create');"/>
+                    <input type="submit" id="createButton" class="button" value="<bean:message key="button.create"/>" onclick="setAction('create');"/>
 #end
 #if ($manageable.delete)
-                    <input type="submit" value="<bean:message key="button.delete"/>" onclick="setAction('delete');"/>
+                    <input type="submit" id="deleteButton" class="button" value="<bean:message key="button.delete"/>" onclick="setAction('delete');"/>
 #end
 #if ($manageable.update)
-                    <input type="submit" value="<bean:message key="button.update"/>" onclick="setAction('update');"/>
+                    <input type="submit" id="updateButton" class="button" value="<bean:message key="button.update"/>" onclick="setAction('update');"/>
 #end
 #if ($manageable.preload)
-                    <input type="button" value="<bean:message key="button.clear"/>" onclick="#renderJavascriptClearFields($manageable)"/>
+                    <input type="button" id="clearButton" class="button" value="<bean:message key="button.clear"/>" onclick="#renderJavascriptClearFields($manageable)"/>
 #end
                 </c:if>
                 <tiles:insert page="/entity-switcher.jsp" flush="false"/>
