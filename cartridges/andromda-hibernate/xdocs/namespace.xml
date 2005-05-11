@@ -711,7 +711,7 @@
                          property will used to provide the collection interface.
                     </td>
                     <td>
-                        No, default is <code>true</code>.
+                        No, default is <code>false</code>.
                     </td>
                 </tr>
                 <tr>
