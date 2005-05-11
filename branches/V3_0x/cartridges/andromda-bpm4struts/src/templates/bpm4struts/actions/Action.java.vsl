@@ -116,11 +116,11 @@ $actionState.getDocumentation("     * ")
             final String messageKey = ${exceptionHandlerPackage}.PatternMatchingExceptionHandler.instance().handleException(ex);
             errors.add(org.apache.struts.action.ActionMessages.GLOBAL_MESSAGE, new org.apache.struts.action.ActionMessage(messageKey));
         }
-        finally
+        if (errors.isEmpty())
         {
 #saveMessages($actionState.forward "            ")
         }
-        if (!errors.isEmpty())
+        else
         {
             forward = mapping.getInputForward();
         }
