@@ -6,13 +6,15 @@
 #end
 <div id="messages">
     <logic:messagesPresent message="false">
-        <div class="errors">
-            <ul>
-	            <html:messages id="error" message="false">
-	                <div class="error"><li>${error}</li></div>
-	            </html:messages>
-            </ul>
-        </div>
+## only print out the regular errors if there are no exception handling errors
+## present from the controller (otherwise we get duplicate errors)
+        <logic:messagesNotPresent name="$errorMessagesKey">
+            <div class="errors">
+                <html:messages id="error" message="false">
+                    <div class="error">${error}</div>
+                </html:messages>
+            </div>
+        </logic:messagesNotPresent>
     </logic:messagesPresent>
     <logic:messagesPresent name="$errorMessagesKey">
         <div class="errors">
