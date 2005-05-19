@@ -67,10 +67,21 @@ ${indent}</html:link>
 #set ($parameterCount = $action.actionParameters.size())
 #foreach ($parameter in $action.actionParameters)
 ## temporarily commented out, we're taking all parameters from the row since we can't easily check if the row property
-## in missing the property (reflection is not supported in taglibs nor JSTL EL)
+## is missing the property (reflection is not supported in taglibs nor JSTL EL)
+## the idea was to take a property from the action form when it is not defined on the row class
 ##if(!$action.tableLinkParameter.tableColumnNames.contains($parameter.name))#set($beanName=$formName)#else#set($beanName="row")#end
-#set($parameterValue="${beanName}.${parameter.name}")#set($linkParameters="${linkParameters}${delim}${parameter.name}=${${parameterValue}}")#set($delim='&')
+#set($linkParameters="${linkParameters}${delim}${parameter.name}=")
+#if ($parameter.widgetType == 'plaintext')
+#set($linkParameters="${linkParameters}${${beanName}.${parameter.name}}")
+#set ($delim = '&')
+#else
+#set($linkParameters="${linkParameters}'+getDiv('$parameter.styleId$rowIndex').value")
+#set ($delim = "+'&")
 #end
+#end
+## properly add a suffix when that last entry was an updateable field so the javascript does not have
+## an unclosed literal
+${indent}<c:set var="link">'<html:rewrite action="${action.actionPath}"/>${linkParameters}#if($delim!="+'&")'#end</c:set>
 #if ($action.imageLink)
 ${indent}<html:link action="${action.actionPath}${linkParameters}" styleClass="imageLink"><html:img pageKey="${action.actionTrigger.triggerKey}.image"/></html:link>
 #else
