@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * MetafacadeLogic implementation.
@@ -123,5 +124,23 @@ public class GeneralizableElementFacadeLogicImpl
             }
         }
         return list.toString();
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.GeneralizableElementFacadeLogic#getAllSpecializations()
+     */
+    protected Collection handleGetAllSpecializations()
+    {
+        final Set allSpecializations = new HashSet();
+        if (this.getSpecializations() != null)
+        {
+            allSpecializations.addAll(this.getSpecializations());
+            for (final Iterator iterator = this.getSpecializations().iterator(); iterator.hasNext();)
+            {
+                final GeneralizableElementFacade element = (GeneralizableElementFacade)iterator.next();
+                allSpecializations.addAll(element.getAllSpecializations());
+            }
+        }
+        return allSpecializations;
     }
 }
