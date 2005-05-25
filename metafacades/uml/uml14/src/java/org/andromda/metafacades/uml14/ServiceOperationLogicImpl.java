@@ -62,7 +62,7 @@ public class ServiceOperationLogicImpl
             {
                 if (object instanceof Role)
                 {
-                    allRoles.addAll(((Role)object).getSpecializations());
+                    allRoles.addAll(((Role)object).getAllSpecializations());
                 }
             }
         });

@@ -85,7 +85,7 @@ public class ServiceLogicImpl
         {
             public void execute(Object object)
             {
-                allRoles.addAll(((Role)object).getSpecializations());
+                allRoles.addAll(((Role)object).getAllSpecializations());
             }
         });
         return allRoles;
