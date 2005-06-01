@@ -397,7 +397,7 @@ public class StrutsActionLogicImpl
 
     protected String handleGetFormValidationMethodName()
     {
-        return "validate" + getFormBeanClassName();
+        return "validate" + this.getActionClassName() + "Form";
     }
 
     /**
