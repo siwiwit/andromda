@@ -1,0 +1,18 @@
+#set ($validationDesired = ($clientValidation == 'true'))
+#if(!$applicationUseCases.empty)#set($applicationUseCase=$applicationUseCases.iterator().next())#end
+#if ($applicationUseCase.applicationValidationRequired && $validationDesired)
+<%@ page contentType="application/x-javascript" %>
+<%@ include file="/taglib-imports.jspf" %>
+
+#if ($xhtml == "true")
+<![CDATA[
+#else
+<!--
+#end
+<html:javascript dynamicJavascript="false" staticJavascript="true" htmlComment="false"/>
+#if ($xhtml == "true")
+]]>
+#else
+-->
+#end
+#end

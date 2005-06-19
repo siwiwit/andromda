@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>../project.xml</extend>
+    <name>Online Store Sample MDA</name>
+    <artifactId>online-store-mda</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>andromda</groupId>
+            <artifactId>andromda-profile</artifactId>
+            <version>${pom.currentVersion}</version>
+            <type>xml.zip</type>
+        </dependency>
+        <dependency>
+            <groupId>andromda</groupId>
+            <artifactId>maven-andromda-plugin</artifactId>
+            <version>${pom.currentVersion}</version>
+            <type>plugin</type>
+        </dependency>
+        <!-- specify and configure our cartridges -->
+        <dependency>
+            <groupId>andromda</groupId>
+            <artifactId>andromda-bpm4struts-cartridge</artifactId>
+            <version>${pom.currentVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>andromda</groupId>
+            <artifactId>andromda-ocl-validation-library</artifactId>
+            <version>${pom.currentVersion}</version>
+        </dependency>
+    </dependencies>
+</project>

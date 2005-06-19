@@ -1,0 +1,257 @@
+#parse("templates/bpm4struts/pages/crud/manageable.jsp.vm")
+#set ($generatedFile = "$manageable.pageFullPath")
+##
+#set ($tableVariable = "${manageableFormName}.${manageable.listName}")
+#set ($tablePresentTest = "!empty $tableVariable")
+#set ($tablePresentTest = "${${tablePresentTest}}")
+#set ($referencingManageables = $manageable.referencingManageables)
+##
+<%@ include file="/taglib-imports.jspf" %>
+##
+<tiles:insert definition="main.layout">
+
+    <tiles:put name="title" type="string">
+        <bean:message key="$manageable.pageTitleKey"/>
+    </tiles:put>
+
+    <tiles:put name="style" type="string">
+        <link rel="stylesheet" type="text/css" media="screen" href="<html:rewrite page="/layout/default-manageable.css"/>"></link>
+        <link rel="stylesheet" type="text/css" media="all" href="<html:rewrite page="/layout/default-calendar.css"/>"/>
+    </tiles:put>
+
+    <tiles:put name="javascript" type="string">
+        <script type="text/javascript" src="<html:rewrite page="/layout/calendar-js.jsp"/>"></script>
+        <script type="text/javascript">
+#if ($xhtml == "true")
+        //<![CDATA[
+#else
+        //<!--
+#end
+            function setSelect(form, name, value)
+            {
+                var select = form.elements[name];
+                var options = select.options;
+
+                // for browser compatibility's sake we go through the options ourselves
+                for (var i=0; i<options.length; i++)
+                {
+                    if (options[i].value == value)
+                    {
+                        select.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            function setAction(crud) { document.forms['${manageable.formBeanName}'].elements['$manageable.actionParameter'].value = crud; }
+
+            function enableUpdate(enabled) { document.getElementById("updateButton").disabled = !enabled; }
+
+            var selectionCount = 0;
+
+            function verifyEnableDelete(checkbox)
+            {
+                if (checkbox.checked) selectionCount++; else selectionCount--;
+                document.getElementById("deleteButton").disabled = (selectionCount < 1);
+            }
+
+            function clearFields(form)
+            {
+                form.reset();
+                enableUpdate(false);
+                setFields(## no newline
+#foreach($member in $manageable.attributes)
+#if ($member.type.enumeration)
+"",## no newline
+#elseif ($member.type.fullyQualifiedName == 'boolean' || $member.type.fullyQualifiedName == 'java.lang.Boolean')
+false,## no newline
+#elseif ($member.type.dateType)
+"",## no newline
+#elseif (!$member.needsFileUpload)## file upload fields apparently cannot have DHTML set their values (probably because the path could be invalid)
+"",## no newline
+#end
+#end
+#foreach($member in $manageable.manageableAssociationEnds)
+"",## no newline
+#end
+form);
+            }
+
+            function setFields(## no newline
+#foreach($member in $manageable.attributes)
+#if (!$member.needsFileUpload)## file upload fields apparently cannot have DHTML set their values (probably because the path could be invalid)
+$member.name,## no newline
+#end
+#end
+#foreach($member in $manageable.manageableAssociationEnds)
+$member.name,## no newline
+#end
+form)
+            {
+#foreach($member in $manageable.attributes)
+#if ($member.type.enumeration)
+                setSelect(form,"$member.name",$member.name);
+#elseif ($member.type.fullyQualifiedName == 'boolean' || $member.type.fullyQualifiedName == 'java.lang.Boolean')
+                form.elements["$member.name"].checked = $member.name;
+#elseif ($member.type.dateType)
+                form.elements["${member.name}AsString"].value = $member.name;
+#elseif (!$member.needsFileUpload)## file upload fields apparently cannot have DHTML set their values (probably because the path could be invalid)
+                form.elements["$member.name"].value = $member.name;
+#end
+#end
+#foreach($member in $manageable.manageableAssociationEnds)
+                setSelect(form,"$member.name",$member.name);
+#end
+            }
+#if ($xhtml == "true")
+        //]]>
+#else
+        //-->
+#end
+        </script>
+    </tiles:put>
+
+    <tiles:put name="body" type="string">
+
+        <html:form action="$manageable.actionPath" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="$manageable.actionParameter" value=""/>
+            <div id="criteria">
+#set ($test = "!empty ${manageableFormName}")
+                <c:if test="${${test}}">
+                    <table>
+#set ($displayId = true)
+#foreach ($member in $manageable.attributes)
+#if ($member.hidden)
+#renderHiddenAttribute($member "                    ")
+#if ($member.identifier)#set($displayId = false)#end
+#else
+                        <tr>
+                            <td>#if ($member.required && !($member.type.fullyQualifiedName == 'boolean' || $member.type.fullyQualifiedName == 'java.lang.Boolean'))<nobr><bean:message key="$member.messageKey"/> <div class="important">*</div></nobr>#else<bean:message key="$member.messageKey"/>#end</td>
+                            <td>
+#renderAttribute($member "                                ")
+                            </td>
+                        </tr>
+#end
+#end
+#foreach ($member in $manageable.manageableAssociationEnds)
+                        <tr>
+                            <td>
+#renderAssociationLink($member "                                ")
+                            </td>
+                            <td>
+#renderAssociationEnd($member "                                ")
+                            </td>
+                        </tr>
+#end
+                    </table>
+
+#if ($manageable.read)
+## if the id is not displayed we need to make sure the hidden field is cleared before searching
+#if (!$displayId && $manageable.identifiersPresent)
+#set ($onclickEvent = "this.form.elements['${manageable.identifiers.iterator().next().name}'].value='';")
+#else
+#set ($onclickEvent = "")
+#end
+                    <input type="submit" id="readButton" class="button" value="<bean:message key="button.read"/>" onclick="${onclickEvent}setAction('read');"/>
+#end
+#if ($manageable.create)
+                    <input type="submit" id="createButton" class="button" value="<bean:message key="button.create"/>" onclick="setAction('create');"/>
+#end
+#if ($manageable.delete)
+                    <input type="submit" id="deleteButton" class="button" value="<bean:message key="button.delete"/>" disabled="disabled" onclick="setAction('delete');"/>
+#end
+#if ($manageable.update)
+                    <input type="submit" id="updateButton" class="button" value="<bean:message key="button.update"/>" disabled="disabled" onclick="setAction('update');return validateUpdate();"/>
+#end
+#if ($manageable.preload)
+                    <input type="button" id="clearButton" class="button" value="<bean:message key="button.clear"/>" onclick="clearFields(this.form);"/>
+#end
+                </c:if>
+
+<div id="entitySwitcher">
+    <nobr>
+        <bean:message key="select.other.entity"/>
+        <select onchange="document.location=this.options[this.selectedIndex].value+'?$manageableReferenceParameterPrefix$manageable.name='+this.form.elements['$manageable.identifiers.iterator().next().name'].value;">
+#foreach ($manageableEntry in $manageable.allManageables)
+#if ($stringUtils.isNotBlank($securityRealm))
+        <logic:present role="#commaSeparatedNames($manageableEntry.users)">
+#end
+            <option#if($manageable.name.equals($manageableEntry.name)) selected="selected"#end value="<html:rewrite page="${manageableEntry.actionPath}.do"/>"><bean:message key="$manageableEntry.messageKey"/>#if($referencingManageables.contains($manageableEntry))<bean:message key="referencing.entity.marker"/>#end</option>
+#if ($stringUtils.isNotBlank($securityRealm))
+        </logic:present>
+#end
+#end
+        </select>
+    </nobr>
+</div>
+
+            </div>
+
+            <div id="${manageable.listName}" class="table">
+                <c:if test="$tablePresentTest">
+#set ($listBean = "${manageableFormName}.${manageable.listName}")
+                    <display:table name="${${listBean}}" id="row" requestURI="${pageContext.request.requestURI}"
+                            export="true" pagesize="$manageable.pageSize" sort="list">
+                        <display:column media="html" sortable="false">
+#set ($identifier = $manageable.identifiers.iterator().next())
+#set ($identifierValue = "row.${identifier.name}")
+#foreach ($member in $manageable.attributes)
+#if ($member.type.dateType)
+#set ($rowValue = "row.${member.name}")
+## here we are properly converting the date into the desired format so that the rendered Javascript
+## copies the proper string into the corresponding criteria field
+                            <fmt:formatDate var="${member.name}Formatted" value="${${rowValue}}" pattern="${member.dateFormat}"/>
+#end
+#end
+                            <nobr>
+                                <input type="radio" name="_copy" onclick="#renderJavascriptCopyRow($manageable)"/>
+                                <input type="checkbox" name="selectedRows" value="${${identifierValue}}" onclick="verifyEnableDelete(this);"/>
+                            </nobr>
+                        </display:column>
+#foreach ($member in $manageable.manageableMembers)
+#if (!$member.hidden)
+#if ($member.type.fullyQualifiedName == 'boolean' || $member.type.fullyQualifiedName == 'java.lang.Boolean')
+                        <display:column media="html" headerClass="$member.name" titleKey="$member.messageKey">
+## We're not using <html:checkbox> here because this renders a 'name' attribute which possibly interferes with the
+## corresponding criteria field used as input (which has the same name of course: the copy feature would not
+## know which field to set). So we're just using <input type="checkbox .. /> without any 'name' attribute.
+                            <c:choose>
+#set ($test = "row.${member.name}")
+                                <c:when test="${${test}}"><input type="checkbox" checked="checked" disabled="disabled"/></c:when>
+                                <c:otherwise><input type="checkbox" disabled="disabled"/></c:otherwise>
+                            </c:choose>
+                        </display:column>
+                        <display:column media="xml csv excel pdf" property="$member.name"
+                            headerClass="$member.name" paramId="$member.name"
+                            sortProperty="$member.name" sortable="true" titleKey="$member.messageKey"/>
+#elseif ($member.type.dateType)
+                        <display:column media="all"
+                            headerClass="$member.name" paramId="$member.name"
+                            sortProperty="$member.name" sortable="true" titleKey="$member.messageKey">
+#set ($dateValue = "${member.name}Formatted")
+                            ${${dateValue}}
+                        </display:column>
+#elseif ($member.needsFileUpload)
+                        <display:column media="html" headerClass="$member.name" paramId="$member.name" titleKey="$member.messageKey">
+#set ($test = "!empty row.${member.name}")
+#set ($linkQuery = "?${manageable.actionParameter}=${member.getterName}&${identifier.name}=${${identifierValue}}")
+                            <c:if test="${${test}}"><html:link action="$manageable.actionPath$linkQuery"><div class="binaryData"><nobr><bean:message key="binary.data"/></nobr></div></html:link></c:if>
+                        </display:column>
+#else
+#if($member.type.displayAttribute.name!=$member.manageableIdentifier.name)#set($propertySuffix='Label')#else#set($propertySuffix='')#end
+                        <display:column media="all" property="${member.name}${propertySuffix}"
+                            headerClass="$member.name" paramId="$member.name" maxLength="$manageableFieldMaxLength"
+                            sortProperty="${member.name}${propertySuffix}" sortable="true" titleKey="$member.messageKey"/>
+#end
+#end
+#end
+                    </display:table>
+                </c:if>
+            </div>
+
+        </html:form>
+
+    </tiles:put>
+
+</tiles:insert>
+

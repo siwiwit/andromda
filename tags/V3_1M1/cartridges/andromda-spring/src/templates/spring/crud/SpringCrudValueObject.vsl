@@ -1,0 +1,54 @@
+#set ($generatedFile = "${manageable.manageableValueObjectFullPath}.java")
+##
+##  START TEMPLATE
+##
+// license-header java merge-point
+package $manageable.manageablePackageName;
+
+public final class $manageable.manageableValueObjectClassName
+    implements java.io.Serializable
+{
+#foreach ($member in $manageable.attributes)
+    private $member.type.fullyQualifiedName $member.name;
+
+    $member.visibility $member.type.fullyQualifiedName ${member.getterName}()
+    {
+        return this.$member.name;
+    }
+
+    $member.visibility void ${member.setterName}($member.type.fullyQualifiedName $member.name)
+    {
+        this.$member.name = $member.name;
+    }
+
+#end
+#foreach ($member in $manageable.manageableAssociationEnds)
+    private $member.manageableIdentifier.type.fullyQualifiedName $member.name;
+
+    $member.visibility $member.manageableIdentifier.type.fullyQualifiedName ${member.getterName}()
+    {
+        return this.$member.name;
+    }
+
+    $member.visibility void ${member.setterName}($member.manageableIdentifier.type.fullyQualifiedName $member.name)
+    {
+        this.$member.name = $member.name;
+    }
+
+#if ($member.type.displayAttribute.name != $member.manageableIdentifier.name)
+#set ($qualifiedType = $member.type.displayAttribute.type.fullyQualifiedName)
+    private $qualifiedType ${member.name}Label;
+
+    $member.visibility $qualifiedType ${member.getterName}Label()
+    {
+        return this.${member.name}Label;
+    }
+
+    $member.visibility void ${member.setterName}Label($qualifiedType ${member.name}Label)
+    {
+        this.${member.name}Label = ${member.name}Label;
+    }
+
+#end
+#end
+}

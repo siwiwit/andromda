@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<namespace name="xmlschema">
+    <components>
+        <component name="cartridge"/>
+        <component name="metafacades"/>
+    </components>
+    <properties>
+        <propertyGroup name="Outlets">
+            <documentation>
+                Defines the locations to which output is generated.
+            </documentation>
+            <property name="schema">
+                <documentation>
+                    The location to which the XML schema will be written.
+                </documentation>
+            </property>
+        </propertyGroup>
+        <propertyGroup name="Other">
+            <property name="namespace">
+                <documentation>
+                    The name that will be given to the target and default namespaces.
+                </documentation>
+            </property>
+            <property name="xmlEncoding">
+                <default>UTF-8</default>
+                <documentation>
+                    The encoding of the schema.
+                </documentation>
+            </property>
+        </propertyGroup>
+    </properties>
+</namespace>

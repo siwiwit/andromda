@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="$xmlEncoding"?>
+
+<!DOCTYPE beans
+    PUBLIC "-//SPRING//DTD BEAN//EN"
+           "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <bean id="$beanRefFactoryId"
+         class="org.springframework.context.support.ClassPathXmlApplicationContext">
+        <constructor-arg>
+           <list>
+                <value>$stringUtils.replace($applicationContext, '/', '.')</value>
+#if (!$manageables.empty)
+                <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
+#end
+                <value>$stringUtils.replace($applicationContextDataSource, '/', '.')</value>
+                <!-- beanRefFactory merge-point -->
+           </list>
+        </constructor-arg>
+    </bean>
+
+</beans>

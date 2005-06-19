@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <artifactId>${application.id}</artifactId>
+    <groupId>${application.id}</groupId>
+    <name>The ${projectName}</name>
+    <currentVersion>${application.version}</currentVersion>
+    <shortDescription>The ${projectName}</shortDescription>
+    <description>
+        Contains the ${projectName} Project.
+    </description>
+    <package>${application.package}</package>
+    <developers>
+        <developer>
+              <name>${projectCreator}</name>
+              <id></id>
+              <email></email>
+        </developer>
+    </developers>
+</project>
