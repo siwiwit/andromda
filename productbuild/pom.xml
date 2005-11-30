@@ -165,7 +165,6 @@
         <module>etc/schema2xmi</module>
         <module>maven</module>
         <module>samples</module>
-        <module>distribution</module>
     </modules>
     <repositories>
         <repository>
