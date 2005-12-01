@@ -1,7 +1,9 @@
 package org.andromda.maven.plugin.distribution;
 
 import java.io.File;
+
 import java.text.Collator;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -121,10 +123,10 @@ public class AssembleMojo
      * @parameter
      */
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
-    
+
     /**
      * Used to contruct Maven project instances from POMs.
-     * 
+     *
      * @component
      */
     private MavenProjectBuilder projectBuilder;
@@ -226,9 +228,11 @@ public class AssembleMojo
                             relativePath);
                 }
                 this.getLog().info("bundling: " + artifactId);
-                
+
                 // - create the artifactFile explictly so we know for sure we have the correct path
-                final File artifactFile = new File(this.localRepository.getBasedir(), relativePath);
+                final File artifactFile = new File(
+                        this.localRepository.getBasedir(),
+                        relativePath);
                 FileUtils.copyFile(
                     artifactFile,
                     outputFile);
@@ -238,11 +242,12 @@ public class AssembleMojo
                 if (!POM_TYPE.equals(artifactType))
                 {
                     final File artifactPom =
-                        new File(StringUtils.replace(
+                        new File(ResourceUtils.renameExtension(
                                 artifactFile.toString(),
                                 artifactType,
                                 POM_TYPE));
-                    final File outputPom = new File(StringUtils.replace(
+                    final File outputPom =
+                        new File(ResourceUtils.renameExtension(
                                 outputFile.toString(),
                                 artifactType,
                                 POM_TYPE));
