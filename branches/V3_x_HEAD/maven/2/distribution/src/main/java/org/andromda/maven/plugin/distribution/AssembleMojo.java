@@ -1,9 +1,7 @@
 package org.andromda.maven.plugin.distribution;
 
 import java.io.File;
-
 import java.text.Collator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.andromda.core.common.ResourceUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
