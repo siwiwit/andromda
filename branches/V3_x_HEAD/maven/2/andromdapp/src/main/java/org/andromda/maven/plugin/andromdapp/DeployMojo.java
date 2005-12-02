@@ -36,10 +36,26 @@ public class DeployMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-        if (this.deploy != null)
+        File artifactFile = this.project.getArtifact().getFile();
+
+        // - if we're deploying within a phase then deploy has to be set, otherwise
+        //   its not needed (we know we're not deploying in a phase when the artifactFile is null).
+        if (this.deploy != null || artifactFile == null)
         {
-            final File artifactFile = this.project.getArtifact().getFile();
-            if (artifactFile != null)
+            final Build build = this.project.getBuild();
+            if (EXPLODED.equalsIgnoreCase(this.deploy))
+            {
+                artifactFile = new File(
+                        build.getDirectory(),
+                        build.getFinalName());
+            }
+            else if (artifactFile == null)
+            {
+                artifactFile = new File(
+                        build.getDirectory(),
+                        build.getFinalName() + '.' + this.getPackaging());
+            }
+            if (artifactFile.exists())
             {
                 final File deployDirectory = new File(this.deployLocation);
                 if (deployDirectory.exists() && deployDirectory.isDirectory())
@@ -48,14 +64,10 @@ public class DeployMojo
                     {
                         if (EXPLODED.equalsIgnoreCase(this.deploy))
                         {
-                            final Build build = this.project.getBuild();
-                            final File explodedFile = new File(
-                                    build.getDirectory(),
-                                    build.getFinalName());
                             final File destintation = this.getDeployFile();
-                            this.getLog().info("Deploying exploded " + explodedFile + " to " + destintation);
+                            this.getLog().info("Deploying exploded " + artifactFile + " to " + destintation);
                             FileUtils.copyDirectoryStructure(
-                                explodedFile,
+                                artifactFile,
                                 destintation);
                         }
                         else
@@ -71,7 +83,7 @@ public class DeployMojo
                         throw new MojoExecutionException("An error occurred while attempting to deploy artifact",
                             throwable);
                     }
-                } 
+                }
                 else
                 {
                     this.getLog().error(
@@ -81,7 +93,8 @@ public class DeployMojo
             }
             else
             {
-                this.getLog().warn("Deploy did not occur because the artifact file for this project could not be found");
+                this.getLog().warn(
+                    "Deploy did not occur because file '" +  artifactFile + "' does not exist");
             }
         }
     }
