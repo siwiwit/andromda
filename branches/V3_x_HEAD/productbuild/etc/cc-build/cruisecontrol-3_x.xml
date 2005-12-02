@@ -57,7 +57,7 @@
             <currentbuildstatusbootstrapper file="/var/andromda-build/logs/andromda-contrib/currentbuildstatus.txt"/>
         </bootstrappers>
         <modificationset>
-            <cvs localWorkingCopy="/var/andromda-build/andromda-contrib/contrib" cvsroot=":ext:andromda-build@cvs.sourceforge.net:/cvsroot/andromda"/>
+            <cvs localWorkingCopy="/var/andromda-build/andromda-contrib/contrib" />
         </modificationset>
         <schedule interval="900">
             <maven goal="scm:update-project|cc-build|deploy-distribution" projectfile="/var/andromda-build/andromda-contrib/contrib/project.xml" mavenscript="/opt/maven/bin/maven"/>
