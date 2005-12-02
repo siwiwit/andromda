@@ -2,6 +2,7 @@ package org.andromda.maven.plugin.andromdapp;
 
 import java.io.File;
 
+import org.apache.maven.model.Build;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -24,7 +25,7 @@ public class DeployMojo
      *
      * @parameter expression="${deploy}"
      */
-    private boolean deploy;
+    private String deploy;
 
     /**
      * The location (i.e. path) to deploy.
@@ -40,6 +41,11 @@ public class DeployMojo
      * @readonly
      */
     private MavenProject project;
+    
+    /**
+     * The string indicating whether or not the deploy should be exploded or not.
+     */
+    private static final String EXPLODED = "exploded";
 
     /**
      * @see org.apache.maven.plugin.AbstractMojo#execute()
@@ -47,7 +53,7 @@ public class DeployMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
-        if (this.deploy)
+        if (this.deploy != null)
         {
             final File artifactFile = this.project.getArtifact().getFile();
             if (artifactFile != null)
@@ -57,10 +63,26 @@ public class DeployMojo
                 {
                     try
                     {
-                        this.getLog().info("Deploying " + artifactFile + " to " + deployDirectory);
-                        FileUtils.copyFileToDirectory(
-                            artifactFile,
-                            deployDirectory);
+                        if (EXPLODED.equalsIgnoreCase(this.deploy))
+                        {
+                            final Build build = this.project.getBuild();
+                            final File explodedFile = new File(build.getDirectory(), build.getFinalName());
+                            final String packaging = this.project.getPackaging();
+                            if (packaging == null || packaging.trim().length() == 0)
+                            {
+                                throw new MojoExecutionException("This project must have the packaging defined, when attempting to deploy exploded");
+                            }
+                            final File destintation = new File(deployDirectory, build.getFinalName() + '.' + packaging);
+                            this.getLog().info("Deploying exploded " + explodedFile + " to " + destintation);
+                            FileUtils.copyDirectoryStructure(explodedFile, destintation);
+                        }
+                        else
+                        {
+                            this.getLog().info("Deploying " + artifactFile + " to " + deployDirectory);
+                            FileUtils.copyFileToDirectory(
+                                artifactFile,
+                                deployDirectory);
+                        }
                     }
                     catch (final Throwable throwable)
                     {
