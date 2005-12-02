@@ -127,7 +127,7 @@
                             <goal>deploy</goal>
                         </goals>
                         <configuration>
-                            <deployLocation></deployLocation>
+                            <deployLocation>${tomcat.home}/webapps</deployLocation>
                         </configuration>
                     </execution>
                 </executions>

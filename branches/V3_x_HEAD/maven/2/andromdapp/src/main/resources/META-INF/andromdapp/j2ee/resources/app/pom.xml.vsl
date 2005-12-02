@@ -101,7 +101,7 @@
                             <goal>deploy</goal>
                         </goals>
                         <configuration>
-                            <deployLocation></deployLocation>
+                            <deployLocation>${jboss.home}/server/default/deploy</deployLocation>
                         </configuration>
                     </execution>
                 </executions>
