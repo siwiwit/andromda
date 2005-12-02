@@ -126,11 +126,11 @@
                         <goals>
                             <goal>deploy</goal>
                         </goals>
-                        <configuration>
-                            <deployLocation>${tomcat.home}/webapps</deployLocation>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <deployLocation>${tomcat.home}/webapps</deployLocation>
+                </configuration>
             </plugin>
 #end
         </plugins>
