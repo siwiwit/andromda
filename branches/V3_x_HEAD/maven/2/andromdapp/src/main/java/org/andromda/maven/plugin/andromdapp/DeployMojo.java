@@ -3,10 +3,8 @@ package org.andromda.maven.plugin.andromdapp;
 import java.io.File;
 
 import org.apache.maven.model.Build;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
 
@@ -18,7 +16,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @author Chad Brandon
  */
 public class DeployMojo
-    extends AbstractMojo
+    extends AppManagementMojo
 {
     /**
      * Indicates whether or not this plugin should perform the deploy.
@@ -27,21 +25,6 @@ public class DeployMojo
      */
     private String deploy;
 
-    /**
-     * The location (i.e. path) to deploy.
-     *
-     * @parameter
-     * @required
-     */
-    private String deployLocation;
-
-    /**
-     * @parameter expression="${project}"
-     * @required
-     * @readonly
-     */
-    private MavenProject project;
-    
     /**
      * The string indicating whether or not the deploy should be exploded or not.
      */
@@ -66,15 +49,14 @@ public class DeployMojo
                         if (EXPLODED.equalsIgnoreCase(this.deploy))
                         {
                             final Build build = this.project.getBuild();
-                            final File explodedFile = new File(build.getDirectory(), build.getFinalName());
-                            final String packaging = this.project.getPackaging();
-                            if (packaging == null || packaging.trim().length() == 0)
-                            {
-                                throw new MojoExecutionException("This project must have the packaging defined, when attempting to deploy exploded");
-                            }
-                            final File destintation = new File(deployDirectory, build.getFinalName() + '.' + packaging);
+                            final File explodedFile = new File(
+                                    build.getDirectory(),
+                                    build.getFinalName());
+                            final File destintation = this.getDeployFile();
                             this.getLog().info("Deploying exploded " + explodedFile + " to " + destintation);
-                            FileUtils.copyDirectoryStructure(explodedFile, destintation);
+                            FileUtils.copyDirectoryStructure(
+                                explodedFile,
+                                destintation);
                         }
                         else
                         {
@@ -89,7 +71,7 @@ public class DeployMojo
                         throw new MojoExecutionException("An error occurred while attempting to deploy artifact",
                             throwable);
                     }
-                }
+                } 
                 else
                 {
                     this.getLog().error(
@@ -99,7 +81,7 @@ public class DeployMojo
             }
             else
             {
-                this.getLog().warn("Deploy did not occur because the no artifact file could be found");
+                this.getLog().warn("Deploy did not occur because the artifact file for this project could not be found");
             }
         }
     }
