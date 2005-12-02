@@ -12,7 +12,7 @@ dirname=`pwd`
 source set-env.sh
 
 if [ -z $CC_CONFIG_FILE ];then
-   CC_CONFIG_FILE=cruisecontrol-3_x_HEAD.xml
+   CC_CONFIG_FILE=cruisecontrol-3_x.xml
 fi
 
 echo "Using config file:$CC_CONFIG_FILE"
