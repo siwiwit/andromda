@@ -1,4 +1,5 @@
 #!/bin/sh
+# dummy change
 
 basename=`basename $0`
 if [ $basename != $0 ]; then
