@@ -24,6 +24,10 @@ z<project xmlns="http://maven.apache.org/POM/4.0.0"
                         <groupId>org.andromda.profiles.uml14</groupId>
                         <artifactId>andromda-profile</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
