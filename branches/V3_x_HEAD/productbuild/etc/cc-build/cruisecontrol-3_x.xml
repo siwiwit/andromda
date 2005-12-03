@@ -10,8 +10,8 @@
 				 no revision for every Attic file !! -->
             <cvs tag="V3_x_HEAD" localWorkingCopy="/var/andromda-build/andromda-all" />
         </modificationset>
-		<!-- set cycle time to long interval 12 hours till we get problems sorted -->
-        <schedule interval="43200">
+		<!-- set cycle time to 15 minutes -->
+        <schedule interval="900">
             <maven goal="scm:update|clean|dist|get-cron-docs|deploy-distribution" projectfile="/var/andromda-build/andromda-all/project.xml" mavenscript="/opt/maven/bin/maven"/>
             <pause starttime="0505" endtime="0605"/>
         </schedule>
