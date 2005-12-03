@@ -34,6 +34,13 @@ else
   CCJMXPARAMS="-port ${CCPORT} -user ${CCJMXUSER} -password {CCJMXPASS}"
 fi
 
+CC_CALLER=`whoami`
+if [ ${CC_CALLER} = ${CCUSER} ];then
+  RUNIT=
+else
+ RUNIT="su $CCUSER -c"
+fi
+ 
 # Get cruisecontrol status via JMX:
 stat=`curl -s "$CCJMXURL/getattribute?objectname=CruiseControl%20Manager:id=unique&attribute=Projects&format=collection&template=identity" | perl -pe 's/>/>\n/g' | grep '<Element ' | cut -d '"' -f 2`
 
@@ -43,7 +50,7 @@ case "$1" in
          # pass on the environment
          echo "Starting cruisecontrol"
          echo "User: ${CCUSER}"
-         su $CCUSER -c "$CCSTARTSCRIPT $CCARGS $CCJMXPARAMS 2>&1 > $CCLOG &" 
+         $RUNIT "$CCSTARTSCRIPT $CCARGS $CCJMXPARAMS 2>&1 > $CCLOG &" 
          sleep 3
          $0 status
          RETVAL=$?
