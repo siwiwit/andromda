@@ -39,7 +39,7 @@
                 mailhost="localhost"
                 buildresultsurl="http://thecla.homeftp.net:8080/cruisecontrol/buildresults/andromda-all"
                 spamwhilebroken="true"
-                subjectprefix="[BUILD]"
+                subjectprefix="[BUILD V3_x_HEAD]"
                 returnaddress="committers@andromda.org"
                 defaultsuffix="@users.sourceforge.net"
                 xslfile="/var/andromda-build/andromda-all/etc/cc-build/xsl/andromda.xsl">
