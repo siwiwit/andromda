@@ -6,6 +6,6 @@ if [ $basename != $0 ]; then
 else
    dirname=`pwd`
 fi
-cd $dirname 
+cd $dirname/../..
 
 cp --reply=yes *.ser ..
