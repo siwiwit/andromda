@@ -12,7 +12,13 @@ source set-env.sh
 # cd to andromda-all
 cd ../..
 
+if [ ! -z $1 ]; then
+  options=-r $1
+else
+  options=-b
+fi
+
 daystart=`date +"%F 00:00:00 %Z"`
 now=`date +"%F %R:%S %Z"`
-echo cvs -q log -N "-d$daystart<$now" -b
-cvs -q log -N "-d$daystart<$now" -b
+echo cvs -q log -N "-d$daystart<$now" $options
+cvs -q log -N "-d$daystart<$now" $options
