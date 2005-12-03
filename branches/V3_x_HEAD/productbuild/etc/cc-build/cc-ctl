@@ -82,7 +82,7 @@ case "$1" in
     "stop")
         if [ "$stat" ]
         then
-          curl -s "$CCJMXURL/invoke?operation=halt&objectname=CruiseControl+Manager:id=unique"
+          curl -n -s "$CCJMXURL/invoke?operation=halt&objectname=CruiseControl+Manager:id=unique"
           $CCCTL status
           RETVAL=$?
         else
