@@ -57,7 +57,9 @@ else
 fi
  
 # Get cruisecontrol status via JMX:
-stat=`curl -s "$CCJMXURL/getattribute?objectname=CruiseControl%20Manager:id=unique&attribute=Projects&format=collection&template=identity" | perl -pe 's/>/>\n/g' | grep '<Element ' | cut -d '"' -f 2`
+curl -s -n "$CCJMXURL/getattribute?objectname=CruiseControl%20Manager:id=unique&attribute=Projects&format=collection&template=identity" 
+exit
+stat=`curl -s -n "$CCJMXURL/getattribute?objectname=CruiseControl%20Manager:id=unique&attribute=Projects&format=collection&template=identity" | perl -pe 's/>/>\n/g' | grep '<Element ' | cut -d '"' -f 2`
 
 case "$1" in
 
