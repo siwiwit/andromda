@@ -16,8 +16,8 @@ CCDIR=/usr/local/cruisecontrol
 CCSTARTSCRIPT=$CCDIR/main/cruisecontrol.sh
 CCPORT=8989
 CCJMXURL="http://localhost:${CCPORT}"
-CCJMXUSER=androteam
-#CCJMXPASS=
+CCJMXUSER=$CC_JMX_USER
+CCJMXPASS=$CC_JMX_PASS
 CCLOG=/var/log/cruisecontrol
 
 # Activate the following, if you want parallel builds:
