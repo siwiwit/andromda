@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.eclipse.emf.ecore.xmi.impl.XMIHelperImpl;
 import org.eclipse.uml2.Comment;
-import org.eclipse.uml2.Element;
 import org.eclipse.uml2.Model;
 import org.eclipse.uml2.NamedElement;
 import org.eclipse.uml2.Namespace;
@@ -235,7 +234,7 @@ public class ModelElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetStereotypeNames()
     {
-        return UmlUtilities.getStereotypeNames((Element)metaObject);
+        return UmlUtilities.getStereotypeNames(this.metaObject);
     }
 
     /**
@@ -270,7 +269,7 @@ public class ModelElementFacadeLogicImpl
     protected boolean handleHasStereotype(java.lang.String stereotypeName)
     {
         return UmlUtilities.containsStereotype(
-            (Element)metaObject,
+            this.metaObject,
             stereotypeName);
     }
 
@@ -334,7 +333,7 @@ public class ModelElementFacadeLogicImpl
     protected boolean handleHasExactStereotype(java.lang.String stereotypeName)
     {
         return UmlUtilities.containsStereotype(
-            (Element)metaObject,
+            this.metaObject,
             stereotypeName);
     }
 
