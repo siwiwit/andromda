@@ -28,6 +28,12 @@ if [ -f /etc/cruisecontrol.conf ]; then
   source /etc/cruisecontrol.conf
 fi
 
+if [ -z ${CCPORT} ]; then
+  CCJMXPARAMS=
+else
+  CCJMXPARAMS="-port ${CCPORT} -user ${CCJMXUSER} -password {CCJMXPASS}"
+fi
+
 # Get cruisecontrol status via JMX:
 stat=`curl -s "$CCJMXURL/getattribute?objectname=CruiseControl%20Manager:id=unique&attribute=Projects&format=collection&template=identity" | perl -pe 's/>/>\n/g' | grep '<Element ' | cut -d '"' -f 2`
 
@@ -35,7 +41,9 @@ case "$1" in
 
     "start")
          # pass on the environment
-         su $CCUSER -c "$CCSTARTSCRIPT $CCARGS 2>&1 > $CCLOG &" 
+         echo "Starting cruisecontrol"
+         echo "User: ${CCUSER}"
+         su $CCUSER -c "$CCSTARTSCRIPT $CCARGS $CCJMXPARAMS 2>&1 > $CCLOG &" 
          sleep 3
          $0 status
          RETVAL=$?
