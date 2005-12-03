@@ -24,7 +24,7 @@ CCLOG=/var/log/cruisecontrol
 #CCARGS="-p"
 CCUPDATE_SCRIPT="cvs update"
 
-if [ -f /etc/cruisecontrol.conf]; then
+if [ -f /etc/cruisecontrol.conf ]; then
   source /etc/cruisecontrol.conf
 fi
 
