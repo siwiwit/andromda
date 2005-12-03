@@ -11,7 +11,7 @@
 PATH=/sbin:/usr/sbin:/usr/bin:/bin
 export PATH
 
-CCUSER=androbuild
+CCUSER=${CC_USER}
 CCDIR=/usr/local/cruisecontrol
 CCSTARTSCRIPT=$CCDIR/main/cruisecontrol.sh
 CCPORT=8989
