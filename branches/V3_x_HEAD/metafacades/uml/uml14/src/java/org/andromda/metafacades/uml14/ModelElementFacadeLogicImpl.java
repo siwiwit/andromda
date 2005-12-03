@@ -112,6 +112,47 @@ public class ModelElementFacadeLogicImpl
                         namespaceScopeOperator);
             }
         }
+
+        if (this.isTemplateParametersPresent() &&
+            "true".equals(String.valueOf(getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING))))
+        {
+            // we'll be constructing the parameter list in this buffer
+            final StringBuffer buffer = new StringBuffer();
+
+            // add the name we've constructed so far
+            buffer.append(fullName);
+
+            // start the parameter list
+            buffer.append("<");
+
+            // loop over the parameters, we are so to have at least one (see outer condition)
+            final Collection templateParameters = this.getTemplateParameters();
+            for (Iterator parameterIterator = templateParameters.iterator(); parameterIterator.hasNext();)
+            {
+                final Object parameter = parameterIterator.next();
+
+                // if the parameter is a model element get it's fq name
+                if (parameter instanceof ModelElementFacade)
+                {
+                    buffer.append(((ModelElementFacade)parameter).getFullyQualifiedName());
+                }
+                else    // otherwise just print it out
+                {
+                    buffer.append(parameter);
+                }
+                if (parameterIterator.hasNext())
+                {
+                    buffer.append(", ");
+                }
+            }
+
+            // we're finished listing the parameters
+            buffer.append(">");
+
+            // we have constructed the full name in the buffer
+            fullName = buffer.toString();
+        }
+
         return fullName;
     }
 
@@ -224,7 +265,7 @@ public class ModelElementFacadeLogicImpl
             {
                 public boolean evaluate(Object object)
                 {
-                    boolean valid = false;
+                    boolean valid;
                     StereotypeFacade facade = (StereotypeFacade)object;
                     String name = StringUtils.trimToEmpty(facade.getName());
                     valid = stereotypeName.equals(name);
@@ -264,7 +305,7 @@ public class ModelElementFacadeLogicImpl
      */
     protected String handleGetVisibility()
     {
-        String visibility = null;
+        String visibility;
 
         final VisibilityKind visibilityKind = metaObject.getVisibility();
         if (visibilityKind == null || VisibilityKindEnum.VK_PRIVATE.equals(visibilityKind))
@@ -417,7 +458,7 @@ public class ModelElementFacadeLogicImpl
      *
      * @return the array suffix.
      */
-    private final String getArraySuffix()
+    private String getArraySuffix()
     {
         return String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ARRAY_NAME_SUFFIX));
     }
@@ -430,7 +471,7 @@ public class ModelElementFacadeLogicImpl
         final String propertyName = UMLMetafacadeProperties.LANGUAGE_MAPPINGS_URI;
         Object property = this.getConfiguredProperty(propertyName);
         TypeMappings mappings = null;
-        String uri = null;
+        String uri;
         if (property instanceof String)
         {
             uri = (String)property;
@@ -500,7 +541,7 @@ public class ModelElementFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelElementFacadeLogic#getTargetDependencies()
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getTargetDependencies()
      */
     protected Collection handleGetTargetDependencies()
     {
@@ -533,7 +574,7 @@ public class ModelElementFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelElementFacadeLogic#getModel()
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getModel()
      */
     protected Object handleGetModel()
     {
@@ -541,7 +582,7 @@ public class ModelElementFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelElementFacadeLogic#getConstraints()
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getConstraints()
      */
     protected Collection handleGetConstraints()
     {
@@ -553,26 +594,24 @@ public class ModelElementFacadeLogicImpl
      */
     protected Collection handleGetConstraints(final String kind)
     {
-        final Collection filteredConstraints =
-            CollectionUtils.select(
-                getConstraints(),
-                new Predicate()
+        return CollectionUtils.select(
+            getConstraints(),
+            new Predicate()
+            {
+                public boolean evaluate(Object object)
                 {
-                    public boolean evaluate(Object object)
+                    if (object instanceof ConstraintFacade)
                     {
-                        if (object instanceof ConstraintFacade)
-                        {
-                            ConstraintFacade constraint = (ConstraintFacade)object;
-                            return ((ExpressionKinds.BODY.equals(kind) && constraint.isBodyExpression()) ||
-                            (ExpressionKinds.DEF.equals(kind) && constraint.isDefinition()) ||
-                            (ExpressionKinds.INV.equals(kind) && constraint.isInvariant()) ||
-                            (ExpressionKinds.PRE.equals(kind) && constraint.isPreCondition()) ||
-                            (ExpressionKinds.POST.equals(kind) && constraint.isPostCondition()));
-                        }
-                        return false;
+                        ConstraintFacade constraint = (ConstraintFacade)object;
+                        return ((ExpressionKinds.BODY.equals(kind) && constraint.isBodyExpression()) ||
+                        (ExpressionKinds.DEF.equals(kind) && constraint.isDefinition()) ||
+                        (ExpressionKinds.INV.equals(kind) && constraint.isInvariant()) ||
+                        (ExpressionKinds.PRE.equals(kind) && constraint.isPreCondition()) ||
+                        (ExpressionKinds.POST.equals(kind) && constraint.isPostCondition()));
                     }
-                });
-        return filteredConstraints;
+                    return false;
+                }
+            });
     }
 
     /**
@@ -767,11 +806,11 @@ public class ModelElementFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.ModelElementFacade#copyTaggedValues(org.andromda.metafacades.uml.ModelElementFacade)
+     * @see org.andromda.metafacades.uml.ModelElementFacade#copyTaggedValues(org.andromda.metafacades.uml.ModelElementFacade)
      */
     protected void handleCopyTaggedValues(ModelElementFacade element)
     {
-        org.omg.uml.foundation.core.ModelElement elementMetaObject = null;
+        org.omg.uml.foundation.core.ModelElement elementMetaObject;
         if (element instanceof MetafacadeBase)
         {
             final MetafacadeBase metafacade = (MetafacadeBase)element;
