@@ -125,7 +125,8 @@
                 Determines whether or not to enable templating, enabling this feature will produce
                 fully qualified names with their template parameters. Also, class names that are
                 implicitely templates will also have them present (eg.
-                <code>Person:addresses : datatype::List&lt;Address&gt;</code> for class associations)
+                <code>Person:addresses : datatype::List&lt;Address&gt;</code> for class associations).
+                Set this property to <code>true</code> if you want to enable this feature.
             </documentation>
         </property>
         <property name="arrayNameSuffix">

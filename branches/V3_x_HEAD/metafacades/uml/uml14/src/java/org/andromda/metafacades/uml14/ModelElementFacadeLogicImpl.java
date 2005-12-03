@@ -1,9 +1,5 @@
 package org.andromda.metafacades.uml14;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.andromda.core.metafacade.MetafacadeBase;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.core.metafacade.MetafacadeFactory;
@@ -11,6 +7,7 @@ import org.andromda.metafacades.uml.BindingFacade;
 import org.andromda.metafacades.uml.ConstraintFacade;
 import org.andromda.metafacades.uml.EnumerationLiteralFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
+import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.StereotypeFacade;
 import org.andromda.metafacades.uml.TaggedValueFacade;
 import org.andromda.metafacades.uml.TemplateParameterFacade;
@@ -32,6 +29,10 @@ import org.omg.uml.foundation.core.Dependency;
 import org.omg.uml.foundation.core.ModelElement;
 import org.omg.uml.foundation.datatypes.VisibilityKind;
 import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 
 /**
@@ -129,17 +130,17 @@ public class ModelElementFacadeLogicImpl
             final Collection templateParameters = this.getTemplateParameters();
             for (Iterator parameterIterator = templateParameters.iterator(); parameterIterator.hasNext();)
             {
-                final Object parameter = parameterIterator.next();
+                final ModelElementFacade modelElement = ((TemplateParameterFacade)parameterIterator.next()).getParameter();
 
-                // if the parameter is a model element get it's fq name
-                if (parameter instanceof ModelElementFacade)
+                if (modelElement instanceof ParameterFacade)
                 {
-                    buffer.append(((ModelElementFacade)parameter).getFullyQualifiedName());
+                    buffer.append(((ParameterFacade)modelElement).getType().getFullyQualifiedName());
                 }
-                else    // otherwise just print it out
+                else
                 {
-                    buffer.append(parameter);
+                    buffer.append(modelElement.getFullyQualifiedName());
                 }
+                
                 if (parameterIterator.hasNext())
                 {
                     buffer.append(", ");
