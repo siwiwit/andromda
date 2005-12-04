@@ -44,6 +44,13 @@ public class MavenExecuteMojo
      * @parameter expression="${component.org.apache.maven.lifecycle.LifecycleExecutor}"
      */
     private LifecycleExecutor lifecycleExecutor;
+    
+    /**
+     * @parameter expression="${project}"
+     * @required
+     * @readonly
+     */
+    private MavenProject project;
 
     /**
      * @parameter
@@ -77,6 +84,18 @@ public class MavenExecuteMojo
                 {
                     final MavenProject project = (MavenProject)iterator.next();
                     this.getLog().info("  " + project.getName());
+                }
+                final List goals = this.session.getGoals();
+                if (goals.isEmpty())
+                {
+                    if (this.project != null)
+                    {
+                        final String defaultGoal = this.project.getDefaultGoal();
+                        if (defaultGoal != null && defaultGoal.trim().length() > 0)
+                        {
+                            goals.add(defaultGoal);
+                        }
+                    }
                 }
                 final MavenSession projectSession =
                     new MavenSession(
