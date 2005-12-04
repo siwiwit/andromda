@@ -60,12 +60,14 @@
             <version>${version}</version>            
             <type>war</type>
         </dependency>
+#if ($webservice)
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-webservice</artifactId>
             <version>${version}</version>      
             <type>war</type>      
         </dependency>
+#end
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>    
@@ -92,11 +94,13 @@
                             <artifactId>${applicationId}-web</artifactId>
                             <contextRoot>/${applicationId}</contextRoot>
                         </webModule>
+#if ($webservice)
                         <webModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-webservice</artifactId>
                             <contextRoot>/${applicationId}-ws</contextRoot>
                         </webModule>
+#end
                     </modules>
                 </configuration>
             </plugin>
