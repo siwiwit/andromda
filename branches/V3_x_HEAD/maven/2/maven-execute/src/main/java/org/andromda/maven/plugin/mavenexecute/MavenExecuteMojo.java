@@ -61,7 +61,7 @@ public class MavenExecuteMojo
     /**
      * @parameter
      */
-    private String[] excludes = new String[0];
+    private String[] excludes = new String[] {"pom.xml"};
 
     /**
      * @see org.apache.maven.plugin.AbstractMojo#execute()
