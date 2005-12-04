@@ -27,7 +27,8 @@
                 <set-properties-rule>
                     <alias attr-name="id" prop-name="id"/>
                     <alias attr-name="equal" prop-name="equal"/>
-                    <alias attr-name="notEqual" prop-name="equal"/>
+                    <alias attr-name="notEqual" prop-name="notEqual"/>
+                    <alias attr-name="present" prop-name="present"/>
                 </set-properties-rule>
                 <set-next-rule methodname="addCondition"/>                
             </pattern>
@@ -74,7 +75,6 @@
             <set-properties-rule>
                 <alias attr-name="id" prop-name="id"/>
                 <alias attr-name="required" prop-name="required"/>
-                <alias attr-name="active" prop-name="active"/>
                 <alias attr-name="setResponseAsTrue" prop-name="setResponseAsTrue"/>
             </set-properties-rule>
             <pattern value="text">

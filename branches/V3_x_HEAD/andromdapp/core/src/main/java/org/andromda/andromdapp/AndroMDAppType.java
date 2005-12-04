@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 
 import java.net.URL;
-
+ 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -53,11 +53,9 @@ public class AndroMDAppType
      *
      * @throws Exception
      */
-    private void initialize()
+    protected void initialize()
         throws Exception
     {
-        this.getTemplateEngine().setMergeLocation(TEMPORARY_MERGE_LOCATION);
-        this.getTemplateEngine().initialize(NAMESPACE);
         if (this.configurations != null)
         {
             for (final Iterator iterator = this.configurations.iterator(); iterator.hasNext();)
@@ -68,31 +66,14 @@ public class AndroMDAppType
     }
 
     /**
-     * Runs the AndroMDApp generation process.
-     */
-    public void run()
-    {
-        try
-        {
-            this.initialize();
-            this.promptUser();
-            this.processResources();
-        }
-        catch (final Throwable throwable)
-        {
-            if (throwable instanceof AndroMDAppException)
-            {
-                throw (AndroMDAppException)throwable;
-            }
-            throw new AndroMDAppException(throwable);
-        }
-    }
-
-    /**
      * Prompts the user for the input required to generate an application with
-     * the correct information.
+     * the correct information and returns the descriptor contents after being interpolated by all
+     * properties in the template context.
+     * 
+     * @return the results of the interpolated descriptor.
+     * @throws Exception 
      */
-    private void promptUser()
+    protected String promptUser() throws Exception
     {
         for (final Iterator iterator = this.getPrompts().iterator(); iterator.hasNext();)
         {
@@ -123,8 +104,8 @@ public class AndroMDAppType
             {
                 Object response = this.templateContext.get(id);
 
-                // - only prompt when active and the id isn't already in the context
-                if (prompt.isActive() && response == null)
+                // - only prompt when the id isn't already in the context
+                if (response == null)
                 {
                     do
                     {
@@ -146,6 +127,7 @@ public class AndroMDAppType
                     prompt.getResponse(response));
             }
         }
+        return this.getTemplateEngine().getEvaluatedExpression(ResourceUtils.getContents(this.resource), this.templateContext);
     }
 
     /**
@@ -234,8 +216,9 @@ public class AndroMDAppType
      * Gets the template that that will process the templates.
      *
      * @return the template engine instance.
+     * @throws Exception 
      */
-    private TemplateEngine getTemplateEngine()
+    private TemplateEngine getTemplateEngine() throws Exception
     {
         if (this.templateEngine == null)
         {
@@ -243,6 +226,8 @@ public class AndroMDAppType
                 (TemplateEngine)ComponentContainer.instance().newComponent(
                     this.templateEngineClass,
                     TemplateEngine.class);
+            this.getTemplateEngine().setMergeLocation(TEMPORARY_MERGE_LOCATION);
+            this.getTemplateEngine().initialize(NAMESPACE);
         }
         return this.templateEngine;
     }
@@ -272,14 +257,11 @@ public class AndroMDAppType
      *
      * @throws Exception
      */
-    private void processResources()
+    protected void processResources()
         throws Exception
     {
         final File rootDirectory =
-            this.verifyRootDirectory(
-                new File(this.getTemplateEngine().getEvaluatedExpression(
-                        this.getRoot(),
-                        this.templateContext)));
+            this.verifyRootDirectory(new File(this.getRoot()));
         this.printLine();
         this.printText(MARGIN + "G e n e r a t i n g   A n d r o M D A   P o w e r e d   A p p l i c a t i o n");
         this.printLine();
@@ -482,14 +464,32 @@ public class AndroMDAppType
                             final String id = condition.getId();
                             if (id != null && id.trim().length() > 0)
                             {
+                                final Object value = this.templateContext.get(id);
+
+                                // - if the condition must be present, very that it is
+                                if (condition.isPresent())
+                                {
+                                    writable = value != null;
+                                    if (!writable)
+                                    {
+                                        break;
+                                    }
+                                }
+                                else if (!condition.isPresent())
+                                {
+                                    // - otherwise verify that the condition is not present (if it shouldn't be)
+                                    writable = value == null;
+                                    if (!writable)
+                                    {
+                                        break;
+                                    }
+                                }
                                 final String equal = condition.getEqual();
                                 final String notEqual = condition.getNotEqual();
-                                final boolean equalConditionPresent = equal != null && equal.trim().length() > 0;
-                                final boolean notEqualConditionPresent =
-                                    notEqual != null && notEqual.trim().length() > 0;
+                                final boolean equalConditionPresent = equal != null;
+                                final boolean notEqualConditionPresent = notEqual != null;
                                 if (equalConditionPresent || notEqualConditionPresent)
                                 {
-                                    final Object value = ObjectUtils.toString(this.templateContext.get(id));
                                     if (equalConditionPresent)
                                     {
                                         writable = equal.equals(value);
@@ -878,6 +878,16 @@ public class AndroMDAppType
     {
         this.resource = resource;
     }
+    
+    /**
+     * Gets the resource that configured this instance.
+     * 
+     * @return the resource.
+     */
+    final URL getResource()
+    {
+        return this.resource;
+    }
 
     /**
      * Stores any of the mappings available to this type.
@@ -892,6 +902,26 @@ public class AndroMDAppType
     public void addMapping(final Mapping mapping)
     {
         this.mappings.add(mapping);
+    }
+    
+    /**
+     * Adds the given map of properties to the current template context.
+     * 
+     * @param map the map of properties.
+     */
+    final void addToTemplateContext(final Map map)
+    {
+        this.templateContext.putAll(map);
+    }
+    
+    /**
+     * Gets the current template context for this instance.
+     * 
+     * @return the template context.
+     */
+    final Map getTemplateContext()
+    {
+        return this.templateContext;
     }
 
     /**

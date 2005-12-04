@@ -3,7 +3,9 @@ package org.andromda.andromdapp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -99,16 +101,16 @@ public class AndroMDApp
             }
         }
     }
-    
+
     /**
      * Stores the optional configuration instance.
      */
     private List configurations = new ArrayList();
-    
+
     /**
      * Adds the URI for an optional configuration  These are useful if you want
      * to preconfigure the andromdapp when any properties, etc.
-     * 
+     *
      * @param configurationUri the URI to the configuration.
      */
     public void addConfigurationUri(final String configurationUri)
@@ -127,8 +129,10 @@ public class AndroMDApp
 
     /**
      * Prompts the user to choose the type of application, and then runs that AndroMDAppType.
+     * @throws Exception
      */
     private void chooseTypeAndRun()
+        throws Exception
     {
         AndroMDAppType andromdapp = null;
         if (this.types.size() > 1)
@@ -161,8 +165,18 @@ public class AndroMDApp
             throw new AndroMDAppException("No '" + DESCRIPTOR + "' descriptor files could be found");
         }
 
+        andromdapp.setConfigurations(this.configurations);        
+        andromdapp.initialize();
+        
+        final Map templateContext = andromdapp.getTemplateContext();
+
+        final XmlObjectFactory factory = XmlObjectFactory.getInstance(AndroMDApp.class);
+        final String contents = andromdapp.promptUser();
+        // - evaluate all properties in the descriptor and recreate the AndroMDAppType
+        andromdapp = (AndroMDAppType)factory.getObject(contents);
         andromdapp.setConfigurations(this.configurations);
-        andromdapp.run();
+        andromdapp.addToTemplateContext(templateContext);
+        andromdapp.processResources();
     }
 
     /**

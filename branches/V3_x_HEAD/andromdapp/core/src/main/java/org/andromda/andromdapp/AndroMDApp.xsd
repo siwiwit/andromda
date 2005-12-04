@@ -67,6 +67,86 @@
             <xs:field xpath="@id"/>
         </xs:unique>
     </xs:element>
+    <xs:element name="conditionalOutput">
+        <xs:annotation>
+            <xs:documentation>
+                Defines the output that should be conditionally written.  If conditions
+                are specified, then those conditions must be met before the file will be written.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="conditions" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="condition" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name="id" type="xs:string">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                Specifies the identifier for a property in the template context, if unspecified the condition is assumed
+                                                to apply to the response of prompt its nested within.
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="equal" type="xs:string" use="optional">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                Specifies that the condition must be equal to the value defined by this attribute.
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="notEqual" type="xs:string" use="optional">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                Specifies that the condition must NOT be equal to the value defined by this attribute.
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="present" type="xs:boolean" use="optional">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                Specifies whether or not the condition id must not already be present in the template context.
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:attribute>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element ref="output" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                        <xs:attribute name="type" type="conditionsType" use="optional" default="and">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Represents the type of conditions and/o'.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="conditionsType">
+        <xs:annotation>
+            <xs:documentation> Stores the possible component names </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="and">
+                <xs:annotation>
+                    <xs:documentation>
+                        When the condition should be "anded" together".
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="or">
+                <xs:annotation>
+                    <xs:documentation>
+                       When the condition should be "ored" together.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+       </xs:restriction>
+    </xs:simpleType>
     <xs:element name="directories">
         <xs:annotation>
             <xs:documentation>
@@ -82,6 +162,7 @@
         </xs:complexType>
     </xs:element>
     <xs:element name="directory" type="xs:string"/>
+    <xs:element name="documentation" type="xs:anyType"/>
     <xs:element name="from" type="xs:string"/>
     <xs:element name="instructions" type="xs:string">
         <xs:annotation>
@@ -123,80 +204,6 @@
             </xs:simpleContent>
         </xs:complexType>
     </xs:element>
-    <xs:element name="conditionalOutput">
-        <xs:annotation>
-            <xs:documentation>
-                Defines the output that should be conditionally written.  If conditions
-                are specified, then those conditions must be met before the file will be written.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="conditions" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="condition" maxOccurs="unbounded">
-                                <xs:complexType>
-                                    <xs:attribute name="equal" type="xs:string" use="optional">
-                                        <xs:annotation>
-                                            <xs:documentation>
-                                                Specifies that the condition must be equal to the value defined by this attribute.
-                                            </xs:documentation>
-                                        </xs:annotation>
-                                    </xs:attribute>
-                                    <xs:attribute name="notEqual" type="xs:string" use="optional">
-                                        <xs:annotation>
-                                            <xs:documentation>
-                                                Specifies that the condition must NOT be equal to the value defined by this attribute.
-                                            </xs:documentation>
-                                        </xs:annotation>
-                                    </xs:attribute>
-                                    <xs:attribute name="id" type="xs:string">
-                                        <xs:annotation>
-                                            <xs:documentation>
-                                                Specifies the identifier for a property in the template context, if unspecified the condition is assumed
-                                                to apply to the response of prompt its nested within.
-                                            </xs:documentation>
-                                        </xs:annotation>
-                                    </xs:attribute>
-                                </xs:complexType>
-                            </xs:element>
-                            <xs:element ref="output" maxOccurs="unbounded"/>
-                        </xs:sequence>
-                        <xs:attribute name="type" type="conditionsType" use="optional" default="and">
-                            <xs:annotation>
-                                <xs:documentation>
-                                    Represents the type of conditions and/o'.
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:attribute>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:simpleType name="conditionsType">
-        <xs:annotation>
-            <xs:documentation> Stores the possible component names </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="and">
-                <xs:annotation>
-                    <xs:documentation>
-                        When the condition should be "anded" together".
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="or">
-                <xs:annotation>
-                    <xs:documentation>
-                       When the condition should be "ored" together.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-       </xs:restriction>
-    </xs:simpleType>
-    <xs:element name="documentation" type="xs:anyType"/>
     <xs:element name="macrolibrary">
         <xs:annotation>
             <xs:documentation>
@@ -242,14 +249,6 @@
                     <xs:documentation>
                         Whether or not the response should be set as a property in the template context with
                         a boolean value of <code>true</code>.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="active" type="xs:boolean" use="optional" default="true">
-                <xs:annotation>
-                    <xs:documentation>
-                        Whether or not this prompt is active; that is whether or not it should
-                        prompt for input.
                     </xs:documentation>
                 </xs:annotation>
             </xs:attribute>

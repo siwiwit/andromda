@@ -23,6 +23,11 @@
             <version>${version}</version>
         </dependency>
         <dependency>
+            <groupId>org.andromda.andromdapp.projects</groupId>
+            <artifactId>andromda-andromdapp-project-j2ee-maven2</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.andromda</groupId>
             <artifactId>andromda-core</artifactId>
             <version>${version}</version>
@@ -67,13 +72,6 @@
                 </includes>          
                 <filtering>true</filtering>   
                 <targetPath>META-INF/andromdapp</targetPath> 
-            </resource>
-            <resource>
-                <directory>${basedir}/../../../etc/mda/uml</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-                <targetPath>META-INF/andromdapp/j2ee/resources/mda/src/main/uml</targetPath> 
             </resource>
             <resource>
                 <directory>src/main/java</directory>

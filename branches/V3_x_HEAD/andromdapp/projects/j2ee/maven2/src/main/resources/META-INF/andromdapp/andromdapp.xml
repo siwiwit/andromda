@@ -1,6 +1,6 @@
 <andromdapp type="j2ee" root="$applicationId">
     <resourceLocations>
-        <location>META-INF/andromdapp/j2ee/resources</location>      
+        <location>templates/j2ee/maven2</location>      
     </resourceLocations>
     <conditionalOutput>
         <conditions>
@@ -11,6 +11,10 @@
             <condition id="webservice" equal="true"/>   
             <condition id="ear" equal="true"/>         
             <output patterns="**/*">webservice</output>  
+        </conditions>
+        <conditions>
+            <condition id="model" present="false"/>        
+            <output>mda/src/main/uml/${applicationId}.xmi.vsl</output>  
         </conditions>
     </conditionalOutput>
     <mappings>
@@ -33,6 +37,7 @@
     </mappings>
     <instructions>readme.txt</instructions>
     <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine" extensions="vsl"/>
+    <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
     <prompts>
         <promptGroup name="Basic Project Information">
             <documentation>
@@ -65,7 +70,6 @@
                     </condition>
                 </conditions>
             </prompt>
-            <prompt id="modelLocation" active="false"/>
         </promptGroup>
         <promptGroup name="Component Types">
             <documentation>

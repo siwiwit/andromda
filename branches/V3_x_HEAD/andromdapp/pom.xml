@@ -39,5 +39,6 @@
     </build>
     <modules>
         <module>core</module>
+        <module>projects</module>
     </modules>
 </project>

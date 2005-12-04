@@ -122,4 +122,29 @@ public class Condition
     {
         this.notEqual = notEqual;
     }
+    
+    /**
+     * The value of which the condition must be present.
+     */
+    private boolean present;
+
+    /**
+     * Whether or not the condition must be present.
+     *
+     * @return Returns the present.
+     */
+    public boolean isPresent()
+    {
+        return this.present;
+    }
+
+    /**
+     * Sets whether or not the condition must be present.
+     *
+     * @param present The present to set.
+     */
+    public void setPresent(final boolean present)
+    {
+        this.present = present;
+    }
 }

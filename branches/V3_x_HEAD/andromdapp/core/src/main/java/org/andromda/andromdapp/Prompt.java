@@ -64,32 +64,6 @@ public class Prompt
     }
 
     /**
-     * Whether or not this prompt is active.
-     */
-    private boolean active = true;
-
-    /**
-     * Indicates whether or not this prompt is required.
-     *
-     * @return true/false
-     */
-    public boolean isActive()
-    {
-        return this.active;
-    }
-
-    /**
-     * Sets whether or not this prompt is active,
-     * by default the prompt is <strong>active</strong>.
-     *
-     * @param required whether or not this prompt is active
-     */
-    public void setActive(final boolean active)
-    {
-        this.active = active;
-    }
-
-    /**
      * Stores the actual text of the prompt.
      */
     private String text;

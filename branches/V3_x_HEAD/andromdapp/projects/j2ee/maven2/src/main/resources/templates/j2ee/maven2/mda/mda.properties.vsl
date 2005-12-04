@@ -1,4 +1,8 @@
+#if ($stringUtils.isNotEmpty($model))
+maven.andromda.model.uri=$model
+#else
 maven.andromda.model.uri=file:${project.build.sourceDirectory}/${applicationId}.xmi
+#end
 
 filter=
 
