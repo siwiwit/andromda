@@ -36,7 +36,7 @@ public class AndroMDAppType
     /**
      * The velocity template context.
      */
-    private Map templateContext = null;
+    private final Map templateContext = new LinkedHashMap();
 
     /**
      * The namespace used to initialize the template engine.
@@ -58,7 +58,6 @@ public class AndroMDAppType
     {
         this.getTemplateEngine().setMergeLocation(TEMPORARY_MERGE_LOCATION);
         this.getTemplateEngine().initialize(NAMESPACE);
-        this.templateContext = new LinkedHashMap();
         if (this.configurations != null)
         {
             for (final Iterator iterator = this.configurations.iterator(); iterator.hasNext();)
@@ -133,7 +132,9 @@ public class AndroMDAppType
                     }
                     while (!prompt.isValidResponse(ObjectUtils.toString(response)));
                 }
-                this.setConditionalProperties(prompt.getConditions(), response);
+                this.setConditionalProperties(
+                    prompt.getConditions(),
+                    response);
                 if (prompt.isSetResponseAsTrue())
                 {
                     this.templateContext.put(
@@ -146,7 +147,7 @@ public class AndroMDAppType
             }
         }
     }
-    
+
     /**
      * Prompts the user for the information contained in the given
      * <code>prompt</code>.
@@ -168,7 +169,9 @@ public class AndroMDAppType
      * @param prompt the prompt from which to format the prompt text.
      * @return the response of the prompt.
      */
-    private void setConditionalProperties(final List conditions, final Object value)
+    private void setConditionalProperties(
+        final List conditions,
+        final Object value)
     {
         for (final Iterator iterator = conditions.iterator(); iterator.hasNext();)
         {
@@ -184,7 +187,6 @@ public class AndroMDAppType
                 this.setProperties(condition);
             }
         }
-
     }
 
     /**
@@ -608,7 +610,7 @@ public class AndroMDAppType
             {
                 this.printPromptText("Please enter the name for your application root directory: ");
                 String rootName;
-                do 
+                do
                 {
                     rootName = this.readLine();
                 }
@@ -890,5 +892,21 @@ public class AndroMDAppType
     public void addMapping(final Mapping mapping)
     {
         this.mappings.add(mapping);
+    }
+
+    /**
+     * Instantiates the template object with the given <code>className</code> and adds
+     * it to the current template context.
+     *
+     * @param name the name of the template variable.
+     * @param className the name of the class to instantiate.
+     */
+    public void addTemplateObject(
+        final String name,
+        final String className)
+    {
+        this.templateContext.put(
+            name,
+            ClassUtils.newInstance(className));
     }
 }

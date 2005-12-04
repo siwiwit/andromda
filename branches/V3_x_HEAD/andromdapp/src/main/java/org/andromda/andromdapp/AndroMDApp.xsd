@@ -13,6 +13,7 @@
                 <xs:element ref="mappings" minOccurs="0"/>
                 <xs:element ref="instructions" minOccurs="0"/>
                 <xs:element ref="templateEngine"/>
+                <xs:element ref="templateObject" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="prompts"/>
             </xs:sequence>
             <xs:attribute name="type" type="xs:string" use="required"/>
@@ -336,7 +337,6 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="templateLocations" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="macrolibrary" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="className" type="xs:string">
@@ -356,16 +356,27 @@
             </xs:attribute>
         </xs:complexType>
     </xs:element>
-    <xs:element name="templateLocations">
+    <xs:element name="templateObject">
         <xs:annotation>
             <xs:documentation>
-                Defines the location(s) of template files.
+                Used to add a helper object to the template context.
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="location"/>
-            </xs:sequence>
+             <xs:attribute name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The name under which the object is made available to the template context.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="className" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The implementation class name of the template object (must have a default constructor)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
     <xs:element name="text" type="xs:string"/>
