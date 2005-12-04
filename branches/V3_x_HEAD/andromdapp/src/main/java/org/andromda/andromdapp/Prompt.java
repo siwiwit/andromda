@@ -75,7 +75,11 @@ public class Prompt
      */
     public String getText()
     {
-        final StringBuffer text = new StringBuffer(this.text);
+        final StringBuffer text = new StringBuffer();
+        if (this.text != null)
+        {
+            text.append(this.text);
+        }
         if (!this.responses.isEmpty())
         {
             text.append(" " + this.getResponsesAsString());
