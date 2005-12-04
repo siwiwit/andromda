@@ -244,6 +244,14 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
+            <xs:attribute name="active" type="xs:boolean" use="optional" default="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        Whether or not this prompt is active; that is whether or not it should
+                        prompt for input.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
 	<xs:element name="promptGroup">

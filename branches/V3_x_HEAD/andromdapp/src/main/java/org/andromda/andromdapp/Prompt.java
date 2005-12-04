@@ -64,6 +64,32 @@ public class Prompt
     }
 
     /**
+     * Whether or not this prompt is active.
+     */
+    private boolean active = true;
+
+    /**
+     * Indicates whether or not this prompt is required.
+     *
+     * @return true/false
+     */
+    public boolean isActive()
+    {
+        return this.active;
+    }
+
+    /**
+     * Sets whether or not this prompt is active,
+     * by default the prompt is <strong>active</strong>.
+     *
+     * @param required whether or not this prompt is active
+     */
+    public void setActive(final boolean active)
+    {
+        this.active = active;
+    }
+
+    /**
      * Stores the actual text of the prompt.
      */
     private String text;
@@ -110,13 +136,11 @@ public class Prompt
      * @param type the full qualified type of the response (if undefined
      *        the type is left as a string).
      */
-    public void addResponse(
-        final String response)
+    public void addResponse(final String response)
     {
         if (response != null && response.trim().length() > 0)
         {
-            this.responses.add(
-                response.trim());
+            this.responses.add(response.trim());
         }
     }
 
@@ -147,16 +171,16 @@ public class Prompt
             response,
             this.responseType);
     }
-    
+
     /**
      * Stores the response type.
      */
     private String responseType;
-    
+
     /**
      * Sets the response type to use (i.e the fully qualified name of the
      * type to which it should be converted when placed into the the template context).
-     * 
+     *
      * @param responseType the fully qualified response type name.
      */
     public void setResponseType(final String responseType)

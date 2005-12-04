@@ -65,6 +65,7 @@
                     </condition>
                 </conditions>
             </prompt>
+            <prompt id="modelLocation" active="false"/>
         </promptGroup>
         <promptGroup name="Component Types">
             <documentation>

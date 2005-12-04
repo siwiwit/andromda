@@ -95,7 +95,7 @@ public class AndroMDAppType
      */
     private void promptUser()
     {
-        for (final Iterator iterator = this.prompts.iterator(); iterator.hasNext();)
+        for (final Iterator iterator = this.getPrompts().iterator(); iterator.hasNext();)
         {
             final Prompt prompt = (Prompt)iterator.next();
             final String id = prompt.getId();
@@ -124,8 +124,8 @@ public class AndroMDAppType
             {
                 Object response = this.templateContext.get(id);
 
-                // - only prompt when the id isn't already in the context
-                if (response == null)
+                // - only prompt when active and the id isn't already in the context
+                if (prompt.isActive() && response == null)
                 {
                     do
                     {

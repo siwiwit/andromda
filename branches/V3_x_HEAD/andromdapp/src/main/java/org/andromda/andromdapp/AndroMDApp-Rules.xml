@@ -69,6 +69,7 @@
             <set-properties-rule>
                 <alias attr-name="id" prop-name="id"/>
                 <alias attr-name="required" prop-name="required"/>
+                <alias attr-name="active" prop-name="active"/>
                 <alias attr-name="setResponseAsTrue" prop-name="setResponseAsTrue"/>
             </set-properties-rule>
             <pattern value="text">
