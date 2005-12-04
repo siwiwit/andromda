@@ -1,6 +1,7 @@
 package org.andromda.maven.plugin.mavenexecute;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -44,7 +45,7 @@ public class MavenExecuteMojo
      * @parameter expression="${component.org.apache.maven.lifecycle.LifecycleExecutor}"
      */
     private LifecycleExecutor lifecycleExecutor;
-    
+
     /**
      * @parameter expression="${project}"
      * @required
@@ -78,7 +79,7 @@ public class MavenExecuteMojo
                 final ReactorManager reactorManager = new ReactorManager(projects);
                 if (projects.size() > 1)
                 {
-                    this.getLog().info("Reactor build order:");                    
+                    this.getLog().info("Reactor build order:");
                 }
                 for (final Iterator iterator = reactorManager.getSortedProjects().iterator(); iterator.hasNext();)
                 {
@@ -177,25 +178,18 @@ public class MavenExecuteMojo
      */
     private List getPoms()
     {
-        DirectoryScanner scanner = new DirectoryScanner();
-
+        final DirectoryScanner scanner = new DirectoryScanner();
         scanner.setBasedir(this.baseDirectory);
-
         scanner.setIncludes(includes);
-
         scanner.setExcludes(excludes);
-
         scanner.scan();
-
-        List poms = new ArrayList();
-
-        for (int i = 0; i < scanner.getIncludedFiles().length; i++)
+        final List poms = new ArrayList();
+        for (int ctr = 0; ctr < scanner.getIncludedFiles().length; ctr++)
         {
             poms.add(new File(
                     this.baseDirectory,
-                    scanner.getIncludedFiles()[i]));
+                    scanner.getIncludedFiles()[ctr]));
         }
-
         return poms;
     }
 }
