@@ -18,8 +18,8 @@
     <inceptionYear>2005</inceptionYear>
     <dependencies>
         <dependency>
-            <groupId>org.andromda</groupId>
-            <artifactId>andromda-andromdapp</artifactId>
+            <groupId>org.andromda.andromdapp</groupId>
+            <artifactId>andromda-andromdapp-core</artifactId>
             <version>${version}</version>
         </dependency>
         <dependency>
