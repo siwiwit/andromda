@@ -60,6 +60,12 @@ public abstract class AbstractConfigurationMojo
         return configuration;
     }
 
+    /**
+     * Collects and returns all properties as a Properties instance.
+     * 
+     * @return the properties including those from the project, settings, etc.
+     * @throws IOException
+     */
     protected Properties getProperties()
         throws IOException
     {
