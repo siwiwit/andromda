@@ -279,8 +279,9 @@ public class AndroMDAppType
         // - all resources that have been processed.
         final List processedResources = new ArrayList();
         final File rootDirectory = this.verifyRootDirectory(new File(this.getRoot()));
+        final String bannerStart = write ? "G e n e r a t i n g" : "R e m o v i n g";
         this.printLine();
-        this.printText(MARGIN + "G e n e r a t i n g   A n d r o M D A   P o w e r e d   A p p l i c a t i o n");
+        this.printText(MARGIN + bannerStart + "   A n d r o M D A   P o w e r e d   A p p l i c a t i o n");
         this.printLine();
         rootDirectory.mkdirs();
 

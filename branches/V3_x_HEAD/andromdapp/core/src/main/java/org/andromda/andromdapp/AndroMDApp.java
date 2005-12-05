@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -191,7 +192,7 @@ public class AndroMDApp
             for (final Iterator iterator = list.iterator(); iterator.hasNext();)
             {
                 final File file = (File)iterator.next();
-                AndroMDALogger.info("Removing: '" + file.toURL() + "'");
+                this.deleteFile(file);
             }
         }
         catch (final Throwable throwable)
@@ -202,6 +203,29 @@ public class AndroMDApp
             }
             throw new AndroMDAppException(throwable);
         }      
+    }
+    
+    /**
+     * Deletes the given file and any empty parent directories
+     * that the file might be contained within.
+     * 
+     * @param file the file to remove.
+     * @throws MalformedURLException 
+     */
+    private void deleteFile(final File file) throws MalformedURLException
+    {
+        if (file != null && file.exists())
+        {
+            final File[] children = file.listFiles();
+            if (children == null || children.length == 0)
+            {
+                if (file.delete())
+                {
+                    AndroMDALogger.info("Removed: '" + file.toURL() + "'");
+                }
+                this.deleteFile(file.getParentFile());
+            }
+        }
     }
 
     /**
