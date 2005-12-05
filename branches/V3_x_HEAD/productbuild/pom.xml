@@ -137,7 +137,16 @@
             </roles>
             <timezone>6</timezone>
         </developer>
-
+        <developer>
+            <id>joelkoz</id>
+            <name>Joel Kozikowski</name>
+            <email>joel@andromda.org</email>
+            <organization>AndroMDA</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
     </developers>
     <!--
     <licenses>
