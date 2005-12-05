@@ -115,6 +115,16 @@ public abstract class AbstractConfigurationMojo
     }
     
     /**
+     * The begin token for interpolation.
+     */
+    private static final String BEGIN_TOKEN = "${";
+    
+    /**
+     * The end token for interpolation.
+     */
+    private static final String END_TOKEN = "}";
+    
+    /**
      * Replaces all properties having the style
      * <code>${some.property}</code> with the value
      * of the specified property if there is one.
@@ -130,13 +140,13 @@ public abstract class AbstractConfigurationMojo
         reader = new InterpolationFilterReader(
                 reader,
                 new BeanProperties(this.getProject()),
-                "${",
-                "}");
+                BEGIN_TOKEN,
+                END_TOKEN);
         reader = new InterpolationFilterReader(
                 reader,
                 new BeanProperties(this.getSettings()),
-                "${",
-                "}");
+                BEGIN_TOKEN,
+                END_TOKEN);
         return ResourceUtils.getContents(reader);
     }
 
