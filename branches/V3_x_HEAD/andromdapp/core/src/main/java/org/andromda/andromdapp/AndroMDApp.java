@@ -126,6 +126,20 @@ public class AndroMDApp
             this.configurations.add(factory.getObject(ResourceUtils.toURL(configurationUri)));
         }
     }
+    
+    /**
+     * Adds the configuration contents stored as a String.
+     *
+     * @param configuration the configuration contents as a string.
+     */
+    public void addConfiguration(final String configuration)
+    {
+        if (configuration != null && configuration.trim().length() > 0)
+        {
+            final XmlObjectFactory factory = XmlObjectFactory.getInstance(Configuration.class);
+            this.configurations.add(factory.getObject(configuration));
+        }        
+    }
 
     /**
      * Prompts the user to choose the type of application, and then runs that AndroMDAppType.
