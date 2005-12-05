@@ -42,6 +42,7 @@ public class AndroMDAppMojo
             }
             andromdapp.addConfigurationUri(internalConfiguration.toString());
             final String configuration = this.getConfigurationContents();
+            System.out.println("configuration: " + configuration);
             if (configuration != null)
             {
                 andromdapp.addConfiguration(this.getConfigurationContents());

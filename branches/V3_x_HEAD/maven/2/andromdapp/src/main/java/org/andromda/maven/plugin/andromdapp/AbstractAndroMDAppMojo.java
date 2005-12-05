@@ -136,6 +136,17 @@ public abstract class AbstractAndroMDAppMojo
     }
     
     /**
+     * The begin token for interpolation (we need it different 
+     * than what Maven uses so that Maven variables aren't replace).
+     */
+    private static final String BEGIN_TOKEN = "$${";
+    
+    /**
+     * The end token for interpolation.
+     */
+    private static final String END_TOKEN = "}";
+    
+    /**
      * Replaces all properties having the style
      * <code>${some.property}</code> with the value
      * of the specified property if there is one.
@@ -151,13 +162,13 @@ public abstract class AbstractAndroMDAppMojo
         reader = new InterpolationFilterReader(
                 reader,
                 new BeanProperties(this.project),
-                "${",
-                "}");
+                BEGIN_TOKEN,
+                END_TOKEN);
         reader = new InterpolationFilterReader(
                 reader,
                 new BeanProperties(this.project),
-                "${",
-                "}");
+                BEGIN_TOKEN,
+                END_TOKEN);
         return ResourceUtils.getContents(reader);
     }
 
