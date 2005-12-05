@@ -60,14 +60,18 @@
             <artifactId>andromda-jsf-cartridge</artifactId>
         </dependency>
 #end
+#if ($spring)
         <dependency>
             <groupId>org.andromda.translationlibraries</groupId>
             <artifactId>andromda-ocl-validation-library</artifactId>
         </dependency>
+#end
+#if (!$transactionPersistenceType.equals("none"))
         <dependency>
             <groupId>org.andromda.translationlibraries</groupId>
             <artifactId>andromda-ocl-query-library</artifactId>
         </dependency>
+#end
     </dependencies>
     <build>
         <sourceDirectory>src/main/uml</sourceDirectory>

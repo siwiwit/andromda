@@ -149,12 +149,14 @@
                 </exclusions>
             </dependency>
 #end
+#if (!$transactionPersistenceType.equals("none"))
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-query-library</artifactId>
                 <version>$andromdaVersion</version>
                 <scope>runtime</scope>
             </dependency>
+#end
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
@@ -489,7 +491,9 @@
     <modules>
         <module>mda</module>
         <module>common</module>
+#if (!$transactionPersistenceType.equals("none"))
         <module>core</module>
+#end
         <module>web</module>
 #if ($webservice && $ear)
         <module>webservice</module>
