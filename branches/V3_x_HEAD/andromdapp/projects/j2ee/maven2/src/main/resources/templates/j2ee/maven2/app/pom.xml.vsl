@@ -48,12 +48,14 @@
             <artifactId>${applicationId}-common</artifactId>
             <version>${version}</version>            
         </dependency>
+#if (!$transactionPersistenceType.equals("none"))
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-core</artifactId>
             <version>${version}</version>  
             <type>ejb</type>          
         </dependency>
+#end
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-web</artifactId>
@@ -92,10 +94,12 @@
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-common</artifactId>
                         </javaModule>
+#if (!$transactionPersistenceType.equals("none"))
                         <ejbModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-core</artifactId>
                         </ejbModule>
+#end
                         <webModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-web</artifactId>

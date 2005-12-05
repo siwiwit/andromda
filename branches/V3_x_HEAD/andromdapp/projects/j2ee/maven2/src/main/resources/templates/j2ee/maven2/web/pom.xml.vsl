@@ -21,6 +21,7 @@
             <scope>compile</scope>
 #end
         </dependency>
+#if (!$transactionPersistenceType.equals("none"))
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-core</artifactId>
@@ -32,6 +33,7 @@
             <scope>compile</scope>
 #end
        </dependency>
+#end
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
