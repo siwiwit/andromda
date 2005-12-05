@@ -1,4 +1,4 @@
-<andromdapp type="j2ee" root="$applicationId">
+<andromdapp type="j2ee" root="$applicationParentDirectory/$applicationId">
     <resourceLocations>
         <location>templates/j2ee/maven2</location>      
     </resourceLocations>
@@ -47,6 +47,9 @@
             <documentation>
                 Provides the basic project information.
             </documentation>
+            <prompt id="applicationParentDirectory">
+                <text>Please enter the location in which your new application will be created (i.e. f:/java/development)</text>
+            </prompt>
             <prompt id="author">
                 <text>Please enter your first and last last name (i.e. Chad Brandon)</text>
             </prompt>
