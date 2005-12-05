@@ -90,6 +90,11 @@
                         </goals>
                     </execution>
                 </executions>
+#if ($stringUtils.isNotBlank($configurationUri))
+                <configuration>
+                    <configurationUri>$configurationUri</configurationUri>
+                </configuration>
+#end
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -17,6 +17,10 @@
             <output>mda/src/main/uml/${applicationId}.xmi.vsl</output>  
         </conditions>
         <conditions>
+            <condition id="configurationUri" present="false"/>        
+            <output>mda/conf/andromda.xml</output>  
+        </conditions>
+        <conditions>
             <condition id="transactionPersistenceType" notEqual="none"/>        
             <output patterns="**/*">core</output>    
         </conditions>
