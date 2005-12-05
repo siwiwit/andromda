@@ -127,6 +127,17 @@
             </roles>
             <timezone>-5</timezone>
         </developer>
+        <developer>
+            <id>stjerman</id>
+            <name>Steve Jerman</name>
+            <email>sjerman@users.sourceforge.net</email>
+            <organization>AndroMDA</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>6</timezone>
+        </developer>
+
     </developers>
     <!--
     <licenses>
