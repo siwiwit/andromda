@@ -16,6 +16,10 @@
             <condition id="model" present="false"/>        
             <output>mda/src/main/uml/${applicationId}.xmi.vsl</output>  
         </conditions>
+        <conditions>
+            <condition id="transactionPersistenceType" notEqual="none"/>        
+            <output patterns="**/*">core</output>    
+        </conditions>
     </conditionalOutput>
     <mappings>
         <mapping>
@@ -81,6 +85,7 @@
                     <response>hibernate</response>
                     <response>ejb</response>
                     <response>spring</response>
+                    <response>none</response>
                 </responses>
             </prompt>
             <prompt id="workflow">
@@ -97,6 +102,10 @@
             </prompt>
             <prompt id="hibernateVersion">
                 <text>Please enter the hibernate version number  (enter '2' for 2.1.x or '3' for 3.0.x)</text>
+                <preconditions type="or">
+                    <condition id="transactionPersistenceType" equal="spring"/>
+                    <condition id="transactionPersistenceType" equal="hibernate"/>
+                </preconditions>
                 <responses>
                     <response>2</response>
                     <response>3</response>

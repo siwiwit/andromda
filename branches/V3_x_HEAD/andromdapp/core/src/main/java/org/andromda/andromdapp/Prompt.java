@@ -214,13 +214,13 @@ public class Prompt
     private List preconditions = new ArrayList();
 
     /**
-     * Adds a precondition to this prompt.
+     * Adds preconditions to this prompt.
      *
-     * @param precondition the precondition to add.
+     * @param preconditions the preconditions to add.
      */
-    public void addPrecondition(final Condition precondition)
+    public void addPreconditions(final Conditions preconditions)
     {
-        this.preconditions.add(precondition);
+        this.preconditions.add(preconditions);
     }
 
     /**

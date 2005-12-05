@@ -244,9 +244,9 @@ public class Prompt
      *
      * @param precondition the precondition to add.
      */
-    public void addPrecondition(final Condition precondition)
+    public void addPrecondition(final Conditions preconditions)
     {
-        this.preconditions.add(precondition);
+        this.preconditions.add(preconditions);
     }
 
     /**

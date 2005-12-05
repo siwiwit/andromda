@@ -122,22 +122,12 @@ public class Condition
     {
         this.notEqual = notEqual;
     }
-    
+
     /**
      * The value of which the condition must be present.
      */
-    private boolean present;
-
-    /**
-     * Whether or not the condition must be present.
-     *
-     * @return Returns the present.
-     */
-    public boolean isPresent()
-    {
-        return this.present;
-    }
-
+    private Boolean present;
+    
     /**
      * Sets whether or not the condition must be present.
      *
@@ -145,6 +135,50 @@ public class Condition
      */
     public void setPresent(final boolean present)
     {
-        this.present = present;
+        this.present = Boolean.valueOf(present);
+    }
+
+    /**
+     * Evalutes whether or not the value is valid according to this condition.
+     *
+     * @param value the value to evaluate.
+     * @return true/false
+     */
+    public boolean evaluate(Object value)
+    {
+        boolean valid = true;
+        if (this.present != null)
+        {
+            // - if the condition must be present, very that it is
+            if (this.present.booleanValue())
+            {
+                valid = value != null;
+            }
+            else if (!this.present.booleanValue())
+            {
+                // - otherwise verify that the condition is not present (if it shouldn't be)
+                valid = value == null;
+            }
+        }
+        if (valid)
+        {
+            final String equal = this.getEqual();
+            final String notEqual = this.getNotEqual();
+            final boolean equalConditionPresent = equal != null;
+            final boolean notEqualConditionPresent = notEqual != null;
+            value = String.valueOf(value);
+            if (equalConditionPresent || notEqualConditionPresent)
+            {
+                if (equalConditionPresent)
+                {
+                    valid = equal.equals(value);
+                }
+                else if (notEqualConditionPresent)
+                {
+                    valid = !notEqual.equals(value);
+                }
+            }
+        }
+        return valid;
     }
 }

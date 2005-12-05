@@ -1,11 +1,10 @@
 package org.andromda.andromdapp;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -35,7 +34,7 @@ public class AndroMDApp
         {
             AndroMDALogger.initialize();
             this.initialize();
-            this.chooseTypeAndRun();
+            this.chooseTypeAndRun(true);
         }
         catch (final Throwable throwable)
         {
@@ -131,7 +130,7 @@ public class AndroMDApp
      * Prompts the user to choose the type of application, and then runs that AndroMDAppType.
      * @throws Exception
      */
-    private void chooseTypeAndRun()
+    private List chooseTypeAndRun(boolean write)
         throws Exception
     {
         AndroMDAppType andromdapp = null;
@@ -176,7 +175,33 @@ public class AndroMDApp
         andromdapp = (AndroMDAppType)factory.getObject(contents);
         andromdapp.setConfigurations(this.configurations);
         andromdapp.addToTemplateContext(templateContext);
-        andromdapp.processResources();
+        return andromdapp.processResources(write);
+    }
+    
+    /**
+     * Removes all structure generated from the previous run.
+     */
+    public void clean()
+    {
+        try
+        {
+            AndroMDALogger.initialize();
+            this.initialize();
+            final List list = this.chooseTypeAndRun(false);
+            for (final Iterator iterator = list.iterator(); iterator.hasNext();)
+            {
+                final File file = (File)iterator.next();
+                AndroMDALogger.info("Removing: '" + file.toURL() + "'");
+            }
+        }
+        catch (final Throwable throwable)
+        {
+            if (throwable instanceof AndroMDAppException)
+            {
+                throw (AndroMDAppException)throwable;
+            }
+            throw new AndroMDAppException(throwable);
+        }      
     }
 
     /**

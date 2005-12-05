@@ -117,7 +117,7 @@
                         <xs:attribute name="type" type="conditionsType" use="optional" default="and">
                             <xs:annotation>
                                 <xs:documentation>
-                                    Represents the type of conditions and/o'.
+                                    Represents the type of conditions and/or.
                                 </xs:documentation>
                             </xs:annotation>
                         </xs:attribute>
@@ -219,6 +219,13 @@
             <xs:sequence>
                 <xs:element ref="condition" maxOccurs="unbounded"/>
             </xs:sequence>
+            <xs:attribute name="type" type="conditionsType" use="optional" default="and">
+                <xs:annotation>
+                    <xs:documentation>
+                        Represents the type of conditions and/or.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
     <xs:element name="prompt">

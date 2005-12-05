@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 
 import java.net.URL;
- 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -69,11 +69,12 @@ public class AndroMDAppType
      * Prompts the user for the input required to generate an application with
      * the correct information and returns the descriptor contents after being interpolated by all
      * properties in the template context.
-     * 
+     *
      * @return the results of the interpolated descriptor.
-     * @throws Exception 
+     * @throws Exception
      */
-    protected String promptUser() throws Exception
+    protected String promptUser()
+        throws Exception
     {
         for (final Iterator iterator = this.getPrompts().iterator(); iterator.hasNext();)
         {
@@ -81,22 +82,33 @@ public class AndroMDAppType
             final String id = prompt.getId();
 
             boolean validPreconditions = true;
-            for (final Iterator preconditionIterator = prompt.getPreconditions().iterator();
-                preconditionIterator.hasNext();)
+            for (final Iterator preconditionsIterator = prompt.getPreconditions().iterator();
+                preconditionsIterator.hasNext();)
             {
-                final Condition precondition = (Condition)preconditionIterator.next();
-                final String value = ObjectUtils.toString(this.templateContext.get(precondition.getId()));
-                final String equalCondition = precondition.getEqual();
-                if (equalCondition != null && !equalCondition.equals(value))
+                final Conditions preconditions = (Conditions)preconditionsIterator.next();
+                final String conditionsType = preconditions.getType();
+                for (final Iterator conditionIterator = preconditions.getConditions().iterator();
+                    conditionIterator.hasNext();)
                 {
-                    validPreconditions = false;
-                    break;
-                }
-                final String notEqualCondition = precondition.getNotEqual();
-                if (notEqualCondition != null && notEqualCondition.equals(value))
-                {
-                    validPreconditions = false;
-                    break;
+                    final Condition precondition = (Condition)conditionIterator.next();
+                    validPreconditions = precondition.evaluate(this.templateContext.get(precondition.getId()));
+
+                    // - if we're 'anding' the conditions, we break at the first false
+                    if (Conditions.TYPE_AND.equals(conditionsType))
+                    {
+                        if (!validPreconditions)
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        // otherwise we break at the first true condition
+                        if (validPreconditions)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -127,7 +139,9 @@ public class AndroMDAppType
                     prompt.getResponse(response));
             }
         }
-        return this.getTemplateEngine().getEvaluatedExpression(ResourceUtils.getContents(this.resource), this.templateContext);
+        return this.getTemplateEngine().getEvaluatedExpression(
+            ResourceUtils.getContents(this.resource),
+            this.templateContext);
     }
 
     /**
@@ -216,9 +230,10 @@ public class AndroMDAppType
      * Gets the template that that will process the templates.
      *
      * @return the template engine instance.
-     * @throws Exception 
+     * @throws Exception
      */
-    private TemplateEngine getTemplateEngine() throws Exception
+    private TemplateEngine getTemplateEngine()
+        throws Exception
     {
         if (this.templateEngine == null)
         {
@@ -255,13 +270,15 @@ public class AndroMDAppType
     /**
      * Processes the files for the project.
      *
+     * @param write whether or not the resources should be written when collected.
      * @throws Exception
      */
-    protected void processResources()
+    protected List processResources(boolean write)
         throws Exception
     {
-        final File rootDirectory =
-            this.verifyRootDirectory(new File(this.getRoot()));
+        // - all resources that have been processed.
+        final List processedResources = new ArrayList();
+        final File rootDirectory = this.verifyRootDirectory(new File(this.getRoot()));
         this.printLine();
         this.printText(MARGIN + "G e n e r a t i n g   A n d r o M D A   P o w e r e d   A p p l i c a t i o n");
         this.printLine();
@@ -345,24 +362,28 @@ public class AndroMDAppType
                                 new File(
                                     rootDirectory.getAbsolutePath(),
                                     this.trimTemplateExtension(projectRelativePath));
-                            final StringWriter writer = new StringWriter();
-                            try
+                            if (write)
                             {
-                                this.getTemplateEngine().processTemplate(
-                                    path,
-                                    this.templateContext,
-                                    writer);
+                                final StringWriter writer = new StringWriter();
+                                try
+                                {
+                                    this.getTemplateEngine().processTemplate(
+                                        path,
+                                        this.templateContext,
+                                        writer);
+                                }
+                                catch (final Throwable throwable)
+                                {
+                                    throw new AndroMDAppException("An error occured while processing template --> '" +
+                                        path + "' with template context '" + this.templateContext + "'", throwable);
+                                }
+                                writer.flush();
+                                this.printText(MARGIN + "Output: '" + outputFile.toURL() + "'");
+                                ResourceWriter.instance().writeStringToFile(
+                                    writer.toString(),
+                                    outputFile);
                             }
-                            catch (final Throwable throwable)
-                            {
-                                throw new AndroMDAppException("An error occured while processing template --> '" +
-                                    path + "' with template context '" + this.templateContext + "'", throwable);
-                            }
-                            writer.flush();
-                            ResourceWriter.instance().writeStringToFile(
-                                writer.toString(),
-                                outputFile);
-                            this.printText(MARGIN + "Output: '" + outputFile.toURL() + "'");
+                            processedResources.add(outputFile);
                         }
                         else if (!path.endsWith(FORWARD_SLASH))
                         {
@@ -380,10 +401,14 @@ public class AndroMDAppType
                             }
                             if (resource != null)
                             {
-                                ResourceWriter.instance().writeUrlToFile(
-                                    resource,
-                                    outputFile.toString());
-                                this.printText(MARGIN + "Output: '" + outputFile.toURL() + "'");
+                                if (write)
+                                {
+                                    ResourceWriter.instance().writeUrlToFile(
+                                        resource,
+                                        outputFile.toString());
+                                    this.printText(MARGIN + "Output: '" + outputFile.toURL() + "'");
+                                }
+                                processedResources.add(outputFile);
                             }
                         }
                     }
@@ -403,24 +428,27 @@ public class AndroMDAppType
             }
         }
 
-        // - write the "instructions can be found" information
-        this.printLine();
-        this.printText(MARGIN + "New application generated to --> '" + rootDirectory.toURL() + "'");
-        if (this.instructions != null && this.instructions.trim().length() > 0)
+        if (write)
         {
-            File instructions = new File(
-                    rootDirectory.getAbsolutePath(),
-                    this.instructions);
-            if (!instructions.exists())
+            // - write the "instructions can be found" information
+            this.printLine();
+            this.printText(MARGIN + "New application generated to --> '" + rootDirectory.toURL() + "'");
+            if (this.instructions != null && this.instructions.trim().length() > 0)
             {
-                throw new AndroMDAppException("No instructions are available at --> '" + instructions +
-                    "', please make sure you have the correct instructions defined in your descriptor --> '" +
-                    this.resource + "'");
+                File instructions = new File(
+                        rootDirectory.getAbsolutePath(),
+                        this.instructions);
+                if (!instructions.exists())
+                {
+                    throw new AndroMDAppException("No instructions are available at --> '" + instructions +
+                        "', please make sure you have the correct instructions defined in your descriptor --> '" +
+                        this.resource + "'");
+                }
+                this.printText(MARGIN + "Instructions for your new application --> '" + instructions.toURL() + "'");
             }
-            this.printText(MARGIN + "Instructions for your new application --> '" + instructions.toURL() + "'");
+            this.printLine();
         }
-
-        this.printLine();
+        return processedResources;
     }
 
     /**
@@ -464,56 +492,22 @@ public class AndroMDAppType
                             final String id = condition.getId();
                             if (id != null && id.trim().length() > 0)
                             {
-                                final Object value = this.templateContext.get(id);
+                                writable = condition.evaluate(this.templateContext.get(id));
 
-                                // - if the condition must be present, very that it is
-                                if (condition.isPresent())
+                                // - if we're 'anding' the conditions, we break at the first false
+                                if (Conditions.TYPE_AND.equals(conditionsType))
                                 {
-                                    writable = value != null;
                                     if (!writable)
                                     {
                                         break;
                                     }
                                 }
-                                else if (!condition.isPresent())
+                                else
                                 {
-                                    // - otherwise verify that the condition is not present (if it shouldn't be)
-                                    writable = value == null;
-                                    if (!writable)
+                                    // otherwise we break at the first true condition
+                                    if (writable)
                                     {
                                         break;
-                                    }
-                                }
-                                final String equal = condition.getEqual();
-                                final String notEqual = condition.getNotEqual();
-                                final boolean equalConditionPresent = equal != null;
-                                final boolean notEqualConditionPresent = notEqual != null;
-                                if (equalConditionPresent || notEqualConditionPresent)
-                                {
-                                    if (equalConditionPresent)
-                                    {
-                                        writable = equal.equals(value);
-                                    }
-                                    else if (notEqualConditionPresent)
-                                    {
-                                        writable = !notEqual.equals(value);
-                                    }
-
-                                    // - if we're 'anding' the conditions, we break at the first false
-                                    if (Conditions.TYPE_AND.equals(conditionsType))
-                                    {
-                                        if (!writable)
-                                        {
-                                            break;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // otherwise we break at the first true condition
-                                        if (writable)
-                                        {
-                                            break;
-                                        }
                                     }
                                 }
                             }
@@ -878,10 +872,10 @@ public class AndroMDAppType
     {
         this.resource = resource;
     }
-    
+
     /**
      * Gets the resource that configured this instance.
-     * 
+     *
      * @return the resource.
      */
     final URL getResource()
@@ -903,20 +897,20 @@ public class AndroMDAppType
     {
         this.mappings.add(mapping);
     }
-    
+
     /**
      * Adds the given map of properties to the current template context.
-     * 
+     *
      * @param map the map of properties.
      */
     final void addToTemplateContext(final Map map)
     {
         this.templateContext.putAll(map);
     }
-    
+
     /**
      * Gets the current template context for this instance.
-     * 
+     *
      * @return the template context.
      */
     final Map getTemplateContext()

@@ -81,14 +81,22 @@
                 <call-method-rule methodname="setText" paramcount="1" paramtypes="java.lang.String"/>
                 <call-param-rule paramnumber="0"/>
             </pattern>
-            <pattern value="preconditions/condition">
-                <object-create-rule classname="org.andromda.andromdapp.Condition"/>
+            <pattern value="preconditions">
+                <object-create-rule classname="org.andromda.andromdapp.Conditions"/>
                 <set-properties-rule>
-                    <alias attr-name="id" prop-name="id"/>
-                    <alias attr-name="equal" prop-name="equal"/>
-                    <alias attr-name="notEqual" prop-name="equal"/>
+                    <alias attr-name="type" prop-name="type"/>
                 </set-properties-rule>
-                <set-next-rule methodname="addPrecondition" />
+                <pattern value="condition">
+                    <object-create-rule classname="org.andromda.andromdapp.Condition"/>
+                    <set-properties-rule>
+                        <alias attr-name="id" prop-name="id"/>
+                        <alias attr-name="equal" prop-name="equal"/>
+                        <alias attr-name="notEqual" prop-name="notEqual"/>
+                        <alias attr-name="present" prop-name="present"/>
+                    </set-properties-rule>
+                    <set-next-rule methodname="addCondition"/>                
+                </pattern>
+                <set-next-rule methodname="addPreconditions"/>
             </pattern>
             <pattern value="responses">
                 <set-properties-rule>
