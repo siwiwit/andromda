@@ -1,7 +1,9 @@
 package org.andromda.maven.plugin.andromdapp;
 
+import java.io.BufferedReader;
 import java.io.File;
-
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,17 +24,16 @@ import org.apache.maven.profiles.DefaultProfileManager;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectBuilder;
 import org.apache.maven.project.ProjectBuildingException;
-import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.codehaus.plexus.util.dag.CycleDetectedException;
 
 
 /**
- * A Mojo used for execution modules within a given project.
+ * A Mojo used for executing the build goals from the top level project.
  *
- * @goal module
+ * @goal build
  * @author Chad Brandon
  */
-public class ModuleMojo
+public class BuildMojo
     extends AbstractMojo
 {
     /**
@@ -61,11 +62,37 @@ public class ModuleMojo
     private String modules;
 
     /**
+     * @parameter expression="${project}"
+     * @required
+     * @readonly
+     */
+    private MavenProject project;
+
+    /**
+     * If defined starts the build console (i.e. keeps maven loaded and running)
+     *
+     * @parameter expression="${console}"
+     */
+    private String startConsole;
+
+    /**
      * The default module goals to execute.
      *
      * @parameter
      */
     private List goals = new ArrayList(Arrays.asList(new String[] {"install"}));
+
+    /**
+     * The string used to quite the console;
+     */
+    private static final String EXIT = "exit";
+
+    /**
+     * Used to contruct Maven project instances from POMs.
+     *
+     * @component
+     */
+    private MavenProjectBuilder projectBuilder;
 
     /**
      * @see org.apache.maven.plugin.Mojo#execute()
@@ -75,7 +102,31 @@ public class ModuleMojo
     {
         try
         {
-            executeModules();
+            if (this.startConsole != null)
+            {
+                this.printLine();
+                do
+                {
+                    this.printConsolePrompt();
+                    String modules = this.readLine();
+                    try
+                    {
+                        if (this.executeModules(modules))
+                        {
+                            this.printLine();                            
+                        }
+                    }
+                    catch (final Throwable throwable)
+                    {
+                        throwable.printStackTrace();
+                    }
+                }
+                while (!EXIT.equals(modules));
+            }
+            else
+            {
+                this.executeModules(this.modules);
+            }
         }
         catch (final Throwable throwable)
         {
@@ -83,13 +134,75 @@ public class ModuleMojo
         }
     }
 
-    private void executeModules()
+    /**
+     * Prints the prompt for the console
+     */
+    private void printConsolePrompt()
+    {
+        if (this.project != null)
+        {
+            this.printText("");
+            this.printText(this.project.getArtifactId() + " " + this.project.getVersion() + ">");
+        }
+    }
+
+    /**
+     * Prints text to the console.
+     *
+     * @param text the text to print to the console;
+     */
+    private void printText(final String text)
+    {
+        System.out.print(text);
+        System.out.flush();
+    }
+
+    /**
+     * Prints a line to standard output.
+     */
+    private void printLine()
+    {
+        System.out.println();
+    }
+
+    /**
+     * Reads a line from standard input and returns the value.
+     *
+     * @return the value read from standard input.
+     */
+    private String readLine()
+    {
+        final BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+        String inputString = null;
+        try
+        {
+            inputString = input.readLine();
+        }
+        catch (final IOException exception)
+        {
+            inputString = null;
+        }
+        return inputString == null || inputString.trim().length() == 0 ? null : inputString;
+    }
+
+    /**
+     * Creates all project modules and executes them.
+     *
+     * @param The list of modules to execute.
+     * @throws CycleDetectedException
+     * @throws LifecycleExecutionException
+     * @throws MojoExecutionException
+     * @throws BuildFailureException
+     * @return true/false on whether or not any modules were executed
+     */
+    private boolean executeModules(final String modules)
         throws CycleDetectedException, LifecycleExecutionException, MojoExecutionException, BuildFailureException
     {
-        final Map projects = this.collectProjects();
+        final Map projects = this.collectProjects(modules);
 
+        boolean executed = !projects.isEmpty();
         // - only execute if we have some projects
-        if (!projects.isEmpty())
+        if (executed)
         {
             for (final Iterator iterator = projects.keySet().iterator(); iterator.hasNext();)
             {
@@ -119,6 +232,7 @@ public class ModuleMojo
                     projectSession.getEventDispatcher());
             }
         }
+        return executed;
     }
 
     /**
@@ -126,24 +240,14 @@ public class ModuleMojo
      *
      * @return the Map of collected projects (the key is the project, the value
      *         the goals).
+     * @param The list of modules to execute.
      * @throws MojoExecutionException
      */
-    private Map collectProjects()
+    private Map collectProjects(final String modules)
         throws MojoExecutionException
     {
         final Map projects = new LinkedHashMap();
-        MavenProjectBuilder projectBuilder;
-
-        try
-        {
-            projectBuilder = (MavenProjectBuilder)session.getContainer().lookup(MavenProjectBuilder.ROLE);
-        }
-        catch (ComponentLookupException exception)
-        {
-            throw new MojoExecutionException("Cannot get a MavenProjectBuilder", exception);
-        }
-
-        final Map poms = getModulePoms();
+        final Map poms = getModulePoms(modules);
 
         if (!poms.isEmpty())
         {
@@ -154,7 +258,7 @@ public class ModuleMojo
                 try
                 {
                     final MavenProject project =
-                        projectBuilder.build(
+                        this.projectBuilder.build(
                             pom,
                             session.getLocalRepository(),
                             new DefaultProfileManager(session.getContainer()));
@@ -175,12 +279,13 @@ public class ModuleMojo
     /**
      * Gets all POMs for the modules specified.
      *
+     * @param moduleList the list of modules to execute.
      * @return the list of module poms
      */
-    private Map getModulePoms()
+    private Map getModulePoms(final String moduleList)
     {
         final Map poms = new LinkedHashMap();
-        final String[] modules = this.modules != null ? this.modules.split(",") : null;
+        final String[] modules = moduleList != null ? moduleList.split(",") : null;
 
         final String goalPrefix = ":";
         if (modules != null)
