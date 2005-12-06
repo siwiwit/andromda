@@ -98,6 +98,33 @@ public class BuildMojo
     private MavenProjectBuilder projectBuilder;
 
     /**
+     * Any execution properties.
+     *
+     * @parameter
+     */
+    private Properties executionProperties = new Properties();
+
+    /**
+     * Identifies system properties when running in console mode.
+     */
+    private static final String EXECUTION_PROPERTY_TOKEN = "-D";
+
+    /**
+     * Lists all execution properties when running in console mode.
+     */
+    private static final String LIST_PROPERTIES = "-list";
+    
+    /**
+     * Clears all execution properties.
+     */
+    private static final String CLEAR_PROPERTIES = "-clear";
+    
+    /**
+     * Explicity calls the garbage collector.
+     */
+    private static final String GARBAGE_COLLECT = "-gc";
+
+    /**
      * @see org.apache.maven.plugin.Mojo#execute()
      */
     public void execute()
@@ -105,42 +132,88 @@ public class BuildMojo
     {
         try
         {
-            if (this.startConsole != null)
+            if (this.startConsole != null && !this.startConsole.equals(Boolean.FALSE.toString()))
             {
                 boolean executed = false;
                 this.printLine();
                 while (true)
                 {
                     this.printConsolePrompt();
-                    final String input = this.readLine();
+                    String input = StringUtils.trimToEmpty(this.readLine());
                     if (EXIT.equals(input))
                     {
                         break;
                     }
-                    try
+                    if (input.startsWith(EXECUTION_PROPERTY_TOKEN))
                     {
-                        executed = this.executeModules(input);
-
-                        // - if nothing was executed, try a goal in the current project
-                        if (this.project != null && !executed && input != null && input.trim().length() > 0)
+                        input = input.replaceFirst(
+                                EXECUTION_PROPERTY_TOKEN,
+                                "");
+                        int index = input.indexOf("=");
+                        String name;
+                        String value;
+                        if (index <= 0)
                         {
-                            executed = true;
-                            final List goals = Arrays.asList(input.split("\\s+"));
-                            this.executeModules(
-                                StringUtils.join(
-                                    this.project.getModules().iterator(),
-                                    ","),
-                                goals,
-                                true);
+                            name = input.trim();
+                            value = "true";
                         }
+                        else
+                        {
+                            name = input.substring(
+                                    0,
+                                    index).trim();
+                            value = input.substring(index + 1).trim();
+                        }
+                        this.executionProperties.put(
+                            name,
+                            value);
+                        System.setProperty(
+                            name,
+                            value);
+                        this.printExecutionProperties();
                     }
-                    catch (final Throwable throwable)
+                    else if (LIST_PROPERTIES.equals(input))
                     {
-                        throwable.printStackTrace();
+                        this.printExecutionProperties();
                     }
-                    if (executed)
+                    else if (CLEAR_PROPERTIES.equals(input))
                     {
-                        this.printLine();
+                        this.executionProperties.clear();
+                        this.printExecutionProperties();
+                    }
+                    else if (GARBAGE_COLLECT.equals(input))
+                    {
+                        System.gc();
+                    }
+                    else
+                    {
+                        try
+                        {
+                            executed = this.executeModules(input);
+
+                            System.out.println("the line: " + input);
+
+                            // - if nothing was executed, try a goal in the current project
+                            if (this.project != null && !executed && input != null && input.trim().length() > 0)
+                            {
+                                executed = true;
+                                final List goals = Arrays.asList(input.split("\\s+"));
+                                this.executeModules(
+                                    StringUtils.join(
+                                        this.project.getModules().iterator(),
+                                        ","),
+                                    goals,
+                                    true);
+                            }
+                        }
+                        catch (final Throwable throwable)
+                        {
+                            throwable.printStackTrace();
+                        }
+                        if (executed)
+                        {
+                            this.printLine();
+                        }
                     }
                 }
             }
@@ -153,6 +226,20 @@ public class BuildMojo
         {
             throw new MojoExecutionException("Error executing modules", throwable);
         }
+    }
+    
+    private void printExecutionProperties()
+    {
+        this.printLine();
+        this.printTextWithLine("| ------------- execution properties ------------- |");
+        for (final Iterator iterator = this.executionProperties.keySet().iterator();
+            iterator.hasNext();)
+        {
+            final String name = (String)iterator.next();
+            System.out.println("    " + name + " = " + this.executionProperties.getProperty(name));
+        }
+        this.printTextWithLine("| ------------------------------------------------ |");
+        this.printLine();
     }
 
     /**
@@ -179,11 +266,23 @@ public class BuildMojo
     }
 
     /**
+     * Prints text with a new line to the console.
+     *
+     * @param text the text to print to the console.
+     */
+    private void printTextWithLine(final String text)
+    {
+        System.out.println(text);
+        System.out.flush();
+    }
+
+    /**
      * Prints a line to standard output.
      */
     private void printLine()
     {
         System.out.println();
+        System.out.flush();
     }
 
     /**
@@ -311,6 +410,7 @@ public class BuildMojo
             final MavenProject project = (MavenProject)iterator.next();
             this.getLog().info("  " + project.getName());
         }
+
         final MavenSession projectSession =
             new MavenSession(
                 this.session.getContainer(),
@@ -320,7 +420,7 @@ public class BuildMojo
                 reactorManager,
                 goals,
                 this.baseDirectory.toString(),
-                new Properties(),
+                this.executionProperties,
                 this.session.getStartTime());
 
         projectSession.setUsingPOMsFromFilesystem(true);
