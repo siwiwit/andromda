@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.BuildFailureException;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.execution.ReactorManager;
@@ -107,21 +109,27 @@ public class BuildMojo
             {
                 boolean executed = false;
                 this.printLine();
+                String input;
                 do
                 {
                     this.printConsolePrompt();
-                    String input = this.readLine();
+                    input = this.readLine();
                     try
                     {
                         executed = this.executeModules(input);
 
                         // - if nothing was executed, try a goal in the current project
-                        if (this.project != null && !executed && input.trim().length() > 0)
+                        if (!EXIT.equals(input) && this.project != null && !executed && input != null &&
+                            input.trim().length() > 0)
                         {
                             executed = true;
-                            this.executeProject(
-                                project,
-                                Arrays.asList(input.split("\\s+")));
+                            final List goals = Arrays.asList(input.split("\\s+"));
+                            this.executeModules(
+                                StringUtils.join(
+                                    this.project.getModules().iterator(),
+                                    ","),
+                                goals,
+                                true);
                         }
                     }
                     catch (final Throwable throwable)
@@ -133,7 +141,7 @@ public class BuildMojo
                         this.printLine();
                     }
                 }
-                while (!EXIT.equals(modules));
+                while (!EXIT.equals(input));
             }
             else
             {
@@ -200,33 +208,74 @@ public class BuildMojo
     /**
      * Creates all project modules and executes them.
      *
-     * @param The list of modules to execute.
+     * @param modules the comma seperated list of modules to execute.
+     * @return true if any modules were executed, false otherwise.
+     * @throws MojoExecutionException
+     * @throws CycleDetectedException
+     * @throws LifecycleExecutionException
+     * @throws BuildFailureException
+     */
+    private boolean executeModules(final String modules)
+        throws MojoExecutionException, CycleDetectedException, LifecycleExecutionException, BuildFailureException
+    {
+        return this.executeModules(
+            modules,
+            null,
+            false);
+    }
+
+    /**
+     * Creates all project modules and executes them.
+     *
+     * @param modules The list of modules to execute.
+     * @param goals the list of goals to execute (if null, the, goals will be retrieved from project map).
+     * @param sortProjects whether or not projects should be sorted and then executed or whether they should be executed in the
+     *                     order they're in.
      * @throws CycleDetectedException
      * @throws LifecycleExecutionException
      * @throws MojoExecutionException
      * @throws BuildFailureException
      * @return true/false on whether or not any modules were executed
      */
-    private boolean executeModules(final String modules)
+    private boolean executeModules(
+        final String modules,
+        final List goals,
+        boolean sortProjects)
         throws CycleDetectedException, LifecycleExecutionException, MojoExecutionException, BuildFailureException
     {
         final Map projects = this.collectProjects(modules);
-
         boolean executed = !projects.isEmpty();
 
         // - only execute if we have some projects
         if (executed)
         {
-            for (final Iterator iterator = projects.keySet().iterator(); iterator.hasNext();)
+            if (!sortProjects)
             {
-                final MavenProject project = (MavenProject)iterator.next();
-                final List goals = (List)projects.get(project);
-                if (goals.isEmpty())
+                for (final Iterator iterator = projects.keySet().iterator(); iterator.hasNext();)
                 {
-                    goals.addAll(this.goals);
+                    final MavenProject project = (MavenProject)iterator.next();
+                    List projectGoals;
+                    if (goals == null)
+                    {
+                        projectGoals = (List)projects.get(project);
+                        if (projectGoals.isEmpty())
+                        {
+                            projectGoals.addAll(this.goals);
+                        }
+                    }
+                    else
+                    {
+                        projectGoals = goals;
+                    }
+                    this.executeProjects(
+                        Collections.singletonList(project),
+                        projectGoals);
                 }
-                this.executeProject(
-                    project,
+            }
+            else
+            {
+                this.executeProjects(
+                    projects.keySet(),
                     goals);
             }
         }
@@ -242,8 +291,8 @@ public class BuildMojo
      * @throws LifecycleExecutionException
      * @throws BuildFailureException
      */
-    private void executeProject(
-        final MavenProject project,
+    private void executeProjects(
+        final Collection projects,
         final List goals)
         throws CycleDetectedException, LifecycleExecutionException, BuildFailureException
     {
@@ -251,7 +300,16 @@ public class BuildMojo
         {
             goals.addAll(this.goals);
         }
-        final ReactorManager reactorManager = new ReactorManager(Collections.singletonList(project));
+        if (projects.size() > 1)
+        {
+            this.getLog().info("Reactor build order:");
+        }
+        final ReactorManager reactorManager = new ReactorManager(new ArrayList(projects));
+        for (final Iterator iterator = reactorManager.getSortedProjects().iterator(); iterator.hasNext();)
+        {
+            final MavenProject project = (MavenProject)iterator.next();
+            this.getLog().info("  " + project.getName());
+        }
         final MavenSession projectSession =
             new MavenSession(
                 this.session.getContainer(),
