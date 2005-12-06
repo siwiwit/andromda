@@ -239,8 +239,9 @@ public class XmlObjectFactory
      */
     public Object getObject(final URL objectXml)
     {
-        this.digester.setEntityResolver(new XmlObjectEntityResolver(objectXml));
-        return this.getObject(objectXml != null ? ResourceUtils.getContents(objectXml) : null);
+        return this.getObject(
+            objectXml != null ? ResourceUtils.getContents(objectXml) : null,
+            objectXml);
     }
 
     /**
@@ -262,21 +263,39 @@ public class XmlObjectFactory
      */
     public Object getObject(String objectXml)
     {
+        return this.getObject(
+            objectXml,
+            null);
+    }
+
+    /**
+     * Returns a configured Object based on the objectXml configuration file passed in as a String.
+     *
+     * @param objectXml the path to the Object XML config file.
+     * @param resource the resource from which the objectXml was retrieved (this is needed to resolve
+     *        any relative references; like XML entities).
+     * @return Object the created instance.
+     */
+    public Object getObject(
+        String objectXml,
+        final URL resource)
+    {
         ExceptionUtils.checkNull(
             "objectXml",
             objectXml);
         Object object = null;
         try
         {
+            this.digester.setEntityResolver(new XmlObjectEntityResolver(resource));
             object = this.digester.parse(new StringReader(objectXml));
             objectXml = null;
             if (object == null)
             {
-                final String errMsg =
+                final String message =
                     "Was not able to instantiate an object using objectRulesXml '" + this.objectRulesXml +
                     "' with objectXml '" + objectXml + "', please check either the objectXml " +
                     "or objectRulesXml file for inconsistencies";
-                throw new XmlObjectFactoryException(errMsg);
+                throw new XmlObjectFactoryException(message);
             }
         }
         catch (final SAXException exception)
@@ -386,6 +405,7 @@ public class XmlObjectFactory
                 path = path.replaceFirst(
                         SYSTEM_ID_FILE,
                         "");
+
                 // - remove any extra starting slashes
                 path = ResourceUtils.normalizePath(path);
 
