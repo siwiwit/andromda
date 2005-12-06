@@ -29,8 +29,6 @@
 #if ($ear)
             <type>ejb</type>
             <scope>provided</scope>
-#else
-            <scope>compile</scope>
 #end
        </dependency>
 #end
@@ -41,17 +39,23 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
+#if ($ear)
             <scope>provided</scope>
+#end
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
+#if ($ear)
             <scope>provided</scope>
+#end
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
+#if ($ear)
             <scope>provided</scope>
+#end
         </dependency>
         <dependency>
             <groupId>commons-validator</groupId>
