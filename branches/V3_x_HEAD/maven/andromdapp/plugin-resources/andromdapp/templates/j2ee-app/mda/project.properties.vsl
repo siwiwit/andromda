@@ -40,7 +40,7 @@ hibernate.transaction.manager.lookup=net.sf.hibernate.transaction.JBossTransacti
 hibernate.transaction.manager.lookup=org.hibernate.transaction.JBossTransactionManagerLookup
 #end
 #end
-# The default strategy to use when using inhertiance
+# The default strategy to use when using inheritance
 hibernate.inheritance.strategy=subclass
 hibernate.db.showSql=true
 #if ($spring)

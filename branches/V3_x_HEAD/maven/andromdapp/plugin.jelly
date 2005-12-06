@@ -318,8 +318,6 @@
              when building the ear until model content is added -->
         <ant:mkdir dir="${moduleDir}/target/src"/>
         
-        <echo>test???????????????? ${moduleTemplatesDir}</echo>
-        <echo>test2???????????????? ${moduleDir}/maven.xml</echo>
         <velocity:merge
             name="${moduleDir}/maven.xml"
             basedir="${moduleTemplatesDir}"
