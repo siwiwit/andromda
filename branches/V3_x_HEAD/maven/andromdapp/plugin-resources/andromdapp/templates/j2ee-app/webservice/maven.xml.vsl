@@ -1,0 +1,12 @@
+<project default="war:install"
+         xmlns:ant="jelly:ant">
+         
+    <preGoal name="war:init">   
+        <ant:copy todir="${maven.war.webapp.dir}" overwrite="true" verbose="true">
+            <ant:fileset dir="${maven.src.dir}/resources">
+                <exclude name="**/*.java"/>
+            </ant:fileset>
+        </ant:copy>
+    </preGoal> 
+
+</project>
