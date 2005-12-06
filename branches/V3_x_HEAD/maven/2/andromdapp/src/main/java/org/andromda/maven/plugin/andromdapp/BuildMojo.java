@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -104,21 +105,32 @@ public class BuildMojo
         {
             if (this.startConsole != null)
             {
+                boolean executed = false;
                 this.printLine();
                 do
                 {
                     this.printConsolePrompt();
-                    String modules = this.readLine();
+                    String input = this.readLine();
                     try
                     {
-                        if (this.executeModules(modules))
+                        executed = this.executeModules(input);
+
+                        // - if nothing was executed, try a goal in the current project
+                        if (this.project != null && !executed && input.trim().length() > 0)
                         {
-                            this.printLine();                            
+                            executed = true;
+                            this.executeProject(
+                                project,
+                                Arrays.asList(input.split("\\s+")));
                         }
                     }
                     catch (final Throwable throwable)
                     {
                         throwable.printStackTrace();
+                    }
+                    if (executed)
+                    {
+                        this.printLine();
                     }
                 }
                 while (!EXIT.equals(modules));
@@ -201,6 +213,7 @@ public class BuildMojo
         final Map projects = this.collectProjects(modules);
 
         boolean executed = !projects.isEmpty();
+
         // - only execute if we have some projects
         if (executed)
         {
@@ -212,27 +225,50 @@ public class BuildMojo
                 {
                     goals.addAll(this.goals);
                 }
-                final ReactorManager reactorManager = new ReactorManager(Collections.singletonList(project));
-                final MavenSession projectSession =
-                    new MavenSession(
-                        this.session.getContainer(),
-                        this.session.getSettings(),
-                        this.session.getLocalRepository(),
-                        this.session.getEventDispatcher(),
-                        reactorManager,
-                        goals,
-                        this.baseDirectory.toString(),
-                        new Properties(),
-                        this.session.getStartTime());
-
-                projectSession.setUsingPOMsFromFilesystem(true);
-                this.lifecycleExecutor.execute(
-                    projectSession,
-                    reactorManager,
-                    projectSession.getEventDispatcher());
+                this.executeProject(
+                    project,
+                    goals);
             }
         }
         return executed;
+    }
+
+    /**
+     * Executes the given maven <code>project</code>.
+     *
+     * @param project the project to execute.
+     * @param goals the goals to execute on the project.
+     * @throws CycleDetectedException
+     * @throws LifecycleExecutionException
+     * @throws BuildFailureException
+     */
+    private void executeProject(
+        final MavenProject project,
+        final List goals)
+        throws CycleDetectedException, LifecycleExecutionException, BuildFailureException
+    {
+        if (goals.isEmpty())
+        {
+            goals.addAll(this.goals);
+        }
+        final ReactorManager reactorManager = new ReactorManager(Collections.singletonList(project));
+        final MavenSession projectSession =
+            new MavenSession(
+                this.session.getContainer(),
+                this.session.getSettings(),
+                this.session.getLocalRepository(),
+                this.session.getEventDispatcher(),
+                reactorManager,
+                goals,
+                this.baseDirectory.toString(),
+                new Properties(),
+                this.session.getStartTime());
+
+        projectSession.setUsingPOMsFromFilesystem(true);
+        this.lifecycleExecutor.execute(
+            projectSession,
+            reactorManager,
+            projectSession.getEventDispatcher());
     }
 
     /**
@@ -253,15 +289,10 @@ public class BuildMojo
         {
             for (final Iterator iterator = poms.keySet().iterator(); iterator.hasNext();)
             {
-                File pom = (File)iterator.next();
-
+                final File pom = (File)iterator.next();
                 try
                 {
-                    final MavenProject project =
-                        this.projectBuilder.build(
-                            pom,
-                            session.getLocalRepository(),
-                            new DefaultProfileManager(session.getContainer()));
+                    final MavenProject project = this.buildProject(pom);
                     getLog().debug("Adding project " + project.getId());
                     projects.put(
                         project,
@@ -274,6 +305,21 @@ public class BuildMojo
             }
         }
         return projects;
+    }
+
+    /**
+     * Builds a project for the given <code>pom</code>.
+     * @param pom the pom from which to build the project.
+     * @return the built project.
+     * @throws ProjectBuildingException
+     */
+    private MavenProject buildProject(final File pom)
+        throws ProjectBuildingException
+    {
+        return this.projectBuilder.build(
+            pom,
+            this.session.getLocalRepository(),
+            new DefaultProfileManager(this.session.getContainer()));
     }
 
     /**
@@ -297,7 +343,7 @@ public class BuildMojo
                 final List goalsList = new ArrayList();
                 if (module.indexOf(goalPrefix) != -1)
                 {
-                    String[] goals = module.replaceAll(
+                    final String[] goals = module.replaceAll(
                             ".*(:\\[)|(\\])",
                             "").split("\\+");
                     if (goals != null)
