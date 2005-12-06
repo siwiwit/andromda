@@ -314,10 +314,18 @@
         <j:set var="moduleName" value="webservice"/>
         <j:set var="moduleTemplatesDir" value="${templatesDir}/${moduleName}"/>
         <j:set var="moduleDir" value="${projectId}/${moduleName}"/>
-        <attainGoal name="andromdapp:generate-module"/>
         <!-- create an empty build directory so that maven doesn't complain
              when building the ear until model content is added -->
         <ant:mkdir dir="${moduleDir}/target/src"/>
+        
+        <echo>test???????????????? ${moduleTemplatesDir}</echo>
+        <echo>test2???????????????? ${moduleDir}/maven.xml</echo>
+        <velocity:merge
+            name="${moduleDir}/maven.xml"
+            basedir="${moduleTemplatesDir}"
+            template="maven.xml.vsl"/>
+        
+        <attainGoal name="andromdapp:generate-module"/>
 
     </goal>
 
