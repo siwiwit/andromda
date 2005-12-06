@@ -109,18 +109,20 @@ public class BuildMojo
             {
                 boolean executed = false;
                 this.printLine();
-                String input;
-                do
+                while (true)
                 {
                     this.printConsolePrompt();
-                    input = this.readLine();
+                    final String input = this.readLine();
+                    if (EXIT.equals(input))
+                    {
+                        break;
+                    }
                     try
                     {
                         executed = this.executeModules(input);
 
                         // - if nothing was executed, try a goal in the current project
-                        if (!EXIT.equals(input) && this.project != null && !executed && input != null &&
-                            input.trim().length() > 0)
+                        if (this.project != null && !executed && input != null && input.trim().length() > 0)
                         {
                             executed = true;
                             final List goals = Arrays.asList(input.split("\\s+"));
@@ -141,7 +143,6 @@ public class BuildMojo
                         this.printLine();
                     }
                 }
-                while (!EXIT.equals(input));
             }
             else
             {
