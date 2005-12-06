@@ -293,10 +293,6 @@
                         <artifactId>mail</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>ehcache</groupId>
-                        <artifactId>ehcache</artifactId>
-                    </exclusion>
-                    <exclusion>
                         <groupId>quartz</groupId>
                         <artifactId>quartz</artifactId>
                     </exclusion>
