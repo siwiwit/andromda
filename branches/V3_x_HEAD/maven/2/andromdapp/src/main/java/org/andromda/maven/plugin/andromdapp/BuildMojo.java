@@ -5,16 +5,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import java.lang.reflect.Method;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.BuildFailureException;
 import org.apache.maven.execution.MavenSession;
@@ -113,16 +117,23 @@ public class BuildMojo
      * Lists all execution properties when running in console mode.
      */
     private static final String LIST_PROPERTIES = "-list";
-    
+
     /**
      * Clears all execution properties.
      */
     private static final String CLEAR_PROPERTIES = "-clear";
-    
+
     /**
      * Explicity calls the garbage collector.
      */
     private static final String GARBAGE_COLLECT = "-gc";
+
+    /**
+     * The prefix environment variables must have.
+     *
+     * @parameter expression="env."
+     */
+    private String environmentVariablePrefix;
 
     /**
      * @see org.apache.maven.plugin.Mojo#execute()
@@ -132,6 +143,7 @@ public class BuildMojo
     {
         try
         {
+            final Map environment = this.getEnvironment();
             if (this.startConsole != null && !this.startConsole.equals(Boolean.FALSE.toString()))
             {
                 boolean executed = false;
@@ -163,6 +175,17 @@ public class BuildMojo
                                     0,
                                     index).trim();
                             value = input.substring(index + 1).trim();
+                        }
+                        if (value.startsWith(this.environmentVariablePrefix))
+                        {
+                            value = StringUtils.replace(
+                                    value,
+                                    this.environmentVariablePrefix,
+                                    "");
+                            if (environment.containsKey(value))
+                            {
+                                value = ObjectUtils.toString(environment.get(value)).trim();
+                            }
                         }
                         this.executionProperties.put(
                             name,
@@ -227,13 +250,42 @@ public class BuildMojo
             throw new MojoExecutionException("Error executing modules", throwable);
         }
     }
-    
+
+    private static final String GET_ENVIRONMENT_METHOD = "getenv";
+
+    /**
+     * Retrieves the environment variables (will only work when running jdk5 or above).
+     *
+     * @return the environment variables.
+     */
+    private Map getEnvironment()
+    {
+        final Map variables = new HashMap();
+        try
+        {
+            final Method method = System.class.getMethod(
+                    GET_ENVIRONMENT_METHOD,
+                    null);
+            final Object result = method.invoke(
+                    System.class,
+                    null);
+            if (result instanceof Map)
+            {
+                variables.putAll((Map)result);
+            }
+        }
+        catch (Exception exception)
+        {
+            // - ignore (means we can't retrieve the environment with the current JDK).
+        }
+        return variables;
+    }
+
     private void printExecutionProperties()
     {
         this.printLine();
         this.printTextWithLine("| ------------- execution properties ------------- |");
-        for (final Iterator iterator = this.executionProperties.keySet().iterator();
-            iterator.hasNext();)
+        for (final Iterator iterator = this.executionProperties.keySet().iterator(); iterator.hasNext();)
         {
             final String name = (String)iterator.next();
             System.out.println("    " + name + " = " + this.executionProperties.getProperty(name));
