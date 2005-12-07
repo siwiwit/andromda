@@ -322,6 +322,12 @@ public class AttributeFacadeLogicImpl
             name =
                 isOrdered() ? mappings.getTo(UMLProfile.LIST_TYPE_NAME) : mappings.getTo(
                     UMLProfile.COLLECTION_TYPE_NAME);
+
+            // set this attribute's type as a template parameter if required
+            if ("true".equals(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
+            {
+                name = name + "<? extends " + this.getType().getFullyQualifiedName() + ">";
+            }
         }
         if (name == null && this.getType() != null)
         {

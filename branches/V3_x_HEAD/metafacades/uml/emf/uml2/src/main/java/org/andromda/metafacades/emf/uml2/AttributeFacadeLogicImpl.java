@@ -7,6 +7,7 @@ import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.StringUtils;
 
@@ -106,7 +107,7 @@ public class AttributeFacadeLogicImpl
     protected boolean handleIsEnumerationLiteral()
     {
         final ClassifierFacade owner = this.getOwner();
-        return (owner == null) ? false : owner.isEnumeration();
+        return (owner != null) && owner.isEnumeration();
     }
 
     /**
@@ -139,6 +140,12 @@ public class AttributeFacadeLogicImpl
             name =
                 isOrdered() ? mappings.getTo(UMLProfile.LIST_TYPE_NAME) : mappings.getTo(
                     UMLProfile.COLLECTION_TYPE_NAME);
+
+            // set this attribute's type as a template parameter if required
+            if ("true".equals(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
+            {
+                name = name + "<? extends " + this.getType().getFullyQualifiedName() + ">";
+            }
         }
         if (name == null && this.getType() != null)
         {
