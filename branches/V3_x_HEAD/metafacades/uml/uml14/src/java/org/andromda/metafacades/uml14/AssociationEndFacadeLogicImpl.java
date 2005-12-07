@@ -260,7 +260,7 @@ public class AssociationEndFacadeLogicImpl
             // set this association end's type as a template parameter if required
             if ("true".equals(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
             {
-                name = name + "<" + this.getType().getFullyQualifiedName() + ">";
+                name = name + "<? extends " + this.getType().getFullyQualifiedName() + ">";
             }
         }
         if (name == null && this.getType() != null)
