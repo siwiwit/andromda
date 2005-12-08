@@ -4,7 +4,7 @@
         This build script executes the AndroMDA project
         generator, used to create an AndroMDA powered project.
     	
-    	IMPORTANT: this is intended to be run from the 
+    	    IMPORTANT: this is intended to be run from the 
         AndroMDA binary distribution ant/andromda-ant/3.2-RC1-SNAPSHOT
         directory, as it references required .jars from the distribution.
     </description>
