@@ -7,6 +7,7 @@
         <author email="peter@andromda.org">Peter Friese</author>
         <author email="carlos@andromda.org">Carlos Cuenca</author>
         <author email="matthias@andromda.org">Matthias Bohlen</author>
+        <author email="joel@andromda.org">Joel Kozikowski</author>
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
@@ -265,6 +266,11 @@
                 An issue was fixed in the bpm4struts cartridge regarding the generation of dummy data in the controller
                 implementation classes: the dummy inner class used for table form properties wasn't used at all,
                 this would lead into compilation errors during build time.
+            </action>
+            <action dev="joelkoz" type="update" issue="ANDROMDAPP-3">
+                Added a new "project cartridge" that generates a project for rich client development using
+                Eclipse.  Build script is Ant based. Eclipse is used to build .class files. Build script
+                is for running AndroMDA, creating databases, and deployment to JBoss.
             </action>
         </release>
         <release version="3.1-RC1" date="2005-06-19" description="First milestone release of version 3.1">
