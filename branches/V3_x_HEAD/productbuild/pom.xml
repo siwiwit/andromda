@@ -21,6 +21,7 @@
         <system>continuum</system>
         <notifiers>
             <notifier>
+                <type>mail</type>
                 <configuration>
                     <address>committers@andromda.org</address>
                 </configuration>
@@ -156,9 +157,9 @@
     </licenses>
     -->
     <scm>
-        <connection></connection>
-        <developerConnection></developerConnection>
-        <url>http://cvs.sourceforge.net/viewcvs.py/andromda/</url>
+      <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda</connection>
+      <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda</developerConnection>
+      <url>http://cvs.sourceforge.net/viewcvs.py/andromda/</url>
     </scm>
     <organization>
       <name>AndroMDA.org</name>
