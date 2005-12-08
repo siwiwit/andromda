@@ -22,7 +22,7 @@
     <postGoal name="xdoc">
         <!-- copy over the online store example model -->
         <ant:copy todir="${maven.docs.dest}">
-            <ant:fileset dir="../../samples/online-store/mda/src/uml"/>
+            <ant:fileset dir="../../samples/online-store/mda/src/main/uml"/>
         </ant:copy>
         <!-- we want to generate a pdf from the documentation -->
         <attainGoal name="fo:fo"/>
