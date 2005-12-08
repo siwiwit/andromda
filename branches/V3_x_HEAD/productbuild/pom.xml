@@ -17,18 +17,16 @@
         <system>jira</system>
         <url>http://jira.andromda.org/</url>
     </issueManagement>
-    <!--
     <ciManagement>
-      <system>continuum</system>
-      <notifiers>
-        <notifier>
-          <configuration>
-            <address>committers@andromda.org</address>
-          </configuration>
-        </notifier>
-      </notifiers>
+        <system>continuum</system>
+        <notifiers>
+            <notifier>
+                <configuration>
+                    <address>committers@andromda.org</address>
+                </configuration>
+            </notifier>
+        </notifiers>
     </ciManagement>
-    -->
     <mailingLists>
         <mailingList>
             <name>AndroMDA User List</name>
