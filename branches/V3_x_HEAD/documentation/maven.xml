@@ -10,9 +10,9 @@
         <attainGoal name="multiproject:site"/>
         <j:set var="samples.dir" value="${basedir}/../samples"/>
         <!-- copy the animal-quiz model into the resources directory -->
-        <ant:copy file="${samples.dir}/animal-quiz/mda/src/uml/AnimalQuiz.xml.zip" todir="${maven.docs.dest}/resources"/>
+        <ant:copy file="${samples.dir}/animal-quiz/mda/src/main/uml/AnimalQuiz.xml.zip" todir="${maven.docs.dest}/resources"/>
         <!-- copy the car-rental-system model into the resources directory -->
-        <ant:copy file="${samples.dir}/car-rental-system/mda/src/uml/CarRentalSystem.xml.zip" todir="${maven.docs.dest}/resources"/>
+        <ant:copy file="${samples.dir}/car-rental-system/mda/src/main/uml/CarRentalSystem.xml.zip" todir="${maven.docs.dest}/resources"/>
         <!-- unpack the UmlDoc coming with the car-rental-sample so users can browse it -->
         <ant:unzip src="${maven.docs.dest}/resources/car-rental-umldoc.zip" dest="${maven.docs.dest}"/>
         <!-- unpack the JMI 1.4 API so developers can browse the pages -->
