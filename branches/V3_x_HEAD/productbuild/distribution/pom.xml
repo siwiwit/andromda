@@ -39,6 +39,25 @@
                     </artifactExcludes>
                 </configuration>
             </plugin>
+            <!-- This is a kludge until we have a Velocity template processing module that will process and
+                 copy a template file into the distribution. -->
+            <plugin>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <executions>
+                <execution>
+                  <phase>compile</phase>
+                  <configuration>
+                    <tasks>
+                      <copy file="../ant/andromda/src/ant/build.xml.vsl" tofile="target/andromda-bin-${version}/andromda/org/andromda/ant/build.xml"/>
+                    </tasks>
+                  </configuration>
+                  <goals>
+                    <goal>run</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <!-- end kludge -->
         </plugins>
     </build>
 </project>

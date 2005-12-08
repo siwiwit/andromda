@@ -267,10 +267,13 @@
                 implementation classes: the dummy inner class used for table form properties wasn't used at all,
                 this would lead into compilation errors during build time.
             </action>
-            <action dev="joelkoz" type="update" issue="ANDROMDAPP-3">
+            <action dev="joelkoz" type="add" issue="ANDROMDAPP-3">
                 Added a new "project cartridge" that generates a project for rich client development using
                 Eclipse.  Build script is Ant based. Eclipse is used to build .class files. Build script
                 is for running AndroMDA, creating databases, and deployment to JBoss.
+            </action>
+            <action dev="joelkoz" type="update" issue="ANT-30">
+                Updated AndroMDA Ant tasks to use the new project generation system of 3.2-RC1.
             </action>
         </release>
         <release version="3.1-RC1" date="2005-06-19" description="First milestone release of version 3.1">
