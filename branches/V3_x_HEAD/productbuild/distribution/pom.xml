@@ -29,6 +29,9 @@
                     <includes>
                         <include>**/pom.xml</include>
                     </includes>
+                    <excludes>
+                        <exclude>distribution/pom.xml</exclude>
+                    </excludes>
                     <artifactExcludes>
                         <artifact>
                             <groupId>org\.andromda\.samples.*</groupId>
