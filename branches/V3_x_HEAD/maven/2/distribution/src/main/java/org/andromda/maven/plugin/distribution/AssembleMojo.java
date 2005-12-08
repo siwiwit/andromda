@@ -162,6 +162,18 @@ public class AssembleMojo
      * The directory containing dependant libraries used by AndroMDA.
      */
     private static final String DEPENDENCY_DIRECTORY = "lib/";
+    
+    /**
+     * The artifacts that can be excluded from the distribution.
+     * 
+     * @parameter
+     */
+    private ArtifactFilter[] artifactExcludes;
+    
+    /**
+     * All artifacts that are collected and bundled.
+     */
+    private final Set allArtifacts = new LinkedHashSet();
 
     /**
      * @see org.apache.maven.plugin.Mojo#execute()
@@ -169,12 +181,12 @@ public class AssembleMojo
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
+        this.allArtifacts.clear();
         try
         {
             final File directory = this.getBinaryDistributionDirectory();
             directory.mkdirs();
             final List projects = this.collectProjects();
-            final Set allArtifacts = new LinkedHashSet();
             final Set artifacts = new LinkedHashSet();
             for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
             {
@@ -186,7 +198,6 @@ public class AssembleMojo
                         project.getVersion(),
                         null,
                         project.getPackaging());
-                allArtifacts.add(artifact);
                 final String artifactPath = this.localRepository.pathOf(artifact);
                 final String artifactFileName = artifactPath.replaceAll(
                         ".*(\\\\|/+)",
@@ -212,6 +223,7 @@ public class AssembleMojo
                             {
                                 final File distributionFile = new File(andromdaDirectory, name);
                                 this.bundleFile(
+                                    artifact,
                                     new File(
                                         workDirectory,
                                         name),
@@ -227,6 +239,7 @@ public class AssembleMojo
                             POM_TYPE);
                     final File distributionPom = new File(andromdaDirectory, artifact.getArtifactId() + '.' + POM_TYPE);
                     this.bundleFile(
+                        artifact,
                         repositoryPom,
                         distributionPom);
                 }
@@ -244,15 +257,14 @@ public class AssembleMojo
             }
 
             final ArtifactResolutionResult result =
-                artifactResolver.resolveTransitively(
+                this.artifactResolver.resolveTransitively(
                     artifacts,
-                    project.getArtifact(),
+                    this.project.getArtifact(),
                     Collections.EMPTY_LIST,
-                    localRepository,
-                    artifactMetadataSource);
+                    this.localRepository,
+                    this.artifactMetadataSource);
 
             artifacts.addAll(result.getArtifacts());
-            allArtifacts.addAll(artifacts);
 
             // - remove the project artifacts
             for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
@@ -288,10 +300,8 @@ public class AssembleMojo
             }
 
             final File workDirectory = new File(this.workDirectory);
-
             final File distribution = new File(workDirectory, this.binaryName + ".zip");
-
-            final List artifactList = new ArrayList(allArtifacts);
+            final List artifactList = new ArrayList(this.allArtifacts);
 
             Collections.sort(
                 artifactList,
@@ -316,8 +326,8 @@ public class AssembleMojo
 
             // - create archive
             archiver.createArchive(
-                project,
-                archive);
+                this.project,
+                this.archive);
         }
         catch (final Throwable throwable)
         {
@@ -353,6 +363,7 @@ public class AssembleMojo
                 artifactPath.indexOf(artifactFileName));
         final File dependencyDirectory = new File(destinationDirectory, repositoryDirectoryPath);
         this.bundleFile(
+            artifact,
             artifactFile,
             new File(
                 destinationDirectory,
@@ -366,6 +377,7 @@ public class AssembleMojo
         {
             final File distributionPom = new File(dependencyDirectory, artifact.getArtifactId() + '.' + POM_TYPE);
             this.bundleFile(
+                artifact,
                 repositoryPom,
                 distributionPom);
         }
@@ -374,18 +386,59 @@ public class AssembleMojo
     /**
      * Copies the given <code>file</code> to the given <code>destination</code>.
      *
+     * @param artifact the artifact that is being bundled.
      * @param file the file to bundle.
      * @param destination the destination to which we'll bundle.
      * @throws IOException
      */
     private void bundleFile(
+        final Artifact artifact,
         final File file,
         final File destination)
         throws IOException
     {
-        FileUtils.copyFile(
-            file,
-            destination);
+        boolean writable = true;
+        if (this.artifactExcludes != null)
+        {
+            final String artifactGroupId = artifact.getGroupId();
+            final String artifactArtifactId = artifact.getArtifactId();
+            final int numberOfArtifactExcludes = this.artifactExcludes.length;
+            for (int ctr = 0; ctr < numberOfArtifactExcludes; ctr++)
+            {
+                final ArtifactFilter artifactExclude = this.artifactExcludes[ctr];
+                if (artifactExclude != null)
+                {
+                    final String groupId = artifactExclude.getGroupId();
+                    final String artifactId = artifactExclude.getArtifactId();
+                    final boolean groupIdPresent = groupId != null;
+                    final boolean artifactIdPresent = artifactId != null;
+                    if (groupIdPresent)
+                    {
+                        writable = !artifactGroupId.matches(groupId);
+                        if (!writable && artifactIdPresent)
+                        {
+                            writable = !artifactArtifactId.matches(artifactId);
+                        }
+                    }
+                    else if (artifactIdPresent)
+                    {
+                        writable = !artifactGroupId.matches(artifactId);
+                    }
+                }
+            }
+        }
+        if (writable)
+        {
+            this.allArtifacts.add(artifact);
+            FileUtils.copyFile(
+                file,
+                destination);           
+        }
+        else
+        {
+            if (this.getLog().isDebugEnabled())
+                this.getLog().debug("Excluding: " + artifact.getId());
+        }
     }
 
     /**

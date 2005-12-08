@@ -29,6 +29,11 @@
                     <includes>
                         <include>**/pom.xml</include>
                     </includes>
+                    <artifactExcludes>
+                        <artifact>
+                            <groupId>org\.andromda\.samples.*</groupId>
+                        </artifact>
+                    </artifactExcludes>
                 </configuration>
             </plugin>
         </plugins>
