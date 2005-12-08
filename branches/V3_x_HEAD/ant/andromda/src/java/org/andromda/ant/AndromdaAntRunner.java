@@ -3,7 +3,7 @@ package org.andromda.ant;
 import org.andromda.andromdapp.AndroMDApp;
 
 /**
- * Execues the AndroMDA application generator from within an Ant task.
+ * Execues the AndroMDA application generator from a main method.
  */
 public class AndromdaAntRunner
 {
