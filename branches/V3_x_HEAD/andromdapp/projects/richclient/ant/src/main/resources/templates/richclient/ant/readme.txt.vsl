@@ -15,12 +15,12 @@
     In order to have everything working you need
     to do the following things yourself:
 
-        1.  have the AndroMDA ${andromdaVersion} binary distribution installed
+        1.  Have the AndroMDA $andromdaVersion binary distribution installed
             (see http://www.andromda.org)
 
-        2.  have Eclipse 3.1+ installed (http://www.eclipse.org)
+        2.  Have Eclipse 3.1+ installed (http://www.eclipse.org)
 
-        3.  have JBoss installed (http://www.jboss.org)
+        3.  Have JBoss installed (http://www.jboss.org)
 
         4.  From within Eclipse:
             a. Import this project into your workspace by going to
@@ -30,7 +30,7 @@
                ANDROMDA32_BIN should point to the directory where the AndroMDA
                binary distribution is installed.
 
-        5.  open the "build.properties" file in the project root dir
+        5.  Open the "build.properties" file in the project root dir
             and insure all values match your environment and
             preferences. Set "properties.reviewed" to "true"
 
