@@ -15,6 +15,19 @@
        JBoss), and generic client side code to access published services via remote invocation.
     </description>
     <inceptionYear>2005</inceptionYear>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-mock</artifactId>
+            <version>1.2.5</version>
+                <exclusions>
+                     <exclusion>
+                         <groupId>javax.transaction</groupId>
+                         <artifactId>jta</artifactId>
+                     </exclusion>
+                </exclusions>
+        </dependency>
+    </dependencies>
     <build>
         <resources>
             <resource>
