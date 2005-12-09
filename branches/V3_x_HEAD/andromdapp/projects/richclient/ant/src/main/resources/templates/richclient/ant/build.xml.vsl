@@ -4,6 +4,7 @@
        Put your description of the project here.
     </description>
   <!-- set global properties for this build -->
+  <property environment="env"/>	
   <property file="build.properties"/>
 
   <property name="andromda.lib.dir" value="${andromda.dist.dir}/andromda/org/andromda"/>
