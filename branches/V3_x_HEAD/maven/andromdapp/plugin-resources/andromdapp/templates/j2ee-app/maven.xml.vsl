@@ -47,9 +47,11 @@
                     <fileset dir="core/src/java">
                         <include name="**/*Impl.java"/>
                     </fileset>
+#if ($web)
                     <fileset dir="web/src/java">
                         <include name="**/*Impl.java"/>
                     </fileset>
+#end
 #if ($workflow)
                     <fileset dir="workflow/src/java">
                         <include name="**/*Impl.java"/>
