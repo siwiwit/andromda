@@ -22,7 +22,7 @@
                 </excludes>        
             </resource>
             <resource>
-                <directory>${basedir}/../../../../etc/mda/uml</directory>
+                <directory>${pom.basedir}/../../../../etc/mda/uml</directory>
                 <includes>
                     <include>**/*</include>
                 </includes>
