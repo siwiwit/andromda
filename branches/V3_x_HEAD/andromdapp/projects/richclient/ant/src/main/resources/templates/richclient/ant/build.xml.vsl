@@ -82,6 +82,7 @@
             CREATE DATABASE ${dataSource.database.name};
         </sql>
         <antcall target="schema-install"/>
+        <antcall target="deploy-datasource"/>
   </target>
 
   <target name="2b.schema-update" description="Updates the database after a change." depends="schema-generate">
@@ -242,6 +243,15 @@
 
   <target name="make-jars" depends="init,make-server-war,make-client-jar">
     <!-- Creates all distribution .jar files -->
+  </target>
+  
+  <target name="deploy-datasource">
+  	  <filter token="dataSourceName" value="${dataSource.name}"/>
+	  <filter token="dataSourceURL" value="${dataSource.url.prefix}/${dataSource.database.name}"/>
+	  <filter token="dataSourceDriverClass" value="${dataSource.driver.class}"/>
+	  <filter token="dataSourceUserName" value="${dataSource.user}"/>
+	  <filter token="dataSourcePassword" value="${dataSource.password}"/>
+  	  <copy file="datasource-template.xml.txt" tofile="${jboss.default.deploy.dir}/testDatasource-ds.xml" filtering="true" overwrite="true"/>
   </target>
 	
 </project>

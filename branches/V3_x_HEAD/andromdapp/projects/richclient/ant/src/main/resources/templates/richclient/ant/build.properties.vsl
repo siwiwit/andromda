@@ -15,10 +15,6 @@ jboss.installation.path=/jboss-4.0.3
 # (in particular, the parent directory of the AndroMDA binary distribution)
 distribution.dir=/usr/local/dist
 
-# The name of the datasource server side
-dataSource.name=${applicationId}DS
-dataSource=java:/${dataSource.name}
-
 # Set this to "true" when finished reviewing this file
 properties.reviewed=false
 
@@ -36,6 +32,10 @@ sql.mappings=MySQL
 # For Hypersonic use: org.hibernate.dialect.HSQLDialect
 # For Oracle9i use: org.hibernate.dialect.Oracle9Dialect
 hibernate.db.dialect=org.hibernate.dialect.MySQLDialect
+
+# The name of the datasource server side
+dataSource.name=ds/${applicationId}DS
+dataSource=java:${dataSource.name}
 
 # JDBC settings to the database
 dataSource.driver.jar=${jboss.installation.path}/server/default/lib/mysql-connector-java-3.1.10-bin.jar
