@@ -296,5 +296,13 @@
             <documentation>
             </documentation>
         </property>
+        <property name="toDoTag">
+            <default>@todo</default>
+            <documentation>
+               The tag to use that prefixes all comments in generated source code that requires
+               manual modifications.  Eclipse users may want to set this to "TODO", which is 
+               the default Eclipse task tag.
+            </documentation>
+        </property>
     </propertyGroup>
 </properties>
