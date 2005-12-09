@@ -17,8 +17,7 @@
             <fileset dir="${andromda.lib.dir}">
                 <include name="andromdapp/andromda-andromdapp-core/*/andromda-andromdapp-core-*.jar"/> 
                 <include name="andromda-core/*/andromda-core-*.jar"/> 
-                <include name="andromdapp/projects/andromda-andromdapp-project-j2ee-maven2/*/andromda-andromdapp-project-*.jar"/>
-                <include name="andromdapp/projects/andromda-andromdapp-project-richclient-ant/*/andromda-andromdapp-project-*.jar"/>
+                <include name="andromdapp/projects/**/andromda-andromdapp-project-*.jar"/>
                 <include name="ant/andromda-ant/*/andromda-ant-*.jar"/> 
                 <include name="templateengines/andromda-templateengine-velocity/*/andromda-templateengine-velocity-*.jar"/> 
             </fileset>
