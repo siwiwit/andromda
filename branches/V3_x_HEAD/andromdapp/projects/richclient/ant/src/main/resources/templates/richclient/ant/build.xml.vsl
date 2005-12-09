@@ -251,7 +251,7 @@
 	  <filter token="dataSourceDriverClass" value="${dataSource.driver.class}"/>
 	  <filter token="dataSourceUserName" value="${dataSource.user}"/>
 	  <filter token="dataSourcePassword" value="${dataSource.password}"/>
-  	  <copy file="datasource-template.xml.txt" tofile="${jboss.default.deploy.dir}/testDatasource-ds.xml" filtering="true" overwrite="true"/>
+  	  <copy file="datasource-template.xml.txt" tofile="${jboss.default.deploy.dir}/${applicationId}-ds.xml" filtering="true" overwrite="true"/>
   </target>
 	
 </project>
