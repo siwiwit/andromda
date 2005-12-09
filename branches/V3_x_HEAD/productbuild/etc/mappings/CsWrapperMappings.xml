@@ -37,7 +37,7 @@
           <to>bool?</to>
     </mapping>
     <mapping>
-        <from>Guid</from>
+        <from>System.Guid</from>
         <to>System.Guid?</to>
     </mapping>
 </mappings>
