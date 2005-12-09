@@ -23,7 +23,7 @@
             <notifier>
                 <type>mail</type>
                 <configuration>
-                    <address>committers@andromda.org</address>
+                    <address>chad@andromda.org</address>
                 </configuration>
             </notifier>
         </notifiers>
@@ -157,8 +157,8 @@
     </licenses>
     -->
     <scm>
-      <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all</connection>
-      <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all</developerConnection>
+      <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all</connection>
+      <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
       <url>http://cvs.sourceforge.net/viewcvs.py/andromda/</url>
     </scm>
     <organization>
