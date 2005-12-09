@@ -96,7 +96,13 @@
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEmbeddedValueLogicImpl" contextRoot="true">
-        <mapping>
+        <mapping class="org.eclipse.uml2.impl.ClassImpl">
+            <stereotype>EMBEDDED_VALUE</stereotype>
+        </mapping>
+        <property reference="embeddedValueImplementationNamePattern"/>
+    </metafacade>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEmbeddedValueLogicImpl" contextRoot="true">
+        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
             <stereotype>EMBEDDED_VALUE</stereotype>
         </mapping>
         <property reference="embeddedValueImplementationNamePattern"/>
