@@ -8,7 +8,7 @@
     <groupId>org.andromda.andromdapp.projects</groupId>
     <artifactId>andromda-andromdapp-project-richclient-ant</artifactId>
     <packaging>jar</packaging>
-    <name>AndroMDA Rich Client project template for Ant</name>
+    <name>AndroMDA Rich Client Ant Project</name>
     <description>
        A project template for AndroMDA powered projects that do not necessarily have a web browser
        as the client technology. The generated project is for server side code (deployed on
