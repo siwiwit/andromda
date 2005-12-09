@@ -17,4 +17,16 @@
         <module>uml-1.4</module>
         <module>emf/uml2</module>
     </modules>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <extensions>true</extensions>
+                    <groupId>org.andromda.maven.plugins</groupId>
+                    <artifactId>andromda-model-archiver-plugin</artifactId>
+                    <version>${version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
