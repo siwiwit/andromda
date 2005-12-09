@@ -23,7 +23,7 @@
             <notifier>
                 <type>mail</type>
                 <configuration>
-                    <address>chad@andromda.org</address>
+                    <address>committers@andromda.org</address>
                 </configuration>
             </notifier>
         </notifiers>
