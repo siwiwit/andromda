@@ -44,8 +44,8 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-metafacades/andromda-uml-metafacades/andromda-metafacades-uml14</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-metafacades/andromda-uml-metafacades/andromda-metafacades-uml14</developerConnection>
+    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-metafacades/andromda-uml-metafacades/andromda-metafacades-uml14</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-metafacades/andromda-uml-metafacades/andromda-metafacades-uml14</developerConnection>
     <url>http://cvs.sourceforge.net/viewcvs.py/andromda/andromda-metafacades/andromda-uml-metafacades/andromda-metafacades-uml14</url>
   </scm>
   <organization>

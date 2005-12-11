@@ -43,8 +43,8 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</developerConnection>
+    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</developerConnection>
     <url>http://cvs.sourceforge.net/viewcvs.py/andromda/andromda-cartridges/andromda-meta-cartridge</url>
   </scm>
   <organization>

@@ -42,8 +42,8 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-repositories/andromda-repository-mdr</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-repositories/andromda-repository-mdr</developerConnection>
+    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-repositories/andromda-repository-mdr</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-repositories/andromda-repository-mdr</developerConnection>
     <url>http://cvs.sourceforge.net/viewcvs.py/andromda/andromda-repositories/andromda-repository-mdr</url>
   </scm>
   <organization>

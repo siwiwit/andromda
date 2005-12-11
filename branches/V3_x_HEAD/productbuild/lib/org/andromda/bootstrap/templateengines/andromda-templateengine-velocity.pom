@@ -42,8 +42,8 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-templateengines/andromda-templateengine-velocity</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-templateengines/andromda-templateengine-velocity</developerConnection>
+    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-templateengines/andromda-templateengine-velocity</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-templateengines/andromda-templateengine-velocity</developerConnection>
     <url>http://cvs.sourceforge.net/viewcvs.py/andromda/andromda-templateengines/andromda-templateengine-velocity</url>
   </scm>
   <organization>

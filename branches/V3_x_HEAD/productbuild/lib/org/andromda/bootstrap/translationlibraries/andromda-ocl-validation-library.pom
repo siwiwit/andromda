@@ -42,8 +42,8 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-validation-library</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda:andromda-all/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-validation-library</developerConnection>
+    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-validation-library</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-validation-library</developerConnection>
     <url>http://cvs.sourceforge.net/viewcvs.py/andromda/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-validation-library</url>
   </scm>
   <organization>
