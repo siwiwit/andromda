@@ -1,5 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.andromda.metafacades.uml.ManageableEntityAttribute;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.ManageableEntity.
@@ -110,6 +112,24 @@ public class ManageableEntityLogicImpl
      * @see org.andromda.metafacades.uml.ManageableEntity#getManageableMembers()
      */
     protected java.util.List handleGetManageableMembers()
+    {
+        // TODO: put your implementation here.
+        return null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ManageableEntity#getManageableIdentifier()
+     */
+    protected java.lang.Object handleGetManageableIdentifier()
+    {
+        // TODO: put your implementation here.
+        return null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ManageableEntity#getManageableAttributes()
+     */
+    protected java.util.List handleGetManageableAttributes()
     {
         // TODO: put your implementation here.
         return null;
