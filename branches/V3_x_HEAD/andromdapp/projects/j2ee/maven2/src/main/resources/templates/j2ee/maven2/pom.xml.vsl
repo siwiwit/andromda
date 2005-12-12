@@ -8,6 +8,17 @@
     <version>$applicationVersion</version>
     <name>$applicationName</name>
     <description>The $applicationName Project.</description>
+    <ciManagement>
+        <system>continuum</system>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <configuration>
+                    <address></address>
+                </configuration>
+            </notifier>
+        </notifiers>
+    </ciManagement>
     <developers>
         <developer>
             <id></id>
