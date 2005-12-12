@@ -8,6 +8,14 @@
     <version>$applicationVersion</version>
     <name>$applicationName</name>
     <description>The $applicationName Project.</description>
+    <scm>
+        <connection></connection>
+        <url></url>
+    </scm>
+    <organization>
+      <name></name>
+      <url></url>
+    </organization>
     <ciManagement>
         <system>continuum</system>
         <notifiers>
