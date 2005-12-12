@@ -25,6 +25,9 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <name>andromda-bin-${version}</name>
+                    <artifactDirectory>andromda/</artifactDirectory>
+                    <dependencyDirectory>lib/</dependencyDirectory>
                     <baseDirectory>${pom.basedir}/../</baseDirectory>
                     <projectIncludes>
                         <include>**/pom.xml</include>

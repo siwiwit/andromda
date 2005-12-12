@@ -37,7 +37,7 @@ import org.codehaus.plexus.util.FileUtils;
 
 
 /**
- * A Mojo for assembling the AndroMDA distribution.
+ * A Mojo for assembling a distribution.
  *
  * @goal assemble
  * @phase validate
@@ -49,10 +49,10 @@ public class AssembleMojo
     /**
      * The name of the distribution
      *
-     * @parameter expression="andromda-bin-${project.version}"
+     * @parameter
      * @required
      */
-    private String binaryName;
+    private String name;
 
     /**
      * Directory that resources are copied to during the build.
@@ -155,15 +155,17 @@ public class AssembleMojo
 
     /**
      * The directory for artifacts created the the application being bundled.
-     * 
-     * @parameter expression="andromda/"
+     *
+     * @parameter
+     * @required
      */
     private String artifactDirectory;
 
     /**
      * The directory which will contain dependant libraries used by the application.
-     * 
-     * @parameter expression="lib/"
+     *
+     * @parameter
+     * @required
      */
     private String dependencyDirectory;
 
@@ -190,11 +192,12 @@ public class AssembleMojo
      * The forward slash character.
      */
     private static final String FORWARD_SLASH = "/";
-    
+
     /**
      * The extension to give the distribution.
-     * 
+     *
      * @parameter expression="zip"
+     * @required
      */
     private String extension;
 
@@ -207,7 +210,7 @@ public class AssembleMojo
         this.allArtifacts.clear();
         try
         {
-            final File directory = this.getBinaryDistributionDirectory();
+            final File directory = this.getDistributionDirectory();
             directory.mkdirs();
             final List projects = this.collectProjects();
             final Set artifacts = new LinkedHashSet();
@@ -233,7 +236,10 @@ public class AssembleMojo
                 final File workDirectory = new File(build.getDirectory());
                 if (workDirectory.exists())
                 {
-                    final File andromdaDirectory = new File(directory, artifactDirectory + repositoryDirectoryPath);
+                    final File distributionDirectory =
+                        new File(new File(
+                                directory,
+                                this.artifactDirectory), repositoryDirectoryPath);
                     final String finalName = build.getFinalName();
                     final String[] names = workDirectory.list();
                     if (names != null)
@@ -244,7 +250,7 @@ public class AssembleMojo
                             final String name = names[ctr];
                             if (name.indexOf(finalName) != -1 && !name.equals(finalName))
                             {
-                                final File distributionFile = new File(andromdaDirectory, name);
+                                final File distributionFile = new File(distributionDirectory, name);
                                 this.bundleFile(
                                     artifact,
                                     new File(
@@ -262,7 +268,7 @@ public class AssembleMojo
                                 repositoryDirectoryPath),
                             artifact);
                     final File distributionPom = this.constructPom(
-                            andromdaDirectory,
+                            distributionDirectory,
                             artifact);
                     this.bundleFile(
                         artifact,
@@ -321,12 +327,12 @@ public class AssembleMojo
                 this.bundleArtifact(
                     new File(
                         directory,
-                        dependencyDirectory),
+                        this.dependencyDirectory),
                     artifact);
             }
 
             final File workDirectory = new File(this.workDirectory);
-            final File distribution = new File(workDirectory, this.binaryName + '.' + this.extension);
+            final File distribution = new File(workDirectory, this.name + '.' + this.extension);
             final List artifactList = new ArrayList(this.allArtifacts);
 
             Collections.sort(
@@ -358,7 +364,7 @@ public class AssembleMojo
                             if (outputPath != null && outputPath.trim().length() > 0)
                             {
                                 final File outputPathFile = new File(
-                                        this.getBinaryDistributionDirectory(),
+                                        this.getDistributionDirectory(),
                                         outputPath);
 
                                 // - directories must end with a slash
@@ -376,7 +382,7 @@ public class AssembleMojo
                             else
                             {
                                 destination = new File(
-                                        this.getBinaryDistributionDirectory(),
+                                        this.getDistributionDirectory(),
                                         path);
                             }
                             if (destination != null)
@@ -659,8 +665,8 @@ public class AssembleMojo
      *
      * @return the directory output distribution.
      */
-    private File getBinaryDistributionDirectory()
+    private File getDistributionDirectory()
     {
-        return new File(this.workDirectory + '/' + this.binaryName);
+        return new File(this.workDirectory + '/' + this.name);
     }
 }
