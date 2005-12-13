@@ -146,13 +146,6 @@ public class AssembleMojo
     private String[] projectExcludes = new String[0];
 
     /**
-     * The directory from which the search for POMs starts.
-     *
-     * @parameter
-     */
-    private String projectBaseDirectory;
-
-    /**
      * The directory in which project artifacts are bundled.
      *
      * @parameter
@@ -212,10 +205,11 @@ public class AssembleMojo
             final File directory = this.getDistributionDirectory();
             directory.mkdirs();
             final List artifactList = new ArrayList();
-            final List projects = this.collectProjects();
-            if (!projects.isEmpty() && this.projectBaseDirectory != null &&
-                this.projectBaseDirectory.trim().length() > 0)
+            final Set projects = this.collectProjects();
+            final File projectBaseDirectory = this.getRootProject().getBasedir();
+            if (!projects.isEmpty())
             {
+                projects.add(this.getRootProject());
                 final Set artifacts = new LinkedHashSet();
                 for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
                 {
@@ -428,6 +422,38 @@ public class AssembleMojo
     }
 
     /**
+     * The root project.
+     */
+    private MavenProject rootProject;
+
+    /**
+     * Retrieves the root project (i.e. the root parent project)
+     * for this project.
+     *
+     * @return the root project.
+     * @throws MojoExecutionException
+     */
+    private MavenProject getRootProject()
+        throws MojoExecutionException
+    {
+        if (this.rootProject == null)
+        {
+            MavenProject root = null;
+            for (root = this.project.getParent(); root.getParent() != null; root = root.getParent())
+            {
+                ;
+            }
+            if (root == null)
+            {
+                throw new MojoExecutionException("No parent could be retrieved for project --> " +
+                    this.project.getId() + "', you must specify a parent project");
+            }
+            this.rootProject = root;
+        }
+        return this.rootProject;
+    }
+
+    /**
      * Bundles the file from the given <code>artifact</code> into the given
      * <code>destinationDirectory</code>.
      *
@@ -564,20 +590,23 @@ public class AssembleMojo
      *
      * @return all poms found.
      * @throws MojoExecutionException
+     * @throws MojoExecutionException
      */
     private List getPoms()
+        throws MojoExecutionException
     {
         List poms = new ArrayList();
-        if (this.projectBaseDirectory != null && this.projectBaseDirectory.trim().length() > 0)
+        if (this.projectIncludes != null && this.projectIncludes.length > 0)
         {
+            final File baseDirectory = this.getRootProject().getBasedir();
             final DirectoryScanner scanner = new DirectoryScanner();
-            scanner.setBasedir(this.projectBaseDirectory);
+            scanner.setBasedir(baseDirectory);
             scanner.setIncludes(this.projectIncludes);
             scanner.setExcludes(this.projectExcludes);
             scanner.scan();
             for (int ctr = 0; ctr < scanner.getIncludedFiles().length; ctr++)
             {
-                final File pom = new File(this.projectBaseDirectory, scanner.getIncludedFiles()[ctr]);
+                final File pom = new File(baseDirectory, scanner.getIncludedFiles()[ctr]);
                 if (pom.exists())
                 {
                     poms.add(pom);
@@ -594,31 +623,30 @@ public class AssembleMojo
      * @throws MojoExecutionException
      */
     private MavenProject getProject(final File pom)
-        throws MojoExecutionException
     {
-        try
+        // - first attempt to get the existing project from the session
+        MavenProject project = this.getProjectFromSession(pom);
+        if (project == null)
         {
-            // - first attempt to get the existing project from the session
-            MavenProject project = this.getProjectFromSession(pom);
-            if (project == null)
+            // - if we didn't find it in the session, create it
+            try
             {
-                // - if we didn't find it in the session, create it
                 project =
                     this.projectBuilder.build(
                         pom,
                         this.session.getLocalRepository(),
                         new DefaultProfileManager(this.session.getContainer()));
             }
-            if (this.getLog().isDebugEnabled())
+            catch (ProjectBuildingException exception)
             {
-                this.getLog().debug("Processing project " + project.getId());
+                // - ignore if we can't create it
             }
-            return project;
         }
-        catch (ProjectBuildingException exception)
+        if (this.getLog().isDebugEnabled())
         {
-            throw new MojoExecutionException("Error loading " + pom, exception);
+            this.getLog().debug("Processing project " + project.getId());
         }
+        return project;
     }
 
     /**
@@ -654,17 +682,20 @@ public class AssembleMojo
      *
      * @return all collection Maven project instances.
      * @throws MojoExecutionException
-     * @throws MojoExecutionException
      */
-    private List collectProjects()
+    private Set collectProjects()
         throws MojoExecutionException
     {
-        final List projects = new ArrayList();
+        final Set projects = new LinkedHashSet();
         final List poms = this.getPoms();
         for (ListIterator iterator = poms.listIterator(); iterator.hasNext();)
         {
             final File pom = (File)iterator.next();
-            projects.add(this.getProject(pom));
+            final MavenProject project = this.getProject(pom);
+            if (project != null)
+            {
+                projects.add(project);
+            }
         }
         return projects;
     }
