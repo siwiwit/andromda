@@ -1,6 +1,8 @@
 package org.andromda.maven.plugin.distribution;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import java.text.Collator;
@@ -24,16 +26,19 @@ import org.apache.maven.artifact.resolver.ArtifactResolutionResult;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Build;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.Parent;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.profiles.DefaultProfileManager;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectBuilder;
-import org.apache.maven.project.ProjectBuildingException;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 
 /**
@@ -206,7 +211,6 @@ public class AssembleMojo
             directory.mkdirs();
             final List artifactList = new ArrayList();
             final Set projects = this.collectProjects();
-            final File projectBaseDirectory = this.getRootProject().getBasedir();
             if (!projects.isEmpty())
             {
                 projects.add(this.getRootProject());
@@ -621,8 +625,10 @@ public class AssembleMojo
      *
      * @return the maven POM file.
      * @throws MojoExecutionException
+     * @throws MojoExecutionException
      */
     private MavenProject getProject(final File pom)
+        throws MojoExecutionException
     {
         // - first attempt to get the existing project from the session
         MavenProject project = this.getProjectFromSession(pom);
@@ -637,9 +643,21 @@ public class AssembleMojo
                         this.session.getLocalRepository(),
                         new DefaultProfileManager(this.session.getContainer()));
             }
-            catch (ProjectBuildingException exception)
+            catch (Exception exception)
             {
-                // - ignore if we can't create it
+                try
+                {
+                    // - if we failed, try to build from the repository
+                    project =
+                        this.projectBuilder.buildFromRepository(
+                            this.buildArtifact(pom),
+                            this.project.getRemoteArtifactRepositories(),
+                            this.localRepository);
+                }
+                catch (final Throwable throwable)
+                {
+                    throw new MojoExecutionException("Project could not be built from pom file " + pom, exception);
+                }
             }
         }
         if (this.getLog().isDebugEnabled())
@@ -647,6 +665,40 @@ public class AssembleMojo
             this.getLog().debug("Processing project " + project.getId());
         }
         return project;
+    }
+
+    /**
+     * Constructs an artifact from the given <code>pom</code> file.
+     *
+     * @param pom the POM from which to construct the artifact.
+     * @return the built artifact
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws XmlPullParserException
+     */
+    private Artifact buildArtifact(final File pom)
+        throws FileNotFoundException, IOException, XmlPullParserException
+    {
+        final MavenXpp3Reader reader = new MavenXpp3Reader();
+        final Model model = reader.read(new FileReader(pom));
+        String groupId = model.getGroupId();
+        for (Parent parent = model.getParent(); groupId == null && model.getParent() != null;
+            parent = model.getParent())
+        {
+            groupId = parent.getGroupId();
+        }
+        String version = model.getVersion();
+        for (Parent parent = model.getParent(); version == null && model.getParent() != null;
+            parent = model.getParent())
+        {
+            version = parent.getVersion();
+        }
+        return this.artifactFactory.createArtifact(
+            groupId,
+            model.getArtifactId(),
+            version,
+            null,
+            model.getPackaging());
     }
 
     /**
