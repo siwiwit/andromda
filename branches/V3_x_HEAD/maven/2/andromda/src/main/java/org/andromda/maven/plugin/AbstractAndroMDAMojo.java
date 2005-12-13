@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.ResourceUtils;
 import org.andromda.core.configuration.Configuration;
@@ -88,6 +89,7 @@ public abstract class AbstractAndroMDAMojo
     {
         try
         {
+            AndroMDALogger.initialize();
             final URL configurationUri = ResourceUtils.toURL(this.configurationUri);
             if (configurationUri == null)
             {
