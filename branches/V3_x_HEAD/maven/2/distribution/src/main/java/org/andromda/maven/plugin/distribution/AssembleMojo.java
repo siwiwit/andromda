@@ -213,7 +213,8 @@ public class AssembleMojo
             directory.mkdirs();
             final List artifactList = new ArrayList();
             final List projects = this.collectProjects();
-            if (!projects.isEmpty() && this.projectBaseDirectory != null && this.projectBaseDirectory.trim().length() > 0)
+            if (!projects.isEmpty() && this.projectBaseDirectory != null &&
+                this.projectBaseDirectory.trim().length() > 0)
             {
                 final Set artifacts = new LinkedHashSet();
                 for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
@@ -236,12 +237,12 @@ public class AssembleMojo
                             artifactPath.indexOf(artifactFileName));
                     final Build build = project.getBuild();
                     final File workDirectory = new File(build.getDirectory());
+                    final File distributionDirectory =
+                        new File(new File(
+                                directory,
+                                this.artifactDirectory), repositoryDirectoryPath);
                     if (workDirectory.exists())
                     {
-                        final File distributionDirectory =
-                            new File(new File(
-                                    directory,
-                                    this.artifactDirectory), repositoryDirectoryPath);
                         final String finalName = build.getFinalName();
                         final String[] names = workDirectory.list();
                         if (names != null)
@@ -262,20 +263,6 @@ public class AssembleMojo
                                 }
                             }
                         }
-
-                        final File repositoryPom =
-                            this.constructPom(
-                                new File(
-                                    this.localRepository.getBasedir(),
-                                    repositoryDirectoryPath),
-                                artifact);
-                        final File distributionPom = this.constructPom(
-                                distributionDirectory,
-                                artifact);
-                        this.bundleFile(
-                            artifact,
-                            repositoryPom,
-                            distributionPom);
                     }
                     else
                     {
@@ -284,6 +271,21 @@ public class AssembleMojo
                             this.project.getRemoteArtifactRepositories(),
                             this.localRepository);
                     }
+
+                    // - bundle the POM
+                    final File repositoryPom =
+                        this.constructPom(
+                            new File(
+                                this.localRepository.getBasedir(),
+                                repositoryDirectoryPath),
+                            artifact);
+                    final File distributionPom = this.constructPom(
+                            distributionDirectory,
+                            artifact);
+                    this.bundleFile(
+                        artifact,
+                        repositoryPom,
+                        distributionPom);
                     artifacts.addAll(project.createArtifacts(
                             artifactFactory,
                             null,
@@ -316,6 +318,7 @@ public class AssembleMojo
                             final String groupId = artifact.getGroupId();
                             if (artifactId.equals(projectId) && groupId.equals(projectGroupId))
                             {
+                                System.out.println("removing artifact>>>>>>>>>>>>>>>>" + artifactId);
                                 artifactIterator.remove();
                             }
                         }
@@ -393,7 +396,9 @@ public class AssembleMojo
                                     file,
                                     destination);
                                 if (this.getLog().isDebugEnabled())
+                                {
                                     this.getLog().debug("bundled: " + destination);
+                                }
                                 bundledFilesCount++;
                             }
                         }
@@ -599,10 +604,11 @@ public class AssembleMojo
             if (project == null)
             {
                 // - if we didn't find it in the session, create it
-                project = this.projectBuilder.build(
-                    pom,
-                    this.session.getLocalRepository(),
-                    new DefaultProfileManager(this.session.getContainer()));
+                project =
+                    this.projectBuilder.build(
+                        pom,
+                        this.session.getLocalRepository(),
+                        new DefaultProfileManager(this.session.getContainer()));
             }
             if (this.getLog().isDebugEnabled())
             {
@@ -615,15 +621,15 @@ public class AssembleMojo
             throw new MojoExecutionException("Error loading " + pom, exception);
         }
     }
-    
+
     /**
      * The POM file name.
      */
     private static final String POM_FILE = "pom.xml";
-    
+
     /**
      * Attempts to retrieve the Maven project for the given <code>pom</code>.
-     * 
+     *
      * @param pom the POM to find.
      * @return the maven project with the matching POM.
      */
@@ -633,7 +639,9 @@ public class AssembleMojo
         for (final Iterator projectIterator = this.session.getSortedProjects().iterator(); projectIterator.hasNext();)
         {
             final MavenProject project = (MavenProject)projectIterator.next();
-            final File projectPom = new File(project.getBasedir(), POM_FILE);
+            final File projectPom = new File(
+                    project.getBasedir(),
+                    POM_FILE);
             if (projectPom.equals(pom))
             {
                 foundProject = project;
