@@ -31,7 +31,7 @@ public abstract class AbstractAndroMDAMojo
     /**
      * This is the URI to the AndroMDA configuration file.
      *
-     * @parameter expression="file:${basedir}/conf/andromda.xml"
+     * @parameter expression="file:${project.basedir}/conf/andromda.xml"
      * @required
      */
     protected String configurationUri;
