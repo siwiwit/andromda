@@ -318,7 +318,6 @@ public class AssembleMojo
                             final String groupId = artifact.getGroupId();
                             if (artifactId.equals(projectId) && groupId.equals(projectGroupId))
                             {
-                                System.out.println("removing artifact>>>>>>>>>>>>>>>>" + artifactId);
                                 artifactIterator.remove();
                             }
                         }
