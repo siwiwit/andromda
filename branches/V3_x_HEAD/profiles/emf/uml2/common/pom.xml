@@ -6,7 +6,7 @@
         <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <packaging>uml2</packaging>
-    <artifactId>andromda-profile</artifactId>
+    <artifactId>andromda-profile-emf-uml2</artifactId>
     <name>AndroMDA EMF UML2 Common Profile</name>
     <dependencies>
         <dependency>

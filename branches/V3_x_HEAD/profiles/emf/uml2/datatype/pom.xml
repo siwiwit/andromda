@@ -6,6 +6,6 @@
         <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <packaging>uml2</packaging>
-    <artifactId>andromda-profile-datatype</artifactId>
+    <artifactId>andromda-profile-datatype-emf-uml2</artifactId>
     <name>AndroMDA EMF UML2 Datatype Profile</name>
 </project>
