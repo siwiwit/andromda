@@ -21,7 +21,6 @@ public class ConfigurationClassLoader
     }
 
     /**
-     *
      * @see java.lang.ClassLoader#loadClass(java.lang.String)
      */
     public Class loadClass(final String name)
