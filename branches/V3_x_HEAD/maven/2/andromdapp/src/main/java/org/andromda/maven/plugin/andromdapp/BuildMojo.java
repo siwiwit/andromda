@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.andromda.maven.plugin.andromdapp.utils.ProjectUtils;
+import org.andromda.maven.plugin.andromdapp.utils.Projects;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.BuildFailureException;
@@ -235,6 +236,7 @@ public class BuildMojo
                         {
                             this.printLine();
                         }
+                        Projects.instance().clear();
                     }
                 }
             }
