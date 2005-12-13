@@ -11,7 +11,7 @@
     <dependencies>
         <dependency>
             <groupId>org.andromda.profiles.emf.uml2</groupId>
-            <artifactId>andromda-profile-datatype</artifactId>
+            <artifactId>andromda-profile-datatype-emf-uml2</artifactId>
             <version>${version}</version>
             <type>uml2</type>
             <scope>runtime</scope>
