@@ -28,7 +28,7 @@
 #set ($otherEnd = $sourceEnd.otherEnd)
 #if ($otherEnd.navigable)
 #if ($sourceEnd.one2One)
-#if($sourceEnd.one2OnePrimary)
+#if($sourceEnd.one2OnePrimary || !$sourceEnd.navigable)
 #if ($otherEnd.type.foreignHibernateGeneratorClass)
         <one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" outer-join="$otherEnd.outerJoin"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end/>
 #else
