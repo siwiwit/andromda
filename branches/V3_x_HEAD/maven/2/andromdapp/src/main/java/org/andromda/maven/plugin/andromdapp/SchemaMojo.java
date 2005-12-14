@@ -144,9 +144,8 @@ public class SchemaMojo
      * The JDBC password for the database.
      *
      * @parameter
-     * @required
      */
-    private String jdbcPassword;
+    private String jdbcPassword = "";
 
     /**
      * The jar containing the JDBC driver.
