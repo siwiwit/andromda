@@ -621,7 +621,11 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+#if ($ear)
                 <jdbc.driver.jar>${jboss.home}/server/default/lib/hsqldb.jar</jdbc.driver.jar>
+#else
+                <jdbc.driver.jar>/path/to/hsqldb/hsqldb.jar</jdbc.driver.jar>
+#end
                 <jdbc.driver>org.hsqldb.jdbcDriver</jdbc.driver>
                 <jdbc.url>jdbc:hsqldb:hsql://127.0.0.1:1701</jdbc.url>
                 <jdbc.username>sa</jdbc.username>
