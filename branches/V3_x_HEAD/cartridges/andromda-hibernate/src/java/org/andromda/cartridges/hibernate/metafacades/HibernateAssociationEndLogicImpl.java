@@ -177,7 +177,7 @@ public class HibernateAssociationEndLogicImpl
             if ("true".equals(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
             {
                 getterSetterTypeName =
-                    getterSetterTypeName + "<? extends " + this.getType().getFullyQualifiedName() + ">";
+                    getterSetterTypeName + "<" + this.getType().getFullyQualifiedName() + ">";
             }
         }
 
