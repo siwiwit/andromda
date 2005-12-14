@@ -17,7 +17,7 @@
     of J2EE projects. The build process itself makes use of Maven, dependencies
     and often-used goals have been added for your convenience.
 
-    Custom configuration can be done by updating the project.properties files
+    Custom configuration can be done by updating the root pom.xml file.
 
     /$applicationId J2EE project
          |

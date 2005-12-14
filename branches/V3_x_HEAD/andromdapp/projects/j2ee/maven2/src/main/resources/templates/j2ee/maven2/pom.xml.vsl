@@ -570,11 +570,49 @@
 #end
     </modules>
     <properties>
+        <!-- 
+            Change this to generate to the correct MDA database mappings,
+            For MySql use: MySQL
+            For Hypersonic use: HypersonicSql
+            For Oracle9i use: Oracle9i
+          -->
+        <sql.mappings>HypersonicSql</sql.mappings>
+#if ($hibernate || $spring)
+#if ($hibernateVersion == "2")
+        <!-- 
+            Change this for the appropriate database
+            For MySql use: net.sf.hibernate.dialect.MySQLDialect
+            For Hypersonic use: net.sf.hibernate.dialect.HSQLDialect
+            For Oracle9i use: net.sf.hibernate.dialect.Oracle9Dialect
+          -->
+        <hibernate.dialect>net.sf.hibernate.dialect.HSQLDialect</hibernate.dialect>
+#else
+        <!-- 
+            Change this for the appropriate database
+            For MySql use: org.hibernate.dialect.MySQLDialect
+            For Hypersonic use: org.hibernate.dialect.HSQLDialect
+            For Oracle9i use: org.hibernate.dialect.Oracle9Dialect
+          -->
+        <hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
+#end
+#end
+#if ($ejb)
+        <!-- Change this to the correct database type mappings (for Jboss) -->
+        <jboss.typeMappings>Hypersonic SQL</jboss.typeMappings>
+#end
 #if ($ear)
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
 #else
         <tomcat.home>${env.CATALINA_HOME}</tomcat.home>
 #end
+#if ($webservice)
+        <!-- Change this to the host on which your webservice will be deployed -->
+        <service.host>localhost</service.host>
+        <!-- Change this the port on which your webservice will be deploy -->
+        <service.port>8080</service.port>
+#end
+        <application.id>${project.artifactId}</application.id>
+        <application.package>${project.groupId}</application.package>
     </properties>
     <profiles>
         <profile>

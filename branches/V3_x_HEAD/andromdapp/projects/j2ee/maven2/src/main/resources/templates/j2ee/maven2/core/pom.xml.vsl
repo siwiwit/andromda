@@ -161,9 +161,6 @@
                     <jdbcConnectionUrl>${jdbc.url}</jdbcConnectionUrl>
                     <jdbcUsername>${jdbc.username}</jdbcUsername>
                     <jdbcPassword>${jdbc.password}</jdbcPassword>
-                    <propertyFiles>
-                        <path>${project.basedir}/../project.properties</path>
-                    </propertyFiles>
                     <properties>
                         <property>
                             <name>mappingsLocation</name>

@@ -76,7 +76,6 @@
     <build>
         <sourceDirectory>src/main/uml</sourceDirectory>
         <filters>
-            <filter>../project.properties</filter>
             <filter>mda.properties</filter>
         </filters>
         <plugins>
