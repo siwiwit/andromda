@@ -17,19 +17,6 @@ dataSource=java:/${dataSource.name}
 dataSource=java:comp/env/${dataSource.name} 
 #end
 
-# Properties for management of the database schema, 
-# ignore if you setup/drop your schema manually
-dataSource.driver.jar=${env.JBOSS_HOME}/server/default/lib/hsqldb.jar
-dataSource.driver.class=org.hsqldb.jdbcDriver
-dataSource.url=jdbc:hsqldb:hsql://127.0.0.1:1701
-dataSource.user=sa
-dataSource.password=
-dataSource.sql.init=core/target/schema-create.sql
-dataSource.sql.drop=core/target/schema-drop.sql
-dataSource.sql.load=core/target/db/create-dummy-load.sql
-# What schema related goals should do when an error occurs.
-dataSource.sql.onError=continue
-
 # Change this to generate to the correct MDA database mappings
 # For MySql use: MySQL
 # For Hypersonic use: HypersonicSql
