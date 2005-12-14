@@ -613,6 +613,11 @@
 #end
         <application.id>${project.artifactId}</application.id>
         <application.package>${project.groupId}</application.package>
+#if ($ear)
+        <dataSource>java:/DefaultDS</dataSource>
+#else
+        <dataSource>java:comp/env/${applicationId}DS</dataSource>
+#end
     </properties>
     <profiles>
         <profile>
