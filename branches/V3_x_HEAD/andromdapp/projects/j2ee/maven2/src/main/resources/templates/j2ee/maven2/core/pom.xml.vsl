@@ -157,7 +157,7 @@
                 </executions>
                 <configuration>
                     <jdbcDriver>${jdbc.driver}</jdbcDriver>
-                    <jdbcDriverJar>${jdbc.driver}</jdbcDriverJar>
+                    <jdbcDriverJar>${jdbc.driver.jar}</jdbcDriverJar>
                     <jdbcConnectionUrl>${jdbc.url}</jdbcConnectionUrl>
                     <jdbcUsername>${jdbc.username}</jdbcUsername>
                     <jdbcPassword>${jdbc.password}</jdbcPassword>
