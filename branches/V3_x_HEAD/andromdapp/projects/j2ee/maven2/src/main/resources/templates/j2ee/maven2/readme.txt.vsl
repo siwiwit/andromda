@@ -215,9 +215,9 @@
             simply builds all modules
 
 #if ($ear)
-        %> mvn -f app/pom.xml
+        %> mvn -f app/pom.xml -Ddeploy
 #else
-        %> mvn -f web/pom.xml -Ddeploy -Dtomcat.home=$CATALINA_HOME
+        %> mvn -f web/pom.xml -Ddeploy
 #end
 
             collects all artifacts and builds a deployable .$projectType which is then
@@ -226,10 +226,10 @@
         %> mvn clean
         
             cleans all generated files from each target directory
+            
         %> mvn install -Ddeploy
 
-            deletes all generated files, rebuilds and deploys; files in /src
-            directories are *not* deleted
+            rebuilds the entire application and deploys
              
         % > mvn -f web/pom.xml andromdapp:undeploy -o 
 
@@ -298,7 +298,11 @@
             runs AndroMDA, but this time using all cartridges *except*
             the Java and Hibernate cartridges
 
-        %> mvn -N andromdapp:build -Dmodules=mda,core,web,app -Dfilter=java -Ddeploy=true
+#if ($ear)
+        %> mvn -N andromdapp:build -Dmodules=mda,core,web,app -Dfilter=java -Ddeploy
+#else
+        %> mvn -N andromdapp:build -Dmodules=mda,core,web -Dfilter=java -Ddeploy
+#end
 
             runs AndroMDA using only the Java cartridge, rebuilds the core
             module and web module and deploys afterwards
