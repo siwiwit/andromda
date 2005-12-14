@@ -37,6 +37,9 @@
                                 <artifact>
                                     <groupId>org\.andromda\.samples.*</groupId>
                                 </artifact>
+                                <artifact>
+                                    <groupId>org\.andromda\.bootstrap.*</groupId>
+                                </artifact>
                             </artifactExcludes>
                             <locations>
                                 <location>
