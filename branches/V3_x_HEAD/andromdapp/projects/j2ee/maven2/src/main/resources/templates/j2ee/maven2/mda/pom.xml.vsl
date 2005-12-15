@@ -131,11 +131,11 @@
 #end
 #if ($webservice)
 #if ($war)
-        <webservice.generated.dir>${maven.andromda.web.generated.dir}</webservice.generated.dir>
+        <webservice.generated.dir>${web.generated.dir}</webservice.generated.dir>
 #else
         <webservice.generated.dir>${project.build.sourceDirectory}/../../../../webservice/target/src</webservice.generated.dir>
 #end
-        <webservice.generated.wsdl.dir>${maven.andromda.webservice.generated.dir}/WEB-INF/classes</webservice.generated.wsdl.dir>
+        <webservice.generated.wsdl.dir>${webservice.generated.dir}/WEB-INF/classes</webservice.generated.wsdl.dir>
 #end
         <common.generated.dir>${project.build.sourceDirectory}/../../../../common/target/src</common.generated.dir>      
 #if ($hibernate || $spring)
