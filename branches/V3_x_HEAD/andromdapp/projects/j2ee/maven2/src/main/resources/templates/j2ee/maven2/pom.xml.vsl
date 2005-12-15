@@ -605,12 +605,6 @@
 #else
         <tomcat.home>${env.CATALINA_HOME}</tomcat.home>
 #end
-#if ($webservice)
-        <!-- Change this to the host on which your webservice will be deployed -->
-        <service.host>localhost</service.host>
-        <!-- Change this the port on which your webservice will be deploy -->
-        <service.port>8080</service.port>
-#end
         <application.id>${project.artifactId}</application.id>
         <application.package>${project.groupId}</application.package>
 #if ($ear)
@@ -621,7 +615,7 @@
     </properties>
     <profiles>
         <profile>
-            <id>development</id>
+            <id>local</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -635,6 +629,32 @@
                 <jdbc.url>jdbc:hsqldb:hsql://127.0.0.1:1701</jdbc.url>
                 <jdbc.username>sa</jdbc.username>
                 <jdbc.password></jdbc.password>
+#if ($webservice)
+                <!-- Change this to the host on which your webservice will be deployed -->
+                <webservice.host>localhost</webservice.host>
+                <!-- Change this the port on which your webservice will be deploy -->
+                <webservice.port>8080</webservice.port>
+#end
+            </properties>
+        </profile>
+        <profile>
+            <id>development</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <properties>
+                <jdbc.driver.jar></jdbc.driver.jar>
+                <jdbc.driver></jdbc.driver>
+                <jdbc.url></jdbc.url>
+                <jdbc.username></jdbc.username>
+                <jdbc.password></jdbc.password>
+#if ($webservice)
+                <webservice.host></webservice.host>
+                <webservice.port></webservice.port>
+#end
             </properties>
         </profile>
         <profile>
@@ -651,6 +671,10 @@
                 <jdbc.url></jdbc.url>
                 <jdbc.username></jdbc.username>
                 <jdbc.password></jdbc.password>
+#if ($webservice)
+                <webservice.host></webservice.host>
+                <webservice.port></webservice.port>
+#end
             </properties>
         </profile>
         <profile>
@@ -667,6 +691,10 @@
                 <jdbc.url></jdbc.url>
                 <jdbc.username></jdbc.username>
                 <jdbc.password></jdbc.password>
+#if ($webservice)
+                <webservice.host></webservice.host>
+                <webservice.port></webservice.port>
+#end
             </properties>
         </profile>
     </profiles>
