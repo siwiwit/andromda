@@ -180,9 +180,6 @@
                 </j:choose>
             </j:if>
         </j:if>
-
-            <property name="path" refid="maven.compile.src.set"/>
-            <echo>path==============${path}</echo>
     </preGoal>
 
     <!-- ============================================================
