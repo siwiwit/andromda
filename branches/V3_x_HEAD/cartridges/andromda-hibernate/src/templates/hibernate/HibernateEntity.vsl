@@ -171,7 +171,7 @@ $operation.getDocumentation("     * ")
             return new ${entity.fullyQualifiedEntityImplementationName}();
         }
 
-#if ($entity.allRequiredConstructorParameters.size() != $entity.allProperties.size())
+#if ($entity.allRequiredConstructorParameters.size() > $entity.identifiers.size() && $entity.allRequiredConstructorParameters.size() < $entity.allProperties.size())
         /**
          * Constructs a new instance of {@link ${entity.fullyQualifiedName}}, taking all required and/or
          * read-only properties as arguments.
@@ -198,7 +198,7 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #end
         /**
          * Constructs a new instance of {@link ${entity.fullyQualifiedName}}, taking all possible properties
-         * as arguments.
+         * (except the identifier(s))as arguments.
          */
         public static $entity.fullyQualifiedName newInstance(## no newline
 #set ($comma = "")
