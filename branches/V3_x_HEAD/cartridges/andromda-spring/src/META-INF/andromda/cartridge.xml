@@ -163,7 +163,7 @@
     </template>
 
     <template
-        path="templates/spring/richClient/SpringClientTest.vsl"
+        path="templates/spring/richclient/SpringClientTest.vsl"
         outputPattern="$generatedFile"
         outlet="client-test"
         overwrite="false"
@@ -539,7 +539,7 @@
     </template>
 
     <template
-        path="templates/spring/richClient/applicationContext-client.xml.vsl"
+        path="templates/spring/richclient/applicationContext-client.xml.vsl"
         outputPattern="$applicationContextClient"
         outlet="client-config"
         overwrite="true"
@@ -556,7 +556,7 @@
     </template>
 
     <template
-        path="templates/spring/richClient/applicationContext-client.properties.vsl"
+        path="templates/spring/richclient/applicationContext-client.properties.vsl"
         outputPattern="$generatedFile"
         outlet="client-config"
         overwrite="true"
@@ -573,7 +573,7 @@
     </template>
 
     <template
-        path="templates/spring/richClient/web.xml.vsl"
+        path="templates/spring/richclient/web.xml.vsl"
         outputPattern="web.xml"
         outlet="spring-configuration"
         overwrite="true"
@@ -672,7 +672,7 @@
     </template>
 
     <template
-        path="templates/spring/richClient/serverTestBeanRefFactory.xml.vsl"
+        path="templates/spring/richclient/serverTestBeanRefFactory.xml.vsl"
         outputPattern="$beanRefFactory"
         outlet="server-test-config"
         overwrite="true"
