@@ -14,24 +14,25 @@ import ${springTypesPackage}.${clientServiceLocatorName};
 import ${service.packageName}.${service.name};
 
 public class ${service.name}Test extends
-        AbstractDependencyInjectionSpringContextTests {
+    AbstractDependencyInjectionSpringContextTests {
 
 #foreach ($operation in $service.operations)
-    public void test${stringUtils.capitalise($operation.name)}() {
+    public void test${stringUtils.capitalise($operation.name)}() 
+    {
         ${service.name} testService = ${clientServiceLocatorName}.instance().get${service.name}();
         assertNotNull(testService);
-
         // ${toDoTag} Write test code for ${service.name}::${operation.name}() client.
     }
 
 #end
-    protected String[] getConfigLocations() {
+    protected String[] getConfigLocations() 
+    {
         // ${toDoTag} ${service.name}Test test configuration files (if any), should be listed inside the brackets...
         return new String[] { };
     }
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         junit.textui.TestRunner.run(${service.name}Test.class);
     }
 
