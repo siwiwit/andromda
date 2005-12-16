@@ -1,4 +1,4 @@
-#set ($generatedFile = "${service.packagePath}/${service.name}RemoteTest.java")
+#set ($generatedFile = "${service.packagePath}/${service.name}LocalTest.java")
 // license-header java merge-point
 /**
  * This is only generated once! It will never be overwritten.
@@ -10,36 +10,34 @@ package $service.packageName;
 
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
-import ${springTypesPackage}.${clientServiceLocatorName};
 import ${service.packageName}.${service.name};
 
 /**
 * A unit test for exercising the methods of ${service.name}. This unit test
-* makes remote calls, testing the server code in its deployed environment.
+* makes local calls, bypassing remote invocations of service methods.
 */
-public class ${service.name}RemoteTest extends
+public class ${service.name}LocalTest extends
         AbstractDependencyInjectionSpringContextTests {
 
 #foreach ($operation in $service.operations)
     public void test${stringUtils.capitalise($operation.name)}()
     {
-        ${service.name} testService = ${clientServiceLocatorName}.instance().get${service.name}();
+        ${service.name} testService = (${service.name})applicationContext.getBean("$service.getBeanName(false)");
         assertNotNull(testService);
 
-        // ${toDoTag} Write test code for ${service.name}::${operation.name}() client.
+        // ${toDoTag} Write test code for ${service.name}::${operation.name}() server test.
     }
 
 #end
     protected String[] getConfigLocations()
     {
-        // ${toDoTag} ${service.name}Test test configuration files (if any), should be listed inside the brackets...
-        return new String[] { };
+        return new String[] { "$beanRefFactory" };
     }
 
 
     public static void main(String[] args)
     {
-        junit.textui.TestRunner.run(${service.name}RemoteTest.class);
+        junit.textui.TestRunner.run(${service.name}LocalTest.class);
     }
 
 }

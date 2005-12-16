@@ -12,29 +12,9 @@
         <constructor-arg>
            <list>
                 <value>$stringUtils.replace($applicationContext, '/', '.')</value>
-                <value>$stringUtils.replace($applicationContextLocalDataSource, '/', '.')</value>
-#if (!$manageables.empty)
-                <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
-#end
-                <!-- beanRefFactory merge-point -->
+                <value>$stringUtils.replace($serverTestContextDataSource, '/', '.')</value>
+                <!-- serverTestBeanRefFactory merge-point -->
            </list>
         </constructor-arg>
     </bean>
-#if ($ejbsEnabled)
-
-    <bean id="$beanRefFactoryEjbId"
-         class="org.springframework.context.support.ClassPathXmlApplicationContext">
-        <constructor-arg>
-           <list>
-#if ($springUtils.remoteEjbsPresent($services))
-                <value>$stringUtils.replace($applicationContextRemoteEjb, '/', '.')</value>
-#end
-#if ($springUtils.localEjbsPresent($services))
-                <value>$stringUtils.replace($applicationContextLocalEjb, '/', '.')</value>
-#end
-           </list>
-        </constructor-arg>
-    </bean>
-#end
-
 </beans>

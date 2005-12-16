@@ -9,9 +9,9 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                /WEB-INF/applicationContext-dataSource.xml
-                /WEB-INF/applicationContext.xml
-                /WEB-INF/serverContext.xml
+                /WEB-INF/${applicationContextDataSource}
+                /WEB-INF/${applicationContext}
+                /WEB-INF/${applicationContextServer}
                 <!-- web-contextConfigLocations merge-point -->
             </param-value>
         </init-param>
