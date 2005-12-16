@@ -7,7 +7,7 @@
         <repository name="netBeansMDR">
             <models>
                 <model type="uml-1.4">
-                    <uri>${maven.andromda.model.uri}</uri>
+                    <uri>${model.uri}</uri>
                     <moduleSearchLocations>
                         <location>${maven.repo.local}/andromda/xml.zips</location>
                         <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles</location>
@@ -38,13 +38,13 @@
                 <property name="hibernateInheritanceStrategy">${hibernate.inheritance.strategy}</property>
                 <property name="hibernateQueryCacheFactory">net.sf.hibernate.cache.StandardQueryCacheFactory</property>
                 <property name="springTypesPackage">${application.package}</property>
-                <property name="daos">${maven.andromda.core.generated.dir}</property>
-                <property name="dao-impls">${maven.andromda.core.manual.dir}</property>
-                <property name="spring-configuration">${maven.andromda.core.generated.dir}</property>
-                <property name="services">${maven.andromda.core.generated.dir}</property>
-                <property name="service-impls">${maven.andromda.core.manual.dir}</property>
+                <property name="daos">${core.generated.dir}</property>
+                <property name="dao-impls">${core.manual.dir}</property>
+                <property name="spring-configuration">${core.generated.dir}</property>
+                <property name="services">${core.generated.dir}</property>
+                <property name="service-impls">${core.manual.dir}</property>
                 <!-- to remove any dependency on EJB, comment the following property -->
-                <property name="session-ejbs">${maven.andromda.core.generated.dir}</property>
+                <property name="session-ejbs">${core.generated.dir}</property>
                 <!-- uncomment to enable EJB security -->
                 <!-- <securityRealm>${application.id}</securityRealm> -->
             </properties>
@@ -57,11 +57,11 @@
                 <property name="hibernateInheritanceStrategy">${hibernate.inheritance.strategy}</property>
                 <property name="defaultHibernateGeneratorClass">${hibernate.generatorClass}</property>
                 <property name="hibernateDefaultCascade">none</property>
-                <property name="entities">${maven.andromda.core.generated.dir}</property>
-                <property name="entity-impls">${maven.andromda.core.manual.dir}</property>
+                <property name="entities">${core.generated.dir}</property>
+                <property name="entity-impls">${core.manual.dir}</property>
                 <property name="customTypesPackage">${application.package}</property>
                 <property name="compositionDefinesEagerLoading">true</property>
-                <property name="cache">${maven.andromda.core.generated.dir}</property>
+                <property name="cache">${core.generated.dir}</property>
             </properties>
         </namespace>
         <namespace name="webservice">
@@ -72,30 +72,30 @@
                 <property name="applicationName">${application.id}</property>
                 <property name="wsdlSoapAddress">${wsdl.soap.address}</property>
                 <property name="rpcClassNamePattern">{0}.{1}WSDelegator</property>
-                <property name="wsdls">${maven.andromda.webservice.generated.wsdl.dir}</property>
-                <property name="axis-configuration">${maven.andromda.webservice.generated.dir}</property>
-                <property name="webservice-types">${maven.andromda.core.generated.dir}</property>
+                <property name="wsdls">${webservice.generated.wsdl.dir}</property>
+                <property name="axis-configuration">${webservice.generated.dir}</property>
+                <property name="webservice-types">${core.generated.dir}</property>
             </properties>
         </namespace>
         <namespace name="java">
             <properties>
                 <property name="languageMappingsUri">AxisJavaMappings</property>
                 <property name="useArraysForMultiplicitiesOfTypeMany">true</property>
-                <property name="enumerations">${maven.andromda.common.generated.dir}</property>
-                <property name="exceptions">${maven.andromda.common.generated.dir}</property>
-                <property name="value-objects">${maven.andromda.common.generated.dir}</property>
+                <property name="enumerations">${common.generated.dir}</property>
+                <property name="exceptions">${common.generated.dir}</property>
+                <property name="value-objects">${common.generated.dir}</property>
             </properties>
         </namespace>
         <namespace name="bpm4struts">
             <properties>
-                <property name="forms">${maven.andromda.web.generated.dir}</property>
-                <property name="pages">${maven.andromda.web.generated.dir}</property>
-                <property name="actions">${maven.andromda.web.generated.dir}</property>
-                <property name="controllers">${maven.andromda.web.generated.dir}</property>
-                <property name="controller-impls">${maven.andromda.web.manual.java.dir}</property>
-                <property name="decorators">${maven.andromda.web.manual.java.dir}</property>
-                <property name="messages">${maven.andromda.web.generated.dir}/WEB-INF/classes</property>
-                <property name="configuration">${maven.andromda.web.generated.dir}/WEB-INF</property>
+                <property name="forms">${web.generated.dir}</property>
+                <property name="pages">${web.generated.dir}</property>
+                <property name="actions">${web.generated.dir}</property>
+                <property name="controllers">${web.generated.dir}</property>
+                <property name="controller-impls">${web.manual.java.dir}</property>
+                <property name="decorators">${web.manual.java.dir}</property>
+                <property name="messages">${web.generated.dir}/WEB-INF/classes</property>
+                <property name="configuration">${web.generated.dir}/WEB-INF</property>
                 <property name="serviceAccessorPattern">${application.package}.ServiceLocator.instance().get{1}()</property>
                 <property name="manageableServiceAccessorPattern">${application.package}.ManageableServiceLocator.instance().get{1}()</property>
                 <property name="renderPageVariables">true</property>
