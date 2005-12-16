@@ -8,7 +8,7 @@
         <version>$applicationVersion</version>
     </parent>
     <artifactId>${applicationId}-mda</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>$applicationName MDA</name>
     <dependencies>
         <dependency>
