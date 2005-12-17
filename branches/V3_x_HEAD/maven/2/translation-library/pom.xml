@@ -17,41 +17,41 @@
         <dependency>
             <groupId>org.andromda</groupId>
             <artifactId>andromda-core</artifactId>
-            <version>${version}</version>
+            <version>${pom.version}</version>
         </dependency>
         <dependency>
             <groupId>org.andromda.translationlibraries</groupId>
             <artifactId>andromda-ocl-translation-testsuite</artifactId>
-            <version>${version}</version>
+            <version>${pom.version}</version>
         </dependency>
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>andromda-configuration-mojo</artifactId>
-            <version>${version}</version>
+            <version>${pom.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.andromda.metafacades</groupId>
             <artifactId>andromda-metafacades-uml14</artifactId>
-            <version>${version}</version>
+            <version>${pom.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.andromda.repositories</groupId>
             <artifactId>andromda-repository-mdr</artifactId>
-            <version>${version}</version>
+            <version>${pom.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.andromda.templateengines</groupId>
             <artifactId>andromda-templateengine-velocity</artifactId>
-            <version>${version}</version>
+            <version>${pom.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-project</artifactId>
-            <version>2.0</version>
+            <version>2.0.1</version>
         </dependency>      
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
