@@ -179,7 +179,7 @@ $operation.getDocumentation("     * ")
         public static $entity.fullyQualifiedName newInstance(## no newline
 #set ($comma = "")
 #foreach ($property in $entity.allRequiredConstructorParameters)
-#if (!$property.identifier)
+#if ($entity.usingForeignIdentifier || !$property.identifier)
 ${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #set ($comma = ", ")
 #end
@@ -188,7 +188,7 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
         {
             final ${entity.fullyQualifiedName} entity = new ${entity.fullyQualifiedEntityImplementationName}();
 #foreach ($property in $entity.allRequiredConstructorParameters)
-#if (!$property.identifier)
+#if ($entity.usingForeignIdentifier || !$property.identifier)
             entity.${property.setterName}(${property.name});
 #end
 #end
@@ -203,7 +203,7 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
         public static $entity.fullyQualifiedName newInstance(## no newline
 #set ($comma = "")
 #foreach ($property in $entity.allProperties)
-#if (!$property.identifier)
+#if ($entity.usingForeignIdentifier || !$property.identifier)
 ${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #set ($comma = ", ")
 #end
@@ -212,7 +212,7 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
         {
             final ${entity.fullyQualifiedName} entity = new ${entity.fullyQualifiedEntityImplementationName}();
 #foreach ($property in $entity.allProperties)
-#if (!$property.identifier)
+#if ($entity.usingForeignIdentifier || !$property.identifier)
             entity.${property.setterName}(${property.name});
 #end
 #end
