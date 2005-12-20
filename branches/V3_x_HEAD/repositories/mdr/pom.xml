@@ -11,9 +11,9 @@
   	<description>This MDR repository module allows AndroMDA to use the NetBeans MDR as a repository for loading, and querying object models.</description>
     <dependencies>
         <dependency>
-              <groupId>commons-lang</groupId>
-              <artifactId>commons-lang</artifactId>
-              <version>2.1</version>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.1</version>
         </dependency>
     	<dependency> 
     		<groupId>org.netbeans.mdr</groupId>
