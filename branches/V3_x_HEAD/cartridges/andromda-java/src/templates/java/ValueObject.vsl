@@ -12,7 +12,7 @@ $class.getDocumentation(" * ")
  */
 public#if($class.abstract) abstract#end class $class.name
 #if($class.generalization)
-    extends ${class.generalization.fullyQualifiedName}
+    extends $class.generalization.fullyQualifiedName
 #end
 #if ($serializable == 'true')
     implements java.io.Serializable
@@ -41,7 +41,7 @@ public#if($class.abstract) abstract#end class $class.name
     public ${class.name}(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allRequiredConstructorParameters)
-${comma}${property.type.fullyQualifiedName} ${property.name}## no newline
+${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #set ($comma = ", ")
 #end
 )
@@ -62,7 +62,7 @@ ${comma}${property.name}## no newline
     public ${class.name}(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allProperties)
-${comma}${property.type.fullyQualifiedName} ${property.name}## no newline
+${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #set ($comma = ", ")
 #end
 )
