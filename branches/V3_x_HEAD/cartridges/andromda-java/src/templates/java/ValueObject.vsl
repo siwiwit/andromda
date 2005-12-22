@@ -107,29 +107,32 @@ ${comma}otherBean.${property.getterName}()## no newline
     }
 
 #foreach ($attribute in $class.attributes)
-    private#if($attribute.readOnly) final#end $attribute.getterSetterTypeName $attribute.name#if ($attribute.defaultValuePresent) = $attribute.defaultValue#end;
+    private $attribute.getterSetterTypeName $attribute.name#if ($attribute.defaultValuePresent) = $attribute.defaultValue#end;
 
     /**
 $attribute.getDocumentation("     * ")
      */
-    $attribute.visibility $attribute.getterSetterTypeName ${attribute.getterName}()
+    public $attribute.getterSetterTypeName ${attribute.getterName}()
     {
         return this.${attribute.name};
     }
 
-#if (!$attribute.readOnly)
-    $attribute.visibility void ${attribute.setterName}($attribute.getterSetterTypeName $attribute.name)
+#if ($attribute.readOnly)
+    protected ## no newline
+#else
+    public ## no newline
+#end
+void ${attribute.setterName}($attribute.getterSetterTypeName $attribute.name)
     {
         this.${attribute.name} = $attribute.name;
     }
 
 #end
-#end
 ## Generate the relation methods.
 #foreach ($associationEnd in $class.associationEnds)
 #set ($target = $associationEnd.otherEnd)
 #if ($target.navigable)
-    private#if($attribute.readOnly) final#end $target.getterSetterTypeName $target.name;
+    private $target.getterSetterTypeName $target.name;
 
     /**
      * Get the $target.name
@@ -140,16 +143,19 @@ $target.getDocumentation("     * ")
         return this.${target.name};
     }
 
-#if (!$associationEnd.readOnly)
     /**
      * Set the $target.name
      */
-    public void ${target.setterName}($target.getterSetterTypeName $target.name)
+#if ($associationEnd.readOnly)
+    protected ## no newline
+#else
+    public ## no newline
+#end
+void ${target.setterName}($target.getterSetterTypeName $target.name)
     {
         this.${target.name} = ${target.name};
     }
 
-#end
 #end
 #end
 }
