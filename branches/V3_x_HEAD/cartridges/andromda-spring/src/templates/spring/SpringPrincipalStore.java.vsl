@@ -1,4 +1,4 @@
-#if ($stringUtils.isBlank($externalPrincipalStoreClass))
+#if (!$externalPrincipalStoreClass)
 #parse("templates/spring/SpringGlobals.vm")
 // license-header java merge-point
 //

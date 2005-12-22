@@ -136,13 +136,13 @@ public abstract class $service.baseName
      */
     protected java.security.Principal getPrincipal()
     {
-#if ($stringUtils.isBlank($externalPrincipalStoreClass))
+#if ($externalPrincipalStoreClass)
+#set ($principalStoreCall = "${externalPrincipalStoreClass}.get();")
+#else
 #set ($principalStoreCall = "${principalStoreName}.get();")
 #if($stringUtils.isNotEmpty($springTypesPackage))
 #set ($principalStoreCall = "${springTypesPackage}.${principalStoreCall}")
 #end
-#else
-#set ($principalStoreCall = "${externalPrincipalStoreClass}.get();")
 #end
         return $principalStoreCall
     }

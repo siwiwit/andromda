@@ -34,13 +34,13 @@ public class $service.ejbImplementationName
 #end
     {
 #if ($ejbSecurityEnabled)
-#if ($stringUtils.isBlank($externalPrincipalStoreClass))
+#if ($externalPrincipalStoreClass)
+#set ($principalStoreClassName = $externalPrincipalStoreClass)
+#else
 #set ($principalStoreClassName = $principalStoreName)
 #if($stringUtils.isNotEmpty($springTypesPackage))
 #set ($principalStoreClassName = "${springTypesPackage}.${principalStoreClassName}")
 #end
-#else
-#set ($principalStoreClassName = $externalPrincipalStoreClass)
 #end
         ${principalStoreClassName}.set(super.getSessionContext().getCallerPrincipal());
 #end
