@@ -111,6 +111,9 @@
                 <property name="hibernateCacheProvider">org.hibernate.cache.EhCacheProvider</property>
                 <property name="hibernateQueryCacheFactory">org.hibernate.cache.StandardQueryCacheFactory</property>
 #end
+#if ($war)
+                <property name="transactionManager">org.springframework.jdbc.datasource.DataSourceTransactionManager</property>
+#end
                 <property name="hibernateInheritanceStrategy">${hibernate.inheritance.strategy}</property>
                 <property name="springTypesPackage">${application.package}</property>
                 <property name="daos">${core.generated.dir}</property>
