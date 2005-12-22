@@ -300,7 +300,7 @@
                 project (for example, Eclipse users can set the tag to "TODO", the default Eclipse task tag).
             </action>
             <action dev="joelkoz" type="update">
-                Spring cartridge now generates default implementations for the "VO to Entity" and "Entity to VO"
+                Spring cartridge now generates default implementations for the "ValueObject to Entity" and "Entity to ValueObject"
                 conversion routines found in entity DAOs.
             </action>
         </release>
