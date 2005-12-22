@@ -40,6 +40,16 @@ public interface $entity.daoName
     public final static int $valueObjectRef.transformationConstantName = $valueObjectRef.transformationConstantValue;
 
     /**
+     * Copies the fields of the specified entity to the target value object.  This method is similar to
+     * ${valueObjectRef.transformationMethodName}(), but it does not handle any attributes in the target
+     * value object that are "read-only" (as those do not have setter methods exposed).
+     */
+    public void ${valueObjectRef.transformationMethodName}(
+        $entity.fullyQualifiedEntityName sourceEntity, 
+        $valueObjectRef.targetElement.fullyQualifiedName targetVO);
+
+
+    /**
      * Converts this DAO's entity to an object of type {@link $valueObjectRef.targetElement.fullyQualifiedName}.
      */
     public $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName entity);
@@ -49,6 +59,16 @@ public interface $entity.daoName
      */
     public void ${valueObjectRef.transformationToCollectionMethodName}(java.util.Collection entities);
     
+    /**
+     * Copies the fields of {@link $valueObjectRef.targetElement.fullyQualifiedName} to the specified entity.
+     * @param copyIfNull If FALSE, the value object's field will not be copied to the entity if the value is NULL. If TRUE,
+     *        it will be copied regardless of its value.
+     */
+    public void ${valueObjectRef.transformationToEntityMethodName}(
+        $valueObjectRef.targetElement.fullyQualifiedName sourceVO,
+        $entity.fullyQualifiedEntityName targetEntity,
+        boolean copyIfNull);
+
     /**
      * Converts an instance of type {@link $valueObjectRef.targetElement.fullyQualifiedName} to this DAO's entity.
      */

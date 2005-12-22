@@ -299,6 +299,10 @@
                 users of various IDEs to quickly see what modifications they need to make in a generated 
                 project (for example, Eclipse users can set the tag to "TODO", the default Eclipse task tag).
             </action>
+            <action dev="joelkoz" type="update">
+                Spring cartridge now generates default implementations for the "VO to Entity" and "Entity to VO"
+                conversion routines found in entity DAOs.
+            </action>
         </release>
         <release version="3.1-RC1" date="2005-06-19" description="First milestone release of version 3.1">
             <action dev="cwbrandon" type="fix" issue="SCHEMATOXMI-1">
