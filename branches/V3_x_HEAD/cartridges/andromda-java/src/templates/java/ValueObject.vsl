@@ -96,6 +96,16 @@ ${comma}otherBean.${property.getterName}()## no newline
 );
     }
 
+    /**
+     * Copies all properties from the argument value object into this value object.
+     */
+    public void copy(${class.name} otherBean)
+    {
+#foreach ($property in $class.allProperties)
+        this.${property.setterName}(otherBean.${property.getterName}());
+#end
+    }
+
 #foreach ($attribute in $class.attributes)
     private#if($attribute.readOnly) final#end $attribute.getterSetterTypeName $attribute.name#if ($attribute.defaultValuePresent) = $attribute.defaultValue#end;
 
