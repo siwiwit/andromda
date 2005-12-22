@@ -693,7 +693,7 @@ public abstract class $entity.daoBaseName
 #if ($getVal)
         targetVO.${property.setterName}($getVal);
 #else
-        // No conversion for targetVO.${property.name} (can't convert sourceEntity.${entityProp.getterName}():${entityProp.type.fullyQualifiedName} to $property.type.fullyQualifiedName
+        // No conversion for targetVO.${property.name} (can't convert sourceEntity.${entityProp.getterName}():${entityProp.type.fullyQualifiedName} to $property.type.fullyQualifiedName)
 #end
 #end
 #end
@@ -760,7 +760,7 @@ ${indent}${property.type.javaNullString}## no new line
             targetEntity.${attribute.setterName}($getVal);
         }
 #else
-        // No conversion for targetEntity.${attribute.name} (can't convert sourceVO.${voProperty.getterName}():${voProperty.type.fullyQualifiedName} to $attribute.type.fullyQualifiedName
+        // No conversion for targetEntity.${attribute.name} (can't convert sourceVO.${voProperty.getterName}():${voProperty.type.fullyQualifiedName} to $attribute.type.fullyQualifiedName)
 #end        
 #end
 #end
