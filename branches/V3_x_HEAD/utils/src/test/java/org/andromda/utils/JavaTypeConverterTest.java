@@ -263,6 +263,30 @@ public class JavaTypeConverterTest
             assertEquals("Converting " + expected[ndxTest].fromType + " to " + expected[ndxTest].toType, expected[ndxTest].expected, result);
         } // for
     }
+
+    
+    public void testTypeConvertWithIgnore() 
+    {
+        JavaTypeConverter converter = new JavaTypeConverter();
+        converter.setJavaTypeConversionIgnoreList("java.util.Date, java.sql.Timestamp");
+        
+        for (int ndxTest = 0; ndxTest < expected.length; ndxTest++)
+        {
+            String result = converter.typeConvert(expected[ndxTest].fromType, "sourceVal", expected[ndxTest].toType);
+            if (expected[ndxTest].fromType.equals("java.util.Date") ||
+                expected[ndxTest].fromType.equals("java.sql.Timestamp") ||
+                expected[ndxTest].toType.equals("java.util.Date") ||
+                expected[ndxTest].toType.equals("java.sql.Timestamp")
+                )
+            {
+                assertNull("Converting " + expected[ndxTest].fromType + " to " + expected[ndxTest].toType + " should have been null, was: " + result, result);
+            }
+            else
+            {
+                assertEquals("Converting " + expected[ndxTest].fromType + " to " + expected[ndxTest].toType, expected[ndxTest].expected, result);
+            }
+        } // for
+    }
     
     /**
      * This method generates the "expected" source array, so it can be cut and

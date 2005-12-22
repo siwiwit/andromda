@@ -13,7 +13,9 @@
     <templateObject name="hibernateUtils" className="org.andromda.cartridges.spring.SpringHibernateUtils">
         <property reference="hibernateVersion"/>
     </templateObject>
-    <templateObject name="converter" className="org.andromda.utils.JavaTypeConverter"/>
+    <templateObject name="converter" className="org.andromda.utils.JavaTypeConverter">
+        <property reference="javaTypeConversionIgnoreList"/>
+    </templateObject>
     
     <!-- cartridge-templateObject merge-point-->
 

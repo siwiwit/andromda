@@ -1,7 +1,10 @@
 package org.andromda.utils;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.apache.commons.lang.StringUtils;
 
 /**
  * A utility object used by the code generator when it needs to convert an object
@@ -15,6 +18,19 @@ public class JavaTypeConverter
     {
     }
 
+    private ArrayList javaTypeConversionIgnoreList = new ArrayList();
+
+    public void setJavaTypeConversionIgnoreList(String commaSeparatedIgnoreList)
+    {
+        javaTypeConversionIgnoreList = new ArrayList();
+        if (commaSeparatedIgnoreList != null)
+        {
+            String[] strList = StringUtils.split(commaSeparatedIgnoreList, ", ");
+            javaTypeConversionIgnoreList.addAll(Arrays.asList(strList));
+        }
+        
+    }
+    
     private static class ConversionEntry
     {
         public String sourceType;
@@ -122,7 +138,11 @@ public class JavaTypeConverter
     {
         String convertedValue;
 
-        if (sourceType.equals(targetType))
+        if (javaTypeConversionIgnoreList.contains(sourceType) || javaTypeConversionIgnoreList.contains(targetType))
+        {
+            convertedValue = null;
+        }
+        else if (sourceType.equals(targetType))
         {
             convertedValue = sourceValue;
         }
@@ -189,4 +209,5 @@ public class JavaTypeConverter
 
         return convertedValue;
     }
+
 }
