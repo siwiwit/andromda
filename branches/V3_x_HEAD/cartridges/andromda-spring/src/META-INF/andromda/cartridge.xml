@@ -69,6 +69,7 @@
     <property reference="clientExceptionHandlingAdviceName"/>
     <property reference="criteriaSearchBaseName"/>
     <property reference="principalStoreName"/>
+    <property reference="externalPrincipalStoreClass"/>
     <property reference="openSessionInViewFilterName"/>
     <property reference="ejbViewType"/>
     <property reference="ejbRemoteProxyFactoryBean"/>

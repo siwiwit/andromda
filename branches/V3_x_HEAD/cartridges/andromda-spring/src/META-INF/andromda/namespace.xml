@@ -275,6 +275,12 @@
                     serviceTransactionInterceptor and hibernateInterceptor if present.
                 </documentation>
             </property>
+            <property name="externalPrincipalStoreClass" required="false">
+                <documentation>
+                    If this is present, it will be assumed that an external principal store class will be used
+                    and non will be generated.
+                </documentation>
+            </property>
             <property name="serviceRemotingType">
                 <default>none</default>
                 <documentation>
