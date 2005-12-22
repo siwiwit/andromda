@@ -20,6 +20,10 @@ public class JavaTypeConverter
 
     private ArrayList javaTypeConversionIgnoreList = new ArrayList();
 
+    /** 
+     * Specifies a list of one or more fully qualified java types that should be ignored 
+     * whenever a type conversion is done.  See Spring namespace property "javaTypeConversionIgnoreList" 
+     */
     public void setJavaTypeConversionIgnoreList(String commaSeparatedIgnoreList)
     {
         javaTypeConversionIgnoreList = new ArrayList();
