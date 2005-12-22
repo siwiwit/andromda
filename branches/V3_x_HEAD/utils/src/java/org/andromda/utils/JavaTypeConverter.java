@@ -4,8 +4,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.commons.lang.StringUtils;
-
 /**
  * A utility object used by the code generator when it needs to convert an object
  * from one data type to another.
@@ -19,7 +17,7 @@ public class JavaTypeConverter
     }
 
     private ArrayList javaTypeConversionIgnoreList = new ArrayList();
-
+    
     /** 
      * Specifies a list of one or more fully qualified java types that should be ignored 
      * whenever a type conversion is done.  See Spring namespace property "javaTypeConversionIgnoreList" 
@@ -29,8 +27,8 @@ public class JavaTypeConverter
         javaTypeConversionIgnoreList = new ArrayList();
         if (commaSeparatedIgnoreList != null)
         {
-            String[] strList = StringUtils.split(commaSeparatedIgnoreList, ", ");
-            javaTypeConversionIgnoreList.addAll(Arrays.asList(strList));
+            String[] typeList = commaSeparatedIgnoreList.split("\\s*,\\s*");
+            javaTypeConversionIgnoreList.addAll(Arrays.asList(typeList));
         }
         
     }
