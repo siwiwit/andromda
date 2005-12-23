@@ -168,7 +168,7 @@ public interface $entity.daoName
     public java.util.Collection create(int transform, java.util.Collection entities);
 
 #if ($enableDaoPropertiesCreateMethod.equalsIgnoreCase('true'))
-#set ($attributes = $entity.getAttributes(true,false))
+#set ($attributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
 #if (!$attributes.empty)
     /**
      * <p>

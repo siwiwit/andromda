@@ -156,7 +156,7 @@ public abstract class $entity.daoBaseName
     }
 
 #if ($enableDaoPropertiesCreateMethod.equalsIgnoreCase('true'))
-#set ($attributes = $entity.getAttributes(true,false))
+#set ($attributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
 #if (!$attributes.empty)
     /**
      * @see ${entity.root.fullyQualifiedDaoName}#create(${entity.getAttributeTypeList(true, false)})
@@ -748,7 +748,7 @@ ${indent}${property.type.javaNullString}## no new line
         $entity.fullyQualifiedEntityName targetEntity,
         boolean copyIfNull)
     {
-#set ($attributes = $entity.getAttributes(true,false))
+#set ($attributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
 #foreach ($attribute in $attributes)
 #foreach ($voProperty in $valueObjectRef.targetElement.allProperties)
 #if ($attribute.name == $voProperty.name)
