@@ -23,6 +23,37 @@ public abstract class $service.baseName
 #end
     implements $service.fullyQualifiedName
 {
+#set ($interpretBusinessLogic = $interpretBusinessLogic.equalsIgnoreCase("true"))
+#if ($interpretBusinessLogic)
+
+    /**
+     * The BeanShell interpreter.
+     */
+    private bsh.Interpreter interpreter;
+    
+    /**
+     * Retrieves and initializes the BeanShell interpretor.
+     * 
+     * @return the bean shell interpreter.
+     * @throws Exception
+     */
+    private bsh.Interpreter getInterpreter()
+        throws Exception
+    {
+        this.interpreter = new bsh.Interpreter();
+        this.interpreter.source("${service-impls.replaceAll('\\', '/')}/${service.packagePath}/${service.implementationName}.java");
+        this.interpreter.set("instance", interpreter.eval("new ${service.fullyQualifiedImplementationName}();"));
+#foreach($serviceRef in $service.serviceReferences)
+        this.interpreter.set("$serviceRef.name", this.$serviceRef.name);
+        this.interpreter.eval("instance.${serviceRef.setterName}($serviceRef.name);");
+#end
+#foreach($entityRef in $service.entityReferences)
+        this.interpreter.set("$entityRef.daoName", this.$entityRef.daoName);
+        this.interpreter.eval("instance.${entityRef.daoSetterName}($entityRef.daoName);");
+#end
+        return this.interpreter;
+    }
+#end
 
 #foreach($serviceRef in $service.serviceReferences)
 #set ($targetElement = $serviceRef.targetElement)
@@ -90,11 +121,27 @@ public abstract class $service.baseName
 #end
         try
         {
+#if ($interpretBusinessLogic)   
+            final bsh.Interpreter interpreter = this.getInterpreter();
+#foreach($argument in $operation.arguments)
+            interpreter.set("$argument.name", $argument.name);
+#end
+#if ($operation.returnTypePresent)
+#if($operation.returnType.primitive)
+            return ((${operation.returnType.wrapperName})interpreter.eval("instance.${operation.implementationCall};")).${operation.returnType.name}Value();
+#else
+            return ($operation.returnType.fullyQualifiedName)interpreter.eval("instance.${operation.implementationCall};");
+#end
+#else
+            interpreter.eval("instance.${operation.implementationCall};");
+#end
+#else
 #set ($call = "this.${operation.implementationCall};")
 #if ($operation.returnTypePresent)
             return $call
 #else
             $call
+#end
 #end
         }
 #foreach($exception in $operation.exceptions)
