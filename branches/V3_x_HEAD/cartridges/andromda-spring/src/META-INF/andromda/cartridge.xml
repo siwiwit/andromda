@@ -95,6 +95,7 @@
     <property reference="session-ejbs"/>
     <property reference="advice-impls"/>
     <property reference="service-impls"/>
+    <property reference="dao-impls"/>
     <property reference="daos"/>
     <property reference="enableDaoPropertiesCreateMethod"/>
     <property reference="acegiServiceSecurity"/>
