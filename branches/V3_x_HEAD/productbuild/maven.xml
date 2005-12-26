@@ -430,6 +430,34 @@
     </goal>
 
     <!-- =================================================================
+             Copy the documentation to the server from cron job.
+         ================================================================= -->
+    <goal name="deploy-docs-cron">
+ 	   <j:set var="andromda_distribution_mode" value="${andromda.distribution.mode}"/>
+	   <j:if test="${andromda_distribution_mode != 'local'}">
+	      <j:if test="${andromda_distribution_mode != 'remote'}">
+                <ant:fail>
+                   andromda.distribution.mode(${andromda.distribution.mode}) must be local or remote.
+                </ant:fail>
+	      </j:if>
+	   </j:if>
+	   <j:if test="${andromda_distribution_mode == 'remote'}">
+ 	       <j:set var="rsync_target_prefix" value="${andromda.distribution.username}@${andromda.distribution.server}:"/>
+	   </j:if>
+	   <j:if test="${andromda_distribution_mode == 'local'}">
+ 	       <j:set var="rsync_target_prefix" value=""/>
+	   </j:if>
+       <ant:echo>
+           user = ${andromda.distribution.username}
+           server = ${andromda.distribution.server}
+           andromda.distribution.mode = ${andromda.distribution.mode}
+           CC_TEST  = ${CC_TEST}
+           rsync_target_prefix = ${rsync_target_prefix}
+       </ant:echo>
+       <attainGoal name="deploy-docs"/>
+    </goal>
+
+    <!-- =================================================================
              Copy the documentation to the server.
          ================================================================= -->
     <goal name="deploy-docs">
