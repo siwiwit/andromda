@@ -171,23 +171,23 @@ public class JavaTypeConverter
 
             if (convertedValue == null && sourceType.startsWith("java.lang."))
             {
-                // If source is a primative wrapper, try to convert
-                // to the base primative first...
-                String primativeSource = sourceType.substring(10).toLowerCase();
-                if (primativeSource.equals("integer"))
+                // If source is a primitive wrapper, try to convert
+                // to the base primitive first...
+                String primitiveSource = sourceType.substring(10).toLowerCase();
+                if (primitiveSource.equals("integer"))
                 {
-                    primativeSource = "int";
+                    primitiveSource = "int";
                 }
 
                 String interimValue = typeConvert(
                         sourceType,
                         sourceValue,
-                        primativeSource);
+                        primitiveSource);
                 
                 if (interimValue != null)
                 {
                     convertedValue = typeConvert(
-                            primativeSource,
+                            primitiveSource,
                             interimValue,
                             targetType);
                 }
@@ -195,23 +195,23 @@ public class JavaTypeConverter
 
             if (convertedValue == null && targetType.startsWith("java.lang."))
             {
-                // One last try - if target is a primative wrapper, try to convert
-                // to the base primative first...
-                String primativeTarget = targetType.substring(10).toLowerCase();
-                if (primativeTarget.equals("integer"))
+                // One last try - if target is a primitive wrapper, try to convert
+                // to the base primitive first...
+                String primitiveTarget = targetType.substring(10).toLowerCase();
+                if (primitiveTarget.equals("integer"))
                 {
-                    primativeTarget = "int";
+                    primitiveTarget = "int";
                 }
                 
                 String interimValue = typeConvert(
                         sourceType,
                         sourceValue,
-                        primativeTarget);
+                        primitiveTarget);
                 if (interimValue != null)
                 {
                     
                     convertedValue = typeConvert(
-                            primativeTarget,
+                            primitiveTarget,
                             interimValue,
                             targetType);
                 }
