@@ -3,6 +3,7 @@ package org.andromda.utils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * A utility object used by the code generator when it needs to convert an object
@@ -96,6 +97,9 @@ public class JavaTypeConverter
             new ConversionEntry("java.lang.Boolean", "java.lang.String", "{0}.toString()"),
             new ConversionEntry("java.lang.String", "boolean", "Boolean.valueOf({0}).booleanValue()"),
             new ConversionEntry("java.lang.String", "java.lang.Boolean", "Boolean.valueOf({0})"),
+
+            new ConversionEntry("string", "java.lang.String", "{0}"),
+            new ConversionEntry("java.lang.String", "string", "{0}"),
             
             new ConversionEntry("java.util.Date", "java.lang.String",
                 "new java.text.SimpleDateFormat(\"yyyy-MM-dd HH:mm:ssZ\").format({0})"),
@@ -140,7 +144,8 @@ public class JavaTypeConverter
     {
         String convertedValue;
 
-        if (javaTypeConversionIgnoreList.contains(sourceType) || javaTypeConversionIgnoreList.contains(targetType))
+        if (StringUtils.isBlank(sourceType) || StringUtils.isBlank(targetType) ||
+            javaTypeConversionIgnoreList.contains(sourceType) || javaTypeConversionIgnoreList.contains(targetType))
         {
             convertedValue = null;
         }
@@ -173,10 +178,12 @@ public class JavaTypeConverter
                 {
                     primativeSource = "int";
                 }
+
                 String interimValue = typeConvert(
                         sourceType,
                         sourceValue,
                         primativeSource);
+                
                 if (interimValue != null)
                 {
                     convertedValue = typeConvert(
@@ -195,12 +202,14 @@ public class JavaTypeConverter
                 {
                     primativeTarget = "int";
                 }
+                
                 String interimValue = typeConvert(
                         sourceType,
                         sourceValue,
                         primativeTarget);
                 if (interimValue != null)
                 {
+                    
                     convertedValue = typeConvert(
                             primativeTarget,
                             interimValue,
