@@ -28,6 +28,11 @@
             <version>${pom.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.andromda.andromdapp.projects</groupId>
+            <artifactId>andromda-andromdapp-project-richclient-ant</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.andromda</groupId>
             <artifactId>andromda-core</artifactId>
             <version>${pom.version}</version>
