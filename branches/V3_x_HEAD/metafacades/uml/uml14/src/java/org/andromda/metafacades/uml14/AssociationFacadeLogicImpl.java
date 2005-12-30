@@ -7,6 +7,7 @@ import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
+import org.omg.uml.foundation.core.AssociationClass;
 
 
 /**
@@ -68,4 +69,13 @@ public class AssociationFacadeLogicImpl
     {
         return ((AssociationEndFacade)this.getAssociationEnds().iterator().next()).isMany2Many();
     }
+
+	/**
+     * @see org.andromda.metafacades.uml14.AssociationFacadeLogic#handleIsAssociationClass()
+     */
+    protected boolean handleIsAssociationClass()
+    {
+        return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
+    }
+
 }

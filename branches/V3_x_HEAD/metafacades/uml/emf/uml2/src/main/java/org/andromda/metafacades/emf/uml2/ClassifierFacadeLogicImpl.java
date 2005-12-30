@@ -2,11 +2,11 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.andromda.metafacades.uml.AssociationEndFacade;
@@ -25,6 +25,7 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.uml2.Association;
+import org.eclipse.uml2.AssociationClass;
 import org.eclipse.uml2.DataType;
 import org.eclipse.uml2.Interface;
 import org.eclipse.uml2.PrimitiveType;
@@ -643,9 +644,9 @@ public class ClassifierFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#getAssociationEnds()
      */
-    protected java.util.Collection handleGetAssociationEnds()
+    protected java.util.List handleGetAssociationEnds()
     {
-        final Collection associationEnds = new ArrayList();
+        final List associationEnds = new ArrayList();
         if (this.metaObject instanceof org.eclipse.uml2.Class)
         {
             final Collection properties = UmlUtilities.getProperties(
@@ -857,4 +858,13 @@ public class ClassifierFacadeLogicImpl
         // TODO Auto-generated method stub
         return null;
     }
+
+	/**
+     * @see org.andromda.metafacades.emf.uml2.ClassifierFacadeLogic#handleIsAssociationClass()
+     */
+    protected boolean handleIsAssociationClass()
+    {
+        return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
+    }
+
 }

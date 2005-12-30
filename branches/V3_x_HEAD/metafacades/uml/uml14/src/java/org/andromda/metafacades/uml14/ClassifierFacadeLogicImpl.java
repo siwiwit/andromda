@@ -2,10 +2,10 @@ package org.andromda.metafacades.uml14;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
@@ -25,6 +25,7 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Abstraction;
+import org.omg.uml.foundation.core.AssociationClass;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.CorePackage;
 import org.omg.uml.foundation.core.DataType;
@@ -76,9 +77,23 @@ public class ClassifierFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#getAssociationEnds()
      */
-    protected java.util.Collection handleGetAssociationEnds()
+    protected java.util.List handleGetAssociationEnds()
     {
-        return UML14MetafacadeUtils.getCorePackage().getAParticipantAssociation().getAssociation(metaObject);
+        List associationEnds = null;
+        Collection participantAssociation = UML14MetafacadeUtils.getCorePackage().getAParticipantAssociation()
+                .getAssociation(metaObject);
+
+        if (participantAssociation instanceof List)
+        {
+            associationEnds = (List)participantAssociation;
+        }
+        else
+        {
+            associationEnds = new ArrayList();
+            associationEnds.addAll(participantAssociation);
+        }
+
+        return associationEnds;
     }
 
     /**
@@ -802,4 +817,13 @@ public class ClassifierFacadeLogicImpl
     {
         return this.metaObject.isLeaf();
     }
+
+	/**
+     * @see org.andromda.metafacades.uml14.ClassifierFacadeLogic#handleIsAssociationClass()
+     */
+    protected boolean handleIsAssociationClass()
+    {
+        return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
+    }
+
 }

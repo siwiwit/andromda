@@ -734,9 +734,9 @@ public class EntityLogicImpl
      *
      * @see org.andromda.metafacades.uml.ClassifierFacade#getAssociationEnds()
      */
-    public Collection handleGetAssociationEnds()
+    public List handleGetAssociationEnds()
     {
-        final Collection associationEnds = this.shieldedElements(super.handleGetAssociationEnds());
+        final List associationEnds = (List)this.shieldedElements(super.handleGetAssociationEnds());
         CollectionUtils.filter(
             associationEnds,
             new Predicate()
