@@ -78,6 +78,7 @@ public class ScriptClassGenerator
                 pool.insertClassPath(new LoaderClassPath(contextClassLoader));
             }
             final CtClass ctClass = pool.get(className);
+            ctClass.defrost();
 
             final String scriptWrapperFieldName = "scriptWrapper";
             try
