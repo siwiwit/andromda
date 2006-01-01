@@ -201,7 +201,7 @@ public class ScriptClassGenerator
             arguments.append("arguments[" + (ctr - 1) + "] = ");
             if (argumentType.isPrimitive())
             {
-                arguments.append("java.lang." + getWrapperTypeName(argumentType) + ".valueOf($" + ctr + ");");
+                arguments.append("new java.lang." + getWrapperTypeName(argumentType) + "($" + ctr + ");");
             }
             else
             {
@@ -219,11 +219,7 @@ public class ScriptClassGenerator
         {
             name.append("eger");
         }
-        else
-        {
-            name = new StringBuffer(StringUtils.capitalize(name.toString()));
-        }
-        return name.toString();
+        return StringUtils.capitalize(name.toString());
     }
 
     private String getScriptWrapperInitialization(
