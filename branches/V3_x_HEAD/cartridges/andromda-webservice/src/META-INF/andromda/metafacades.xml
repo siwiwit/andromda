@@ -68,6 +68,12 @@
         </mapping>
         <property reference="testImplementationOperationNamePrefix"/>
     </metafacade>
+    <metafacade class="org.andromda.cartridges.webservice.metafacades.WebServiceOperationLogicImpl">
+        <mapping>
+            <property name="owner.interface"/>
+        </mapping>
+        <property reference="testImplementationOperationNamePrefix"/>
+    </metafacade>
     <metafacade class="org.andromda.cartridges.webservice.metafacades.WebServiceParameterLogicImpl">
         <mapping>
             <context>org.andromda.cartridges.webservice.metafacades.WebServiceOperation</context>

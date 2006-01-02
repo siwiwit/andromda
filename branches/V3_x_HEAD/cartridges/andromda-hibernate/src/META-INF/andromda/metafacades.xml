@@ -72,6 +72,12 @@
         </mapping>
         <property reference="serviceOperationTransactionType"/>
     </metafacade>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateServiceOperationLogicImpl">
+        <mapping>
+            <property name="owner.interface"/>
+        </mapping>
+        <property reference="serviceOperationTransactionType"/>
+    </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodArgumentLogicImpl">
         <mapping>
             <context>org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethod</context>
