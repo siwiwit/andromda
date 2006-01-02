@@ -12,7 +12,7 @@
     </properties>
     <body>
         <release version="3.2-RC1-SNAPSHOT" date="2006-01-02" description="First release candidate of version 3.2">
-            <action dev="draftdog" type="add">
+            <action dev="draftdog" type="add" issue="UMLMETA-62">
                 Services and entities now are allowed to realize interfaces. Any interfaces generalized by other
                 interfaces won't be taken into account.
             </action>
