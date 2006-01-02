@@ -816,6 +816,12 @@ public class ClassifierFacadeLogicImpl
         return false;
     }
 
+    protected Collection handleGetInterfaceAbstractions()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     protected String handleGetImplementedInterfaceList()
     {
         // TODO Auto-generated method stub

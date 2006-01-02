@@ -16,6 +16,9 @@ public abstract class $entity.entityName
     extends $entity.generalization.fullyQualifiedEntityImplementationName
 #else
     implements java.io.Serializable
+#if (!$entity.interfaceAbstractions.empty)
+        , $entity.implementedInterfaceList
+#end
 #end
 {
     /**

@@ -249,10 +249,7 @@ public class SpringServiceLogicImpl
     {
         String serviceRemotingType =
             StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty("serviceRemotingType")));
-        String result = SpringMetafacadeUtils.getServiceRemotingType(
-                this,
-                serviceRemotingType);
-        return result;
+        return SpringMetafacadeUtils.getServiceRemotingType(this, serviceRemotingType);
     }
 
     /**
@@ -369,7 +366,7 @@ public class SpringServiceLogicImpl
                 {
                     public boolean evaluate(Object object)
                     {
-                        return ((SpringServiceOperation)object).isWebserviceExposed();
+                        return object instanceof SpringServiceOperation && ((SpringServiceOperation)object).isWebserviceExposed();
                     }
                 };
         }
@@ -442,7 +439,7 @@ public class SpringServiceLogicImpl
     }
 
     /**
-     * @see org.andromda.cartridges.spring.metafacades.SpringService#handleIsAllowDefaultServiceException()
+     * @see org.andromda.cartridges.spring.metafacades.SpringService#isAllowDefaultServiceException()
      */
     protected boolean handleIsAllowDefaultServiceException()
     {
@@ -496,7 +493,7 @@ public class SpringServiceLogicImpl
     private static final String HIBERNATE_INTERCEPTOR_ENABLED = "serviceHibernateInterceptorEnabled";
 
     /**
-     * @see org.andromda.cartridges.spring.metafacades.SpringService#IsHibernateInterceptorEnabled()
+     * @see org.andromda.cartridges.spring.metafacades.SpringService#isHibernateInterceptorEnabled()
      */
     protected boolean handleIsHibernateInterceptorEnabled()
     {
@@ -592,8 +589,7 @@ public class SpringServiceLogicImpl
         String call = null;
         if (this.isWebService())
         {
-            final String value = ObjectUtils.toString(this.getConfiguredProperty(
-                patternProperty));
+            final String value = ObjectUtils.toString(this.getConfiguredProperty(patternProperty));
             if (StringUtils.isNotBlank(value))
             {
                 call = value;

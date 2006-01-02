@@ -11,7 +11,11 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.2-RC1-SNAPSHOT" date="2005-12-15" description="First release candidate of version 3.2">
+        <release version="3.2-RC1-SNAPSHOT" date="2006-01-02" description="First release candidate of version 3.2">
+            <action dev="draftdog" type="add">
+                Services and entities now are allowed to realize interfaces. Any interfaces generalized by other
+                interfaces won't be taken into account.
+            </action>
             <action dev="cwbrandon" type="update" issue="UMLMETA-61">
             	<code>org::andromda::metafacades::uml::ClassifierFacade::associationEnds</code> has been changed to 
             	<code>{ordered}</code> in order to match <code>org::andromda::metafacades::uml::AssociationFacade::associationEnds</code>
