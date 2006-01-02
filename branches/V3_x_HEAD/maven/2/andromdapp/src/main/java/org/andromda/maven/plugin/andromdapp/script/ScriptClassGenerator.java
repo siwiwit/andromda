@@ -123,14 +123,14 @@ public class ScriptClassGenerator
                         if (returnType.isPrimitive())
                         {
                             methodBody =
-                                "{" + contructArgumentString(method) + "return ((" + getWrapperTypeName(returnType) +
+                                "{" + contructArgumentString(method) + " return ((" + getWrapperTypeName(returnType) +
                                 ")scriptWrapper.invoke(\"" + method.getName() + "\", arguments))." +
                                 returnType.getName() + "Value();}";
                         }
                         else
                         {
                             methodBody =
-                                "{" + contructArgumentString(method) + "return (" + method.getReturnType().getName() +
+                                "{" + contructArgumentString(method) + " return (" + method.getReturnType().getName() +
                                 ")scriptWrapper.invoke(\"" + method.getName() + "\", arguments);}";
                         }
                     }
@@ -140,8 +140,7 @@ public class ScriptClassGenerator
 
             final File directory = getClassOutputDirectory(existingClass);
 
-            pool.writeFile(
-                className,
+            pool.writeFile(className,
                 directory != null ? directory.getAbsolutePath() : "");
         }
         catch (final Throwable throwable)
