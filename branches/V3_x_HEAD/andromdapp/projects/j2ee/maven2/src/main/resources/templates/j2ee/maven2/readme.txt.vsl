@@ -231,7 +231,14 @@
 
             rebuilds the entire application and deploys
              
-        % > mvn -f web/pom.xml andromdapp:undeploy -o 
+        %> mvn install -Denv=prod
+
+            builds the entire application for the production environment, possible 'env' property values
+            are 'prod' for production, 'val' for validation and 'dev' for development; not specifying
+            any value for this property will build the application for the local configuration
+            (more info at http://maven.apache.org/guides/introduction/introduction-to-profiles.html)
+
+        %> mvn -f web/pom.xml andromdapp:undeploy -o
 
             undeploys the $applicationType from your app server
 
