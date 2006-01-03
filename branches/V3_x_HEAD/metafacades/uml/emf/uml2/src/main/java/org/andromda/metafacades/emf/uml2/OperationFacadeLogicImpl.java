@@ -2,7 +2,7 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Iterator;
 
 import org.andromda.metafacades.uml.ClassifierFacade;
@@ -126,7 +126,7 @@ public class OperationFacadeLogicImpl
      */
     protected java.util.Collection handleGetExceptions()
     {
-        Collection exceptions = new HashSet();
+        Collection exceptions = new LinkedHashSet();
 
         // finds both exceptions and exception references
         final class ExceptionFilter

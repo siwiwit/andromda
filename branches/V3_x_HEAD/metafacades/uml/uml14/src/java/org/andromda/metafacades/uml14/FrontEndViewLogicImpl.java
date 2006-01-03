@@ -2,7 +2,7 @@ package org.andromda.metafacades.uml14;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -106,7 +106,7 @@ public class FrontEndViewLogicImpl
      */
     protected List handleGetVariables()
     {
-        final Map variablesMap = new HashMap();
+        final Map variablesMap = new LinkedHashMap();
         final Collection incoming = getIncoming();
         for (final Iterator iterator = incoming.iterator(); iterator.hasNext();)
         {

@@ -1,5 +1,13 @@
 package org.andromda.metafacades.uml14;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
@@ -24,14 +32,6 @@ import org.omg.uml.foundation.core.CorePackage;
 import org.omg.uml.foundation.core.DataType;
 import org.omg.uml.foundation.core.Interface;
 import org.omg.uml.foundation.core.Operation;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 
 
 /**
@@ -64,7 +64,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetOperations()
     {
-        final Collection operations = new HashSet();
+        final Collection operations = new LinkedHashSet();
 
         // add all of this classifier's operations
         operations.addAll(new FilteredCollection(metaObject.getFeature())
@@ -476,8 +476,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected Collection handleGetInterfaceAbstractions()
     {
-        final Collection interfaceAbstractions = new HashSet();
-
+        final Collection interfaceAbstractions = new LinkedHashSet();
         if (this.getAbstractions() != null)
         {
             for (Iterator abstractionIterator = this.getAbstractions().iterator(); abstractionIterator.hasNext();)

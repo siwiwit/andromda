@@ -2,7 +2,7 @@ package org.andromda.metafacades.uml14;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -645,7 +645,7 @@ public class UML14MetafacadeUtils
      */
     public static List removeDuplicatesAndCopyTaggedValues(final Collection elements)
     {
-        final Map map = new HashMap();
+        final Map map = new LinkedHashMap();
         if (elements != null)
         {
             for (final Iterator iterator = elements.iterator(); iterator.hasNext();)
