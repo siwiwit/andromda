@@ -1,5 +1,6 @@
 package org.andromda.maven.plugin.andromdapp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Location
     public List getPaths()
     {
         final List paths = new ArrayList();
-        if (this.rootPath != null && rootPath.trim().length() > 0)
+        if (this.rootPath != null && new File(this.rootPath).exists())
         {
             final DirectoryScanner scanner = new DirectoryScanner();
             scanner.setBasedir(this.rootPath);
