@@ -205,11 +205,12 @@
         <module>translation-libraries</module>
         <module>ant</module>
         <module>profiles</module>
-        <module>etc/web/taglibs</module>
-        <module>etc/schema2xmi</module>
         <module>maven</module>
         <module>samples</module>
         <module>distribution</module>
+        <module>etc/web/taglibs</module>
+        <module>etc/schema2xmi</module>
+        <module>etc/script-wrappers</module>
     </modules>
     <repositories>
         <repository>
