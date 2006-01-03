@@ -169,6 +169,7 @@ public class BshScriptWrapper
                 }
                 if (setterMethod != null)
                 {
+                    method.setAccessible(true);
                     final Object value = method.invoke(
                             from,
                             null);
