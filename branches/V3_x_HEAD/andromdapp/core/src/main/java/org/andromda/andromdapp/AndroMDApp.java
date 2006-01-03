@@ -174,7 +174,6 @@ public class AndroMDApp
             properties.putAll(configuration.getAllProperties());
         }
         final String applicationType = (String)properties.get(APPLICATION_TYPE);
-        System.out.println("the application Type: " + applicationType);
         final Set validTypes = this.types.keySet();
         AndroMDAppType andromdapp = (AndroMDAppType)this.types.get(applicationType);
         if (andromdapp == null)
