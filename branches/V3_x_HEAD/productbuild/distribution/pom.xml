@@ -12,7 +12,7 @@
     <name>AndroMDA Distribution</name>
     <description>Provides the assembly of the AndroMDA distribution</description>
     <dependencies>
-        <!-- Add dependencies here to make sure they're built before the distribution itself -->
+        <!-- Add dependencies here to ensure they're built before the distribution itself -->
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>andromda-script-wrappers</artifactId>
