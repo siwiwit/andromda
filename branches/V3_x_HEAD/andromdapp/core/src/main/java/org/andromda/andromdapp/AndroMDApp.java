@@ -220,7 +220,7 @@ public class AndroMDApp
     }
     
     /**
-     * The application type property.
+     * Identifies the AndroMDApp type (used to override the prompting of the type).
      */
     private static final String APPLICATION_TYPE = "andromdappType";
     
