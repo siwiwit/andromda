@@ -470,7 +470,7 @@ public class AndroMDAppType
                     1,
                     path.length());
         }
-        boolean writable = true;
+        List results = new ArrayList();
         for (final Iterator iterator = this.outputConditions.iterator(); iterator.hasNext();)
         {
             final Conditions conditions = (Conditions)iterator.next();
@@ -493,21 +493,23 @@ public class AndroMDAppType
                             final String id = condition.getId();
                             if (id != null && id.trim().length() > 0)
                             {
-                                writable = condition.evaluate(this.templateContext.get(id));
+                                final boolean writable = condition.evaluate(this.templateContext.get(id));
 
                                 // - if we're 'anding' the conditions, we break at the first false
                                 if (Conditions.TYPE_AND.equals(conditionsType))
                                 {
                                     if (!writable)
                                     {
+                                        results.add(Boolean.valueOf(writable));
                                         break;
                                     }
                                 }
-                                else
+                                if (!conditionIterator.hasNext())
                                 {
-                                    // otherwise we break at the first true condition
+                                    // - otherwise we break at the first true condition
                                     if (writable)
                                     {
+                                        results.add(Boolean.valueOf(writable));
                                         break;
                                     }
                                 }
@@ -515,6 +517,18 @@ public class AndroMDAppType
                         }
                     }
                 }
+            }
+        }
+        boolean writable = true;
+
+        // - we loop through the results and break on the first one that's true
+        for (final Iterator iterator = results.iterator(); iterator.hasNext();)
+        {
+            final Boolean result = (Boolean)iterator.next();
+            writable = result.booleanValue();
+            if (writable)
+            {
+                break;
             }
         }
         return writable;

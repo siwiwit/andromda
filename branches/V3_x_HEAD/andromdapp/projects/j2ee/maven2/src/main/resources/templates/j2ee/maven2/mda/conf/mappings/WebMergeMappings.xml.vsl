@@ -18,7 +18,7 @@
         <from><![CDATA[<!-- filter merge-point -->]]></from>
         <to>
             <![CDATA[
-#if ($spring)
+#if ($spring && $web)
     <!-- uncomment the following if you're using the open-session-in-view pattern
          note: that you'll need to update the filter-class value if you've changed
          the defaults for the package and/or filter name
@@ -39,7 +39,7 @@
         <from><![CDATA[<!-- filter-mapping merge-point -->]]></from>
         <to>
             <![CDATA[
-#if ($spring)
+#if ($spring && $web)
     <!-- uncomment the following if you're using the open-session-in-view pattern
     <filter-mapping>
         <filter-name>OpenSessionInViewFilter</filter-name>
@@ -149,6 +149,7 @@
             ]]>
         </to>
     </mapping>
+#if ($web)
     <!--
             For the next mapping you might want to do something like this
             (assuming you have a properties file called custom-resources.properties
@@ -170,4 +171,5 @@
             ]]>
         </to>
     </mapping>
+#end
 </mappings>
