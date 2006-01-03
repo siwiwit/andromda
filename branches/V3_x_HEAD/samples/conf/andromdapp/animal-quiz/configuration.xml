@@ -1,5 +1,6 @@
 <andromdapp overwrite="true">
     <properties>
+        <property name="andromdappType">j2ee</property>
         <property name="author">AndroMDA Team</property>
         <property name="applicationParentDirectory">$${project.basedir}</property>
         <property name="applicationId">animal-quiz</property>
