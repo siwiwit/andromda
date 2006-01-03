@@ -220,7 +220,7 @@
         %> mvn -f web/pom.xml -Ddeploy
 #end
 
-            collects all artifacts and builds a deployable .$projectType which is then
+            collects all artifacts and builds a deployable .$applicationType which is then
             deployed
 
         %> mvn clean
@@ -233,7 +233,7 @@
              
         % > mvn -f web/pom.xml andromdapp:undeploy -o 
 
-            undeploys the $projectType from your app server
+            undeploys the $applicationType from your app server
 
         %> mvn -N andromdapp:build -Dmodules=core (or mvn -f core/pom.xml)
 
