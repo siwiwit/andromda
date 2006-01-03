@@ -118,7 +118,6 @@
     <property reference="toDoTag"/>
     <property reference="serverTestBeanRefFactory"/>
     <property reference="serverTestContextDataSource"/>
-    <property reference="interpretBusinessLogic"/>
     <!-- cartridge-property merge-point -->
 
     <!-- cartridge-resource merge-point -->

@@ -129,13 +129,6 @@
             </property>
         </propertyGroup>
         <propertyGroup name="Other">
-            <property name="interpretBusinessLogic">
-                <default>false</default>
-                <documentation>
-                    Whether or not implementation operations should be interpreted, when true, this allows you to write your business
-                    logic without having to re-deploy the application.
-                </documentation>
-            </property>
             <property name="webServiceOutgoingAttachmentHandlerCallPattern" required="false">
                 <documentation>
                     The pattern to use when constructing the call to the attachment handler (used for sending

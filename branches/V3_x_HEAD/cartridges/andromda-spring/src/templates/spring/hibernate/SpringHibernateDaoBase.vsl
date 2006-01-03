@@ -25,33 +25,6 @@ public abstract class $entity.daoBaseName
 #end
     implements $entity.fullyQualifiedDaoName
 {
-#set ($interpretBusinessLogic = $interpretBusinessLogic.equalsIgnoreCase("true"))
-#if ($interpretBusinessLogic)
-
-    /**
-     * The BeanShell interpreter.
-     */
-    private bsh.Interpreter interpreter;
-    
-    /**
-     * Retrieves and initializes the BeanShell interpretor.
-     * 
-     * @return the bean shell interpreter.
-     * @throws Exception
-     */
-    private bsh.Interpreter getInterpreter()
-        throws Exception
-    {
-        this.interpreter = new bsh.Interpreter();
-        this.interpreter.source("${dao-impls.replaceAll('\\', '/')}/${entity.packagePath}/${entity.daoImplementationName}.java");
-        this.interpreter.set("instance", interpreter.eval("new ${entity.fullyQualifiedDaoImplementationName}();"));
-#foreach($entityRef in $service.entityReferences)
-        this.interpreter.set("$entityRef.daoName", this.$entityRef.daoName);
-        this.interpreter.eval("instance.${entityRef.daoSetterName}($entityRef.daoName);");
-#end
-        return this.interpreter;
-    }
-#end
 
 #foreach($entityRef in $entity.entityReferences)
     private $entityRef.targetElement.fullyQualifiedDaoName $entityRef.daoName;
@@ -533,27 +506,11 @@ public abstract class $entity.daoBaseName
 #end
         try
         {
-#if ($interpretBusinessLogic)   
-            final bsh.Interpreter interpreter = this.getInterpreter();
-#foreach($argument in $operation.arguments)
-            interpreter.set("$argument.name", $argument.name);
-#end
-#if ($operation.returnTypePresent)
-#if($operation.returnType.primitive)
-            return ((${operation.returnType.wrapperName})interpreter.eval("instance.${operation.implementationCall};")).${operation.returnType.name}Value();
-#else
-            return ($operation.returnType.fullyQualifiedName)interpreter.eval("instance.${operation.implementationCall};");
-#end
-#else
-            interpreter.eval("instance.${operation.implementationCall};");
-#end
-#else
 #set ($call = "this.${operation.implementationCall};")
 #if ($operation.returnTypePresent)
             return $call
 #else
             $call
-#end
 #end
         }
         catch (Throwable th)
