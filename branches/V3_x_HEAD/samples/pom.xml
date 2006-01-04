@@ -11,6 +11,13 @@
     <artifactId>andromda-samples</artifactId>
     <packaging>pom</packaging>
     <name>AndroMDA Samples</name>
+    <dependencies>
+        <dependency>
+            <groupId>${pom.parent.groupId}</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+    </dependencies>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
