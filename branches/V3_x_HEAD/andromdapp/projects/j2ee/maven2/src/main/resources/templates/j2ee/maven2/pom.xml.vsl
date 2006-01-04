@@ -172,7 +172,7 @@
                 <scope>runtime</scope>
             </dependency>
 #end
-            <!-- These dependencies provide the ability to implement your
+            <!-- This dependency provides the ability to implement your
                  business logic in an interpreted manner during development on
                  your local machine -->
             <dependency>
@@ -180,19 +180,6 @@
                 <artifactId>andromda-script-wrappers</artifactId>
                 <version>$andromdaVersion</version>
             </dependency>
-            <dependency>
-                <groupId>bsh</groupId>
-                <artifactId>bsh</artifactId>
-                <version>2.0b4</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>groovy</groupId>
-                <artifactId>groovy-all-1.0-jsr</artifactId>
-                <version>04</version>
-                <scope>runtime</scope>
-            </dependency>
-            <!-- End dependencies for interpreted business logic support -->
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
@@ -521,10 +508,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.andromda</groupId>
-            <artifactId>andromda-script-wrappers</artifactId>
         </dependency>
     </dependencies>
     <build>

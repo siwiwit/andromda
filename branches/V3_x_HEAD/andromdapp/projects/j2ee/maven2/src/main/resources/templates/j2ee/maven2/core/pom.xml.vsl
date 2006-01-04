@@ -69,10 +69,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>            
         </dependency>
-        <dependency>
-            <groupId>bsh</groupId>
-            <artifactId>bsh</artifactId>
-        </dependency>
 #end
 #if ($hibernateVersion.equals("2"))
         <dependency>
@@ -107,12 +103,8 @@
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
         <dependency>
-            <groupId>bsh</groupId>
-            <artifactId>bsh</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>groovy</groupId>
-            <artifactId>groovy-all-1.0-jsr</artifactId>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
         </dependency>
 #if ($webservice)
         <dependency>

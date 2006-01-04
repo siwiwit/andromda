@@ -120,16 +120,6 @@
             <groupId>jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
-#if ($war)
-        <dependency>
-            <groupId>bsh</groupId>
-            <artifactId>bsh</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>groovy</groupId>
-            <artifactId>groovy-all-1.0-jsr</artifactId>
-        </dependency>
-#end
     </dependencies>
     <build>
         <resources>
