@@ -40,11 +40,6 @@
                 <property name="entityPropertyNameMask">none</property>
                 <property name="parameterNameMask">none</property>
 #if ($spring)
-                <!-- uncomment to allow your business logic in your implementations 
-                     to be written in any interpreted mode (this means you can write your logic 
-                     once you've deployed your app without having to redeploy to see changes)
-                <property name="interpretBusinessLogic">true</property>
-                -->
                 <property name="hibernateVersion">$hibernateVersion</property>
 #end
             </properties>

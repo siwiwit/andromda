@@ -19,7 +19,6 @@
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-common</artifactId>
             <version>${pom.version}</version>
-            <scope>compile</scope>
         </dependency>
 #if ($workflow)
         <dependency>
@@ -90,12 +89,10 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -104,17 +101,23 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
+        <dependency>
+            <groupId>bsh</groupId>
+            <artifactId>bsh</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>groovy</groupId>
+            <artifactId>groovy-all-1.0-jsr</artifactId>
+        </dependency>
 #if ($webservice)
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-discovery</groupId>
@@ -124,7 +127,6 @@
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-jaxrpc</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
@@ -134,12 +136,10 @@
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-saaj</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-wsdl4j</artifactId>
-            <scope>compile</scope>
         </dependency>
 #end
     </dependencies>
@@ -151,6 +151,7 @@
             </plugin>
 #if ($spring || $hibernate)
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
                 <executions>
                     <execution>

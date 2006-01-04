@@ -60,7 +60,6 @@
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-core</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -84,13 +83,11 @@
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-translation-core</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-validation-library</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
@@ -147,7 +144,6 @@
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-utils</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -176,6 +172,27 @@
                 <scope>runtime</scope>
             </dependency>
 #end
+            <!-- These dependencies provide the ability to implement your
+                 business logic in an interpreted manner during development on
+                 your local machine -->
+            <dependency>
+                <groupId>org.andromda</groupId>
+                <artifactId>andromda-script-wrappers</artifactId>
+                <version>$andromdaVersion</version>
+            </dependency>
+            <dependency>
+                <groupId>bsh</groupId>
+                <artifactId>bsh</artifactId>
+                <version>2.0b4</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>groovy</groupId>
+                <artifactId>groovy-all-1.0-jsr</artifactId>
+                <version>04</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!-- End dependencies for interpreted business logic support -->
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
@@ -223,13 +240,11 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>cglib</groupId>
@@ -241,13 +256,11 @@
                  <groupId>org.springframework</groupId>
                  <artifactId>spring-core</artifactId>
                  <version>1.2.5</version>
-                 <scope>compile</scope>
              </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-dao</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
                 <exclusions>
                      <exclusion>
                          <groupId>javax.transaction</groupId>
@@ -259,7 +272,6 @@
                  <groupId>org.springframework</groupId>
                  <artifactId>spring-hibernate</artifactId>
                  <version>1.2.5</version>
-                 <scope>compile</scope>
 #if ($hibernateVersion.equals("2"))
                  <exclusions>
                      <exclusion>
@@ -273,7 +285,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
                 <exclusions>
                      <exclusion>
                          <groupId>org.springframework</groupId>
@@ -285,7 +296,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-remoting</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
                 <exclusions>
                      <exclusion>
                          <groupId>org.springframework</groupId>
@@ -297,13 +307,11 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-support</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.resource</groupId>
@@ -323,11 +331,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <dependency>
-                <groupId>bsh</groupId>
-                <artifactId>bsh</artifactId>
-                <version>2.0b4</version>
-            </dependency>
 #end
 #if ($workflow)
             <dependency>
@@ -339,11 +342,6 @@
                 <groupId>org.jbpm</groupId>
                 <artifactId>jbpm-identity</artifactId>
                 <version>3.0</version>
-            </dependency>
-            <dependency>
-                <groupId>bsh</groupId>
-                <artifactId>bsh</artifactId>
-                <version>2.0b1</version>
             </dependency>
             <dependency>
                 <groupId>c3p0</groupId>
@@ -511,14 +509,22 @@
                 <scope>runtime</scope>
             </dependency>
 #end
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.1</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
         </dependency>
     </dependencies>
     <build>
@@ -641,6 +647,45 @@
                 <webservice.port>8080</webservice.port>
 #end
             </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>andromdapp-maven-plugin</artifactId>
+                            <version>3.2-RC1-SNAPSHOT</version>
+                            <!-- provides the injection of the script wrapper support into the class files (this should only
+                                 be done when developing locally), uncomment this executions element to enable 
+                            <executions>
+                                <execution>
+                                    <id>instrument-scripts</id>
+                                    <goals>
+                                        <goal>instrument-scripts</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            -->
+                            <configuration>
+                                <scriptWrapper>org.andromda.scriptwrappers.GroovyScriptWrapper</scriptWrapper>
+                                <locations>
+                                    <location>
+                                        <rootPath>${pom.basedir}/src/main/java</rootPath>
+                                        <!-- adjust these to include or exclude specific files, by default
+                                             all files found in the rootPath are considered 
+                                        <includes>
+                                            <include>relative/path/to/file/to/include/SomeClass.java</include>
+                                        </includes>
+                                        <excludes>
+                                            <exclude>relative/path/to/file/to/include/SomeClass.java</exclude>
+                                        </excludes>
+                                        -->
+                                    </location>
+                                </locations>
+                            </configuration>  
+                        </plugin>                      
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
         <profile>
             <id>development</id>

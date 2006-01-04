@@ -120,6 +120,16 @@
             <groupId>jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
+#if ($war)
+        <dependency>
+            <groupId>bsh</groupId>
+            <artifactId>bsh</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>groovy</groupId>
+            <artifactId>groovy-all-1.0-jsr</artifactId>
+        </dependency>
+#end
     </dependencies>
     <build>
         <resources>
@@ -130,6 +140,10 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>andromdapp-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromda-multi-source-plugin</artifactId>
