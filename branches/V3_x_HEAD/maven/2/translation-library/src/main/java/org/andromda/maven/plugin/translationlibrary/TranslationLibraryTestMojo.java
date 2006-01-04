@@ -8,6 +8,7 @@ import java.util.List;
 
 import junit.framework.TestResult;
 
+import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.ResourceUtils;
 import org.andromda.maven.plugin.configuration.AbstractConfigurationMojo;
@@ -133,6 +134,9 @@ public class TranslationLibraryTestMojo
         {
             try
             {
+                // - initialize the AndroMDA logger instance     
+                AndroMDALogger.initialize();
+                
                 this.getLog().info("--------------------------------------------------------------------------------");
                 this.getLog().info("  A n d r o M D A   T r a n s l a t i o n - L i b r a r y  T e s t   S u i t e  ");
                 this.getLog().info("--------------------------------------------------------------------------------");
