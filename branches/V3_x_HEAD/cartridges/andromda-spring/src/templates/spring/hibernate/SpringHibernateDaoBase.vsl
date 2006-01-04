@@ -682,7 +682,7 @@ public abstract class $entity.daoBaseName
         $entity.fullyQualifiedEntityName sourceEntity, 
         $valueObjectRef.targetElement.fullyQualifiedName targetVO)
     {
-#foreach ($property in $valueObjectRef.targetElement.allRequiredConstructorParameters)
+#foreach ($property in $valueObjectRef.targetElement.allProperties)
 #foreach ($entityProp in $entity.allProperties)
 #if ($property.name == $entityProp.name)
 #if ($property.readOnly == true)
@@ -711,7 +711,7 @@ public abstract class $entity.daoBaseName
              new ${valueObjectRef.targetElement.fullyQualifiedName}(
                  ## no new line
 #set ($indent = "")
-#foreach ($property in $valueObjectRef.targetElement.allRequiredConstructorParameters)
+#foreach ($property in $valueObjectRef.targetElement.allProperties)
 #set ($matchFound = false)
 #foreach ($entityProp in $entity.allProperties)
 #if ($property.name == $entityProp.name)

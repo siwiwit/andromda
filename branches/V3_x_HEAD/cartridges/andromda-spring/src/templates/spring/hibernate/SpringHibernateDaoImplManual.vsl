@@ -46,7 +46,7 @@ public class $entity.daoImplementationName
     {
         // ${toDoTag} verify behavior of ${valueObjectRef.transformationMethodName}
         super.${valueObjectRef.transformationMethodName}(sourceEntity, targetVO);
-#foreach ($property in $valueObjectRef.targetElement.allRequiredConstructorParameters)
+#foreach ($property in $valueObjectRef.targetElement.allProperties)
 #foreach ($entityProp in $entity.allProperties)
 #if ($property.name == $entityProp.name)
 #if ($property.readOnly == true)
