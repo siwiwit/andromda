@@ -55,7 +55,7 @@ public class GroovyScriptWrapper
     {
         try
         {
-            final GroovyClassLoader grooveyClassLoader = new GroovyClassLoader(this.getClass().getClassLoader());
+            final GroovyClassLoader grooveyClassLoader = new GroovyClassLoader(this.getClassLoader());
             final Class groovyClass =
                 grooveyClassLoader.parseClass(
                     this.getContents(new File(this.scriptPath)),
@@ -73,6 +73,21 @@ public class GroovyScriptWrapper
         {
             throw new java.lang.RuntimeException(throwable);
         }
+    }
+    
+    /**
+     * Retrieves the appropriate class loader instance as the parent of the groovyClassLoader.
+     * 
+     * @return the class loader instance.
+     */
+    private ClassLoader getClassLoader()
+    {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if (classLoader == null)
+        {
+            classLoader = this.getClass().getClassLoader();
+        }
+        return classLoader;
     }
 
     /**
