@@ -322,8 +322,7 @@
 
 
     Please note that you may use the '-o' flag at any time to avoid
-    having Maven download the dependencies, only build online when Maven
-    complains about missing dependencies.
+    having Maven downloading any SNAPSHOT dependencies.
 
     Each module will install its artifact into the local Maven repository,
     this might be a directory looking like this:
