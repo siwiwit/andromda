@@ -60,7 +60,7 @@ public class GeneralizableElementFacadeLogicImpl
             Iterator iterator = generalizations.iterator();
             if (iterator.hasNext())
             {
-                parent = iterator.next();
+                parent = ((Generalization)iterator.next()).getGeneral();
             }
         }
         return parent;
