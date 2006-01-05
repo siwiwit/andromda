@@ -58,9 +58,7 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.String handleGetDefaultValue()
     {
-        String ret = null;
-        ret = metaObject.getDefault();
-        return ret;
+        return metaObject.getDefault();
     }
 
     /**
