@@ -37,6 +37,10 @@ public class Converter
             {
                 object = object.toString();
             }
+            else if (expectedType == Class.class)
+            {
+                object = ClassUtils.loadClass(object.toString());
+            }
             else
             {
                 final Class originalType = expectedType;
