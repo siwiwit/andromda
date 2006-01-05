@@ -197,8 +197,15 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #end
             return entity;
         }
-
 #end
+#set ($propertiesPresent = false)
+#foreach ($property in $entity.allProperties)
+#if ($entity.usingForeignIdentifier || !$property.identifier)
+#set ($propertiesPresent = true)
+#end
+#end
+#if ($propertiesPresent)
+
         /**
          * Constructs a new instance of {@link ${entity.fullyQualifiedName}}, taking all possible properties
          * (except the identifier(s))as arguments.
@@ -221,8 +228,9 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #end
             return entity;
         }
+#end
     }
-
+    
 #end
 // HibernateEntity.vsl merge-point
 }
