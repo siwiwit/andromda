@@ -4,9 +4,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -327,7 +330,7 @@ public class ClassUtils
                             final Class loadedClass = getClassLoader().loadClass(typeName);
                             if (type.isAssignableFrom(loadedClass))
                             {
-                                found = loadedClass;
+                                found = loadedClass;                          
                                 break;
                             }
                         }
@@ -340,6 +343,42 @@ public class ClassUtils
             }
         }
         return found;
+    }
+    
+    /**
+     * Loads all methods from the given <code>clazz</code> (this includes
+     * all super class methods, public, private and protected).
+     *
+     * @param methods the list to load full of methods.
+     * @param clazz the class to retrieve the methods.
+     * @return the loaded methods.
+     */
+    public static List getAllMethods(final Class clazz)
+    {
+        final Set methods = new LinkedHashSet();
+        loadMethods(clazz, methods);
+        return new ArrayList(methods);
+    }
+    
+    /**
+     * Loads all methods from the given <code>clazz</code> (this includes
+     * all super class methods).
+     *
+     * @param methods the list to load full of methods.
+     * @param clazz the class to retrieve the methods.
+     * @return the loaded methods.
+     */
+    private static void loadMethods(
+        final Class clazz,
+        final Set methods)
+    {
+        methods.addAll(Arrays.asList(clazz.getDeclaredMethods()));
+        if (clazz.getSuperclass() != null)
+        {
+            loadMethods(
+                    clazz.getSuperclass(),
+                    methods);
+        }
     }
     
     /**
