@@ -729,7 +729,7 @@ public class ClassifierFacadeLogicImpl
                 stats.add(p);
             }
         }
-        return c;
+        return stats;
     }
 
     /**
