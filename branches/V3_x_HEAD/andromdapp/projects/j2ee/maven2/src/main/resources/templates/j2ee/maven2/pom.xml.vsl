@@ -272,23 +272,11 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>1.2.5</version>
-                <exclusions>
-                     <exclusion>
-                         <groupId>org.springframework</groupId>
-                         <artifactId>spring-webmvc</artifactId>
-                     </exclusion>
-                 </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-remoting</artifactId>
                 <version>1.2.5</version>
-                <exclusions>
-                     <exclusion>
-                         <groupId>org.springframework</groupId>
-                         <artifactId>spring-webmvc</artifactId>
-                     </exclusion>
-                 </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
