@@ -212,7 +212,9 @@
                 <property name="decorators">${web.manual.java.dir}</property>
                 <property name="messages">${web.generated.dir}/WEB-INF/classes</property>
                 <property name="configuration">${web.generated.dir}/WEB-INF</property>
-                <property name="securityRealm"></property>
+                <!-- uncomment to enable web tier security 
+                <property name="securityRealm">${application.id}</property>
+                 -->
 #if ($ejb)
                 <property name="serviceAccessorPattern">{0}.{1}Util.getHome().create()</property>
 #else
@@ -236,8 +238,9 @@
                 <property name="controller-impls">${web.manual.java.dir}</property>
                 <property name="messages">${web.generated.dir}</property>
                 <property name="configuration">${web.generated.dir}</property>
-                <!-- uncomment to enable web tier security  -->
+                <!-- uncomment to enable web tier security 
                 <property name="securityRealm">${application.id}</property>
+                 -->
 #if ($ejb)
                 <property name="serviceAccessorPattern">{0}.{1}Util.getHome().create()</property>
 #else
