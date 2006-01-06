@@ -15,6 +15,6 @@
         <property name="webType">struts</property>
         <property name="webservice">no</property>
         <property name="model">jar:file:${project.build.sourceDirectory}/online-store.xml.zip!/online-store.xml</property>
-        <property name="configurationUri">${project.basedir}/conf/andromda.xml</property>
+        <property name="configurationUri">${project.basedir}/src/main/config/andromda.xml</property>
     </properties>
 </andromdapp>
