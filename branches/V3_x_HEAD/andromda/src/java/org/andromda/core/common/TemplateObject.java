@@ -86,7 +86,7 @@ public class TemplateObject
     /**
      * Sets all the nested properties on the templateObject object.
      *
-     * @param templateObject
+     * @param templateObject the template object on which to populate properties.
      */
     protected void setProperties(final Object templateObject)
     {
