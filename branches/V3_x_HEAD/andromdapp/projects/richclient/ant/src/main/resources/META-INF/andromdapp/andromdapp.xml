@@ -3,17 +3,17 @@
         <location>templates/richclient/ant</location>      
     </resourceLocations>
     <directories>
-       <directory>client/src/generated/conf</directory>
+       <directory>client/src/generated/config</directory>
        <directory>client/src/generated/java</directory>
-       <directory>client/src/impl/java</directory>
-       <directory>client/src/test/conf</directory>
+       <directory>client/src/main/java</directory>
+       <directory>client/src/test/config</directory>
        <directory>client/src/test/java</directory>
        <directory>common/src/generated/java</directory>
-       <directory>common/src/impl/java</directory>
+       <directory>common/src/main/java</directory>
        <directory>server/src/generated/java</directory>
-       <directory>server/src/generated/conf</directory>
-       <directory>server/src/impl/java</directory>
-       <directory>server/src/test/conf</directory>
+       <directory>server/src/generated/config</directory>
+       <directory>server/src/main/java</directory>
+       <directory>server/src/test/config</directory>
        <directory>server/src/test/java</directory>
        <directory>mda/src/custom</directory>
        <directory>mda/src/custom/merge-maps</directory>

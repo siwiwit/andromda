@@ -28,7 +28,7 @@ public class ${className} implements AuthenticationDao
     // 3. Modify mda/src/custom/merge-maps/SpringMergeMappings.xml to inject
     //    this object with supporting Spring beans
     //
-    // 4. Remove the comment in mda/conf/andromda.xml that is around the
+    // 4. Remove the comment in mda/config/andromda.xml that is around the
     //    "mergeMappingsUri" namespace property to activate "merge mappings"
     //    of the Spring cartridge
 
