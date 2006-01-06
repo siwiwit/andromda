@@ -37,11 +37,6 @@
     	</dependency> 
     	<dependency> 
     		<groupId>jmi</groupId>
-      		<artifactId>jmiuml</artifactId>
-     		<version>1.4di</version>
-    	</dependency>   
-    	<dependency> 
-    		<groupId>jmi</groupId>
       		<artifactId>mof</artifactId>
      		<version>20030918</version>
     	</dependency>  
@@ -50,12 +45,6 @@
       		<artifactId>jmi</artifactId>
      		<version>20030918</version>
     	</dependency>  
-        <dependency>
-            <groupId>org.andromda.metafacades</groupId>
-            <artifactId>andromda-metafacades-uml14</artifactId>
-            <version>${pom.version}</version>
-            <scope>test</scope>
-        </dependency>
 	</dependencies>	
     <build>
         <plugins>

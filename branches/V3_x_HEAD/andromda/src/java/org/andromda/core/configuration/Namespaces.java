@@ -1,9 +1,7 @@
 package org.andromda.core.configuration;
 
 import java.io.Serializable;
-
 import java.net.URL;
-
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -202,6 +200,18 @@ public class Namespaces
                 " If you want to 'ignore' this message, add the property to the namespace with ignore set to 'true'");
         }
         return property;
+    }
+    
+    /**
+     * Retrieves all property definitions for the given namespace.
+     * 
+     * @param namespaceName the name of the namespace.
+     * @return the list of properties contained in the namespace.
+     */
+    public PropertyDefinition[] getPropertyDefinitions(final String namespaceName)
+    {
+        final NamespaceRegistry registry = this.getRegistry(namespaceName);
+        return registry == null ? new PropertyDefinition[0] : registry.getPropertyDefinitions();
     }
 
     /**

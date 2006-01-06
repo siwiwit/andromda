@@ -7,15 +7,20 @@ import java.io.InputStream;
 
 import java.net.URL;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.jmi.model.ModelPackage;
 import javax.jmi.model.MofPackage;
 import javax.jmi.reflect.RefPackage;
 import javax.jmi.xmi.MalformedXMIException;
+import javax.jmi.xmi.XmiReader;
 
+import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.common.ExceptionUtils;
+import org.andromda.core.common.ResourceUtils;
 import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.repository.RepositoryFacade;
 import org.andromda.core.repository.RepositoryFacadeException;
@@ -24,7 +29,6 @@ import org.apache.log4j.Logger;
 import org.netbeans.api.mdr.CreationFailedException;
 import org.netbeans.api.mdr.MDRManager;
 import org.netbeans.api.mdr.MDRepository;
-import org.netbeans.api.xmi.XMIReader;
 import org.netbeans.api.xmi.XMIReaderFactory;
 import org.netbeans.api.xmi.XMIWriter;
 import org.netbeans.api.xmi.XMIWriterFactory;
@@ -41,15 +45,11 @@ public class MDRepositoryFacade
     implements RepositoryFacade
 {
     private static Logger logger = Logger.getLogger(MDRepositoryFacade.class);
-    protected final static String META_PACKAGE = "UML";
     private ModelAccessFacade modelFacade = null;
     private MDRepository repository = null;
-    protected URL metaModelURL;
+    protected URL metamodelUri;
     protected RefPackage model = null;
 
-    /**
-     * Constructs a Facade around a netbeans MDR (MetaDataRepository).
-     */
     public MDRepositoryFacade()
     {
         // configure MDR to use an in-memory storage implementation
@@ -62,17 +62,7 @@ public class MDRepositoryFacade
         {
             throw new RepositoryFacadeException("Could not retrieve the MDR manager");
         }
-        repository = mdrManager.getDefaultRepository();
-
-        final String metamodelUri = "/M2_DiagramInterchangeModel.xml";
-
-        // the default metamodel is now UML 1.4 plus UML 2.0 diagram extensions
-        this.metaModelURL = MDRepositoryFacade.class.getResource(metamodelUri);
-
-        if (this.metaModelURL == null)
-        {
-            throw new RepositoryFacadeException("Could not find meta model --> ' " + metamodelUri + "'");
-        }
+        this.repository = mdrManager.getDefaultRepository();
     }
 
     /**
@@ -123,7 +113,7 @@ public class MDRepositoryFacade
     {
         try
         {
-            final MofPackage metaModel = this.loadMetaModel(metaModelURL);
+            final MofPackage metaModel = this.loadMetaModel(this.getMetamodelUri());
             this.model = this.loadModel(
                     uris,
                     moduleSearchPath,
@@ -133,6 +123,20 @@ public class MDRepositoryFacade
         {
             throw new RepositoryFacadeException(throwable);
         }
+    }
+
+    /**
+     * Retrieves the URI of the metamodel.
+     *
+     * @return the metamodel uri.
+     */
+    private URL getMetamodelUri()
+    {
+        if (this.metamodelUri == null)
+        {
+            throw new RepositoryFacadeException("No metamodel was defined");
+        }
+        return this.metamodelUri;
     }
 
     /**
@@ -149,7 +153,7 @@ public class MDRepositoryFacade
         }
         try
         {
-            final MofPackage metaModel = this.loadMetaModel(metaModelURL);
+            final MofPackage metaModel = this.loadMetaModel(this.getMetamodelUri());
             this.model = this.loadModel(
                     streams,
                     uris,
@@ -186,6 +190,94 @@ public class MDRepositoryFacade
             outputLocation,
             xmiVersion,
             null);
+    }
+
+    /**
+     * Sets the location of the metamodel.
+     *
+     * @param metamodelLocation the metamodel location.
+     */
+    public void setMetamodelLocation(final String metamodelLocation)
+    {
+        this.metamodelUri = MDRepositoryFacade.class.getResource(metamodelLocation);
+        if (this.metamodelUri == null)
+        {
+            ResourceUtils.toURL(metamodelLocation);
+        }
+        if (this.metamodelUri == null)
+        {
+            throw new RepositoryFacadeException("No metamodel could be loaded from --> '" + metamodelLocation + "'");
+        }
+    }
+
+    /**
+     * The metamodel package name.
+     */
+    private String metamodelPackage;
+
+    /**
+     * Sets the name of the root package of the metamodel.
+     *
+     * @param metamodelPackage the root is metamodel package name.
+     */
+    public void setMetamodelPackage(final String metamodelPackage)
+    {
+        this.metamodelPackage = metamodelPackage;
+    }
+
+    /**
+     * The org.netbeans.api.xmi.XMIReaderFactory implementation name.
+     */
+    private String xmiReaderFactory;
+
+    /**
+     * Sets the org.netbeans.api.xmi.XMIReaderFactory implementation to use.
+     *
+     * @param xmiReaderFactory the fully qualified implementation class name to use.
+     */
+    public void setXmiReaderFactory(final String xmiReaderFactory)
+    {
+        this.xmiReaderFactory = xmiReaderFactory;
+    }
+
+    /**
+     * Stores the xmiReader instances.
+     */
+    private Map xmiReaderFactoryInstances = new HashMap();
+
+    /**
+     * Retrieves the javax.jmi.xmi.XmiReader implementation.
+     *
+     * @return the javax.jmi.xmi.XmiReader class
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    private synchronized XMIReaderFactory getXMIReaderFactory()
+        throws InstantiationException, IllegalAccessException
+    {
+        XMIReaderFactory factory =
+            (org.netbeans.api.xmi.XMIReaderFactory)this.xmiReaderFactoryInstances.get(this.xmiReaderFactory);
+        if (factory == null)
+        {
+            if (this.xmiReaderFactory == null || this.xmiReaderFactory.trim().length() == 0)
+            {
+                throw new RepositoryFacadeException("No 'xmiReaderFactory' has been set");
+            }
+            Object instance = ClassUtils.loadClass(this.xmiReaderFactory).newInstance();
+            if (instance instanceof XMIReaderFactory)
+            {
+                factory = (XMIReaderFactory)instance;
+                this.xmiReaderFactoryInstances.put(
+                    this.xmiReaderFactory,
+                    factory);
+            }
+            else
+            {
+                throw new RepositoryFacadeException("The 'xmiReaderFactory' must be an instance of '" +
+                    XMIReaderFactory.class.getName() + "'");
+            }
+        }
+        return factory;
     }
 
     /**
@@ -242,10 +334,22 @@ public class MDRepositoryFacade
         }
     }
 
+    private Class modelAccessFacade;
+
     /**
-     * @see org.andromda.core.repository.RepositoryFacade#getModel(java.lang.String)
+     * Sets the model access facade instance to be used with this repository.
+     *
+     * @param modelAccessFacade
      */
-    public ModelAccessFacade getModel(final Class type)
+    public void setModelAccessFacade(Class modelAccessFacade)
+    {
+        this.modelAccessFacade = modelAccessFacade;
+    }
+
+    /**
+     * @see org.andromda.core.repository.RepositoryFacade#getModel()
+     */
+    public ModelAccessFacade getModel()
     {
         if (this.modelFacade == null)
         {
@@ -253,7 +357,7 @@ public class MDRepositoryFacade
             {
                 this.modelFacade =
                     (ModelAccessFacade)ComponentContainer.instance().newComponent(
-                        type,
+                        this.modelAccessFacade,
                         ModelAccessFacade.class);
             }
             catch (final Throwable throwable)
@@ -280,37 +384,39 @@ public class MDRepositoryFacade
      * @throws CreationFailedException
      * @throws IOException
      * @throws MalformedXMIException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      */
-    private final MofPackage loadMetaModel(final URL metaModelURL)
-        throws CreationFailedException, IOException, MalformedXMIException
+    private final MofPackage loadMetaModel(final URL metamodelUri)
+        throws Exception
     {
         if (logger.isDebugEnabled())
         {
-            logger.debug("creating MetaModel using URL --> '" + metaModelURL + "'");
+            logger.debug("creating MetaModel using URL --> '" + metamodelUri + "'");
         }
 
-        // Use the metaModelURL as the name for the repository extent.
+        // Use the metamodelUri as the name for the repository extent.
         // This ensures we can load mutiple metamodels without them colliding.
-        ModelPackage metaModelExtent = (ModelPackage)repository.getExtent(metaModelURL.toExternalForm());
+        ModelPackage metaModelExtent = (ModelPackage)repository.getExtent(metamodelUri.toExternalForm());
 
         if (metaModelExtent == null)
         {
-            metaModelExtent = (ModelPackage)repository.createExtent(metaModelURL.toExternalForm());
+            metaModelExtent = (ModelPackage)repository.createExtent(metamodelUri.toExternalForm());
         }
 
         MofPackage metaModelPackage = findPackage(
-                META_PACKAGE,
+                this.metamodelPackage,
                 metaModelExtent);
         if (metaModelPackage == null)
         {
-            XMIReader xmiReader = XMIReaderFactory.getDefault().createXMIReader();
+            final XmiReader xmiReader = this.getXMIReaderFactory().createXMIReader();
             xmiReader.read(
-                metaModelURL.toExternalForm(),
+                metamodelUri.toExternalForm(),
                 metaModelExtent);
 
             // locate the UML package definition that was just loaded in
             metaModelPackage = findPackage(
-                    META_PACKAGE,
+                    this.metamodelPackage,
                     metaModelExtent);
         }
 
@@ -357,14 +463,14 @@ public class MDRepositoryFacade
         final String[] modelUris,
         final String[] moduleSearchPath,
         final MofPackage metaModel)
-        throws CreationFailedException
+        throws Exception
     {
         RefPackage model = null;
         if (modelUris != null)
         {
             model = this.createModel(metaModel);
-            final XMIReader xmiReader =
-                XMIReaderFactory.getDefault().createXMIReader(
+            final XmiReader xmiReader =
+                this.getXMIReaderFactory().createXMIReader(
                     new MDRXmiReferenceResolver(
                         new RefPackage[] {model},
                         moduleSearchPath));
@@ -412,13 +518,13 @@ public class MDRepositoryFacade
         final String[] uris,
         final String[] moduleSearchPaths,
         final MofPackage metaModel)
-        throws CreationFailedException
+        throws Exception
     {
         final RefPackage model = this.createModel(metaModel);
         if (modelStreams != null)
         {
-            final XMIReader xmiReader =
-                XMIReaderFactory.getDefault().createXMIReader(
+            final XmiReader xmiReader =
+                this.getXMIReaderFactory().createXMIReader(
                     new MDRXmiReferenceResolver(
                         new RefPackage[] {model},
                         moduleSearchPaths));

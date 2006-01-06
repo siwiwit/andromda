@@ -233,8 +233,7 @@ public class ModelProcessor
                             // - set the namespace on the metafacades instance so we know the 
                             //   correct facades to use
                             this.factory.setModel(
-                                this.repositories.getImplementation(repositoryName).getModel(
-                                    model.getAccessFacadeType()),
+                                this.repositories.getImplementation(repositoryName).getModel(),
                                 model.getType());
                             cartridge.processModelElements(this.factory);
                             writer.writeHistory();
@@ -352,7 +351,7 @@ public class ModelProcessor
             AndroMDALogger.info("- validating model -");
             final Collection cartridges = ComponentContainer.instance().findComponentsOfType(Cartridge.class);
             final ModelAccessFacade modelAccessFacade =
-                this.repositories.getImplementation(repositoryName).getModel(model.getAccessFacadeType());
+                this.repositories.getImplementation(repositoryName).getModel();
 
             // - clear out the factory's caches (such as any previous validation messages, etc.)
             this.factory.clearCaches();

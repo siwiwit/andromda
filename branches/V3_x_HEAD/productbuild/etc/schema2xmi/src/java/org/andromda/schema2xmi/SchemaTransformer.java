@@ -352,7 +352,7 @@ public class SchemaTransformer
     private final Object transform(final Connection connection)
         throws Exception
     {
-        this.umlPackage = (UmlPackage)this.repository.getModel(null).getModel();
+        this.umlPackage = (UmlPackage)this.repository.getModel().getModel();
 
         final ModelManagementPackage modelManagementPackage = umlPackage.getModelManagement();
 

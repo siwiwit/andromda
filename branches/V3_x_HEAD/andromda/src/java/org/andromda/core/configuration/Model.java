@@ -3,9 +3,7 @@ package org.andromda.core.configuration;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,10 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ResourceUtils;
-import org.andromda.core.engine.ModelProcessorException;
-import org.andromda.core.metafacade.ModelAccessFacade;
 
 
 /**
@@ -265,39 +260,6 @@ public class Model
     public String getType()
     {
         return this.type;
-    }
-
-    /**
-     * Stores the model facade types keyed by namespace.
-     */
-    private Map accessFacadeTypes = new HashMap();
-
-    /**
-     * Gets the facade type of the model (i.e. the type of {@link ModelAccessFacade}).
-     *
-     * @return Returns the type.
-     */
-    public Class getAccessFacadeType()
-    {
-        Class type = null;
-        if (this.type != null && this.type.trim().length() > 0)
-        {
-            type = (Class)this.accessFacadeTypes.get(this.type);
-            if (type == null)
-            {
-                type =
-                    ClassUtils.findClassOfType(
-                        Namespaces.instance().getResourceRoots(this.type),
-                        ModelAccessFacade.class);
-                if (type == null)
-                {
-                    throw new ModelProcessorException("No model access facade could be found within namespace '" +
-                        this.type + "', verify that the value of your model 'type' attribute is a namespace which " +
-                        "contains a model access facade");
-                }
-            }
-        }
-        return type;
     }
 
     /**

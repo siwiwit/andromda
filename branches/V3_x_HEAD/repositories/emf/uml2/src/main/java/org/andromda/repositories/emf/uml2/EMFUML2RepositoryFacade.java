@@ -2,7 +2,10 @@ package org.andromda.repositories.emf.uml2;
 
 import java.util.Map;
 
+import org.andromda.core.common.ComponentContainer;
+import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.repository.RepositoryFacadeException;
+import org.andromda.metafacades.emf.uml2.UMLModelAccessFacade;
 import org.andromda.repositories.emf.EMFRepositoryFacade;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
@@ -73,5 +76,35 @@ public class EMFUML2RepositoryFacade
             throw new RepositoryFacadeException("Model '" + uri + "' is not a valid EMF UML2 model");
         }
         return model;
+    }
+
+    /**
+     * @see org.andromda.core.repository.RepositoryFacade#getModel()
+     */
+    public ModelAccessFacade getModel()
+    {
+        if (this.modelFacade == null)
+        {
+            try
+            {
+                this.modelFacade =
+                    (ModelAccessFacade)ComponentContainer.instance().newComponent(
+                        UMLModelAccessFacade.class,
+                        ModelAccessFacade.class);
+            }
+            catch (final Throwable throwable)
+            {
+                throw new RepositoryFacadeException(throwable);
+            }
+        }
+        if (this.model != null)
+        {
+            this.modelFacade.setModel(this.model);
+        }
+        else
+        {
+            this.modelFacade = null;
+        }
+        return this.modelFacade;
     }
 }

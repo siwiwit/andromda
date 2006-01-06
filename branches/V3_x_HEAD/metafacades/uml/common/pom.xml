@@ -10,9 +10,6 @@
     <name>AndroMDA UML Common Metafacades</name>
     <description>The common UML metafacades.  This is the set of core UML metafacades used to provide access UML meta models.</description>
     <build>
-        <filters>
-            <filter>mda.properties</filter>
-        </filters>
         <plugins>
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
@@ -51,4 +48,9 @@
             </resource>
         </resources>
     </build>
+    <properties>
+        <model.file>${pom.basedir}/src/uml/${pom.artifactId}.xml.zip</model.file>
+        <maven.andromda.model.uri>jar:file:${model.file}!/${pom.artifactId}.xml</maven.andromda.model.uri>
+        <maven.src.dir>${pom.basedir}/src</maven.src.dir>
+    </properties>
 </project>

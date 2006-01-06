@@ -42,14 +42,6 @@
         </dependency>
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>META-INF/**/*</include>
-                </includes>
-            </resource>
-        </resources>
         <testResources>
             <testResource>
                 <directory>src/test/java</directory>
@@ -67,6 +59,8 @@
     </build>
     <modules>
         <module>mdr</module>
+        <module>mdr/uml14</module>
+        <module>mdr/uml2</module>
         <module>emf</module>
         <module>emf/uml2</module>
     </modules>
