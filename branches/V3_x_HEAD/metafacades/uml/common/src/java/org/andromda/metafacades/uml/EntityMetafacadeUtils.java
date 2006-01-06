@@ -36,9 +36,9 @@ public class EntityMetafacadeUtils
             modelElementName);
 
         StringBuffer sqlName = new StringBuffer();
-        StringCharacterIterator iter = new StringCharacterIterator(StringUtils.uncapitalize(modelElementName));
+        StringCharacterIterator iterator = new StringCharacterIterator(StringUtils.uncapitalize(modelElementName));
 
-        for (char character = iter.first(); character != CharacterIterator.DONE; character = iter.next())
+        for (char character = iterator.first(); character != CharacterIterator.DONE; character = iterator.next())
         {
             if (Character.isUpperCase(character))
             {
@@ -193,8 +193,8 @@ public class EntityMetafacadeUtils
                 {
                     buffer.append(suffix);
                 }
-                name = buffer.toString();
             }
+            name = buffer.toString();
         }
         return name;
     }
