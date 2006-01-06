@@ -15,6 +15,14 @@
        <directory>server/src/impl/java</directory>
        <directory>server/src/test/conf</directory>
        <directory>server/src/test/java</directory>
+       <directory>mda/src/custom</directory>
+       <directory>mda/src/custom/merge-maps</directory>
+       <directory>mda/src/custom/templates</directory>
+       <directory>mda/src/custom/templates/java</directory>
+       <directory>mda/src/custom/templates/hibernate</directory>
+       <directory>mda/src/custom/templates/spring</directory>
+       <directory>mda/src/custom/templates/spring/hibernate</directory>
+       <directory>mda/src/custom/templates/spring/richclient</directory>
     </directories>
     <mappings>
         <mapping>
@@ -29,11 +37,11 @@
             <documentation>
                 Provides the basic project information.
             </documentation>
-            <prompt id="applicationParentDirectory">
-                <text>Parent dir of project directory [e.g. /myWorkspace]</text>
-            </prompt>
             <prompt id="author">
                 <text>Your first and last last name [e.g. Arthur Dent]</text>
+            </prompt>
+            <prompt id="applicationParentDirectory">
+                <text>Parent dir of project directory [e.g. /myWorkspace]</text>
             </prompt>
             <prompt id="applicationName">
                 <text>Application name [e.g. My Test Project]</text>
@@ -48,12 +56,22 @@
                 <text>Base package for generated code [e.g. com.mycompany]</text>
             </prompt>
         </promptGroup>
-        <promptGroup name="Component Types">
+        <promptGroup name="Security">
             <documentation>
                 Provides the choice of components with the application.
             </documentation>        
             <prompt id="enableAcegi">
                 <text>Do you want to enable Acegi Security [yes/no]?</text>
+                <responses>
+                    <response>yes</response>
+                    <response>no</response>
+                </responses>
+            </prompt>
+            <prompt id="acegiImplementAuth">
+                <text>Will this application manage its own user list [yes/no]?</text>
+                <preconditions>
+                    <condition id="enableAcegi" equal="yes"/>
+                </preconditions>
                 <responses>
                     <response>yes</response>
                     <response>no</response>

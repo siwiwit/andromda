@@ -110,6 +110,17 @@ public class $clientServiceLocatorName
 
 #end
 #end
+#if ($acegiServiceSecurity == 'true' && $richClient == 'true')
+    /**
+     * Get the authentication manager used to validate user credentials.
+     */
+    public final net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager getRemoteAuthenticationService()
+    {
+        return (net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager)
+            getContext().getBean("${serviceRemoteContext}RemoteAuthenticationManagerService");
+    }
+
+#end
     /**
      * Gets an instance of the given service.
      */

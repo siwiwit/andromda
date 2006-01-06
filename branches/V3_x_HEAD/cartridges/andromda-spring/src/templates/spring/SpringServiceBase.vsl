@@ -134,16 +134,18 @@ public abstract class $service.baseName
      *
      * @return the current principal
      */
-    protected java.security.Principal getPrincipal()
-    {
 #if ($externalPrincipalStoreClass)
-#set ($principalStoreCall = "${externalPrincipalStoreClass}.get();")
+#set ($principalStoreCall = "${externalPrincipalStoreClass}.${externalPrincipalStoreGetter};")
+#set ($principalStoreType = ${externalPrincipalStoreGetterType})
 #else
 #set ($principalStoreCall = "${principalStoreName}.get();")
 #if($stringUtils.isNotEmpty($springTypesPackage))
 #set ($principalStoreCall = "${springTypesPackage}.${principalStoreCall}")
 #end
+#set ($principalStoreType = "java.security.Principal")
 #end
+    protected $principalStoreType getPrincipal()
+    {
         return $principalStoreCall
     }
 #if ($service.webServiceOutgoingAttachmentHandlerCall)

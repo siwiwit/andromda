@@ -206,11 +206,14 @@
         they can be removed from here). Any libraries your services need should
         also be added here. -->
       <include name="**/spring*.jar"/>
-      <include name="**/hibernate*.jar"/>
+      <include name="**/hibernate-3*.jar"/>
       <include name="**/antlr*.jar"/>
       <include name="**/ehcache*.jar"/>
       <include name="**/commons-beanutils*.jar"/>
       <include name="**/commons-logging*.jar"/>
+#if ($enableAcegi == 'yes')      
+      <include name="**/acegi*.jar"/>
+#end      
   </fileset>
 	
   <target name="make-server-war" unless="server-war-built">

@@ -330,6 +330,9 @@
                 Spring cartridge now generates default implementations for the "ValueObject to Entity" and "Entity to ValueObject"
                 conversion routines found in entity DAOs.
             </action>
+            <action dev="joelkoz" type="update">
+                Added support for Acegi Security when used in a Rich Client project. Currently works with Acegi 0.9.0
+            </action>
         </release>
         <release version="3.1-RC1" date="2005-06-19" description="First milestone release of version 3.1">
             <action dev="cwbrandon" type="fix" issue="SCHEMATOXMI-1">

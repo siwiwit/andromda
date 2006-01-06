@@ -14,6 +14,7 @@ import org.apache.commons.collections.Predicate;
  * Contains utilities used within the Spring cartridge.
  *
  * @author Chad Brandon
+ * @author Joel Kozikowski
  */
 public class SpringUtils
 {
@@ -180,6 +181,51 @@ public class SpringUtils
     public boolean isRichClient()
     {
         return this.richClient;
+    }
+ 
+    /**
+     * Returns the class name part of a fully qualified name
+     * @param fullyQualifiedName
+     * @return just the "class name" part of the fully qualified name
+     */
+    public String getClassName(String fullyQualifiedName)
+    {
+       String className;
+       if (fullyQualifiedName != null && fullyQualifiedName.length() > 0)
+       {
+           int lastDot = fullyQualifiedName.lastIndexOf('.');
+           if (lastDot >= 0)
+               className = fullyQualifiedName.substring(lastDot+1);
+           else
+               className = fullyQualifiedName;
+       }
+       else
+          className = "";
+       
+       return className;
+    }
+
+    
+    /**
+     * Returns the package name part of a fully qualified name
+     * @param fullyQualifiedName
+     * @return just the "package" part of the fully qualified name
+     */
+    public String getPackageName(String fullyQualifiedName)
+    {
+       String packageName;
+       if (fullyQualifiedName != null && fullyQualifiedName.length() > 0)
+       {
+           int lastDot = fullyQualifiedName.lastIndexOf('.');
+           if (lastDot >= 0)
+               packageName = fullyQualifiedName.substring(0, lastDot);
+           else
+               packageName = "";
+       }
+       else
+          packageName = "";
+       
+       return packageName;
     }
     
 }

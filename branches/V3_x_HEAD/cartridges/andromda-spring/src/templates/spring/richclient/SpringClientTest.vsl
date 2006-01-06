@@ -13,13 +13,32 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 import ${springTypesPackage}.${clientServiceLocatorName};
 import ${service.packageName}.${service.name};
 
+#if ($acegiServiceSecurity == 'true')
+import net.sf.acegisecurity.AccessDeniedException;
+import net.sf.acegisecurity.Authentication;
+import net.sf.acegisecurity.context.SecurityContextHolder;
+import net.sf.acegisecurity.providers.UsernamePasswordAuthenticationToken;
+
+#end
+
 /**
 * A unit test for exercising the methods of ${service.name}. This unit test
 * makes remote calls, testing the server code in its deployed environment.
 */
 public class ${service.name}RemoteTest extends
-        AbstractDependencyInjectionSpringContextTests {
+        AbstractDependencyInjectionSpringContextTests
+{
+#if ($acegiServiceSecurity == 'true')
+    private Authentication testUserAuth;
 
+    protected void onSetUp() throws Exception
+    {
+        super.onSetUp();
+        // ${toDoTag} set the test user account to one recgonized by the server
+        testUserAuth = new UsernamePasswordAuthenticationToken("joeuser", "12345");
+    }
+
+#end
 #foreach ($operation in $service.operations)
     public void test${stringUtils.capitalise($operation.name)}()
     {
@@ -27,6 +46,9 @@ public class ${service.name}RemoteTest extends
         assertNotNull(testService);
 
         // ${toDoTag} Write test code for ${service.name}::${operation.name}() client.
+#if ($acegiServiceSecurity == 'true')
+        SecurityContextHolder.getContext().setAuthentication(testUserAuth);
+#end        
     }
 
 #end

@@ -116,5 +116,15 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
+#if ($enableAcegi == 'yes')	
+	<classpathentry kind="var" path="ANDROMDA32_BIN/lib/acegisecurity/acegi-security/0.9.0/acegi-security-0.9.0.jar">
+		<attributes>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="var" path="ANDROMDA32_BIN/lib/commons-codec/commons-codec/1.3/commons-codec-1.3.jar">
+		<attributes>
+		</attributes>
+	</classpathentry>
+#end	
 	<classpathentry kind="output" path="server/target/classes/dist"/>
 </classpath>

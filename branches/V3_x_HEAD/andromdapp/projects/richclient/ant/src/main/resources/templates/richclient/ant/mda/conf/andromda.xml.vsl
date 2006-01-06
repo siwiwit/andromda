@@ -47,9 +47,10 @@
                 <property name="richClient">true</property>
                 <property name="configPropertyPrefix">${application.id}.</property>
                 <property name="toDoTag">TODO</property>
-#if ($enableAcegi == 'yes')                
-                <property name="acegiServiceSecurity">true</property>
-#end                
+#if ($enableAcegi == 'yes')
+                <property name="securityRealm">${application.id}</property>
+#end
+                <property name="mergeLocation">mda/src/custom</property>
             </properties>
         </namespace>
         <namespace name="spring">
@@ -91,6 +92,39 @@
 
                 <property name="applicationContextServer">applicationContext-export-remoteServices.xml</property>
                 <property name="applicationContextClient">applicationContext-import-remoteServices.xml</property>
+
+#if ($enableAcegi == 'yes')
+                <property name="acegiServiceSecurity">true</property>
+                <property name="clientHttpInvokerExecutor">net.sf.acegisecurity.context.httpinvoker.AuthenticationSimpleHttpInvokerRequestExecutor</property>
+                <property name="acegiAuthenticationManager">${application.id}AuthenticationManager</property>
+#if ($acegiImplementAuth == 'yes')
+                <property name="acegiAuthenticationManagerImplClass">net.sf.acegisecurity.providers.ProviderManager</property>
+                <property name="acegiAuthenticationDaoBeanName">${application.id}AuthenticationDao</property>
+                <property name="acegiAuthenticationDaoImplClass">${application.package}.AuthenticationDaoImpl</property>
+                <property name="acegiDaoAuthenticationProviderBeanName">daoAuthenticationProvider</property>
+                <property name="acegiDaoAuthenticationProviderImplClass">net.sf.acegisecurity.providers.dao.DaoAuthenticationProvider</property>
+                <property name="acegiDaoUserCacheBeanName">userAuthenticationCache</property>
+                <property name="acegiDaoUserCacheImplClass">net.sf.acegisecurity.providers.dao.cache.EhCacheBasedUserCache</property>
+                <property name="acegiUserCacheConfigLocation">default</property>
+                <property name="acegiUserCacheName">${application.package}.userCache</property>
+
+                <!-- If you would like to enable password encoding, uncomment next two lines...
+                    <property name="acegiPasswordEncoderBeanName">userPasswordEncoder</property>
+                    <property name="acegiPasswordEncoderImplClass">net.sf.acegisecurity.providers.encoding.Md5PasswordEncoder</property>
+                -->
+                
+#end                
+                <property name="externalPrincipalStoreClass">net.sf.acegisecurity.context.SecurityContextHolder</property>
+                <property name="externalPrincipalStoreGetter">getContext().getAuthentication()</property>
+                <property name="externalPrincipalStoreGetterType">net.sf.acegisecurity.Authentication</property>
+
+                <!-- Uncomment this line AFTER your first "mda" run...
+                    <property name="mergeMappingsUri">file:mda/src/custom/merge-maps/SpringMergeMappings.xml</property>
+                -->
+                
+#end
+                <property name="merge-maps">mda/src/custom/merge-maps</property>
+
             </properties>
         </namespace>
 
@@ -98,7 +132,7 @@
             <properties>
                 <property name="hibernateTypeMappingsUri">Hibernate</property>
                 <property name="dataSource">${datasource}</property>
-                <property name="hibernateDialect">{hibernate.db.dialect}</property>
+                <property name="hibernateDialect">${hibernate.db.dialect}</property>
                 <property name="hibernateTransactionManagerLookup">${hibernate.transaction.manager.lookup}</property>
                 <property name="hibernateInheritanceStrategy">${hibernate.inheritance.strategy}</property>
                 <property name="hibernateShowSql">${hibernate.db.showSql}</property>
@@ -115,8 +149,6 @@
 
         <namespace name="java">
             <properties>
-                <property name="languageMappingsUri">AxisJavaMappings</property>
-                <property name="useArraysForMultiplicitiesOfTypeMany">true</property>
                 <property name="enumerations">${source.common.codeGen.dir.java}</property>
                 <property name="exceptions">${source.common.codeGen.dir.java}</property>
                 <property name="value-objects">${source.common.codeGen.dir.java}</property>

@@ -52,6 +52,11 @@
 #end
                 <property name="serviceUrl"><value>$service.remoteUrl</value></property>
                 <property name="serviceInterface"><value>$service.fullyQualifiedName</value></property>
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="httpInvokerRequestExecutor">
+                    <ref local="httpInvokerRequestExecutor"/>
+                </property>
+#end
             </bean>
         </property>
         <property name="proxyInterfaces"><value>$service.fullyQualifiedName</value></property>
@@ -65,6 +70,22 @@
     </bean>
 
 #end
+#end
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+    <bean id="httpInvokerRequestExecutor" class="$clientHttpInvokerExecutor"/>
+
+#end
+#if($acegiServiceSecurity == "true")
+	<bean id="${serviceRemoteContext}RemoteAuthenticationManagerService"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>http://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePort}/${${configPropertyPrefix}remoteContext}/RemoteAuthenticationManagerService</value>
+		</property>
+		<property name="serviceInterface">
+			<value>net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>
+		</property>
+	</bean>
+	
 #end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
 

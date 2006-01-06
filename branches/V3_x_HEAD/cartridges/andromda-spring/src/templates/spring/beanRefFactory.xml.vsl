@@ -20,6 +20,9 @@
 #if (!$manageables.empty)
                 <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
 #end
+#if ($acegiServiceSecurity == 'true' && $richClient == 'true')
+                <value>$stringUtils.replace($applicationContextServerAuthentication, '/', '.')</value>
+#end                
                 <!-- beanRefFactory merge-point -->
            </list>
         </constructor-arg>
