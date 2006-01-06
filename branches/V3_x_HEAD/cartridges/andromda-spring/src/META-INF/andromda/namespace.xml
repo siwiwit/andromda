@@ -127,7 +127,7 @@
                     (i.e. the richClient namespace entry is "true").
                 </documentation>
             </property>
-            <property name="merge-maps" required="false">
+            <property name="merge-mappings" required="false">
                 <documentation>
                     The location where AndroMDA merge mapping stub files should be generated.
                 </documentation>

@@ -16,7 +16,7 @@
        <directory>server/src/test/config</directory>
        <directory>server/src/test/java</directory>
        <directory>mda/src/custom</directory>
-       <directory>mda/src/custom/merge-maps</directory>
+       <directory>mda/src/custom/merge-mappings</directory>
        <directory>mda/src/custom/templates</directory>
        <directory>mda/src/custom/templates/java</directory>
        <directory>mda/src/custom/templates/hibernate</directory>

@@ -119,11 +119,11 @@
                 <property name="externalPrincipalStoreGetterType">net.sf.acegisecurity.Authentication</property>
 
                 <!-- Uncomment this line AFTER your first "mda" run...
-                    <property name="mergeMappingsUri">file:mda/src/custom/merge-maps/SpringMergeMappings.xml</property>
+                    <property name="mergeMappingsUri">file:mda/src/custom/merge-mappings/SpringMergeMappings.xml</property>
                 -->
                 
 #end
-                <property name="merge-maps">mda/src/custom/merge-maps</property>
+                <property name="merge-mappings">mda/src/custom/merge-mappings</property>
 
             </properties>
         </namespace>

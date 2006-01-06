@@ -25,7 +25,7 @@ public class ${className} implements AuthenticationDao
     // 2. If you need the services of other Spring beans (like a user Dao), supply
     //    getters/setters after loadUserByUsername() (see below)
     //
-    // 3. Modify mda/src/custom/merge-maps/SpringMergeMappings.xml to inject
+    // 3. Modify mda/src/custom/merge-mappings/SpringMergeMappings.xml to inject
     //    this object with supporting Spring beans
     //
     // 4. Remove the comment in mda/config/andromda.xml that is around the

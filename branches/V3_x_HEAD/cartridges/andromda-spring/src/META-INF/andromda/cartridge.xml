@@ -129,7 +129,7 @@
     <property reference="server-config"/>
     <property reference="server-test"/>
     <property reference="server-test-config"/>
-    <property reference="merge-maps"/>
+    <property reference="merge-mappings"/>
     <property reference="applicationContextServerAuthentication"/>
     <property reference="applicationContextClientAuthentication"/>
     <property reference="serverTestContextAuthentication"/>
@@ -666,7 +666,7 @@
     <template
         path="templates/spring/richclient/SpringMergeMappings.vsl"
         outputPattern="SpringMergeMappings.xml"
-        outlet="merge-maps"
+        outlet="merge-mappings"
         overwrite="false"
         outputToSingleFile="true"
         outputOnEmptyElements="false">
