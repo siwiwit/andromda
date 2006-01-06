@@ -152,6 +152,10 @@
                 </executions>
                 <configuration>
                     <deployLocation>${jboss.home}/server/default/deploy</deployLocation>
+                    <!-- include the generated data source file -->
+                    <includes>
+                        <include>*ds.xml</include>
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>
