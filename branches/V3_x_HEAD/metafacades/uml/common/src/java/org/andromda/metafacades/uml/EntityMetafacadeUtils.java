@@ -155,36 +155,46 @@ public class EntityMetafacadeUtils
      */
     public static String getSqlNameFromTaggedValue(
         String prefix,
-        ModelElementFacade element,
+        final ModelElementFacade element,
         String name,
-        Short nameMaxLength,
+        final Short nameMaxLength,
         String suffix,
-        Object separator)
+        final Object separator)
     {
         if (element != null)
         {
             Object value = element.findTaggedValue(name);
-            name = StringUtils.trimToEmpty((String)value);
-            if (StringUtils.isEmpty(name))
+            StringBuffer buffer = new StringBuffer(StringUtils.trimToEmpty((String)value));
+            if (StringUtils.isEmpty(buffer.toString()))
             {
                 // if we can't find the tagValue then use the
                 // element name for the name
-                name = element.getName();
-                name = toSqlName(
-                        name,
-                        separator);
+                buffer = new StringBuffer(toSqlName(
+                            element.getName(),
+                            separator));
+                suffix = StringUtils.trimToEmpty(suffix);
+                prefix = StringUtils.trimToEmpty(prefix);
+                if (nameMaxLength != null)
+                {
+                    final short maxLength = (short)(nameMaxLength.shortValue() - suffix.length() - prefix.length());
+                    buffer =
+                        new StringBuffer(
+                            EntityMetafacadeUtils.ensureMaximumNameLength(
+                                buffer.toString(),
+                                new Short(maxLength)));
+                }
                 if (StringUtils.isNotBlank(prefix))
                 {
-                    name = StringUtils.trimToEmpty(prefix) + name;
+                    buffer.insert(
+                        0,
+                        prefix);
                 }
                 if (StringUtils.isNotBlank(suffix))
                 {
-                    name = name + StringUtils.trimToEmpty(suffix);
+                    buffer.append(suffix);
                 }
+                name = buffer.toString();
             }
-            name = ensureMaximumNameLength(
-                    name,
-                    nameMaxLength);
         }
         return name;
     }
