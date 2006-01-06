@@ -53,6 +53,10 @@
             <to>${applicationId}.xmi.vsl</to>
         </mapping>
         <mapping>
+            <from>app/conf/jboss-datasource.xml</from>
+            <to>app/conf/${applicationId}.ds.xml</to>
+        </mapping>
+        <mapping>
             <from>ejb-jar.xml</from>
             <to>target/classes/META-INF/ejb-jar.xml</to>
         </mapping>

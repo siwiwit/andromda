@@ -589,10 +589,11 @@
 #end
         <application.id>${project.artifactId}</application.id>
         <application.package>${project.groupId}</application.package>
+        <dataSource.name>jdbc/${applicationId}</dataSource.name>
 #if ($ear)
-        <dataSource>java:/DefaultDS</dataSource>
+        <dataSource>java:/${dataSource.name}</dataSource>
 #else
-        <dataSource>java:comp/env/${applicationId}DS</dataSource>
+        <dataSource>java:comp/env/${dataSource.name}</dataSource>
 #end
     </properties>
     <profiles>

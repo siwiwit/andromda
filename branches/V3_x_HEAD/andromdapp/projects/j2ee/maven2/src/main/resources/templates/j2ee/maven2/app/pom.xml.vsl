@@ -85,11 +85,19 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>conf</directory>
+                <targetPath>../</targetPath>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
                 <configuration>
+                    <includes>**/*.xml</includes>
                     <version>1.4</version>
                     <modules>
                         <javaModule>
