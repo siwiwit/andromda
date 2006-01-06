@@ -87,7 +87,7 @@
     <build>
         <resources>
             <resource>
-                <directory>conf</directory>
+                <directory>src/main/config</directory>
                 <targetPath>../</targetPath>
                 <filtering>true</filtering>
             </resource>

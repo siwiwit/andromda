@@ -46,7 +46,7 @@
          |     |        additional sources such as merge-mappings can be
          |     |        placed here, check out the /main/uml directory, it contains
          |     |        the UML model from which AndroMDA will generate code
-         |     +-- /conf/andromda.xml
+         |     +-- /src/main/config/andromda.xml
          |              configures AndroMDA and its components, most
          |              importantly the cartridges which are listed in
          |              their own namespace; global settings are done in the

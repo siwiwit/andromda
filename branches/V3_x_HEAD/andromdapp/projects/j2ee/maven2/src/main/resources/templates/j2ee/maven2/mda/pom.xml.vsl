@@ -90,6 +90,10 @@
                 <configuration>
                     <configurationUri>$configurationUri</configurationUri>
                 </configuration>
+#else
+                <configuration>
+                    <configurationUri>${pom.basedir}/src/main/config/andromda.xml</configurationUri>
+                </configuration>
 #end
             </plugin>
             <plugin>
@@ -119,7 +123,7 @@
         <model.uri>file:${project.build.sourceDirectory}/${applicationId}.xmi</model.uri>
 #end
         <filter></filter>
-        <conf.dir>${pom.basedir}/conf</conf.dir>
+        <conf.dir>${pom.basedir}/src/main/config</conf.dir>
         <!-- cartridge output locations -->
         <core.generated.dir>${pom.basedir}/../core/target/src</core.generated.dir>
         <core.manual.dir>${pom.basedir}/../core/src/main/java</core.manual.dir>

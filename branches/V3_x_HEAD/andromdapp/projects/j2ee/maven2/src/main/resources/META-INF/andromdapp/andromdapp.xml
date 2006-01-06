@@ -23,12 +23,12 @@
         </conditions>
         <conditions>
             <condition id="web" equal="true"/>
-            <output>mda/conf/mappings/WebMergeMappings.xml.vsl</output>
+            <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
         </conditions>
         <conditions type="and">
             <condition id="war" equal="true"/>
             <condition id="webservice" equal="true"/>
-            <output>mda/conf/mappings/WebMergeMappings.xml.vsl</output>
+            <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
         </conditions>
         <conditions>
             <condition id="war" equal="true"/>      
@@ -40,7 +40,7 @@
         </conditions>
         <conditions>
             <condition id="configurationUri" present="false"/>        
-            <output>mda/conf/andromda.xml</output>  
+            <output>mda/src/main/config/andromda.xml</output>  
         </conditions>
         <conditions>
             <condition id="transactionPersistenceType" notEqual="none"/>        
@@ -53,8 +53,8 @@
             <to>${applicationId}.xmi.vsl</to>
         </mapping>
         <mapping>
-            <from>app/conf/jboss-datasource.xml</from>
-            <to>app/conf/${applicationId}-ds.xml</to>
+            <from>app/src/main/config/jboss-datasource.xml</from>
+            <to>app/src/main/config/${applicationId}-ds.xml</to>
         </mapping>
         <mapping>
             <from>ejb-jar.xml</from>
