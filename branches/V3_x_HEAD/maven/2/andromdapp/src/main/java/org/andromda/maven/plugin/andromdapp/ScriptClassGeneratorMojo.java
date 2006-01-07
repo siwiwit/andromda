@@ -27,6 +27,7 @@ import org.apache.maven.project.MavenProject;
  * @author Chad Brandon
  * @goal instrument-scripts
  * @phase compile
+ * @requiresDependencyResolution runtime
  */
 public class ScriptClassGeneratorMojo
     extends AbstractMojo
