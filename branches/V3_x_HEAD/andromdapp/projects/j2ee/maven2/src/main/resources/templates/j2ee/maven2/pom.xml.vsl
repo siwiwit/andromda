@@ -179,7 +179,6 @@
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-script-wrappers</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
