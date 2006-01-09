@@ -300,36 +300,6 @@
                     type returned by the externalPrincipalStoreGetter method.
                 </documentation>
             </property>
-            <property name="serviceRemotingType">
-                <default>none</default>
-                <documentation>
-                    Determines the type of remoting to be used for Spring services. Can any one of
-                    <ul>
-                        <li>none</li>
-                        <li>rmi</li>
-                        <li>httpinvoker</li>
-                        <li>burlap</li>
-                        <li>hessian</li>
-                    </ul>
-                </documentation>
-            </property>
-            <property name="serviceRemotePort">
-                <default>8080</default>
-                <documentation>
-                    The port the exported services get published on.
-                </documentation>
-            </property>
-            <property name="serviceRemoteContext" required="false">
-                <documentation>
-                    The context the exported services get published on.
-                </documentation>
-            </property>
-            <property name="serviceRemoteServer">
-                <default>localhost</default>
-                <documentation>
-                    The remote server the Spring services get published on.
-                </documentation>
-            </property>
             <property name="entityNamePattern">
                 <default>{0}</default>
                 <documentation>
@@ -1032,6 +1002,41 @@
                     in the Dao provider by setting the "saltSource" property 
                     of the Dao provider defined with the acegiDaoAuthenticationProviderClass 
                     namespace property.
+                </documentation>
+            </property>
+        </propertyGroup>
+        <propertyGroup name="Remoting">
+            <documentation>
+                Properties related to Spring remote services
+            </documentation>
+            <property name="serviceRemotingType">
+                <default>none</default>
+                <documentation>
+                    Determines the type of remoting to be used for Spring services. Can any one of
+                    <ul>
+                        <li>none</li>
+                        <li>rmi</li>
+                        <li>httpinvoker</li>
+                        <li>burlap</li>
+                        <li>hessian</li>
+                    </ul>
+                </documentation>
+            </property>
+            <property name="serviceRemotePort">
+                <default>8080</default>
+                <documentation>
+                    The port the exported services get published on.
+                </documentation>
+            </property>
+            <property name="serviceRemoteContext" required="false">
+                <documentation>
+                    The context the exported services get published on.
+                </documentation>
+            </property>
+            <property name="serviceRemoteServer">
+                <default>localhost</default>
+                <documentation>
+                    The remote server the Spring services get published on.
                 </documentation>
             </property>
         </propertyGroup>
