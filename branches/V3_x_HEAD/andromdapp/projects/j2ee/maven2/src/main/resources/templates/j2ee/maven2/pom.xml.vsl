@@ -588,8 +588,9 @@
 #else
         <tomcat.home>${env.CATALINA_HOME}</tomcat.home>
 #end
-        <application.id>${project.artifactId}</application.id>
-        <application.package>${project.groupId}</application.package>
+        <application.id>${pom.artifactId}</application.id>
+        <application.package>${pom.groupId}</application.package>
+        <application.name>${pom.name}</application.name>
         <dataSource.name>jdbc/${applicationId}</dataSource.name>
 #if ($ear)
         <dataSource>java:/${dataSource.name}</dataSource>
