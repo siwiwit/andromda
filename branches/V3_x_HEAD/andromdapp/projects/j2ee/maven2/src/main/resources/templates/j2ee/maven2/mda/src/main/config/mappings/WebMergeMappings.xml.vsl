@@ -44,7 +44,7 @@
     <filter-mapping>
         <filter-name>OpenSessionInViewFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping> 
+    </filter-mapping>
     -->
 #end
             ]]>
@@ -54,13 +54,13 @@
         <from><![CDATA[<!-- listener merge-point -->]]></from>
         <to>
             <![CDATA[
-#if ($requiresAxisMergePoints)           
+#if ($requiresAxisMergePoints)
     <listener>
         <listener-class>org.apache.axis.transport.http.AxisHTTPSessionListener</listener-class>
     </listener>
 #end
             ]]>
-        </to>      
+        </to>
     </mapping>
     <mapping>
         <from><![CDATA[<!-- error-page merge-point -->]]></from>
@@ -151,24 +151,13 @@
     </mapping>
 #if ($web)
     <!--
-            For the next mapping you might want to do something like this
-            (assuming you have a properties file called custom-resources.properties
-            in /web/src/properties):
-
-            <mapping>
-                <from><![CDATA[# custom-messages merge-point]]></from>
-                <to>
-                    <path>../../../web/src/main/properties/custom-resources.properties</path>
-                </to>
-            </mapping>
-
-            This will merge the entire file into the merge point.
+        This next mapping will merge the entire messages.properties into the generated
+        messages.properties
     -->
     <mapping>
         <from><![CDATA[# custom-messages merge-point]]></from>
         <to>
-            <![CDATA[
-            ]]>
+            <path>../../../../../web/src/main/properties/messages.properties</path>
         </to>
     </mapping>
 #end
