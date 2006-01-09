@@ -119,6 +119,7 @@
         <dependency>
             <groupId>org.andromda</groupId>
             <artifactId>andromda-script-wrappers</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jboss</groupId>
