@@ -46,8 +46,8 @@ public class $action.actionClassName
                 lifecycle);
         final javax.faces.el.VariableResolver variableResolver = facesContext.getApplication().getVariableResolver();
 #set ($controller = $action.controller)
-        $controller.fullyQualifiedImplementationName controller =
-            ($controller.fullyQualifiedImplementationName)variableResolver.resolveVariable(
+        $controller.fullyQualifiedName controller =
+            ($controller.fullyQualifiedName)variableResolver.resolveVariable(
                 facesContext,
                 "$controller.beanName");
 #if ($action.useCase)

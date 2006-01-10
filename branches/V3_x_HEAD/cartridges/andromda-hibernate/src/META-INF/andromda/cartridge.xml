@@ -207,7 +207,7 @@
     </template>
 
     <template
-        path="templates/hibernate/HibernateEntityImplManual.vsl"
+        path="templates/hibernate/HibernateEntityImpl.vsl"
         outputPattern="$generatedFile"
         outlet="entity-impls"
         overwrite="false">

@@ -429,7 +429,7 @@
     </template>
 
     <template
-        path="templates/spring/hibernate/SpringHibernateDaoImplManual.vsl"
+        path="templates/spring/hibernate/SpringHibernateDaoImpl.vsl"
         outputPattern="$generatedFile"
         outlet="dao-impls"
         overwrite="false">

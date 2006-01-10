@@ -110,7 +110,6 @@
             <modelElement variable="controllers">
                 <type name="org.andromda.metafacades.uml.FrontEndController">
                     <property name="useCase"/>
-                    <property name="operations"/>
                 </type>
             </modelElement>
             <modelElement variable="applicationUseCases">
@@ -176,6 +175,21 @@
     <template
         path="templates/jsf/controllers/ControllerImpl.java.vsl"
         outputPattern="$generatedFile"
+        outlet="controllers"
+        overwrite="false">
+        <modelElements variable="controller">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.FrontEndController">
+                    <property name="useCase"/>
+                    <property name="operations.empty"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/jsf/controllers/ControllerImpl.java.vsl"
+        outputPattern="$generatedFile"
         outlet="controller-impls"
         overwrite="false">
         <modelElements variable="controller">
@@ -197,7 +211,6 @@
             <modelElement>
                 <type name="org.andromda.metafacades.uml.FrontEndController">
                     <property name="useCase"/>
-                    <property name="operations"/>
                 </type>
             </modelElement>
         </modelElements>
@@ -306,13 +319,10 @@
         overwrite="true">
         <modelElements>
             <modelElement variable="action">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="controller.operations"/>
-                </type>
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
             </modelElement>
             <modelElement>
                 <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="controller.operations"/>
                     <property name="actionForwards" variable="action"/>
                 </type>
             </modelElement>
