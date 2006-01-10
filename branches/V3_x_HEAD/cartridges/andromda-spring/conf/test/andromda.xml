@@ -24,6 +24,7 @@
                 <property name="jdbcMappingsUri">JDBC</property>
                 <property name="sqlMappingsUri">Oracle9i</property>
                 <property name="services">${test.output.dir}</property>
+                <property name="service-interfaces">${test.output.dir}</property>
                 <property name="service-impls">${test.output.dir}</property>
                 <property name="service-locator">${test.output.dir}</property>
                 <property name="session-ejbs">${test.output.dir}</property>

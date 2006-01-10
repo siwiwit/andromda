@@ -44,6 +44,7 @@
                 <property name="dao-impls">${core.manual.dir}</property>
                 <property name="spring-configuration">${core.generated.dir}</property>
                 <property name="services">${core.generated.dir}</property>
+                <property name="service-interfaces">${common.generated.dir}</property>
                 <property name="service-impls">${core.manual.dir}</property>
             </properties>
         </namespace>

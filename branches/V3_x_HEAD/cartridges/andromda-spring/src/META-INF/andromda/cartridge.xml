@@ -257,7 +257,7 @@
     <template
         path="templates/spring/SpringService.vsl"
         outputPattern="{0}/{1}.java"
-        outlet="services"
+        outlet="service-interfaces"
         overwrite="true">
         <modelElements variable="service">
             <modelElement>
@@ -378,7 +378,7 @@
     <template
         path="templates/spring/DefaultServiceException.vsl"
         outputPattern="$generatedFile"
-        outlet="services"
+        outlet="service-interfaces"
         overwrite="true">
         <modelElements variable="service">
             <modelElement>
@@ -977,7 +977,7 @@
     <template
         path="templates/spring/crud/SpringCrudService.vsl"
         outputPattern="$generatedFile"
-        outlet="services"
+        outlet="service-interfaces"
         overwrite="true">
         <modelElements variable="manageable">
             <modelElement>

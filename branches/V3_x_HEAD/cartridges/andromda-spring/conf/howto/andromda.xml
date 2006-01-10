@@ -27,6 +27,7 @@
         <namespace name="spring">
             <properties>
                 <property name="services">${howto.output.dir}</property>
+                <property name="service-interfaces">${howto.output.dir}</property>
                 <property name="service-impls">${howto.output.dir}</property>
                 <property name="service-locator">${howto.output.dir}</property>
                 <property name="session-ejbs">${howto.output.dir}</property>

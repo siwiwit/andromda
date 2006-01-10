@@ -121,6 +121,7 @@
                 <property name="spring-configuration">${core.generated.dir}</property>
                 <property name="services">${core.generated.dir}</property>
                 <property name="service-impls">${core.manual.dir}</property>
+                <property name="service-interfaces">${common.generated.dir}</property>
 #if ($ear)
                 <property name="enableSpringTransactionsWhenEjbsEnabled">true</property>
                 <!-- to remove any dependency on EJB, comment the following property -->

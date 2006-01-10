@@ -26,8 +26,13 @@
             </property>
             <property name="service-impls">
                 <documentation>
-                    The location to which all service implementation classes
-                    will be generated.
+                    The location to which all service implementation classes will be generated.
+                </documentation>
+            </property>
+            <property name="service-interfaces">
+                <documentation>
+                    The location to which all service interfaces and common API classes such
+                    as default service exceptions will be generated.
                 </documentation>
             </property>
             <property name="daos">

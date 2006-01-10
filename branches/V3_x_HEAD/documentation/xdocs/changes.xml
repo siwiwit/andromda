@@ -12,6 +12,13 @@
     </properties>
     <body>
         <release version="3.2-RC1-SNAPSHOT" date="2006-01-02" description="First release candidate of version 3.2">
+            <action dev="draftdog" type="add">
+                Spring service interfaces and default service exceptions are now emitted to a dedicated outlet called
+                <code>service-interfaces</code>. Make sure to update your <code>andromda.xml</code>, the proper
+                value for this namespace property is the generated source code directory for the 'common'
+                component, if you have generated your project using <code>andromdapp:generate</code> this is
+                <code>${common.generated.dir}</code>.
+            </action>
             <action dev="draftdog" type="add" issue="UMLMETA-62">
                 Services and entities now are allowed to realize interfaces. Any interfaces generalized by other
                 interfaces won't be taken into account.
