@@ -75,6 +75,7 @@
                 <property name="spring-configuration">${source.server.codeGen.dir.config}/WEB-INF</property>
                 <property name="services">${source.common.codeGen.dir.java}</property>
                 <property name="service-impls">${source.server.impl.dir.java}</property>
+                <property name="service-interfaces">${source.common.codeGen.dir.java}</property>
 
                 <property name="serviceRemotingType">${remote.type}</property>
                 <property name="serviceRemoteServer">${remote.server}</property> 
