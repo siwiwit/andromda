@@ -306,10 +306,13 @@
         overwrite="true">
         <modelElements>
             <modelElement variable="action">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="controller.operations"/>
+                </type>
             </modelElement>
             <modelElement>
                 <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="controller.operations"/>
                     <property name="actionForwards" variable="action"/>
                 </type>
             </modelElement>
@@ -553,7 +556,9 @@
         outputToSingleFile="true">
         <modelElements>
             <modelElement variable="useCases">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="controller.operations"/>
+                </type>
             </modelElement>
         </modelElements>      
     </template>
