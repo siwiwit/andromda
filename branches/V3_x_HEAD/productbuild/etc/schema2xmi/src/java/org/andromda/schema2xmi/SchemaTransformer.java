@@ -156,7 +156,7 @@ public class SchemaTransformer
         if (repository == null)
         {
             throw new ModelProcessorException(
-                "No Repository could be found, " + "please make sure you have a " + RepositoryFacade.class.getName() +
+                "No Repository could be found, please make sure you have a " + RepositoryFacade.class.getName() +
                 " instance on your classpath");
         }
         repository.open();
