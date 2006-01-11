@@ -133,12 +133,29 @@
                 <targetPath>../${pom.artifactId}-${pom.version}</targetPath>
                 <filtering>true</filtering>
             </resource>
-            <resource>
-                <directory>src/main/jsp</directory>
-                <targetPath>../src</targetPath>
-            </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <tasks>
+                        <copy todir="${pom.build.directory}/src" overwrite="true">
+                            <fileset dir="${pom.basedir}/src/main/jsp">
+                                <include name="**/*"/>
+                            </fileset>
+                        </copy>
+                    </tasks>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
