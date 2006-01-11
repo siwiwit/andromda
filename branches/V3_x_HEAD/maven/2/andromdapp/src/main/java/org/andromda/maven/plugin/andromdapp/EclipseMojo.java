@@ -208,8 +208,6 @@ public class EclipseMojo
         }
         return projects;
     }
-    
-    //buildFromRepository(Artifact artifact, List remoteArtifactRepositories, ArtifactRepository localRepository, boolean allowStubModel)
 
     /**
      * The artifact id for the multi source plugin.
