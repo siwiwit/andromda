@@ -52,6 +52,8 @@
                 <property name="defaultHibernateGeneratorClass">native</property>
                 <property name="entities">${howto.output.dir}</property>
                 <property name="entity-impls">${howto.output.dir}</property>
+                <property name="entity-mappings">${howto.output.dir}</property>
+                <property name="user-types">${howto.output.dir}</property>
             </properties>
         </namespace>
         <namespace name="java">

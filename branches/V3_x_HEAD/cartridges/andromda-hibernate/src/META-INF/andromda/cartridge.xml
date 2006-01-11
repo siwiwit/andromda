@@ -96,7 +96,7 @@
     <template
         path="templates/hibernate2/hibernate.hbm.xml.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="entity-mappings"
         overwrite="true">
         <modelElements variable="entity">
             <modelElement>
@@ -143,7 +143,7 @@
     <template
         path="templates/hibernate3/hibernate.hbm.xml.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="entity-mappings"
         overwrite="true">
         <modelElements variable="entity">
             <modelElement>
@@ -223,19 +223,19 @@
     <template
         path="templates/hibernate/usertypes/HibernateByteBlobType.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="user-types"
         overwrite="true"/>
 
     <template
         path="templates/hibernate/usertypes/HibernateStringClobType.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="user-types"
         overwrite="true"/>
 
     <template
         path="templates/hibernate/HibernateEnumeration.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="user-types"
         overwrite="true">
         <modelElements variable="enumeration">
             <modelElement>

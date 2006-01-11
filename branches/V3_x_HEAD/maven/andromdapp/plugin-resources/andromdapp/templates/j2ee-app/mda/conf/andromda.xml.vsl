@@ -80,6 +80,8 @@
 #end
                 <property name="entities">${maven.andromda.core.generated.dir}</property>
                 <property name="entity-impls">${maven.andromda.core.manual.dir}</property>
+                <property name="entity-mappings">${maven.andromda.core.generated.dir}</property>
+                <property name="user-types">${maven.andromda.core.generated.dir}</property>
                 <property name="session-beans">${maven.andromda.core.generated.dir}</property>
                 <property name="session-impls">${maven.andromda.core.manual.dir}</property>
                 <property name="configuration">${maven.andromda.core.generated.dir}</property>
@@ -144,6 +146,8 @@
                 <property name="hibernateDefaultCascade">none</property>
                 <property name="entities">${maven.andromda.core.generated.dir}</property>
                 <property name="entity-impls">${maven.andromda.core.manual.dir}</property>
+                <property name="entity-mappings">${maven.andromda.core.generated.dir}</property>
+                <property name="user-types">${maven.andromda.core.generated.dir}</property>
                 <property name="customTypesPackage">${application.package}</property>
                 <property name="compositionDefinesEagerLoading">true</property>
                 <property name="cache">${maven.andromda.core.generated.dir}</property>

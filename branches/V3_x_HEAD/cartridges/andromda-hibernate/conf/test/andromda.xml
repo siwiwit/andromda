@@ -28,6 +28,8 @@
                 <property name="hibernateTypeMappingsUri">Hibernate</property>
                 <property name="entities">${test.output.dir}</property>
                 <property name="entity-impls">${test.output.dir}</property>
+                <property name="entity-mappings">${test.output.dir}</property>
+                <property name="user-types">${test.output.dir}</property>
                 <property name="session-beans">${test.output.dir}</property>
                 <property name="session-impls">${test.output.dir}</property>
                 <property name="session-ejbs">${test.output.dir}</property>

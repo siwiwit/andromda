@@ -11,7 +11,15 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.2-RC1-SNAPSHOT" date="2006-01-02" description="First release candidate of version 3.2">
+        <release version="3.2-RC1-SNAPSHOT" date="2006-01-11" description="First release candidate of version 3.2">
+            <action dev="draftdog" type="add">
+                The Hibernate cartridge's namespace has two new outlets: <code>entity-mappings</code> and <code>user-types</code>.
+                The <code>.hbm.xml</code> files will be emitted to the former while the latter will be used for Hibernate
+                enumeration user-types and the String Clob and Blob types. This will allow you to have your POJOs generated
+                into a dedicated location such as <code>common/target/src</code>.
+                The <code>andromdapp:generate</code> plugin has been updated to have both outlets point to the generated code
+                of the core component.
+            </action>
             <action dev="draftdog" type="add">
                 Spring service interfaces and default service exceptions are now emitted to a dedicated outlet called
                 <code>service-interfaces</code>. Make sure to update your <code>andromda.xml</code>, the proper

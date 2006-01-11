@@ -78,8 +78,10 @@
                 <property name="hibernateQueryCacheFactory">org.hibernate.cache.StandardQueryCacheFactory</property>
                 <property name="hibernateTransactionFactoryClass">org.hibernate.transaction.JTATransactionFactory</property>
 #end
-                <property name="entities">${core.generated.dir}</property>
+                <property name="entities">${common.generated.dir}</property>
                 <property name="entity-impls">${core.manual.dir}</property>
+                <property name="entity-mappings">${core.generated.dir}</property>
+                <property name="user-types">${core.generated.dir}</property>
                 <property name="session-beans">${core.generated.dir}</property>
                 <property name="session-impls">${core.manual.dir}</property>
                 <property name="configuration">${core.generated.dir}</property>
@@ -147,6 +149,8 @@
                 <property name="hibernateDefaultCascade">none</property>
                 <property name="entities">${core.generated.dir}</property>
                 <property name="entity-impls">${core.manual.dir}</property>
+                <property name="entity-mappings">${core.generated.dir}</property>
+                <property name="user-types">${core.generated.dir}</property>
                 <property name="customTypesPackage">${application.package}</property>
                 <property name="compositionDefinesEagerLoading">true</property>
                 <property name="cache">${core.generated.dir}</property>

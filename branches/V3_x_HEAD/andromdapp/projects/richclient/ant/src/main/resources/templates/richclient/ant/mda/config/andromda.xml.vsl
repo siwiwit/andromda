@@ -142,6 +142,8 @@
                 <property name="hibernateDefaultCascade">none</property>
                 <property name="entities">${source.server.codeGen.dir.java}</property>
                 <property name="entity-impls">${source.server.impl.dir.java}</property>
+                <property name="entity-mappings">${source.server.codeGen.dir.java}</property>
+                <property name="user-types">${source.server.codeGen.dir.java}</property>
                 <property name="customTypesPackage">${hibernate.customTypes.package}</property>
                 <property name="compositionDefinesEagerLoading">true</property>
                 <property name="configuration">${source.server.codeGen.dir.config}/WEB-INF</property>

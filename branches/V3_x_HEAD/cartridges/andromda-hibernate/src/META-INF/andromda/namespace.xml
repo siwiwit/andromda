@@ -32,6 +32,18 @@
                     <strong>no operations</strong> are present on the entity with <em>instance scope</em>.
                 </documentation>
             </property>
+            <property name="entity-mappings">
+                <documentation>
+                    The location to which hibernate entity mapping files are generated, these are the ones
+                    with the <code>.hbm.xml</code> extension.
+                </documentation>
+            </property>
+            <property name="user-types">
+                <documentation>
+                    The location to which hibernate enumeration user-types are generated. This includes
+                    String CLOB, BLOB and enumeration user-types.
+                </documentation>
+            </property>
             <property name="session-beans" required="false">
                 <documentation>
                     The directory to which Session EJB service wrappers are generated.  If this
