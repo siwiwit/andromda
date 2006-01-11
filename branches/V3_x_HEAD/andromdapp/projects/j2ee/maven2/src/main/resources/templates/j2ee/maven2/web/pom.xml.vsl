@@ -133,6 +133,10 @@
                 <targetPath>../${pom.artifactId}-${pom.version}</targetPath>
                 <filtering>true</filtering>
             </resource>
+            <resource>
+                <directory>src/main/jsp</directory>
+                <targetPath>../src</targetPath>
+            </resource>
         </resources>
         <plugins>
             <plugin>
