@@ -1025,7 +1025,7 @@
     <template
         path="templates/spring/crud/SpringCrudValueObject.vsl"
         outputPattern="$generatedFile"
-        outlet="daos"
+        outlet="value-objects"
         overwrite="true">
         <modelElements variable="manageable">
             <modelElement>

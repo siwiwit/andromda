@@ -39,9 +39,7 @@ import org.omg.uml.foundation.core.Classifier;
 public class EntityLogicImpl
     extends EntityLogic
 {
-    public EntityLogicImpl(
-        final java.lang.Object metaObject,
-        final String context)
+    public EntityLogicImpl(final java.lang.Object metaObject, final String context)
     {
         super(metaObject, context);
     }

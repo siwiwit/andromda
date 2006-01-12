@@ -148,7 +148,7 @@ public final class $manageable.manageableServiceBaseName
         return list;
     }
 
-    private $manageable.fullyQualifiedManageableValueObjectName toValueObject($manageable.fullyQualifiedEntityName entity)
+    private static $manageable.fullyQualifiedManageableValueObjectName toValueObject($manageable.fullyQualifiedEntityName entity)
     {
         final $manageable.fullyQualifiedManageableValueObjectName valueObject = new ${manageable.fullyQualifiedManageableValueObjectName}();
 
@@ -161,49 +161,49 @@ public final class $manageable.manageableServiceBaseName
 
 #foreach ($member in $manageable.manageableAssociationEnds)
 #if ($member.many)
-        final java.util.Collection $member.name = entity.${member.getterName}();
+        final java.util.Collection ${member.name} = entity.${member.getterName}();
         if (${member.name}.isEmpty())
         {
-            valueObject.${member.setterName}(java.util.Collections.EMPTY_LIST);
-#if ($member.type.displayAttribute.name != $member.manageableIdentifier.name)
-            valueObject.${member.setterName}Labels(java.util.Collections.EMPTY_LIST);
+            valueObject.${member.setterName}(${member.name});
+#if ($member.type.displayAttribute.name != $member.type.manageableIdentifier.name)
+            valueObject.${member.setterName}Labels(${member.name});
 #end
         }
         else
         {
             final java.util.List values = new java.util.ArrayList();
-#if ($member.type.displayAttribute.name != $member.manageableIdentifier.name)
+#if ($member.type.displayAttribute.name != $member.type.manageableIdentifier.name)
             final java.util.List labels = new java.util.ArrayList();
 #end
             for (final java.util.Iterator iterator = ${member.name}.iterator(); iterator.hasNext();)
             {
                 final $member.type.fullyQualifiedName element = ($member.type.fullyQualifiedName)iterator.next();
-                values.add(element.${member.manageableIdentifier.getterName}());
-#if ($member.type.displayAttribute.name != $member.manageableIdentifier.name)
+                values.add(element.${member.type.manageableIdentifier.getterName}());
+#if ($member.type.displayAttribute.name != $member.type.manageableIdentifier.name)
                 labels.add(element.${member.type.displayAttribute.getterName}());
 #end
             }
             valueObject.${member.setterName}(values);
-#if ($member.type.displayAttribute.name != $member.manageableIdentifier.name)
+#if ($member.type.displayAttribute.name != $member.type.manageableIdentifier.name)
             valueObject.${member.setterName}Labels(labels);
 #end
         }
 #else
-#if ($member.manageableIdentifier)
+#if ($member.type.manageableIdentifier)
         final $member.type.fullyQualifiedName $member.name = entity.${member.getterName}();
 #if (!$member.type.primitive)
         if ($member.name != null)
 #end
         {
-            valueObject.${member.setterName}(${member.name}.${member.manageableIdentifier.getterName}());
-#if ($member.type.displayAttribute.name != $member.manageableIdentifier.name)
+            valueObject.${member.setterName}(${member.name}.${member.type.manageableIdentifier.getterName}());
+#if ($member.type.displayAttribute.name != $member.type.manageableIdentifier.name)
             valueObject.${member.setterName}Label(${member.name}.${member.type.displayAttribute.getterName}());
 #end
         }
 #end
 #end
-#end
 
+#end
         return valueObject;
     }
 }

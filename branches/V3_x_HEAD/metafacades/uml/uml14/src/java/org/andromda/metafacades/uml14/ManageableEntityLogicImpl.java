@@ -81,7 +81,7 @@ public class ManageableEntityLogicImpl
         return new ArrayList(manageableAssociationEnds);
     }
 
-    private void collectAssociationEnds(Collection manageableAssociationEnds, ManageableEntity entity)
+    private static void collectAssociationEnds(Collection manageableAssociationEnds, ManageableEntity entity)
     {
         final Collection associationEnds = entity.getAssociationEnds();
         for (final Iterator associationEndIterator = associationEnds.iterator(); associationEndIterator.hasNext();)
