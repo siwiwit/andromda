@@ -337,7 +337,7 @@
         <modelElements variable="useCase">
             <modelElement>
                 <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="forwards"/>
+                    <property name="allForwards"/>
                 </type>
             </modelElement>
         </modelElements>

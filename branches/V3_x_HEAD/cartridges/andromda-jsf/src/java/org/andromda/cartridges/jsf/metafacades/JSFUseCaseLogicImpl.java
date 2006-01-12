@@ -391,6 +391,25 @@ public class JSFUseCaseLogicImpl
         }
         return new ArrayList(forwards.values());
     }
+    
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFUseCase#getAllForwards()
+     */
+    protected List handleGetAllForwards()
+    {
+        final Map forwards = new LinkedHashMap();
+        for (final Iterator iterator = this.getActionForwards().iterator(); iterator.hasNext();)
+        {
+            final ModelElementFacade forward = (ModelElementFacade)iterator.next();
+            forwards.put(forward.getName(), forward);
+        }
+        for (final Iterator iterator = this.getForwards().iterator(); iterator.hasNext();)
+        {
+            final ModelElementFacade forward = (ModelElementFacade)iterator.next();
+            forwards.put(forward.getName(), forward);
+        }
+        return new ArrayList(forwards.values());        
+    }
 
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFUseCase#getActionClassName()

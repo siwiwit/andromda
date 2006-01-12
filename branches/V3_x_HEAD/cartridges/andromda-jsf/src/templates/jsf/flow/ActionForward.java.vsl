@@ -55,7 +55,7 @@ public class $action.actionClassName
 #else
 #set ($useCase = $action)
 #end
-#if (!$useCase.forwards.empty)
+#if (!$useCase.allForwards.empty)
         String forwardPath = ${useCase.forwardsClassName}.getPath(controller.${action.controllerAction}());
         if (forwardPath == null)
         {

@@ -2,7 +2,9 @@ package org.andromda.core.cartridge;
 
 import java.io.File;
 import java.io.StringWriter;
+
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -132,127 +134,116 @@ public class Cartridge
         final ModelElements modelElements = template.getSupportedModeElements();
         if (modelElements != null && !modelElements.isEmpty())
         {
-            final String outlet = Namespaces.instance().getPropertyValue(
-                    this.getNamespace(),
-                    template.getOutlet());
-            if (outlet != null)
+            try
             {
-                try
-                {
-                    final Collection allMetafacades = modelElements.getAllMetafacades();
+                final Collection allMetafacades = modelElements.getAllMetafacades();
 
-                    // - if outputToSingleFile is true AND outputOnEmptyElements
-                    //   is true or we have at least one metafacade in the
-                    //   allMetafacades collection, then we collect the template
-                    //   model elements and place them into the template context
-                    //   by their variable names.
-                    if (template.isOutputToSingleFile() &&
-                        (template.isOutputOnEmptyElements() || !allMetafacades.isEmpty()))
+                // - if outputToSingleFile is true AND outputOnEmptyElements
+                //   is true or we have at least one metafacade in the
+                //   allMetafacades collection, then we collect the template
+                //   model elements and place them into the template context
+                //   by their variable names.
+                if (template.isOutputToSingleFile() &&
+                    (template.isOutputOnEmptyElements() || !allMetafacades.isEmpty()))
+                {
+                    final Map templateContext = new LinkedHashMap();
+
+                    // - first place all relevant model elements by the
+                    //   <modelElements/> variable name. If the variable
+                    //   isn't defined (which is possible), ignore.
+                    final String modelElementsVariable = modelElements.getVariable();
+                    if (modelElementsVariable != null && modelElementsVariable.trim().length() > 0)
+                    {
+                        templateContext.put(
+                            modelElements.getVariable(),
+                            allMetafacades);
+                    }
+
+                    // - now place the collections of elements by the given variable names. 
+                    //   (skip if the variable is NOT defined)
+                    for (final Iterator iterator = modelElements.getModelElements().iterator(); iterator.hasNext();)
+                    {
+                        final ModelElement modelElement = (ModelElement)iterator.next();
+                        final String modelElementVariable = modelElement.getVariable();
+                        if (modelElementVariable != null && modelElementVariable.trim().length() > 0)
+                        {
+                            // - if a modelElement has the same variable defined
+                            //   more than one time, then get the existing
+                            //   model elements added from the last iteration
+                            //   and add the new ones to that collection
+                            Collection metafacades = (Collection)templateContext.get(modelElementVariable);
+                            if (metafacades != null)
+                            {
+                                metafacades.addAll(modelElement.getMetafacades());
+                            }
+                            else
+                            {
+                                metafacades = modelElement.getMetafacades();
+                                templateContext.put(
+                                    modelElementVariable,
+                                    new LinkedHashSet(metafacades));
+                            }
+                        }
+                    }
+                    this.processWithTemplate(
+                        template,
+                        templateContext,
+                        null,
+                        null);
+                }
+                else
+                {
+                    // - if outputToSingleFile isn't true, then
+                    //   we just place the model element with the default
+                    //   variable defined on the <modelElements/> into the
+                    //   template.
+                    for (final Iterator iterator = allMetafacades.iterator(); iterator.hasNext();)
                     {
                         final Map templateContext = new LinkedHashMap();
-
-                        // - first place all relevant model elements by the
-                        //   <modelElements/> variable name. If the variable
-                        //   isn't defined (which is possible), ignore.
-                        final String modelElementsVariable = modelElements.getVariable();
-                        if (modelElementsVariable != null && modelElementsVariable.trim().length() > 0)
+                        final Object metafacade = iterator.next();
+                        final ModelAccessFacade model = factory.getModel();
+                        for (final Iterator elements = modelElements.getModelElements().iterator(); elements.hasNext();)
                         {
-                            templateContext.put(
-                                modelElements.getVariable(),
-                                allMetafacades);
-                        }
+                            final ModelElement modelElement = (ModelElement)elements.next();
+                            String variable = modelElement.getVariable();
 
-                        // - now place the collections of elements by the given variable names. 
-                        //   (skip if the variable is NOT defined)
-                        for (final Iterator iterator = modelElements.getModelElements().iterator(); iterator.hasNext();)
-                        {
-                            final ModelElement modelElement = (ModelElement)iterator.next();
-                            final String modelElementVariable = modelElement.getVariable();
-                            if (modelElementVariable != null && modelElementVariable.trim().length() > 0)
+                            // - if the variable isn't defined on the <modelElement/>, try
+                            //   the <modelElements/>
+                            if (variable == null || variable.trim().length() == 0)
                             {
-                                // - if a modelElement has the same variable defined
-                                //   more than one time, then get the existing
-                                //   model elements added from the last iteration
-                                //   and add the new ones to that collection
-                                Collection metafacades = (Collection)templateContext.get(modelElementVariable);
-                                if (metafacades != null)
-                                {
-                                    metafacades.addAll(modelElement.getMetafacades());
-                                }
-                                else
-                                {
-                                    metafacades = modelElement.getMetafacades();
-                                    templateContext.put(
-                                        modelElementVariable,
-                                        new LinkedHashSet(metafacades));
-                                }
+                                variable = modelElements.getVariable();
                             }
-                        }
 
-                        this.processWithTemplate(
-                            template,
-                            templateContext,
-                            outlet,
-                            null,
-                            null);
-                    }
-                    else
-                    {
-                        // - if outputToSingleFile isn't true, then
-                        //   we just place the model element with the default
-                        //   variable defined on the <modelElements/> into the
-                        //   template.
-                        for (final Iterator iterator = allMetafacades.iterator(); iterator.hasNext();)
-                        {
-                            final Map templateContext = new LinkedHashMap();
-                            final Object metafacade = iterator.next();
-                            final ModelAccessFacade model = factory.getModel();
-                            for (final Iterator elements = modelElements.getModelElements().iterator();
-                                elements.hasNext();)
+                            // - only add the metafacade to the template context if the variable
+                            //   is defined (which is possible)
+                            if (variable != null && variable.trim().length() > 0)
                             {
-                                final ModelElement modelElement = (ModelElement)elements.next();
-                                String variable = modelElement.getVariable();
+                                templateContext.put(
+                                    variable,
+                                    metafacade);
+                            }
 
-                                // - if the variable isn't defined on the <modelElement/>, try
-                                //   the <modelElements/>
-                                if (variable == null || variable.trim().length() == 0)
-                                {
-                                    variable = modelElements.getVariable();
-                                }
-
-                                // - only add the metafacade to the template context if the variable
-                                //   is defined (which is possible)
-                                if (variable != null && variable.trim().length() > 0)
-                                {
-                                    templateContext.put(
-                                        variable,
-                                        metafacade);
-                                }
-
-                                // - now we process any property templates (if any 'variable' attributes are defined on one or
-                                //   more type's given properties), otherwise we process the single metafacade as usual
-                                if (!this.processPropertyTemplates(
-                                        template,
-                                        metafacade,
-                                        templateContext,
-                                        outlet,
-                                        modelElement))
-                                {
-                                    this.processWithTemplate(
-                                        template,
-                                        templateContext,
-                                        outlet,
-                                        model.getName(metafacade),
-                                        model.getPackageName(metafacade));
-                                }
+                            // - now we process any property templates (if any 'variable' attributes are defined on one or
+                            //   more type's given properties), otherwise we process the single metafacade as usual
+                            if (!this.processPropertyTemplates(
+                                    template,
+                                    metafacade,
+                                    templateContext,
+                                    modelElement))
+                            {
+                                this.processWithTemplate(
+                                    template,
+                                    templateContext,
+                                    model.getName(metafacade),
+                                    model.getPackageName(metafacade));
                             }
                         }
                     }
                 }
-                catch (final Throwable throwable)
-                {
-                    throw new CartridgeException(throwable);
-                }
+            }
+            catch (final Throwable throwable)
+            {
+                throw new CartridgeException(throwable);
             }
         }
     }
@@ -264,7 +255,6 @@ public class Cartridge
      * @param template the template to use for processing.
      * @param metafacade the metafacade instance (the property value is retrieved from this).
      * @param templateContext the template context containing the instance to pass to the template.
-     * @param outlet the outlet to which output will be written.
      * @param modelElement the model element from which we retrieve the corresponding types and then
      *        properties to determine if any properties have been mapped for template processing.
      * @return true if any property templates have been evaluated (false othewise).
@@ -273,7 +263,6 @@ public class Cartridge
         final Template template,
         final Object metafacade,
         final Map templateContext,
-        final String outlet,
         final ModelElement modelElement)
     {
         boolean propertyTemplatesEvaluated = false;
@@ -300,7 +289,6 @@ public class Cartridge
                             this.processWithTemplate(
                                 template,
                                 templateContext,
-                                outlet,
                                 null,
                                 null);
                         }
@@ -313,7 +301,6 @@ public class Cartridge
                         this.processWithTemplate(
                             template,
                             templateContext,
-                            outlet,
                             null,
                             null);
                     }
@@ -335,19 +322,12 @@ public class Cartridge
         ExceptionUtils.checkNull(
             "template",
             template);
-        final String outlet = Namespaces.instance().getPropertyValue(
-                this.getNamespace(),
-                template.getOutlet());
-        if (outlet != null)
-        {
-            final Map templateContext = new LinkedHashMap();
-            this.processWithTemplate(
-                template,
-                templateContext,
-                outlet,
-                null,
-                null);
-        }
+        final Map templateContext = new LinkedHashMap();
+        this.processWithTemplate(
+            template,
+            templateContext,
+            null,
+            null);
     }
 
     /**
@@ -360,7 +340,6 @@ public class Cartridge
      *        available to the template engine for processing. This will contain
      *        any model elements being made avaiable to the template(s) as well
      *        as properties/template objects.
-     * @param outlet the location or pattern defining where output will be written.
      * @param metafacadeName the name of the model element (if we are
      *        processing a single model element, otherwise this will be
      *        ignored).
@@ -370,7 +349,6 @@ public class Cartridge
     private void processWithTemplate(
         final Template template,
         final Map templateContext,
-        final String outlet,
         final String metafacadeName,
         final String metafacadePackage)
     {
@@ -380,9 +358,6 @@ public class Cartridge
         ExceptionUtils.checkNull(
             "templateContext",
             templateContext);
-        ExceptionUtils.checkNull(
-            "outlet",
-            outlet);
 
         File outputFile = null;
         try
@@ -393,47 +368,60 @@ public class Cartridge
 
             final StringWriter output = new StringWriter();
 
-            // process the template with the set TemplateEngine
+            // - process the template with the set TemplateEngine
             this.getTemplateEngine().processTemplate(
                 template.getPath(),
                 templateContext,
                 output);
 
-            outputFile =
-                template.getOutputLocation(
-                    metafacadeName,
-                    metafacadePackage,
-                    new File(outlet),
+            // - get the location and at the same time evaluate the outlet as a template engine variable (in case
+            //   its defined as that).
+            final String location =
+                Namespaces.instance().getPropertyValue(
+                    this.getNamespace(),
                     this.getTemplateEngine().getEvaluatedExpression(
-                        template.getOutputPattern(),
+                        template.getOutlet(),
                         templateContext));
-            if (outputFile != null)
-            {
-                // - only write files that do NOT exist, and
-                //   those that have overwrite set to 'true'
-                if (!outputFile.exists() || template.isOverwrite())
-                {
-                    final String outputString = output.toString();
-                    AndroMDALogger.setSuffix(this.getNamespace());
 
-                    // - check to see if generateEmptyFiles is true and if
-                    //   outString is not blank
-                    if ((outputString != null && outputString.trim().length() > 0) || template.isGenerateEmptyFiles())
+            if (location != null)
+            {
+                outputFile =
+                    template.getOutputLocation(
+                        metafacadeName,
+                        metafacadePackage,
+                        new File(location),
+                        this.getTemplateEngine().getEvaluatedExpression(
+                            template.getOutputPattern(),
+                            templateContext));
+                if (outputFile != null)
+                {
+                    // - only write files that do NOT exist, and
+                    //   those that have overwrite set to 'true'
+                    if (!outputFile.exists() || template.isOverwrite())
                     {
-                        ResourceWriter.instance().writeStringToFile(
-                            outputString,
-                            outputFile,
-                            this.getNamespace());
-                        AndroMDALogger.info("Output: '" + outputFile.toURI() + "'");
-                    }
-                    else
-                    {
-                        if (this.getLogger().isDebugEnabled())
+                        final String outputString = output.toString();
+                        AndroMDALogger.setSuffix(this.getNamespace());
+
+                        // - check to see if generateEmptyFiles is true and if
+                        //   outString is not blank
+                        if ((outputString != null && outputString.trim().length() > 0) ||
+                            template.isGenerateEmptyFiles())
                         {
-                            this.getLogger().debug("Empty Output: '" + outputFile.toURI() + "' --> not writing");
+                            ResourceWriter.instance().writeStringToFile(
+                                outputString,
+                                outputFile,
+                                this.getNamespace());
+                            AndroMDALogger.info("Output: '" + outputFile.toURI() + "'");
                         }
+                        else
+                        {
+                            if (this.getLogger().isDebugEnabled())
+                            {
+                                this.getLogger().debug("Empty Output: '" + outputFile.toURI() + "' --> not writing");
+                            }
+                        }
+                        AndroMDALogger.reset();
                     }
-                    AndroMDALogger.reset();
                 }
             }
         }
@@ -521,31 +509,31 @@ public class Cartridge
         File outFile = null;
         try
         {
-            String outlet = Namespaces.instance().getPropertyValue(
-                    this.getNamespace(),
-                    resource.getOutlet());
-            if (outlet != null)
-            {
-                // - make sure we don't have any back slashes
-                final String resourceUri = ResourceUtils.normalizePath(resourceUrl.toString());
-                final String uriSuffix =
-                    resourceUri.substring(
-                        resourceUri.lastIndexOf(FORWARD_SLASH),
-                        resourceUri.length());
-                if (outlet.endsWith(FORWARD_SLASH))
-                {
-                    // - remove the extra slash
-                    outlet = outlet.replaceFirst(
-                            FORWARD_SLASH,
-                            "");
-                }
+            // - make sure we don't have any back slashes
+            final String resourceUri = ResourceUtils.normalizePath(resourceUrl.toString());
+            final String uriSuffix =
+                resourceUri.substring(
+                    resourceUri.lastIndexOf(FORWARD_SLASH),
+                    resourceUri.length());
 
-                final Map templateContext = new LinkedHashMap();
-                this.populateTemplateContext(templateContext);
+            final Map templateContext = new LinkedHashMap();
+            this.populateTemplateContext(templateContext);
+
+            // - get the location and at the same time evaluate the outlet as a template engine variable (in case
+            //   its defined as that).
+            final String location =
+                Namespaces.instance().getPropertyValue(
+                    this.getNamespace(),
+                    this.getTemplateEngine().getEvaluatedExpression(
+                        resource.getOutlet(),
+                        templateContext));
+
+            if (location != null)
+            {
                 outFile =
                     resource.getOutputLocation(
                         new String[] {uriSuffix},
-                        new File(outlet),
+                        new File(location),
                         this.getTemplateEngine().getEvaluatedExpression(
                             resource.getOutputPattern(),
                             templateContext));
