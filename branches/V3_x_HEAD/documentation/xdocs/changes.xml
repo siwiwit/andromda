@@ -11,7 +11,11 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.2-RC1-SNAPSHOT" date="2006-01-12" description="First release candidate of version 3.2">
+        <release version="3.2-RC1-SNAPSHOT" date="2006-01-13" description="First release candidate of version 3.2">
+            <action dev="draftdog" type="update">
+                Several fixes have been applied to the CRUD implementation in the Spring cartridge. These fixes
+                will be apparent when using CRUD on entities which extend other entities.
+            </action>
             <action dev="draftdog" type="add">
                 The Spring cartridge has a new optional outlet <code>value-objects</code>, used to emit CRUD
                 value objects to, that way you can have them generated separately into a common component.
