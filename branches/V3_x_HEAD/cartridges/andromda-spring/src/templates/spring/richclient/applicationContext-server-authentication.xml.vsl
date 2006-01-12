@@ -4,12 +4,12 @@
 
 <beans>
     <bean id="basicProcessingFilter" class="net.sf.acegisecurity.ui.basicauth.BasicProcessingFilter">
-      <property name="authenticationManager"><ref bean="${acegiAuthenticationManager}"/></property>
-      <property name="authenticationEntryPoint"><ref bean="authenticationEntryPoint"/></property>
+        <property name="authenticationManager"><ref bean="${acegiAuthenticationManager}"/></property>
+        <property name="authenticationEntryPoint"><ref bean="authenticationEntryPoint"/></property>
     </bean>
 
     <bean id="authenticationEntryPoint" class="net.sf.acegisecurity.ui.basicauth.BasicProcessingFilterEntryPoint">
-      <property name="realmName"><value>${securityRealm}</value></property>
+        <property name="realmName"><value>${securityRealm}</value></property>
     </bean>
 
 #if ($stringUtils.isNotBlank($acegiAuthenticationManagerImplClass))

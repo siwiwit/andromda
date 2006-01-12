@@ -48,7 +48,7 @@ public class ${service.name}RemoteTest extends
         // ${toDoTag} Write test code for ${service.name}::${operation.name}() client.
 #if ($acegiServiceSecurity == 'true')
         SecurityContextHolder.getContext().setAuthentication(testUserAuth);
-#end        
+#end
     }
 
 #end

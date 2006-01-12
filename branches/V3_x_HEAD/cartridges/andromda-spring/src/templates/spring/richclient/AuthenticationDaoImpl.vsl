@@ -33,23 +33,23 @@ public class ${className} implements AuthenticationDao
     //    of the Spring cartridge
 
     public UserDetails loadUserByUsername(String username)
-        throws UsernameNotFoundException, DataAccessException 
+        throws UsernameNotFoundException, DataAccessException
     {
         // ${toDoTag} implement loadUserByUsername()
         throw new java.lang.UnsupportedOperationException("com.lighthousepmg.kore.kUsers.services.UserManagementService.handleAddRole(java.lang.String userID, java.lang.String roleToAdd) Not implemented!");
-        
+
         /* Usually, your implementation will look up a "user" from your database,
            then END with something like this:
         net.sf.acegisecurity.providers.dao.User acegiUser =
             new net.sf.acegisecurity.providers.dao.User(
-               user.getUserId(), 
+               user.getUserId(),
                user.getPassword(),
                (user.isActive() && user.isSuspended() == false),
                user.isActive(),
                user.isActive(),
                user.isSuspended() == false,
                auth);
-        
+
         return acegiUser;
         */
     }

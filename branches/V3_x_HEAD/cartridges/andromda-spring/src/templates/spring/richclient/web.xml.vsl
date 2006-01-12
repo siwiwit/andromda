@@ -9,8 +9,12 @@
             /WEB-INF/${applicationContext}
 #if ($acegiServiceSecurity == 'true')
             /WEB-INF/${applicationContextServerAuthentication}
-#end                
+#end
+#if ($stringUtils.isNotBlank($dataSource))
             /WEB-INF/${applicationContextDataSource}
+#else
+            /WEB-INF/${applicationContextLocalDataSource}
+#end
             <!-- root-contextConfigLocations merge-point -->
         </param-value>
     </context-param>
@@ -47,7 +51,7 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>${serviceRemoteContext}</servlet-name>
         <url-pattern>/*</url-pattern>

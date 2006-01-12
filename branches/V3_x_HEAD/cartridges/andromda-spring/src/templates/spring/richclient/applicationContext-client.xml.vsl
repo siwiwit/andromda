@@ -10,7 +10,7 @@
     <bean id="propertyPlaceholderConfigurer"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
-          <value>classpath:${propertiesFile}</value>
+            <value>classpath:${propertiesFile}</value>
         </property>
         <property name="systemPropertiesModeName">
             <value>SYSTEM_PROPERTIES_MODE_OVERRIDE</value>
@@ -76,16 +76,16 @@
 
 #end
 #if($acegiServiceSecurity == "true")
-	<bean id="${serviceRemoteContext}RemoteAuthenticationManagerService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-		<property name="serviceUrl">
-			<value>http://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePort}/${${configPropertyPrefix}remoteContext}/RemoteAuthenticationManagerService</value>
-		</property>
-		<property name="serviceInterface">
-			<value>net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>
-		</property>
-	</bean>
-	
+    <bean id="${serviceRemoteContext}RemoteAuthenticationManagerService"
+        class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>http://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePort}/${${configPropertyPrefix}remoteContext}/RemoteAuthenticationManagerService</value>
+        </property>
+        <property name="serviceInterface">
+            <value>net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>
+        </property>
+    </bean>
+
 #end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
 
