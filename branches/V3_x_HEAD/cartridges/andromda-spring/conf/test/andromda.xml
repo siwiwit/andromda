@@ -23,6 +23,7 @@
                 <property name="wrapperMappingsUri">JavaWrapper</property>
                 <property name="jdbcMappingsUri">JDBC</property>
                 <property name="sqlMappingsUri">Oracle9i</property>
+                <property name="value-objects">${test.output.dir}</property>
                 <property name="services">${test.output.dir}</property>
                 <property name="service-interfaces">${test.output.dir}</property>
                 <property name="service-impls">${test.output.dir}</property>

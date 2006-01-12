@@ -53,11 +53,10 @@
         <property reference="webServiceOutgoingAttachmentHandlerCallPattern"/>
         <property reference="webServiceIncomingAttachmentHandlerCallPattern"/>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityLogicImpl">
+    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityLogicImpl" contextRoot="true">
         <mapping>
             <stereotype>ENTITY</stereotype>
             <stereotype>MANAGEABLE</stereotype>
-            <property name="manageable"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityAttributeLogicImpl">
@@ -67,7 +66,7 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityAssociationEndLogicImpl">
         <mapping>
-            <property name="type.manageable"/>
+            <context>org.andromda.cartridges.spring.metafacades.SpringManageableEntity</context>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringEntityLogicImpl" contextRoot="true">
