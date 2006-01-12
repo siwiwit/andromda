@@ -11,7 +11,11 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.2-RC1-SNAPSHOT" date="2006-01-11" description="First release candidate of version 3.2">
+        <release version="3.2-RC1-SNAPSHOT" date="2006-01-12" description="First release candidate of version 3.2">
+            <action dev="draftdog" type="add">
+                The Spring cartridge has a new optional outlet <code>value-objects</code>, used to emit CRUD
+                value objects to, that way you can have them generated separately into a common component.
+            </action>
             <action dev="draftdog" type="add">
                 The Hibernate cartridge's namespace has two new outlets: <code>entity-mappings</code> and <code>user-types</code>.
                 The <code>.hbm.xml</code> files will be emitted to the former while the latter will be used for Hibernate
