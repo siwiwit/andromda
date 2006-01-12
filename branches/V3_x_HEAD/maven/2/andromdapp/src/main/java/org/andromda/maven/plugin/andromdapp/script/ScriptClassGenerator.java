@@ -159,32 +159,15 @@ public class ScriptClassGenerator
     {
         final String className = existingClass.getName();
         final String classResourcePath = '/' + className.replace(
-                '.',
-                '/') + ".class";
+            '.',
+            '/') + ".class";
         final URL classResource = existingClass.getResource(classResourcePath);
         if (classResource == null)
         {
             throw new ScriptClassGeneratorException("Could not find the class resource '" + classResourcePath + "'");
         }
-        final File file = new File(classResource.getFile());
-        File directory = file.getParentFile();
-        final int index = className.indexOf('.');
-        String basePackage = null;
-        if (index != -1)
-        {
-            basePackage = className.substring(
-                    0,
-                    index);
-        }
-        if (basePackage != null)
-        {
-            while (!directory.toString().endsWith(basePackage))
-            {
-                directory = directory.getParentFile();
-            }
-            directory = directory.getParentFile();
-        }
-        return directory;
+        final String file = classResource.getFile().replaceAll(".*(\\\\|//)", "/");
+        return new File(StringUtils.replace(file, classResourcePath, ""));
     }
 
     private String contructArgumentString(final CtMethod method)
