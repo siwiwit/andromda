@@ -46,14 +46,15 @@ public final class $manageable.manageableDaoBaseName
         return this.$member.daoName;
     }
 
-#if ($member.many)## in this case we need to be able to load multiple entities at the same time
-    protected java.util.Set find${member.type.name}ByIds(${member.type.manageableIdentifier.type.fullyQualifiedName}[] ids)
+#end
+#foreach ($associatedClass in $manageable.allAssociatedClasses)
+    private java.util.Set find${associatedClass.name}ByIds(${associatedClass.manageableIdentifier.type.fullyQualifiedName}[] ids)
     {
-        final Session session = getSession(false);
+        final Session session = this.getSession(false);
         try
         {
-            final Criteria criteria = session.createCriteria(${member.type.fullyQualifiedEntityImplementationName}.class);
-            criteria.add(Expression.in("$member.type.manageableIdentifier.name", ids));
+            final Criteria criteria = session.createCriteria(${associatedClass.fullyQualifiedEntityImplementationName}.class);
+            criteria.add(Expression.in("$associatedClass.manageableIdentifier.name", ids));
             return new java.util.HashSet(criteria.list());
         }
         catch (${hibernateUtils.basePackage}.HibernateException ex)
@@ -62,7 +63,6 @@ public final class $manageable.manageableDaoBaseName
         }
     }
 
-#end
 #end
 #if ($manageable.create)
     public void create($memberList)

@@ -46,6 +46,7 @@
                 <property name="services">${core.generated.dir}</property>
                 <property name="service-interfaces">${common.generated.dir}</property>
                 <property name="service-impls">${core.manual.dir}</property>
+                <property name="value-objects">${common.generated.dir}</property>
             </properties>
         </namespace>
         <namespace name="hibernate">

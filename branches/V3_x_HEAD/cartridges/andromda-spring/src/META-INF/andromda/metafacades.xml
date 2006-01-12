@@ -66,7 +66,7 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityAssociationEndLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.spring.metafacades.SpringManageableEntity</context>
+            <property name="type.manageable"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringEntityLogicImpl" contextRoot="true">

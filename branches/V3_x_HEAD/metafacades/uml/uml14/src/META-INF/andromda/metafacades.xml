@@ -195,7 +195,7 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.ManageableEntityAssociationEndLogicImpl">
         <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
-            <context>org.andromda.metafacades.uml.ManageableEntity</context>
+            <property name="type.manageable"/>
         </mapping>
     </metafacade>
     <!-- Entity metafacades -->

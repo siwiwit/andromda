@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
@@ -851,6 +852,33 @@ public class ClassifierFacadeLogicImpl
     protected boolean handleIsAssociationClass()
     {
         return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
+    }
+
+    protected Collection handleGetAssociatedClasses()
+    {
+        final Set associatedClasses = new LinkedHashSet();
+
+        final List associationEnds = this.getAssociationEnds();
+        for (int i = 0; i < associationEnds.size(); i++)
+        {
+            final AssociationEndFacade associationEndFacade = (AssociationEndFacade)associationEnds.get(i);
+            associatedClasses.add(associationEndFacade.getOtherEnd().getType());
+        }
+
+        return associatedClasses;
+    }
+
+    protected Collection handleGetAllAssociatedClasses()
+    {
+        final Set associatedClasses = new LinkedHashSet();
+        associatedClasses.addAll(this.getAssociatedClasses());
+        for (Iterator parentIterator = this.getGeneralizations().iterator(); parentIterator.hasNext();)
+        {
+            final ClassifierFacade parent = (ClassifierFacade)parentIterator.next();
+            associatedClasses.addAll(parent.getAllAssociatedClasses());
+        }
+
+        return associatedClasses;
     }
 
 }

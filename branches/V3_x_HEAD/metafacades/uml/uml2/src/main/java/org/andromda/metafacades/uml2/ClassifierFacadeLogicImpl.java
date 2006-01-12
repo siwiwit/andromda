@@ -411,4 +411,15 @@ public class ClassifierFacadeLogicImpl
         return null;
     }
 
+    protected java.util.Collection handleGetAssociatedClasses()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+
+    protected java.util.Collection handleGetAllAssociatedClasses()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
 }

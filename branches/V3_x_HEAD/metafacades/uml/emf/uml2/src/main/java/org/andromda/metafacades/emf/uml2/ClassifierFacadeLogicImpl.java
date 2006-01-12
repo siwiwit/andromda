@@ -873,4 +873,16 @@ public class ClassifierFacadeLogicImpl
         return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
     }
 
+    protected java.util.Collection handleGetAssociatedClasses()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    protected java.util.Collection handleGetAllAssociatedClasses()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
