@@ -156,10 +156,12 @@
                     </tasks>
                 </configuration>
             </plugin>
+#if ($ear)
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
             </plugin>
+#end
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromda-multi-source-plugin</artifactId>
