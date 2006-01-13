@@ -84,7 +84,7 @@ public final class $manageable.manageableDaoBaseName
         $member.type.fullyQualifiedName $memberEntityName = null;
         if ($member.name != null)
         {
-            $memberEntityName = ${member.daoGetterName}().load($member.name);
+            $memberEntityName = ($member.type.fullyQualifiedName)${member.daoGetterName}().load($member.name);
         }
 #end
 #if ($member.required)

@@ -119,7 +119,7 @@ public class ManageableEntityLogicImpl
      */
     protected boolean handleIsCreate()
     {
-        return true;
+        return !this.isAbstract();
     }
 
     protected String handleGetManageableServiceName()
