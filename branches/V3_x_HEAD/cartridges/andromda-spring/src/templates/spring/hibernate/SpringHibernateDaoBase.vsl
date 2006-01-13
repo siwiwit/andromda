@@ -63,9 +63,7 @@ public abstract class $entity.daoBaseName
                 "${entity.name}.load - '$argument' can not be null");
         }
 #end
-        final java.util.List list = this.getHibernateTemplate().find(
-            "from $entity.fullyQualifiedEntityName as entity where entity.$identifier.name = ?", $argument);
-        final Object entity = list != null && !list.isEmpty() ? list.iterator().next() : null;
+        final Object entity = this.getHibernateTemplate().get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
         return transformEntity(transform, ($entity.fullyQualifiedName)entity);
     }
 
