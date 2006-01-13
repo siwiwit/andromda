@@ -65,7 +65,7 @@ public final class $manageable.manageableDaoBaseName
 
 #end
 #if ($manageable.create)
-    public void create($memberList)
+    public $manageable.fullyQualifiedEntityName create($memberList)
     {
         final ${manageable.fullyQualifiedEntityName} entity = new ${manageable.fullyQualifiedEntityImplementationName}();
 #foreach ($member in $manageable.manageableAttributes)
@@ -112,7 +112,7 @@ public final class $manageable.manageableDaoBaseName
 #end
 #end
 
-        this.getDao().create(entity);
+        return (${manageable.fullyQualifiedEntityName})this.getDao().create(entity);
     }
 
 #end
@@ -256,7 +256,7 @@ public final class $manageable.manageableDaoBaseName
 #end
 #end
 #if ($manageable.update)
-    public void update($memberList)
+    public $manageable.fullyQualifiedEntityName update($memberList)
     {
 #set ($identifier = $manageable.manageableIdentifier)
         final $manageable.fullyQualifiedEntityName entity = (${manageable.fullyQualifiedName})this.getDao().load($identifier.name);
@@ -308,6 +308,7 @@ public final class $manageable.manageableDaoBaseName
 #end
 
         this.getDao().update(entity);
+        return entity;
     }
 
 #end

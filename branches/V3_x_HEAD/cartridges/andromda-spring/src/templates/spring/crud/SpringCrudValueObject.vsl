@@ -23,10 +23,9 @@ public final class $manageable.manageableValueObjectClassName
 
 #end
 #foreach ($member in $manageable.manageableAssociationEnds)
-#if ($member.many)
-#set ($fieldType = "java.util.Collection")
-#else
 #set ($fieldType = $member.type.manageableIdentifier.type.fullyQualifiedName)
+#if ($member.many)
+#set ($fieldType = "${fieldType}[]")
 #end
     private $fieldType $member.name;
 
@@ -41,12 +40,11 @@ public final class $manageable.manageableValueObjectClassName
     }
 
 #if ($member.type.displayAttribute.name != $member.type.manageableIdentifier.name)
-#if ($member.many)
-#set ($fieldType = "java.util.Collection")
-#set ($labelSuffix = "Labels")
-#else
 #set ($fieldType = $member.type.displayAttribute.type.fullyQualifiedName)
 #set ($labelSuffix = "Label")
+#if ($member.many)
+#set ($fieldType = "${fieldType}[]")
+#set ($labelSuffix = "${labelSuffix}s")
 #end
     private $fieldType ${member.name}${labelSuffix};
 
