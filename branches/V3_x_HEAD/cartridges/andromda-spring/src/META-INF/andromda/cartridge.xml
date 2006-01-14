@@ -154,6 +154,9 @@
                     <property name="richClient">false</property>
                 </type>
             </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+            </modelElement>
         </modelElements>
     </template>
 
@@ -169,6 +172,9 @@
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
                 </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
             </modelElement>
         </modelElements>
     </template>
@@ -202,6 +208,9 @@
                     <property name="richClient">false</property>
                 </type>
             </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+            </modelElement>
         </modelElements>
     </template>
 
@@ -218,6 +227,9 @@
                     <property name="remotable"/>
                     <property name="richClient">true</property>
                 </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
             </modelElement>
         </modelElements>
     </template>
@@ -591,6 +603,9 @@
                     <property name="richClient">false</property>
                 </type>
             </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+            </modelElement>
         </modelElements>
     </template>
 
@@ -607,6 +622,9 @@
                     <property name="remotable"/>
                     <property name="richClient">true</property>
                 </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
             </modelElement>
         </modelElements>
     </template>

@@ -603,6 +603,12 @@
                     The encoding for xml documents
                 </documentation>
             </property>
+            <property name="crudValueObjectSuffix">
+                <default>ValueObject</default>
+                <documentation>
+                    The suffix to append to the names of generated value objects used in CRUD (manageable entities).
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>

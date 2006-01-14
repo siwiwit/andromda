@@ -58,6 +58,7 @@
             <stereotype>ENTITY</stereotype>
             <stereotype>MANAGEABLE</stereotype>
         </mapping>
+        <property reference="crudValueObjectSuffix"/>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityAttributeLogicImpl">
         <mapping>

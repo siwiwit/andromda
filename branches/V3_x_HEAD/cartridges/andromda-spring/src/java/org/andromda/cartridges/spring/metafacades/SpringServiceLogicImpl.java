@@ -27,9 +27,7 @@ import org.apache.commons.lang.StringUtils;
 public class SpringServiceLogicImpl
     extends SpringServiceLogic
 {
-    public SpringServiceLogicImpl(
-        Object metaObject,
-        String context)
+    public SpringServiceLogicImpl(Object metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -175,7 +173,7 @@ public class SpringServiceLogicImpl
      */
     protected String getEjbPackageNamePattern()
     {
-        return (String)this.getConfiguredProperty("ejbPackageNamePattern");
+        return (String)this.getConfiguredProperty(SpringGlobals.EJB_PACKAGE_NAME_PATTERN);
     }
 
     /**
@@ -185,8 +183,8 @@ public class SpringServiceLogicImpl
      */
     protected String getEjbJndiNamePrefix()
     {
-        final String property = "ejbJndiNamePrefix";
-        return this.isConfiguredProperty(property) ? ObjectUtils.toString(this.getConfiguredProperty(property)) : null;
+        return this.isConfiguredProperty(SpringGlobals.EJB_JNDI_NAME_PREFIX)
+            ? ObjectUtils.toString(this.getConfiguredProperty(SpringGlobals.EJB_JNDI_NAME_PREFIX)) : null;
     }
 
     /**
@@ -223,9 +221,9 @@ public class SpringServiceLogicImpl
      */
     protected String[] handleGetInterceptors()
     {
-        final String property = "serviceInterceptors";
-        String serviceInterceptorString = this.isConfiguredProperty(property) ? ObjectUtils.toString(this
-                .getConfiguredProperty(property)) : null;
+        String serviceInterceptorString =
+            this.isConfiguredProperty(SpringGlobals.SERVICE_INTERCEPTORS) ? ObjectUtils.toString(this
+                .getConfiguredProperty(SpringGlobals.SERVICE_INTERCEPTORS)) : null;
         String[] interceptors = null;
         if (StringUtils.isNotEmpty(serviceInterceptorString))
         {
@@ -247,8 +245,8 @@ public class SpringServiceLogicImpl
      */
     private String getRemotingType()
     {
-        String serviceRemotingType =
-            StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty("serviceRemotingType")));
+        final String serviceRemotingType =
+            StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty(SpringGlobals.SERVICE_REMOTING_TYPE)));
         return SpringMetafacadeUtils.getServiceRemotingType(this, serviceRemotingType);
     }
 
@@ -257,7 +255,7 @@ public class SpringServiceLogicImpl
      */
     protected String handleGetRemoteServer()
     {
-        return StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty("serviceRemoteServer")));
+        return StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty(SpringGlobals.SERVICE_REMOTE_SERVER)));
     }
 
     /**
@@ -266,10 +264,8 @@ public class SpringServiceLogicImpl
     protected String handleGetRemotePort()
     {
         String serviceRemotePort =
-            StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty("serviceRemotePort")));
-        return SpringMetafacadeUtils.getServiceRemotePort(
-            this,
-            serviceRemotePort);
+            StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty(SpringGlobals.SERVICE_REMOTE_PORT)));
+        return SpringMetafacadeUtils.getServiceRemotePort(this, serviceRemotePort);
     }
 
     /**
@@ -277,9 +273,8 @@ public class SpringServiceLogicImpl
      */
     protected String handleGetRemoteContext()
     {
-        final String property = "serviceRemoteContext";
-
-        return this.isConfiguredProperty(property) ? ObjectUtils.toString(this.getConfiguredProperty(property)) : "";
+        return this.isConfiguredProperty(SpringGlobals.SERVICE_REMOTE_CONTEXT) 
+            ? ObjectUtils.toString(this.getConfiguredProperty(SpringGlobals.SERVICE_REMOTE_CONTEXT)) : "";
     }
 
     /**
@@ -311,7 +306,7 @@ public class SpringServiceLogicImpl
     {
         String result = "";
         
-        String propertyPrefix = ObjectUtils.toString(this.getConfiguredProperty("configPropertyPrefix"));
+        String propertyPrefix = ObjectUtils.toString(this.getConfiguredProperty(SpringGlobals.CONFIG_PROPERTY_PREFIX));
 
         if (this.isRemotingTypeNone())
         {
@@ -413,10 +408,8 @@ public class SpringServiceLogicImpl
     protected String handleGetDefaultExceptionName()
     {
         String name =
-            StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty("defaultServiceExceptionNamePattern")));
-        return name.replaceAll(
-            "\\{0\\}",
-            this.getName());
+            StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty(SpringGlobals.DEFAULT_SERVICE_EXCEPTION_NAME_PATTERN)));
+        return name.replaceAll("\\{0\\}", this.getName());
     }
 
     /**
@@ -443,7 +436,7 @@ public class SpringServiceLogicImpl
      */
     protected boolean handleIsAllowDefaultServiceException()
     {
-        return Boolean.valueOf(String.valueOf(this.getConfiguredProperty("defaultServiceExceptions"))).booleanValue();
+        return Boolean.valueOf(String.valueOf(this.getConfiguredProperty(SpringGlobals.DEFAULT_SERVICE_EXCEPTIONS))).booleanValue();
     }
 
     /**
@@ -451,7 +444,7 @@ public class SpringServiceLogicImpl
      */
     protected boolean handleIsRemotingTypeRmi()
     {
-        return this.getRemotingType().equalsIgnoreCase("rmi");
+        return this.getRemotingType().equalsIgnoreCase(SpringGlobals.REMOTING_PROTOCOL_RMI);
     }
 
     /**
@@ -459,7 +452,7 @@ public class SpringServiceLogicImpl
      */
     protected boolean handleIsRemotingTypeBurlap()
     {
-        return this.getRemotingType().equalsIgnoreCase("burlap");
+        return this.getRemotingType().equalsIgnoreCase(SpringGlobals.REMOTING_PROTOCOL_BURLAP);
     }
 
     /**
@@ -467,7 +460,7 @@ public class SpringServiceLogicImpl
      */
     protected boolean handleIsRemotingTypeHessian()
     {
-        return this.getRemotingType().equalsIgnoreCase("hessian");
+        return this.getRemotingType().equalsIgnoreCase(SpringGlobals.REMOTING_PROTOCOL_HESSIAN);
     }
 
     /**
@@ -475,7 +468,7 @@ public class SpringServiceLogicImpl
      */
     protected boolean handleIsRemotingTypeHttpInvoker()
     {
-        return this.getRemotingType().equalsIgnoreCase("httpinvoker");
+        return this.getRemotingType().equalsIgnoreCase(SpringGlobals.REMOTING_PROTOCOL_HTTPINVOKER);
     }
 
     /**
@@ -483,7 +476,7 @@ public class SpringServiceLogicImpl
      */
     protected boolean handleIsRemotingTypeNone()
     {
-        return this.getRemotingType().equalsIgnoreCase("none");
+        return this.getRemotingType().equalsIgnoreCase(SpringGlobals.REMOTING_PROTOCOL_NONE);
     }
 
     /**
@@ -603,9 +596,7 @@ public class SpringServiceLogicImpl
      */
     protected boolean handleIsRichClient() 
     {
-        String richClient =
-            StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty("richClient")));
-
+        final String richClient = StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty(SpringGlobals.RICH_CLIENT)));
         return richClient.equalsIgnoreCase("true");
     }
 }

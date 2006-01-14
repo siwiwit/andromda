@@ -110,6 +110,19 @@ public class $clientServiceLocatorName
 
 #end
 #end
+#foreach ($manageable in $manageables)
+#if ($manageable.remotable)
+    /**
+     * Gets an instance of {@link $manageable.fullyQualifiedManageableServiceName}.
+     */
+    public final $manageable.fullyQualifiedManageableServiceName get${manageable.manageableServiceName}()
+    {
+        return ($manageable.fullyQualifiedManageableServiceName)
+            getContext().getBean("$manageable.manageableServiceName");
+    }
+
+#end
+#end
 #if ($acegiServiceSecurity == 'true' && $richClient == 'true')
     /**
      * Get the authentication manager used to validate user credentials.

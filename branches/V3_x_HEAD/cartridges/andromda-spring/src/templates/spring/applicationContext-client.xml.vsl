@@ -71,6 +71,34 @@
 
 #end
 #end
+#foreach ($manageable in $manageables)
+    <!-- $manageable.manageableServiceName Remote Service Local Proxy with inner $manageable.manageableServiceName Remote Service invoker -->
+    <bean id="$manageable.manageableServiceName" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+#if($manageable.remotingTypeHttpInvoker)
+            <bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+#elseif($manageable.remotingTypeHessian)
+            <bean class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+#elseif($manageable.remotingTypeBurlap)
+            <bean class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">
+#elseif($manageable.remotingTypeRmi)
+            <bean class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+#end
+                <property name="serviceUrl"><value>$manageable.remoteUrl</value></property>
+                <property name="serviceInterface"><value>$manageable.fullyQualifiedManageableServiceName</value></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces"><value>$manageable.fullyQualifiedManageableServiceName</value></property>
+#if ($adviceEnabled)
+        <property name="interceptorNames">
+            <list>
+                <value>exceptionHandlingAdvice</value>
+            </list>
+        </property>
+#end
+    </bean>
+
+#end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
 
 </beans>

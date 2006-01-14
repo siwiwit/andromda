@@ -4,6 +4,7 @@ package org.andromda.cartridges.spring.metafacades;
  * Stores Globals specific to the Spring cartridge.
  *
  * @author Chad Brandon
+ * @author Wouter Zoons
  */
 class SpringGlobals
 {   
@@ -82,4 +83,49 @@ class SpringGlobals
      */
     static final String WEBSERVICE_INCOMING_ATTACHMENT_HANDLER_CALL_PATTERN = "webServiceIncomingAttachmentHandlerCallPattern";
 
+    /**
+     * RMI protocol for remote services
+     */
+    static final String REMOTING_PROTOCOL_RMI = "rmi";
+
+    /**
+     * Hessian protocol for remote services
+     */
+    static final String REMOTING_PROTOCOL_HESSIAN = "hessian";
+
+    /**
+     * HttpInvoker protocol for remote services
+     */
+    static final String REMOTING_PROTOCOL_HTTPINVOKER = "httpinvoker";
+
+    /**
+     * Disable remoting
+     */
+    static final String REMOTING_PROTOCOL_NONE = "none";
+
+    /**
+     * Burlap protocol for remote services
+     */
+    static final String REMOTING_PROTOCOL_BURLAP = "burlap";
+
+    /**
+     * The suffix to append to the class names of CRUD value objects.
+     */
+    static final String CRUD_VALUE_OBJECT_SUFFIX = "crudValueObjectSuffix";
+
+    /**
+     * Prefix for configuration properties related to remoting.
+     */
+    static final String CONFIG_PROPERTY_PREFIX = "configPropertyPrefix";
+
+    static final String DEFAULT_SERVICE_EXCEPTION_NAME_PATTERN = "defaultServiceExceptionNamePattern";
+    static final String DEFAULT_SERVICE_EXCEPTIONS = "defaultServiceExceptions";
+    static final String RICH_CLIENT = "richClient";
+    static final String EJB_PACKAGE_NAME_PATTERN = "ejbPackageNamePattern";
+    static final String EJB_JNDI_NAME_PREFIX = "ejbJndiNamePrefix";
+    static final String SERVICE_INTERCEPTORS = "serviceInterceptors";
+    static final String SERVICE_REMOTING_TYPE = "serviceRemotingType";
+    static final String SERVICE_REMOTE_SERVER = "serviceRemoteServer";
+    static final String SERVICE_REMOTE_PORT = "serviceRemotePort";
+    static final String SERVICE_REMOTE_CONTEXT = "serviceRemoteContext";
 }

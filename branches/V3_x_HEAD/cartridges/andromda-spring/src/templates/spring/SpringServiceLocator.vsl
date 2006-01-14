@@ -176,6 +176,18 @@ public class $serviceLocatorName
     }
 
 #end
+#foreach ($manageable in $manageables)
+    /**
+     * Gets an instance of {@link $manageable.fullyQualifiedManageableServiceName}.
+     */
+    public final $manageable.fullyQualifiedManageableServiceName get${manageable.manageableServiceName}()
+    {
+        return ($manageable.fullyQualifiedManageableServiceName)
+            getContext().getBean("$manageable.manageableServiceName");
+    }
+
+#end
+
     /**
      * Gets an instance of the given service.
      */
