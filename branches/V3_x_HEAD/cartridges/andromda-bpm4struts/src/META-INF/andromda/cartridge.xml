@@ -46,6 +46,7 @@
     <property reference="defaultTableExportTypes"/>
     <property reference="renderPageVariables"/>
     <property reference="toDoTag"/>
+    <property reference="virtualHost"/>
 
     <!-- cartridge-property merge-point -->
 
