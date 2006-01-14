@@ -31,7 +31,7 @@ import org.andromda.core.metafacade.ModelAccessFacade;
 
 /**
  * The AndroMDA Cartridge implementation of the Plugin. Cartridge instances are configured from
- * <code>META-INF/andromda-cartridge.xml</code> files discovered on the classpath.
+ * <code>META-INF/andromda/cartridge.xml</code> files discovered on the classpath.
  *
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen </a>
  * @author Chad Brandon
