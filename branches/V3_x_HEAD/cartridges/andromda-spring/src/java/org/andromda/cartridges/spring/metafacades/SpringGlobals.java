@@ -118,14 +118,53 @@ class SpringGlobals
      */
     static final String CONFIG_PROPERTY_PREFIX = "configPropertyPrefix";
 
+    /**
+     * Default service exceptino name pattern
+     */
     static final String DEFAULT_SERVICE_EXCEPTION_NAME_PATTERN = "defaultServiceExceptionNamePattern";
+
+    /**
+     * Default service exceptions
+     */
     static final String DEFAULT_SERVICE_EXCEPTIONS = "defaultServiceExceptions";
+
+    /**
+     * Enable rich-client code generation ?
+     */
     static final String RICH_CLIENT = "richClient";
+
+    /**
+     * The name pattern for EJB packages
+     */
     static final String EJB_PACKAGE_NAME_PATTERN = "ejbPackageNamePattern";
+
+    /**
+     * The prefix to use when constructing ejb JNDI names
+     */
     static final String EJB_JNDI_NAME_PREFIX = "ejbJndiNamePrefix";
+
+    /**
+     * Service interceptors
+     */
     static final String SERVICE_INTERCEPTORS = "serviceInterceptors";
+
+    /**
+     * The remoting type to be used for services
+     */
     static final String SERVICE_REMOTING_TYPE = "serviceRemotingType";
+
+    /**
+     * The server on which remote services are to be deployed
+     */
     static final String SERVICE_REMOTE_SERVER = "serviceRemoteServer";
+
+    /**
+     * The remote port via which services are accessible
+     */
     static final String SERVICE_REMOTE_PORT = "serviceRemotePort";
+
+    /**
+     * The remote context to which services are to be deployed
+     */
     static final String SERVICE_REMOTE_CONTEXT = "serviceRemoteContext";
 }

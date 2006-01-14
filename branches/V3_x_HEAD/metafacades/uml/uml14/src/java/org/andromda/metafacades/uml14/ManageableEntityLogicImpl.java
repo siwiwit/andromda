@@ -8,7 +8,6 @@ import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.EntityAttribute;
 import org.andromda.metafacades.uml.ManageableEntity;
-import org.andromda.metafacades.uml.ManageableEntityAttribute;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
@@ -197,7 +196,7 @@ public class ManageableEntityLogicImpl
                 buffer.append(", ");
             }
 
-            final ManageableEntityAttribute attribute = (ManageableEntityAttribute)attributes.get(i);
+            final AttributeFacade attribute = (AttributeFacade)attributes.get(i);
             final ClassifierFacade type = attribute.getType();
             if (type != null)
             {
