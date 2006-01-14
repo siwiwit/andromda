@@ -62,12 +62,12 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityAttributeLogicImpl">
         <mapping>
-            <property name="owner.manageable"/>
+            <context>org.andromda.cartridges.spring.metafacades.SpringManageableEntity</context>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityAssociationEndLogicImpl">
         <mapping>
-            <property name="type.manageable"/>
+            <context>org.andromda.cartridges.spring.metafacades.SpringManageableEntity</context>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringEntityLogicImpl" contextRoot="true">

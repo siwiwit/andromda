@@ -183,7 +183,6 @@
         <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
             <stereotype>ENTITY</stereotype>
             <stereotype>MANAGEABLE</stereotype>
-            <property name="manageable"/>
         </mapping>
         <property reference="manageableServiceAccessorPattern"/>
     </metafacade>
@@ -195,7 +194,7 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.ManageableEntityAssociationEndLogicImpl">
         <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
-            <property name="type.manageable"/>
+            <context>org.andromda.metafacades.uml.ManageableEntity</context>
         </mapping>
     </metafacade>
     <!-- Entity metafacades -->

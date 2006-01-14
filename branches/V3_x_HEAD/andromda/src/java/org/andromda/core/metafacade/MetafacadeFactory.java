@@ -66,8 +66,6 @@ public class MetafacadeFactory
     /**
      * Performs any initialization required by the factory (i.e. discovering all
      * <code>metafacade</code> mappings, etc).
-     *
-     * @param modelTypeNamespaces defines the possible model type namespaces.
      */
     public void initialize()
     {
@@ -300,8 +298,6 @@ public class MetafacadeFactory
      * @param metafacadeClass the metafacade class.
      * @param mappingObject the object to which the metafacade is mapped.
      * @param context the context to which the metafacade applies
-     * @param mappings the MetafacadeMappings instance to which the optional
-     *        <code>mapping</code> instance belongs.
      * @param mapping the optional MetafacadeMapping instance from which the
      *        metafacade is mapped.
      * @return the new (or cached) metafacade.
@@ -532,7 +528,7 @@ public class MetafacadeFactory
      * @param namespace the namespace in which the property is stored.
      * @param metafacadeName the name of the metafacade under which the property is registered
      * @param name the name of the property
-     * @param the value to give the property
+     * @param value to give the property
      */
     final void registerProperty(
         final String namespace,
@@ -570,7 +566,7 @@ public class MetafacadeFactory
      *
      * @param metafacadeName the name of the metafacade under which the property is registered
      * @param name the name of the property
-     * @param the value to give the property
+     * @param value to give the property
      */
     final void registerProperty(
         final String metafacadeName,
@@ -617,14 +613,13 @@ public class MetafacadeFactory
         final String name)
     {
         final Map propertyNamespace = this.getMetafacadePropertyNamespace(metafacade);
-        return propertyNamespace != null ? propertyNamespace.containsKey(name) : false;
+        return propertyNamespace != null && propertyNamespace.containsKey(name);
     }
 
     /**
      * Finds the first property having the given <code>namespaces</code>, or
      * <code>null</code> if the property can <strong>NOT </strong> be found.
      *
-     * @param namespace the property namespace to search.
      * @param metafacade the metafacade to search.
      * @param name the name of the property to find.
      * @return the property or null if it can't be found.
@@ -641,7 +636,6 @@ public class MetafacadeFactory
      * Gets the registered property registered under the <code>namespace</code>
      * with the <code>name</code>
      *
-     * @param namespace the namespace of the property to check.
      * @param metafacade the metafacade to search
      * @param name the name of the property to check.
      * @return the registered property
@@ -675,7 +669,7 @@ public class MetafacadeFactory
      * Gets the list of all validation messages collection during model processing.
      *
      * @return Returns the validationMessages.
-     * @see #validateMetafacades()
+     * @see #validateAllMetafacades()
      */
     public List getValidationMessages()
     {
