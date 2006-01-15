@@ -13,7 +13,15 @@ public interface $metafacade.name
     extends $metafacade.generalizationList
 #end
 {
+
+    /**
+     * Indicates the metafacade type (used for metafacade mappings).
+     *
+     * @return always <code>true</code>
+     */
+    public boolean is${metafacade.name}MetaType();
 #if ($metafacade.generalizations.empty)
+
     /**
      * Provides any required initialization of the metafacade.
      */
@@ -42,6 +50,7 @@ public interface $metafacade.name
      *        validation messages will be added if invariants are broken.
      */
     void validateInvariants(java.util.Collection validationMessages);
+    
 #end
 #foreach ($method in $metafacade.methodDataForPSM)
 
