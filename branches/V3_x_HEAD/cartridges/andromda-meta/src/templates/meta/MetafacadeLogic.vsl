@@ -276,15 +276,17 @@ public abstract class $metafacade.logicName
 #end
 ##
 #if ($metafacade.requiresInheritanceDelegatation)
-#foreach ($link in $metafacade.generalizationLinks)
+#foreach ($parent in $metafacade.allParents)
     /**
-     * @see $metafacade.fullyQualifiedName
+     * @see $parent.fullyQualifiedName
      */
-    public boolean is${link.parent.name}MetaType()
+    public boolean is${parent.name}MetaType()
     {
         return true;
     }
     
+#end
+#foreach ($link in $metafacade.generalizationLinks)
 #set ($generalizationCount = $velocityCount)
     // ----------- delegates to $link.parent.fullyQualifiedName ------------
 #foreach ($method in $metafacade.getMethodDataForPSM($link.parent))
