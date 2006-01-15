@@ -681,8 +681,7 @@ public class EntityLogicImpl
      */
     public List handleGetAssociationEnds()
     {
-    	// TODO might be better to change shieldedElements's return type to List
-        final List associationEnds = (List) this.shieldedElements(super.handleGetAssociationEnds());
+        final List associationEnds = (List)this.shieldedElements(super.handleGetAssociationEnds());
         CollectionUtils.filter(
             associationEnds,
             new Predicate()
