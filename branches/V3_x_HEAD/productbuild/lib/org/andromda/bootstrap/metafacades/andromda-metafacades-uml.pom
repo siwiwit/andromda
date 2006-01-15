@@ -1,4 +1,4 @@
-<project>
+<?xml version="1.0"?><project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.andromda.bootstrap.metafacades</groupId>
   <artifactId>andromda-metafacades-uml</artifactId>
@@ -16,7 +16,7 @@
     <notifiers>
       <notifier>
         <configuration>
-          <address>chad@andromda.org</address>
+          <address>committers@andromda.org</address>
         </configuration>
       </notifier>
     </notifiers>
@@ -73,11 +73,6 @@
       <url>http://team.andromda.org/maven2</url>
     </pluginRepository>
     <pluginRepository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
       <releases>
         <updatePolicy>never</updatePolicy>
       </releases>
@@ -99,4 +94,10 @@
       <url>scp://galaxy.andromda.org/var/www/andromda/maven2</url>
     </repository>
   </distributionManagement>
+  <properties>
+    <maven.andromda.model.uri>jar:file:f:\java\development\andromda-all-v3\metafacades\uml\common/src/uml/andromda-metafacades-uml.xml.zip!/andromda-metafacades-uml.xml</maven.andromda.model.uri>
+    <model.file>f:\java\development\andromda-all-v3\metafacades\uml\common/src/uml/andromda-metafacades-uml.xml.zip</model.file>
+    <maven.src.dir>f:\java\development\andromda-all-v3\metafacades\uml\common/src</maven.src.dir>
+    <maven.build.src>f:\java\development\andromda-all-v3\metafacades\uml\common/target/src</maven.build.src>
+  </properties>
 </project>

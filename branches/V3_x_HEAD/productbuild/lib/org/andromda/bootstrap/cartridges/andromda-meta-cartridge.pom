@@ -1,4 +1,4 @@
-<project>
+<?xml version="1.0"?><project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.andromda.bootstrap.cartridges</groupId>
   <artifactId>andromda-meta-cartridge</artifactId>
@@ -16,7 +16,7 @@
     <notifiers>
       <notifier>
         <configuration>
-          <address>chad@andromda.org</address>
+          <address>committers@andromda.org</address>
         </configuration>
       </notifier>
     </notifiers>
@@ -73,11 +73,6 @@
       <url>http://team.andromda.org/maven2</url>
     </pluginRepository>
     <pluginRepository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
       <releases>
         <updatePolicy>never</updatePolicy>
       </releases>
@@ -99,4 +94,13 @@
       <url>scp://galaxy.andromda.org/var/www/andromda/maven2</url>
     </repository>
   </distributionManagement>
+  <properties>
+    <model.uri>jar:file:f:\java\development\andromda-all-v3\cartridges\andromda-meta/src/uml/MetaMetafacadeModel.xml.zip!/MetaMetafacadeModel.xml</model.uri>
+    <src.dir>f:\java\development\andromda-all-v3\cartridges\andromda-meta/src</src.dir>
+    <test.model.uri>jar:file:f:\java\development\andromda-all-v3\cartridges\andromda-meta/src/test/uml/MetaCartridgeTestModel.xml.zip!/MetaCartridgeTestModel.xml</test.model.uri>
+    <java.src.dir>f:\java\development\andromda-all-v3\cartridges\andromda-meta/src/java</java.src.dir>
+    <test.output.dir>f:\java\development\andromda-all-v3\cartridges\andromda-meta/target/cartridge-test/actual</test.output.dir>
+    <test.src.dir>f:\java\development\andromda-all-v3\cartridges\andromda-meta/src/test</test.src.dir>
+    <maven.build.src>f:\java\development\andromda-all-v3\cartridges\andromda-meta/target/src</maven.build.src>
+  </properties>
 </project>
