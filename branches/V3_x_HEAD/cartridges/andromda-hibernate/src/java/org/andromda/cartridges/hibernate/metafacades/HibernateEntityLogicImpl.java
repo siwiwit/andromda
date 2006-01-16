@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Chad Brandon
  * @author Martin West
  * @author Carlos Cuenca
+ * @author Peter Friese
  */
 public class HibernateEntityLogicImpl
     extends HibernateEntityLogic
@@ -497,7 +498,7 @@ public class HibernateEntityLogicImpl
             maxElements = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_MAX_ELEMENTS);
         }
 
-        return Integer.parseInt(maxElements);
+        return Integer.parseInt(StringUtils.trimToEmpty(maxElements));
     }
 
     /**
@@ -510,7 +511,7 @@ public class HibernateEntityLogicImpl
         {
             eternal = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_ETERNAL);
         }
-        return Boolean.valueOf(eternal).booleanValue();
+        return Boolean.valueOf(StringUtils.trimToEmpty(eternal)).booleanValue();
     }
 
     /**
@@ -526,7 +527,7 @@ public class HibernateEntityLogicImpl
             timeToIdle = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_TIME_TO_IDLE);
         }
 
-        return Integer.parseInt(timeToIdle);
+        return Integer.parseInt(StringUtils.trimToEmpty(timeToIdle));
     }
 
     /**
@@ -542,7 +543,7 @@ public class HibernateEntityLogicImpl
             timeToLive = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_TIME_TO_LIVE);
         }
 
-        return Integer.parseInt(timeToLive);
+        return Integer.parseInt(StringUtils.trimToEmpty(timeToLive));
     }
 
     /**
@@ -557,7 +558,7 @@ public class HibernateEntityLogicImpl
             eternal = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_OVERFLOW_TO_DISK);
         }
 
-        return Boolean.valueOf(eternal).booleanValue();
+        return Boolean.valueOf(StringUtils.trimToEmpty(eternal)).booleanValue();
     }
 
     /**
