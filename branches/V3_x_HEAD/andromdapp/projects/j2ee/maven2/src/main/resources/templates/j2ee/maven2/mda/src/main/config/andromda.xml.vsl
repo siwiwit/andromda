@@ -1,6 +1,6 @@
 <andromda>
     <properties>
-        <property name="modelValidation">true</property>
+        <property name="modelValidation">${validation}</property>
         <property name="cartridgeFilter">${filter}</property>
     </properties>
     <server>

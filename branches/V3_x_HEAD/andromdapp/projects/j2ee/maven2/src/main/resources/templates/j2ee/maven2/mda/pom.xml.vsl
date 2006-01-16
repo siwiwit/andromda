@@ -123,6 +123,7 @@
         <model.uri>file:${project.build.sourceDirectory}/${applicationId}.xmi</model.uri>
 #end
         <filter></filter>
+        <validation>true</validation>
         <conf.dir>${pom.basedir}/src/main/config</conf.dir>
         <!-- cartridge output locations -->
         <core.generated.dir>${pom.basedir}/../core/target/src</core.generated.dir>
