@@ -36,7 +36,8 @@
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeAssociationEndLogicImpl">
-        <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
+        <mapping>
+            <property name="association"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeAttributeLogicImpl">
