@@ -28,94 +28,62 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>acegisecurity</groupId>
+            <groupId>org.acegisecurity</groupId>
             <artifactId>acegi-security</artifactId>
-            <version>0.9.0</version>
+            <version>1.0.0-RC1</version>
             <exclusions>    
                 <exclusion>
-                    <groupId>springframework</groupId>
-                    <artifactId>spring</artifactId>                    
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-remoting</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>hsqldb</groupId>
-                    <artifactId>hsqldb</artifactId>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-context</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>commons-attributes</groupId>
-                    <artifactId>commons-attributes-compiler</artifactId>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-web</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>commons-attributes</groupId>
-                    <artifactId>commons-attributes-api</artifactId>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-jdbc</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>oro</groupId>
-                    <artifactId>oro</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>taglibs</groupId>
-                    <artifactId>standard</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>cas</groupId>
-                    <artifactId>casclient</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jcifs</groupId>
-                    <artifactId>jcifs</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>aspectj</groupId>
-                    <artifactId>aspectjrt</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>jsp-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>directory</groupId>
-                    <artifactId>apacheds-main</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-test</groupId>
-                    <artifactId>commons-test</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>asn1-ber</groupId>
-                    <artifactId>asn1-codec</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>      
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion> 
-                <exclusion>
-                    <groupId>commons-codec</groupId>
-                    <artifactId>commons-codec</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-collections</groupId>
-                    <artifactId>commons-collections</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>jstl</artifactId>
-                </exclusion>      
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>                        
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-support</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-mock</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>ehcache</groupId>
+                   <artifactId>ehcache</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>cas</groupId>
+                   <artifactId>casclient</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>commons-logging</groupId>
+                   <artifactId>commons-logging</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>commons-codec</groupId>
+                   <artifactId>commons-codec</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>aspectj</groupId>
+                   <artifactId>aspectjrt</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>javax.servlet</groupId>
+                   <artifactId>jsp-api</artifactId>
+               </exclusion>
+               <exclusion>
+                   <groupId>hsqldb</groupId>
+                   <artifactId>hsqldb</artifactId>
+               </exclusion>
             </exclusions>
         </dependency>
     </dependencies>

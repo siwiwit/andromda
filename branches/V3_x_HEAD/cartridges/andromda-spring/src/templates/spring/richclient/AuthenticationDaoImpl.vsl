@@ -6,17 +6,17 @@ package $packageName;
 
 import org.springframework.dao.DataAccessException;
 
-import net.sf.acegisecurity.GrantedAuthority;
-import net.sf.acegisecurity.GrantedAuthorityImpl;
-import net.sf.acegisecurity.UserDetails;
-import net.sf.acegisecurity.providers.dao.AuthenticationDao;
-import net.sf.acegisecurity.providers.dao.UsernameNotFoundException;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.GrantedAuthorityImpl;
+import org.acegisecurity.userdetails.UserDetails;
+import org.acegisecurity.userdetails.UserDetailsService;
+import org.acegisecurity.userdetails.UsernameNotFoundException;
 
 /**
 * This class implements the "user look-up" service needed by the Acegi Security Framework
 * for application supplied user management.
 */
-public class ${className} implements AuthenticationDao
+public class ${className} implements UserDetailsService
 {
 
     // ${toDoTag} Follow steps to integrate Acegi user management
@@ -40,8 +40,8 @@ public class ${className} implements AuthenticationDao
 
         /* Usually, your implementation will look up a "user" from your database,
            then END with something like this:
-        net.sf.acegisecurity.providers.dao.User acegiUser =
-            new net.sf.acegisecurity.providers.dao.User(
+        org.acegisecurity.userdetails.User acegiUser =
+            new org.acegisecurity.userdetails.User(
                user.getUserId(),
                user.getPassword(),
                (user.isActive() && user.isSuspended() == false),

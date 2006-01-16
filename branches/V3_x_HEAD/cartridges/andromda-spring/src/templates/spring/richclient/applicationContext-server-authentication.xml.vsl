@@ -3,12 +3,12 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-    <bean id="basicProcessingFilter" class="net.sf.acegisecurity.ui.basicauth.BasicProcessingFilter">
+    <bean id="basicProcessingFilter" class="org.acegisecurity.ui.basicauth.BasicProcessingFilter">
         <property name="authenticationManager"><ref bean="${acegiAuthenticationManager}"/></property>
         <property name="authenticationEntryPoint"><ref bean="authenticationEntryPoint"/></property>
     </bean>
 
-    <bean id="authenticationEntryPoint" class="net.sf.acegisecurity.ui.basicauth.BasicProcessingFilterEntryPoint">
+    <bean id="authenticationEntryPoint" class="org.acegisecurity.ui.basicauth.BasicProcessingFilterEntryPoint">
         <property name="realmName"><value>${securityRealm}</value></property>
     </bean>
 
@@ -24,7 +24,7 @@
 #end
 #if ($stringUtils.isNotBlank($acegiDaoAuthenticationProviderImplClass))
     <bean id="${acegiDaoAuthenticationProviderBeanName}" class="${acegiDaoAuthenticationProviderImplClass}">
-        <property name="authenticationDao">
+        <property name="userDetailsService">
             <ref bean="${acegiAuthenticationDaoBeanName}"/>
         </property>
 #if ($stringUtils.isNotBlank($acegiDaoUserCacheBeanName))

@@ -815,19 +815,19 @@
                 </documentation>
             </property>
             <property name="acegiServiceSecurityInterceptor">
-                <default>net.sf.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor</default>
+                <default>org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor</default>
                 <documentation>
                     The name of the class to use for the acegi security interception.
                 </documentation>
             </property>
             <property name="acegiServiceAccessDecisionManager">
-                <default>net.sf.acegisecurity.vote.AffirmativeBased</default>
+                <default>org.acegisecurity.vote.AffirmativeBased</default>
                 <documentation>
                     The name of the class to use for the acegi security access decision manager.
                 </documentation>
             </property>
             <property name="acegiServiceDecisionVoter">
-                <default>net.sf.acegisecurity.vote.RoleVoter</default>
+                <default>org.acegisecurity.vote.RoleVoter</default>
                 <documentation>
                     The name of the class to use for the acegi security access decision voter.
                 </documentation>
@@ -836,7 +836,7 @@
 				<default>ROLE_</default>
                 <documentation>
                     The prefix for all roles defined in the model. This configures the <code>acegiServiceDecisionVoter</code>s <code>rolePrefix</code>
-					attribute. As proposed by Acegi for our default voter <code>net.sf.acegisecurity.vote.RoleVoter</code>, the default value is <code>ROLE_</code>.
+					attribute. As proposed by Acegi for our default voter <code>org.acegisecurity.vote.RoleVoter</code>, the default value is <code>ROLE_</code>.
 					It can be overwritten with an empty string if no prefix is wanted/neccessary at all.
 					Please <strong>NOTE</strong> that AndroMDA will add this prefix to all role/actor names, 
                     which do not already have it defined in the model.

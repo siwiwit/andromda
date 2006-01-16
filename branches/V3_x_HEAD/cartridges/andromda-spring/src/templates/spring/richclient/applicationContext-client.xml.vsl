@@ -110,7 +110,7 @@
             <value>http://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePort}/${${configPropertyPrefix}remoteContext}/RemoteAuthenticationManagerService</value>
         </property>
         <property name="serviceInterface">
-            <value>net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>
+            <value>org.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>
         </property>
     </bean>
 

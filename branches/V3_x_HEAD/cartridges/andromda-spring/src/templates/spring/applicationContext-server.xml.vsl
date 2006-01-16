@@ -48,14 +48,14 @@
     <!-- Authentication service for remote rich clients -->
     <bean name="/RemoteAuthenticationManagerService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
         <property name="service">
-            <bean class="net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManagerImpl">
+            <bean class="org.acegisecurity.providers.rcp.RemoteAuthenticationManagerImpl">
                 <property name="authenticationManager">
                     <ref bean="${acegiAuthenticationManager}"/>
                 </property>
             </bean>
         </property>
         <property name="serviceInterface">
-            <value>net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>
+            <value>org.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>
         </property>
     </bean>
 

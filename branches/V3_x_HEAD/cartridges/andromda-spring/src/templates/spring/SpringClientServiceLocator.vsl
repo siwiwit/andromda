@@ -127,9 +127,9 @@ public class $clientServiceLocatorName
     /**
      * Get the authentication manager used to validate user credentials.
      */
-    public final net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager getRemoteAuthenticationService()
+    public final org.acegisecurity.providers.rcp.RemoteAuthenticationManager getRemoteAuthenticationService()
     {
-        return (net.sf.acegisecurity.providers.rcp.RemoteAuthenticationManager)
+        return (org.acegisecurity.providers.rcp.RemoteAuthenticationManager)
             getContext().getBean("${serviceRemoteContext}RemoteAuthenticationManagerService");
     }
 
