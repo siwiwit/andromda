@@ -6,6 +6,8 @@ import java.net.URL;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
 import org.andromda.core.common.XmlObjectFactory;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +27,11 @@ public class TranslationTestDiscoverer
      * This is the prefix of translation tests, each translation test must start with this in order to be found.
      */
     private static final String TEST_PREFIX = "TranslationTest-";
+
+    /**
+     * Names of ignored files when file.isDirectory()
+     */
+    private static final List IGNORED_DIRECTORIES = Arrays.asList(new String[] { "CVS", ".svn" });
 
     /**
      * Stores the discovered translation tests.
@@ -103,7 +110,7 @@ public class TranslationTestDiscoverer
                             test.getTranslation(),
                             test);
                     }
-                    else if (file.isDirectory())
+                    else if (file.isDirectory() && !IGNORED_DIRECTORIES.contains(file.getName()))                    
                     {
                         this.discoverTests(file);
                     }
