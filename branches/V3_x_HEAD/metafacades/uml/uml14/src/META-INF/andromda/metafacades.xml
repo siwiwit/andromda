@@ -162,14 +162,14 @@
         <property reference="roleNameMask"/>
     </metafacade>
     <!-- Value Object metafacades -->
-    <metafacade class="org.andromda.metafacades.uml14.ValueObjectLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.metafacades.uml14.ValueObjectLogicImpl">
         <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
             <stereotype>VALUE_OBJECT</stereotype>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.ValueObjectAssociationEndLogicImpl">
         <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
-            <property name="valueObjectType"/>
+            <property name="type.valueObjectMetaType"/>
         </mapping>
         <property reference="useArraysForMultiplicitiesOfTypeMany"/>
     </metafacade>
@@ -188,17 +188,17 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.ManageableEntityAttributeLogicImpl">
         <mapping class="org.omg.uml.foundation.core.Attribute$Impl">
-            <property name="owner.manageable"/>
+            <property name="owner.manageableEntityMetaType"/>
         </mapping>
         <property reference="manageableIdDisplayStrategy"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.ManageableEntityAssociationEndLogicImpl">
         <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
-            <property name="type.manageable"/>
+            <property name="type.manageableEntityMetaType"/>
         </mapping>
     </metafacade>
     <!-- Entity metafacades -->
-    <metafacade class="org.andromda.metafacades.uml14.EntityLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.metafacades.uml14.EntityLogicImpl">
         <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
             <stereotype>ENTITY</stereotype>
         </mapping>
@@ -211,7 +211,7 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.EntityAttributeLogicImpl">
         <mapping class="org.omg.uml.foundation.core.Attribute$Impl">
-            <context>org.andromda.metafacades.uml.Entity</context>
+            <property name="owner.entityMetaType"/>
         </mapping>
         <property reference="sqlMappingsUri"/>
         <property reference="jdbcMappingsUri"/>
@@ -219,7 +219,7 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.EntityAssociationEndLogicImpl">
         <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
-            <context>org.andromda.metafacades.uml.Entity</context>
+            <property name="type.entityMetaType"/>
         </mapping>
         <property reference="sqlMappingsUri"/>
         <property reference="jdbcMappingsUri"/>
@@ -227,18 +227,18 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.EntityAssociationLogicImpl">
         <mapping class="org.omg.uml.foundation.core.UmlAssociation$Impl">
-            <context>org.andromda.metafacades.uml.Entity</context>
+            <property name="associationEndA.entityAssociationEndMetaType"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.EntityQueryOperationLogicImpl">
         <mapping class="org.omg.uml.foundation.core.Operation$Impl">
             <stereotype>FINDER_METHOD</stereotype>
-            <context>org.andromda.metafacades.uml.Entity</context>
+            <property name="owner.entityMetaType"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.EntityQueryOperationLogicImpl">
         <mapping class="org.omg.uml.foundation.core.Operation$Impl">
-            <context>org.andromda.metafacades.uml.Entity</context>
+            <property name="owner.entityMetaType"/>
             <property name="query"/>
         </mapping>
     </metafacade>
@@ -250,7 +250,7 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.ServiceOperationLogicImpl">
         <mapping class="org.omg.uml.foundation.core.Operation$Impl">
-            <property name="service"/>
+            <property name="owner.serviceMetaType"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.BindingFacadeLogicImpl">

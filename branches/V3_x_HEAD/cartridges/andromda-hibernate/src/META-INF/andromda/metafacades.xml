@@ -28,15 +28,14 @@
     <property reference="enumerationNamePattern"/>
     <property reference="hibernateQueryUseSpecializedSetters"/>
     <property reference="versionProperty"/>
-    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEntityLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEntityLogicImpl">
         <mapping>
             <stereotype>ENTITY</stereotype>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEndLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
-            <property name="association"/>
+            <property name="type.entityMetaType"/>
         </mapping>
         <property reference="hibernateAssociationEndOuterJoin"/>
         <property reference="listTypeImplementation"/>
@@ -50,25 +49,25 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
+            <property name="associationEndA.hibernateAssociationEndMetaType"/>
         </mapping>
         <property reference="hibernateAssociationCache"/>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodLogicImpl">
         <mapping>
             <stereotype>FINDER_METHOD</stereotype>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
+            <property name="owner.hibernateEntityMetaType"/>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
+            <property name="owner.hibernateEntityMetaType"/>
             <property name="query"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateServiceOperationLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateService</context>
+            <property name="owner.hibernateServiceMetaType"/>
         </mapping>
         <property reference="serviceOperationTransactionType"/>
     </metafacade>
@@ -80,10 +79,10 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodArgumentLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethod</context>
+            <property name="operation.hibernateFinderMethodMetaType"/>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateServiceLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateServiceLogicImpl">
         <mapping>
             <stereotype>SERVICE</stereotype>
         </mapping>
@@ -98,10 +97,10 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEntityAttributeLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
+            <property name="owner.hibernateEntityMetaType"/>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEmbeddedValueLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEmbeddedValueLogicImpl">
         <mapping>
             <stereotype>EMBEDDED_VALUE</stereotype>
         </mapping>
@@ -109,7 +108,7 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEntityAttributeLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEmbeddedValue</context>
+            <property name="owner.hibernateEmbeddedValueMetaType"/>
         </mapping>
         <property reference="sqlMappingsUri"/>
         <property reference="jdbcMappingsUri"/>

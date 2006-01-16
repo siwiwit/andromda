@@ -22,5 +22,4 @@ public class AssociationClassFacadeLogicImpl
         // TODO: add your implementation here!
         return null;
     }
-
 }

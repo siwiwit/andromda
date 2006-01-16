@@ -52,10 +52,8 @@ public class AssociationFacadeLogicImpl
      */
     public String handleGetRelationName()
     {
-        final Collection ends = this.getAssociationEnds();
-        final Iterator endIt = ends.iterator();
-        final AssociationEndFacade firstEnd = (AssociationEndFacade)endIt.next();
-        final AssociationEndFacade secondEnd = (AssociationEndFacade)endIt.next();
+        final AssociationEndFacade firstEnd = this.getAssociationEndA();
+        final AssociationEndFacade secondEnd = this.getAssociationEndB();
         return MetafacadeUtils.toRelationName(
             firstEnd.getName(),
             secondEnd.getName(),
@@ -78,4 +76,13 @@ public class AssociationFacadeLogicImpl
         return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
     }
 
+    protected Object handleGetAssociationEndA()
+    {
+        return this.getAssociationEnds().get(0);
+    }
+
+    protected Object handleGetAssociationEndB()
+    {
+        return this.getAssociationEnds().get(1);
+    }
 }

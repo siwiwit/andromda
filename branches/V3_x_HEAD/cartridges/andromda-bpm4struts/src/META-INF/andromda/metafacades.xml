@@ -27,7 +27,7 @@
         </mapping>
     </metafacade>
     
-    <metafacade class="org.andromda.cartridges.bpm4struts.metafacades.StrutsControllerLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.cartridges.bpm4struts.metafacades.StrutsControllerLogicImpl">
         <mapping>
             <property name="useCase"/>
         </mapping>
@@ -137,8 +137,7 @@
         </mapping>
     </metafacade>
 
-    <metafacade class="org.andromda.cartridges.bpm4struts.metafacades.StrutsManageableEntityLogicImpl"
-                contextRoot="true">
+    <metafacade class="org.andromda.cartridges.bpm4struts.metafacades.StrutsManageableEntityLogicImpl">
         <mapping>
             <stereotype>ENTITY</stereotype>
             <stereotype>MANAGEABLE</stereotype>
@@ -148,7 +147,7 @@
 
     <metafacade class="org.andromda.cartridges.bpm4struts.metafacades.StrutsManageableEntityAttributeLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.bpm4struts.metafacades.StrutsManageableEntity</context>
+            <property name="owner.strutsManageableEntityMetaType"/>
         </mapping>
         <property reference="defaultDateFormat"/>
         <property reference="defaultTimeFormat"/>
@@ -158,7 +157,7 @@
 
     <metafacade class="org.andromda.cartridges.bpm4struts.metafacades.StrutsManageableEntityAssociationEndLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.bpm4struts.metafacades.StrutsManageableEntity</context>
+            <property name="type.strutsManageableEntityMetaType"/>
         </mapping>
     </metafacade>
 

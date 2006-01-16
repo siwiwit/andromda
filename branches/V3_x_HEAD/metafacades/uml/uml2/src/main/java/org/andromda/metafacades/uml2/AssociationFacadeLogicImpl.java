@@ -51,4 +51,14 @@ public class AssociationFacadeLogicImpl
         return null;
     }
 
+    protected Object handleGetAssociationEndA()
+    {
+        return this.getAssociationEnds().get(0);
+    }
+
+    protected Object handleGetAssociationEndB()
+    {
+        return this.getAssociationEnds().get(1);
+    }
+
 }

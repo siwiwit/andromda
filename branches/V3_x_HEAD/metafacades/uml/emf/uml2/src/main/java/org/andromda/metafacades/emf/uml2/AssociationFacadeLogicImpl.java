@@ -65,4 +65,14 @@ public class AssociationFacadeLogicImpl
         return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
     }
 
+    protected Object handleGetAssociationEndA()
+    {
+        return this.getAssociationEnds().get(0);
+    }
+
+    protected Object handleGetAssociationEndB()
+    {
+        return this.getAssociationEnds().get(1);
+    }
+
 }
