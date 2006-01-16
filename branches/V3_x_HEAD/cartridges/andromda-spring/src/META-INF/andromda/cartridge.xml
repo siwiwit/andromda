@@ -740,6 +740,9 @@
                     <property name="richClient">true</property>
                 </type>
             </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+            </modelElement>
         </modelElements>
     </template>
 

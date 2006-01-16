@@ -15,6 +15,9 @@
 #else
             /WEB-INF/${applicationContextLocalDataSource}
 #end
+#if (!$manageables.empty)
+            /WEB-INF/applicationContext-manageable.xml
+#end
             <!-- root-contextConfigLocations merge-point -->
         </param-value>
     </context-param>
