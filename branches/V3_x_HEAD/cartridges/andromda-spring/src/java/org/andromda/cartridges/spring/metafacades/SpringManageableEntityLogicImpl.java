@@ -125,7 +125,7 @@ public class SpringManageableEntityLogicImpl
 
     protected String handleGetRemoteUrl()
     {
-        String result = "";
+        final StringBuffer result = new StringBuffer();
 
         String propertyPrefix = ObjectUtils.toString(this.getConfiguredProperty(SpringGlobals.CONFIG_PROPERTY_PREFIX));
 
@@ -136,38 +136,51 @@ public class SpringManageableEntityLogicImpl
         else if (this.isRemotingTypeHttpInvoker() || this.isRemotingTypeHessian() || this.isRemotingTypeBurlap())
         {
             // server
-            result = "http://${" + propertyPrefix + "remoteServer}";
+            result.append("http://${");
+            result.append(propertyPrefix);
+            result.append("remoteServer}");
 
             // port
             if (hasServiceRemotePort())
             {
-                result += ":${" + propertyPrefix + "remotePort}";
+                result.append(":${");
+                result.append(propertyPrefix);
+                result.append("remotePort}");
             }
 
             // context
             if (hasServiceRemoteContext())
             {
-                result += "/${" + propertyPrefix + "remoteContext}";
+                result.append("/${");
+                result.append(propertyPrefix);
+                result.append("remoteContext}");
             }
 
             // service name
-            result += "/" + getName();
+            result.append("/remote");
+            result.append(this.getManageableServiceName());
         }
         else if (this.isRemotingTypeRmi())
         {
             // server
-            result = "rmi://${" + propertyPrefix + "remoteServer}";
+            result.append("rmi://${");
+            result.append(propertyPrefix);
+            result.append("remoteServer}");
 
             // port
             if (hasServiceRemotePort())
             {
-                result += ":${" + propertyPrefix + "remotePort}";
+                result.append(":${");
+                result.append(propertyPrefix);
+                result.append("remotePort}");
             }
 
             // service name
-            result += "/" + getName();
+            result.append("/remote");
+            result.append(this.getManageableServiceName());
         }
-        return result;
+
+        return result.toString();
     }
 
     protected String handleGetRemoteServer()

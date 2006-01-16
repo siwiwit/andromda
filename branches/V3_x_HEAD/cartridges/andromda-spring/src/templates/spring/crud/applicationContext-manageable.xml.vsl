@@ -80,24 +80,6 @@
          </property>
      </bean>
 
-#if($manageable.remotable)
-    <!-- $manageable.manageableServiceName Remote Service exporter  -->
-#if($manageable.remotingTypeHttpInvoker)
-    <bean name="/remoting$manageable.manageableServiceName" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-#elseif($manageable.remotingTypeHessian)
-    <bean name="/remoting$manageable.manageableServiceName" class="org.springframework.remoting.caucho.HessianServiceExporter">
-#elseif($manageable.remotingTypeBurlap)
-    <bean name="/remoting$manageable.manageableServiceName" class="org.springframework.remoting.caucho.BurlapServiceExporter">
-#elseif ($manageable.remotingTypeRmi)
-    <bean name="remoting$manageable.manageableServiceName" class="org.springframework.remoting.rmi.RmiServiceExporter">
-        <property name="serviceName"><value>$manageable.manageableServiceName</value></property>
-        <property name="registryPort"><value>$manageable.remotePort</value></property>
-#end
-        <property name="service"><ref bean="$manageable.manageableServiceName"/></property>
-        <property name="serviceInterface"><value>$manageable.fullyQualifiedManageableServiceName</value></property>
-    </bean>
-
-#end
 #end
 </beans>
 #end

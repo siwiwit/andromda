@@ -573,6 +573,30 @@
         </modelElements>
     </template>
 
+    <!-- this configuration is supposed to be used by web components, typically Hessian or Burlap -->
+    <template
+        path="templates/spring/applicationContext-server.xml.vsl"
+        outputPattern="${serviceRemoteContext}-servlet.xml"
+        outlet="spring-configuration"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="service">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="remotable"/>
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
+                    <property name="remotable"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <!-- this configuration is supposed to be used by non-web components -->
     <template
         path="templates/spring/applicationContext-server.xml.vsl"
         outputPattern="$applicationContextServer"
@@ -581,8 +605,14 @@
         outputToSingleFile="true"
         outputOnEmptyElements="false">
         <modelElements>
-            <modelElement variable="services">
+            <modelElement variable="service">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="remotable"/>
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
                     <property name="remotable"/>
                 </type>
             </modelElement>
@@ -741,7 +771,9 @@
                 </type>
             </modelElement>
             <modelElement variable="manageables">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
+                    <property name="remotable"/>
+                </type>
             </modelElement>
         </modelElements>
     </template>
