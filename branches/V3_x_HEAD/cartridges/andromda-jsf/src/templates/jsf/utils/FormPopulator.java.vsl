@@ -20,6 +20,19 @@ public class $formPopulatorName
      */
     public static final void populateForm(final Object fromForm, final Object toForm)
     {
+        populateForm(fromForm, toForm, false);
+    }
+    
+    /**
+     * Populates the form from the given parameters.  If the request parameter is null or an empty
+     * string, then null is placed on the form.
+     *
+     * @param fromForm the form from which we're populating
+     * @param toForm the form to which we're populating
+     * @param override whether or not properties that have already been copied, should be overridden.
+     */
+    public static final void populateForm(final Object fromForm, final Object toForm, boolean override)
+    {
         if (fromForm != null && toForm != null)
         {
             try
@@ -33,11 +46,14 @@ public class $formPopulatorName
                         // - the property name used for checking whether or not the property value has been set
                         final String isSetPropertyName = name + "Set";
                         java.lang.Boolean isPropertySet = null;
-                        if (org.apache.commons.beanutils.PropertyUtils.isReadable(toForm, isSetPropertyName))
+                        if (!override)
                         {
-                            isPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(toForm, isSetPropertyName);
+                            if (org.apache.commons.beanutils.PropertyUtils.isReadable(toForm, isSetPropertyName))
+                            {
+                                isPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(toForm, isSetPropertyName);
+                            }
                         }
-                        if (isPropertySet == null || !isPropertySet.booleanValue())
+                        if (override || (isPropertySet == null || !isPropertySet.booleanValue()))
                         {
                             final java.beans.PropertyDescriptor toDescriptor =
                                 org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptor(toForm, name);

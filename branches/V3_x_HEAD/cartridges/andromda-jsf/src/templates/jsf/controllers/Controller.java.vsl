@@ -281,6 +281,15 @@ $decisionTransition.getDocumentation("     * ")
             null,
             facesMessage);
     }
+    
+    /**
+     * Copies all matching properties from the <code>fromForm</code> to the given
+     * <code>toForm</code> overridding any previously set values.
+     */
+    protected void copyForm(final Object fromForm, final Object toForm)
+    {
+        ${managedBeansPackage}.${formPopulatorName}.populateForm(fromForm, toForm, true);
+    }
 #if ($formPopulationOperationRequired)
 
     /**
