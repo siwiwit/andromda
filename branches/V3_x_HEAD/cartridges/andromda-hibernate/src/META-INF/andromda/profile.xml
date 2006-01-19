@@ -408,6 +408,35 @@
                     <value>false</value>
                 </allowedValues>
             </element>
+            <element name="HIBERNATE_XML_TAG_NAME">
+                <documentation>
+                    Defines the name of the XML element that is generated when
+                    an entity, attribute, or associated entity is represented in XML format. 
+                    Valid only when XML persistence has been enabled. Controls the <i>node</i> 
+                    attribute in the Hibernate mapping file.
+                    See also <a href="namespace.html#hibernateXMLPersistence">hibernateXMLPersistence</a>
+                </documentation>
+                <value>@andromda.hibernate.xml.tagName</value>
+                <appliedOnElement>the attribute of an <![CDATA[<<Entity>>]]>, or an the <![CDATA[<<Entity>>]]> itself,
+                                  or on an association end between <![CDATA[<<Entity>>]]> classes</appliedOnElement>
+                <allowedValues>
+                    <value>Any valid XML tag name</value>
+                </allowedValues>
+            </element>
+            <element name="HIBERNATE_XML_EMBED">
+                <documentation>
+                    Specifies wheter or not the entity attached to the association end should be
+                    embedded as a complete XML structure, or simply as a referenc to its ID.
+                    Controls the <i>embed-xml</i> attribute in the Hibernate mapping file.
+                    See also <a href="namespace.html#hibernateXMLPersistence">hibernateXMLPersistence</a>
+                </documentation>
+                <value>@andromda.hibernate.xml.embed</value>
+                <appliedOnElement>Association ends between <![CDATA[<<Entity>>]]> classes</appliedOnElement>
+                <allowedValues>
+                    <value>true</value>
+                    <value>false</value>
+                </allowedValues>
+            </element>
         </elementGroup>
         <elementGroup name="Tagged Values for caching">
             <documentation>

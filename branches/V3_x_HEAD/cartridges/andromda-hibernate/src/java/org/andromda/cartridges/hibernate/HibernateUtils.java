@@ -13,6 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
  * Contains utilities used within the Hibernate cartridge.
  *
  * @author Chad Brandon
+ * @author Joel Kozikowski
  */
 public class HibernateUtils
 {
@@ -63,7 +64,7 @@ public class HibernateUtils
     public String getHibernatePackage()
     {
         String packageName = "org.hibernate";
-        if (!HibernateGlobals.HIBERNATE_VERSION_3.equals(this.hibernateVersion))
+        if (!isVersion3())
         {
             packageName = "net.sf.hibernate";
         }
@@ -79,7 +80,7 @@ public class HibernateUtils
     public String getHibernateUserTypePackage()
     {
         StringBuffer packageName = new StringBuffer();
-        if (HibernateGlobals.HIBERNATE_VERSION_3.equals(this.hibernateVersion))
+        if (isVersion3())
         {
             packageName.append(".usertype");
         }
@@ -96,6 +97,52 @@ public class HibernateUtils
      */
     public boolean isVersion3()
     {
-        return HibernateGlobals.HIBERNATE_VERSION_3.equals(this.hibernateVersion);
+        return isVersion3(this.hibernateVersion);
     }
+
+    
+    static public boolean isVersion3(String hibernateVersionPropertyValue) 
+    {
+        if (hibernateVersionPropertyValue != null)
+            return hibernateVersionPropertyValue.equals(HibernateGlobals.HIBERNATE_VERSION_3);
+        else
+            return false;
+    }
+    
+    
+    /**
+     * Stores the version of Hibernate we're generating for.
+     */
+    private String hibernateXmlPersistence;
+
+    /**
+     * Sets the version of Hibernate we're generating for.
+     *
+     * @param hibernateVersion The version to set.
+     */
+    public void setHibernateXMLPersistence(final String hibernateXMLPersistence)
+    {
+        this.hibernateXmlPersistence = hibernateXMLPersistence;
+    }
+    
+    
+    public boolean isXmlPersistenceActive() {
+        return isXmlPersistenceActive(hibernateVersion, hibernateXmlPersistence);
+    }
+    
+    
+    static public boolean isXmlPersistenceActive(String hibernateVersionPropertyValue,
+                                                 String hibernateXMLPersistencePropertyValue) {
+        boolean active = false;
+        
+        if (isVersion3(hibernateVersionPropertyValue)) 
+        {
+            if (hibernateXMLPersistencePropertyValue != null)
+                active = hibernateXMLPersistencePropertyValue.equalsIgnoreCase("true");
+            
+        }
+        
+        return active;
+    }    
+    
 }

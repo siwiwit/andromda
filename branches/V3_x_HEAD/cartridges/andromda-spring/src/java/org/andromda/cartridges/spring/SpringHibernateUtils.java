@@ -1,5 +1,7 @@
 package org.andromda.cartridges.spring;
 
+import org.andromda.cartridges.spring.metafacades.SpringGlobals;
+
 
 
 /**
@@ -7,6 +9,7 @@ package org.andromda.cartridges.spring;
  * when dealing with Hibernate.
  *
  * @author Chad Brandon
+ * @author Joel Kozikowski
  */
 public class SpringHibernateUtils
 {
@@ -110,7 +113,7 @@ public class SpringHibernateUtils
         }
         return fetchMode;
     }
-    
+
     /**
      * Retrieves the fully qualified name of the class that retrieves the Hibernate
      * disjunction instance.
@@ -137,6 +140,52 @@ public class SpringHibernateUtils
      */
     public boolean isVersion3()
     {
-        return !VERSION_2.equals(hibernateVersion);
+        return isVersion3(hibernateVersion);
+    }
+    
+
+    
+    static public boolean isVersion3(String hibernateVersionPropertyValue) 
+    {
+        if (hibernateVersionPropertyValue != null)
+            return hibernateVersionPropertyValue.equals(SpringGlobals.HIBERNATE_VERSION_3);
+        else
+            return false;
+    }
+    
+    
+    /**
+     * Stores the version of Hibernate we're generating for.
+     */
+    private String hibernateXmlPersistence;
+
+    /**
+     * Sets the version of Hibernate we're generating for.
+     *
+     * @param hibernateVersion The version to set.
+     */
+    public void setHibernateXMLPersistence(final String hibernateXMLPersistence)
+    {
+        this.hibernateXmlPersistence = hibernateXMLPersistence;
+    }
+    
+    
+    public boolean isXmlPersistenceActive() {
+        return isXmlPersistenceActive(hibernateVersion, hibernateXmlPersistence);
+    }
+    
+    
+    static public boolean isXmlPersistenceActive(String hibernateVersionPropertyValue,
+                                                 String hibernateXMLPersistencePropertyValue) {
+        boolean active = false;
+        
+        if (isVersion3(hibernateVersionPropertyValue)) 
+        {
+            if (hibernateXMLPersistencePropertyValue != null)
+                active = hibernateXMLPersistencePropertyValue.equalsIgnoreCase("true");
+            
+        }
+        
+        return active;
     }
 }

@@ -12,6 +12,7 @@
     <templateObject name="escapeUtils" className="org.apache.commons.lang.StringEscapeUtils"/>
     <templateObject name="hibernateUtils" className="org.andromda.cartridges.spring.SpringHibernateUtils">
         <property reference="hibernateVersion"/>
+        <property reference="hibernateXMLPersistence"/>
     </templateObject>
     <templateObject name="converter" className="org.andromda.utils.JavaTypeConverter">
         <property reference="javaTypeConversionIgnoreList"/>

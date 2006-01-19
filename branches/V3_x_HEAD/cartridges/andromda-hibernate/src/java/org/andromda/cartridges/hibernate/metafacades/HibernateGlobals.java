@@ -9,9 +9,21 @@ package org.andromda.cartridges.hibernate.metafacades;
 public class HibernateGlobals
 {
     /**
+     * Indicates if "XML Persistence" code generation is enabled. Requires Hibernate 3.
+     */
+    static public final String HIBERNATE_XML_PERSISTENCE = "hibernateXMLPersistence";
+
+    /**
+     * Determines if the identifier attribute on an entity is generated as an attribute
+     * or as a separate element.
+     */
+    static final String HIBERNATE_XML_PERSISTENCE_ID_AS_ATTRIBUTE = "hibernateXMLPersistIDAsAttribute";
+    
+    
+    /**
      * Hibernate version to use.
      */
-    static final String HIBERNATE_VERSION = "hibernateVersion";
+    static public final String HIBERNATE_VERSION = "hibernateVersion";
 
     /**
      * The version for Hibernate 2.

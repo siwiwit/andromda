@@ -356,6 +356,15 @@
             <action dev="joelkoz" type="update">
                 Added support for Acegi Security when used in a Rich Client project. Currently works with Acegi 0.9.0
             </action>
+            <action dev="joelkoz" type="add" issue="HIB-141">
+                Hibernate 3.0 has a feature that <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">allows 
+                a DOM4J tree to be retrieved and saved from the database</a>.
+                A new transform type was added to each entity's DAO (TRANSFORM_XML). This allows objects in the database to be 
+                retrieved as a DOM4J XML tree rather than a POJO. Saving of DOM4J back to the database is also supported 
+                (as far as it is supported in Hibernate - the feature has problems with nested objects). To activate, 
+                add the following properties to your default namespace: "hibernateXMLPersistence" (set to true),
+                and "hibernateXMLPersistIDAsAttribute" (usually set to true)
+            </action>
         </release>
         <release version="3.1-RC1" date="2005-06-19" description="First milestone release of version 3.1">
             <action dev="cwbrandon" type="fix" issue="SCHEMATOXMI-1">

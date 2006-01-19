@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.andromda.cartridges.hibernate.HibernateProfile;
+import org.andromda.cartridges.hibernate.HibernateUtils;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.EntityAttribute;
@@ -731,4 +732,30 @@ public class HibernateEntityLogicImpl
     {
         return Integer.parseInt((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION));
     }
+
+    
+    private boolean isXmlPersistenceActive()
+    {
+       return HibernateUtils.isXmlPersistenceActive((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION),
+                                                    (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_XML_PERSISTENCE));
+    }
+    
+    
+    protected String handleGetXmlTagName()
+    {
+        String tagName = null;
+        
+        if (isXmlPersistenceActive())
+        {
+            tagName = (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_XML_TAG_NAME);
+
+            if (tagName == null)
+            {
+                tagName = this.getName();
+            }
+
+        }
+        return (StringUtils.isBlank(tagName)) ? null : tagName;
+    }    
+    
 }

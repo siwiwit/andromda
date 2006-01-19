@@ -11,6 +11,7 @@
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
     <templateObject name="hibernateUtils" className="org.andromda.cartridges.hibernate.HibernateUtils">
         <property reference="hibernateVersion"/>
+        <property reference="hibernateXMLPersistence"/>
     </templateObject>
     <!-- cartridge-templateObject merge-point-->
 

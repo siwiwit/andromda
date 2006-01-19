@@ -6,7 +6,7 @@ package org.andromda.cartridges.spring.metafacades;
  * @author Chad Brandon
  * @author Wouter Zoons
  */
-class SpringGlobals
+public class SpringGlobals
 {   
     /**
      * POJO implementation class suffix.
@@ -167,4 +167,26 @@ class SpringGlobals
      * The remote context to which services are to be deployed
      */
     static final String SERVICE_REMOTE_CONTEXT = "serviceRemoteContext";
+    
+    /**
+     * Indicates if "XML Persistence" code generation is enabled. Requires Hibernate 3.
+     */
+    static public final String HIBERNATE_XML_PERSISTENCE = "hibernateXMLPersistence";
+
+    /**
+     * Determines if the identifier attribute on an entity is generated as an attribute
+     * or as a separate element.
+     */
+    static final String HIBERNATE_XML_PERSISTENCE_ID_AS_ATTRIBUTE = "hibernateXMLPersistIDAsAttribute";
+
+    /**
+     * Hibernate version to use.
+     */
+    static public final String HIBERNATE_VERSION = "hibernateVersion";
+
+    /**
+     * The version for Hibernate 3.
+     */
+    public static final String HIBERNATE_VERSION_3 = "3";
+    
 }

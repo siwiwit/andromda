@@ -10,13 +10,13 @@
 #set ($fullyQualifiedPropertyType = $attribute.type.fullyQualifiedHibernateEnumerationType)
 #end
 #if ($attribute.containsEmbeddedObject)
-        <component name="$attribute.name" class="${attribute.type.packageName}.${attribute.type.implementationName}">
+        <component name="$attribute.name" class="${attribute.type.packageName}.${attribute.type.implementationName}"#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
 ## render the properties of the embedded type
 #set ($sqlPrefix = $attribute.columnName)
 #renderPropertiesAndAssociations3($attribute.type $sqlPrefix)
         </component>
 #else
-        <property name="$attribute.name" type="$fullyQualifiedPropertyType"#if($attribute.formula || $attribute.lazy) lazy="true"#end#if(!$attribute.insertEnabled) insert="false"#end#if(!$attribute.updateEnabled) update="false"#end>
+        <property name="$attribute.name" type="$fullyQualifiedPropertyType"#if($attribute.formula || $attribute.lazy) lazy="true"#end#if(!$attribute.insertEnabled) insert="false"#end#if(!$attribute.updateEnabled) update="false"#end#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
 #if($attribute.formula)
 			<formula>$attribute.formula</formula>
 #else
@@ -32,27 +32,27 @@
 #if ($sourceEnd.one2One)
 #if($sourceEnd.one2OnePrimary || (!$sourceEnd.navigable && !$entity.foreignHibernateGeneratorClass))
 #if ($otherEnd.type.foreignHibernateGeneratorClass)
-        <one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end/>
+        <one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
 #else
-        <many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end>
+        <many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end>
             <column name="$otherEnd.columnName" not-null="$otherEnd.required" sql-type="$otherEnd.sqlType" unique="true"/>
         </many-to-one>
 #end
 #else
 #if ($entity.foreignHibernateGeneratorClass)
-        <one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end constrained="true"#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end/>
+        <one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end constrained="true"#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
 #else
-        <one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($sourceEnd.navigable) property-ref="$sourceEnd.name"#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end/>
+        <one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($sourceEnd.navigable) property-ref="$sourceEnd.name"#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
 #end
 #end
 #end
 #if ($sourceEnd.one2Many)
 #if ($otherEnd.set || $otherEnd.map)
-        <$otherEnd.collectionType name="$otherEnd.name" order-by="$otherEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($stringUtils.isNotBlank($otherEnd.sortType)) sort="$otherEnd.sortType"#end>
+        <$otherEnd.collectionType name="$otherEnd.name" order-by="$otherEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($stringUtils.isNotBlank($otherEnd.sortType)) sort="$otherEnd.sortType"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
 #elseif ($otherEnd.bag)
-        <$otherEnd.collectionType name="$otherEnd.name" order-by="$otherEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
+        <$otherEnd.collectionType name="$otherEnd.name" order-by="$otherEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
 #elseif ($otherEnd.list)
-        <$otherEnd.collectionType name="$otherEnd.name"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
+        <$otherEnd.collectionType name="$otherEnd.name"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
 #end
 #if(($hibernateEnableCache.equalsIgnoreCase("true")) && ($hibernateEnableAssociationsCache.equalsIgnoreCase("true")))
             <cache usage="$sourceEnd.association.hibernateCacheType" />
@@ -69,11 +69,11 @@
             <one-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName"/>
         </$otherEnd.collectionType>
 #elseif ($sourceEnd.many2One)
-        <many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end>
+        <many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
             <column name="$otherEnd.columnName" not-null="$otherEnd.required" sql-type="$otherEnd.sqlType"/>
         </many-to-one>
 #elseif ($sourceEnd.many2Many)
-        <$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" order-by="$sourceEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
+        <$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" order-by="$sourceEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
             <key foreign-key="$sourceEnd.foreignKeyConstraintName">
                 <column name="$sourceEnd.columnName" sql-type="$sourceEnd.sqlType"/>
             </key>

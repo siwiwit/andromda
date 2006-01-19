@@ -2,6 +2,8 @@
 
 <!-- contains the hibernate cartridge metafacade mappings -->
 <metafacades>
+    <property reference="hibernateVersion"/>
+    <property reference="hibernateXMLPersistence"/>
     <property reference="daoNamePattern"/>
     <property reference="daoBaseNamePattern"/>
     <property reference="daoImplementationNamePattern"/>

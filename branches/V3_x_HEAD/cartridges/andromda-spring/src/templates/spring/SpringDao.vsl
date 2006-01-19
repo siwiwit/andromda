@@ -28,6 +28,13 @@ public interface $entity.daoName
     public final static int $entity.daoNoTransformationConstantName = 0;
 
 #end
+#if ($hibernateUtils.xmlPersistenceActive && !$superclass)
+    /**
+     * A transformation flag constant that denotes a transformation into a dom4j XML document tree should occur.
+     */
+    public final static int TRANSFORM_XML = 1;
+
+#end
 #foreach ($valueObjectRef in $entity.valueObjectReferences)
     /**
      * This constant is used as a transformation flag; entities can be converted automatically into value objects
@@ -132,6 +139,20 @@ public interface $entity.daoName
      */
     public $entity.root.fullyQualifiedEntityName create($entity.fullyQualifiedEntityName $argumentName);
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * Creates an instance of $entity.fullyQualifiedEntityName using XML defined in <code>$argumentName</code> 
+     * and adds it to the persistent store.
+     */
+    public $entity.root.fullyQualifiedEntityName create(org.dom4j.Element $argumentName);
+
+    /**
+     * Creates an instance of $entity.fullyQualifiedEntityName using XML defined in <code>$argumentName</code> 
+     * and adds it to the persistent store.
+     */
+    public Object create(int transform, org.dom4j.Element $argumentName);
+
+#end
     /**
      * <p>
      *   Does the same thing as {@link #create($entity.fullyQualifiedEntityName)} with an
@@ -241,6 +262,13 @@ public interface $entity.daoName
      */
     public void update($entity.fullyQualifiedEntityName $argumentName);
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * Updates the <code>$argumentName</code> instance in the persistent store.
+     */
+    public void update(org.dom4j.Element $argumentName);
+
+#end
     /**
      * Updates all instances in the <code>entities</code> collection in the persistent store.
      */
@@ -251,6 +279,13 @@ public interface $entity.daoName
      */
     public void remove($entity.fullyQualifiedEntityName $argumentName);
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * Removes the <code>$argumentName</code> instance in the persistent store.
+     */
+    public void remove(org.dom4j.Element $argumentName);
+
+#end
     /**
      * Removes the instance of $entity.fullyQualifiedEntityName having the given
      * <code>identifier</code> from the persistent store.

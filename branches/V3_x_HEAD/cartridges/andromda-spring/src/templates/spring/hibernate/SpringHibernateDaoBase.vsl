@@ -63,8 +63,33 @@ public abstract class $entity.daoBaseName
                 "${entity.name}.load - '$argument' can not be null");
         }
 #end
-        final Object entity = this.getHibernateTemplate().get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
-        return transformEntity(transform, ($entity.fullyQualifiedName)entity);
+#if ($hibernateUtils.xmlPersistenceActive)
+#set ($xmlIndent = "    ")
+        if (transform == TRANSFORM_XML)
+        {
+            final Object entity = this.getHibernateTemplate().execute(
+                    new org.springframework.orm.hibernate3.HibernateCallback()
+                    {
+                        public Object doInHibernate(org.hibernate.Session hibernateSession)
+                            throws org.hibernate.HibernateException
+                        {
+                            org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                            return xmlSession.get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
+                        }
+                    },
+                    true);
+            return entity;
+        }
+        else
+        {
+#else
+#set ($xmlIndent = "")
+#end
+$xmlIndent        final Object entity = this.getHibernateTemplate().get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
+$xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)entity);
+#if ($hibernateUtils.xmlPersistenceActive)
+        }
+#end
     }
 
     /**
@@ -104,6 +129,43 @@ public abstract class $entity.daoBaseName
         return ($entity.fullyQualifiedEntityName)this.create($entity.daoNoTransformationConstantName, $argumentName);
     }
 
+#if ($hibernateUtils.xmlPersistenceActive)
+#set ($identifier = $entity.identifiers.iterator().next())
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#create(org.dom4j.Element)
+     */
+    public $entity.root.fullyQualifiedEntityName create(org.dom4j.Element $argumentName)
+    {
+       return ($entity.root.fullyQualifiedEntityName)this.create(TRANSFORM_NONE, $argumentName);
+    }
+
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#create(int transform, org.dom4j.Element)
+     */
+    public Object create(int transform, final org.dom4j.Element $argumentName)
+    {
+        if ($argumentName == null)
+        {
+            throw new IllegalArgumentException(
+                "${entity.name}.create - '$argumentName' can not be null");
+        }
+        Object newID = this.getHibernateTemplate().execute(
+                new org.springframework.orm.hibernate3.HibernateCallback()
+                {
+                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                        throws org.hibernate.HibernateException
+                    {
+                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        return xmlSession.save("$entity.fullyQualifiedEntityImplementationName", $argumentName);
+                    }
+                },
+                true);
+        
+        return this.load(transform, ($identifier.type.fullyQualifiedName)newID);
+        
+    }
+
+#end
     /**
      * @see ${entity.fullyQualifiedDaoName}#create(int transform, $entity.fullyQualifiedEntityName)
      */
@@ -114,8 +176,22 @@ public abstract class $entity.daoBaseName
             throw new IllegalArgumentException(
                 "${entity.name}.create - '$argumentName' can not be null");
         }
+#if ($hibernateUtils.xmlPersistenceActive)
+#set ($identifierProperty = "identifier")
+#if($identifier.type.primitive)
+#set ($identifierProperty = "(($identifier.type.wrapperName)$identifierProperty).${identifier.type.fullyQualifiedName}Value()")
+#else
+#set ($identifierProperty = "($identifier.type.fullyQualifiedName)$identifierProperty")
+#end
+        Object identifier = this.getHibernateTemplate().save($argumentName);
+        if (transform == TRANSFORM_XML)
+          return this.load(TRANSFORM_XML, (($identifierProperty)));
+        else
+          return this.transformEntity(transform, $argumentName);
+#else
         this.getHibernateTemplate().save($argumentName);
         return this.transformEntity(transform, $argumentName);
+#end
     }
 
     /**
@@ -233,6 +309,32 @@ public abstract class $entity.daoBaseName
         this.getHibernateTemplate().update($argumentName);
     }
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#update(org.dom4j.Element)
+     */
+    public void update(final org.dom4j.Element $argumentName)
+    {
+        if ($argumentName == null)
+        {
+            throw new IllegalArgumentException(
+                "${entity.name}.update - '$argumentName' can not be null");
+        }
+        this.getHibernateTemplate().execute(
+                new org.springframework.orm.hibernate3.HibernateCallback()
+                {
+                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                        throws org.hibernate.HibernateException
+                    {
+                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        xmlSession.update("$entity.fullyQualifiedEntityImplementationName", $argumentName);
+                        return null;
+                    }
+                },
+                true);
+    }
+
+#end
     /**
      * @see ${entity.fullyQualifiedDaoName}#update(java.util.Collection)
      */
@@ -272,6 +374,32 @@ public abstract class $entity.daoBaseName
         this.getHibernateTemplate().delete($argumentName);
     }
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#remove(org.dom4j.Element)
+     */
+    public void remove(final org.dom4j.Element $argumentName)
+    {
+        if ($argumentName == null)
+        {
+            throw new IllegalArgumentException(
+                "${entity.name}.remove - '$argumentName' can not be null");
+        }
+        this.getHibernateTemplate().execute(
+                new org.springframework.orm.hibernate3.HibernateCallback()
+                {
+                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                        throws org.hibernate.HibernateException
+                    {
+                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        xmlSession.delete($argumentName);
+                        return null;
+                    }
+                },
+                true);
+    }
+
+#end
     /**
      * @see ${entity.fullyQualifiedDaoName}#remove($identifier.type.fullyQualifiedName)
      */
