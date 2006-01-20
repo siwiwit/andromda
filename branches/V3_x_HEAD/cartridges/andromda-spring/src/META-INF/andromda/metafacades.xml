@@ -64,12 +64,12 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityAttributeLogicImpl">
         <mapping>
-            <property name="owner.manageable"/>
+            <property name="owner.springManageableEntityMetaType"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringManageableEntityAssociationEndLogicImpl">
         <mapping>
-            <property name="type.manageable"/>
+            <property name="type.springManageableEntityMetaType"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringEntityLogicImpl">

@@ -138,4 +138,16 @@ public class GeneralizableElementFacadeLogicImpl
         // TODO Auto-generated method stub
         return null;
     }
+
+    protected Object handleGetGeneralizationRoot()
+    {
+        GeneralizableElementFacade generalizableElement = this;
+
+        while (generalizableElement.getGeneralization() != null)
+        {
+            generalizableElement = generalizableElement.getGeneralization();
+        }
+
+        return generalizableElement;
+    }
 }

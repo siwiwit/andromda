@@ -320,12 +320,12 @@ public final class $manageable.manageableDaoBaseName
         {
 #if ($hibernateUtils.version3)
             final ${hibernateUtils.basePackage}.Query queryObject =
-                session.createQuery("delete $manageable.fullyQualifiedEntityImplementationName where ${identifier.name} in (:ids)");
+                session.createQuery("delete $manageable.generalizationRoot.fullyQualifiedEntityImplementationName where $identifier.name in (:ids)");
             queryObject.setParameterList("ids", ids);
             queryObject.executeUpdate();
 #else
-            final Criteria criteria = session.createCriteria(${manageable.fullyQualifiedEntityImplementationName}.class);
-            criteria.add(Expression.in("$manageable.manageableIdentifier.name", ids));
+            final Criteria criteria = session.createCriteria(${manageable.generalizationRoot.fullyQualifiedEntityImplementationName}.class);
+            criteria.add(Expression.in("$identifier.name", ids));
             final java.util.List list = criteria.list();
             getHibernateTemplate().deleteAll(list);
 #end

@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml2;
 
+import org.andromda.metafacades.uml.GeneralizableElementFacade;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.GeneralizableElementFacade.
@@ -87,4 +89,15 @@ public class GeneralizableElementFacadeLogicImpl
         return null;
     }
 
+    protected Object handleGetGeneralizationRoot()
+    {
+        GeneralizableElementFacade generalizableElement = this;
+
+        while (generalizableElement.getGeneralization() != null)
+        {
+            generalizableElement = generalizableElement.getGeneralization();
+        }
+
+        return generalizableElement;
+    }
 }

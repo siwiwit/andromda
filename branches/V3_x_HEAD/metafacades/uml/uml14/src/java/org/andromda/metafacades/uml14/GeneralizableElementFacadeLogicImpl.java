@@ -159,4 +159,11 @@ public class GeneralizableElementFacadeLogicImpl
         }
         return value;
     }
+
+    protected Object handleGetGeneralizationRoot()
+    {
+        return this.getGeneralization() == null
+            ? (GeneralizableElementFacade)THIS()
+            : this.getGeneralization().getGeneralizationRoot();
+    }
 }
