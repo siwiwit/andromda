@@ -255,6 +255,41 @@ public class JSFUseCaseLogicImpl
                         for (int l = 0; l < parameters.size(); l++)
                         {
                             final JSFParameter parameter = (JSFParameter)parameters.get(l);
+                            final Collection attributes = parameter.getAttributes();
+                            if (!attributes.isEmpty())
+                            {
+                                for (final Iterator iterator = attributes.iterator(); iterator.hasNext();)
+                                {
+                                    final JSFAttribute attribute = (JSFAttribute)iterator.next();
+                                    messages.put(
+                                        attribute.getMessageKey(),
+                                        attribute.getMessageValue());
+                                }
+                            }
+                            final Collection associationEnds = parameter.getNavigableAssociationEnds();
+                            if (!associationEnds.isEmpty())
+                            {
+                                for (final Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+                                {
+                                    final AssociationEndFacade end = (AssociationEndFacade)iterator.next();
+                                    final ClassifierFacade type = end.getType();
+                                    if (type != null)
+                                    {
+                                        final Collection typeAttributes = type.getAttributes();
+                                        if (!attributes.isEmpty())
+                                        {
+                                            for (final Iterator attributeIterator = typeAttributes.iterator();
+                                                attributeIterator.hasNext();)
+                                            {
+                                                final JSFAttribute attribute = (JSFAttribute)attributeIterator.next();
+                                                messages.put(
+                                                    attribute.getMessageKey(),
+                                                    attribute.getMessageValue());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             messages.put(
                                 parameter.getMessageKey(),
                                 parameter.getMessageValue());
