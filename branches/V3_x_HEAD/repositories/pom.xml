@@ -58,7 +58,7 @@
         </testResources>
     </build>
     <modules>
-        <module>mdr</module>
+        <module>mdr/common</module>
         <module>mdr/uml14</module>
         <module>mdr/uml2</module>
         <module>emf</module>

@@ -5,9 +5,9 @@
         <artifactId>andromda-repositories</artifactId>
         <version>3.2-RC1-SNAPSHOT</version>
     </parent>
-    <artifactId>andromda-repository-mdr</artifactId>
+    <artifactId>andromda-repository-mdr-common</artifactId>
     <packaging>jar</packaging>
-    <name>AndroMDA MDR Repository</name>
+    <name>AndroMDA MDR Repository (Common)</name>
   	<description>This MDR repository module allows AndroMDA to use the NetBeans MDR as a repository for loading, and querying object models.</description>
     <dependencies>
         <dependency>
@@ -60,9 +60,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <installDirectory>${basedir}/../../lib</installDirectory>
+                    <installDirectory>${basedir}/../../../lib</installDirectory>
                 </configuration>
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
 </project>

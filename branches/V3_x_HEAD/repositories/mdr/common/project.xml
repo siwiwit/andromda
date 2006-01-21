@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  	<extend>../project.xml</extend>
+  	<extend>../../project.xml</extend>
   	<artifactId>andromda-repository-mdr</artifactId>
-  	<name>MDR Repository</name>
-  	<shortDescription>AndroMDA MDR Repository</shortDescription>
+  	<name>MDR Repository (Common Components)</name>
+  	<shortDescription>AndroMDA MDR Repository (Common Components)</shortDescription>
   	<description>
   		Implements the NetBeans MDR (Meta-Data Repository) integration with AndroMDA.
 		This MDR repository module allows AndroMDA to use the NetBeans MDR as a 
