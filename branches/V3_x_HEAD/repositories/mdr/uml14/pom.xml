@@ -8,11 +8,12 @@
     <artifactId>andromda-repository-mdr-uml14</artifactId>
     <packaging>jar</packaging>
     <name>AndroMDA MDR UML 1.4 Repository</name>
-  	<description>This MDR UML2 repository module allows AndroMDA to use the NetBeans MDR as a repository for loading, and querying UML 1.4 models</description>
+        <description>This MDR UML 1.4 repository module allows AndroMDA to use the NetBeans MDR as a repository for
+            loading, and querying UML 1.4 models</description>
     <dependencies>
         <dependency>
             <groupId>${pom.groupId}</groupId>
-            <artifactId>andromda-repository-mdr</artifactId>
+            <artifactId>andromda-repository-mdr-common</artifactId>
             <version>${pom.version}</version>
         </dependency>
         <dependency>
@@ -30,12 +31,6 @@
                     <include>META-INF/**/*</include>
                 </includes>
             </resource>
-	      	<resource>
-		        <directory>../src</directory>
-	        	<includes>
-	        		<include>META-INF/**/*</include>
-	        	</includes>
-	      	</resource>
         </resources>
         <plugins>
             <plugin>

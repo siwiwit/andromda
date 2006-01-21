@@ -4,6 +4,7 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 
+import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.namespace.NamespaceComponents;
 import org.andromda.core.repository.Repositories;
@@ -16,7 +17,7 @@ import org.omg.uml.UmlPackage;
  * Implements the JUnit test case for <code>org.andromda.repositories.MDRepositoryFacade</code>
  * using the UML 1.4 metamodel.
  *
- * @author <A HREF="httplo://www.amowers.com">Anthony Mowers </A>
+ * @author <A HREF="http://www.amowers.com">Anthony Mowers </A>
  * @author Chad Brandon
  */
 public class MDRepositoryFacadeTest
@@ -43,6 +44,7 @@ public class MDRepositoryFacadeTest
         throws Exception
     {
         super.setUp();
+        AndroMDALogger.initialize();
         if (modelURL == null)
         {
             this.modelURL = TestModel.getModel();
@@ -50,6 +52,7 @@ public class MDRepositoryFacadeTest
             {
                 logger.info("found model --> '" + modelURL + "'");
             }
+            
             NamespaceComponents.instance().discover();
             Repositories.instance().initialize();
             repository = (MDRepositoryFacade)Repositories.instance().getImplementation("netBeansMDR");

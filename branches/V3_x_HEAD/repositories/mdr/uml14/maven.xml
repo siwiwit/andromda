@@ -3,18 +3,4 @@
          xmlns:j="jelly:core"
          xmlns:artifact="artifact">
     
-    <!-- ==================================================================
-           Add the META-INF/andromda/namespace.xml to the UML 1.4 jar
-           (it can't be contained in the uml common jar because of the
-           fact that the andromda-metafacades.xml are registered per UML version
-         ================================================================== -->
-    <postGoal name="java:compile">
-        <ant:copy todir="${maven.build.dest}">
-            <ant:fileset dir="../src">
-                <ant:include name="META-INF/andromda/repository.xml"/>
-                <ant:include name="META-INF/services/org.andromda.core.repository.RepositoryFacade"/>
-            </ant:fileset>
-        </ant:copy>
-    </postGoal>
-    
 </project>

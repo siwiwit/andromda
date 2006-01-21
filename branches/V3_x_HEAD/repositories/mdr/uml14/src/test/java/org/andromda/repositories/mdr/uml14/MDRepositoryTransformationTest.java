@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.namespace.NamespaceComponents;
 import org.andromda.core.repository.Repositories;
@@ -46,6 +47,7 @@ public class MDRepositoryTransformationTest
         throws Exception
     {
         super.setUp();
+        AndroMDALogger.initialize();
         if (modelURL == null)
         {
             modelURL = TestModel.getModel();
