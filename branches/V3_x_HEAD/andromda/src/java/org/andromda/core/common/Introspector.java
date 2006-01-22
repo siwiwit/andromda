@@ -233,7 +233,7 @@ public final class Introspector
                 {
                     throw new IntrospectorException("Invalid property call --> '" + name + "'");
                 }
-                final Object nextInstance = internalGetProperty(
+                final Object nextInstance = this.internalGetProperty(
                         object,
                         name.substring(
                             0,
@@ -342,14 +342,14 @@ public final class Introspector
     {
         Method readMethod = null;
         final Class objectClass = object.getClass();
-        Map classWriteMethods = (Map)this.readMethodsCache.get(objectClass);
-        if (classWriteMethods == null)
+        Map classReadMethods = (Map)this.readMethodsCache.get(objectClass);
+        if (classReadMethods == null)
         {
-            classWriteMethods = new HashMap();
+            classReadMethods = new HashMap();
         }
         else
         {
-            readMethod = (Method)classWriteMethods.get(name);
+            readMethod = (Method)classReadMethods.get(name);
         }
         if (readMethod == null)
         {
@@ -359,12 +359,12 @@ public final class Introspector
             readMethod = descriptor != null ? descriptor.getReadMethod() : null;
             if (readMethod != null)
             {
-                classWriteMethods.put(
+                classReadMethods.put(
                     name,
                     readMethod);
                 this.readMethodsCache.put(
                     objectClass,
-                    classWriteMethods);
+                    classReadMethods);
             }
         }
         return readMethod;
@@ -397,7 +397,7 @@ public final class Introspector
         {
             propertyDescriptor = (PropertyDescriptor)classPropertyDescriptors.get(name);
         }
-        ;
+        
         if (propertyDescriptor == null)
         {
             try
