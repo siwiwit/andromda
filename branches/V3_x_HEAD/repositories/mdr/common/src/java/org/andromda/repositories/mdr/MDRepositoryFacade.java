@@ -509,9 +509,9 @@ public class MDRepositoryFacade
             }
         }
 
-        long duration = System.currentTimeMillis() - start;
         if (logger.isDebugEnabled())
         {
+            long duration = System.currentTimeMillis() - start;
             logger.debug("loadModel: finished loading model in " + duration + " milliseconds.");
         }
 
