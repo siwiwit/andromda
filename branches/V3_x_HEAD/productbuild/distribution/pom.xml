@@ -18,6 +18,11 @@
             <artifactId>andromda-schema2xmi</artifactId>
             <version>${pom.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

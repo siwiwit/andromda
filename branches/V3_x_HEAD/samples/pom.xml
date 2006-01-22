@@ -13,7 +13,7 @@
     <name>AndroMDA Samples</name>
     <dependencies>
         <dependency>
-            <groupId>${pom.parent.groupId}</groupId>
+            <groupId>org.andromda</groupId>
             <artifactId>andromda-script-wrappers</artifactId>
             <version>${pom.version}</version>
         </dependency>
