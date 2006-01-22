@@ -391,8 +391,6 @@ public class MDRepositoryFacade
         throws Exception
     {
         long start = System.currentTimeMillis();
-        System.out.println("creating MetaModel using URL --> '" + metamodelUri + "'");
-        
         if (logger.isDebugEnabled())
         {
             logger.debug("creating MetaModel using URL --> '" + metamodelUri + "'");
@@ -425,10 +423,9 @@ public class MDRepositoryFacade
 
         if (logger.isDebugEnabled())
         {
-            logger.debug("created MetaModel");
+            long duration = System.currentTimeMillis() - start;
+            logger.debug("MDRepositoryFacade: loaded metamodel in " + duration + " milliseconds");
         }
-        long duration = System.currentTimeMillis() - start;
-        System.out.println("MDRepositoryFacade: loaded metamodel in " + duration + " milliseconds");
         return metaModelPackage;
     }
 
@@ -470,9 +467,12 @@ public class MDRepositoryFacade
         final MofPackage metaModel)
         throws Exception
     {
-        System.out.println("loadModel: starting to load model from '" + modelUris[0] + "'");
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("loadModel: starting to load model from '" + modelUris[0] + "'");
+        }
         long start = System.currentTimeMillis();
-        
+
         RefPackage model = null;
         if (modelUris != null)
         {
@@ -508,10 +508,13 @@ public class MDRepositoryFacade
                 logger.debug("read URIs and created model");
             }
         }
-        
+
         long duration = System.currentTimeMillis() - start;
-        System.out.println("loadModel: finished loading model in " + duration + " milliseconds.");
-        
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("loadModel: finished loading model in " + duration + " milliseconds.");
+        }
+
         return model;
     }
 
