@@ -152,6 +152,10 @@
                             <fileset dir="${pom.basedir}/src/main/jsp">
                                 <include name="**/*"/>
                             </fileset>
+                            <fileset dir="${pom.basedir}/src/main">
+                                <include name="css/**"/>
+                                <include name="images/**"/>
+                            </fileset>
                         </copy>
                     </tasks>
                 </configuration>
