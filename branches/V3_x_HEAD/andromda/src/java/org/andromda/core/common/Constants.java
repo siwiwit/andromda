@@ -34,7 +34,7 @@ public class Constants
         {
             directory.append(userName).append("/");
         }
-        directory.append(".andromda");
+        directory.append(".andromda/");
         TEMPORARY_DIRECTORY = directory.toString();
     }
     
