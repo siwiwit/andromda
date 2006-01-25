@@ -17,7 +17,7 @@
     <templateObject name="converter" className="org.andromda.utils.JavaTypeConverter">
         <property reference="javaTypeConversionIgnoreList"/>
     </templateObject>
-    
+
     <!-- cartridge-templateObject merge-point-->
 
     <property reference="driver"/>
@@ -304,7 +304,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="configonly">false</property>
-                    <property name="richClient">false</property>                    
+                    <property name="richClient">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -319,7 +319,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="configonly">false</property>
-                    <property name="richClient">true</property>                    
+                    <property name="richClient">true</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -609,7 +609,6 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="remotable"/>
-                    <property name="richClient">true</property>
                 </type>
             </modelElement>
             <modelElement variable="manageables">

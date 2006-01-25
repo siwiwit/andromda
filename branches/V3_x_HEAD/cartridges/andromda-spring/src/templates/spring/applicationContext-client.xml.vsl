@@ -57,6 +57,11 @@
 #end
                 <property name="serviceUrl"><value>$service.remoteUrl</value></property>
                 <property name="serviceInterface"><value>$service.fullyQualifiedName</value></property>
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="httpInvokerRequestExecutor">
+                    <ref local="httpInvokerRequestExecutor"/>
+                </property>
+#end
             </bean>
         </property>
         <property name="proxyInterfaces"><value>$service.fullyQualifiedName</value></property>
@@ -97,6 +102,10 @@
         </property>
 #end
     </bean>
+
+#end
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+    <bean id="httpInvokerRequestExecutor" class="$clientHttpInvokerExecutor"/>
 
 #end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
