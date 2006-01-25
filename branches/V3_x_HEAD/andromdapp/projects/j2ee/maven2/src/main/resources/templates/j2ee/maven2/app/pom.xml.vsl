@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>$applicationPackage</groupId>
-        <artifactId>$applicationId</artifactId>
-        <version>$applicationVersion</version>
+        <groupId>${application.package}</groupId>
+        <artifactId>${application.id}</artifactId>
+        <version>${application.version}</version>
     </parent>
-    <artifactId>${applicationId}-app</artifactId>
+    <artifactId>${application.id}-app</artifactId>
     <packaging>ear</packaging>
-    <name>$applicationName Application</name>
+    <name>${application.name} Application</name>
     <dependencyManagement>
         <dependencies>
             <dependency>

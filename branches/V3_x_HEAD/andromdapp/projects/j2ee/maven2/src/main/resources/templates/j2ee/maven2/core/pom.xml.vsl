@@ -3,17 +3,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>$applicationPackage</groupId>
-        <artifactId>$applicationId</artifactId>
-        <version>$applicationVersion</version>
+        <groupId>${application.package}</groupId>
+        <artifactId>${application.id}</artifactId>
+        <version>${application.version}</version>
     </parent>
-    <artifactId>${applicationId}-core</artifactId>
+    <artifactId>${application.id}-core</artifactId>
 #if ($ear)
     <packaging>ejb</packaging>
 #else
     <packaging>jar</packaging>
 #end
-    <name>$applicationName Core Business Tier</name>
+    <name>${application.name} Core Business Tier</name>
     <dependencies>
         <dependency>
             <groupId>${pom.groupId}</groupId>

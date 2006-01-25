@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>$applicationPackage</groupId>
-        <artifactId>$applicationId</artifactId>
-        <version>$applicationVersion</version>
+        <groupId>${application.package}</groupId>
+        <artifactId>${application.id}</artifactId>
+        <version>${application.version}</version>
     </parent>
-    <artifactId>${applicationId}-webservice</artifactId>
+    <artifactId>${application.id}-webservice</artifactId>
     <packaging>war</packaging>
-    <name>${applicationName} Web Services</name>
+    <name>${application.name} Web Services</name>
     <build>
         <plugins>
             <plugin>
