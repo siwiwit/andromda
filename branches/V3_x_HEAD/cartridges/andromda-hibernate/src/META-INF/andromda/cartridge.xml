@@ -1,6 +1,6 @@
 <cartridge>
 
-    <templateEngine>
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine">
         <macrolibrary name="templates/hibernate/hibernate.java.vm"/>
         <macrolibrary name="templates/hibernate2/hibernate.hbm.xml.vm"/>
         <macrolibrary name="templates/hibernate3/hibernate.hbm.xml.vm"/>

@@ -1,6 +1,6 @@
 <cartridge>
 
-    <templateEngine>
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine">
         <!-- library of macros used in template engine -->
         <macrolibrary name="templates/bpm4struts/pages/page.jsp.vm"/>
         <macrolibrary name="templates/bpm4struts/pages/crud/manageable.jsp.vm"/>

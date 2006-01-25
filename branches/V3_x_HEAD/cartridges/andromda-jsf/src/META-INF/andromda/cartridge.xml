@@ -1,6 +1,6 @@
 <cartridge>
     
-    <templateEngine>
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine">
         <macrolibrary name="templates/jsf/views/jsp/includes/renderActionFormInput.vm"/>
         <macrolibrary name="templates/jsf/views/jsp/includes/renderActionCommandLinkParameter.vm"/>
         <macrolibrary name="templates/jsf/forms/formMacros.vm"/>

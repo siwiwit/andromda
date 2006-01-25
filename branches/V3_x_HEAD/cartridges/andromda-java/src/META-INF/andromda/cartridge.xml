@@ -1,5 +1,6 @@
 <cartridge>
 
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine"/>
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
     <!-- cartridge-templateObject merge-point-->  
 
