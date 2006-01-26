@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>${application.package}</groupId>
-        <artifactId>${application.id}</artifactId>
-        <version>${application.version}</version>
+        <groupId>$applicationPackage</groupId>
+        <artifactId>$applicationId</artifactId>
+        <version>$applicationVersion</version>
     </parent>
-    <artifactId>${application.id}-mda</artifactId>
+    <artifactId>${applicationId}-mda</artifactId>
     <packaging>pom</packaging>
-    <name>${application.name} MDA</name>
+    <name>${applicationName} MDA</name>
     <dependencies>
         <dependency>
             <groupId>org.andromda.profiles.uml14</groupId>
