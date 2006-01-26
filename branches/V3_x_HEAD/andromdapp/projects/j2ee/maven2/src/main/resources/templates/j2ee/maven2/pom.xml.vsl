@@ -2,12 +2,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>${application.package}</groupId>
-    <artifactId>${application.id}</artifactId>
+    <groupId>$applicationPackage</groupId>
+    <artifactId>$applicationId</artifactId>
     <packaging>pom</packaging>
-    <version>${application.version}</version>
-    <name>${application.name}</name>
-    <description>The ${application.name} Project.</description>
+    <version>$applicationVersion</version>
+    <name>$applicationName</name>
+    <description>The $applicationName Project.</description>
     <scm>
         <connection></connection>
         <url></url>
