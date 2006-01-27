@@ -616,6 +616,19 @@ public class HibernateAssociationEndLogicImpl
                 implementation.append(this.getConfiguredProperty(HibernateGlobals.LIST_TYPE_IMPLEMENTATION));
             }
 
+            // set this association end's type as a template parameter if required
+            if ("true".equals(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
+            {
+            	implementation.append("<");
+            	if (this.isMap())
+            	{
+            		implementation.append(this.getCollectionIndexType());
+            		implementation.append(", ");
+            	}
+            	implementation.append(this.getType().getFullyQualifiedName());
+            	implementation.append(">");
+            }
+            
             implementation.append("()");
         }
 

@@ -442,7 +442,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #foreach ($finder in $entity.getQueryOperations(true))
 #set ($returnType = $finder.returnType.fullyQualifiedName)
     /**
-     * @see ${entity.fullyQualifiedName}#$finder.getSignature(false)
+     * @see ${entity.fullyQualifiedDaoName}#$finder.getSignature(false)
      */
     $finder.visibility $returnType $finder.signature
 #if ($finder.exceptionsPresent)
@@ -458,7 +458,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 
 #if(!$finder.criteriaFinder)
     /**
-     * @see ${entity.fullyQualifiedName}#${finder.name}(java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
     $finder.visibility $returnType ${finder.name}(final java.lang.String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -476,7 +476,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #set ($returnType = "Object")
 #end
     /**
-     * @see ${entity.fullyQualifiedName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
     $finder.visibility $returnType ${finder.name}(final int transform#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -487,7 +487,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
 
     /**
-     * @see ${entity.fullyQualifiedName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
     $finder.visibility $returnType ${finder.name}(final int transform, final java.lang.String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -549,7 +549,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
 #else
     /**
-     * @see ${entity.fullyQualifiedName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
     $finder.visibility $returnType ${finder.name}(final int transform#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
