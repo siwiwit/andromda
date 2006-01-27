@@ -147,8 +147,6 @@ public class ModelElement
 
     /**
      * Applies any filtering by any types specified within this model element.
-     *
-     * @param metafacades the metafacades to filter
      */
     private void applyTypeFiltering()
     {

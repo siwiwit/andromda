@@ -66,7 +66,7 @@ public class Converter
                 // - if we couldn't find the method try with the constructor
                 if (method == null)
                 {
-                    Constructor constructor = null;
+                    Constructor constructor;
                     try
                     {
                         constructor = expectedType.getConstructor(new Class[] {originalType});

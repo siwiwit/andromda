@@ -259,7 +259,7 @@ public class Cartridge
      *        properties to determine if any properties have been mapped for template processing.
      * @return true if any property templates have been evaluated (false othewise).
      */
-    private final boolean processPropertyTemplates(
+    private boolean processPropertyTemplates(
         final Template template,
         final Object metafacade,
         final Map templateContext,

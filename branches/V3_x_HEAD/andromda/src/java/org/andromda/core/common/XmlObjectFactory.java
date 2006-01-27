@@ -116,7 +116,7 @@ public class XmlObjectFactory
      * @param objectClass the Class of the object from which to configure this factory.
      * @return the XmlObjectFactoy instance.
      */
-    public static final XmlObjectFactory getInstance(final Class objectClass)
+    public static XmlObjectFactory getInstance(final Class objectClass)
     {
         ExceptionUtils.checkNull(
             "objectClass",
@@ -356,7 +356,7 @@ public class XmlObjectFactory
          * @param exception the exception from which to extract the message.
          * @return the message.
          */
-        private final String getMessage(final SAXParseException exception)
+        private String getMessage(final SAXParseException exception)
         {
             final StringBuffer message = new StringBuffer();
             if (exception != null)
@@ -364,7 +364,7 @@ public class XmlObjectFactory
                 message.append(exception.getMessage());
                 message.append(", line: ");
                 message.append(exception.getLineNumber());
-                message.append(", column: " + exception.getColumnNumber());
+                message.append(", column: ").append(exception.getColumnNumber());
             }
             return message.toString();
         }

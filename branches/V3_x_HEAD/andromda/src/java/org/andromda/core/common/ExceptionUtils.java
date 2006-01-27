@@ -32,7 +32,6 @@ public class ExceptionUtils
     /**
      * Checks if the argument is null, and if so, throws an IllegalArgumentException, does nothing if not.
      *
-     * @param methodExecuteName the name of the method we are currently executing
      * @param argumentName the name of the argument we are checking for null
      * @param argument the argument we are checking
      */
@@ -49,7 +48,6 @@ public class ExceptionUtils
     /**
      * Checks if the argument is null, and if so, throws an IllegalArgumentException, does nothing if not.
      *
-     * @param methodExecuteName the name of the method we are currently executing
      * @param argumentName the name of the argument we are checking for null
      * @param argument the argument we are checking
      * @param stackDepth the depth of the stack from which to retrieve the methodInformation.

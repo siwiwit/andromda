@@ -156,7 +156,6 @@ public class TemplateObject
      * populate bean like properties of template objects.
      *
      * @param reference the name of the property reference.
-     * @param defaultValue the default value of the property reference.
      */
     public void addPropertyReference(final String reference)
     {

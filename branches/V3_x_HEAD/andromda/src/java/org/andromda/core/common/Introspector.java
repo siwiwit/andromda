@@ -27,7 +27,7 @@ public final class Introspector
      *
      * @return the shared introspector instance.
      */
-    public static final Introspector instance()
+    public static Introspector instance()
     {
         if (instance == null)
         {
@@ -61,7 +61,7 @@ public final class Introspector
         final String name,
         final String value)
     {
-        boolean valid = false;
+        boolean valid;
 
         try
         {
@@ -132,7 +132,7 @@ public final class Introspector
      * @param name the name of the object.
      * @param value the value to populate.
      */
-    private final void setNestedProperty(
+    private void setNestedProperty(
         final Object object,
         String name,
         final Object value)
@@ -168,14 +168,14 @@ public final class Introspector
      * Attempts to retrieve the property with the given <code>name</code> on the <code>object</code>.
      *
      * @param object the object to which the property belongs.
-     * @param the name of the property
+     * @param name the name of the property
      * @return the value of the property.
      */
     public final Object getProperty(
         final Object object,
         final String name)
     {
-        Object result = null;
+        Object result;
 
         try
         {
@@ -213,7 +213,7 @@ public final class Introspector
      * @param name the name of the property
      * @return the property value or null if one couldn't be retrieved.
      */
-    private final Object getNestedProperty(
+    private Object getNestedProperty(
         final Object object,
         final String name)
     {
@@ -258,7 +258,7 @@ public final class Introspector
      * @param name the name of the property.
      * @return the property method or null if one wasn't found.
      */
-    private final Method getWriteMethod(
+    private Method getWriteMethod(
         final Object object,
         final String name)
     {
@@ -336,7 +336,7 @@ public final class Introspector
      * @param name the name of the property.
      * @return the property method or null if one wasn't found.
      */
-    private final Method getReadMethod(
+    private Method getReadMethod(
         final Object object,
         final String name)
     {
@@ -383,7 +383,7 @@ public final class Introspector
      * @param name the name of the property.
      * @return the found property descriptor
      */
-    private final PropertyDescriptor getPropertyDescriptor(
+    private PropertyDescriptor getPropertyDescriptor(
         final Class type,
         final String name)
     {
@@ -465,9 +465,8 @@ public final class Introspector
      * @param object the object from which to retrieve the property.
      * @param name the name of the property
      * @return the resulting property value
-     * @throws Exception if an error occurs during introspection.
      */
-    private final Object internalGetProperty(
+    private Object internalGetProperty(
         final Object object,
         final String name)
     {
@@ -515,9 +514,8 @@ public final class Introspector
      * @param object the object from which to retrieve the property.
      * @param name the name of the property to set.
      * @param value the value of the property to set.
-     * @throws Exception if an error occurs during introspection.
      */
-    private final void internalSetProperty(
+    private void internalSetProperty(
         final Object object,
         final String name,
         Object value)
