@@ -155,7 +155,7 @@
         <property name="transactionAttributeSource">
             <value>
 #foreach ($service in $services)
-#foreach ($operation in $service.operations)
+#foreach ($operation in $springUtils.filterUniqueByName($service.operations))
                 ${service.fullyQualifiedName}.${operation.name}=${operation.transactionType}
 #end
 #end
@@ -233,7 +233,7 @@
         <property name="objectDefinitionSource">
             <value>
 #foreach($service in $services)
-#foreach ($operation in $service.operations)
+#foreach ($operation in $springUtils.filterUniqueByName($service.operations))
 #if (!$operation.roles.empty)
                 ${service.fullyQualifiedName}.${operation.name}=#foreach($role in $operation.roles)#if($acegiRolePrefix && !$role.name.startsWith("$acegiRolePrefix"))$acegiRolePrefix#end$role.name#if($velocityCount != $operation.roles.size()), #end#end
 
