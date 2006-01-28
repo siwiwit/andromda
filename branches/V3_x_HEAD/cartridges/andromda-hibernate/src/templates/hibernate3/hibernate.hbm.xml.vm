@@ -73,10 +73,22 @@
             <column name="$otherEnd.columnName" not-null="$otherEnd.required" sql-type="$otherEnd.sqlType"/>
         </many-to-one>
 #elseif ($sourceEnd.many2Many)
-        <$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" order-by="$sourceEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
+#if ($otherEnd.set || $otherEnd.map)
+        <$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" order-by="$sourceEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($stringUtils.isNotBlank($otherEnd.sortType)) sort="$otherEnd.sortType"#end>
+#elseif ($otherEnd.bag)
+         <$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" order-by="$sourceEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
+#elseif ($otherEnd.list)
+        <$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" #if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
+#end            
             <key foreign-key="$sourceEnd.foreignKeyConstraintName">
                 <column name="$sourceEnd.columnName" sql-type="$sourceEnd.sqlType"/>
             </key>
+#if ($otherEnd.list)
+            <list-index column="$otherEnd.collectionIndexName"/>
+#end
+#if ($otherEnd.map)
+            <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.collectionIndexType"/>
+#end            
             <many-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName">
                 <column name="$otherEnd.columnName" sql-type="$otherEnd.sqlType"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end/>
             </many-to-many>
