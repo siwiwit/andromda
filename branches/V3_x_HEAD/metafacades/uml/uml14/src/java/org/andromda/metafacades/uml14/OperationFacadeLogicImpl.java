@@ -453,7 +453,7 @@ public class OperationFacadeLogicImpl
      */
     protected String handleGetConcurrency()
     {
-        String concurrency = null;
+        String concurrency;
 
         final CallConcurrencyKind concurrencyKind = metaObject.getConcurrency();
         if (concurrencyKind == null || CallConcurrencyKindEnum.CCK_CONCURRENT.equals(concurrencyKind))

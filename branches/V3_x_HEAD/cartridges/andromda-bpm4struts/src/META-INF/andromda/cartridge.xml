@@ -262,6 +262,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.bpm4struts.metafacades.StrutsParameter">
                     <property name="table"/>
+                    <property name="jsp"/>
                 </type>
             </modelElement>
         </modelElements>

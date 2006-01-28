@@ -258,7 +258,7 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.EntityLogic#getAttributeTypeList(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getAttributeTypeList(boolean, boolean)
      */
     protected String handleGetAttributeTypeList(
         final boolean follow,
@@ -370,7 +370,7 @@ public class EntityLogicImpl
     /**
      * Constructs a comma seperated list of attribute names from the passed in collection of <code>attributes</code>.
      *
-     * @param attributes the attributes to construct the list from.
+     * @param properties the properties to construct the list from.
      * @return the comma seperated list of attribute names.
      */
     private String getNameList(final Collection properties)
@@ -442,7 +442,7 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getChildren()
+     * @see org.andromda.metafacades.uml.Entity#getChildEnds()
      */
     protected Collection handleGetChildEnds()
     {

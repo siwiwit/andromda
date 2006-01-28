@@ -1,8 +1,5 @@
 package org.andromda.metafacades.uml14;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;

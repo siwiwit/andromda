@@ -160,16 +160,10 @@ public class FrontEndForwardLogicImpl
     private void initializeCollections()
     {
         this.actionStates = new LinkedHashSet();
-        this.transitions = new LinkedHashSet();
         this.collectTransitions(
             this,
-            transitions);
+            new LinkedHashSet());
     }
-
-    /**
-     * All transitions that can be traversed when calling this action.
-     */
-    private Collection transitions = null;
 
     /**
      * Recursively collects all action states, action forwards, decision transitions and transitions.
@@ -177,7 +171,7 @@ public class FrontEndForwardLogicImpl
      * @param transition the current transition that is being processed
      * @param processedTransitions the set of transitions already processed
      */
-    private final void collectTransitions(
+    private void collectTransitions(
         final TransitionFacade transition,
         final Collection processedTransitions)
     {
@@ -231,7 +225,7 @@ public class FrontEndForwardLogicImpl
      * @param actions the default set of actions, duplicates will not be recorded
      * @param handledForwards the forwards already processed
      */
-    private final void findActions(
+    private void findActions(
         final Set actions,
         final Set handledForwards)
     {

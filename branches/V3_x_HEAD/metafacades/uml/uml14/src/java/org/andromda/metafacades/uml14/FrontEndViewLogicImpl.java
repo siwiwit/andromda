@@ -92,10 +92,7 @@ public class FrontEndViewLogicImpl
             if (graphUseCase instanceof FrontEndUseCase)
             {
                 final FrontEndUseCase useCase = (FrontEndUseCase)graphUseCase;
-                if (useCase != null)
-                {
-                    packageName = useCase.getPackageName();
-                }
+                packageName = useCase.getPackageName();
             }
         }
         return packageName;

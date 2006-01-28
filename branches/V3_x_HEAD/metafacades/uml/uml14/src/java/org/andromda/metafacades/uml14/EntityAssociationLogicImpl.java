@@ -13,7 +13,7 @@ import org.apache.commons.lang.ObjectUtils;
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.EntityAssociationFacade.
  *
- * @see org.andromda.metafacades.uml.EntityAssociationFacade
+ * @see org.andromda.metafacades.uml.EntityAssociation
  */
 public class EntityAssociationLogicImpl
     extends EntityAssociationLogic
@@ -26,7 +26,7 @@ public class EntityAssociationLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.EntityAssociationFacade#getTableName()
+     * @see org.andromda.metafacades.uml.EntityAssociation#getTableName()
      */
     public String handleGetTableName()
     {
