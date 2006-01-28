@@ -13,10 +13,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class JavaTypeConverter
 {
-    public JavaTypeConverter()
-    {
-    }
-
     private ArrayList javaTypeConversionIgnoreList = new ArrayList();
     
     /** 
@@ -31,14 +27,13 @@ public class JavaTypeConverter
             String[] typeList = commaSeparatedIgnoreList.split("\\s*,\\s*");
             javaTypeConversionIgnoreList.addAll(Arrays.asList(typeList));
         }
-        
     }
     
     private static class ConversionEntry
     {
-        public String sourceType;
-        public String targetType;
-        public String conversionPattern;
+        private final String sourceType;
+        private final String targetType;
+        private final String conversionPattern;
 
         public ConversionEntry(
             String sourceType,
@@ -48,6 +43,27 @@ public class JavaTypeConverter
             this.sourceType = sourceType;
             this.targetType = targetType;
             this.conversionPattern = conversionPattern;
+        }
+
+        public boolean equals(Object o)
+        {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            final ConversionEntry that = (ConversionEntry)o;
+
+            if (!conversionPattern.equals(that.conversionPattern)) return false;
+            if (!sourceType.equals(that.sourceType)) return false;
+            return targetType.equals(that.targetType);
+        }
+
+        public int hashCode()
+        {
+            int result;
+            result = sourceType.hashCode();
+            result = 29 * result + targetType.hashCode();
+            result = 29 * result + conversionPattern.hashCode();
+            return result;
         }
     }
 

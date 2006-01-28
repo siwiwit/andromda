@@ -1,14 +1,5 @@
 package org.andromda.metafacades.uml14;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
@@ -29,10 +20,18 @@ import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Abstraction;
 import org.omg.uml.foundation.core.AssociationClass;
 import org.omg.uml.foundation.core.Attribute;
-import org.omg.uml.foundation.core.CorePackage;
 import org.omg.uml.foundation.core.DataType;
 import org.omg.uml.foundation.core.Interface;
 import org.omg.uml.foundation.core.Operation;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -604,22 +603,6 @@ public class ClassifierFacadeLogicImpl
             arrayType = (ClassifierFacade)this.getRootPackage().findModelElement(name);
         }
         return arrayType;
-    }
-
-    /**
-     * @see org.andromda.metafacades.uml.ClassifierFacade#addAttribute(java.lang.String, java.lang.String,
-     *      java.lang.String)
-     */
-    protected void handleAddAttribute(
-        String name,
-        String fullyQualifiedType,
-        String visibility)
-    {
-        CorePackage corePackage = UML14MetafacadeUtils.getCorePackage();
-        Attribute attribute = corePackage.getAttribute().createAttribute();
-        attribute.setName(name);
-        attribute.setVisibility(UML14MetafacadeUtils.getVisibilityKind(visibility));
-        this.metaObject.getFeature().add(attribute);
     }
 
     /**

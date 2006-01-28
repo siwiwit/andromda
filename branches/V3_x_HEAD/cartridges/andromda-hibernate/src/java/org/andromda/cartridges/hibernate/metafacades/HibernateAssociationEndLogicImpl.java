@@ -176,7 +176,8 @@ public class HibernateAssociationEndLogicImpl
         else if (this.isMany())
         {
             // set this association end's type as a template parameter if required
-            if ("true".equals(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
+            if (Boolean.valueOf(String.valueOf(
+                this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING))).booleanValue())
             {
                 getterSetterTypeName =
                     getterSetterTypeName + "<" + this.getType().getFullyQualifiedName() + ">";
@@ -617,7 +618,8 @@ public class HibernateAssociationEndLogicImpl
             }
 
             // set this association end's type as a template parameter if required
-            if ("true".equals(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
+            if (Boolean.valueOf(String.valueOf(
+                this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING))).booleanValue())
             {
             	implementation.append("<");
             	if (this.isMap())

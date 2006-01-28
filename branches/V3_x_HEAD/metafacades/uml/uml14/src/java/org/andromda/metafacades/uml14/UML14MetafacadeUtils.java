@@ -59,7 +59,7 @@ public class UML14MetafacadeUtils
      */
     static Object findByFullyQualifiedName(final String fullyQualifiedName, final String separator, final boolean modelName)
     {
-        Object modelElement = null;
+        Object modelElement;
         Collection elements = ((org.omg.uml.UmlPackage)MetafacadeFactory.getInstance().getModel().getModel()).getCore()
                 .getModelElement()
                 .refAllOfType();
@@ -115,7 +115,6 @@ public class UML14MetafacadeUtils
      * Basically just checks to make sure the <code>model</code> is of type <code>org.omg.uml.UmlPackage</code> and
      * retrieves the <code>CorePackage</code> from it.
      *
-     * @param model the model form which to retrieve the core package.
      * @return the <code>model</code> as a <code>org.omg.uml.UmlPackage</code>
      */
     static CorePackage getCorePackage()
@@ -127,7 +126,6 @@ public class UML14MetafacadeUtils
      * Finds and returns the first model element having the given <code>name</code> in the <code>modelPackage</code>,
      * returns <code>null</code> if not found.
      *
-     * @param modelPackage The modelPackage to search
      * @param name         the name to find.
      * @return the found model element.
      */
@@ -218,7 +216,7 @@ public class UML14MetafacadeUtils
      * @param name the new name
      * @param fullyQualifiedTypeName the name of the fully qualified type
      * @param visibility the visibility name
-     * @param the separator used for qualifying the name.
+     * @param separator the separator used for qualifying the name.
      * @return the new Attribute.
      */
     static Attribute createAttribute(String name, String fullyQualifiedTypeName, String visibility, String separator)
