@@ -11,8 +11,36 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.2-RC1-SNAPSHOT" date="2006-01-13" description="First release candidate of version 3.2">
-            <action dev="draftdog" type="update">
+        <release version="3.2-RC1-SNAPSHOT" date="2006-01-28" description="First release candidate of version 3.2">
+            <action dev="draftdog" type="fix" issue="HIB-170">
+                The hibernate cartridge did not properly support lists on many2many association ends, this has been
+                fixed thanks to a patch from Paul Pavlidis.
+            </action>
+            <action dev="draftdog" type="update" issue="JAVA-27">
+                The generated enumerations now supports Java generics when <code>enableTemplating</code> has been
+                set to <code>true</code>. Thanks to a patch from Jens Vagts.
+            </action>
+            <action dev="draftdog" type="update" issue="HIB-162">
+                Initializing collections is now taking into account Java generics
+                when <code>enableTemplating</code> has been set to <code>true</code>.
+                Thanks to a patch from Jens Vagts.
+            </action>
+            <action dev="draftdog" type="fix" issue="SPRING-147">
+                When using manageable entities it could happen that a server-side SQL exception is thrown
+                due to an invalid HSQL query. This was due to a missing check when passing in an array: the array
+                was tested for <code>null</code> but not for <code>array.length == 0</code>. This has been resolved.
+            </action>
+            <action dev="draftdog" type="fix" issue="HIB-166">
+                The hibernate byte Blob type has new <code>nullSafeGet</code> and <code>nullSafeSet</code> method
+                implementations, thanks to a patch from Darius Schier.
+            </action>
+            <action dev="draftdog" type="update" issue="UMLMETA-66">
+                Pluralization of English words has been updated to more correctly determine the proper plural. This
+                means that those users using words other than the ones that are being tested might see different
+                accessor names on their beans, it might result in compilation failures due to files in version control
+                but merely updating those files to reflect the new name will do the trick.
+            </action>
+            <action dev="draftdog" type="fix">
                 Several fixes have been applied to the CRUD implementation in the Spring cartridge. These fixes
                 will be apparent when using CRUD on entities which extend other entities.
             </action>
