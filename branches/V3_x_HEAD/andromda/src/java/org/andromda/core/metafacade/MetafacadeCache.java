@@ -17,7 +17,7 @@ public final class MetafacadeCache
      *
      * @return the new instance
      */
-    public static final MetafacadeCache newInstance()
+    public static MetafacadeCache newInstance()
     {
         return new MetafacadeCache();
     }

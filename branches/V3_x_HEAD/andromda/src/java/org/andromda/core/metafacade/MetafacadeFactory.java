@@ -146,7 +146,7 @@ public class MetafacadeFactory
      *        null).
      * @return the new metafacade
      */
-    private final MetafacadeBase createMetafacade(
+    private MetafacadeBase createMetafacade(
         final Object mappingObject,
         final String context,
         Class metafacadeClass)
@@ -303,7 +303,7 @@ public class MetafacadeFactory
      * @return the new (or cached) metafacade.
      * @throws Exception if any error occurs during metafacade creation
      */
-    private final MetafacadeBase getMetafacade(
+    private MetafacadeBase getMetafacade(
         final Class metafacadeClass,
         final Object mappingObject,
         final String context,
@@ -419,9 +419,7 @@ public class MetafacadeFactory
      * Returns a metafacade for each mappingObject, contained within the
      * <code>mappingObjects</code> collection depending on its
      * <code>mappingClass</code> and (optionally) its <code>sterotypes</code>,
-     * and <code>contextName</code>.  Note that if model package information was given
-     * in the {@link MetafacadeFactoryContext#getModelPackages()} then the model
-     * packages which do not apply will be filtered out.
+     * and <code>contextName</code>.
      *
      * @param mappingObjects the meta model element.
      * @param contextName the name of the context the meta model element is
@@ -624,7 +622,7 @@ public class MetafacadeFactory
      * @param name the name of the property to find.
      * @return the property or null if it can't be found.
      */
-    private final Object findProperty(
+    private Object findProperty(
         final MetafacadeBase metafacade,
         final String name)
     {
@@ -783,7 +781,7 @@ public class MetafacadeFactory
     /**
      * Registers all namespace properties (if required).
      */
-    private final void registerNamespaceProperties()
+    private void registerNamespaceProperties()
     {
         // - only register them if they already aren't registered
         if (this.metafacadeNamespaces.isEmpty())
@@ -821,7 +819,7 @@ public class MetafacadeFactory
     /**
      * Clears out the factory's internal caches (other
      * than namespace properties, which can be cleared by
-     * calling {@link #clearNamespaceProperties()}.
+     * calling {@link org.andromda.core.configuration.Namespaces#clear()}.
      */
     public void clearCaches()
     {

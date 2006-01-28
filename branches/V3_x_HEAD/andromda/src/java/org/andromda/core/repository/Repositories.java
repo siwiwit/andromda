@@ -37,7 +37,7 @@ public class Repositories
      *
      * @return the shared instance.
      */
-    public static final Repositories instance()
+    public static Repositories instance()
     {
         if (instance == null)
         {

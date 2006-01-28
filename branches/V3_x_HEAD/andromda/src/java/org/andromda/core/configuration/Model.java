@@ -318,7 +318,7 @@ public class Model
 
     /**
      * Stores all resources including all resources found within the module search locations
-     * as well as a resource for the {@link #uri}.
+     * as well as a resource for the {@link #getUris()}.
      */
     private URL[] moduleSearchLocationResources = null;
 
@@ -376,7 +376,7 @@ public class Model
     {
         String toString = super.toString();
         final String key = this.getKey();
-        if (key != null || key.trim().length() == 0)
+        if (key != null && key.trim().length() > 0)
         {
             toString = key;
         }
@@ -399,10 +399,9 @@ public class Model
      * (its made up of a list of all the uris for this model
      * concatinated).
      *
-     * @param uri the model uri.
      * @return the unique key
      */
-    private final String getKey()
+    private String getKey()
     {
         if (this.key == null || this.key.trim().length() == 0)
         {
@@ -498,9 +497,9 @@ public class Model
 
     /**
      * Loads (or re-loads) the last modified times from the
-     * {@link #uri} and the modules found on the module search path.
+     * {@link #getUris()} and the modules found on the module search path.
      */
-    private final void loadLastModifiedTimes()
+    private void loadLastModifiedTimes()
     {
         final Object modelKey = this.getKey();
         Map lastModifiedTimes = (Map)modelModifiedTimes.get(modelKey);
@@ -534,7 +533,7 @@ public class Model
     /**
      * Clears out the current last modified times.
      */
-    static final void clearLastModifiedTimes()
+    static void clearLastModifiedTimes()
     {
         modelModifiedTimes.clear();
     }
