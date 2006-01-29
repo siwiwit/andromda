@@ -30,7 +30,7 @@ public class $manageable.manageableValueObjectClassName
 #end
 #foreach ($member in $manageable.manageableAssociationEnds)
 #if (!$manageable.generalization.manageableAssociationEnds.contains($member))## do not process associations defined in an ancestor
-#set ($fieldType = $member.type.manageableIdentifier.type.fullyQualifiedName)
+#set ($fieldType = $member.type.identifiers.iterator().next().type.fullyQualifiedName)
 #if ($member.many)
 #set ($fieldType = "${fieldType}[]")
 #end
@@ -46,7 +46,7 @@ public class $manageable.manageableValueObjectClassName
         this.$member.name = $member.name;
     }
 
-#if ($member.type.displayAttribute.name != $member.type.manageableIdentifier.name)
+#if ($member.type.displayAttribute.name != $member.type.identifiers.iterator().next().name)
 #set ($fieldType = $member.type.displayAttribute.type.fullyQualifiedName)
 #set ($labelSuffix = "Label")
 #if ($member.many)
