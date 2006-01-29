@@ -130,6 +130,7 @@
     <property reference="server-config"/>
     <property reference="server-test"/>
     <property reference="server-test-config"/>
+    <property reference="criteria"/>
     <property reference="merge-mappings"/>
     <property reference="applicationContextServerAuthentication"/>
     <property reference="applicationContextClientAuthentication"/>
@@ -971,7 +972,7 @@
     <template
         path="templates/spring/hibernate/SearchCriteria.vsl"
         outputPattern="{0}/{1}.java"
-        outlet="daos"
+        outlet="$outlet"
         overwrite="true">
         <modelElements variable="class">
             <modelElement stereotype="CRITERIA"/>

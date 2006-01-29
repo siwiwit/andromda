@@ -24,6 +24,12 @@
                     the value objects to (returned by the services to the client).
                 </documentation>
             </property>
+            <property name="criteria" required="false">
+                <documentation>
+                    The location to which search criteria classes are being generated. If you do not specify this
+                    outlet criteria classes will be generated to the <code>daos</code> outlet.
+                </documentation>
+            </property>
             <property name="services">
                 <documentation>
                     The location to which all service classes (including the service locator(s))
