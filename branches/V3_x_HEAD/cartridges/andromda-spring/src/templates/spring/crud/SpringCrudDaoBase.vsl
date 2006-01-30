@@ -259,7 +259,7 @@ public final class $manageable.manageableDaoBaseName
     public $manageable.fullyQualifiedEntityName update($memberList)
     {
 #set ($identifier = $manageable.manageableIdentifier)
-        final $manageable.fullyQualifiedEntityName entity =#if($manageable.fullyQualifiedName != $manageable.fullyQualifiedEntityName) (${manageable.fullyQualifiedName})#end this.getDao().load($identifier.name);
+        final $manageable.fullyQualifiedEntityName entity =#if($manageable.fullyQualifiedName != $manageable.generalizationRoot.fullyQualifiedName) (${manageable.fullyQualifiedName})#end this.getDao().load($identifier.name);
 
 #foreach ($member in $manageable.manageableAttributes)
 #if (!$member.equals($identifier))## the identifier is already present since we loaded the entity
@@ -279,7 +279,7 @@ public final class $manageable.manageableDaoBaseName
         $member.type.fullyQualifiedName $memberEntityName = null;
         if ($member.name != null)
         {
-            $memberEntityName =#if($member.type.fullyQualifiedName != $member.type.fullyQualifiedEntityName) (${member.type.fullyQualifiedName})#end ${member.daoGetterName}().load($member.name);
+            $memberEntityName =#if($member.type.fullyQualifiedName != $member.type.generalizationRoot.fullyQualifiedName) (${member.type.fullyQualifiedName})#end ${member.daoGetterName}().load($member.name);
         }
 #end
 #if ($member.required)
