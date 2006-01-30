@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 
-<!-- contains the hibernate cartridge metafacade mappings -->
+<!-- contains the spring cartridge metafacade mappings -->
 <metafacades>
     <property reference="hibernateVersion"/>
     <property reference="hibernateXMLPersistence"/>
