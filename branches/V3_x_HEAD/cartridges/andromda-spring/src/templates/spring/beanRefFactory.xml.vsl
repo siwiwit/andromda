@@ -42,9 +42,11 @@
 #if ($springUtils.localEjbsPresent($services))
                 <value>$stringUtils.replace($applicationContextLocalEjb, '/', '.')</value>
 #end
+                <!-- beanRefFactoryEjb merge-point -->
            </list>
         </constructor-arg>
     </bean>
 #end
-
+    <!-- beanRefFactoryEjbXml merge-point -->
+    
 </beans>
