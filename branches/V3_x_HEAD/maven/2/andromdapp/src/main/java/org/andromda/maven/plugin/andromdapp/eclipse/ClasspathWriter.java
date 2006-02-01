@@ -44,7 +44,7 @@ public class ClasspathWriter
 
     /**
      * Writes the .classpath file for eclipse.
-     * 
+     *
      * @param projects the list of projects from which the .classpath will get its dependencies.
      * @param repositoryVariableName the name of the maven repository variable.
      * @param artifactFactory the factory for constructing artifacts.
@@ -221,10 +221,20 @@ public class ClasspathWriter
         for (final Iterator iterator = allArtifactPaths.iterator(); iterator.hasNext();)
         {
             final String path = (String)iterator.next();
-            this.writeClasspathEntry(
-                writer,
-                "var",
-                path);
+            if (path.startsWith(repositoryVariableName))
+            {
+                this.writeClasspathEntry(
+                    writer,
+                    "var",
+                    path);
+            }
+            else
+            {
+                this.writeClasspathEntry(
+                    writer,
+                    "lib",
+                    path);
+            }
         }
 
         this.writeClasspathEntry(
@@ -247,7 +257,7 @@ public class ClasspathWriter
             writer,
             "output",
             outputPath);
-        
+
         if (StringUtils.isNotBlank(merge))
         {
             writer.writeMarkup(merge);
