@@ -391,7 +391,7 @@
                         Netscape's guide to regular expressions in Javascript</a>
                     </p>
                 </documentation>
-                <value>@andromda.presentation.web.view.field.format</value>
+                <value>@andromda.presentation.view.field.format</value>
                 <appliedOnElement>Parameter coming out of an action state carrying the <![CDATA[<<FrontEndView>>]]> stereotype</appliedOnElement>
                 <allowedValues>
                     <value>Any of the formats listed above</value>
