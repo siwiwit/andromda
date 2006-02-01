@@ -892,7 +892,11 @@ public class SchemaTransformer
         String baseClass)
     {
         Collection stereotypes = new HashSet();
-        String[] stereotypeNames = names.split(",");
+        String[] stereotypeNames = null;
+        if (names != null)
+        {
+            stereotypeNames = names.split(",");
+        }
         if (stereotypeNames != null && stereotypeNames.length > 0)
         {
             for (int ctr = 0; ctr < stereotypeNames.length; ctr++)
