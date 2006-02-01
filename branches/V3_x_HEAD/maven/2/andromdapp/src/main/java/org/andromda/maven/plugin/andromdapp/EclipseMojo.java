@@ -129,6 +129,12 @@ public class EclipseMojo
      */
     private boolean resolveTransitiveDependencies = true;
    
+    /**
+     * Allows non-generated configuration to be "merged" into the generated .classpath file.
+     * 
+     * @parameter
+     */
+    private String classpathMerge;
 
     /**
      * @see org.apache.maven.plugin.Mojo#execute()
@@ -147,6 +153,7 @@ public class EclipseMojo
             {
                 final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
                         this.getLog());
+                System.out.println("the classpath merge!!!: " + this.classpathMerge);
                 classpathWriter.write(
                     projects,
                     this.repositoryVariableName,
@@ -156,7 +163,8 @@ public class EclipseMojo
                     this.artifactMetadataSource,
                     this.classpathArtifactTypes,
                     this.project.getRemoteArtifactRepositories(),
-                    this.resolveTransitiveDependencies);
+                    this.resolveTransitiveDependencies,
+                    this.classpathMerge);
             }
         }
         catch (Throwable throwable)
