@@ -153,7 +153,6 @@ public class EclipseMojo
             {
                 final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
                         this.getLog());
-                System.out.println("the classpath merge!!!: " + this.classpathMerge);
                 classpathWriter.write(
                     projects,
                     this.repositoryVariableName,
