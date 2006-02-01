@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<document>
+    <properties>
+        <author email="naresh@andromda.org">Naresh Bhatia</author>
+        <title>Model Your First Entity</title>
+    </properties>
+
+    <body>
+        <section name="Model Your First Entity">
+            <p>
+            </p>
+        </section>
+
+       <section name="What's Next?">
+            <p>
+                Click <a href="xyz.html">here</a> to ....
+            </p>
+       </section>
+    </body>
+</document>
