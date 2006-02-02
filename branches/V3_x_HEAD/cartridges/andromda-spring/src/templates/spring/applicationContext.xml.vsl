@@ -90,6 +90,7 @@
 #if ($stringUtils.isNotBlank($hibernateConnectionReleaseMode))
                 <prop key="hibernate.connection.release_mode">$hibernateConnectionReleaseMode</prop>
 #end
+                <!-- applicationContext hibernateProperties merge-point -->
             </props>
         </property>
     </bean>
