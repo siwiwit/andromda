@@ -280,6 +280,11 @@
             generates the drop and create DDL code and subsequently tells the database
             to drop and then create the schema for the entities
 
+        %> mvn -f core/pom.xml andromdapp:schema -Dtasks=update
+
+            attempts to update the database schema with incremental changes, might not work with all JDBC drivers
+            see http://www.hibernate.org/hib_docs/v3/reference/en/html_single/#toolsetguide-s1-6
+
         %> mvn -N andromdapp:build -Dmodules=mda:[andromda:start-server] (or mvn -f mda/pom.xml andromda:start-server)
 
             starts the AndroMDA server, with this server running you will be able
