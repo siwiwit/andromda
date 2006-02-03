@@ -117,14 +117,13 @@ public class HibernateUtils
     }
 
     /**
-     * Stores the version of Hibernate we're generating for.
+     * Denotes whether or not to make use of Hibernate 3 XML persistence support.
      */
     private String hibernateXmlPersistence;
 
     /**
-     * Sets the version of Hibernate we're generating for.
-     *
-     * @param hibernateVersion The version to set.
+     * @param hibernateXMLPersistence <code>true</code> when you to make use of Hibernate 3 XML persistence support,
+     *      <code>false</code> otherwise
      */
     public void setHibernateXMLPersistence(final String hibernateXMLPersistence)
     {
