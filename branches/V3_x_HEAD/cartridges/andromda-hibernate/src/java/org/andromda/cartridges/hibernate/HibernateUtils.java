@@ -32,7 +32,7 @@ public class HibernateUtils
             {
                 public void execute(Object object)
                 {
-                    if (object != null && Service.class.isAssignableFrom(object.getClass()))
+                    if (object instanceof Service)
                     {
                         allRoles.addAll(((Service)object).getAllRoles());
                     }
@@ -63,12 +63,7 @@ public class HibernateUtils
      */
     public String getHibernatePackage()
     {
-        String packageName = "org.hibernate";
-        if (!isVersion3())
-        {
-            packageName = "net.sf.hibernate";
-        }
-        return packageName;
+        return this.isVersion3() ? "org.hibernate" : "net.sf.hibernate";
     }
 
     /**
@@ -79,15 +74,7 @@ public class HibernateUtils
      */
     public String getHibernateUserTypePackage()
     {
-        StringBuffer packageName = new StringBuffer();
-        if (isVersion3())
-        {
-            packageName.append(".usertype");
-        }
-        packageName.insert(
-            0,
-            this.getHibernatePackage());
-        return packageName.toString();
+        return isVersion3() ? this.getHibernatePackage() + ".usertype" : this.getHibernatePackage();
     }
 
     /**
@@ -122,35 +109,26 @@ public class HibernateUtils
     private String hibernateXmlPersistence;
 
     /**
-     * @param hibernateXMLPersistence <code>true</code> when you to make use of Hibernate 3 XML persistence support,
+     * @param hibernateXmlPersistence <code>true</code> when you to make use of Hibernate 3 XML persistence support,
      *      <code>false</code> otherwise
      */
-    public void setHibernateXMLPersistence(final String hibernateXMLPersistence)
+    public void setHibernateXMLPersistence(final String hibernateXmlPersistence)
     {
-        this.hibernateXmlPersistence = hibernateXMLPersistence;
+        this.hibernateXmlPersistence = hibernateXmlPersistence;
     }
 
     public boolean isXmlPersistenceActive()
     {
         return isXmlPersistenceActive(
-            hibernateVersion,
-            hibernateXmlPersistence);
+            this.hibernateVersion,
+            this.hibernateXmlPersistence);
     }
 
     public static boolean isXmlPersistenceActive(
         String hibernateVersionPropertyValue,
         String hibernateXMLPersistencePropertyValue)
     {
-        boolean active = false;
-
-        if (isVersion3(hibernateVersionPropertyValue))
-        {
-            if (hibernateXMLPersistencePropertyValue != null)
-            {
-                active = hibernateXMLPersistencePropertyValue.equalsIgnoreCase("true");
-            }
-        }
-
-        return active;
+        return isVersion3(hibernateVersionPropertyValue) &&
+            "true".equalsIgnoreCase(hibernateXMLPersistencePropertyValue);
     }
 }
