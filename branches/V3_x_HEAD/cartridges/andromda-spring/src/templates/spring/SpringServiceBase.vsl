@@ -135,7 +135,7 @@ public abstract class $service.baseName
      * @return the current principal
      */
 #if ($externalPrincipalStoreClass)
-#set ($principalStoreCall = "${externalPrincipalStoreClass}.${externalPrincipalStoreGetter};")
+#set ($principalStoreCall = "(${externalPrincipalStoreGetterType})${externalPrincipalStoreClass}.${externalPrincipalStoreGetter};")
 #set ($principalStoreType = ${externalPrincipalStoreGetterType})
 #else
 #set ($principalStoreCall = "${principalStoreName}.get();")
@@ -149,7 +149,7 @@ public abstract class $service.baseName
         return $principalStoreCall
     }
 #if ($service.webServiceOutgoingAttachmentHandlerCall)
-    
+
     /**
      * Adds an attachment in the webservice's outgoing response message (this only makes sense
      * when the operation this is called within is a web service exposed operation).
@@ -165,7 +165,7 @@ public abstract class $service.baseName
     }
 #end
 #if ($service.webServiceIncomingAttachmentHandlerCall)
-    
+
     /**
      * Retrieves any incoming attachments in the webservice's request message (this only makes sense
      * when the operation this is called within is a web service exposed operation).
