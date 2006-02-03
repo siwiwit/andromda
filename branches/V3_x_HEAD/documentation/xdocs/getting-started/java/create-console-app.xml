@@ -12,14 +12,14 @@
                 In this section we will try out the <code>PeopleService</code> using a simple console application.
 
                 <ol>
-                    <li>Download the <a href="resources\sample-code\timetracker\console1.zip">console application project</a>
-                    and unzip it in the timetracker directory (C:\timetracker). You will get a new directory
-                    called C:\timetracker\console. This directory contains three files - <code>project.xml</code>,
+                    <li>Download the <a href="resources/sample-code/timetracker/console1.zip">console application project</a>
+                    and unzip it in the timetracker directory (C:/timetracker). You will get a new directory
+                    called C:/timetracker/console. This directory contains three files - <code>project.xml</code>,
                     <code>maven.xml</code> (Maven project files) and <code>TimeTrackerConsole.java</code> (the console
-                    application, under src\java\org\andromda\timetracker\console).</li>
+                    application, under src/java/org/andromda/timetracker/console).</li>
 
-                    <li>Add two new targets in C:\timetracker\maven.xml (the top-level maven.xml file) - these targets allow
-                    you to build and run the console application from the C:\timetracker directory. The two new targets
+                    <li>Add two new targets in C:/timetracker/maven.xml (the top-level maven.xml file) - these targets allow
+                    you to build and run the console application from the C:/timetracker directory. The two new targets
                     are called <code>ttconsole</code> and <code>run</code>. Place these targets after the <code>mda</code>
                     target as shown below:
 <source language="xml"><![CDATA[
@@ -92,7 +92,7 @@ private static PersonVO createPerson(String username, String firstName, String l
                     target as follows: <code>maven -o run</code>. The console output
                     is shown below.
                         <pre class="console">
-C:\timetracker>maven -o run
+C:/timetracker>maven -o run
     ...
     [java] Person 1 created - nbhatia
     [java] Person 2 created - lcoude
@@ -105,7 +105,7 @@ C:\timetracker>maven -o run
 BUILD SUCCESSFUL
 Total time: 8 seconds
 Finished at: Mon Jan 30 01:41:58 EST 2006
-C:\timetracker>
+C:/timetracker>
                         </pre>
                     </li>
 

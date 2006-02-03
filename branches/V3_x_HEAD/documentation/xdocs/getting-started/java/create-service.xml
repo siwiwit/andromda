@@ -39,7 +39,7 @@
         <section name="Generate Code">
                 <p> Follow the steps below to generate code.
                     <ol>
-                        <li>Open a Command Prompt and change your directory to <code>C:\timetracker</code>.</li>
+                        <li>Open a Command Prompt and change your directory to <code>C:/timetracker</code>.</li>
                         <li>Execute the command <code>maven -o clean install</code>. Make sure you get a
                         <code>BUILD SUCCESSFUL</code> message.</li>
                     </ol>
@@ -75,7 +75,7 @@
             <p>
                 This section shows how to implement the 3 "handle" methods in <code>PeopleServiceImpl</code>.
                 Open the file <code>PeopleServiceImpl.java</code> under
-                C:\timetracker\core\src\java\org\andromda\timetracker\service and follow the instructions below.
+                C:/timetracker/core/src/java/org/andromda/timetracker/service and follow the instructions below.
             </p>
 
             <subsection name="handleCreatePerson()">
@@ -142,7 +142,7 @@ import org.andromda.timetracker.vo.PersonVO;
 
             <p>After implementing the code show above, save the file and compile the application.
                 <ol>
-                    <li>Open a Command Prompt and change your directory to <code>C:\timetracker</code>.</li>
+                    <li>Open a Command Prompt and change your directory to <code>C:/timetracker</code>.</li>
                     <li>Execute the command <code>maven -o install</code>. Make sure you get a
                     <code>BUILD SUCCESSFUL</code> message.</li>
                 </ol>

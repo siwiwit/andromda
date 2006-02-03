@@ -49,7 +49,7 @@
             <p>
                 Now let us enter the <code>Person</code> entity in the empty model that was created by the
                 AndroMDA application plugin. If you remember, this model was created at
-                timetracker\mda\src\uml\TimeTrackerModel.xmi. Please follow one of the links below to edit
+                timetracker/mda/src/uml/TimeTrackerModel.xmi. Please follow one of the links below to edit
                 the model with the UML tool of your choice. (There is only one choice at the time of this writing.)
             </p>
 
@@ -61,7 +61,7 @@
         <section name="Generate Code">
                 <p> Follow the steps below to generate code.
                     <ol>
-                        <li>Open a Command Prompt and change your directory to <code>C:\timetracker</code>.</li>
+                        <li>Open a Command Prompt and change your directory to <code>C:/timetracker</code>.</li>
                         <li>Execute the command <code>maven -o install</code>. As mentioned earlier, the <code>-o</code>
                             option instructs maven to run in "offline" mode, using the libraries in the local
                             repository. This allows the build to run much faster. Make sure you get a
@@ -70,7 +70,7 @@
                 </p>
 
                 <p>
-                    Open the folder C:\timetracker\core\target\src\org\andromda\timetracker\domain in Windows Explorer.
+                    Open the folder C:/timetracker/core/target/src/org/andromda/timetracker/domain in Windows Explorer.
                     Note that there are 6 files generated in this folder as a result of creating the single
                     <code>Person</code> entity in the application model.
                     <ol>
@@ -129,7 +129,7 @@
 
         <section name="Create the Schema">
             <p>In addition to the entity and DAO classes shown above, AndroMDA automatically generates DDL
-            to create tables in your database. This DDL is located at C:\timetracker\core\target\schema-create.sql.
+            to create tables in your database. This DDL is located at C:/timetracker/core/target/schema-create.sql.
             Open this file and review its contents. You should see the SQL to create the <code>PERSON</code> table.
             Follow the steps below to create this table in your database.
 
@@ -139,7 +139,7 @@
                 </p>
 
                 <ol>
-                    <li>Open a Command Prompt and change your directory to <code>C:\timetracker</code>.</li>
+                    <li>Open a Command Prompt and change your directory to <code>C:/timetracker</code>.</li>
                     <li>Execute the command <code>maven -o create-schema</code>. This will create the
                     <code>PERSON</code> table in your database. Use your database utilities to verify
                     that the table has indeed been created.</li>

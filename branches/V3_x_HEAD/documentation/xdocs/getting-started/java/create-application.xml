@@ -16,8 +16,8 @@
 
                 <ol>
                     <li>Open a Command Prompt and change directory to any directory where you would like
-                        to create the application folder. In this example, we have chosen the C:\ directory
-                        for this purpose. The application will be created in the directory C:\timetracker.</li>
+                        to create the application folder. In this example, we have chosen the C:/ directory
+                        for this purpose. The application will be created in the directory C:/timetracker.</li>
                     <li>Now execute the following command to generate the starter application. Answer the
                         questions exactly as shown in the output that follows. You are allowed to enter your
                         own name in response to the first question :-).
@@ -66,61 +66,61 @@ andromdapp:generate:
     [echo] +---------------------------------------------------------------------+
     [echo] |   G E N E R A T I N G   A n d r o M D A   J 2 E E   P R O J E C T   |
     [echo] +---------------------------------------------------------------------+
-    [mkdir] Created dir: C:\timetracker
-    [copy] Copying 1 file to C:\timetracker
+    [mkdir] Created dir: C:/timetracker
+    [copy] Copying 1 file to C:/timetracker
 andromdapp:init:
 
 andromdapp:generate-app-subproject:
 andromdapp:generate-module:
-    [mkdir] Created dir: C:\timetracker\app
-    [copy] Copying 2 files to C:\timetracker\app
+    [mkdir] Created dir: C:/timetracker/app
+    [copy] Copying 2 files to C:/timetracker/app
 
-    [mkdir] Created dir: C:\timetracker\app\src\META-INF
+    [mkdir] Created dir: C:/timetracker/app/src/META-INF
 
 andromdapp:init:
 
 andromdapp:generate-spring-subproject:
-    [mkdir] Created dir: C:\timetracker\core
+    [mkdir] Created dir: C:/timetracker/core
 andromdapp:init:
 
 andromdapp:generate-core-subproject:
 andromdapp:generate-module:
 
-    [mkdir] Created dir: C:\timetracker\core\src\java
-    [mkdir] Created dir: C:\timetracker\core\target\src
+    [mkdir] Created dir: C:/timetracker/core/src/java
+    [mkdir] Created dir: C:/timetracker/core/target/src
 
 
 andromdapp:init:
 
 andromdapp:generate-common-subproject:
 andromdapp:generate-module:
-    [mkdir] Created dir: C:\timetracker\common
+    [mkdir] Created dir: C:/timetracker/common
 
-    [mkdir] Created dir: C:\timetracker\common\src\java
-    [mkdir] Created dir: C:\timetracker\common\target\src
+    [mkdir] Created dir: C:/timetracker/common/src/java
+    [mkdir] Created dir: C:/timetracker/common/target/src
 
 andromdapp:init:
 
 andromdapp:generate-mda-subproject:
-    [mkdir] Created dir: C:\timetracker\mda\src\uml
-    [copy] Copying 1 file to C:\timetracker\mda\src\uml
-    [mkdir] Created dir: C:\timetracker\mda\conf
-    [copy] Copying 1 file to C:\timetracker\mda
-    [mkdir] Created dir: C:\timetracker\mda\conf\mappings
+    [mkdir] Created dir: C:/timetracker/mda/src/uml
+    [copy] Copying 1 file to C:/timetracker/mda/src/uml
+    [mkdir] Created dir: C:/timetracker/mda/conf
+    [copy] Copying 1 file to C:/timetracker/mda
+    [mkdir] Created dir: C:/timetracker/mda/conf/mappings
 
 andromdapp:init:
 
 andromdapp:generate-web-subproject:
 andromdapp:generate-module:
-    [mkdir] Created dir: C:\timetracker\web
+    [mkdir] Created dir: C:/timetracker/web
 
-    [mkdir] Created dir: C:\timetracker\web\src\java
-    [mkdir] Created dir: C:\timetracker\web\target\src
+    [mkdir] Created dir: C:/timetracker/web/src/java
+    [mkdir] Created dir: C:/timetracker/web/target/src
 
     [echo] |
-    [echo] |  New J2EE project generated to: 'C:\/timetracker'
+    [echo] |  New J2EE project generated to: 'C://timetracker'
     [echo] |
-    [echo] |  For more information on how to proceed from here read 'C:\/timetracker/readme.txt'
+    [echo] |  For more information on how to proceed from here read 'C://timetracker/readme.txt'
     [echo] |
 BUILD SUCCESSFUL
 Total time: 5 minutes 47 seconds
@@ -151,7 +151,7 @@ timetracker
                     build process and common properties.</li>
 
                     <li><strong>mda:</strong> The mda project is the most important sub-project of the
-                    application. It houses the TimeTracker UML model under the src\uml directory. The mda
+                    application. It houses the TimeTracker UML model under the src/uml directory. The mda
                     project is also where AndroMDA is configured to generate the files needed to assemble
                     the application.</li>
 
@@ -183,7 +183,7 @@ timetracker
                 below to disable EJBs.
 
                 <ol>
-                    <li>Edit the AndroMDA configuration file located at timetracker\mda\conf\andromda.xml.</li>
+                    <li>Edit the AndroMDA configuration file located at timetracker/mda/conf/andromda.xml.</li>
                     <li>Under the <code>spring</code> namespace, comment out the properties called <code>dataSource</code>
                         and <code>session-ejbs</code>.</li>
                 </ol>
@@ -202,7 +202,7 @@ timetracker
 
             <p>We will make one more modification to reduce the verbosity of the application output.
                 <ol>
-                    <li>Edit the file C:\timetracker\mda\project.properties.</li>
+                    <li>Edit the file C:/timetracker/mda/project.properties.</li>
                     <li>Change the value of the property <code>hibernate.db.showSql</code> from
                     <code>true</code> to <code>false</code>.</li>
                 </ol>
@@ -235,7 +235,7 @@ timetracker
                     </ol>
                 </p>
 
-                <p>Edit the file timetracker\project.properties and change the values of database properties to match your
+                <p>Edit the file timetracker/project.properties and change the values of database properties to match your
                 environment. A sample project.properties file is shown below:</p>
                     <pre class="console">
 # set this to true will deploy the ear exploded
@@ -294,7 +294,7 @@ hibernate.db.dialect=org.hibernate.dialect.MySQLDialect
                     </ol>
                 </p>
 
-                <p>Edit the file timetracker\project.properties and change the values of database properties to match your
+                <p>Edit the file timetracker/project.properties and change the values of database properties to match your
                 environment. A sample project.properties file is shown below:</p>
                     <pre class="console">
 # set this to true will deploy the ear exploded
@@ -349,7 +349,7 @@ hibernate.db.dialect=org.hibernate.dialect.PostgreSQLDialect
                     </ol>
                 </p>
 
-                <p>Edit the file timetracker\project.properties and change the values of database properties to match your
+                <p>Edit the file timetracker/project.properties and change the values of database properties to match your
                 environment. A sample project.properties file is shown below:</p>
                     <pre class="console">
 # set this to true will deploy the ear exploded
@@ -396,14 +396,14 @@ hibernate.db.dialect=org.hibernate.dialect.Oracle9Dialect
                 model is blank, no code will be generated. However getting the dependencies now is important
                 since we will need them very soon. Follow the steps below to download the required dependencies.
                 <ol>
-                    <li>Open a Command Prompt and change your directory to <code>C:\timetracker</code>.</li>
+                    <li>Open a Command Prompt and change your directory to <code>C:/timetracker</code>.</li>
                     <li>Execute the command <code>maven install</code>. You will see messages on your screen showing
                         artifacts that are being downloaded. Make sure you get a <code>BUILD SUCCESSFUL</code>
                         message when the Maven script ends.</li>
                 </ol>
                 <p>A partial run of maven is shown below:</p>
                     <pre class="console">
-C:\timetracker>maven install
+C:/timetracker>maven install
  __  __
 |  \/  |__ _Apache__ ___
 | |\/| / _` \ V / -_) ' \  ~ intelligent projects ~
@@ -434,7 +434,7 @@ INFO  [App] BUILD SUCCESSFUL
 INFO  [App] Total time: 2 minutes 48 seconds
 INFO  [App] Finished at: Sat Jan 28 18:52:31 EST 2006
 INFO  [App]
-C:\timetracker>
+C:/timetracker>
                     </pre>
                 Note that it takes a significant amount of time for maven to look up all the dependencies
                 in remote repositories and download them to your machine. However this process is not

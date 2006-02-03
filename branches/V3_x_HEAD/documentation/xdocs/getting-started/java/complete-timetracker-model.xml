@@ -100,7 +100,7 @@
             </p>
 
             <p>Now generate code for your modified model by executing the command <code>maven -o clean install</code>.
-            Open the file <code>PersonDaoBase.java</code> under core\target\src\org\andromda\timetracker\domain. You
+            Open the file <code>PersonDaoBase.java</code> under core/target/src/org/andromda/timetracker/domain. You
             will find that AndroMDA has completely implemented the <code>findByUsername()</code> method in this file.
             The Hibernate query that it generates is shown below.</p>
 
@@ -114,7 +114,7 @@ public Object findByUsername(final int transform, final java.lang.String usernam
 </source>
 
             <p>Now let us complete the implementation of the <code>addTimeAllocation()</code> method.
-            Open the file <code>TimecardImpl.java</code> under the src tree (core\src\java\org\andromda\timetracker\domain).
+            Open the file <code>TimecardImpl.java</code> under the src tree (core/src/java/org/andromda/timetracker/domain).
             Locate the dummy implementation of <code>addTimeAllocation()</code> and replace it with the one
             below. This implementation makes sure that <code>Timecard</code> and <code>TimeAllocation</code>
             both have references to each other.</p>
@@ -175,7 +175,7 @@ public void addTimeAllocation(org.andromda.timetracker.domain.TimeAllocation tim
         <section name="Create the Schema">
             <p>Now that the structure of our entities is pretty much finalized, we can create the corresponding
             schema in the database. As you may remember, AndroMDA automatically generates DDL for you. This DDL
-            is located at C:\timetracker\core\target\schema-create.sql. Open this file and review its contents.
+            is located at C:/timetracker/core/target/schema-create.sql. Open this file and review its contents.
             You should see the SQL to create all the needed tables and constraints. Execute the command
             <code>maven -o create-schema</code> to create this schema in your database.
 

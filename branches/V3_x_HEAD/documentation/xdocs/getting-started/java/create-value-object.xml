@@ -43,7 +43,7 @@
         <section name="Generate Code">
                 <p> Follow the steps below to generate code.
                     <ol>
-                        <li>Open a Command Prompt and change your directory to <code>C:\timetracker</code>.</li>
+                        <li>Open a Command Prompt and change your directory to <code>C:/timetracker</code>.</li>
                         <li>Execute the command <code>maven -o clean install</code>. The <code>clean</code> target
                         ensures that the target directories are cleaned up before the build. Make sure you get a
                         <code>BUILD SUCCESSFUL</code> message.</li>
@@ -51,12 +51,12 @@
                 </p>
 
                 <p>
-                    Open the folder C:\timetracker\common\target\src\org\andromda\timetracker\vo in Windows Explorer.
+                    Open the folder C:/timetracker/common/target/src/org/andromda/timetracker/vo in Windows Explorer.
                     Note that the <code>PersonVO</code> class is generated here. Open the class and review its contents.
                 </p>
 
                 <p>
-                    Now open the folder C:\timetracker\core\target\src\org\andromda\timetracker\domain in Windows Explorer.
+                    Now open the folder C:/timetracker/core/target/src/org/andromda/timetracker/domain in Windows Explorer.
                     Do you remember that this folder had six auto-generated files during the last build? This time it has
                     only five - <code>PersonDaoImpl.java</code> is missing! What happened? In fact, this class has
                     now moved from the target folder to the src folder. The reason is that we added a dependency from
@@ -65,7 +65,7 @@
                     <code>Person</code> and <code>PersonVO</code>. Most of this code is in the auto-generated
                     <code>PersonDaoBase</code> class. However if we need to modify the default translation, AndroMDA provides
                     override methods in the <code>PersonDaoImpl</code> class. In addition, the class is moved to the source
-                    tree where it can be safely modified (see C:\timetracker\core\src\java\org\andromda\timetracker\domain).
+                    tree where it can be safely modified (see C:/timetracker/core/src/java/org/andromda/timetracker/domain).
                     Review the <code>PersonDaoBase</code> and <code>PersonDaoImpl</code> classes to see this conversion support.
                 </p>
         </section>

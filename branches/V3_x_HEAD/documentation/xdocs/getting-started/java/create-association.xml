@@ -58,14 +58,14 @@
         <section name="Generate Code">
             <p> Follow the steps below to generate code.
                 <ol>
-                    <li>Open a Command Prompt and change your directory to <code>C:\timetracker</code>.</li>
+                    <li>Open a Command Prompt and change your directory to <code>C:/timetracker</code>.</li>
                     <li>Execute the command <code>maven -o clean install</code>. Make sure you get a
                     <code>BUILD SUCCESSFUL</code> message.</li>
                 </ol>
             </p>
 
             <p>
-                Open the folder C:\timetracker\core\target\src\org\andromda\timetracker\domain in Windows Explorer.
+                Open the folder C:/timetracker/core/target/src/org/andromda/timetracker/domain in Windows Explorer.
                 You will see 7 new files in there all related to the timecard entity. Review these files. Note that
                 the <code>Timecard</code> class contains two references to the <code>Person</code> class, but the
                 <code>Person</code> class contains no references to the <code>Timecard</code> class. This is because

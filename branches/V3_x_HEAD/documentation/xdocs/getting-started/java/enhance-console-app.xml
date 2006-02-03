@@ -15,9 +15,9 @@
 
                 <ol>
                     <li>Download the enhanced console application from
-                    <a href="resources\sample-code\timetracker\TimeTrackerConsole.java">here</a>
+                    <a href="resources/sample-code/timetracker/TimeTrackerConsole.java">here</a>
                     and replace the existing copy of <code>TimeTrackerConsole.java</code> at
-                    C:\timetracker\console\src\java\org\andromda\timetracker\console.</li>
+                    C:/timetracker/console/src/java/org/andromda/timetracker/console.</li>
 
                     <li>Review the <code>main()</code> method in <code>TimeTrackerConsole.java</code>.
 <source language="java">
@@ -104,7 +104,7 @@ import org.andromda.timetracker.vo.*;
                 <code>maven -o core</code> and run the application using <code>maven -o run</code>.
                 Output from this run is shown below.
                         <pre class="console">
-C:\timetracker>maven -o run
+C:/timetracker>maven -o run
     ...
     [java] Person 1 created - nbhatia
     [java] Person 2 created - lcoude
@@ -141,7 +141,7 @@ protected org.andromda.timetracker.vo.TaskVO[] handleGetAllTasks()
                 start with a clean database. Now run the application by executing <code>maven -o run</code>.
                 Output from this run is shown below.
                         <pre class="console">
-C:\timetracker>maven -o run
+C:/timetracker>maven -o run
     ...
     [java] Person 1 created - nbhatia
     [java] Person 2 created - lcoude
@@ -165,7 +165,7 @@ C:\timetracker>maven -o run
                 clear that <code>timeTrackingService.createTimecard()</code> is returning <code>null</code>.
                 The reason is that <code>createTimecard()</code> has not been implemented in
                 <code>TimeTrackingService</code>. So open <code>TimeTrackingServiceImpl.java</code>
-                under C:\timetracker\core\src\java\org\andromda\timetracker\service and
+                under C:/timetracker/core/src/java/org/andromda/timetracker/service and
                 implement <code>handleCreateTimecard()</code> as follows:</p>
 
 <source language="java"><![CDATA[
@@ -205,7 +205,7 @@ C:\timetracker>maven -o run
                 AndroMDA does not handle conversion of embedded values when converting
                 VOs to entities and vice-versa. We will need to write some custom code
                 in <code>TimeAllocationDaoImpl.java</code> to do that conversion. This
-                file is generated in the directory C:\timetracker\core\src\java\org\andromda\timetracker\domain.
+                file is generated in the directory C:/timetracker/core/src/java/org/andromda/timetracker/domain.
                 Make the following modifications to the file:
                 <ol>
                     <li>Add the following import statements after the package statement.
