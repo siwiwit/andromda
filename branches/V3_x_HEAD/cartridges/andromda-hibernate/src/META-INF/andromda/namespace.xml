@@ -403,18 +403,19 @@
             <property name="hibernateXMLPersistence">
                 <default>false</default>
                 <documentation>
-                    Set to <i>TRUE</i> to enable Hibernate's 
+                    Set to <code>true</code> to enable Hibernate's
                     <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a> 
-                    using dom4J. "hibernateVersion" must be set to "3"
+                    using dom4J. The <code>hibernateVersion</code> namespace property must be set to <code>3</code>.
                 </documentation>
             </property>
             <property name="hibernateXMLPersistIDAsAttribute">
                 <default>true</default>
                 <documentation>
-                    Set to <i>TRUE</i> to if the identifier for generated entities should be mapped to an <i>attribute</i>
-                    of the entities XML tag, or as a separate field when 
+                    Set to <code>true</code> if the identifier for generated entities should be mapped
+                    to an <i>attribute</i> of the entity's XML tag, or as a separate field when
                     <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a> 
-                    is enabled. "hibernateXMLPersistence" must be set to "true" for this option to have meaning.
+                    is enabled. The <code>hibernateXMLPersistence</code> namespace property must be set
+                    to <code>true</code> for this option to have meaning.
                 </documentation>
             </property>
             <property name="defaultHibernateGeneratorClass">
