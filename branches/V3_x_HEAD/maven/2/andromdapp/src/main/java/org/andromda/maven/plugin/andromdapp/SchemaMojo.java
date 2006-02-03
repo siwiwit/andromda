@@ -565,7 +565,7 @@ public class SchemaMojo
 
     static
     {
-        // - initialize the hibernat taks types
+        // - initialize the hibernate task types
         final Map hibernateTasks = new LinkedHashMap();
         tasksCache.put(
             "hibernate",
