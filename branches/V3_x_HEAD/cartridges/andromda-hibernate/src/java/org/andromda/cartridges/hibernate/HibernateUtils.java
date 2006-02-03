@@ -89,10 +89,10 @@ public class HibernateUtils
             this.getHibernatePackage());
         return packageName.toString();
     }
-    
+
     /**
      * Indicates whether or not Hibernate 3 is enabled.
-     * 
+     *
      * @return true/false
      */
     public boolean isVersion3()
@@ -100,16 +100,22 @@ public class HibernateUtils
         return isVersion3(this.hibernateVersion);
     }
 
-    
-    static public boolean isVersion3(String hibernateVersionPropertyValue) 
+    /**
+     * Indicates whether or not the given property value is version 3 or not.
+     *
+     * @param hibernateVersionPropertyValue the value of the property
+     * @return true/false
+     */
+    public static boolean isVersion3(String hibernateVersionPropertyValue)
     {
+        boolean version3 = false;
         if (hibernateVersionPropertyValue != null)
-            return hibernateVersionPropertyValue.equals(HibernateGlobals.HIBERNATE_VERSION_3);
-        else
-            return false;
+        {
+            version3 = hibernateVersionPropertyValue.equals(HibernateGlobals.HIBERNATE_VERSION_3);
+        }
+        return version3;
     }
-    
-    
+
     /**
      * Stores the version of Hibernate we're generating for.
      */
@@ -124,25 +130,28 @@ public class HibernateUtils
     {
         this.hibernateXmlPersistence = hibernateXMLPersistence;
     }
-    
-    
-    public boolean isXmlPersistenceActive() {
-        return isXmlPersistenceActive(hibernateVersion, hibernateXmlPersistence);
+
+    public boolean isXmlPersistenceActive()
+    {
+        return isXmlPersistenceActive(
+            hibernateVersion,
+            hibernateXmlPersistence);
     }
-    
-    
-    static public boolean isXmlPersistenceActive(String hibernateVersionPropertyValue,
-                                                 String hibernateXMLPersistencePropertyValue) {
+
+    public static boolean isXmlPersistenceActive(
+        String hibernateVersionPropertyValue,
+        String hibernateXMLPersistencePropertyValue)
+    {
         boolean active = false;
-        
-        if (isVersion3(hibernateVersionPropertyValue)) 
+
+        if (isVersion3(hibernateVersionPropertyValue))
         {
             if (hibernateXMLPersistencePropertyValue != null)
+            {
                 active = hibernateXMLPersistencePropertyValue.equalsIgnoreCase("true");
-            
+            }
         }
-        
+
         return active;
-    }    
-    
+    }
 }
