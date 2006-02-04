@@ -140,18 +140,18 @@ public final class $enumeration.enumerationName
     /**
      * @see ${hibernateUtils.hibernateUserTypePackage}.UserType#disassemble(Object value)
      */
-     public java.io.Serializable disassemble(Object value)
-     {
+    public java.io.Serializable disassemble(Object value)
+    {
         return (java.io.Serializable)value;
-     }
+    }
 
     /**
      * @see ${hibernateUtils.hibernateUserTypePackage}.UserType#hashCode(Object value)
      */
-     public int hashCode(Object value)
-     {
+    public int hashCode(Object value)
+    {
         return value.hashCode();
-     }
+    }
 
     /**
      * @see ${hibernateUtils.hibernateUserTypePackage}.EnhancedUserType#objectToSQLString(Object object)
