@@ -18,7 +18,7 @@
     <namespaces>
         <namespace name="hibernate">
             <properties>
-                <property name="hibernateVersion">2</property>
+                <property name="hibernateVersion">3</property>
                 <property name="hibernateEnableCache">false</property>
                 <property name="languageMappingsUri">Java</property>
                 <property name="wrapperMappingsUri">JavaWrapper</property>

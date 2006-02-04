@@ -22,7 +22,11 @@ public final class $enumeration.enumerationName
     extends $enumeration.name
     implements java.io.Serializable,
                java.lang.Comparable,
+#if ($hibernateUtils.version3)
+               ${hibernateUtils.hibernateUserTypePackage}.EnhancedUserType
+#else
                ${hibernateUtils.hibernateUserTypePackage}.UserType
+#end
 {
 
     private static final int[] SQL_TYPES = {Types.VARCHAR};
@@ -134,7 +138,7 @@ public final class $enumeration.enumerationName
     }
 
     /**
-     * @see ${hibernateUtils.hibernateUserTypePackage}.UserType#assemble(Object value)
+     * @see ${hibernateUtils.hibernateUserTypePackage}.UserType#disassemble(Object value)
      */
      public java.io.Serializable disassemble(Object value)
      {
@@ -142,11 +146,36 @@ public final class $enumeration.enumerationName
      }
 
     /**
-     * @see ${hibernateUtils.hibernateUserTypePackage}.UserType#assemble(Object value)
+     * @see ${hibernateUtils.hibernateUserTypePackage}.UserType#hashCode(Object value)
      */
-     public int hashCode(Object x)
+     public int hashCode(Object value)
      {
-        return x.hashCode();
+        return value.hashCode();
      }
+
+    /**
+     * @see ${hibernateUtils.hibernateUserTypePackage}.EnhancedUserType#objectToSQLString(Object object)
+     */
+    public String objectToSQLString(Object object)
+    {
+        return (($enumeration.fullyQualifiedName)object).getValue();
+    }
+
+    /**
+     * @see ${hibernateUtils.hibernateUserTypePackage}.EnhancedUserType#toXMLString(Object object)
+     */
+    public String toXMLString(Object object)
+    {
+        return (($enumeration.fullyQualifiedName)object).getValue();
+    }
+
+    /**
+     * @see ${hibernateUtils.hibernateUserTypePackage}.EnhancedUserType#fromXMLString(String string)
+     */
+    public Object fromXMLString(String string)
+    {
+        return ${enumeration.fullyQualifiedName}.fromString(string);
+    }
+
 #end
 }
