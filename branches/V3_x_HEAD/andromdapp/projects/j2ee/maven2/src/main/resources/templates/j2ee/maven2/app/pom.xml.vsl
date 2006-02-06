@@ -85,6 +85,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>${application.id}-${pom.version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/config</directory>
