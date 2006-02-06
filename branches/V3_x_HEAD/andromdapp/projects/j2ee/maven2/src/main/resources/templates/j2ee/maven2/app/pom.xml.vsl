@@ -94,7 +94,7 @@
             </resource>
             <resource>
                 <directory>src/main/application</directory>
-                <targetPath>../${pom.artifactId}-${pom.version}</targetPath>
+                <targetPath>../${application.id}-${pom.version}</targetPath>
                 <filtering>true</filtering>
             </resource>
         </resources>
