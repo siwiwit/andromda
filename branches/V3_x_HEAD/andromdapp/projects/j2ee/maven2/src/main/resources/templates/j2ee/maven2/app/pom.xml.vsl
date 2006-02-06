@@ -122,14 +122,14 @@
                         <webModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-web</artifactId>
-                            <contextRoot>/${applicationId}</contextRoot>
+                            <contextRoot>/${application.id}</contextRoot>
                         </webModule>
 #end
 #if ($webservice)
                         <webModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-webservice</artifactId>
-                            <contextRoot>/${applicationId}-ws</contextRoot>
+                            <contextRoot>/${application.id}-ws</contextRoot>
                         </webModule>
 #end
 #if ($workflow)
