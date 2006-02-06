@@ -285,6 +285,11 @@
             attempts to update the database schema with incremental changes, might not work with all JDBC drivers
             see http://www.hibernate.org/hib_docs/v3/reference/en/html_single/#toolsetguide-s1-6
 
+        %> mvn -f core/pom.xml andromdapp:schema -Dtasks=validate
+
+            validates the current Hibernate mappings against the database, you can also use this to simply
+            check whether or not the mappings have been properly generated (in case of customizations)
+
         %> mvn -N andromdapp:build -Dmodules=mda:[andromda:start-server] (or mvn -f mda/pom.xml andromda:start-server)
 
             starts the AndroMDA server, with this server running you will be able
