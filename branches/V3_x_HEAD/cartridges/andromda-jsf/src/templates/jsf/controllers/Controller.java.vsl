@@ -25,6 +25,10 @@ $operation.getDocumentation("     * ")
      */
     protected $action.fullyQualifiedFormImplementationName $action.formImplementationGetter
     {
+        // - we do this in the case a button that submitted the form was set to immediate (this should be removed 
+        //   when we found a better way to handle this).
+        final javax.faces.component.UIForm uiForm = this.findForm(this.getContext().getViewRoot(), "$action.formBeanName");
+        this.populateComponentInputs(uiForm);
         return ($action.fullyQualifiedFormImplementationName)this.resolveVariable("$action.formBeanName");
     }
     
@@ -337,6 +341,82 @@ $decisionTransition.getDocumentation("     * ")
         catch (final Throwable throwable)
         {
             throw new RuntimeException(throwable);
+        }
+    }
+    
+    /**
+     * Finds the form (if one is present) on the given <code>component</code> having the given
+     * <code>id</code>.
+     * 
+     * @param component the component to search.
+     * @param id the id of the form.
+     * @return the form or null if none was found.
+     */
+    private javax.faces.component.UIForm findForm(javax.faces.component.UIComponent component, String id)
+    {
+        javax.faces.component.UIForm foundForm = null;
+        if (component != null)
+        {
+            for (final java.util.Iterator iterator = component.getFacetsAndChildren(); iterator.hasNext();)
+            {
+                final Object object = (javax.faces.component.UIComponent)iterator.next();
+                if (object instanceof javax.faces.component.UIComponent)
+                {
+                    final javax.faces.component.UIComponent uiComponent = (javax.faces.component.UIComponent)object;
+                    if (uiComponent instanceof javax.faces.component.UIForm)
+                    {
+                        final javax.faces.component.UIForm form = (javax.faces.component.UIForm)uiComponent;
+                        if (form.getId().equals(id))
+                        {
+                            foundForm = form;
+                            break;
+                        }
+                    }
+                    foundForm = this.findForm(uiComponent, id);
+                    if (foundForm != null)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        return foundForm;
+    }
+    
+    /**
+     * If the given <code>component</code> has an child input elements, this method findds
+     * them all and populates them.  This is to get around the fact that when immediate is set to true
+     * on a button that submits the form that the form isn't populated.
+     * 
+     * @param component the component to populate.
+     */
+    private void populateComponentInputs(javax.faces.component.UIComponent component)
+    {
+        if (component != null)
+        {
+            for (final java.util.Iterator iterator = component.getFacetsAndChildren(); iterator.hasNext();)
+            {
+                final javax.faces.component.UIComponent uiComponent = (javax.faces.component.UIComponent)iterator.next();
+                if (uiComponent instanceof javax.faces.component.UIInput)
+                {
+                    try
+                    {
+                        final javax.faces.component.UIInput input = (javax.faces.component.UIInput)uiComponent;
+                        input.validate(this.getContext());
+                        input.updateModel(this.getContext());
+                    }
+                    catch (javax.faces.validator.ValidatorException exception)
+                    {
+                        // - ignore, no value is set (validate will be called by the regular
+                        //   JSF lifecycle processing anyway, this is just called to populate the
+                        //   local value
+                    }
+                }
+                else
+                {
+                    this.populateComponentInputs(uiComponent);
+                }
+            }
         }
     }
 #end
