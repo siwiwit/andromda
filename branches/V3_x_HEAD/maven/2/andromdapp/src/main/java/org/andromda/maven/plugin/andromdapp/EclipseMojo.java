@@ -203,6 +203,11 @@ public class EclipseMojo
                 }
                 final Set compileSourceRoots = new LinkedHashSet(project.getCompileSourceRoots());
                 compileSourceRoots.addAll(this.getExtraSourceDirectories(project));
+                final String testSourceDirectory = project.getBuild().getTestSourceDirectory();
+                if (testSourceDirectory != null && testSourceDirectory.trim().length() > 0)
+                {
+                    compileSourceRoots.add(testSourceDirectory);
+                }
                 project.getCompileSourceRoots().clear();
                 project.getCompileSourceRoots().addAll(compileSourceRoots);
                 this.getLog().info("Processing project " + project.getId());
