@@ -437,15 +437,17 @@
                 </documentation>
             </property>
             <property name="applicationContextServer">
-                <default>serverContext.xml</default>
+                <default>applicationContext-export-remoteServices.xml</default>
                 <documentation>
-                    The name given to the Spring remote services application context xml file (server side)
+                    The name given to the server side Spring configuration file used to
+                    export services for remote invocation.
                 </documentation>
             </property>
             <property name="applicationContextClient">
-                <default>clientContext.xml</default>
+                <default>applicationContext-import-remoteServices.xml</default>
                 <documentation>
-                    The name given to the Spring remote services application context xml file (client side)
+                    The name given to the client side Spring configuration file used to
+                    import services invoked remotely.
                 </documentation>
             </property>
             <property name="applicationContextRemoteEjb">
@@ -537,9 +539,9 @@
                 </documentation>
             </property>
             <property name="clientServiceLocatorName">
-                <default>ClientServiceLocator</default>
+                <default>RemoteServiceLocator</default>
                 <documentation>
-                    The name to give the client service locator class.
+                    The name to give the service locator class used by remote clients.
                 </documentation>
             </property>
             <property name="clientServiceLocatorClassloaderSwitching">

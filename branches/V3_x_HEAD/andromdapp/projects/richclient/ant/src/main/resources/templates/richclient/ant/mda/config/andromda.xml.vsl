@@ -91,9 +91,6 @@
                 <property name="server-test">${source.server.testCode.dir.java}</property>
                 <property name="server-test-config">${source.server.testCode.dir.config}</property>
 
-                <property name="applicationContextServer">applicationContext-export-remoteServices.xml</property>
-                <property name="applicationContextClient">applicationContext-import-remoteServices.xml</property>
-
 #if ($enableAcegi == 'yes')
                 <property name="acegiServiceSecurity">true</property>
                 <property name="clientHttpInvokerExecutor">org.acegisecurity.context.httpinvoker.AuthenticationSimpleHttpInvokerRequestExecutor</property>
