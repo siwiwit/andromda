@@ -45,30 +45,35 @@ public class $formPopulatorName
                     {
                         // - the property name used for checking whether or not the property value has been set
                         final String isSetPropertyName = name + "Set";
-                        java.lang.Boolean isPropertySet = null;
-                        if (!override)
+                        java.lang.Boolean isToFormPropertySet = null;
+                        java.lang.Boolean isFromFormPropertySet = null;
+                        if (org.apache.commons.beanutils.PropertyUtils.isReadable(toForm, isSetPropertyName))
                         {
-                            if (org.apache.commons.beanutils.PropertyUtils.isReadable(toForm, isSetPropertyName))
-                            {
-                                isPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(toForm, isSetPropertyName);
-                            }
+                            isToFormPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(toForm, isSetPropertyName);
                         }
-                        if (override || (isPropertySet == null || !isPropertySet.booleanValue()))
+                        if (org.apache.commons.beanutils.PropertyUtils.isReadable(fromForm, isSetPropertyName))
                         {
-                            final java.beans.PropertyDescriptor toDescriptor =
-                                org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptor(toForm, name);
-                            if (toDescriptor != null)
+                            isFromFormPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(fromForm, isSetPropertyName);
+                        }
+                        if (isFromFormPropertySet != null && isFromFormPropertySet.booleanValue())
+                        {
+                            if (override || (isToFormPropertySet == null || !isToFormPropertySet.booleanValue()))
                             {
-                                java.lang.Object fromValue = parameters.get(name);
-                                // - only populate if not null
-                                if (fromValue != null)
+                                final java.beans.PropertyDescriptor toDescriptor =
+                                    org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptor(toForm, name);
+                                if (toDescriptor != null)
                                 {
-                                    final java.beans.PropertyDescriptor fromDescriptor =
-                                        org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptor(fromForm, name);
-                                    // - only attempt to set if the types match
-                                    if (fromDescriptor.getPropertyType() == toDescriptor.getPropertyType())
+                                    java.lang.Object fromValue = parameters.get(name);
+                                    // - only populate if not null
+                                    if (fromValue != null)
                                     {
-                                        org.apache.commons.beanutils.PropertyUtils.setProperty(toForm, name, fromValue);
+                                        final java.beans.PropertyDescriptor fromDescriptor =
+                                            org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptor(fromForm, name);
+                                        // - only attempt to set if the types match
+                                        if (fromDescriptor.getPropertyType() == toDescriptor.getPropertyType())
+                                        {
+                                            org.apache.commons.beanutils.PropertyUtils.setProperty(toForm, name, fromValue);
+                                        }
                                     }
                                 }
                             }
