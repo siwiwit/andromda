@@ -108,9 +108,9 @@ public class $entity.daoImplementationName
     public $entity.fullyQualifiedEntityName ${valueObjectRef.transformationToEntityMethodName}($valueObjectRef.targetElement.fullyQualifiedName $stringUtils.uncapitalize($valueObjectRef.name))
     {
         // ${toDoTag} verify behavior of ${valueObjectRef.transformationToEntityMethodName}
-        $entity.fullyQualifiedEntityName $stringUtils.uncapitalize($entity.name) = this.load${entity.name}From${valueObjectRef.targetElement.name}($stringUtils.uncapitalize($valueObjectRef.name));
-        this.${valueObjectRef.transformationToEntityMethodName}($stringUtils.uncapitalize($valueObjectRef.name), $stringUtils.uncapitalize($entity.name), true);
-        return $stringUtils.uncapitalize($entity.name);
+        $entity.fullyQualifiedEntityName entity = this.load${entity.name}From${valueObjectRef.targetElement.name}($stringUtils.uncapitalize($valueObjectRef.name));
+        this.${valueObjectRef.transformationToEntityMethodName}($stringUtils.uncapitalize($valueObjectRef.name), entity, true);
+        return entity;
     }
 
 
