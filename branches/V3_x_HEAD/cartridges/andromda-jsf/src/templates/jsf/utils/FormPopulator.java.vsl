@@ -47,15 +47,23 @@ public class $formPopulatorName
                         final String isSetPropertyName = name + "Set";
                         java.lang.Boolean isToFormPropertySet = null;
                         java.lang.Boolean isFromFormPropertySet = null;
-                        if (org.apache.commons.beanutils.PropertyUtils.isReadable(toForm, isSetPropertyName))
+                        // - only if override isn't true do we care whether or not the to property has been populated
+                        if (!override)
                         {
-                            isToFormPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(toForm, isSetPropertyName);
+                            if (org.apache.commons.beanutils.PropertyUtils.isReadable(toForm, isSetPropertyName))
+                            {
+                                isToFormPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(toForm, isSetPropertyName);
+                            }
                         }
-                        if (org.apache.commons.beanutils.PropertyUtils.isReadable(fromForm, isSetPropertyName))
+                        // - only if override is set to true, do we check to see if the from form property has been set
+                        if (override)
                         {
-                            isFromFormPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(fromForm, isSetPropertyName);
+                            if (org.apache.commons.beanutils.PropertyUtils.isReadable(fromForm, isSetPropertyName))
+                            {
+                                isFromFormPropertySet = (java.lang.Boolean)org.apache.commons.beanutils.PropertyUtils.getProperty(fromForm, isSetPropertyName);
+                            }
                         }
-                        if (isFromFormPropertySet != null && isFromFormPropertySet.booleanValue())
+                        if (!override || (override && isFromFormPropertySet != null && isFromFormPropertySet.booleanValue()))
                         {
                             if (override || (isToFormPropertySet == null || !isToFormPropertySet.booleanValue()))
                             {
