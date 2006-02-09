@@ -325,7 +325,7 @@ public class JavaTypeConverterTest
      * code from genActualSource()).
      * @see #genActualSource()
      */
-    static public void genExpectedSource()
+    public static void genExpectedSource()
     {
         final String[] knownTypes = 
         {
@@ -375,7 +375,7 @@ public class JavaTypeConverterTest
      * This method generates source code that uses the variations.  The source
      * can then be sent through a compiler and checked for correctness.
      */
-    static public void genActualSource()
+    public static void genActualSource()
     {
         final String[] knownTypes = 
         {
