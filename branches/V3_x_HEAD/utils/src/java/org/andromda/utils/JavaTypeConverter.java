@@ -47,26 +47,6 @@ public class JavaTypeConverter
             this.conversionPattern = conversionPattern;
         }
 
-        public boolean equals(Object object)
-        {
-            if (this == object) return true;
-            if (object == null || getClass() != object.getClass()) return false;
-
-            final ConversionEntry that = (ConversionEntry)object;
-
-            if (!conversionPattern.equals(that.conversionPattern)) return false;
-            if (!sourceType.equals(that.sourceType)) return false;
-            return targetType.equals(that.targetType);
-        }
-
-        public int hashCode()
-        {
-            int result;
-            result = sourceType.hashCode();
-            result = 29 * result + targetType.hashCode();
-            result = 29 * result + conversionPattern.hashCode();
-            return result;
-        }
     }
 
     private static ConversionEntry[] conversionTable =
