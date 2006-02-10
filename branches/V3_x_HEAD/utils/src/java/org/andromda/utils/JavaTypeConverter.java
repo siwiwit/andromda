@@ -24,16 +24,18 @@ public class JavaTypeConverter
         javaTypeConversionIgnoreList = new ArrayList();
         if (commaSeparatedIgnoreList != null)
         {
-            String[] typeList = commaSeparatedIgnoreList.split("\\s*,\\s*");
+            final String[] typeList = commaSeparatedIgnoreList.split("\\s*,\\s*");
             javaTypeConversionIgnoreList.addAll(Arrays.asList(typeList));
         }
     }
     
     private static class ConversionEntry
     {
-        private final String sourceType;
-        private final String targetType;
-        private final String conversionPattern;
+        // - not private to increase performance of
+        //   inner case access
+        final String sourceType;
+        final String targetType;
+        final String conversionPattern;
 
         public ConversionEntry(
             String sourceType,
@@ -45,12 +47,12 @@ public class JavaTypeConverter
             this.conversionPattern = conversionPattern;
         }
 
-        public boolean equals(Object o)
+        public boolean equals(Object object)
         {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == object) return true;
+            if (object == null || getClass() != object.getClass()) return false;
 
-            final ConversionEntry that = (ConversionEntry)o;
+            final ConversionEntry that = (ConversionEntry)object;
 
             if (!conversionPattern.equals(that.conversionPattern)) return false;
             if (!sourceType.equals(that.sourceType)) return false;
@@ -174,9 +176,9 @@ public class JavaTypeConverter
      * @return The converted value, or null if no conversion can be done.
      */
     public String typeConvert(
-        String sourceType,
-        String sourceValue,
-        String targetType)
+        final String sourceType,
+        final String sourceValue,
+        final String targetType)
     {
         String convertedValue;
 
