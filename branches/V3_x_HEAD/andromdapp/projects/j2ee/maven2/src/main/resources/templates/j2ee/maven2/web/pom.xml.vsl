@@ -122,7 +122,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+#if ($ejb3)
+            <groupId>org.jboss</groupId>
+#else
             <groupId>jboss</groupId>
+#end
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
     </dependencies>

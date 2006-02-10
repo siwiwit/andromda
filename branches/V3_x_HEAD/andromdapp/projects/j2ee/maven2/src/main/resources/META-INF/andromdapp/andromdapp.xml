@@ -121,6 +121,7 @@
                 <responses>
                     <response>hibernate</response>
                     <response>ejb</response>
+                    <response>ejb3</response>
                     <response>spring</response>
                     <response>none</response>
                 </responses>

@@ -63,21 +63,21 @@
          |              shared resources and java classes are generated here,
          |              such as value objects and exceptions
          |
-#if ($ejb)
+#if ($ejb || $ejb3)
          +-- /core
          |     |
          |     |    The CORE module collects those resources and classes
          |     |    that use the EJB framework
          |     |
          |     +-- pom.xml
-         |     |        lists EJB dependencies
+         |     |        lists EJB[3.0] dependencies
          |     +-- /src/main/java
-         |     |        EJB classes that need manual implementation are
+         |     |        EJB[3.0] classes that need manual implementation are
          |     |        generated here, they will not be overwritten upon
          |     |        regeneration
          |     +-- /target
-         |              the EJB classes here will be overwriten each time
-         |              AndroMDA generates new code using the EJB cartridge
+         |              the EJB[3.0] classes here will be overwriten each time
+         |              AndroMDA generates new code using the EJB[3.0] cartridge
          |
 #end
 #if ($hibernate)

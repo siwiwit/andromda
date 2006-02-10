@@ -21,6 +21,11 @@
             <groupId>org.andromda.cartridges</groupId>
             <artifactId>andromda-ejb-cartridge</artifactId>
         </dependency>
+#elseif ($ejb3)
+        <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-ejb3-cartridge</artifactId>
+        </dependency>
 #elseif ($spring)
         <dependency>
             <groupId>org.andromda.cartridges</groupId>

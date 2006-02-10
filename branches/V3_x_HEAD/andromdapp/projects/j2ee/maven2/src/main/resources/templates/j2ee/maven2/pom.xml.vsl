@@ -55,6 +55,13 @@
                 <version>$andromdaVersion</version>
                 <scope>provided</scope>
             </dependency>
+#elseif ($ejb3)
+            <dependency>
+                <groupId>org.andromda.cartridges</groupId>
+                <artifactId>andromda-ejb3-cartridge</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>runtime</scope>
+            </dependency>
 #elseif ($spring)
             <dependency>
                 <groupId>org.andromda</groupId>
@@ -202,6 +209,80 @@
                 <version>1.0.4</version>
                 <scope>provided</scope>
             </dependency>
+#if ($ejb3)
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-j2ee</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jbossall-client</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-ejb3</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-ejb3x</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>ejb3-persistence</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-annotations-ejb3</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-serialization</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-remoting</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jnp-client</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-aop-jdk50</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-aspect-library-jdk50</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate</artifactId>
+                <version>3</version>
+                <scope>provided</scope>
+            </dependency>
+#else
             <dependency>
                 <groupId>jboss</groupId>
                 <artifactId>jboss-j2ee</artifactId>
@@ -210,7 +291,8 @@
                 <scope>provided</scope>
 #end
             </dependency>
-#if (!$ejb)
+#end
+#if (!$ejb && !$ejb3)
             <dependency>
 #if ($hibernateVersion.equals("2"))
                 <groupId>net.sf.hibernate</groupId>
@@ -530,6 +612,16 @@
                     <artifactId>andromdapp-maven-plugin</artifactId>
                     <version>$andromdaVersion</version>
                 </plugin>
+#if ($ejb3)
+                <plugin>
+            	    <groupId>org.apache.maven.plugins</groupId>
+            	    <artifactId>maven-compiler-plugin</artifactId>
+            	    <configuration>
+            		    <source>1.5</source>
+            		    <target>1.5</target>
+            	    </configuration>
+                </plugin>
+#end
             </plugins>
         </pluginManagement>
     </build>
@@ -560,7 +652,7 @@
             For Oracle9i use: Oracle9i
           -->
         <sql.mappings>HypersonicSql</sql.mappings>
-#if ($hibernate || $spring)
+#if ($hibernate || $spring || $ejb3)
 #if ($hibernateVersion == "2")
         <!-- 
             Change this for the appropriate database
@@ -573,13 +665,14 @@
         <!-- 
             Change this for the appropriate database
             For MySql use: org.hibernate.dialect.MySQLDialect
+            For MySql InnoDB use: org.hibernate.dialect.MySQLInnoDBDialect
             For Hypersonic use: org.hibernate.dialect.HSQLDialect
             For Oracle9i use: org.hibernate.dialect.Oracle9Dialect
           -->
         <hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
 #end
 #end
-#if ($ejb)
+#if ($ejb || $ejb3)
         <!-- Change this to the correct database type mappings (for Jboss) -->
         <jboss.typeMappings>Hypersonic SQL</jboss.typeMappings>
 #end

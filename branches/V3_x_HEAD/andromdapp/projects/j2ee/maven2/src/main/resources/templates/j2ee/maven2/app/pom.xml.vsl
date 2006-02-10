@@ -111,6 +111,7 @@
                         <javaModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-common</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
                         </javaModule>
 #if (!$transactionPersistenceType.equals("none"))
                         <ejbModule>
