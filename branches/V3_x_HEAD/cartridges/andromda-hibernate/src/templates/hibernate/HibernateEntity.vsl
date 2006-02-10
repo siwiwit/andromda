@@ -27,6 +27,7 @@ public abstract class $entity.entityName
     private static final long serialVersionUID = ${entity.serialVersionUID}L;
 
 #if ($stringUtils.isNotBlank($entity.hibernateVersionProperty))
+#if (!$entity.generalization || ($entity.generalization && !$entity.hibernateInheritanceSubclass))
 #set ($versionProperty = $entity.hibernateVersionProperty)
 #set ($versionPropertyCapitalized = $stringUtils.capitalize($entity.hibernateVersionProperty))
     /**
@@ -44,6 +45,7 @@ public abstract class $entity.entityName
         this.$versionProperty = $versionProperty;
     }
 
+#end
 #end
 #foreach ($attribute in $entity.attributes)
 #set ($typeName = $attribute.type.fullyQualifiedName)
