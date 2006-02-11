@@ -8,9 +8,9 @@ public class JavaTypeConverterTest
 
     public static final class ExpectedResult
     {
-        public String fromType;
-        public String toType;
-        public String expected;
+        private final String fromType;
+        private final String toType;
+        private final String expected;
         
         public ExpectedResult(
             String fromType,
@@ -286,10 +286,10 @@ public class JavaTypeConverterTest
     
     public void testTypeConversion()
     {
-        JavaTypeConverter converter = new JavaTypeConverter();
+        final JavaTypeConverter converter = new JavaTypeConverter();
         for (int i = 0; i < expected.length; i++)
         {
-            String result = converter.typeConvert(expected[i].fromType, "sourceVal", expected[i].toType);
+            final String result = converter.typeConvert(expected[i].fromType, "sourceVal", expected[i].toType);
             assertEquals("Converting " + expected[i].fromType + " to " +
                 expected[i].toType, expected[i].expected, result);
         } // for
@@ -298,12 +298,12 @@ public class JavaTypeConverterTest
     
     public void testTypeConversionWithIgnore()
     {
-        JavaTypeConverter converter = new JavaTypeConverter();
+        final JavaTypeConverter converter = new JavaTypeConverter();
         converter.setJavaTypeConversionIgnoreList("java.util.Date, java.sql.Timestamp");
         
         for (int i = 0; i < expected.length; i++)
         {
-            String result = converter.typeConvert(expected[i].fromType, "sourceVal", expected[i].toType);
+            final String result = converter.typeConvert(expected[i].fromType, "sourceVal", expected[i].toType);
             if (expected[i].fromType.equals("java.util.Date") ||
                 expected[i].fromType.equals("java.sql.Timestamp") ||
                 expected[i].toType.equals("java.util.Date") ||
@@ -337,7 +337,7 @@ public class JavaTypeConverterTest
             "java.lang.String", "com.example.UserClass"
         };
         
-        JavaTypeConverter converter = new JavaTypeConverter();
+        final JavaTypeConverter converter = new JavaTypeConverter();
         
         boolean firstOut = false;
         for (int fromIndex = 0; fromIndex < knownTypes.length; fromIndex++)
@@ -357,7 +357,7 @@ public class JavaTypeConverterTest
                System.out.print("\", \"");
                System.out.print(knownTypes[toIndex]);
                System.out.print("\", ");
-               String result = converter.typeConvert(knownTypes[fromIndex], "sourceVal", knownTypes[toIndex]);
+               final String result = converter.typeConvert(knownTypes[fromIndex], "sourceVal", knownTypes[toIndex]);
                if (result != null)
                {
                   System.out.print("\"");
