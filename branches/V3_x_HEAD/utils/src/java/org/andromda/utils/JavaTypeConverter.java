@@ -32,15 +32,15 @@ public class JavaTypeConverter
     private static class ConversionEntry
     {
         // - not private to increase performance of
-        //   inner case access
+        //   inner class access
         final String sourceType;
         final String targetType;
         final String conversionPattern;
 
         public ConversionEntry(
-            String sourceType,
-            String targetType,
-            String conversionPattern)
+            final String sourceType,
+            final String targetType,
+            final String conversionPattern)
         {
             this.sourceType = sourceType;
             this.targetType = targetType;
