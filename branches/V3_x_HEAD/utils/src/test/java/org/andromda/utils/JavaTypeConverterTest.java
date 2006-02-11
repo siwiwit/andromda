@@ -24,7 +24,7 @@ public class JavaTypeConverterTest
     }
     
     
-    final static ExpectedResult[] expected =
+    private final static ExpectedResult[] expected =
     {
         new ExpectedResult("int", "int", "sourceVal"),
         new ExpectedResult("int", "long", "(long)sourceVal"),
@@ -284,36 +284,38 @@ public class JavaTypeConverterTest
         new ExpectedResult("com.example.UserClass", "com.example.UserClass", "sourceVal")    };
 
     
-    public void testTypeConvert() 
+    public void testTypeConversion()
     {
         JavaTypeConverter converter = new JavaTypeConverter();
-        for (int ndxTest = 0; ndxTest < expected.length; ndxTest++)
+        for (int i = 0; i < expected.length; i++)
         {
-            String result = converter.typeConvert(expected[ndxTest].fromType, "sourceVal", expected[ndxTest].toType);
-            assertEquals("Converting " + expected[ndxTest].fromType + " to " + expected[ndxTest].toType, expected[ndxTest].expected, result);
+            String result = converter.typeConvert(expected[i].fromType, "sourceVal", expected[i].toType);
+            assertEquals("Converting " + expected[i].fromType + " to " +
+                expected[i].toType, expected[i].expected, result);
         } // for
     }
 
     
-    public void testTypeConvertWithIgnore() 
+    public void testTypeConversionWithIgnore()
     {
         JavaTypeConverter converter = new JavaTypeConverter();
         converter.setJavaTypeConversionIgnoreList("java.util.Date, java.sql.Timestamp");
         
-        for (int ndxTest = 0; ndxTest < expected.length; ndxTest++)
+        for (int i = 0; i < expected.length; i++)
         {
-            String result = converter.typeConvert(expected[ndxTest].fromType, "sourceVal", expected[ndxTest].toType);
-            if (expected[ndxTest].fromType.equals("java.util.Date") ||
-                expected[ndxTest].fromType.equals("java.sql.Timestamp") ||
-                expected[ndxTest].toType.equals("java.util.Date") ||
-                expected[ndxTest].toType.equals("java.sql.Timestamp")
-                )
+            String result = converter.typeConvert(expected[i].fromType, "sourceVal", expected[i].toType);
+            if (expected[i].fromType.equals("java.util.Date") ||
+                expected[i].fromType.equals("java.sql.Timestamp") ||
+                expected[i].toType.equals("java.util.Date") ||
+                expected[i].toType.equals("java.sql.Timestamp") )
             {
-                assertNull("Converting " + expected[ndxTest].fromType + " to " + expected[ndxTest].toType + " should have been null, was: " + result, result);
+                assertNull("Converting " + expected[i].fromType + " to " + expected[i].toType +
+                    " should have been null, was: " + result, result);
             }
             else
             {
-                assertEquals("Converting " + expected[ndxTest].fromType + " to " + expected[ndxTest].toType, expected[ndxTest].expected, result);
+                assertEquals("Converting " + expected[i].fromType + " to " + expected[i].toType,
+                    expected[i].expected, result);
             }
         } // for
     }
@@ -325,7 +327,7 @@ public class JavaTypeConverterTest
      * code from genActualSource()).
      * @see #genActualSource()
      */
-    public static void genExpectedSource()
+    public static void generateExpectedSource()
     {
         final String[] knownTypes = 
         {
@@ -338,11 +340,11 @@ public class JavaTypeConverterTest
         JavaTypeConverter converter = new JavaTypeConverter();
         
         boolean firstOut = false;
-        for (int ndxFrom = 0; ndxFrom < knownTypes.length; ndxFrom++)
+        for (int fromIndex = 0; fromIndex < knownTypes.length; fromIndex++)
         {
-            for (int ndxTo = 0; ndxTo < knownTypes.length; ndxTo++)
+            for (int toIndex = 0; toIndex < knownTypes.length; toIndex++)
             {
-               if (firstOut == false)
+               if (!firstOut)
                {
                    firstOut = true;
                }
@@ -351,11 +353,11 @@ public class JavaTypeConverterTest
                    System.out.println(",");
                }
                System.out.print("        new ExpectedResult(\"");
-               System.out.print(knownTypes[ndxFrom]);
+               System.out.print(knownTypes[fromIndex]);
                System.out.print("\", \"");
-               System.out.print(knownTypes[ndxTo]);
+               System.out.print(knownTypes[toIndex]);
                System.out.print("\", ");
-               String result = converter.typeConvert(knownTypes[ndxFrom], "sourceVal", knownTypes[ndxTo]);
+               String result = converter.typeConvert(knownTypes[fromIndex], "sourceVal", knownTypes[toIndex]);
                if (result != null)
                {
                   System.out.print("\"");
@@ -367,8 +369,8 @@ public class JavaTypeConverterTest
                   System.out.print("null");                   
                }
                System.out.print(")");
-            } // for ndxTo
-        } // for ndxFrom
+            } // for toIndex
+        } // for fromIndex
     }
 
     /**
@@ -385,28 +387,28 @@ public class JavaTypeConverterTest
             "java.lang.String"
         };
         
-        JavaTypeConverter converter = new JavaTypeConverter();
+        final JavaTypeConverter converter = new JavaTypeConverter();
 
-        int varNum = 1;
+        int sourceCounter = 1;
 
         System.out.println("public void testConversionCode() throws java.text.ParseException {");
-        for (int ndxFrom = 0; ndxFrom < knownTypes.length; ndxFrom++)
+        for (int fromIndex = 0; fromIndex < knownTypes.length; fromIndex++)
         {
-            for (int ndxTo = 0; ndxTo < knownTypes.length; ndxTo++)
+            for (int toIndex = 0; toIndex < knownTypes.length; toIndex++)
             {
-               String sourceVar = "source"+ varNum;
-               String result = converter.typeConvert(knownTypes[ndxFrom], sourceVar, knownTypes[ndxTo]);
+               final String sourceLabel = "source" + sourceCounter;
+               final String result = converter.typeConvert(knownTypes[fromIndex], sourceLabel, knownTypes[toIndex]);
                if (result != null)
                {
                   System.out.print("     ");
-                  System.out.print(knownTypes[ndxFrom]);
+                  System.out.print(knownTypes[fromIndex]);
                   System.out.print(" ");
-                  System.out.print(sourceVar);
-                  if (knownTypes[ndxFrom].indexOf(".") > 0)
+                  System.out.print(sourceLabel);
+                  if (knownTypes[fromIndex].indexOf(".") > 0)
                   {
                       System.out.println(" = null;");
                   }
-                  else if (knownTypes[ndxFrom].equals("boolean"))
+                  else if (knownTypes[fromIndex].equals("boolean"))
                   {
                       System.out.println(" = false;");
                   }
@@ -415,24 +417,24 @@ public class JavaTypeConverterTest
                       System.out.println(" = 0;");
                   }
                   System.out.print("     ");
-                  System.out.print(knownTypes[ndxTo]);
-                  System.out.print(" dest" + varNum);
+                  System.out.print(knownTypes[toIndex]);
+                  System.out.print(" dest" + sourceCounter);
                   System.out.print(" = ");
                   System.out.print(result);
                   System.out.println(";");
-                  varNum++;
+                  sourceCounter++;
                }
                else
                {
                    System.out.print("     // No conversion from ");
-                   System.out.print(knownTypes[ndxFrom]);
+                   System.out.print(knownTypes[fromIndex]);
                    System.out.print(" to ");
-                   System.out.println(knownTypes[ndxTo]);
+                   System.out.println(knownTypes[toIndex]);
                }
                System.out.println();
 
-            } // for ndxTo
-        } // for ndxFrom
+            } // for toIndex
+        } // for fromIndex
         System.out.println("}");
         
     }
@@ -440,7 +442,7 @@ public class JavaTypeConverterTest
     
     public static void main(String[] args) {
 //        Uncomment to re-generated the "expected" if major mods are made        
-//        JavaTypeConverterTest.genExpectedSource();
+//        JavaTypeConverterTest.generateExpectedSource();
 
 //        Uncomment to re-generate source code to put through compiler to check syntax             
 //        JavaTypeConverterTest.genActualSource();
