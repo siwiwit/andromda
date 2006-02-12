@@ -74,11 +74,9 @@ public final class $manageable.manageableDaoBaseName
 #foreach ($member in $manageable.manageableAssociationEnds)
 #if ($member.many)
 #set ($memberEntityName = "${member.name}Entities")
-        java.util.Set $memberEntityName = null;
-        if ($member.name != null && ${member.name}.length > 0)
-        {
-            $memberEntityName = this.find${member.type.name}ByIds($member.name);
-        }
+        final java.util.Set $memberEntityName = ($member.name != null && ${member.name}.length > 0)
+            ? this.find${member.type.name}ByIds($member.name)
+            : java.util.Collections.EMPTY_SET;
 #else
 #set ($memberEntityName = "${member.name}Entity")
         $member.type.fullyQualifiedName $memberEntityName = null;
@@ -87,28 +85,23 @@ public final class $manageable.manageableDaoBaseName
             $memberEntityName = ($member.type.fullyQualifiedName)${member.daoGetterName}().load($member.name);
         }
 #end
-#if ($member.required)
+
         entity.${member.setterName}($memberEntityName);
-#else
-        if ($memberEntityName != null)
-        {
-            entity.${member.setterName}($memberEntityName);
-#if ($member.many)
+
+#if ($member.many2many)
 #if ($member.otherEnd.navigable)
-            // set the other ends of the many2many association too
-            for (final java.util.Iterator iterator = ${memberEntityName}.iterator(); iterator.hasNext();)
-            {
-                final $member.type.fullyQualifiedName element = ($member.type.fullyQualifiedName)iterator.next();
-                element.${member.otherEnd.getterName}().add(entity);
-            }
-#else
-            // we ought to be setting the other end of the many2many association here
-            // but the navigability on the other end has been disabled, therefore doing
-            // the following would break compilation: element.${member.otherEnd.getterName}()
-            // the result is that only one end of this association will be set
-#end
-#end
+        // set the other ends of the many2many association too
+        for (final java.util.Iterator iterator = ${memberEntityName}.iterator(); iterator.hasNext();)
+        {
+            final $member.type.fullyQualifiedName element = ($member.type.fullyQualifiedName)iterator.next();
+            element.${member.otherEnd.getterName}().add(entity);
         }
+#else
+        // we ought to be setting the other end of the many2many association here
+        // but the navigability on the other end has been disabled, therefore doing
+        // the following would break compilation: element.${member.otherEnd.getterName}()
+        // the result is that only one end of this association will be set
+#end
 #end
 #end
 
@@ -269,11 +262,9 @@ public final class $manageable.manageableDaoBaseName
 #foreach ($member in $manageable.manageableAssociationEnds)
 #if ($member.many)
 #set ($memberEntityName = "${member.name}Entities")
-        java.util.Set $memberEntityName = null;
-        if ($member.name != null && ${member.name}.length > 0)
-        {
-            $memberEntityName = this.find${member.type.name}ByIds($member.name);
-        }
+        final java.util.Set $memberEntityName = ($member.name != null && ${member.name}.length > 0)
+            ? this.find${member.type.name}ByIds($member.name)
+            : java.util.Collections.EMPTY_SET;
 #else
 #set ($memberEntityName = "${member.name}Entity")
         $member.type.fullyQualifiedName $memberEntityName = null;
@@ -282,28 +273,23 @@ public final class $manageable.manageableDaoBaseName
             $memberEntityName =#if($member.type.fullyQualifiedName != $member.type.generalizationRoot.fullyQualifiedName) (${member.type.fullyQualifiedName})#end ${member.daoGetterName}().load($member.name);
         }
 #end
-#if ($member.required)
+
         entity.${member.setterName}($memberEntityName);
-#else
-        if ($memberEntityName != null)
-        {
-            entity.${member.setterName}($memberEntityName);
-#if ($member.many)
+
+#if ($member.many2many)
 #if ($member.otherEnd.navigable)
-            // set the other ends of the many2many association too
-            for (final java.util.Iterator iterator = ${memberEntityName}.iterator(); iterator.hasNext();)
-            {
-                final $member.type.fullyQualifiedName element = ($member.type.fullyQualifiedName)iterator.next();
-                element.${member.otherEnd.getterName}().add(entity);
-            }
-#else
-            // we ought to be setting the other end of the many2many association here
-            // but the navigability on the other end has been disabled, therefore doing
-            // the following would break compilation: element.${member.otherEnd.getterName}()
-            // the result is that only one end of this association will be set
-#end
-#end
+        // set the other ends of the many2many association too
+        for (final java.util.Iterator iterator = ${memberEntityName}.iterator(); iterator.hasNext();)
+        {
+            final $member.type.fullyQualifiedName element = ($member.type.fullyQualifiedName)iterator.next();
+            element.${member.otherEnd.getterName}().add(entity);
         }
+#else
+        // we ought to be setting the other end of the many2many association here
+        // but the navigability on the other end has been disabled, therefore doing
+        // the following would break compilation: element.${member.otherEnd.getterName}()
+        // the result is that only one end of this association will be set
+#end
 #end
 #end
 

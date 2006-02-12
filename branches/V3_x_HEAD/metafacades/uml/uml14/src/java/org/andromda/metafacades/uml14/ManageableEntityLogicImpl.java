@@ -75,11 +75,17 @@ public class ManageableEntityLogicImpl
 
     protected java.util.List handleGetManageableAssociationEnds()
     {
-        final Set manageableAssociationEnds = new LinkedHashSet();
+        final Set manageableAssociationEnds = new LinkedHashSet();// linked hashset to guarantee ordering wo/ duplicates
         collectAssociationEnds(manageableAssociationEnds, this);
         return new ArrayList(manageableAssociationEnds);
     }
 
+    /**
+     * This method recursively collects all association ends to which a manageable entity would need to navigate
+     *
+     * @param manageableAssociationEnds the collection in which to collect the association ends
+     * @param entity the entity from which to recursively gather the association ends
+     */
     private static void collectAssociationEnds(Collection manageableAssociationEnds, ManageableEntity entity)
     {
         final Collection associationEnds = entity.getAssociationEnds();
@@ -90,10 +96,9 @@ public class ManageableEntityLogicImpl
 
             if (otherEnd.isNavigable())
             {
-                if (associationEnd.isMany() || (associationEnd.isOne2One() && otherEnd.isChild()))
+                if (otherEnd.isMany() || (otherEnd.isOne2One() && otherEnd.isChild()))
                 {
-                    final Object otherEndType = otherEnd.getType();
-                    if (otherEndType instanceof Entity)
+                    if (otherEnd.getType() instanceof Entity)
                     {
                         manageableAssociationEnds.add(otherEnd);
                     }
@@ -103,7 +108,7 @@ public class ManageableEntityLogicImpl
 
         // retrieve all association ends for all parents (recursively)
         final Collection parentEntities = entity.getAllGeneralizations();
-        for (Iterator parentEntityIterator = parentEntities.iterator(); parentEntityIterator.hasNext();)
+        for (final Iterator parentEntityIterator = parentEntities.iterator(); parentEntityIterator.hasNext();)
         {
             final Object parentEntityObject = parentEntityIterator.next();
             if (parentEntityObject instanceof ManageableEntity)
