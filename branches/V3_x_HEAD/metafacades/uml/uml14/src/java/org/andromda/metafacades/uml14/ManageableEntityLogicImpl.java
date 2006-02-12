@@ -94,15 +94,9 @@ public class ManageableEntityLogicImpl
             final AssociationEndFacade associationEnd = (AssociationEndFacade)associationEndIterator.next();
             final AssociationEndFacade otherEnd = associationEnd.getOtherEnd();
 
-            if (otherEnd.isNavigable())
+            if (otherEnd.isNavigable() && otherEnd.getType() instanceof Entity)
             {
-                if (otherEnd.isMany() || (otherEnd.isOne2One() && otherEnd.isChild()))
-                {
-                    if (otherEnd.getType() instanceof Entity)
-                    {
-                        manageableAssociationEnds.add(otherEnd);
-                    }
-                }
+                manageableAssociationEnds.add(otherEnd);
             }
         }
 

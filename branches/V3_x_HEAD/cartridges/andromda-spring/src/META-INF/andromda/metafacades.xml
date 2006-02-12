@@ -95,13 +95,5 @@
         </mapping>
         <property reference="implementationOperationNamePattern"/>
     </metafacade>
-<!--
-    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringEntityOperationLogicImpl">
-        <mapping>
-            <property name="owner.interface"/>
-        </mapping>
-        <property reference="implementationOperationNamePattern"/>
-    </metafacade>
--->
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringDependencyLogicImpl"/>
 </metafacades>
