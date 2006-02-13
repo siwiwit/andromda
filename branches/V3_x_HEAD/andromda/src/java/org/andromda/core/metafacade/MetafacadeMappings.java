@@ -1072,12 +1072,12 @@ public class MetafacadeMappings
 
     /**
      * Should be used used instead of "this", retrieves the appropriate
-     * metafacade mappinsg instance based on the current model type.
+     * metafacade mappings instance based on the current model type.
      *
      * @param metafacadeModelNamespace the namespace that contains a metafacade model facade implementation.
      * @return the {@link MetafacadeMappings} instance.
      */
-    final MetafacadeMappings getModelMetafacadeMappings(final String metafacadeModelNamespace)
+    public MetafacadeMappings getModelMetafacadeMappings(final String metafacadeModelNamespace)
     {
         final MetafacadeMappings instance =
             (MetafacadeMappings)this.modelMetafacadeMappings.get(metafacadeModelNamespace);
