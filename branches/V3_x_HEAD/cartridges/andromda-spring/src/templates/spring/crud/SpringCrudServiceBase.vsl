@@ -162,7 +162,7 @@ public final class $manageable.manageableServiceBaseName
 #foreach ($member in $manageable.manageableAssociationEnds)
 #if ($member.many)
         final java.util.Collection ${member.name} = entity.${member.getterName}();
-        if (${member.name}.isEmpty())
+        if (${member.name} == null || ${member.name}.isEmpty())
         {
             valueObject.${member.setterName}(null);
 #if ($member.type.displayAttribute.name != $member.type.manageableIdentifier.name)
