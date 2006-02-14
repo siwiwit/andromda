@@ -30,10 +30,12 @@
 	<classpathentry kind="src" path="metafacades/uml/uml14/src/java"/>
 	<classpathentry kind="src" path="metafacades/uml/uml14/src/META-INF"/>
 	<classpathentry kind="src" path="metafacades/uml/uml14/target/src"/>
+	<classpathentry kind="src" path="metafacades/uml/uml2/src/main/java"/>
+	<classpathentry kind="src" path="metafacades/uml/uml2/target/src"/>
 	<classpathentry kind="src" path="repositories/emf/src/main/java"/>
 	<classpathentry kind="src" path="repositories/emf/uml2/src/main/java"/>
 	<classpathentry kind="src" path="repositories/emf/uml2/src/test/java"/>
-	<classpathentry kind="src" path="repositories/mdr/src/java"/>
+	<classpathentry kind="src" path="repositories/mdr/common/src/java"/>
 	<classpathentry kind="src" path="templateengines/freemarker/src/java"/>
 	<classpathentry kind="src" path="templateengines/velocity/src/java"/>
 	<classpathentry kind="src" path="templateengines/velocity/src/test/java"/>
@@ -76,5 +78,6 @@
 			<attribute value="http://www.hibernate.org/hib_docs/v3/api/" name="javadoc_location"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="var" path="M2_REPO/jmi/jmiuml-mof1/2.0-SNAPSHOT/jmiuml-mof1-2.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target"/>
 </classpath>
