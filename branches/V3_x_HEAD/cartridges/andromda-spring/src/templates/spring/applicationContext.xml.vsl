@@ -184,29 +184,14 @@
 ## Because of a bug in Spring with circular references (and using AOP proxies),
 ## we need to use the lookup-method as a work-a-round for dependencies
 ## which represent circular references
-#foreach($serviceRef in $service.serviceReferences)
+#foreach($serviceRef in $service.allServiceReferences)
 #if (!$serviceRef.circularReference)
 #if (!$serviceRef.targetElement.abstract)
                 <property name="$serviceRef.name"><ref bean="$serviceRef.targetElement.beanName"/></property>
 #end
 #end
 #end
-#foreach($serviceRef in $service.serviceReferences)
-#if ($serviceRef.circularReference)
-#if (!$serviceRef.targetElement.abstract)
-                <lookup-method name="$serviceRef.getterName" bean="$serviceRef.targetElement.beanName"/>
-#end
-#end
-#end
-## also initialize inherited service refs - but only to non-abstract services!
-#foreach($serviceRef in $service.generalization.serviceReferences)
-#if (!$serviceRef.circularReference)
-#if (!$serviceRef.targetElement.abstract)
-                <property name="$serviceRef.name"><ref bean="$serviceRef.targetElement.beanName"/></property>
-#end
-#end
-#end
-#foreach($serviceRef in $service.generalization.serviceReferences)
+#foreach($serviceRef in $service.allServiceReferences)
 #if ($serviceRef.circularReference)
 #if (!$serviceRef.targetElement.abstract)
                 <lookup-method name="$serviceRef.getterName" bean="$serviceRef.targetElement.beanName"/>

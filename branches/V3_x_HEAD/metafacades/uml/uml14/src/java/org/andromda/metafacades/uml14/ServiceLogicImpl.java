@@ -1,5 +1,6 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
@@ -56,6 +57,30 @@ public class ServiceLogicImpl
                 return targetElement != null && Service.class.isAssignableFrom(targetElement.getClass());
             }
         };
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Service.getAllServiceReferences()
+     */
+    public Collection handleGetAllServiceReferences()
+    {
+        final Collection result = new ArrayList();
+
+        // get references of the service itself
+        result.addAll(getServiceReferences());
+
+        // get references of all super classes
+        CollectionUtils.forAllDo(this.getAllGeneralizations(), new Closure()
+        {
+
+            public void execute(Object object)
+            {
+                Service service = (Service)object;
+                result.addAll(service.getServiceReferences());
+            }
+
+        });
+        return result;
     }
 
     /**

@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml2;
 
+import java.util.Collection;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.Service.
@@ -20,6 +22,15 @@ public class ServiceLogicImpl
     protected java.util.Collection handleGetServiceReferences()
     {
         // TODO: add your implementation here!
+        return null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.getAllServiceReferences
+     */
+    protected Collection handleGetAllServiceReferences()
+    {
+        // TODO add your implementation here!
         return null;
     }
 
