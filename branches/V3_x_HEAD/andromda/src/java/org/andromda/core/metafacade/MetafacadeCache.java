@@ -82,7 +82,7 @@ public final class MetafacadeCache
      * <code>metafacade</code>, and finally by the current <code>namespace</code>.
      *
      * @param mappingObject the mappingObject for which to cache the metafacade.
-     * @param metafacade    the metafacade to cache.
+     * @param metafacade the metafacade to cache.
      */
     public final void add(
         final Object mappingObject,
