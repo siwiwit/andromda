@@ -50,8 +50,7 @@ public final class MetafacadeCache
     /**
      * <p/>
      * Returns the metafacade from the metafacade cache. The Metafacades are cached first by according to its
-     * <code>mappingObject</code>, next the <code>metafacadeClass</code>, then according to to the current
-     * <code>namespace</code> and finally by the current namespace. </p>
+     * <code>mappingObject</code>, next the <code>metafacadeClass</code>, and finally by the current namespace. </p>
      * <p/>
      * Metafacades must be cached in order to keep track of the state of its validation. If we keep creating a new one
      * each time, we can never tell whether or not a metafacade has been previously validated. Not to mention tremendous
