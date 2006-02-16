@@ -154,6 +154,7 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">false</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
             <modelElement variable="manageables">
@@ -788,7 +789,9 @@
         outputOnEmptyElements="false">
         <modelElements>
             <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService" />
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="abstract">false</property>
+                </type>
             </modelElement>
         </modelElements>
     </template>
@@ -802,7 +805,9 @@
         outputOnEmptyElements="false">
         <modelElements>
             <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService"/>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="abstract">false</property>
+                </type>
             </modelElement>
         </modelElements>
     </template>
@@ -818,6 +823,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">false</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -834,6 +840,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -850,6 +857,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">false</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -866,6 +874,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
