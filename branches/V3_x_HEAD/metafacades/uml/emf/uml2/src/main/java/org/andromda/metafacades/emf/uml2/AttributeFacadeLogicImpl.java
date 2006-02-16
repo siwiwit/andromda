@@ -74,7 +74,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return false;
+        return (metaObject.getLower()>0);
     }
 
     /**

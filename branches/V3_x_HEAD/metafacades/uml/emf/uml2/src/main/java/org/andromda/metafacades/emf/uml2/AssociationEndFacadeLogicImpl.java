@@ -157,7 +157,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return false;
+        return (metaObject.getLower()>0);
     }
 
     /**
