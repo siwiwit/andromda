@@ -167,6 +167,11 @@
             <stereotype>VALUE_OBJECT</stereotype>
         </mapping>
     </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.ValueObjectLogicImpl" contextRoot="true">
+        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
+            <stereotype>PSM_METACLASS</stereotype>
+        </mapping>
+    </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.ValueObjectAssociationEndLogicImpl">
         <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
             <context>org.andromda.metafacades.uml.ValueObject</context>
