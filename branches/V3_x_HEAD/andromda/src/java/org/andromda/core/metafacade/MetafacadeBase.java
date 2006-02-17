@@ -144,6 +144,13 @@ public class MetafacadeBase
             metafacade = MetafacadeFactory.getInstance().createMetafacade(
                     metaObject,
                     this.getContext());
+            // Now, copy the context into the new metafacade because the metafacade
+            // may have come from the cache and may have an arbitrary context.
+            // Attention: Don't change this.getContext() to this.getMetafacadeContext(),
+            // because it does something totally different when contextRoot="true"
+            // and delegate inheritance is involved!
+            // Matthias Bohlen
+            metafacade.setMetafacadeContext(this.getContext());
         }
         return metafacade;
     }
