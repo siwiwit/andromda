@@ -52,7 +52,7 @@
 #if ($field.backingListName)
 #set ($fieldName = $field.name)
 #else
-#set ($fieldName = $field.getFormPropertyName($ownerParameter))
+#set ($fieldName = $field.getFormPropertyId($ownerParameter))
 #end
 #set ($validatorTypes = $field.validatorTypes)
             <field property="$fieldName" depends="$stringUtils.join($validatorTypes.iterator(),",")">
