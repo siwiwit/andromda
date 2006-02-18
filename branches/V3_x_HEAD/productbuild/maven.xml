@@ -664,13 +664,13 @@
         </j:if>
     </goal>
 	
-	<goal name="zip_expected">
+	<goal name="zip-expected">
 		<j:set var="cartridge_dir" value="${basedir}/cartridges/${cartridge_name}"/>
 		<j:set var="actual_dir" value="target/cartridge-test/actual"/>
 		<available file="${cartridge_dir}/${actual}" property="cartridge_present"/>
 		<echo message="available:'${cartridge_present}'"/>
 		<j:if test="${cartridge_name == null || cartridge_name == '' }">
-			<fail message="Need to specify -Dcartridge_name=CARTRIDGE_NAME"/>
+			<fail message="Need to run maven zip-cartridge -Dcartridge_name=CARTRIDGE_NAME"/>
 		</j:if>
 		<j:if test="${cartridge_present ne 'true' }">
 			<fail message="${cartridge_dir}/${actual_dir} not found"/>
