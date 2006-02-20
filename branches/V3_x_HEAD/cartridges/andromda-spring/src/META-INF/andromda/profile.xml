@@ -88,10 +88,13 @@
             <element name="TRANSACTION_TYPE">
                 <documentation>
                     Defines a Spring transaction type for the service operation
-                    (when <strong>NOT</strong> wrapped by EJBs).
+                    (when <strong>NOT</strong> wrapped by EJBs). Using this tagged value on a service
+                    will enable it on all of its operations. If this tagged value is present on such a
+                    service operation it will take priority over any transaction declaration in a
+                    broader scope such as its service or the global namespace.
                 </documentation>
                 <value>@andromda.spring.transaction.type</value>
-                <appliedOnElement>Service Operation</appliedOnElement>
+                <appliedOnElement>Service or Service Operation</appliedOnElement>
                 <allowedValues>
                     <value>PROPAGATION_NEVER</value>
                     <value>PROPAGATION_NESTED</value>
