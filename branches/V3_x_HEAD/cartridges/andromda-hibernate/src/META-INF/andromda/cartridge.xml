@@ -109,6 +109,20 @@
         </modelElements>
     </template>
 
+    <template
+        path="templates/hibernate2/HibernateEnumeration.vsl"
+        outputPattern="$generatedFile"
+        outlet="user-types"
+        overwrite="true">
+        <modelElements variable="enumeration">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
+                    <property name="version">2</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
     <!-- hibernate 3 templates -->
     <template
         path="templates/hibernate3/ejb/HibernateEntityFactory.vsl"
@@ -155,6 +169,21 @@
             </modelElement>
         </modelElements>
     </template>
+
+    <template
+        path="templates/hibernate3/HibernateEnumeration.vsl"
+        outputPattern="$generatedFile"
+        outlet="user-types"
+        overwrite="true">
+        <modelElements variable="enumeration">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
+                    <property name="version">3</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
 
     <!-- common templates -->
     <template
@@ -232,18 +261,6 @@
         outputPattern="$generatedFile"
         outlet="user-types"
         overwrite="true"/>
-
-    <template
-        path="templates/hibernate/HibernateEnumeration.vsl"
-        outputPattern="$generatedFile"
-        outlet="user-types"
-        overwrite="true">
-        <modelElements variable="enumeration">
-            <modelElement>
-                <type name="org.andromda.metafacades.uml.EnumerationFacade"/>
-            </modelElement>
-        </modelElements>
-    </template>
 
     <template
         path="templates/hibernate/ejb/ejb-jar.xml.vsl"
