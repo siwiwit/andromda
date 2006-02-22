@@ -77,17 +77,19 @@ public class SpringQueryOperationLogicImpl
      */
     protected ParameterFacade handleGetCriteriaArgument()
     {
+        ParameterFacade foundParameter = null;
         Collection parameters = getParameters();
         for (final Iterator iter = parameters.iterator(); iter.hasNext();)
         {
             ParameterFacade parameter = (ParameterFacade)iter.next();
             ClassifierFacade type = parameter.getType();
-            if (type.hasStereotype(UMLProfile.STEREOTYPE_CRITERIA))
+            if (type != null && type.hasStereotype(UMLProfile.STEREOTYPE_CRITERIA))
             {
-                return parameter;
+                foundParameter = parameter;
+                break;
             }
         }
-        return null;
+        return foundParameter;
     }
 
     /**
