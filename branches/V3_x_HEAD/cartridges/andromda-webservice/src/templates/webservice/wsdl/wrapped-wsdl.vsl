@@ -103,7 +103,8 @@ $type.getDocumentation("                        ", 64, false)
                     </xsd:documentation>
                 </xsd:annotation>
                 <xsd:sequence>
-#foreach ($attribute in $type.attributes) 
+## add the attributes of the current type and all super types                
+#foreach ($attribute in $type.getAttributes(true)) 
                     <xsd:element name="$attribute.name" nillable="$attribute.nillable" type="$attribute.type.schemaType">
                         <xsd:annotation>     
                             <xsd:documentation> 
