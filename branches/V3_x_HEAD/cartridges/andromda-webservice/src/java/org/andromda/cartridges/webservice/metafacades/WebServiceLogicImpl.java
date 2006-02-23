@@ -170,26 +170,25 @@ public class WebServiceLogicImpl
      */
     protected java.util.Collection handleGetTypeMappingElements()
     {
-        Collection parameterTypes = new LinkedHashSet();
+        final Collection parameterTypes = new LinkedHashSet();
         for (final Iterator iterator = this.getAllowedOperations().iterator(); iterator.hasNext();)
         {
             parameterTypes.addAll(((OperationFacade)iterator.next()).getParameters());
         }
 
-        Set types = new TreeSet(new TypeComparator());
-        Collection nonArrayTypes = new TreeSet(new TypeComparator());
-        Iterator paramTypeIt = parameterTypes.iterator();
+        final Set types = new TreeSet(new TypeComparator());
+        final Collection nonArrayTypes = new TreeSet(new TypeComparator());
 
         // clear out the cache of checkedTypes, otherwise
         // they'll be ignored the second time this method is
         // called (if the instance is reused)
         this.checkedTypes.clear();
-        while (paramTypeIt.hasNext())
+        for (final Iterator iterator = parameterTypes.iterator(); iterator.hasNext();)
         {
-            this.loadTypes((ModelElementFacade)paramTypeIt.next(), types, nonArrayTypes);
+            this.loadTypes((ModelElementFacade)iterator.next(), types, nonArrayTypes);
         }
 
-        Collection exceptions = new ArrayList();
+        final Collection exceptions = new ArrayList();
         for (final Iterator iterator = this.getAllowedOperations().iterator(); iterator.hasNext();)
         {
             exceptions.addAll(((OperationFacade)iterator.next()).getExceptions());
@@ -319,15 +318,20 @@ public class WebServiceLogicImpl
     }
 
     /**
-     * <p/>
-     * Checks to see if the <code>types</code> collection contains the <code>modelElement</code>. It does this by
-     * checking to see if the model element is either an association end or some type of model element that has a type
-     * that's an array. If it's either an array <strong>OR </strong> an association end, then we check to see if the
-     * type is stored within the <code>types</code> collection. If so, we return true, otherwise we return false. </p>
-     *
-     * @param types        the previously collected types.
-     * @param modelElement the model element to check to see if it represents a <code>many</code> type
-     * @return true/false depending on whether or not the model element is a many type.
+     * <p/> Checks to see if the <code>types</code> collection contains the
+     * <code>modelElement</code>. It does this by checking to see if the
+     * model element is either an association end or some type of model element
+     * that has a type that's an array. If it's either an array <strong>OR
+     * </strong> an association end, then we check to see if the type is stored
+     * within the <code>types</code> collection. If so, we return true,
+     * otherwise we return false.
+     * </p>
+     * 
+     * @param types the previously collected types.
+     * @param modelElement the model element to check to see if it represents a
+     *        <code>many</code> type
+     * @return true/false depending on whether or not the model element is a
+     *         many type.
      */
     private boolean containsManyType(
         final Collection types,
