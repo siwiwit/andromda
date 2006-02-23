@@ -295,7 +295,7 @@ public class WebServiceLogicImpl
 
                         if (type != null)
                         {
-                            Collection properties = type.getProperties();
+                            final Collection properties = type.getProperties();
                             if (properties != null && !properties.isEmpty())
                             {
                                 for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
@@ -462,13 +462,13 @@ public class WebServiceLogicImpl
             Object objectA,
             Object objectB)
         {
-            ModelElementFacade a = (ModelElementFacade)objectA;
+            final ModelElementFacade a = (ModelElementFacade)objectA;
             ModelElementFacade aType = getType(a);
             if (aType == null)
             {
                 aType = a;
             }
-            ModelElementFacade b = (ModelElementFacade)objectB;
+            final ModelElementFacade b = (ModelElementFacade)objectB;
             ModelElementFacade bType = getType(b);
             if (bType == null)
             {
