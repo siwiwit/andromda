@@ -72,13 +72,16 @@ public class $className
         }
         else
         {
-            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(70000);
-            final byte[] buffer = new byte[65536];
-            try
+            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+			try
             {
-                while (inputStream.read(buffer) > -1)
+			    final byte[] buffer = new byte[65536];
+                int read = -1;
+				
+                while ((read = inputStream.read(buffer)) > -1)
                 {
-                    outputStream.write(buffer);
+                    outputStream.write(buffer, 0, read);
                 }
                 outputStream.close();
             }
