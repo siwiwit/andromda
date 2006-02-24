@@ -665,18 +665,18 @@
     </goal>
 	
 	<goal name="zip-expected">
-		<j:set var="cartridge_dir" value="${basedir}/cartridges/${cartridge_name}"/>
-		<j:set var="actual_dir" value="target/cartridge-test/actual"/>
-		<available file="${cartridge_dir}/${actual}" property="cartridge_present"/>
-		<echo message="available:'${cartridge_present}'"/>
-		<j:if test="${cartridge_name == null || cartridge_name == '' }">
-			<fail message="Need to run maven zip-cartridge -Dcartridge_name=CARTRIDGE_NAME"/>
+		<j:set var="cartridgeDirectory" value="${basedir}/cartridges/${cartridgeName}"/>
+		<j:set var="actualDirectory" value="target/cartridge-test/actual"/>
+		<available file="${cartridgeDirectory}/${actual}" property="cartridgePresent"/>
+		<echo message="available:'${cartridgePresent}'"/>
+		<j:if test="${cartridgeName == null || cartridgeName == '' }">
+			<fail message="Need to run maven zip-cartridge -DcartridgeName=cartridgeName"/>
 		</j:if>
-		<j:if test="${cartridge_present ne 'true' }">
-			<fail message="${cartridge_dir}/${actual_dir} not found"/>
+		<j:if test="${cartridgePresent ne 'true' }">
+			<fail message="${cartridgeDirectory}/${actualDirectory} not found"/>
 		</j:if>
-		<zip destfile="${cartridge_dir}/src/test/expected/cartridge-output.zip">
-		    <zipfileset dir="${cartridge_dir}/${actual_dir}"/>
+		<zip destfile="${cartridgeDirectory}/src/test/expected/cartridge-output.zip">
+		    <zipfileset dir="${cartridgeDirectory}/${actualDirectory}"/>
   		</zip>	
 	</goal>
 
