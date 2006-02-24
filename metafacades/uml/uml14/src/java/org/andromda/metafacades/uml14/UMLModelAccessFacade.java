@@ -130,7 +130,7 @@ public class UMLModelAccessFacade
             if (this.model != null)
             {
                 final Collection underlyingElements = model.getCore().getModelElement().refAllOfType();
-                if (underlyingElements != null || !underlyingElements.isEmpty())
+                if (underlyingElements != null && !underlyingElements.isEmpty())
                 {
                     for (final Iterator iterator = underlyingElements.iterator(); iterator.hasNext();)
                     {
@@ -185,9 +185,9 @@ public class UMLModelAccessFacade
     /**
      * Filters out those metafacades which <strong>should </strong> be processed.
      *
-     * @param modelElements the Collection of modelElements.
+     * @param metafacades the Collection of modelElements.
      */
-    private final void filterMetafacades(final Collection metafacades)
+    private void filterMetafacades(final Collection metafacades)
     {
         if (this.modelPackages != null && !this.modelPackages.isEmpty())
         {

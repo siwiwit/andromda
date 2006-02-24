@@ -10,6 +10,7 @@
                     <uri>${test.model.uri}</uri>
                     <moduleSearchLocations>
                         <location patterns="**/*.xml.zip">${basedir}/../../profiles</location>
+                        <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles</location>
                     </moduleSearchLocations>
                 </model>
             </models>            

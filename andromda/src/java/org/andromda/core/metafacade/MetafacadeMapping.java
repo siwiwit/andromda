@@ -198,8 +198,8 @@ public class MetafacadeMapping
      * Adds a mapping property. This are used to narrow the metafacade to which the mapping can apply. The properties
      * must exist and must evaluate to the specified value if given for the mapping to match.
      *
-     * @param reference    the name of the reference.
-     * @param defaultValue the default value of the property reference.
+     * @param name the name of the reference.
+     * @param value the default value of the property reference.
      */
     public void addMappingProperty(
         final String name,
@@ -222,7 +222,7 @@ public class MetafacadeMapping
     }
 
     /**
-     * Stores a collection of all property groups added through {@link #addPropertyGroup(Collection)}. These are
+     * Stores a collection of all property groups added through {@link #addPropertyReferences(java.util.Collection)}. These are
      * property groups added from other mappings that return true when executing {@link #match(MetafacadeMapping)}.
      */
     private final Collection mappingPropertyGroups = new ArrayList();
@@ -230,8 +230,7 @@ public class MetafacadeMapping
     /**
      * Adds the <code>propertyGroup</code> to the existing mapping property groups within this mapping.
      *
-     * @param mappingProperties the collection of mapping properties to add to the mapping properties within this
-     *                          mappings instance.
+     * @param propertyGroup a property group for this mapping
      */
     final void addMappingPropertyGroup(final PropertyGroup propertyGroup)
     {

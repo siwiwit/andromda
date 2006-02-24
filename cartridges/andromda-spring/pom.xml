@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.cartridges</groupId>
         <artifactId>andromda-cartridges</artifactId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <artifactId>andromda-spring-cartridge</artifactId>
     <packaging>andromda-cartridge</packaging>
@@ -23,7 +23,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <build> 
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
@@ -49,9 +49,9 @@
                 </dependencies>    
             </plugin>
         </plugins> 
-    </build>
+    </build> 
     <properties>
         <model.uri>jar:file:${src.dir}/uml/SpringMetafacadeModel.xml.zip!/SpringMetafacadeModel.xml</model.uri>
         <test.model.uri>jar:file:${test.src.dir}/uml/SpringCartridgeTestModel.xml.zip!/SpringCartridgeTestModel.xml</test.model.uri>
-    </properties> 
+    </properties>
 </project>

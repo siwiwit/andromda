@@ -6,7 +6,7 @@
 #renderHiddenInputField($field "")
 #else
 #foreach ($attribute in $field.attributes)
-#if ($attribute.inputHidden)
+#if ($attribute.inputHidden || $field.inputHidden)
 #renderHiddenInputField($attribute $field)
 #end
 #end

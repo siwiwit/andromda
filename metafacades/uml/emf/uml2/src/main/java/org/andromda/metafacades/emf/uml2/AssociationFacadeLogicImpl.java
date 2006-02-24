@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
+import org.eclipse.uml2.AssociationClass;
 
 
 /**
@@ -55,4 +56,23 @@ public class AssociationFacadeLogicImpl
     {
         return this.metaObject.getMemberEnds();
     }
+
+	/**
+     * @see org.andromda.metafacades.emf.uml2.AssociationFacadeLogic#handleIsAssociationClass()
+     */
+    protected boolean handleIsAssociationClass()
+    {
+        return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
+    }
+
+    protected Object handleGetAssociationEndA()
+    {
+        return this.getAssociationEnds().get(0);
+    }
+
+    protected Object handleGetAssociationEndB()
+    {
+        return this.getAssociationEnds().get(1);
+    }
+
 }

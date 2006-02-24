@@ -43,7 +43,19 @@ public class ClasspathWriter
     }
 
     /**
-     * Writes the .classpath files for Eclipse.
+     * Writes the .classpath file for eclipse.
+     *
+     * @param projects the list of projects from which the .classpath will get its dependencies.
+     * @param repositoryVariableName the name of the maven repository variable.
+     * @param artifactFactory the factory for constructing artifacts.
+     * @param artifactResolver the artifact resolver.
+     * @param localRepository the local repository instance.
+     * @param artifactMetadataSource
+     * @param classpathArtifactTypes the artifacts types that are allowed in the classpath file.
+     * @param remoteRepositories the list of remote repository instances.
+     * @param resolveTransitiveDependencies whether or not dependencies shall be transitively resolved.
+     * @param merge anything extra (not auto-generated), that should be "merged" into the generated .classpath
+     * @throws Exception
      */
     public void write(
         final List projects,
@@ -54,7 +66,8 @@ public class ClasspathWriter
         final ArtifactMetadataSource artifactMetadataSource,
         final Set classpathArtifactTypes,
         final List remoteRepositories,
-        final boolean resolveTransitiveDependencies)
+        final boolean resolveTransitiveDependencies,
+        final String merge)
         throws Exception
     {
         final String rootDirectory = ResourceUtils.normalizePath(this.project.getBasedir().toString());
@@ -208,10 +221,20 @@ public class ClasspathWriter
         for (final Iterator iterator = allArtifactPaths.iterator(); iterator.hasNext();)
         {
             final String path = (String)iterator.next();
-            this.writeClasspathEntry(
-                writer,
-                "var",
-                path);
+            if (path.startsWith(repositoryVariableName))
+            {
+                this.writeClasspathEntry(
+                    writer,
+                    "var",
+                    path);
+            }
+            else
+            {
+                this.writeClasspathEntry(
+                    writer,
+                    "lib",
+                    path);
+            }
         }
 
         this.writeClasspathEntry(
@@ -235,6 +258,10 @@ public class ClasspathWriter
             "output",
             outputPath);
 
+        if (StringUtils.isNotBlank(merge))
+        {
+            writer.writeMarkup(merge);
+        }
         writer.endElement();
 
         logger.info("Classpath file written --> '" + classpathFile + "'");

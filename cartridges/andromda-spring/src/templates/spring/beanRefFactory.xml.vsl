@@ -20,6 +20,12 @@
 #if (!$manageables.empty)
                 <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
 #end
+#if ($richClient == 'true')
+                <value>${applicationContextServer}</value>
+#if ($acegiServiceSecurity == 'true')
+                <value>$stringUtils.replace($applicationContextServerAuthentication, '/', '.')</value>
+#end
+#end                
                 <!-- beanRefFactory merge-point -->
            </list>
         </constructor-arg>
@@ -36,9 +42,11 @@
 #if ($springUtils.localEjbsPresent($services))
                 <value>$stringUtils.replace($applicationContextLocalEjb, '/', '.')</value>
 #end
+                <!-- beanRefFactoryEjb merge-point -->
            </list>
         </constructor-arg>
     </bean>
 #end
-
+    <!-- beanRefFactoryEjbXml merge-point -->
+    
 </beans>

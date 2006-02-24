@@ -86,7 +86,7 @@ public class ExceptionRecorder
      * <_nn>.exc where YY..SS is the timestamp <_nn>is an ascending sequence number when multiple exceptions occur in
      * the same second. Returns the filename of the generated exception report. </p>
      *
-     * @param Exception to record.
+     * @param throwable to record.
      */
     public String record(Throwable throwable)
     {
@@ -110,7 +110,7 @@ public class ExceptionRecorder
     }
 
     /**
-     * The default prefix given, if prefix in {@link #record(String, Throwable, String)is null.
+     * The default prefix given, if prefix in {@link #record(String, Throwable, String) is null.
      */
     private static final String DEFAULT_PREFIX = "andromda";
 

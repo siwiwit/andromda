@@ -4,7 +4,7 @@
   <artifactId>andromda-metafacades-uml</artifactId>
   <packaging>xml.zip</packaging>
   <name>AndroMDA UML Common Metafacades</name>
-  <version>4.0-M1-SNAPSHOT</version>
+  <version>3.2-RC1-SNAPSHOT</version>
   <description>The common UML metafacades.  This is the set of core UML metafacades used to provide access UML meta models.</description>
   <url>http://www.andromda.org/andromda-metafacades/andromda-uml-metafacades/andromda-metafacades-uml</url>
   <issueManagement>
@@ -58,11 +58,6 @@
       <url>http://team.andromda.org/maven2</url>
     </repository>
     <repository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
-    </repository>
-    <repository>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -76,11 +71,6 @@
       <id>andromda</id>
       <name>AndroMDA Repository</name>
       <url>http://team.andromda.org/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
     </pluginRepository>
     <pluginRepository>
       <releases>
@@ -104,4 +94,10 @@
       <url>scp://galaxy.andromda.org/var/www/andromda/maven2</url>
     </repository>
   </distributionManagement>
+  <properties>
+    <maven.andromda.model.uri>jar:file:f:\java\development\andromda-all-v3\metafacades\uml\common/src/uml/andromda-metafacades-uml.xml.zip!/andromda-metafacades-uml.xml</maven.andromda.model.uri>
+    <model.file>f:\java\development\andromda-all-v3\metafacades\uml\common/src/uml/andromda-metafacades-uml.xml.zip</model.file>
+    <maven.src.dir>f:\java\development\andromda-all-v3\metafacades\uml\common/src</maven.src.dir>
+    <maven.build.src>f:\java\development\andromda-all-v3\metafacades\uml\common/target/src</maven.build.src>
+  </properties>
 </project>

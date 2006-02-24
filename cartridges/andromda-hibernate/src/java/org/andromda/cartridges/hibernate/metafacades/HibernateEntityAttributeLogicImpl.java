@@ -5,6 +5,7 @@ import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
+import org.andromda.cartridges.hibernate.HibernateUtils;
 
 
 /**
@@ -135,4 +136,43 @@ public class HibernateEntityAttributeLogicImpl
         final String value = (String)findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_PROPERTY_UPDATE);
         return StringUtils.isNotBlank(value) ? Boolean.valueOf(value).booleanValue() : true;
     }
+
+    private boolean isXmlPersistenceActive()
+    {
+       return HibernateUtils.isXmlPersistenceActive((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION),
+                                                    (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_XML_PERSISTENCE));
+    }
+
+    
+    private boolean persistIDAsAttribute() 
+    {
+        boolean persistAsAttribute = true;
+        String prop = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_XML_PERSISTENCE_ID_AS_ATTRIBUTE);
+        if (prop != null && prop.equalsIgnoreCase("false"))
+            persistAsAttribute = false;
+        
+        return persistAsAttribute;
+    }
+    
+    
+    protected String handleGetXmlTagName() 
+    {
+        String tagName = null;
+        
+        if (isXmlPersistenceActive())
+        {
+            tagName = (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_XML_TAG_NAME);
+
+            if (tagName == null)
+            {
+                if (this.isIdentifier() && this.persistIDAsAttribute())
+                    tagName = "@" + this.getName();
+                else
+                    tagName = this.getName();
+            }
+
+        }
+        return (StringUtils.isBlank(tagName)) ? null : tagName;
+    }
+    
 }

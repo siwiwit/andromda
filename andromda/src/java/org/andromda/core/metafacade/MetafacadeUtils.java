@@ -27,7 +27,7 @@ final class MetafacadeUtils
      * @param mapping the MetafacadeMapping instance that contains the properties.
      * @return true/false
      */
-    static final boolean propertiesValid(
+    static boolean propertiesValid(
         final MetafacadeBase metafacade,
         final MetafacadeMapping mapping)
     {
@@ -109,7 +109,7 @@ final class MetafacadeUtils
      * @return the new metafacade.
      * @throws Exception if any error occurs during metafacade creation
      */
-    static final MetafacadeBase constructMetafacade(
+    static MetafacadeBase constructMetafacade(
         final Class metafacadeClass,
         final Object mappingObject,
         final String context)
@@ -177,7 +177,7 @@ final class MetafacadeUtils
      *
      * @return the logger instance.
      */
-    private static final Logger getLogger()
+    private static Logger getLogger()
     {
         return MetafacadeFactory.getInstance().getLogger();
     }

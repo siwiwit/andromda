@@ -32,6 +32,18 @@
                     <strong>no operations</strong> are present on the entity with <em>instance scope</em>.
                 </documentation>
             </property>
+            <property name="entity-mappings">
+                <documentation>
+                    The location to which hibernate entity mapping files are generated, these are the ones
+                    with the <code>.hbm.xml</code> extension.
+                </documentation>
+            </property>
+            <property name="user-types">
+                <documentation>
+                    The location to which hibernate enumeration user-types are generated. This includes
+                    String CLOB, BLOB and enumeration user-types.
+                </documentation>
+            </property>
             <property name="session-beans" required="false">
                 <documentation>
                     The directory to which Session EJB service wrappers are generated.  If this
@@ -386,6 +398,24 @@
                         <li>2 - Hibernate 2.x</li>
                         <li>3 - Hibernate 3.x</li>
                     </ul>
+                </documentation>
+            </property>
+            <property name="hibernateXMLPersistence">
+                <default>false</default>
+                <documentation>
+                    Set to <code>true</code> to enable Hibernate's
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a> 
+                    using dom4J. The <code>hibernateVersion</code> namespace property must be set to <code>3</code>.
+                </documentation>
+            </property>
+            <property name="hibernateXMLPersistIDAsAttribute">
+                <default>true</default>
+                <documentation>
+                    Set to <code>true</code> if the identifier for generated entities should be mapped
+                    to an <i>attribute</i> of the entity's XML tag, or as a separate field when
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a> 
+                    is enabled. The <code>hibernateXMLPersistence</code> namespace property must be set
+                    to <code>true</code> for this option to have meaning.
                 </documentation>
             </property>
             <property name="defaultHibernateGeneratorClass">

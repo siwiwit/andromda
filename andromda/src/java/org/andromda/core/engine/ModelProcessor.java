@@ -233,8 +233,7 @@ public class ModelProcessor
                             // - set the namespace on the metafacades instance so we know the 
                             //   correct facades to use
                             this.factory.setModel(
-                                this.repositories.getImplementation(repositoryName).getModel(
-                                    model.getAccessFacadeType()),
+                                this.repositories.getImplementation(repositoryName).getModel(),
                                 model.getType());
                             cartridge.processModelElements(this.factory);
                             writer.writeHistory();
@@ -307,7 +306,6 @@ public class ModelProcessor
      * Loads the model into the repository only when necessary (the model has a timestamp
      * later than the last timestamp of the loaded model).
      *
-     * @param repositoryName the name of the repository that will load/read the model.
      * @param model the model to be loaded.
      */
     protected final List loadModelIfNecessary(final Model model)
@@ -336,7 +334,6 @@ public class ModelProcessor
      * (also logs any validation failures).
      *
      * @param repositoryName the name of the repository storing the model to validate.
-     * @param constraints any constraint filters to apply to the validation messages.
      * @return any {@link ModelValidationMessage} instances that may have been collected
      *         during validation.
      */
@@ -352,7 +349,7 @@ public class ModelProcessor
             AndroMDALogger.info("- validating model -");
             final Collection cartridges = ComponentContainer.instance().findComponentsOfType(Cartridge.class);
             final ModelAccessFacade modelAccessFacade =
-                this.repositories.getImplementation(repositoryName).getModel(model.getAccessFacadeType());
+                this.repositories.getImplementation(repositoryName).getModel();
 
             // - clear out the factory's caches (such as any previous validation messages, etc.)
             this.factory.clearCaches();
@@ -493,7 +490,6 @@ public class ModelProcessor
     /**
      * Checks to see if <em>any</em> of the models need to be reloaded, and if so, re-loads them.
      *
-     * @param repositoryName the name of the repository used to load/read the models
      * @param models that will be loaded (if necessary).
      * @return any validation messages collected during loading.
      */

@@ -1,11 +1,13 @@
 <cartridge>
 
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine"/>
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
     <!-- cartridge-templateObject merge-point-->  
 
     <property reference="serializable"/>
     <property reference="enablePropertyConstructors"/>
     <property reference="toDoTag"/>
+    <property reference="enableTemplating"/>
     <!-- cartridge-property merge-point-->  
 
     <!-- cartridge-resource merge-point -->

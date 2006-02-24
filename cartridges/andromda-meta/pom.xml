@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.cartridges</groupId>
         <artifactId>andromda-cartridges</artifactId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <artifactId>andromda-meta-cartridge</artifactId>
     <packaging>andromda-cartridge</packaging>
@@ -14,6 +14,7 @@
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromda-bootstrap-plugin</artifactId>
+                <version>${pom.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -38,6 +39,7 @@
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromda-bootstrap-install-plugin</artifactId>    
+                <version>${pom.version}</version>
                 <executions>
                     <execution>
                         <goals>

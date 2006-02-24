@@ -1,0 +1,23 @@
+<namespace name="mdr-uml2">
+    <components>
+        <component name="repository">
+            <path>META-INF/andromda/repository.xml</path>
+        </component>
+    </components>
+    <properties>
+        <propertyGroup name="Repository Properties">
+            <property name="metamodelLocation">
+                <default>/uml-2.0.xml</default>
+            </property>
+            <property name="metamodelPackage">
+                <default>UML2</default>
+            </property>
+            <property name="xmiReaderFactory">
+                <default>org.andromda.mdr.xmi.uml20.load.reader.ReaderFactory</default>
+            </property>
+            <property name="modelAccessFacade">
+                <default>org.andromda.metafacades.uml2.UMLModelAccessFacade</default>
+            </property>
+        </propertyGroup>
+    </properties>
+</namespace>

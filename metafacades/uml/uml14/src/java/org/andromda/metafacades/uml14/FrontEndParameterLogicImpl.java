@@ -205,7 +205,7 @@ public class FrontEndParameterLogicImpl
             final ClassifierFacade nonArrayType = type.getNonArray();
             if (nonArrayType != null)
             {
-                nonArrayAttributes.addAll(nonArrayType.getAttributes());
+                nonArrayAttributes.addAll(nonArrayType.getAttributes(true));
             }
         }
         return nonArrayAttributes;        

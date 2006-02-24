@@ -49,7 +49,7 @@ public class PathMatcher
         }
         path = path.trim();
         pattern = pattern.trim();
-        boolean matches = false;
+        boolean matches;
         pattern = StringUtils.replace(
                 pattern,
                 ".",

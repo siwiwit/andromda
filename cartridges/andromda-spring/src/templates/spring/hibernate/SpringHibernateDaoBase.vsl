@@ -63,10 +63,33 @@ public abstract class $entity.daoBaseName
                 "${entity.name}.load - '$argument' can not be null");
         }
 #end
-        final java.util.List list = this.getHibernateTemplate().find(
-            "from $entity.fullyQualifiedEntityName as entity where entity.$identifier.name = ?", $argument);
-        final Object entity = list != null && !list.isEmpty() ? list.iterator().next() : null;
-        return transformEntity(transform, ($entity.fullyQualifiedName)entity);
+#if ($hibernateUtils.xmlPersistenceActive)
+#set ($xmlIndent = "    ")
+        if (transform == TRANSFORM_XML)
+        {
+            final Object entity = this.getHibernateTemplate().execute(
+                    new org.springframework.orm.hibernate3.HibernateCallback()
+                    {
+                        public Object doInHibernate(org.hibernate.Session hibernateSession)
+                            throws org.hibernate.HibernateException
+                        {
+                            org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                            return xmlSession.get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
+                        }
+                    },
+                    true);
+            return entity;
+        }
+        else
+        {
+#else
+#set ($xmlIndent = "")
+#end
+$xmlIndent        final Object entity = this.getHibernateTemplate().get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
+$xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)entity);
+#if ($hibernateUtils.xmlPersistenceActive)
+        }
+#end
     }
 
     /**
@@ -106,6 +129,43 @@ public abstract class $entity.daoBaseName
         return ($entity.fullyQualifiedEntityName)this.create($entity.daoNoTransformationConstantName, $argumentName);
     }
 
+#if ($hibernateUtils.xmlPersistenceActive)
+#set ($identifier = $entity.identifiers.iterator().next())
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#create(org.dom4j.Element)
+     */
+    public $entity.root.fullyQualifiedEntityName create(org.dom4j.Element $argumentName)
+    {
+       return ($entity.root.fullyQualifiedEntityName)this.create(TRANSFORM_NONE, $argumentName);
+    }
+
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#create(int transform, org.dom4j.Element)
+     */
+    public Object create(int transform, final org.dom4j.Element $argumentName)
+    {
+        if ($argumentName == null)
+        {
+            throw new IllegalArgumentException(
+                "${entity.name}.create - '$argumentName' can not be null");
+        }
+        Object newID = this.getHibernateTemplate().execute(
+                new org.springframework.orm.hibernate3.HibernateCallback()
+                {
+                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                        throws org.hibernate.HibernateException
+                    {
+                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        return xmlSession.save("$entity.fullyQualifiedEntityImplementationName", $argumentName);
+                    }
+                },
+                true);
+        
+        return this.load(transform, ($identifier.type.fullyQualifiedName)newID);
+        
+    }
+
+#end
     /**
      * @see ${entity.fullyQualifiedDaoName}#create(int transform, $entity.fullyQualifiedEntityName)
      */
@@ -116,8 +176,22 @@ public abstract class $entity.daoBaseName
             throw new IllegalArgumentException(
                 "${entity.name}.create - '$argumentName' can not be null");
         }
+#if ($hibernateUtils.xmlPersistenceActive)
+#set ($identifierProperty = "identifier")
+#if($identifier.type.primitive)
+#set ($identifierProperty = "(($identifier.type.wrapperName)$identifierProperty).${identifier.type.fullyQualifiedName}Value()")
+#else
+#set ($identifierProperty = "($identifier.type.fullyQualifiedName)$identifierProperty")
+#end
+        Object identifier = this.getHibernateTemplate().save($argumentName);
+        if (transform == TRANSFORM_XML)
+          return this.load(TRANSFORM_XML, (($identifierProperty)));
+        else
+          return this.transformEntity(transform, $argumentName);
+#else
         this.getHibernateTemplate().save($argumentName);
         return this.transformEntity(transform, $argumentName);
+#end
     }
 
     /**
@@ -156,7 +230,7 @@ public abstract class $entity.daoBaseName
     }
 
 #if ($enableDaoPropertiesCreateMethod.equalsIgnoreCase('true'))
-#set ($attributes = $entity.getAttributes(true,false))
+#set ($attributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
 #if (!$attributes.empty)
     /**
      * @see ${entity.root.fullyQualifiedDaoName}#create(${entity.getAttributeTypeList(true, false)})
@@ -167,7 +241,7 @@ public abstract class $entity.daoBaseName
 
 #end
     {
-        return ($entity.root.fullyQualifiedEntityName)this.create($entity.daoNoTransformationConstantName, ${entity.getAttributeNameList(true,false)});
+        return ($entity.root.fullyQualifiedEntityName)this.create($entity.daoNoTransformationConstantName, ${entity.getAttributeNameList(true, $entity.usingAssignedIdentifier)});
     }
 
     /**
@@ -235,6 +309,32 @@ public abstract class $entity.daoBaseName
         this.getHibernateTemplate().update($argumentName);
     }
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#update(org.dom4j.Element)
+     */
+    public void update(final org.dom4j.Element $argumentName)
+    {
+        if ($argumentName == null)
+        {
+            throw new IllegalArgumentException(
+                "${entity.name}.update - '$argumentName' can not be null");
+        }
+        this.getHibernateTemplate().execute(
+                new org.springframework.orm.hibernate3.HibernateCallback()
+                {
+                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                        throws org.hibernate.HibernateException
+                    {
+                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        xmlSession.update("$entity.fullyQualifiedEntityImplementationName", $argumentName);
+                        return null;
+                    }
+                },
+                true);
+    }
+
+#end
     /**
      * @see ${entity.fullyQualifiedDaoName}#update(java.util.Collection)
      */
@@ -274,6 +374,32 @@ public abstract class $entity.daoBaseName
         this.getHibernateTemplate().delete($argumentName);
     }
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#remove(org.dom4j.Element)
+     */
+    public void remove(final org.dom4j.Element $argumentName)
+    {
+        if ($argumentName == null)
+        {
+            throw new IllegalArgumentException(
+                "${entity.name}.remove - '$argumentName' can not be null");
+        }
+        this.getHibernateTemplate().execute(
+                new org.springframework.orm.hibernate3.HibernateCallback()
+                {
+                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                        throws org.hibernate.HibernateException
+                    {
+                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        xmlSession.delete($argumentName);
+                        return null;
+                    }
+                },
+                true);
+    }
+
+#end
     /**
      * @see ${entity.fullyQualifiedDaoName}#remove($identifier.type.fullyQualifiedName)
      */
@@ -316,7 +442,7 @@ public abstract class $entity.daoBaseName
 #foreach ($finder in $entity.getQueryOperations(true))
 #set ($returnType = $finder.returnType.fullyQualifiedName)
     /**
-     * @see ${entity.fullyQualifiedName}#$finder.getSignature(false)
+     * @see ${entity.fullyQualifiedDaoName}#$finder.getSignature(false)
      */
     $finder.visibility $returnType $finder.signature
 #if ($finder.exceptionsPresent)
@@ -332,7 +458,7 @@ public abstract class $entity.daoBaseName
 
 #if(!$finder.criteriaFinder)
     /**
-     * @see ${entity.fullyQualifiedName}#${finder.name}(java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
     $finder.visibility $returnType ${finder.name}(final java.lang.String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -350,7 +476,7 @@ public abstract class $entity.daoBaseName
 #set ($returnType = "Object")
 #end
     /**
-     * @see ${entity.fullyQualifiedName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
     $finder.visibility $returnType ${finder.name}(final int transform#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -361,7 +487,7 @@ public abstract class $entity.daoBaseName
     }
 
     /**
-     * @see ${entity.fullyQualifiedName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
     $finder.visibility $returnType ${finder.name}(final int transform, final java.lang.String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -423,7 +549,7 @@ public abstract class $entity.daoBaseName
     }
 #else
     /**
-     * @see ${entity.fullyQualifiedName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
     $finder.visibility $returnType ${finder.name}(final int transform#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -613,14 +739,28 @@ public abstract class $entity.daoBaseName
     }
 
     /**
-     * Base implementation for transforming the results of a report query into a value object. This
+     * Default implementation for transforming the results of a report query into a value object. This
      * implementation exists for convenience reasons only. It needs only be overridden in the
      * {@link $entity.daoImplementationName} class if you intend to use reporting queries.
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedName)
      */
     protected $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(Object[] row)
     {
-        return null;
+        $valueObjectRef.targetElement.fullyQualifiedName target = null;
+        if (row != null)
+        {
+            final int numberOfObjects = row.length;
+            for (int ctr = 0; ctr < numberOfObjects; ctr++)
+            {
+                final Object object = row[ctr];
+                if (object instanceof $entity.fullyQualifiedEntityName)
+                {
+                    target = this.${valueObjectRef.transformationMethodName}(($entity.fullyQualifiedEntityName)object);
+                    break;
+                }
+            }
+        }
+        return target;
     }
 
     /**
@@ -674,5 +814,98 @@ public abstract class $entity.daoBaseName
             }
         };
 
+
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName, $valueObjectRef.targetElement.fullyQualifiedName)
+     */
+    public void ${valueObjectRef.transformationMethodName}(
+        $entity.fullyQualifiedEntityName sourceEntity, 
+        $valueObjectRef.targetElement.fullyQualifiedName targetVO)
+    {
+#foreach ($property in $valueObjectRef.targetElement.allProperties)
+#foreach ($entityProp in $entity.allProperties)
+#if ($property.name == $entityProp.name)
+#if ($property.readOnly == true)
+        // No conversion for targetVO.${property.name} (it is read only and doesn't have a setter)
+#else
+#set ($getVal = false)
+#set ($getVal = $converter.typeConvert($entityProp.type.fullyQualifiedName, "sourceEntity.${entityProp.getterName}()", $property.type.fullyQualifiedName) )
+#if ($getVal)
+        targetVO.${property.setterName}($getVal);
+#else
+        // No conversion for targetVO.${property.name} (can't convert sourceEntity.${entityProp.getterName}():${entityProp.type.fullyQualifiedName} to $property.type.fullyQualifiedName)
+#end
+#end
+#end
+#end
+#end
+    }
+
+
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedName)
+     */
+    public $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(final $entity.fullyQualifiedName entity)
+    {
+        $valueObjectRef.targetElement.fullyQualifiedName $stringUtils.uncapitalize($valueObjectRef.name) = 
+             new ${valueObjectRef.targetElement.fullyQualifiedName}(
+                 ## no new line
+#set ($indent = "")
+#foreach ($property in $valueObjectRef.targetElement.allProperties)
+#set ($matchFound = false)
+#foreach ($entityProp in $entity.allProperties)
+#if ($property.name == $entityProp.name)
+#set ($getVal = false)
+#set ($getVal = $converter.typeConvert($entityProp.type.fullyQualifiedName, "entity.${entityProp.getterName}()", $property.type.fullyQualifiedName) )
+#if ($getVal)
+#if ($indent != '')
+,
+#end
+${indent}$getVal## no new line
+#set ($matchFound = true)
+#end
+#end
+#end
+#if ($matchFound == false)
+#if ($indent != '')
+,
+#end
+${indent}${property.type.javaNullString}## no new line
+#end
+#set ($indent = "                 ")
+#end
+
+                 );
+
+        return ${stringUtils.uncapitalize($valueObjectRef.name)};
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToEntityMethodName}($valueObjectRef.targetElement.fullyQualifiedName, $entity.fullyQualifiedEntityName)
+     */
+    public void ${valueObjectRef.transformationToEntityMethodName}(
+        $valueObjectRef.targetElement.fullyQualifiedName sourceVO,
+        $entity.fullyQualifiedEntityName targetEntity,
+        boolean copyIfNull)
+    {
+#set ($attributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
+#foreach ($attribute in $attributes)
+#foreach ($voProperty in $valueObjectRef.targetElement.allProperties)
+#if ($attribute.name == $voProperty.name)
+#set ($getVal = false)
+#set ($getVal = $converter.typeConvert($voProperty.type.fullyQualifiedName, "sourceVO.${voProperty.getterName}()", $attribute.type.fullyQualifiedName) )
+#if ($getVal)
+        if (copyIfNull == true || sourceVO.${voProperty.getterName}() != $voProperty.type.javaNullString)
+        {
+            targetEntity.${attribute.setterName}($getVal);
+        }
+#else
+        // No conversion for targetEntity.${attribute.name} (can't convert sourceVO.${voProperty.getterName}():${voProperty.type.fullyQualifiedName} to $attribute.type.fullyQualifiedName)
+#end        
+#end
+#end
+#end
+    }
+    
 #end
 }

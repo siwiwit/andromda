@@ -3,7 +3,7 @@ package org.andromda.metafacades.uml14;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -274,7 +274,7 @@ public class FrontEndUseCaseLogicImpl
      */
     protected List handleGetViewVariables()
     {
-        final Map pageVariableMap = new HashMap();
+        final Map pageVariableMap = new LinkedHashMap();
 
         // - page variables can occur twice or more in the usecase if their
         //   names are the same for different forms, storing them in a map

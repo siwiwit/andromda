@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.cartridges</groupId>
         <artifactId>andromda-cartridges</artifactId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <artifactId>andromda-hibernate-cartridge</artifactId>
     <packaging>andromda-cartridge</packaging>
@@ -23,7 +23,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <build>
+    <build> 
         <plugins>
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
@@ -48,7 +48,7 @@
                 </dependencies>    
             </plugin>
         </plugins> 
-    </build>
+    </build> 
     <properties>
         <model.uri>jar:file:${src.dir}/uml/HibernateMetafacadeModel.xml.zip!/HibernateMetafacadeModel.xml</model.uri>
         <test.model.uri>jar:file:${test.src.dir}/uml/HibernateCartridgeTestModel.xml.zip!/HibernateCartridgeTestModel.xml</test.model.uri>

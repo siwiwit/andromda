@@ -129,6 +129,12 @@ public class EclipseMojo
      */
     private boolean resolveTransitiveDependencies = true;
    
+    /**
+     * Allows non-generated configuration to be "merged" into the generated .classpath file.
+     * 
+     * @parameter
+     */
+    private String classpathMerge;
 
     /**
      * @see org.apache.maven.plugin.Mojo#execute()
@@ -156,7 +162,8 @@ public class EclipseMojo
                     this.artifactMetadataSource,
                     this.classpathArtifactTypes,
                     this.project.getRemoteArtifactRepositories(),
-                    this.resolveTransitiveDependencies);
+                    this.resolveTransitiveDependencies,
+                    this.classpathMerge);
             }
         }
         catch (Throwable throwable)
@@ -196,6 +203,11 @@ public class EclipseMojo
                 }
                 final Set compileSourceRoots = new LinkedHashSet(project.getCompileSourceRoots());
                 compileSourceRoots.addAll(this.getExtraSourceDirectories(project));
+                final String testSourceDirectory = project.getBuild().getTestSourceDirectory();
+                if (testSourceDirectory != null && testSourceDirectory.trim().length() > 0)
+                {
+                    compileSourceRoots.add(testSourceDirectory);
+                }
                 project.getCompileSourceRoots().clear();
                 project.getCompileSourceRoots().addAll(compileSourceRoots);
                 this.getLog().info("Processing project " + project.getId());
@@ -208,8 +220,6 @@ public class EclipseMojo
         }
         return projects;
     }
-    
-    //buildFromRepository(Artifact artifact, List remoteArtifactRepositories, ArtifactRepository localRepository, boolean allowStubModel)
 
     /**
      * The artifact id for the multi source plugin.

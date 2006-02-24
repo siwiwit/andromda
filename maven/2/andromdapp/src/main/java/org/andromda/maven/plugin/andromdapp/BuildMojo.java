@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.lang.reflect.Method;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -240,6 +242,7 @@ public class BuildMojo
             }
             else
             {
+                this.executionProperties.putAll(this.session.getExecutionProperties());
                 this.executeModules(this.modules);
             }
         }

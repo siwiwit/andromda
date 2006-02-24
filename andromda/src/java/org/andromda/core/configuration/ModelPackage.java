@@ -8,7 +8,7 @@ import java.io.Serializable;
  * reference stereotyped model elements from other packages but you don't want to generate elements from them.
  *
  * @author Chad Brandon
- * @see org.andromda.core.configuration.ModelPackages
+ * @see org.andromda.core.configuration.Model
  */
 public class ModelPackage
     implements Serializable

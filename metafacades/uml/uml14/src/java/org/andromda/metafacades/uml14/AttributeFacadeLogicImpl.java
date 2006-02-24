@@ -97,7 +97,7 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml.AssociationEndFacade#getOwner()
+     * @see org.andromda.metafacades.uml.AttributeFacade#getOwner()
      */
     public Object handleGetOwner()
     {
@@ -105,7 +105,7 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml.AssociationEndFacade#isReadOnly()
+     * @see org.andromda.metafacades.uml.AttributeFacade#isReadOnly()
      */
     public boolean handleIsReadOnly()
     {
@@ -113,7 +113,7 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml.AttributeFacade#isStatic()
+     * @see org.andromda.metafacades.uml.AttributeFacade#isStatic()
      */
     public boolean handleIsStatic()
     {
@@ -121,7 +121,7 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.core.metadecorators.uml.AttributeFacade#findTaggedValue(java.lang.String, boolean)
+     * @see org.andromda.metafacades.uml.AttributeFacade#findTaggedValue(java.lang.String, boolean)
      */
     public Object handleFindTaggedValue(
         String name,
@@ -187,17 +187,14 @@ public class AttributeFacadeLogicImpl
         final Multiplicity multiplicity = metaObject.getMultiplicity();
         if (multiplicity != null)
         {
-            if (multiplicity != null)
+            final Collection ranges = multiplicity.getRange();
+            if (ranges != null && !ranges.isEmpty())
             {
-                final Collection ranges = multiplicity.getRange();
-                if (ranges != null && !ranges.isEmpty())
+                final Iterator rangeIt = ranges.iterator();
+                while (rangeIt.hasNext())
                 {
-                    final Iterator rangeIt = ranges.iterator();
-                    while (rangeIt.hasNext())
-                    {
-                        final MultiplicityRange multiplicityRange = (MultiplicityRange)rangeIt.next();
-                        lower = new Integer(multiplicityRange.getLower());
-                    }
+                    final MultiplicityRange multiplicityRange = (MultiplicityRange)rangeIt.next();
+                    lower = new Integer(multiplicityRange.getLower());
                 }
             }
         }
@@ -241,7 +238,7 @@ public class AttributeFacadeLogicImpl
     protected boolean handleIsEnumerationLiteral()
     {
         final ClassifierFacade owner = this.getOwner();
-        return (owner == null) ? false : owner.isEnumeration();
+        return (owner != null) && owner.isEnumeration();
     }
 
     /**
@@ -294,7 +291,7 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Attribute#isOrdered()
+     * @see org.andromda.metafacades.uml.AttributeFacade#isOrdered()
      */
     public boolean handleIsOrdered()
     {

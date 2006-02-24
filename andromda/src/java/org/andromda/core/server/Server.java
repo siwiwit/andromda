@@ -16,8 +16,6 @@ public interface Server
     /**
      * Starts the server instance listening for requests with the given
      * configuration.
-     *
-     * @throws Exception
      */
     public void start(final Configuration configuration);
 }

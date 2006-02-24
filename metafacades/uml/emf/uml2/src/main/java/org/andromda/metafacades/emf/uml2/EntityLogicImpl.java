@@ -2,7 +2,6 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -625,7 +624,7 @@ public class EntityLogicImpl
         final boolean follow,
         final boolean withIdentifiers)
     {
-        final Set properties = new HashSet(this.getProperties(
+        final Set properties = new LinkedHashSet(this.getProperties(
                     follow,
                     withIdentifiers));
         CollectionUtils.filter(
@@ -734,9 +733,9 @@ public class EntityLogicImpl
      *
      * @see org.andromda.metafacades.uml.ClassifierFacade#getAssociationEnds()
      */
-    public Collection handleGetAssociationEnds()
+    public List handleGetAssociationEnds()
     {
-        final Collection associationEnds = this.shieldedElements(super.handleGetAssociationEnds());
+        final List associationEnds = (List)this.shieldedElements(super.handleGetAssociationEnds());
         CollectionUtils.filter(
             associationEnds,
             new Predicate()

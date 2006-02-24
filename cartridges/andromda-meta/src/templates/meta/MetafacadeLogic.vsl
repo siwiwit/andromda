@@ -90,6 +90,14 @@ public abstract class $metafacade.logicName
 #end
 #end
 ##
+    /**
+     * @see $metafacade.fullyQualifiedName
+     */
+    public boolean is${metafacade.name}MetaType()
+    {
+        return true;
+    }
+    
 #if (!$metafacade.attributes.empty)
     // --------------- attributes ---------------------
 
@@ -268,6 +276,16 @@ public abstract class $metafacade.logicName
 #end
 ##
 #if ($metafacade.requiresInheritanceDelegatation)
+#foreach ($parent in $metafacade.allParents)
+    /**
+     * @see $parent.fullyQualifiedName
+     */
+    public boolean is${parent.name}MetaType()
+    {
+        return true;
+    }
+    
+#end
 #foreach ($link in $metafacade.generalizationLinks)
 #set ($generalizationCount = $velocityCount)
     // ----------- delegates to $link.parent.fullyQualifiedName ------------

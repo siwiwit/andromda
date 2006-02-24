@@ -22,6 +22,15 @@
             <output patterns="**/*">web/</output>  
         </conditions>
         <conditions>
+            <condition id="web" equal="true"/>
+            <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
+        </conditions>
+        <conditions type="and">
+            <condition id="war" equal="true"/>
+            <condition id="webservice" equal="true"/>
+            <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
+        </conditions>
+        <conditions>
             <condition id="war" equal="true"/>      
             <output patterns="**/*">web/src/main/resources/META-INF/context.xml.vsl</output>  
         </conditions>
@@ -31,7 +40,7 @@
         </conditions>
         <conditions>
             <condition id="configurationUri" present="false"/>        
-            <output>mda/conf/andromda.xml</output>  
+            <output>mda/src/main/config/andromda.xml</output>  
         </conditions>
         <conditions>
             <condition id="transactionPersistenceType" notEqual="none"/>        
@@ -42,6 +51,10 @@
         <mapping>
             <from>empty-model.xmi</from>
             <to>${applicationId}.xmi.vsl</to>
+        </mapping>
+        <mapping>
+            <from>app/src/main/config/jboss-datasource.xml</from>
+            <to>app/src/main/config/${applicationId}-ds.xml</to>
         </mapping>
         <mapping>
             <from>ejb-jar.xml</from>
@@ -72,7 +85,7 @@
                 <text>Please enter the location in which your new application will be created (i.e. f:/java/development)</text>
             </prompt>
             <prompt id="author">
-                <text>Please enter your first and last last name (i.e. Chad Brandon)</text>
+                <text>Please enter your first and last name (i.e. Chad Brandon)</text>
             </prompt>
             <prompt id="applicationName">
                 <text>Please enter the name of your J2EE project (i.e. Animal Quiz)</text>
@@ -108,6 +121,7 @@
                 <responses>
                     <response>hibernate</response>
                     <response>ejb</response>
+                    <response>ejb3</response>
                     <response>spring</response>
                     <response>none</response>
                 </responses>

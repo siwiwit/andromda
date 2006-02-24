@@ -191,7 +191,6 @@ public abstract class BasePlugin
      * <code>templateContext</code>.
      *
      * @param templateContext the template context
-     * @param properties      the user properties
      */
     private void addTemplateObjectsToContext(final Map templateContext)
     {
@@ -215,7 +214,7 @@ public abstract class BasePlugin
      *
      * @param templateContext the template context
      */
-    private final void addPropertyReferencesToContext(final Map templateContext)
+    private void addPropertyReferencesToContext(final Map templateContext)
     {
         final String[] propertyReferences = this.getPropertyReferences();
         if (propertyReferences != null && propertyReferences.length > 0)

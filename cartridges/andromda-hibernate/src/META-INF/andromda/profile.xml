@@ -133,7 +133,7 @@
             </element>
             <element name="HIBERNATE_LAZY">
                 <documentation>
-                    Used to denote how a relationship must be loaded:
+                    Used to denote how entities, relationships or attributes must be loaded:
                     <code>true</code>for
                     <code>lazy</code>,
                     <code>false</code>for
@@ -144,10 +144,13 @@
                     set to
                     <code>false</code>) and defaults to
                     <code>true</code>for the other kinds.
+                    For entities, defaults to <code>false</code> for Hibernate 2 and
+                    <code>true</code> for Hibernate 3 and NHibernate.
                 </documentation>
                 <value>@andromda.hibernate.lazy</value>
-                <appliedOnElement>Association ends between
-                    <a href="#Entity"><![CDATA[<<Entity>>]]></a>classes, or on attributes of an
+                <appliedOnElement>
+                    <a href="#Entity"><![CDATA[<<Entity>>]]></a>classes, association ends between
+                    <a href="#Entity"><![CDATA[<<Entity>>]]></a>classes, or attributes of an
                     <a href="#Entity"><![CDATA[<<Entity>>]]></a>
                 </appliedOnElement>
                 <allowedValues>
@@ -400,6 +403,35 @@
                 </documentation>
                 <value>@andromda.hibernate.property.update</value>
                 <appliedOnElement>the attribute of an <![CDATA[<<Entity>>]]></appliedOnElement>
+                <allowedValues>
+                    <value>true</value>
+                    <value>false</value>
+                </allowedValues>
+            </element>
+            <element name="HIBERNATE_XML_TAG_NAME">
+                <documentation>
+                    Defines the name of the XML element that is generated when
+                    an entity, attribute, or associated entity is represented in XML format. 
+                    Valid only when XML persistence has been enabled. Controls the <i>node</i> 
+                    attribute in the Hibernate mapping file.
+                    See also <a href="namespace.html#hibernateXMLPersistence">hibernateXMLPersistence</a>
+                </documentation>
+                <value>@andromda.hibernate.xml.tagName</value>
+                <appliedOnElement>the attribute of an <![CDATA[<<Entity>>]]>, or an the <![CDATA[<<Entity>>]]> itself,
+                                  or on an association end between <![CDATA[<<Entity>>]]> classes</appliedOnElement>
+                <allowedValues>
+                    <value>Any valid XML tag name</value>
+                </allowedValues>
+            </element>
+            <element name="HIBERNATE_XML_EMBED">
+                <documentation>
+                    Specifies wheter or not the entity attached to the association end should be
+                    embedded as a complete XML structure, or simply as a referenc to its ID.
+                    Controls the <i>embed-xml</i> attribute in the Hibernate mapping file.
+                    See also <a href="namespace.html#hibernateXMLPersistence">hibernateXMLPersistence</a>
+                </documentation>
+                <value>@andromda.hibernate.xml.embed</value>
+                <appliedOnElement>Association ends between <![CDATA[<<Entity>>]]> classes</appliedOnElement>
                 <allowedValues>
                     <value>true</value>
                     <value>false</value>

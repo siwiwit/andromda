@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.andromda.cartridges.hibernate.HibernateProfile;
+import org.andromda.cartridges.hibernate.HibernateUtils;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EntityAssociationEnd;
 import org.andromda.metafacades.uml.EntityMetafacadeUtils;
+import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
@@ -174,10 +176,10 @@ public class HibernateAssociationEndLogicImpl
         else if (this.isMany())
         {
             // set this association end's type as a template parameter if required
-            if ("true".equals(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
+            if (Boolean.valueOf(String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
+                       .booleanValue())
             {
-                getterSetterTypeName =
-                    getterSetterTypeName + "<" + this.getType().getFullyQualifiedName() + ">";
+                getterSetterTypeName = getterSetterTypeName + "<" + this.getType().getFullyQualifiedName() + ">";
             }
         }
 
@@ -314,6 +316,13 @@ public class HibernateAssociationEndLogicImpl
                 }
 
                 inverse = compareTo < 0;
+
+                if (inverse && this.isBidirectionalOrderedListChild() && this.isVersion3())
+                { // A special case - when using ver 3 of hibernate for a bi-dir
+                  // ordered list, "inverse" should be set to FALSE, rather than
+                  // the usual TRUE. See http://www.hibernate.org/193.html
+                    inverse = false;
+                }
             }
         }
 
@@ -606,6 +615,20 @@ public class HibernateAssociationEndLogicImpl
                 implementation.append(this.getConfiguredProperty(HibernateGlobals.LIST_TYPE_IMPLEMENTATION));
             }
 
+            // set this association end's type as a template parameter if required
+            if (Boolean.valueOf(String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
+                       .booleanValue())
+            {
+                implementation.append("<");
+                if (this.isMap())
+                {
+                    implementation.append(this.getCollectionIndexType());
+                    implementation.append(", ");
+                }
+                implementation.append(this.getType().getFullyQualifiedName());
+                implementation.append(">");
+            }
+
             implementation.append("()");
         }
 
@@ -626,5 +649,127 @@ public class HibernateAssociationEndLogicImpl
     protected java.lang.String handleGetHibernateCompositionCascade()
     {
         return StringUtils.trimToEmpty(ObjectUtils.toString(this.getConfiguredProperty(HIBERNATE_COMPOSITION_CASCADE)));
+    }
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEnd#isBidirectionalOrderedListParent()
+     */
+    protected boolean handleIsBidirectionalOrderedListParent()
+    {
+        boolean biDirectional = this.isNavigable() && this.getOtherEnd().isNavigable();
+        if (biDirectional && this.isOne2Many() && (this.getOtherEnd() instanceof HibernateAssociationEnd))
+        {
+            HibernateAssociationEnd otherEnd = (HibernateAssociationEnd)this.getOtherEnd();
+
+            biDirectional = otherEnd.getCollectionType().equals(COLLECTION_TYPE_LIST) &&
+                otherEnd.isIndexedCollection();
+        }
+        return biDirectional;
+    }
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEnd#isBidirectionalOrderedListChild()
+     */
+    protected boolean handleIsBidirectionalOrderedListChild()
+    {
+        boolean biDirectional = false;
+        if (this.getOtherEnd() instanceof HibernateAssociationEnd)
+        {
+            HibernateAssociationEnd otherEnd = (HibernateAssociationEnd)this.getOtherEnd();
+            biDirectional = otherEnd.isBidirectionalOrderedListParent();
+        }
+        return biDirectional;
+    }
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEnd#isUsingHibernate3()
+     */
+    protected boolean handleIsUsingHibernate3()
+    {
+        boolean usingHibernate3 = false;
+        String property = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION);
+        if (property != null)
+        {
+            usingHibernate3 = property.equals(HibernateGlobals.HIBERNATE_VERSION_3);
+        }
+        return usingHibernate3;
+    }
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEnd#getCollectionIndexNameGetter()
+     */
+    protected String handleGetCollectionIndexNameGetter()
+    {
+        return "get" + NameMasker.mask(
+            this.getCollectionIndexName(),
+            NameMasker.UPPERCAMELCASE);
+    }
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEnd#getCollectionIndexNameSetter()
+     */
+    protected String handleGetCollectionIndexNameSetter()
+    {
+        return "set" + NameMasker.mask(
+            this.getCollectionIndexName(),
+            NameMasker.UPPERCAMELCASE);
+    }
+
+    private boolean isVersion3()
+    {
+        return HibernateUtils.isVersion3((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION));
+    }
+
+    private boolean isXMLPersistenceActive()
+    {
+        return HibernateUtils.isXmlPersistenceActive(
+            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION),
+            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_XML_PERSISTENCE));
+    }
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEnd#getEmbedXML()
+     */
+    protected String handleGetEmbedXML()
+    {
+        String embedVal = null;
+
+        if (isXMLPersistenceActive())
+        {
+            embedVal = (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_XML_EMBED);
+
+            if (embedVal == null)
+            {
+                boolean isBiDirectional = this.isNavigable() && this.getOtherEnd().isNavigable();
+                if (isBiDirectional && this.isMany())
+                {
+                    embedVal = "false";
+                }
+                else
+                {
+                    embedVal = "true";
+                }
+            }
+        }
+        return (StringUtils.isBlank(embedVal)) ? null : embedVal;
+    }
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEnd#getXmlTagName()
+     */
+    protected String handleGetXmlTagName()
+    {
+        String tagName = null;
+
+        if (isXMLPersistenceActive())
+        {
+            tagName = (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_XML_TAG_NAME);
+
+            if (tagName == null)
+            {
+                tagName = this.getName();
+            }
+        }
+        return (StringUtils.isBlank(tagName)) ? null : tagName;
     }
 }

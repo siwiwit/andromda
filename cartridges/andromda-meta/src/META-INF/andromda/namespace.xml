@@ -60,7 +60,7 @@
             <property name="generalizationNamePattern">
                 <default>super{0}</default>
                 <documentation>
-                    The pattern used for constructing the generalize name
+                    The pattern used for constructing the generalized name
                     for the delegated generalizations (these are exposed
                     to the child metafacade implementation class when
                     a metafacade extends more than one other metafacade).

@@ -2,7 +2,7 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -60,7 +60,7 @@ public class GeneralizableElementFacadeLogicImpl
             Iterator iterator = generalizations.iterator();
             if (iterator.hasNext())
             {
-                parent = iterator.next();
+                parent = ((Generalization)iterator.next()).getGeneral();
             }
         }
         return parent;
@@ -80,7 +80,7 @@ public class GeneralizableElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetGeneralizations()
     {
-        Collection parents = new HashSet();
+        Collection parents = new LinkedHashSet();
         Collection generalizations = ((Classifier)metaObject).getGeneralizations();
         if (generalizations != null && !generalizations.isEmpty())
         {
@@ -106,7 +106,7 @@ public class GeneralizableElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetAllSpecializations()
     {
-        final Set allSpecializations = new HashSet();
+        final Set allSpecializations = new LinkedHashSet();
         if (this.getSpecializations() != null)
         {
             allSpecializations.addAll(this.getSpecializations());
@@ -137,5 +137,17 @@ public class GeneralizableElementFacadeLogicImpl
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    protected Object handleGetGeneralizationRoot()
+    {
+        GeneralizableElementFacade generalizableElement = this;
+
+        while (generalizableElement.getGeneralization() != null)
+        {
+            generalizableElement = generalizableElement.getGeneralization();
+        }
+
+        return generalizableElement;
     }
 }

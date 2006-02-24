@@ -13,9 +13,9 @@ import org.apache.commons.collections.Transformer;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.ServiceOperationFacade.
+ * MetafacadeLogic implementation for org.andromda.metafacades.uml.ServiceOperation.
  *
- * @see org.andromda.metafacades.uml.ServiceOperationFacade
+ * @see org.andromda.metafacades.uml.ServiceOperation
  */
 public class ServiceOperationLogicImpl
     extends ServiceOperationLogic
@@ -29,7 +29,7 @@ public class ServiceOperationLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ServiceOperationFacade#getRoles()
+     * @see org.andromda.metafacades.uml.ServiceOperation#getRoles()
      */
     public java.util.Collection handleGetRoles()
     {
@@ -79,7 +79,7 @@ public class ServiceOperationLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ServiceOperationFacade#handleGetService()
+     * @see org.andromda.metafacades.uml.ServiceOperation#getService()
      */
     protected Object handleGetService()
     {

@@ -55,12 +55,18 @@
                 <version>$andromdaVersion</version>
                 <scope>provided</scope>
             </dependency>
+#elseif ($ejb3)
+            <dependency>
+                <groupId>org.andromda.cartridges</groupId>
+                <artifactId>andromda-ejb3-cartridge</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>runtime</scope>
+            </dependency>
 #elseif ($spring)
             <dependency>
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-core</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -84,13 +90,11 @@
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-translation-core</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-validation-library</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
@@ -147,7 +151,6 @@
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-utils</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -176,6 +179,15 @@
                 <scope>runtime</scope>
             </dependency>
 #end
+            <!-- This dependency provides the ability to implement your
+                 business logic in an interpreted manner during development on
+                 your local machine -->
+            <dependency>
+                <groupId>org.andromda</groupId>
+                <artifactId>andromda-script-wrappers</artifactId>
+                <version>$andromdaVersion</version>
+                <scope>runtime</scope>
+            </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
@@ -197,6 +209,80 @@
                 <version>1.0.4</version>
                 <scope>provided</scope>
             </dependency>
+#if ($ejb3)
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-j2ee</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jbossall-client</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-ejb3</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-ejb3x</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>ejb3-persistence</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-annotations-ejb3</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-serialization</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-remoting</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jnp-client</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-aop-jdk50</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-aspect-library-jdk50</artifactId>
+                <version>4.0.4-RC1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate</artifactId>
+                <version>3</version>
+                <scope>provided</scope>
+            </dependency>
+#else
             <dependency>
                 <groupId>jboss</groupId>
                 <artifactId>jboss-j2ee</artifactId>
@@ -205,7 +291,8 @@
                 <scope>provided</scope>
 #end
             </dependency>
-#if (!$ejb)
+#end
+#if (!$ejb && !$ejb3)
             <dependency>
 #if ($hibernateVersion.equals("2"))
                 <groupId>net.sf.hibernate</groupId>
@@ -223,13 +310,11 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>cglib</groupId>
@@ -241,13 +326,11 @@
                  <groupId>org.springframework</groupId>
                  <artifactId>spring-core</artifactId>
                  <version>1.2.5</version>
-                 <scope>compile</scope>
              </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-dao</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
                 <exclusions>
                      <exclusion>
                          <groupId>javax.transaction</groupId>
@@ -259,7 +342,6 @@
                  <groupId>org.springframework</groupId>
                  <artifactId>spring-hibernate</artifactId>
                  <version>1.2.5</version>
-                 <scope>compile</scope>
 #if ($hibernateVersion.equals("2"))
                  <exclusions>
                      <exclusion>
@@ -273,37 +355,21 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
-                <exclusions>
-                     <exclusion>
-                         <groupId>org.springframework</groupId>
-                         <artifactId>spring-webmvc</artifactId>
-                     </exclusion>
-                 </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-remoting</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
-                <exclusions>
-                     <exclusion>
-                         <groupId>org.springframework</groupId>
-                         <artifactId>spring-webmvc</artifactId>
-                     </exclusion>
-                 </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-support</artifactId>
                 <version>1.2.5</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.resource</groupId>
@@ -334,11 +400,6 @@
                 <groupId>org.jbpm</groupId>
                 <artifactId>jbpm-identity</artifactId>
                 <version>3.0</version>
-            </dependency>
-            <dependency>
-                <groupId>bsh</groupId>
-                <artifactId>bsh</artifactId>
-                <version>2.0b1</version>
             </dependency>
             <dependency>
                 <groupId>c3p0</groupId>
@@ -506,14 +567,18 @@
                 <scope>runtime</scope>
             </dependency>
 #end
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.1</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -547,6 +612,16 @@
                     <artifactId>andromdapp-maven-plugin</artifactId>
                     <version>$andromdaVersion</version>
                 </plugin>
+#if ($ejb3)
+                <plugin>
+            	    <groupId>org.apache.maven.plugins</groupId>
+            	    <artifactId>maven-compiler-plugin</artifactId>
+            	    <configuration>
+            		    <source>1.5</source>
+            		    <target>1.5</target>
+            	    </configuration>
+                </plugin>
+#end
             </plugins>
         </pluginManagement>
     </build>
@@ -577,7 +652,7 @@
             For Oracle9i use: Oracle9i
           -->
         <sql.mappings>HypersonicSql</sql.mappings>
-#if ($hibernate || $spring)
+#if ($hibernate || $spring || $ejb3)
 #if ($hibernateVersion == "2")
         <!-- 
             Change this for the appropriate database
@@ -590,13 +665,14 @@
         <!-- 
             Change this for the appropriate database
             For MySql use: org.hibernate.dialect.MySQLDialect
+            For MySql InnoDB use: org.hibernate.dialect.MySQLInnoDBDialect
             For Hypersonic use: org.hibernate.dialect.HSQLDialect
             For Oracle9i use: org.hibernate.dialect.Oracle9Dialect
           -->
         <hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
 #end
 #end
-#if ($ejb)
+#if ($ejb || $ejb3)
         <!-- Change this to the correct database type mappings (for Jboss) -->
         <jboss.typeMappings>Hypersonic SQL</jboss.typeMappings>
 #end
@@ -605,12 +681,15 @@
 #else
         <tomcat.home>${env.CATALINA_HOME}</tomcat.home>
 #end
-        <application.id>${project.artifactId}</application.id>
-        <application.package>${project.groupId}</application.package>
+        <application.id>$applicationId</application.id>
+        <application.package>$applicationPackage</application.package>
+        <application.name>$applicationName</application.name>
+        <application.version>$applicationVersion</application.version>
+        <dataSource.name>jdbc/${application.id}</dataSource.name>
 #if ($ear)
-        <dataSource>java:/DefaultDS</dataSource>
+        <dataSource>java:/${dataSource.name}</dataSource>
 #else
-        <dataSource>java:comp/env/${applicationId}DS</dataSource>
+        <dataSource>java:comp/env/${dataSource.name}</dataSource>
 #end
     </properties>
     <profiles>
@@ -636,6 +715,45 @@
                 <webservice.port>8080</webservice.port>
 #end
             </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>andromdapp-maven-plugin</artifactId>
+                            <version>3.2-RC1-SNAPSHOT</version>
+                            <!-- provides the injection of the script wrapper support into the class files (this should only
+                                 be done when developing locally), uncomment this executions element to enable 
+                            <executions>
+                                <execution>
+                                    <id>instrument-scripts</id>
+                                    <goals>
+                                        <goal>instrument-scripts</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            -->
+                            <configuration>
+                                <scriptWrapper>org.andromda.scriptwrappers.GroovyScriptWrapper</scriptWrapper>
+                                <locations>
+                                    <location>
+                                        <rootPath>${pom.basedir}/src/main/java</rootPath>
+                                        <!-- adjust these to include or exclude specific files, by default
+                                             all files found in the rootPath are considered 
+                                        <includes>
+                                            <include>relative/path/to/file/to/include/SomeClass.java</include>
+                                        </includes>
+                                        <excludes>
+                                            <exclude>relative/path/to/file/to/include/SomeClass.java</exclude>
+                                        </excludes>
+                                        -->
+                                    </location>
+                                </locations>
+                            </configuration>  
+                        </plugin>                      
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
         <profile>
             <id>development</id>

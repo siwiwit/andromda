@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -169,33 +170,28 @@ public class WebServiceLogicImpl
      */
     protected java.util.Collection handleGetTypeMappingElements()
     {
-        Collection paramTypes = new LinkedHashSet();
-        Iterator operationIt = this.getAllowedOperations().iterator();
-        while (operationIt.hasNext())
+        final Collection parameterTypes = new LinkedHashSet();
+        for (final Iterator iterator = this.getAllowedOperations().iterator(); iterator.hasNext();)
         {
-            OperationFacade operation = (OperationFacade)operationIt.next();
-            paramTypes.addAll(operation.getParameters());
+            parameterTypes.addAll(((OperationFacade)iterator.next()).getParameters());
         }
 
-        Set types = new TreeSet(new TypeComparator());
-        Collection nonArrayTypes = new TreeSet(new TypeComparator());
-        Iterator paramTypeIt = paramTypes.iterator();
+        final Set types = new TreeSet(new TypeComparator());
+        final Collection nonArrayTypes = new TreeSet(new TypeComparator());
 
         // clear out the cache of checkedTypes, otherwise
         // they'll be ignored the second time this method is
         // called (if the instance is reused)
         this.checkedTypes.clear();
-        while (paramTypeIt.hasNext())
+        for (final Iterator iterator = parameterTypes.iterator(); iterator.hasNext();)
         {
-            this.loadTypes((ModelElementFacade)paramTypeIt.next(), types, nonArrayTypes);
+            this.loadTypes((ModelElementFacade)iterator.next(), types, nonArrayTypes);
         }
 
-        Collection exceptions = new ArrayList();
-        operationIt = this.getAllowedOperations().iterator();
-        while (operationIt.hasNext())
+        final Collection exceptions = new ArrayList();
+        for (final Iterator iterator = this.getAllowedOperations().iterator(); iterator.hasNext();)
         {
-            OperationFacade operation = (OperationFacade)operationIt.next();
-            exceptions.addAll(operation.getExceptions());
+            exceptions.addAll(((OperationFacade)iterator.next()).getExceptions());
         }
 
         types.addAll(exceptions);
@@ -210,100 +206,132 @@ public class WebServiceLogicImpl
     }
 
     /**
-     * <p/>
-     * Loads all <code>types</code> and <code>nonArrayTypes</code> for the specified <code>type</code>. For each array
-     * type we collect the <code>nonArrayType</code>. Non array types are loaded seperately so that they are added at
-     * the end at the type collecting process. Since the types collection is a set (by the fullyQualifiedName) we don't
-     * want any non array types to override things such as association ends in the <code>types</code> collection. </p>
-     *
-     * @param type          the type
-     * @param types         the collection to load.
+     * <p/> Loads all <code>types</code> and <code>nonArrayTypes</code> for
+     * the specified <code>type</code>. For each array type we collect the
+     * <code>nonArrayType</code>. Non array types are loaded seperately so
+     * that they are added at the end at the type collecting process. Since the
+     * types collection is a set (by the fullyQualifiedName) we don't want any
+     * non array types to override things such as association ends in the
+     * <code>types</code> collection.
+     * </p>
+     * 
+     * @param type the type
+     * @param types the collection to load.
      * @param nonArrayTypes the collection of non array types.
      */
-    private void loadTypes(
-        ModelElementFacade modelElement,
-        Set types,
-        Collection nonArrayTypes)
+    private void loadTypes(ModelElementFacade modelElement, Set types, Collection nonArrayTypes)
     {
         ExceptionUtils.checkNull("types", types);
         ExceptionUtils.checkNull("nonArrayTypes", nonArrayTypes);
+
         try
         {
             if (modelElement != null && !this.checkedTypes.contains(modelElement))
             {
-                ClassifierFacade type = this.getType(modelElement);
+                final ClassifierFacade parameterType = this.getType(modelElement);
 
                 // only continue if the model element has a type
-                if (type != null)
+                if (parameterType != null)
                 {
-                    this.checkedTypes.add(modelElement);
-                    if (!this.containsManyType(types, modelElement))
-                    {
-                        ClassifierFacade nonArrayType = type;
-                        final boolean arrayType = type.isArrayType();
-                        if (arrayType || this.isValidAssociationEnd(modelElement))
-                        {
-                            types.add(modelElement);
-                            if (arrayType)
-                            {
-                                // convert to non-array type since we
-                                // check if that one has the stereotype
-                                nonArrayType = type.getNonArray();
+                    Set allTypes = new HashSet();
+                    allTypes.add(parameterType);
 
-                                // set the type to the non array type since
-                                // that will have the attributes
-                                type = nonArrayType;
-                            }
-                        }
-                        if (nonArrayType != null)
-                        {
-                            if (
-                                nonArrayType.hasStereotype(UMLProfile.STEREOTYPE_VALUE_OBJECT) ||
-                                nonArrayType.isEnumeration())
-                            {
-                                // we add the type when its a non array and has
-                                // the correct stereotype (even if we have added
-                                // the array type above) since we need to define
-                                // both an array and non array in the WSDL if
-                                // we are defining an array.
-                                nonArrayTypes.add(nonArrayType);
-                            }
-                        }
-                    }
-                    if (type != null)
+                    // add all generalizations and specializations of the type
+                    Collection generalizations = parameterType.getAllGeneralizations();
+
+                    if (generalizations != null)
                     {
-                        Collection properties = type.getProperties();
-                        if (properties != null && !properties.isEmpty())
+                        allTypes.addAll(generalizations);
+                    }
+
+                    Collection specializations = parameterType.getAllSpecializations();
+
+                    if (specializations != null)
+                    {
+                        allTypes.addAll(specializations);
+                    }
+
+                    this.checkedTypes.add(modelElement);
+
+                    for (final Iterator allTypesIterator = allTypes.iterator(); allTypesIterator.hasNext();)
+                    {
+                        ClassifierFacade type = (ClassifierFacade) allTypesIterator.next();
+
+                        if (!this.containsManyType(types, modelElement))
                         {
-                            Iterator propertyIt = properties.iterator();
-                            while (propertyIt.hasNext())
+                            ClassifierFacade nonArrayType = type;
+                            final boolean arrayType = type.isArrayType();
+
+                            if (arrayType || this.isValidAssociationEnd(modelElement))
                             {
-                                ModelElementFacade property = (ModelElementFacade)propertyIt.next();
-                                this.loadTypes(property, types, nonArrayTypes);
+                                types.add(modelElement);
+
+                                if (arrayType)
+                                {
+                                    // convert to non-array type since we
+                                    // check if that one has the stereotype
+                                    nonArrayType = type.getNonArray();
+
+                                    // set the type to the non array type since
+                                    // that will have the attributes
+                                    type = nonArrayType;
+                                }
+                            }
+
+                            if (nonArrayType != null)
+                            {
+                                if (nonArrayType.hasStereotype(UMLProfile.STEREOTYPE_VALUE_OBJECT)
+                                        || nonArrayType.isEnumeration())
+                                {
+                                    // we add the type when its a non array and
+                                    // has the correct stereotype (even if we have
+                                    // added the array type above) since we need to
+                                    // define both an array and non array in the WSDL
+                                    // if we are defining an array.
+                                    nonArrayTypes.add(nonArrayType);
+                                }
+                            }
+                        }
+
+                        if (type != null)
+                        {
+                            final Collection properties = type.getProperties();
+                            if (properties != null && !properties.isEmpty())
+                            {
+                                for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
+                                {
+                                    final ModelElementFacade property = (ModelElementFacade) iterator.next();
+                                    this.loadTypes(property, types, nonArrayTypes);
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        catch (Throwable th)
+        } 
+        catch (final Throwable throwable)
         {
-            String errMsg = "Error performing loadTypes";
-            logger.error(errMsg, th);
-            throw new MetafacadeException(errMsg, th);
+            final String message = "Error performing loadTypes";
+            logger.error(message, throwable);
+            throw new MetafacadeException(message, throwable);
         }
     }
 
     /**
-     * <p/>
-     * Checks to see if the <code>types</code> collection contains the <code>modelElement</code>. It does this by
-     * checking to see if the model element is either an association end or some type of model element that has a type
-     * that's an array. If it's either an array <strong>OR </strong> an association end, then we check to see if the
-     * type is stored within the <code>types</code> collection. If so, we return true, otherwise we return false. </p>
-     *
-     * @param types        the previously collected types.
-     * @param modelElement the model element to check to see if it represents a <code>many</code> type
-     * @return true/false depending on whether or not the model element is a many type.
+     * <p/> Checks to see if the <code>types</code> collection contains the
+     * <code>modelElement</code>. It does this by checking to see if the
+     * model element is either an association end or some type of model element
+     * that has a type that's an array. If it's either an array <strong>OR
+     * </strong> an association end, then we check to see if the type is stored
+     * within the <code>types</code> collection. If so, we return true,
+     * otherwise we return false.
+     * </p>
+     * 
+     * @param types the previously collected types.
+     * @param modelElement the model element to check to see if it represents a
+     *        <code>many</code> type
+     * @return true/false depending on whether or not the model element is a
+     *         many type.
      */
     private boolean containsManyType(
         final Collection types,
@@ -434,13 +462,13 @@ public class WebServiceLogicImpl
             Object objectA,
             Object objectB)
         {
-            ModelElementFacade a = (ModelElementFacade)objectA;
+            final ModelElementFacade a = (ModelElementFacade)objectA;
             ModelElementFacade aType = getType(a);
             if (aType == null)
             {
                 aType = a;
             }
-            ModelElementFacade b = (ModelElementFacade)objectB;
+            final ModelElementFacade b = (ModelElementFacade)objectB;
             ModelElementFacade bType = getType(b);
             if (bType == null)
             {

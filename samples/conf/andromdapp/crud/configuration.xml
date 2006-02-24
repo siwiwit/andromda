@@ -1,10 +1,11 @@
 <andromdapp overwrite="true">
     <properties>
+        <property name="andromdappType">j2ee</property>
         <property name="author">AndroMDA Team</property>
         <property name="applicationParentDirectory">$${project.basedir}</property>
         <property name="applicationId">crud</property>
         <property name="applicationName">AndroMDA CRUD Sample</property>
-        <property name="applicationVersion">$${version}</property>
+        <property name="applicationVersion">$${pom.version}</property>
         <property name="applicationPackage">org.andromda.samples.crud</property>
         <property name="applicationType">ear</property>
         <property name="transactionPersistenceType">spring</property>
@@ -14,5 +15,6 @@
         <property name="webType">struts</property>
         <property name="webservice">no</property>
         <property name="model">jar:file:${project.build.sourceDirectory}/CRUDModel.xml.zip!/CRUDModel.xml</property>
+        <property name="configurationUri">${project.basedir}/src/main/config/andromda.xml</property>
     </properties>
 </andromdapp>

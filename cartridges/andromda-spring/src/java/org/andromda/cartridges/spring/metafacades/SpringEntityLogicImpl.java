@@ -477,7 +477,7 @@ public class SpringEntityLogicImpl
     protected String handleGetAttributeEmbeddedValueList()
     {
         final Collection embeddedValues = new ArrayList();
-        for (final Iterator iterator = this.getAttributes().iterator(); iterator.hasNext();)
+        for (final Iterator iterator = this.getAttributes(true).iterator(); iterator.hasNext();)
         {
             final AttributeFacade attribute = (AttributeFacade)iterator.next();
             final ClassifierFacade type = attribute.getType();

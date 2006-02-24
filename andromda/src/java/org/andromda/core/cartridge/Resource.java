@@ -48,7 +48,7 @@ public class Resource
      * Returns the fully qualified name of the resource output to be written, this means: <ul> <li>the output pattern
      * has been translated</li> <li>the output directory name has been prepended</li> </ul>
      *
-     * @param argument  any arguments to be inserted into the MessageFormat style messages.
+     * @param arguments any arguments to be inserted into the MessageFormat style messages.
      * @param directory the directory to which output will be written.
      * @param outputPattern if undefined, the value of {@link #getOutputPattern()} will be used.
      * @return File absolute directory.
@@ -71,7 +71,7 @@ public class Resource
             {
                 outputPattern = this.getOutputPattern();
             }
-            String outputFileName = null;
+            String outputFileName;
             try
             {
                 outputFileName = MessageFormat.format(

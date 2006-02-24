@@ -19,7 +19,7 @@
     <mapping>
         <from>datatype::Timestamp</from>
         <from>datatype::DateTime</from>
-        <to>TIMESTAMP</to>
+        <to>DATETIME</to>
     </mapping>
     <mapping>
         <from>datatype::char</from>

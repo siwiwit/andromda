@@ -2,9 +2,15 @@ package org.andromda.cartridges.spring;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.andromda.cartridges.spring.metafacades.SpringService;
 import org.andromda.metafacades.uml.Service;
+import org.andromda.metafacades.uml.ModelElementFacade;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -14,6 +20,7 @@ import org.apache.commons.collections.Predicate;
  * Contains utilities used within the Spring cartridge.
  *
  * @author Chad Brandon
+ * @author Joel Kozikowski
  */
 public class SpringUtils
 {
@@ -181,5 +188,78 @@ public class SpringUtils
     {
         return this.richClient;
     }
+ 
+    /**
+     * Returns the class name part of a fully qualified name
+     * @param fullyQualifiedName
+     * @return just the "class name" part of the fully qualified name
+     */
+    public String getClassName(String fullyQualifiedName)
+    {
+       String className;
+       if (fullyQualifiedName != null && fullyQualifiedName.length() > 0)
+       {
+           int lastDot = fullyQualifiedName.lastIndexOf('.');
+           if (lastDot >= 0)
+               className = fullyQualifiedName.substring(lastDot+1);
+           else
+               className = fullyQualifiedName;
+       }
+       else
+          className = "";
+       
+       return className;
+    }
+
     
+    /**
+     * Returns the package name part of a fully qualified name
+     * @param fullyQualifiedName
+     * @return just the "package" part of the fully qualified name
+     */
+    public String getPackageName(String fullyQualifiedName)
+    {
+       String packageName;
+       if (fullyQualifiedName != null && fullyQualifiedName.length() > 0)
+       {
+           int lastDot = fullyQualifiedName.lastIndexOf('.');
+           if (lastDot >= 0)
+               packageName = fullyQualifiedName.substring(0, lastDot);
+           else
+               packageName = "";
+       }
+       else
+          packageName = "";
+       
+       return packageName;
+    }
+
+    /**
+     * Returns an ordered set containing the argument model elements, model elements with a name that is already
+     * used by another model element in the argument collection will not be returned.
+     * The first operation with a name not already encountered will be returned, the order inferred by the
+     * argument's iterator will determine the order of the returned list.
+     *
+     * @param modelElements a collection of model elements, elements that are not model elements will be ignored
+     * @return the argument model elements without, elements with a duplicate name will only be recorded once
+     */
+    public List filterUniqueByName(Collection modelElements)
+    {
+        final Map filteredElements = new LinkedHashMap();
+
+        for (final Iterator elementIterator = modelElements.iterator(); elementIterator.hasNext();)
+        {
+            final Object object = elementIterator.next();
+            if (object instanceof ModelElementFacade)
+            {
+                final ModelElementFacade modelElement = (ModelElementFacade)object;
+                if (!filteredElements.containsKey(modelElement.getName()))
+                {
+                    filteredElements.put(modelElement.getName(), modelElement);
+                }
+            }
+        }
+
+        return new ArrayList(filteredElements.values());
+    }
 }

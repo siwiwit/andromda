@@ -75,7 +75,7 @@ public class MetafacadeBase
     private boolean initialized = false;
 
     /**
-     * Sets the flag indicating this metafacade has been initlized.
+     * Sets the flag indicating this metafacade has been initialized.
      */
     final void setInitialized()
     {

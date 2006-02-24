@@ -31,7 +31,7 @@ public class Configuration
      * @param uri the URI to the configuration file.
      * @return the configured instance.
      */
-    public final static Configuration getInstance(final URL uri)
+    public static Configuration getInstance(final URL uri)
     {
         final Configuration configuration =
             (Configuration)XmlObjectFactory.getInstance(Configuration.class).getObject(uri);
@@ -45,7 +45,7 @@ public class Configuration
      * @param stream the InputStream containing the configuration file.
      * @return the configured instance.
      */
-    public final static Configuration getInstance(final InputStream stream)
+    public static Configuration getInstance(final InputStream stream)
     {
         final Configuration configuration =
             (Configuration)XmlObjectFactory.getInstance(Configuration.class).getObject(new InputStreamReader(stream));
@@ -59,7 +59,7 @@ public class Configuration
      * @param string the String containing the configuration.
      * @return the configured instance.
      */
-    public final static Configuration getInstance(final String string)
+    public static Configuration getInstance(final String string)
     {
         final Configuration configuration =
             (Configuration)XmlObjectFactory.getInstance(Configuration.class).getObject(string);
@@ -234,7 +234,7 @@ public class Configuration
     /**
      * Gets the URI from which this instance was
      * configured or null (it it was not set).
-     * @return
+     * @return the URI as a String instance
      */
     public String getContents()
     {

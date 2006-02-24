@@ -1,14 +1,5 @@
 package org.andromda.metafacades.uml14;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.andromda.metafacades.uml.ActorFacade;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
@@ -17,14 +8,21 @@ import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.EntityAttribute;
 import org.andromda.metafacades.uml.ManageableEntity;
-import org.andromda.metafacades.uml.ManageableEntityAssociationEnd;
-import org.andromda.metafacades.uml.ManageableEntityAttribute;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -72,46 +70,45 @@ public class ManageableEntityLogicImpl
 
     protected String handleGetManageablePackagePath()
     {
-        return StringUtils.replace(
-            this.getManageablePackageName(),
-            this.getNamespaceSeparator(),
-            "/");
+        return StringUtils.replace(this.getManageablePackageName(), this.getNamespaceSeparator(), "/");
     }
 
     protected java.util.List handleGetManageableAssociationEnds()
     {
-        final List manageableAssociationEnds = new ArrayList();
+        final Set manageableAssociationEnds = new LinkedHashSet();// linked hashset to guarantee ordering wo/ duplicates
         collectAssociationEnds(manageableAssociationEnds, this);
-        return manageableAssociationEnds;
+        return new ArrayList(manageableAssociationEnds);
     }
 
-    private void collectAssociationEnds(Collection manageableAssociationEnds, ManageableEntity entity)
+    /**
+     * This method recursively collects all association ends to which a manageable entity would need to navigate
+     *
+     * @param manageableAssociationEnds the collection in which to collect the association ends
+     * @param entity the entity from which to recursively gather the association ends
+     */
+    private static void collectAssociationEnds(Collection manageableAssociationEnds, ManageableEntity entity)
     {
-        final Collection associationEnds = getAssociationEnds();
+        final Collection associationEnds = entity.getAssociationEnds();
         for (final Iterator associationEndIterator = associationEnds.iterator(); associationEndIterator.hasNext();)
         {
             final AssociationEndFacade associationEnd = (AssociationEndFacade)associationEndIterator.next();
             final AssociationEndFacade otherEnd = associationEnd.getOtherEnd();
 
-            if (otherEnd.isNavigable())
+            if (otherEnd.isNavigable() && otherEnd.getType() instanceof Entity)
             {
-                if (associationEnd.isMany() || (associationEnd.isOne2One() && otherEnd.isChild()))
-                {
-                    final Object otherEndType = otherEnd.getType();
-                    if (otherEndType instanceof Entity)
-                    {
-                        manageableAssociationEnds.add(otherEnd);
-                    }
-                }
+                manageableAssociationEnds.add(otherEnd);
             }
         }
 
         // retrieve all association ends for all parents (recursively)
         final Collection parentEntities = entity.getAllGeneralizations();
-        for (Iterator parentEntityIterator = parentEntities.iterator(); parentEntityIterator.hasNext();)
+        for (final Iterator parentEntityIterator = parentEntities.iterator(); parentEntityIterator.hasNext();)
         {
-            final ManageableEntity parentEntity = (ManageableEntity)parentEntityIterator.next();
-            collectAssociationEnds(manageableAssociationEnds, parentEntity);
+            final Object parentEntityObject = parentEntityIterator.next();
+            if (parentEntityObject instanceof ManageableEntity)
+            {
+                collectAssociationEnds(manageableAssociationEnds, (ManageableEntity)parentEntityObject);
+            }
         }
     }
 
@@ -120,7 +117,7 @@ public class ManageableEntityLogicImpl
      */
     protected boolean handleIsCreate()
     {
-        return true;
+        return !this.isAbstract();
     }
 
     protected String handleGetManageableServiceName()
@@ -170,12 +167,12 @@ public class ManageableEntityLogicImpl
 
     protected List handleGetManageableAttributes()
     {
-        return new ArrayList(getAttributes(true));
+        return new ArrayList(this.getAttributes(true));
     }
 
     protected Object handleGetManageableIdentifier()
     {
-        return getIdentifiers(true).iterator().next();
+        return this.getIdentifiers(true).iterator().next();
     }
 
     protected List handleGetManageableMembers()
@@ -198,7 +195,7 @@ public class ManageableEntityLogicImpl
                 buffer.append(", ");
             }
 
-            final ManageableEntityAttribute attribute = (ManageableEntityAttribute)attributes.get(i);
+            final AttributeFacade attribute = (AttributeFacade)attributes.get(i);
             final ClassifierFacade type = attribute.getType();
             if (type != null)
             {
@@ -214,8 +211,7 @@ public class ManageableEntityLogicImpl
         final List associationEnds = this.getManageableAssociationEnds();
         for (int i = 0; i < associationEnds.size(); i++)
         {
-            final ManageableEntityAssociationEnd associationEnd =
-                (ManageableEntityAssociationEnd)associationEnds.get(i);
+            final AssociationEndFacade associationEnd = (AssociationEndFacade)associationEnds.get(i);
             final Entity entity = (Entity)associationEnd.getType();
 
             final Iterator identifierIterator = entity.getIdentifiers().iterator();
@@ -333,9 +329,7 @@ public class ManageableEntityLogicImpl
         return new ArrayList(users);
     }
 
-    private void collectActors(
-        ActorFacade actor,
-        Collection actors)
+    private void collectActors(ActorFacade actor, Collection actors)
     {
         if (!actors.contains(actor))
         {
@@ -494,9 +488,7 @@ public class ManageableEntityLogicImpl
     private final class ManageableComparator
         implements Comparator
     {
-        public int compare(
-            Object left,
-            Object right)
+        public int compare(Object left, Object right)
         {
             final ModelElementFacade leftEntity = (ModelElementFacade)left;
             final ModelElementFacade rightEntity = (ModelElementFacade)right;

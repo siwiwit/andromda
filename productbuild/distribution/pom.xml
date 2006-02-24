@@ -5,12 +5,20 @@
     <parent>
         <groupId>org.andromda</groupId>
         <artifactId>andromda</artifactId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <artifactId>andromda-distribution</artifactId>
     <packaging>pom</packaging>
     <name>AndroMDA Distribution</name>
     <description>Provides the assembly of the AndroMDA distribution</description>
+    <dependencies>
+        <!-- Add dependencies here to ensure they're built before the distribution itself -->
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>andromda-schema2xmi</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

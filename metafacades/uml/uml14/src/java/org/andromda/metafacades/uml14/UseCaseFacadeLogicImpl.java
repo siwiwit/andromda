@@ -50,7 +50,7 @@ public class UseCaseFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.UseCaseFacade#getExtensionPoints()
+     * @see org.andromda.metafacades.uml.UseCaseFacade#getExtensionPoints()
      */
     protected Collection handleGetExtensionPoints()
     {
@@ -58,7 +58,7 @@ public class UseCaseFacadeLogicImpl
     }
 
     /***
-     * @see org.andromda.metafacades.uml14.UseCaseFacade#getExtends()
+     * @see org.andromda.metafacades.uml.UseCaseFacade#getExtends()
      */
     protected Collection handleGetExtends()
     {

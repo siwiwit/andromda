@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry output="client/target/classes/dist" kind="src" path="client/src/impl/java">
+	<classpathentry output="client/target/classes/dist" kind="src" path="client/src/main/java">
 		<attributes>
 		</attributes>
 	</classpathentry>
@@ -8,7 +8,7 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry output="client/target/conf/dist" kind="src" path="client/src/generated/conf">
+	<classpathentry output="client/target/config/dist" kind="src" path="client/src/generated/config">
 		<attributes>
 		</attributes>
 	</classpathentry>
@@ -16,11 +16,11 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry output="client/target/conf/test" kind="src" path="client/src/test/conf">
+	<classpathentry output="client/target/config/test" kind="src" path="client/src/test/config">
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry output="common/target/classes/dist" kind="src" path="common/src/impl/java">
+	<classpathentry output="common/target/classes/dist" kind="src" path="common/src/main/java">
 		<attributes>
 		</attributes>
 	</classpathentry>
@@ -28,7 +28,7 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry output="server/target/classes/dist" kind="src" path="server/src/impl/java">
+	<classpathentry output="server/target/classes/dist" kind="src" path="server/src/main/java">
 		<attributes>
 		</attributes>
 	</classpathentry>
@@ -36,7 +36,7 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry output="server/target/conf/dist" kind="src" path="server/src/generated/conf">
+	<classpathentry output="server/target/config/dist" kind="src" path="server/src/generated/config">
 		<attributes>
 		</attributes>
 	</classpathentry>
@@ -44,7 +44,7 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry output="server/target/conf/test" kind="src" path="server/src/test/conf">
+	<classpathentry output="server/target/config/test" kind="src" path="server/src/test/config">
 		<attributes>
 		</attributes>
 	</classpathentry>
@@ -116,5 +116,15 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
+#if ($enableAcegi == 'yes')	
+	<classpathentry kind="var" path="ANDROMDA32_BIN/lib/org/acegisecurity/acegi-security/1.0.0-RC1/acegi-security-1.0.0-RC1.jar">
+		<attributes>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="var" path="ANDROMDA32_BIN/lib/commons-codec/commons-codec/1.3/commons-codec-1.3.jar">
+		<attributes>
+		</attributes>
+	</classpathentry>
+#end	
 	<classpathentry kind="output" path="server/target/classes/dist"/>
 </classpath>

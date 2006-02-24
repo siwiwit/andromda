@@ -1,6 +1,6 @@
 <cartridge>
     
-    <templateEngine>
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine">
         <macrolibrary name="templates/jsf/views/jsp/includes/renderActionFormInput.vm"/>
         <macrolibrary name="templates/jsf/views/jsp/includes/renderActionCommandLinkParameter.vm"/>
         <macrolibrary name="templates/jsf/forms/formMacros.vm"/>
@@ -40,6 +40,7 @@
     <property reference="securityRealm"/>
     <property reference="loginFileName"/>
     <property reference="logoutFileName"/>
+    <property reference="virtualHost"/>
     <property reference="defaultMultiSelectSize"/>
     <property reference="layoutOptionsMenuItem"/>
     <property reference="distributable"/>
@@ -110,7 +111,6 @@
             <modelElement variable="controllers">
                 <type name="org.andromda.metafacades.uml.FrontEndController">
                     <property name="useCase"/>
-                    <property name="operations"/>
                 </type>
             </modelElement>
             <modelElement variable="applicationUseCases">
@@ -176,6 +176,21 @@
     <template
         path="templates/jsf/controllers/ControllerImpl.java.vsl"
         outputPattern="$generatedFile"
+        outlet="controllers"
+        overwrite="false">
+        <modelElements variable="controller">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.FrontEndController">
+                    <property name="useCase"/>
+                    <property name="operations.empty"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/jsf/controllers/ControllerImpl.java.vsl"
+        outputPattern="$generatedFile"
         outlet="controller-impls"
         overwrite="false">
         <modelElements variable="controller">
@@ -197,7 +212,6 @@
             <modelElement>
                 <type name="org.andromda.metafacades.uml.FrontEndController">
                     <property name="useCase"/>
-                    <property name="operations"/>
                 </type>
             </modelElement>
         </modelElements>
@@ -324,7 +338,7 @@
         <modelElements variable="useCase">
             <modelElement>
                 <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="forwards"/>
+                    <property name="allForwards"/>
                 </type>
             </modelElement>
         </modelElements>
@@ -553,7 +567,9 @@
         outputToSingleFile="true">
         <modelElements>
             <modelElement variable="useCases">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="controller.operations"/>
+                </type>
             </modelElement>
         </modelElements>      
     </template>

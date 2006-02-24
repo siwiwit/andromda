@@ -90,6 +90,7 @@
 #if ($stringUtils.isNotBlank($hibernateConnectionReleaseMode))
                 <prop key="hibernate.connection.release_mode">$hibernateConnectionReleaseMode</prop>
 #end
+                <!-- applicationContext hibernateProperties merge-point -->
             </props>
         </property>
     </bean>
@@ -155,7 +156,7 @@
         <property name="transactionAttributeSource">
             <value>
 #foreach ($service in $services)
-#foreach ($operation in $service.operations)
+#foreach ($operation in $springUtils.filterUniqueByName($service.operations))
                 ${service.fullyQualifiedName}.${operation.name}=${operation.transactionType}
 #end
 #end
@@ -183,12 +184,12 @@
 ## Because of a bug in Spring with circular references (and using AOP proxies),
 ## we need to use the lookup-method as a work-a-round for dependencies
 ## which represent circular references
-#foreach($serviceRef in $service.serviceReferences)
+#foreach($serviceRef in $service.allServiceReferences)
 #if (!$serviceRef.circularReference)
                 <property name="$serviceRef.name"><ref bean="$serviceRef.targetElement.beanName"/></property>
 #end
 #end
-#foreach($serviceRef in $service.serviceReferences)
+#foreach($serviceRef in $service.allServiceReferences)
 #if ($serviceRef.circularReference)
                 <lookup-method name="$serviceRef.getterName" bean="$serviceRef.targetElement.beanName"/>
 #end
@@ -233,7 +234,7 @@
         <property name="objectDefinitionSource">
             <value>
 #foreach($service in $services)
-#foreach ($operation in $service.operations)
+#foreach ($operation in $springUtils.filterUniqueByName($service.operations))
 #if (!$operation.roles.empty)
                 ${service.fullyQualifiedName}.${operation.name}=#foreach($role in $operation.roles)#if($acegiRolePrefix && !$role.name.startsWith("$acegiRolePrefix"))$acegiRolePrefix#end$role.name#if($velocityCount != $operation.roles.size()), #end#end
 

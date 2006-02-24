@@ -2,6 +2,8 @@
 <!-- contains the hibernate cartridge metafacade mappings -->
 <metafacades>
     <property reference="hibernateVersion"/>
+    <property reference="hibernateXMLPersistence"/>
+    <property reference="hibernateXMLPersistIDAsAttribute"/>
     <property reference="entityNamePattern"/>
     <property reference="entityImplementationNamePattern"/>
     <property reference="defaultHibernateGeneratorClass"/>
@@ -35,8 +37,7 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEndLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
-            <property name="association"/>
+            <property name="type.hibernateEntityMetaType"/>
         </mapping>
         <property reference="hibernateAssociationEndOuterJoin"/>
         <property reference="listTypeImplementation"/>
@@ -50,7 +51,7 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
+            <property name="associationEndA.hibernateAssociationEndMetaType"/>
         </mapping>
         <property reference="hibernateAssociationCache"/>
     </metafacade>
@@ -60,15 +61,21 @@
             <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodLogicImpl">
         <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
+            <property name="owner.hibernateEntityMetaType"/>
             <property name="query"/>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateServiceOperationLogicImpl">
         <mapping>
             <context>org.andromda.cartridges.hibernate.metafacades.HibernateService</context>
+        </mapping>
+        <property reference="serviceOperationTransactionType"/>
+    </metafacade>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateServiceOperationLogicImpl">
+        <mapping>
+            <property name="owner.interface"/>
         </mapping>
         <property reference="serviceOperationTransactionType"/>
     </metafacade>

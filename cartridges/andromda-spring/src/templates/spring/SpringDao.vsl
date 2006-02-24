@@ -28,6 +28,13 @@ public interface $entity.daoName
     public final static int $entity.daoNoTransformationConstantName = 0;
 
 #end
+#if ($hibernateUtils.xmlPersistenceActive && !$superclass)
+    /**
+     * A transformation flag constant that denotes a transformation into a dom4j XML document tree should occur.
+     */
+    public final static int TRANSFORM_XML = 1;
+
+#end
 #foreach ($valueObjectRef in $entity.valueObjectReferences)
     /**
      * This constant is used as a transformation flag; entities can be converted automatically into value objects
@@ -40,6 +47,16 @@ public interface $entity.daoName
     public final static int $valueObjectRef.transformationConstantName = $valueObjectRef.transformationConstantValue;
 
     /**
+     * Copies the fields of the specified entity to the target value object.  This method is similar to
+     * ${valueObjectRef.transformationMethodName}(), but it does not handle any attributes in the target
+     * value object that are "read-only" (as those do not have setter methods exposed).
+     */
+    public void ${valueObjectRef.transformationMethodName}(
+        $entity.fullyQualifiedEntityName sourceEntity, 
+        $valueObjectRef.targetElement.fullyQualifiedName targetVO);
+
+
+    /**
      * Converts this DAO's entity to an object of type {@link $valueObjectRef.targetElement.fullyQualifiedName}.
      */
     public $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName entity);
@@ -49,6 +66,16 @@ public interface $entity.daoName
      */
     public void ${valueObjectRef.transformationToCollectionMethodName}(java.util.Collection entities);
     
+    /**
+     * Copies the fields of {@link $valueObjectRef.targetElement.fullyQualifiedName} to the specified entity.
+     * @param copyIfNull If FALSE, the value object's field will not be copied to the entity if the value is NULL. If TRUE,
+     *        it will be copied regardless of its value.
+     */
+    public void ${valueObjectRef.transformationToEntityMethodName}(
+        $valueObjectRef.targetElement.fullyQualifiedName sourceVO,
+        $entity.fullyQualifiedEntityName targetEntity,
+        boolean copyIfNull);
+
     /**
      * Converts an instance of type {@link $valueObjectRef.targetElement.fullyQualifiedName} to this DAO's entity.
      */
@@ -112,6 +139,20 @@ public interface $entity.daoName
      */
     public $entity.root.fullyQualifiedEntityName create($entity.fullyQualifiedEntityName $argumentName);
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * Creates an instance of $entity.fullyQualifiedEntityName using XML defined in <code>$argumentName</code> 
+     * and adds it to the persistent store.
+     */
+    public $entity.root.fullyQualifiedEntityName create(org.dom4j.Element $argumentName);
+
+    /**
+     * Creates an instance of $entity.fullyQualifiedEntityName using XML defined in <code>$argumentName</code> 
+     * and adds it to the persistent store.
+     */
+    public Object create(int transform, org.dom4j.Element $argumentName);
+
+#end
     /**
      * <p>
      *   Does the same thing as {@link #create($entity.fullyQualifiedEntityName)} with an
@@ -148,7 +189,7 @@ public interface $entity.daoName
     public java.util.Collection create(int transform, java.util.Collection entities);
 
 #if ($enableDaoPropertiesCreateMethod.equalsIgnoreCase('true'))
-#set ($attributes = $entity.getAttributes(true,false))
+#set ($attributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
 #if (!$attributes.empty)
     /**
      * <p>
@@ -221,6 +262,13 @@ public interface $entity.daoName
      */
     public void update($entity.fullyQualifiedEntityName $argumentName);
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * Updates the <code>$argumentName</code> instance in the persistent store.
+     */
+    public void update(org.dom4j.Element $argumentName);
+
+#end
     /**
      * Updates all instances in the <code>entities</code> collection in the persistent store.
      */
@@ -231,6 +279,13 @@ public interface $entity.daoName
      */
     public void remove($entity.fullyQualifiedEntityName $argumentName);
 
+#if ($hibernateUtils.xmlPersistenceActive)
+    /**
+     * Removes the <code>$argumentName</code> instance in the persistent store.
+     */
+    public void remove(org.dom4j.Element $argumentName);
+
+#end
     /**
      * Removes the instance of $entity.fullyQualifiedEntityName having the given
      * <code>identifier</code> from the persistent store.
