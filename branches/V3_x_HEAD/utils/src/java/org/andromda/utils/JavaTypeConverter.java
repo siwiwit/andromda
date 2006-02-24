@@ -187,7 +187,7 @@ public class JavaTypeConverter
                 } // if
             } // for
 
-            if (convertedValue == null && sourceType.startsWith("java.lang."))
+            if (convertedValue == null && sourceType.startsWith("java.lang.") && !sourceType.endsWith("[]"))
             {
                 // If source is a primitive wrapper, try to convert
                 // to the base primitive first...
@@ -211,7 +211,7 @@ public class JavaTypeConverter
                 }
             }
 
-            if (convertedValue == null && targetType.startsWith("java.lang."))
+            if (convertedValue == null && targetType.startsWith("java.lang.") && !targetType.endsWith("[]"))
             {
                 // One last try - if target is a primitive wrapper, try to convert
                 // to the base primitive first...
