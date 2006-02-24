@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml2;
 
+import java.util.Collection;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.ClassifierFacade.
@@ -403,6 +405,15 @@ public class ClassifierFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#getNavigableConnectingEnds(boolean)
+     */
+    protected Collection handleGetNavigableConnectingEnds(boolean follow)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#getInterfaceAbstractions()
      */
     protected java.util.Collection handleGetInterfaceAbstractions()
@@ -422,4 +433,5 @@ public class ClassifierFacadeLogicImpl
         // TODO: add your implementation here!
         return null;
     }
+
 }

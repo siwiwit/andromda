@@ -43,13 +43,13 @@ public class ${criteriaSearchBaseName}Properties
             ${entity.fullyQualifiedEntityImplementationName}.class,
             null;
 #else 
-#set ($endsSize = $entity.navigableConnectingEnds.size())
+#set ($endsSize = $entity.getNavigableConnectingEnds(true).size())
         navigableAssociationEndsByType.put(
             ${entity.fullyQualifiedEntityImplementationName}.class,
             java.util.Arrays.asList(
                 new AssociationType[] 
                 {
-#foreach($end in $entity.navigableConnectingEnds)
+#foreach($end in $entity.getNavigableConnectingEnds(true))
                     new AssociationType("$end.name", ${end.type.fullyQualifiedEntityImplementationName}.class)#if($velocityCount != $endsSize), 
 #end#end
 

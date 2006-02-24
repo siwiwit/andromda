@@ -822,6 +822,38 @@ public class ClassifierFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#getNavigableConnectingEnds(boolean)
+     */
+    protected Collection handleGetNavigableConnectingEnds(boolean follow)
+    {
+        final Collection connectionEnds = new ArrayList(this.getNavigableConnectingEnds());
+
+        for (ClassifierFacade superClass = (ClassifierFacade)getGeneralization(); superClass != null && follow;
+             superClass = (ClassifierFacade)superClass.getGeneralization())
+        {
+            for (final Iterator iterator = superClass.getNavigableConnectingEnds().iterator(); iterator.hasNext();)
+            {
+                final AssociationEndFacade superAssociationEnd = (AssociationEndFacade)iterator.next();
+                boolean present = false;
+                for (final Iterator endIterator = this.getAssociationEnds().iterator(); endIterator.hasNext();)
+                {
+                    final AssociationEndFacade associationEnd = (AssociationEndFacade)endIterator.next();
+                    if (associationEnd.getName().equals(superAssociationEnd.getName()))
+                    {
+                        present = true;
+                        break;
+                    }
+                }
+                if (!present)
+                {
+                    connectionEnds.add(superAssociationEnd);
+                }
+            }
+        }
+        return connectionEnds;
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#isLeaf()
      */
     protected boolean handleIsLeaf()
