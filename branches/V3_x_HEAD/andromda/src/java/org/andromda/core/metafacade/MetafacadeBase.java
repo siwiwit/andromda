@@ -141,9 +141,18 @@ public class MetafacadeBase
         MetafacadeBase metafacade = null;
         if (metaObject != null)
         {
+            String context = this.getContext();
             metafacade = MetafacadeFactory.getInstance().createMetafacade(
                     metaObject,
-                    this.getContext());
+                    context);
+
+            // The metafacade we've just got may have been found in the cache. 
+            // If so, it can have an arbitrary context (because it's cached).
+            // We now need to set the context once again, so that all
+            // other metafacade mappings based on the context work as expected.
+            
+            // UNCOMMENT THIS LINE TO TEST THE NEW CONTEXT RESET FEATURE:
+            // metafacade.resetMetafacadeContext(context);
         }
         return metafacade;
     }
@@ -202,6 +211,17 @@ public class MetafacadeBase
     public void setMetafacadeContext(final String context)
     {
         this.context = context;
+    }
+
+    /**
+     * Resets the metafacade context after the metafacade was retrieved from the metafacade cache.
+     * DO NOT CALL THIS METHOD BY HAND, it is reserved for use in the MetafacadeFactory.
+     * @see org.andromda.core.metafacade.MetafacadeFactory 
+     * @param context the context defined by MetafacadeFactory
+     */
+    public void resetMetafacadeContext(String context)
+    {
+        throw new IllegalStateException("Method resetMetafacadeContext() must be overridden by concrete metafacade class (" + this.getClass().getName() + ")! Please re-generate your metafacades using the new andromda-meta cartridge.");
     }
 
     /**
@@ -298,7 +318,7 @@ public class MetafacadeBase
     /**
      * The flag indicating whether or not this metafacade is a context root.
      */
-    private boolean contextRoot = false;
+    protected boolean contextRoot = false;
 
     /**
      * Sets whether or not this metafacade represents a contextRoot. If it does represent a context root, then {@link

@@ -37,7 +37,8 @@
             <property name="query"/>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringCriteriaSearchLogicImpl">
+    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringCriteriaSearchLogicImpl" 
+        contextRoot="true">
         <mapping>
             <stereotype>CRITERIA</stereotype>
         </mapping>
@@ -47,7 +48,8 @@
             <context>org.andromda.cartridges.spring.metafacades.SpringCriteriaSearch</context>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringServiceLogicImpl">
+    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringServiceLogicImpl" 
+        contextRoot="true">
         <mapping>
             <stereotype>SERVICE</stereotype>
         </mapping>
