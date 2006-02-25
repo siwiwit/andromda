@@ -109,7 +109,7 @@ public class StrutsParameterLogicImpl
 
     protected List handleGetFormFields()
     {
-        List formFields;
+        final List formFields;
         if (isControllerOperationArgument() && getName() != null)
         {
             final String name = getName();
@@ -143,7 +143,7 @@ public class StrutsParameterLogicImpl
     {
         String nullValue = null;
 
-        ClassifierFacade type = getType();
+        final ClassifierFacade type = getType();
         if (type != null)
         {
             nullValue = type.getJavaNullString();
@@ -156,7 +156,7 @@ public class StrutsParameterLogicImpl
      */
     protected boolean handleIsResetRequired()
     {
-        boolean resetRequired = false;
+        final boolean resetRequired;
 
         if (isSelectable())
         {
@@ -165,16 +165,13 @@ public class StrutsParameterLogicImpl
         else
         {
             final ClassifierFacade type = getType();
-            if (type != null)
+            if (type == null)
             {
-                if (type.isArrayType() || type.isFileType())
-                {
-                    resetRequired = true;
-                }
-                else
-                {
-                    resetRequired = isValidatorBoolean();
-                }
+                resetRequired = false;
+            }
+            else
+            {
+                resetRequired = (type.isArrayType() || type.isFileType()) ? true : this.isValidatorBoolean();
             }
         }
         return resetRequired;

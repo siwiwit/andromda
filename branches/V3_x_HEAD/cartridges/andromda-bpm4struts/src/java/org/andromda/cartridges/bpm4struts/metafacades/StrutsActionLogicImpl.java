@@ -144,6 +144,23 @@ public class StrutsActionLogicImpl
         return (source instanceof StrutsJsp) ? ((StrutsJsp) source).getFullPath() : "";
     }
 
+    protected boolean handleIsMultipartFormData()
+    {
+        boolean multipartFormPost = false;
+
+        final Collection formFields = this.getActionFormFields();
+        for (final Iterator fieldIterator = formFields.iterator(); !multipartFormPost && fieldIterator.hasNext();)
+        {
+            final StrutsParameter field = (StrutsParameter)fieldIterator.next();
+            if (field.isFile())
+            {
+                multipartFormPost = true;
+            }
+        }
+
+        return multipartFormPost;
+    }
+
     protected boolean handleIsFormPost()
     {
         final Object value = this.findTaggedValue(Bpm4StrutsProfile.TAGGEDVALUE_ACTION_TYPE);
