@@ -66,6 +66,7 @@
                 <property name="message-driven-impls">${core.manual.dir}</property>
                 <property name="commons">${common.generated.dir}</property>
                 <property name="services">${core.generated.dir}</property>
+                <property name="application-config">${application.config.dir}</property>
                 <property name="ejb3TypesPackage">${application.package}</property>
                 <property name="persistenceContainerName">jboss</property>
                 <property name="persistenceContextUnitName">${application.id}</property>
@@ -81,7 +82,7 @@
                 <property name="securityRealm">${application.id}</property>
                  -->
 #if ($ear)
-                <property name="jndiNamePrefix">${application.id}-app-${pom.version}</property>
+                <property name="jndiNamePrefix">${application.id}-${pom.version}</property>
 #end
             </properties>
         </namespace>
@@ -246,6 +247,7 @@
 #end
                 <property name="exceptions">${common.generated.dir}</property>
                 <property name="value-objects">${common.generated.dir}</property>
+                <property name="interfaces">${common.generated.dir}</property>
             </properties>
         </namespace>
 #if ($struts)
