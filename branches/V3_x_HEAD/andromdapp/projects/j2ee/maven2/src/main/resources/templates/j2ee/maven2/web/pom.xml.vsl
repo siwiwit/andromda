@@ -129,6 +129,20 @@
 #end
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
+#if ($ejb3)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3x</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+        </dependency>
+#end
     </dependencies>
     <build>
         <resources>
