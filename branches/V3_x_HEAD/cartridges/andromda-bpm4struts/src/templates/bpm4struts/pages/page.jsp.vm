@@ -188,7 +188,11 @@ ${indent}</logic:notPresent>
 #set ($fieldName = $field.name)
 #set ($formBeanName = $action.useCase.formKey)## used to denote the request scope form
 #if($field.fieldRowCount)#set($rowCount=" rows=$quote$field.fieldRowCount$quote")#else#set($rowCount='')#end
+#if($field.textArea)
+#if($field.fieldColumnCount)#set($columnCount=" cols=$quote$field.fieldColumnCount$quote")#else#set($columnCount='')#end
+#else
 #if($field.fieldColumnCount)#set($columnCount=" size=$quote$field.fieldColumnCount$quote")#else#set($columnCount='')#end
+#end
 #if($rowIndex=='')#set($beanName=$formBeanName)#else#set($beanName="row")#end
 #set ($styleId = "$field.styleId$rowIndex")
 #if ($field.readOnly)
