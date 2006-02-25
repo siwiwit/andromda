@@ -148,6 +148,9 @@
         <webservice.generated.wsdl.dir>${webservice.generated.dir}/WEB-INF/classes</webservice.generated.wsdl.dir>
 #end
         <common.generated.dir>${pom.basedir}/../common/target/src</common.generated.dir>      
+#if ($ejb3)
+        <application.config.dir>${pom.basedir}/../app/src/main/config</application.config.dir>
+#end
 #if ($hibernate || $spring)
         <!-- hibernate configuration -->
 #if ($hibernate)
