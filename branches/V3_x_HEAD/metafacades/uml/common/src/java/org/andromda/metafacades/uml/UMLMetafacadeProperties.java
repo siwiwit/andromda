@@ -161,6 +161,11 @@ public class UMLMetafacadeProperties
     public static final String ARRAY_NAME_SUFFIX = "arrayNameSuffix";
 
     /**
+     * Whether or not to enable manageable entities for the currently running cartridge.
+     */
+    public static final String ENABLE_MANAGEABLE_ENTITIES = "enableManageableEntities";
+
+    /**
      * The namespace property used to denote the name of the subpackage create for
      * manageable entities.
      */

@@ -194,6 +194,16 @@
                 key constraint names.
             </documentation>
         </property>
+        <property name="enableManageableEntities">
+            <default>true</default>
+            <documentation>
+                Whether or not to enable <![CDATA[<<Manageable>>]]> entities. Sometimes it is interesting
+                to disable the related code generating for a specific cartridge; let's say for
+                example that you only want to have the back-end code generated, not the front-end code: in
+                this case you'ld simple set this property to <code>false</code> in the corresponding
+                cartridge's (i.e. bpm4struts) namespace.
+            </documentation>
+        </property>
         <property name="manageablePackageSuffix">
             <default>crud</default>
             <documentation>

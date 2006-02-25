@@ -248,7 +248,8 @@ public class ManageableEntityLogicImpl
 
     protected boolean handleIsManageable()
     {
-        return true;
+        return Boolean.valueOf((String)this.getConfiguredProperty(
+            UMLMetafacadeProperties.ENABLE_MANAGEABLE_ENTITIES)).booleanValue();
     }
 
     protected java.util.List handleGetReferencingManageables()
