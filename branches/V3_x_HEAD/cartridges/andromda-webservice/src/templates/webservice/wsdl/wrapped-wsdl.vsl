@@ -113,16 +113,15 @@ $attribute.getDocumentation("                                ", 64, false)
                         </xsd:annotation>
                     </xsd:element>
 #end
-#foreach ($associationEnd in $type.associationEnds) 
-#set ($otherEnd = $associationEnd.otherEnd)
-#if ($otherEnd.navigable)
+## add the types of all navigable association ends and their super types
+#foreach ($otherEnd in $type.getNavigableConnectingEnds(true)) 
 #set ($type = $otherEnd.type)
 #if ($otherEnd.many)
 #set ($schemaType = "${type.namespacePrefix}:${type.wsdlArrayName}")
 #else
 #set ($schemaType = "${type.namespacePrefix}:${type.qName}")
 #end                
-                    <xsd:element name="$otherEnd.name" nillable="$otherEnd.nillable" type="$schemaType">
+                    <xsd:element name="$otherEnd.name" nillable="$otherEnd.nillable" type="${schemaType}">
                         <xsd:annotation>     
                             <xsd:documentation> 
 $otherEnd.getDocumentation("                                ", 64, false)
@@ -130,7 +129,6 @@ $otherEnd.getDocumentation("                                ", 64, false)
                         </xsd:annotation>
                     </xsd:element>   
 #end    
-#end
                 </xsd:sequence>
             </xsd:complexType>
 #end
