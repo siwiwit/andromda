@@ -91,10 +91,7 @@ public abstract class $metafacade.logicName
 #end
 ##
     /**
-     * Resets the metafacade context after the metafacade was retrieved from the metafacade cache.
-     * DO NOT CALL THIS METHOD BY HAND, it is reserved for use in the MetafacadeFactory.
-     * @see org.andromda.core.metafacade.MetafacadeFactory 
-     * @param context the context defined by MetafacadeFactory
+     * @see org.andromda.core.metafacade.MetafacadeBase
      */
     public void resetMetafacadeContext(String context)
     {

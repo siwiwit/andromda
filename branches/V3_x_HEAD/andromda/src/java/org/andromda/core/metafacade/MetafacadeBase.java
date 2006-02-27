@@ -141,18 +141,16 @@ public class MetafacadeBase
         MetafacadeBase metafacade = null;
         if (metaObject != null)
         {
-            String context = this.getContext();
+            final String context = this.getContext();
             metafacade = MetafacadeFactory.getInstance().createMetafacade(
                     metaObject,
                     context);
 
-            // The metafacade we've just got may have been found in the cache. 
-            // If so, it can have an arbitrary context (because it's cached).
-            // We now need to set the context once again, so that all
-            // other metafacade mappings based on the context work as expected.
-            
-            // UNCOMMENT THIS LINE TO TEST THE NEW CONTEXT RESET FEATURE:
-            // metafacade.resetMetafacadeContext(context);
+            // - The metafacade we've just got may have been found in the cache. 
+            //   If so, it can have an arbitrary context (because it's cached).
+            //   We now need to set the context once again, so that all
+            //   other metafacade mappings based on the context work as expected.
+            metafacade.resetMetafacadeContext(context);
         }
         return metafacade;
     }
