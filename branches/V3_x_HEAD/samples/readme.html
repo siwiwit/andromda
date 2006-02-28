@@ -23,7 +23,9 @@
         </p>
         <p>
             The following instructions assume you are familiar with operating
-            a JBoss system.
+            a JBoss system. The JBOSS_HOME environment variable should be set. 
+			The sample configuration is set to use the default server.
+			To change modify the jboss.config setting in the app/project.proerties file.
         </p>
         <p>
             To build the samples, perform the following steps:
@@ -47,18 +49,20 @@
               it isn't trying to download the dependencies, it will build much faster.
         </p>
 
+		http://www.andromda.org/crud
+		
         <h2>OnlineStore application.</h2>
         <p>
             To run:
             <ol>
-                <li>Dpeloy the ear to the app server as follows:
-                <ol>
-                  <li>cd online-store/app
-                  <li>maven deploy
-                  <li>Check the jboss log for successful activation of the ear.
-                </ol>
+                <li>Deploy the ear to the app server as follows:
                 <li>Start JBoss.</li>
-                <li>Open <a href="http://localhost:8080/online-store-web">Local OnlineStore</a></li>
+                <ol>
+                  <li>cd online-store</li>
+                  <li>maven deploy</li>
+                  <li>Check the jboss log for successful activation of the ear.</li>
+                </ol>
+                <li>Open <a href="http://localhost:8080/OnlineStore">Local OnlineStore on port 8080</a></li>
                 <li>
                     The first page expects the user to enter his name and password, his
                     name must be at least 3 characters and start with a capital, the password
@@ -80,7 +84,29 @@
             For the latest version of these instructions go to:
             <a href="http://www.andromda.org/andromda-bpm4struts-cartridge/samples.html#online-store">Online Store</a>
         </p>
-        <h2>AnimalQuiz Sample</h2>
+ 
+        <h2>CRUD application.</h2>
+        <p>
+            To run:
+            <ol>
+                <li>Deploy the ear to the app server as follows:
+				<li>Setup???</li>
+                <li>Start JBoss.</li>
+                <ol>
+                  <li>cd crud
+                  <li>maven deploy
+                  <li>Check the jboss log for successful activation of the ear.
+                </ol>
+                <li>Open <a href="http://localhost:8080/crud">Local crud on port 8080</a></li>
+                <li>
+                    TBC
+                </li>
+            </ol>     
+            For the latest version of these instructions go to:
+            <a href="http://www.andromda.org/andromda-bpm4struts-cartridge/samples.html#crud">CRUD</a>
+        </p>
+
+     <h2>AnimalQuiz Sample</h2>
         <p>
             To run:
             <ol>
@@ -185,7 +211,7 @@ deploy:
 BUILD SUCCESSFUL
                                    </pre>
 				</li>				   
-                <li>Open <a href="http://localhost:8080/AnimalQuiz">Local AnimalQuiz</a></li>
+                <li>Open <a href="http://localhost:8080/animal-quiz">Local AnimalQuiz</a></li>
                 <li>Now you have to think of an animal and click the got one button.</li>
                 <li>
                     The program will try to guess your choice. Initially after one guess,
