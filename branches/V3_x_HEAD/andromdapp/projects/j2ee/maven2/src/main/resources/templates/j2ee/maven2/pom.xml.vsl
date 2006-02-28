@@ -652,7 +652,7 @@
             For Oracle9i use: Oracle9i
             For DB2 use: DB2
             For Informix use: InformixDB
-            For MSSQL use: MS SQLSERVER2000
+            For MSSQL use: MSSQL
             For Pointbase use: PointBase
             For Postgres use: PostgreSQL 7.2
             For Sybase use: Sybase
@@ -668,7 +668,7 @@
 #elseif ($informix)
             InformixDB
 #elseif ($mssql)
-            MS SQLSERVER2000
+            MSSQL
 #elseif ($pointbase)
             PointBase
 #elseif ($postgres)
@@ -779,7 +779,7 @@
             For Oracle9i use: Oracle9i
             For DB2 use: DB2
             For Informix use: InformixDB
-            For MSSQL use: MS SQLSERVER2000
+            For MSSQL use: MSSQL
             For Pointbase use: PointBase
             For Postgres use: PostgreSQL 7.2
             For Sybase use: Sybase
@@ -796,7 +796,7 @@
 #elseif ($informix)
             InformixDB
 #elseif ($mssql)
-            MS SQLSERVER2000
+            MSSQL
 #elseif ($pointbase)
             PointBase
 #elseif ($postgres)
