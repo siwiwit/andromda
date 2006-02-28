@@ -97,8 +97,7 @@ public class XslTransformer
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         builder.setEntityResolver(new XslTransformerEntityResolver(url));
-        Document document = builder.parse(new InputSource(url));
-        return document;
+        return builder.parse(new InputSource(url));
     }
 
     /**

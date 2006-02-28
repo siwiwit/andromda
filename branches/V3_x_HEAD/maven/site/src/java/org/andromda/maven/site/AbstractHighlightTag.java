@@ -30,7 +30,7 @@ public abstract class AbstractHighlightTag
         if (content instanceof Collection)
         {
             final Collection collection = (Collection)content;
-            if (collection != null && !collection.isEmpty())
+            if (!collection.isEmpty())
             {
                 content = collection.iterator().next();
             }
@@ -85,13 +85,13 @@ public abstract class AbstractHighlightTag
         {
             AttributesImpl attributes = new AttributesImpl();
             attributes.addAttribute("", "class", "class", "string", cssClass);
-            output.startElement("div", attributes);
+            output.startElement("span", attributes);
         }
     }
 
     protected void endTokenHighlight(XMLOutput output) throws SAXException
     {
-        output.endElement("div");
+        output.endElement("span");
     }
 
     public String getValue()

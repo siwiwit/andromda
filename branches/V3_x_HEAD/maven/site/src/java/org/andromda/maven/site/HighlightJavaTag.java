@@ -124,7 +124,7 @@ public class HighlightJavaTag
                     endTokenHighlight(output);
                     inPostComment = false;
                 }
-                else if (token.equals("*") == false)
+                else if (!token.equals("*"))
                 {
                     inPostComment = false;
                     inBlockComment = true;
@@ -141,7 +141,7 @@ public class HighlightJavaTag
                     endTokenHighlight(output);
                 }
             }
-            else if (inBlockComment == false && inLineComment == false)
+            else
             {
                 if (JAVA_KEYWORDS.contains(token))
                 {
