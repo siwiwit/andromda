@@ -118,7 +118,8 @@ $operation.getDocumentation("     * ")
             {
                 try
                 {
-                    if (!this.ctx.getRollbackOnly()){
+                    if (!this.ctx.getRollbackOnly())
+                    {
                         session.flush();
                     }
                     session.close();
