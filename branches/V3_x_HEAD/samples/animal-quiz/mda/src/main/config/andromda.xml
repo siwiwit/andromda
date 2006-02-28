@@ -38,9 +38,10 @@
                 <property name="hibernateInheritanceStrategy">${hibernate.inheritance.strategy}</property>
                 <property name="hibernateQueryCacheFactory">net.sf.hibernate.cache.StandardQueryCacheFactory</property>
                 <property name="springTypesPackage">${application.package}</property>
+				<property name="enableSpringTransactionsWhenEjbsEnabled">${spring.ejb.transactions}</property>
+                <property name="spring-configuration">${core.generated.dir}</property>
                 <property name="daos">${core.generated.dir}</property>
                 <property name="dao-impls">${core.manual.dir}</property>
-                <property name="spring-configuration">${core.generated.dir}</property>
                 <property name="services">${core.generated.dir}</property>
                 <property name="service-interfaces">${common.generated.dir}</property>
                 <property name="service-impls">${core.manual.dir}</property>
