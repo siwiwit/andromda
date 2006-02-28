@@ -126,6 +126,25 @@
                     <response>none</response>
                 </responses>
             </prompt>
+            <prompt id="databaseType" setResponseAsTrue="true">
+                <text>Please enter the database backend for the persistence layer?</text>
+                <preconditions>
+                    <condition id="transactionPersistenceType" notEqual="none"/>
+                </preconditions>
+                <responses>
+                    <response>hypersonic</response>
+                    <response>mysql</response>
+                    <response>oracle</response>
+                    <response>db2</response>
+                    <response>informix</response>
+                    <response>mssql</response>
+                    <response>pointbase</response>
+                    <response>postgres</response>
+                    <response>sybase</response>
+                    <response>sabdb</response>
+                    <response>progress</response>
+                </responses>
+            </prompt>
             <prompt id="workflow">
                 <text>Will your project need workflow engine capabilities? (it uses jBPM and Hibernate3)?</text>
                 <responses type="java.lang.Boolean">
