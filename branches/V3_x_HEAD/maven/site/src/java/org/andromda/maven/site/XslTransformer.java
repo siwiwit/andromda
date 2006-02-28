@@ -35,8 +35,6 @@ public class XslTransformer
 {
     /**
      * Applies the given XSLT files to the model in the order in which they are found.
-     *
-     * @see org.andromda.core.transformation.Transformer#transform(java.net.URL, org.andromda.core.configuration.Transformation[])
      */
     public void transform(
         final String xmlDocument,
