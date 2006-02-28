@@ -127,7 +127,7 @@
                 </responses>
             </prompt>
             <prompt id="databaseType" setResponseAsTrue="true">
-                <text>Please enter the database backend for the persistence layer?</text>
+                <text>Please enter the database backend for the persistence layer</text>
                 <preconditions>
                     <condition id="transactionPersistenceType" notEqual="none"/>
                 </preconditions>
