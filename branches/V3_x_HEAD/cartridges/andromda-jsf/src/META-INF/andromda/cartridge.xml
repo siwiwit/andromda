@@ -57,7 +57,7 @@
     <!-- cartridge-property merge-point -->
     
     <outputCondition name="viewTypeIsJsp">$viewType.equalsIgnoreCase('jsp')</outputCondition>
-    <!-- expression merge-point-->
+    <!-- outputCondition merge-point-->
 
     <!-- cartridge-resource merge-point -->
     <resource
