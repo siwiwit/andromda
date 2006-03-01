@@ -79,24 +79,6 @@
         overwrite="true"/>
     
     <resource
-        path="resources/views/css/*.*"
-        outputPattern="css/{0}"
-        outlet="facelets"
-        overwrite="true"/>
-    
-    <resource
-        path="resources/views/js/*.*"
-        outputPattern="js/{0}"
-        outlet="facelets"
-        overwrite="true"/>
-    
-    <resource
-        path="resources/views/images/*.*"
-        outputPattern="images/{0}"
-        outlet="facelets"
-        overwrite="true"/>
-    
-    <resource
         path="resources/WEB-INF/lib/*.jar"
         outputPattern="WEB-INF/lib/{0}"
         outlet="configuration"
