@@ -234,7 +234,7 @@
 #end
                 <property name="applicationName">${application.name}</property>
                 <property name="forms">${maven.andromda.web.generated.dir}</property>
-                <property name="jsps">${maven.andromda.web.generated.dir}</property>
+                <property name="views">${maven.andromda.web.generated.dir}</property>
                 <property name="managed-beans">${maven.andromda.web.generated.dir}</property>
                 <property name="controllers">${maven.andromda.web.generated.dir}</property>
                 <property name="controller-impls">${maven.andromda.web.manual.java.dir}</property>
