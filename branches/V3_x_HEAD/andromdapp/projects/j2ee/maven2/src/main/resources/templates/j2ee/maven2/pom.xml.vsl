@@ -654,7 +654,7 @@
             For Informix use: InformixDB
             For MSSQL use: MSSQL
             For Pointbase use: PointBase
-            For Postgres use: PostgreSQL 7.2
+            For Postgres use: PostgreSQL
             For Sybase use: Sybase
             For SapDB use: SapDB
         -->
@@ -672,7 +672,7 @@
 #elseif ($pointbase)
             PointBase
 #elseif ($postgres)
-            PostgreSQL 7.2
+            PostgreSQL
 #elseif ($sybase)
             Sybase
 #elseif ($sapdb)
