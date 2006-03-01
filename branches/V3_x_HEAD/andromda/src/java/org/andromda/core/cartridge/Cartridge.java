@@ -511,7 +511,7 @@ public class Cartridge
         final Resource resource,
         final URL resourceUrl)
     {
-        File outFile = null;
+        File outputFile = null;
         try
         {
             // - make sure we don't have any back slashes
@@ -538,32 +538,37 @@ public class Cartridge
     
                 if (location != null)
                 {
-                    outFile =
+                    outputFile =
                         resource.getOutputLocation(
                             new String[] {uriSuffix},
                             new File(location),
                             this.getTemplateEngine().getEvaluatedExpression(
                                 resource.getOutputPattern(),
                                 templateContext));
-    
-                    // - only write files that do NOT exist, and
-                    //   those that have overwrite set to 'true'
-                    if (!outFile.exists() || resource.isOverwrite())
-                    {
-                        ResourceWriter.instance().writeUrlToFile(
-                            resourceUrl,
-                            outFile.toString());
-                        AndroMDALogger.info("Output: '" + outFile.toURI() + "'");
+                    
+                    final boolean lastModifiedCheck = resource.isLastModifiedCheck();
+                    // - if we have the last modified check set, then make sure the last modified time is greater than the outputFile
+                    if (!lastModifiedCheck || (lastModifiedCheck && ResourceUtils.getLastModifiedTime(resourceUrl) > outputFile.lastModified()))
+                    {    
+                        // - only write files that do NOT exist, and
+                        //   those that have overwrite set to 'true'
+                        if (!outputFile.exists() || resource.isOverwrite())
+                        {
+                            ResourceWriter.instance().writeUrlToFile(
+                                resourceUrl,
+                                outputFile.toString());
+                            AndroMDALogger.info("Output: '" + outputFile.toURI() + "'");
+                        }
                     }
                 }
             }
         }
         catch (final Throwable throwable)
         {
-            if (outFile != null)
+            if (outputFile != null)
             {
-                outFile.delete();
-                this.getLogger().info("Removed: '" + outFile + "'");
+                outputFile.delete();
+                this.getLogger().info("Removed: '" + outputFile + "'");
             }
             throw new CartridgeException(throwable);
         }

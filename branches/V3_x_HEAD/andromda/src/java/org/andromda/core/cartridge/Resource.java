@@ -151,6 +151,31 @@ public class Resource
     {
         this.overwrite = overwrite;
     }
+    
+    /**
+     * Whether or not a last modified check should be performed before writing the resource.
+     */
+    private boolean lastModifiedCheck;
+    
+    /**
+     * Sets whether or not a last modified check should be performed before writing the resource.
+     * 
+     * @param lastModifiedCheck true/false
+     */
+    public void setLastModifiedCheck(final boolean lastModifiedCheck)
+    {
+        this.lastModifiedCheck = lastModifiedCheck;
+    }
+    
+    /**
+     * Whether or not a last modified check should be performed before writing the resource.
+     * 
+     * @return true/false
+     */
+    public boolean isLastModifiedCheck()
+    {
+        return this.lastModifiedCheck;
+    }
 
     /**
      * Store the path to a cartridge resource.

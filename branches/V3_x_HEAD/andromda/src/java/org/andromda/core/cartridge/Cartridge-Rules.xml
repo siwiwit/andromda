@@ -118,6 +118,10 @@
             <set-properties-rule>
                  <alias attr-name="outputCondition" prop-name="outputCondition" />
             </set-properties-rule>
+            
+            <set-properties-rule>
+                 <alias attr-name="lastModifiedCheck" prop-name="lastModifiedCheck" />
+            </set-properties-rule>
 
             <set-next-rule methodname="addResource" />
 

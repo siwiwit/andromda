@@ -74,11 +74,14 @@ public class CartridgeTest
         Collection resources = this.cartridge.getResources();
         assertNotNull(resources);
         assertEquals(
-            2,
+            3,
             resources.size());
 
         // first template
         final Iterator templateIterator = resources.iterator();
+        Resource resource = (Resource)templateIterator.next();
+        assertTrue(resource.isLastModifiedCheck());
+        
         Template template = (Template)templateIterator.next();
         assertEquals(
             "EntityBean.vsl",

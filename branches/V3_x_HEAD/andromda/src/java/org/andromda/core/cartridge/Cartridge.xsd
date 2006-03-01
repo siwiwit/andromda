@@ -200,6 +200,16 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="lastModifiedCheck" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    Whether or not a check should be performed on when the resource was last modified before writing the resource.
+                    If the this is set to true, and the time that the resource was last modified is greater than the existing resource,
+                    then the resource will be written (this is usual for resources, like libraries, etc. you don't want to write each 
+                    time you generate).  Note that this only makes sense on a resource and not a template.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
     <xs:element name="resource" type="resourceType"/>
     <xs:element name="template">

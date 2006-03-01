@@ -85,14 +85,16 @@
         path="resources/WEB-INF/lib/*.jar"
         outputPattern="WEB-INF/lib/{0}"
         outlet="configuration"
-        overwrite="true"/>
+        overwrite="true"
+        lastModifiedCheck="true"/>
     
     <resource
         path="resources/lib/facelets/*.jar"
         outputPattern="WEB-INF/lib/{0}"
         outlet="configuration"
         overwrite="true"
-        outputCondition="viewTypeIsFacelets"/>
+        outputCondition="viewTypeIsFacelets"
+        lastModifiedCheck="true"/>
 
     <!-- process templates on model elements -->
     <template

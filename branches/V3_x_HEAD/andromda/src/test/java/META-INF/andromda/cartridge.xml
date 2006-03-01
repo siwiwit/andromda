@@ -10,6 +10,14 @@
     <property reference="propertyReferenceTwo"/>
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase('jsp')</condition>
+    
+    <resource
+        path="resources/lib/facelets/*.jar"
+        outputPattern="WEB-INF/lib/{0}"
+        outlet="configuration"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets"
+        lastModifiedCheck="true"/>
 
     <template
         path="EntityBean.vsl"
