@@ -8,6 +8,8 @@
     <!-- define template external properties -->
     <property reference="propertyReferenceOne"/>
     <property reference="propertyReferenceTwo"/>
+    
+    <outputCondition name="viewTypeIsJsp">$viewType.equalsIgnoreCase('jsp')</outputCondition>
 
     <template
         path="EntityBean.vsl"
@@ -25,7 +27,8 @@
         outlet="axis-configuration"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="$viewType.equals('jsp')">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.webservice.metafacades.WebService">

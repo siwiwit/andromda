@@ -43,6 +43,31 @@ public class Resource
     {
         this.outlet = outlet;
     }
+    
+    /**
+     * Stores the outputCondition that must evalute to true for the template to be written.
+     */
+    private String outputCondition;
+    
+    /**
+     * Sets the outputCondition that must evaluate to true in order for the template to be written.
+     * 
+     * @param outputCondition the template engine outputCondition.
+     */
+    public void setOutputCondition(final String outputCondition)
+    {
+        this.outputCondition = outputCondition;
+    }
+    
+    /**
+     * Gets the outputCondition that must evaluate to true in order for the template to be written.
+     * 
+     * @return the template engine outputCondition.
+     */
+    public String getOutputCondition()
+    {
+        return this.outputCondition;
+    }
 
     /**
      * Returns the fully qualified name of the resource output to be written, this means: <ul> <li>the output pattern

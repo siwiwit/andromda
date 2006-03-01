@@ -19,6 +19,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
+                <xs:element ref="outputCondition" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element ref="resource" minOccurs="0" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>
@@ -44,6 +45,21 @@
             <xs:field xpath="@reference"/>
         </xs:unique>
     </xs:element>
+	<xs:element name="outputCondition">
+        <xs:annotation>
+            <xs:documentation>
+                Represents a global outputCondition which can be referenced from the outputCondition element
+                of a template.
+            </xs:documentation>
+        </xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="name" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
     <xs:element name="property">
         <xs:complexType>
             <xs:attribute name="reference" use="required">
@@ -161,11 +177,26 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="outlet" type="xs:string" use="required"/>
+        <xs:attribute name="outlet" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    The name of the namespace property that holds the location
+                    to which resources will be written.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="overwrite" type="xs:boolean" use="required">
             <xs:annotation>
                 <xs:documentation>
                     A boolean flag indicating whether or not we should overwrite results of previous run
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="outputCondition" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    A simple template outputCondition evaluated by the template engine that when evaluated to true
+                    indicates that the template should be output (i.e. outputCondition="$viewType.equalsIgnoreCase('jsp')").
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

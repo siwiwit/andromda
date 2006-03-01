@@ -7,6 +7,13 @@
 <!-- =========== FULL CONFIGURATION FILE ================================== -->
 
 <faces-config>
+#if ($enableFacelets.equalsIgnoreCase("true"))
+    <application>
+        <view-handler>
+            com.sun.facelets.FaceletViewHandler
+        </view-handler>    
+    </application>
+#end
 #if(!$applicationUseCases.empty)
 #set($applicationUseCase = $applicationUseCases.iterator().next())
 #end
@@ -36,7 +43,7 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>$useCase.forwardName</from-outcome>
-            <to-view-id>${useCase.path}.jsp</to-view-id>
+            <to-view-id>${useCase.path}.${jsfUtils.viewExtension}</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>
@@ -44,11 +51,11 @@
 #foreach ($useCase in $useCases)
 #foreach ($view in $useCase.views)
     <navigation-rule>
-        <from-view-id>${view.path}.jsp</from-view-id>
+        <from-view-id>${view.path}.${jsfUtils.viewExtension}</from-view-id>
 #foreach ($forward in $view.forwards)
         <navigation-case>
             <from-outcome>$forward.name</from-outcome>
-            <to-view-id>${forward.path}.jsp</to-view-id>
+            <to-view-id>${forward.path}.${jsfUtils.viewExtension}</to-view-id>
             <redirect/>
         </navigation-case>
 #end
@@ -59,7 +66,7 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>layout-options</from-outcome>
-            <to-view-id>/layout/layout-options.jsp</to-view-id>
+            <to-view-id>/layout/layout-options.${jsfUtils.viewExtension}</to-view-id>
         </navigation-case>
     </navigation-rule>
 #if ($stringUtils.isNotBlank($securityRealm))
@@ -67,7 +74,7 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>logout</from-outcome>
-            <to-view-id>/logout.jsp</to-view-id>
+            <to-view-id>/logout.${jsfUtils.viewExtension}</to-view-id>
         </navigation-case>
     </navigation-rule>
 #end

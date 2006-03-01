@@ -2,6 +2,7 @@ package org.andromda.core.cartridge;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -114,6 +115,7 @@ public class CartridgeTest
         assertEquals(
             "axis-configuration",
             template.getOutlet());
+        assertEquals("$viewType.equals('jsp')", template.getOutputCondition());
         assertTrue(template.isOverwrite());
         assertTrue(template.isOutputToSingleFile());
         assertFalse(template.isOutputOnEmptyElements());
@@ -143,6 +145,13 @@ public class CartridgeTest
         Type.Property property2 = (Type.Property)propertyIterator.next();
         assertEquals("propertyThree", property2.getName());
         assertEquals("Contents", property2.getValue());
+        
+        final Map expressions = cartridge.getOutputConditions();
+        assertEquals(1, expressions.size());
+        final String expressionName = (String)expressions.keySet().iterator().next();
+        assertEquals("viewTypeIsJsp", expressionName);
+        final String expressionValue = (String)expressions.get(expressionName);
+        assertEquals("$viewType.equalsIgnoreCase('jsp')", expressionValue);
     }
 
     public void testGetPropertyReferences()

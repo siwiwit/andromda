@@ -957,4 +957,68 @@ public class JSFUtils
         }
         return format;
     }
+    
+    /**
+     * The JSP view type.
+     */
+    private static final String VIEW_TYPE_JSP = "jsp";
+    
+    /**
+     * The facelet view type.
+     */
+    private static final String VIEW_TYPE_FACELETS = "facelets";
+    
+    /**
+     * Stores the view type
+     */
+    private String viewType;
+    
+    /**
+     * Sets the view type to use.
+     * 
+     * @param viewType the view type.
+     */
+    public void setViewType(final String viewType)
+    {
+        this.viewType = viewType;
+    }
+    
+    /**
+     * Gets the current view type.
+     * 
+     * @return the view type.
+     */
+    public String getViewType()
+    {
+        return this.viewType;
+    }
+    
+    /**
+     * The XHTML extension.
+     */
+    private static final String EXTENSION_XHTML = "xhtml";
+    
+    /**
+     * Gets the extension for the current view type.
+     * 
+     * @return the view type extension.
+     */
+    public String getViewExtension()
+    {
+        String extension;
+        if (VIEW_TYPE_JSP.equals(this.viewType))
+        {
+            extension = this.viewType;
+        }
+        else if (VIEW_TYPE_FACELETS.equals(this.viewType))
+        {
+            extension = EXTENSION_XHTML;
+        }
+        else
+        {
+            throw new RuntimeException("'" + this.viewType + "' is not a valid viewType, the options are '" 
+                + VIEW_TYPE_JSP + "' or '" + VIEW_TYPE_FACELETS + "'");
+        }
+        return extension;
+    }
 }

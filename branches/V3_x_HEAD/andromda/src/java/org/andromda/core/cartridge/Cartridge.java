@@ -27,6 +27,7 @@ import org.andromda.core.common.ResourceWriter;
 import org.andromda.core.configuration.Namespaces;
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.core.metafacade.ModelAccessFacade;
+import org.apache.commons.lang.BooleanUtils;
 
 
 /**
@@ -373,54 +374,58 @@ public class Cartridge
                 template.getPath(),
                 templateContext,
                 output);
-
-            // - get the location and at the same time evaluate the outlet as a template engine variable (in case
-            //   its defined as that).
-            final String location =
-                Namespaces.instance().getPropertyValue(
-                    this.getNamespace(),
-                    this.getTemplateEngine().getEvaluatedExpression(
-                        template.getOutlet(),
-                        templateContext));
-
-            if (location != null)
+            
+            // - if we have an outputCondition defined make sure it evaluates to true before continuing
+            if (this.isValidOutputCondition(template.getOutputCondition(), templateContext))
             {
-                outputFile =
-                    template.getOutputLocation(
-                        metafacadeName,
-                        metafacadePackage,
-                        new File(location),
+                // - get the location and at the same time evaluate the outlet as a template engine variable (in case
+                //   its defined as that).
+                final String location =
+                    Namespaces.instance().getPropertyValue(
+                        this.getNamespace(),
                         this.getTemplateEngine().getEvaluatedExpression(
-                            template.getOutputPattern(),
+                            template.getOutlet(),
                             templateContext));
-                if (outputFile != null)
+    
+                if (location != null)
                 {
-                    // - only write files that do NOT exist, and
-                    //   those that have overwrite set to 'true'
-                    if (!outputFile.exists() || template.isOverwrite())
+                    outputFile =
+                        template.getOutputLocation(
+                            metafacadeName,
+                            metafacadePackage,
+                            new File(location),
+                            this.getTemplateEngine().getEvaluatedExpression(
+                                template.getOutputPattern(),
+                                templateContext));
+                    if (outputFile != null)
                     {
-                        final String outputString = output.toString();
-                        AndroMDALogger.setSuffix(this.getNamespace());
-
-                        // - check to see if generateEmptyFiles is true and if
-                        //   outString is not blank
-                        if ((outputString != null && outputString.trim().length() > 0) ||
-                            template.isGenerateEmptyFiles())
+                        // - only write files that do NOT exist, and
+                        //   those that have overwrite set to 'true'
+                        if (!outputFile.exists() || template.isOverwrite())
                         {
-                            ResourceWriter.instance().writeStringToFile(
-                                outputString,
-                                outputFile,
-                                this.getNamespace());
-                            AndroMDALogger.info("Output: '" + outputFile.toURI() + "'");
-                        }
-                        else
-                        {
-                            if (this.getLogger().isDebugEnabled())
+                            final String outputString = output.toString();
+                            AndroMDALogger.setSuffix(this.getNamespace());
+    
+                            // - check to see if generateEmptyFiles is true and if
+                            //   outString is not blank
+                            if ((outputString != null && outputString.trim().length() > 0) ||
+                                template.isGenerateEmptyFiles())
                             {
-                                this.getLogger().debug("Empty Output: '" + outputFile.toURI() + "' --> not writing");
+                                ResourceWriter.instance().writeStringToFile(
+                                    outputString,
+                                    outputFile,
+                                    this.getNamespace());
+                                AndroMDALogger.info("Output: '" + outputFile.toURI() + "'");
                             }
+                            else
+                            {
+                                if (this.getLogger().isDebugEnabled())
+                                {
+                                    this.getLogger().debug("Empty Output: '" + outputFile.toURI() + "' --> not writing");
+                                }
+                            }
+                            AndroMDALogger.reset();
                         }
-                        AndroMDALogger.reset();
                     }
                 }
             }
@@ -456,7 +461,7 @@ public class Cartridge
         if (resourceUrl == null)
         {
             // - if the resourceUrl is null, the path is probably a regular
-            //   expression pattern so we'll see if we can match it against
+            //   outputCondition pattern so we'll see if we can match it against
             //   the contents of the plugin and write any contents that do match
             final List contents = this.getContents();
             if (contents != null)
@@ -518,34 +523,38 @@ public class Cartridge
 
             final Map templateContext = new LinkedHashMap();
             this.populateTemplateContext(templateContext);
-
-            // - get the location and at the same time evaluate the outlet as a template engine variable (in case
-            //   its defined as that).
-            final String location =
-                Namespaces.instance().getPropertyValue(
-                    this.getNamespace(),
-                    this.getTemplateEngine().getEvaluatedExpression(
-                        resource.getOutlet(),
-                        templateContext));
-
-            if (location != null)
+            
+            // - if we have an outputCondition defined make sure it evaluates to true before continuing
+            if (this.isValidOutputCondition(resource.getOutputCondition(), templateContext))
             {
-                outFile =
-                    resource.getOutputLocation(
-                        new String[] {uriSuffix},
-                        new File(location),
+                // - get the location and at the same time evaluate the outlet as a template engine variable (in case
+                //   its defined as that).
+                final String location =
+                    Namespaces.instance().getPropertyValue(
+                        this.getNamespace(),
                         this.getTemplateEngine().getEvaluatedExpression(
-                            resource.getOutputPattern(),
+                            resource.getOutlet(),
                             templateContext));
-
-                // - only write files that do NOT exist, and
-                //   those that have overwrite set to 'true'
-                if (!outFile.exists() || resource.isOverwrite())
+    
+                if (location != null)
                 {
-                    ResourceWriter.instance().writeUrlToFile(
-                        resourceUrl,
-                        outFile.toString());
-                    AndroMDALogger.info("Output: '" + outFile.toURI() + "'");
+                    outFile =
+                        resource.getOutputLocation(
+                            new String[] {uriSuffix},
+                            new File(location),
+                            this.getTemplateEngine().getEvaluatedExpression(
+                                resource.getOutputPattern(),
+                                templateContext));
+    
+                    // - only write files that do NOT exist, and
+                    //   those that have overwrite set to 'true'
+                    if (!outFile.exists() || resource.isOverwrite())
+                    {
+                        ResourceWriter.instance().writeUrlToFile(
+                            resourceUrl,
+                            outFile.toString());
+                        AndroMDALogger.info("Output: '" + outFile.toURI() + "'");
+                    }
                 }
             }
         }
@@ -588,6 +597,91 @@ public class Cartridge
         resource.setCartridge(this);
         resources.add(resource);
     }
+    
+    /**
+     * Stores the global outputConditions.
+     */
+    private final Map outputConditions = new LinkedHashMap();
+    
+    /**
+     * Adds the outputCondition given the <code>name</code> and <code>value</code>
+     * to the outputConditions map.
+     * 
+     * @param name the name of the outputCondition.
+     * @param value the value of the outputCondition.
+     */
+    public void addOutputCondition(final String name, final String value)
+    {
+        this.outputConditions.put(name, value);
+    }
+    
+    /**
+     * Gets the current outputConditions defined within this cartridge
+     */
+    public Map getOutputConditions()
+    {
+        return this.outputConditions;
+    }
+    
+    /**
+     * Indicates whether or not the global outputConditions have been evaluated.
+     */
+    private boolean outputConditionsEvaluated = false;
+    
+    /**
+     * Gets the evaluted outputCondition result of a global outputCondition.
+     * 
+     * @param templateContext the current template context to pass the template engine if 
+     *        evaluation has yet to occurr.
+     * @return the evaluated outputCondition results.
+     */
+    private Boolean getGlobalOutputConditionResult(final String outputCondition, final Map templateContext) 
+    {
+        if (!this.outputConditionsEvaluated)
+        {
+            for (final Iterator iterator = this.outputConditions.keySet().iterator(); iterator.hasNext();)
+            {
+                final String name = (String)iterator.next();
+                final String value = (String)this.outputConditions.get(name);
+                String evaluationResult = value != null ? value.trim() : null;
+                if (evaluationResult != null && evaluationResult.trim().length() > 0)
+                {
+                    evaluationResult = this.getTemplateEngine().getEvaluatedExpression(
+                        evaluationResult,
+                        templateContext);
+                }
+                this.outputConditions.put(name, Boolean.valueOf(BooleanUtils.toBoolean(evaluationResult)));
+            }
+            this.outputConditionsEvaluated = true;
+        }
+        return (Boolean)this.outputConditions.get(outputCondition);
+    }
+    
+    /**
+     * Indicates whether or not the given <code>outputCondition</code> is a valid
+     * outputCondition, that is, whether or not it return true.
+     * 
+     * @param outputCondition the outputCondition to evaluate.
+     * @param templateContext the template context containing the variables to use.
+     * @return true/false
+     */
+    private boolean isValidOutputCondition(final String outputCondition, final Map templateContext)
+    {
+        boolean validOutputCondition = true;
+        if (outputCondition != null && outputCondition.trim().length() > 0)
+        {
+            Boolean result = this.getGlobalOutputConditionResult(outputCondition, templateContext);
+            if (result == null)
+            {
+                final String outputConditionResult = this.getTemplateEngine().getEvaluatedExpression(
+                    outputCondition,
+                    templateContext);
+                result = Boolean.valueOf(BooleanUtils.toBoolean(outputConditionResult != null ? outputConditionResult.trim() : null));
+            }
+            validOutputCondition = result != null ? result.booleanValue() : false;
+        }
+        return validOutputCondition;
+    }
 
     /**
      * Override to provide cartridge specific shutdown (
@@ -597,5 +691,6 @@ public class Cartridge
     public void shutdown()
     {
         super.shutdown();
+        this.outputConditions.clear();
     }
 }
