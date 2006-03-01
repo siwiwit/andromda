@@ -363,7 +363,7 @@ public class Cartridge
         File outputFile = null;
         try
         {
-            // - populate the template context will cartridge descriptor
+            // - populate the template context with cartridge descriptor
             //   properties and template objects
             this.populateTemplateContext(templateContext);
 
@@ -599,9 +599,22 @@ public class Cartridge
     }
     
     /**
-     * Stores the global outputConditions.
+     * Populates the <code>templateContext</code> with the properties and template objects defined in the
+     * <code>plugin</code>'s descriptor. If the <code>templateContext</code> is null, a new Map instance will be created
+     * before populating the context.
+     *
+     * @param templateContext the context of the template to populate.
      */
-    private final Map outputConditions = new LinkedHashMap();
+    protected void populateTemplateContext(Map templateContext)
+    {
+        super.populateTemplateContext(templateContext);
+        templateContext.putAll(this.getEvaluatedConditions(templateContext));
+    }
+    
+    /**
+     * Stores the global conditions.
+     */
+    private final Map conditions = new LinkedHashMap();
     
     /**
      * Adds the outputCondition given the <code>name</code> and <code>value</code>
@@ -610,23 +623,52 @@ public class Cartridge
      * @param name the name of the outputCondition.
      * @param value the value of the outputCondition.
      */
-    public void addOutputCondition(final String name, final String value)
+    public void addCondition(final String name, final String value)
     {
-        this.outputConditions.put(name, value);
+        this.conditions.put(name, value != null ? value.trim() : "");
     }
     
     /**
      * Gets the current outputConditions defined within this cartridge
      */
-    public Map getOutputConditions()
+    public Map getConditions()
     {
-        return this.outputConditions;
+        return this.conditions;
     }
     
     /**
      * Indicates whether or not the global outputConditions have been evaluated.
      */
-    private boolean outputConditionsEvaluated = false;
+    private boolean conditionsEvaluated = false;
+    
+    /**
+     * Evaluates all conditions and stores the results in the <code>conditions</code>
+     * and returns that Map
+     * 
+     * @param templateContext the template context used to evaluate the conditions.
+     * @param the map containing the evaluated conditions.
+     */
+    private Map getEvaluatedConditions(final Map templateContext)
+    {
+        if (!this.conditionsEvaluated)
+        {
+            for (final Iterator iterator = this.conditions.keySet().iterator(); iterator.hasNext();)
+            {
+                final String name = (String)iterator.next();
+                final String value = (String)this.conditions.get(name);
+                String evaluationResult = value != null ? value.trim() : null;
+                if (evaluationResult != null && evaluationResult.trim().length() > 0)
+                {
+                    evaluationResult = this.getTemplateEngine().getEvaluatedExpression(
+                        evaluationResult,
+                        templateContext);
+                }
+                this.conditions.put(name, Boolean.valueOf(BooleanUtils.toBoolean(evaluationResult)));
+            }
+            this.conditionsEvaluated = true;
+        }
+        return this.conditions;
+    }
     
     /**
      * Gets the evaluted outputCondition result of a global outputCondition.
@@ -635,26 +677,9 @@ public class Cartridge
      *        evaluation has yet to occurr.
      * @return the evaluated outputCondition results.
      */
-    private Boolean getGlobalOutputConditionResult(final String outputCondition, final Map templateContext) 
+    private Boolean getGlobalConditionResult(final String outputCondition, final Map templateContext) 
     {
-        if (!this.outputConditionsEvaluated)
-        {
-            for (final Iterator iterator = this.outputConditions.keySet().iterator(); iterator.hasNext();)
-            {
-                final String name = (String)iterator.next();
-                final String value = (String)this.outputConditions.get(name);
-                String evaluationResult = value != null ? value.trim() : null;
-                if (evaluationResult != null && evaluationResult.trim().length() > 0)
-                {
-                    evaluationResult = this.getTemplateEngine().getEvaluatedExpression(
-                        evaluationResult,
-                        templateContext);
-                }
-                this.outputConditions.put(name, Boolean.valueOf(BooleanUtils.toBoolean(evaluationResult)));
-            }
-            this.outputConditionsEvaluated = true;
-        }
-        return (Boolean)this.outputConditions.get(outputCondition);
+        return (Boolean)this.getEvaluatedConditions(templateContext).get(outputCondition);
     }
     
     /**
@@ -670,7 +695,7 @@ public class Cartridge
         boolean validOutputCondition = true;
         if (outputCondition != null && outputCondition.trim().length() > 0)
         {
-            Boolean result = this.getGlobalOutputConditionResult(outputCondition, templateContext);
+            Boolean result = this.getGlobalConditionResult(outputCondition, templateContext);
             if (result == null)
             {
                 final String outputConditionResult = this.getTemplateEngine().getEvaluatedExpression(
@@ -691,6 +716,6 @@ public class Cartridge
     public void shutdown()
     {
         super.shutdown();
-        this.outputConditions.clear();
+        this.conditions.clear();
     }
 }

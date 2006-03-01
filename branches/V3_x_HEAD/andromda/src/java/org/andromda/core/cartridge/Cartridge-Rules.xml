@@ -80,11 +80,11 @@
 
         </pattern>
         
-        <!-- add the outputConditions to the Cartridge -->
-        <pattern value="outputCondition">
+        <!-- add the conditions to the Cartridge -->
+        <pattern value="condition">
 
             <call-method-rule
-                methodname="addOutputCondition"
+                methodname="addCondition"
                 paramcount="2"
                 paramtypes="java.lang.String,java.lang.String"/>
 

@@ -9,7 +9,7 @@
     <property reference="propertyReferenceOne"/>
     <property reference="propertyReferenceTwo"/>
     
-    <outputCondition name="viewTypeIsJsp">$viewType.equalsIgnoreCase('jsp')</outputCondition>
+    <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase('jsp')</condition>
 
     <template
         path="EntityBean.vsl"

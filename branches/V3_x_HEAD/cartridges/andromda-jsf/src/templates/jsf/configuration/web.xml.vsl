@@ -9,7 +9,7 @@
     <distributable/>
 
 #end
-#if ($enableFacelets.equalsIgnoreCase("true") && $enableFaceletsDevelopmentSupport.equalsIgnoreCase("true"))
+#if ($enableFaceletsDevelopmentSupport)
     <context-param>
         <param-name>facelets.REFRESH_PERIOD</param-name>
         <param-value>2</param-value>

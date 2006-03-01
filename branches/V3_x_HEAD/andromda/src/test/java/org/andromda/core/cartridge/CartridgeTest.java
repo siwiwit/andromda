@@ -146,11 +146,11 @@ public class CartridgeTest
         assertEquals("propertyThree", property2.getName());
         assertEquals("Contents", property2.getValue());
         
-        final Map expressions = cartridge.getOutputConditions();
-        assertEquals(1, expressions.size());
-        final String expressionName = (String)expressions.keySet().iterator().next();
+        final Map conditions = cartridge.getConditions();
+        assertEquals(1, conditions.size());
+        final String expressionName = (String)conditions.keySet().iterator().next();
         assertEquals("viewTypeIsJsp", expressionName);
-        final String expressionValue = (String)expressions.get(expressionName);
+        final String expressionValue = (String)conditions.get(expressionName);
         assertEquals("$viewType.equalsIgnoreCase('jsp')", expressionValue);
     }
 

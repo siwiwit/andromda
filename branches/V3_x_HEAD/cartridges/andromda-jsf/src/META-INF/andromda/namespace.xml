@@ -192,12 +192,6 @@
                     The default size to use for multi select boxes.
                 </documentation>
             </property>
-            <property name="enableFacelets">
-                <default>false</default>
-                <documentation>
-                    Whether or not Facelets (https://facelets.dev.java.net) support should be enabled.
-                </documentation>
-            </property>
             <property name="enableFaceletsDevelopmentSupport">
                 <default>false</default>
                 <documentation>

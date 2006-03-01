@@ -51,13 +51,16 @@
     <property reference="maximumFormsInHistory"/>
     <property reference="formHistoryBeanName"/>
     <property reference="toDoTag"/>
-    <property reference="enableFacelets"/>
     <property reference="enableFaceletsDevelopmentSupport"/>
     <property reference="viewType"/>
     <!-- cartridge-property merge-point -->
     
-    <outputCondition name="viewTypeIsJsp">$viewType.equalsIgnoreCase('jsp')</outputCondition>
-    <!-- outputCondition merge-point-->
+    <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
+    <condition name="viewTypeIsFacelets">$viewType.equalsIgnoreCase("facelets")</condition>
+    <condition name="enableFaceletsDevelopmentSupport">
+        #if ($viewType.equalsIgnoreCase("facelets") &amp;&amp; $enableFaceletsDevelopmentSupport.equalsIgnoreCase("true"))true#end
+    </condition>
+    <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
     <resource
@@ -83,6 +86,13 @@
         outputPattern="WEB-INF/lib/{0}"
         outlet="configuration"
         overwrite="true"/>
+    
+    <resource
+        path="resources/lib/facelets/*.jar"
+        outputPattern="WEB-INF/lib/{0}"
+        outlet="configuration"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets"/>
 
     <!-- process templates on model elements -->
     <template

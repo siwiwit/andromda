@@ -7,7 +7,7 @@
 <!-- =========== FULL CONFIGURATION FILE ================================== -->
 
 <faces-config>
-#if ($enableFacelets.equalsIgnoreCase("true"))
+#if ($viewTypeIsFacelets)
     <application>
         <view-handler>
             com.sun.facelets.FaceletViewHandler
