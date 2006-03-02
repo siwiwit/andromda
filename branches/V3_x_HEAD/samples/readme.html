@@ -85,27 +85,6 @@
             <a href="http://www.andromda.org/andromda-bpm4struts-cartridge/samples.html#online-store">Online Store</a>
         </p>
  
-        <h2>CRUD application.</h2>
-        <p>
-            To run:
-            <ol>
-                <li>Deploy the ear to the app server as follows:
-				<li>Setup???</li>
-                <li>Start JBoss.</li>
-                <ol>
-                  <li>cd crud
-                  <li>maven deploy
-                  <li>Check the jboss log for successful activation of the ear.
-                </ol>
-                <li>Open <a href="http://localhost:8080/crud">Local crud on port 8080</a></li>
-                <li>
-                    TBC
-                </li>
-            </ol>     
-            For the latest version of these instructions go to:
-            <a href="http://www.andromda.org/andromda-bpm4struts-cartridge/samples.html#crud">CRUD</a>
-        </p>
-
      <h2>AnimalQuiz Sample</h2>
         <p>
             To run:
@@ -219,6 +198,44 @@ BUILD SUCCESSFUL
                 </li>
             </ol>
         </p>
+
+        <h2>CRUD application.</h2>
+        <p>
+            To run:
+            <ol>
+                <li>Deploy the ear to the app server as follows:
+				<li>
+                    Change directory to samples/animal-quiz and 
+                    execute maven -o create-schema. You may have to tweak the
+					settings in project.properties if you change the database.
+                    You should see something like:
+                                        <pre>
+build:start:
+
+create-schema:
+execute-script:
+    [sql] Executing file: /var/andromda/builds/v3/andromda-all/samples/crud/core/target/schema-create.sql
+    [sql] 11 of 11 SQL statements executed successfully
+BUILD SUCCESSFUL
+Total time: 8 seconds
+                                       </pre>
+					
+				</li>
+                <li>Start JBoss.</li>
+                <ol>
+                  <li>cd crud
+                  <li>maven deploy
+                  <li>Check the jboss log for successful activation of the ear.
+                </ol>
+                <li>Open <a href="http://localhost:8080/crud">Local crud on port 8080</a></li>
+                <li>
+                    TBC
+                </li>
+            </ol>     
+            For the latest version of these instructions go to:
+            <a href="http://www.andromda.org/andromda-bpm4struts-cartridge/samples.html#crud">CRUD</a>
+        </p>
+
         <h2>Car Rental Sample</h2>
         This example is undergoing rework to use the latest BPM4Struts cartridge.
         <p>
