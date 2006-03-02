@@ -18,7 +18,7 @@
 #else
         <property name="$attribute.name" type="$fullyQualifiedPropertyType"#if($attribute.formula || $attribute.lazy) lazy="true"#end#if(!$attribute.insertEnabled) insert="false"#end#if(!$attribute.updateEnabled) update="false"#end#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
 #if($attribute.formula)
-			<formula>$attribute.formula</formula>
+            <formula>$attribute.formula</formula>
 #else
             <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique" sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end/>
 #end
@@ -52,12 +52,12 @@
 #elseif ($otherEnd.bag)
         <$otherEnd.collectionType name="$otherEnd.name" order-by="$otherEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
 #elseif ($otherEnd.list)
-        <$otherEnd.collectionType name="$otherEnd.name"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
+        <$otherEnd.collectionType name="$otherEnd.name"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="false"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
 #end
 #if(($hibernateEnableCache.equalsIgnoreCase("true")) && ($hibernateEnableAssociationsCache.equalsIgnoreCase("true")))
             <cache usage="$sourceEnd.association.hibernateCacheType" />
 #end
-            <key foreign-key="$sourceEnd.foreignKeyConstraintName">
+            <key foreign-key="$sourceEnd.foreignKeyConstraintName"#if ($otherEnd.list) not-null="true"#end>
                 <column name="$sourceEnd.columnName" sql-type="$sourceEnd.sqlType"/>
             </key>
 #if ($otherEnd.list)
@@ -69,7 +69,7 @@
             <one-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName"/>
         </$otherEnd.collectionType>
 #elseif ($sourceEnd.many2One)
-        <many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end>
+        <many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end#if ($sourceEnd.list) insert="false" update="false" not-null="true"#end>
             <column name="$otherEnd.columnName" not-null="$otherEnd.required" sql-type="$otherEnd.sqlType"/>
         </many-to-one>
 #elseif ($sourceEnd.many2Many)
@@ -79,7 +79,7 @@
          <$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" order-by="$sourceEnd.orderByColumns"#if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
 #elseif ($otherEnd.list)
         <$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" #if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
-#end            
+#end
             <key foreign-key="$sourceEnd.foreignKeyConstraintName">
                 <column name="$sourceEnd.columnName" sql-type="$sourceEnd.sqlType"/>
             </key>
@@ -88,7 +88,7 @@
 #end
 #if ($otherEnd.map)
             <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.collectionIndexType"/>
-#end            
+#end
             <many-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName">
                 <column name="$otherEnd.columnName" sql-type="$otherEnd.sqlType"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end/>
             </many-to-many>
