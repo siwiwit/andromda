@@ -9,7 +9,14 @@
     <distributable/>
 
 #end
-#if ($enableFaceletsDevelopmentSupport)
+#if ($viewTypeIsFacelets)
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+
+#end
+#if ($faceletsDevelopmentSupportEnabled)
     <context-param>
         <param-name>facelets.REFRESH_PERIOD</param-name>
         <param-value>2</param-value>
@@ -19,17 +26,7 @@
         <param-name>facelets.DEVELOPMENT</param-name>
         <param-value>true</param-value>
     </context-param>
-
-    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>client</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-        <param-value>.xhtml</param-value>
-    </context-param>
-    
+        
 #end    
     <context-param>
         <description>
@@ -240,7 +237,7 @@
     <!-- Welcome files -->
     <welcome-file-list>
         <!-- welcome-file-list merge-point -->
-        <welcome-file>${welcomeFileName}.${jsfUtils.viewExtension}</welcome-file>
+        <welcome-file>$welcomeFileName</welcome-file>
     </welcome-file-list>
 
     <!-- error-page merge-point -->

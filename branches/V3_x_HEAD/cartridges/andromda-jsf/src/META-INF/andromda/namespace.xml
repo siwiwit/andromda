@@ -169,7 +169,7 @@
                 <documentation>Defines the type of view to render, currently the options are: 'jsp' or 'facelets'.</documentation>
             </property>
             <property name="welcomeFileName">
-                <default>index</default>
+                <default>index.jsp</default>
                 <documentation>
                     The path of the file that will be the welcome file (minus the extension).
                 </documentation>

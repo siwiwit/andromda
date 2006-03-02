@@ -57,7 +57,7 @@
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
     <condition name="viewTypeIsFacelets">$viewType.equalsIgnoreCase("facelets")</condition>
-    <condition name="enableFaceletsDevelopmentSupport">
+    <condition name="faceletsDevelopmentSupportEnabled">
         #if ($viewType.equalsIgnoreCase("facelets") &amp;&amp; $enableFaceletsDevelopmentSupport.equalsIgnoreCase("true"))true#end
     </condition>
     <!-- condition merge-point-->
@@ -95,6 +95,16 @@
         overwrite="true"
         outputCondition="viewTypeIsFacelets"
         lastModifiedCheck="true"/>
+    
+    <!--
+    <resource
+        path="resources/lib/*.jar"
+        outputPattern="WEB-INF/lib/{0}"
+        outlet="configuration"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets"
+        lastModifiedCheck="true"/>
+     -->
 
     <!-- process templates on model elements -->
     <template
@@ -382,7 +392,71 @@
         </modelElements>      
     </template>
     
-    <!-- JSP view rendering -->
+    <template
+        path="templates/jsf/views/jsp/index.jsp.vsl"
+        outputPattern="$welcomeFileName"
+        outlet="views"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="applicationUseCases">
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="entryUseCase"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>    
+    
+    <!-- Facelets specific view rendering -->
+    <template
+        path="templates/jsf/views/facelets/layout/layout.xhtml.vsl"
+        outputPattern="layout/layout.xhtml"
+        outlet="views"
+        overwrite="true"     
+        generateEmptyFiles="true"
+        outputCondition="viewTypeIsFacelets"/>    
+    
+    <template
+        path="templates/jsf/views/facelets/layout/header.xhtml.vsl"
+        outputPattern="layout/header.xhtml"
+        outlet="views"
+        overwrite="true"     
+        generateEmptyFiles="true"
+        outputCondition="viewTypeIsFacelets"/>  
+    
+    <template
+        path="templates/jsf/views/facelets/layout/menu.xhtml.vsl"
+        outputPattern="layout/menu.xhtml"
+        outlet="views"
+        overwrite="true"     
+        generateEmptyFiles="true"
+        outputCondition="viewTypeIsFacelets"/>  
+   
+    <template
+        path="templates/jsf/views/facelets/layout/footer.xhtml.vsl"
+        outputPattern="layout/footer.xhtml"
+        outlet="views"
+        overwrite="true"
+        generateEmptyFiles="true"
+        outputCondition="viewTypeIsFacelets"/>
+    
+    <template
+        path="templates/jsf/views/facelets/view.xhtml.vsl"
+        outputPattern="${view.path}.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets">
+        <modelElements variable="view">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.FrontEndView">
+                    <property name="popup">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <!-- JSP specific view rendering -->
     <template
         path="templates/jsf/views/jsp/includes/includes.jspf.vsl"
         outputPattern="$jspIncludes"
@@ -570,23 +644,6 @@
             </modelElement>
         </modelElements>
     </template>
-    
-    <template
-        path="templates/jsf/views/jsp/index.jsp.vsl"
-        outputPattern="${welcomeFileName}.${jsfUtils.viewExtension}"
-        outlet="views"
-        overwrite="true"
-        outputToSingleFile="true"
-        outputOnEmptyElements="false"
-        outputCondition="viewTypeIsJsp">
-        <modelElements>
-            <modelElement variable="applicationUseCases">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="entryUseCase"/>
-                </type>
-            </modelElement>
-        </modelElements>
-    </template>    
     
     <template
         path="templates/jsf/views/jsp/login.jsp.vsl"
