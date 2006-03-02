@@ -70,6 +70,12 @@
                     form information and navigation rules).
                 </documentation>
             </property>
+            <property name="facesConfigFiles" required="false">
+                <documentation>
+                    Comma separated list of URIs of (additional) faces config files.
+                    (e.g. /WEB-INF/jsf-config.xml).  See JSF 1.0 PRD2, 10.3.2
+                </documentation>
+            </property>
             <property name="formScope">
                 <default>request</default>
                 <documentation>

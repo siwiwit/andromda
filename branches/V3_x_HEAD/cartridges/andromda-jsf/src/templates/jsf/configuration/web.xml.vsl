@@ -28,6 +28,7 @@
     </context-param>
         
 #end    
+#if ($facesConfigFiles)
     <context-param>
         <description>
             Comma separated list of URIs of (additional) faces config files.
@@ -36,10 +37,12 @@
         </description>
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>
-            /WEB-INF/$facesConfig
+            $facesConfigFiles
         </param-value>
     </context-param>
-
+   
+#end 
+    
     <context-param>
         <description>
             State saving method: "client" or "server" (= default)
