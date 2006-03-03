@@ -299,27 +299,13 @@ public final class OCLExpressions
         final Object first,
         final long second)
     {
-        boolean greater = first != null && Comparable.class.isAssignableFrom(first.getClass());
+        boolean greater = first instanceof Comparable;
         if (greater)
         {
             final Comparable comparable = (Comparable)first;
             greater = comparable.compareTo(new Long(second)) > 0;
         }
         return greater;
-    }
-
-    public static boolean greater(
-        final int first,
-        final int second)
-    {
-        return first > second;
-    }
-
-    public static boolean greater(
-        final short first,
-        final short second)
-    {
-        return first > second;
     }
 
     public static boolean greater(
@@ -365,17 +351,135 @@ public final class OCLExpressions
     }
 
     public static boolean greaterOrEqual(
-        final int first,
+        final Object first,
+        final long second)
+    {
+        boolean greaterOrEqual = first instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual((Comparable)first, new Long(second));
+        }
+        return greaterOrEqual;
+    }
+    
+    public static boolean greaterOrEqual(
+        final Object first,
         final int second)
     {
-        return first >= second;
+        boolean greaterOrEqual = first instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual((Comparable)first, new Integer(second));
+        }
+        return greaterOrEqual;
     }
-
+    
     public static boolean greaterOrEqual(
-        final short first,
+        final Object first,
         final short second)
     {
-        return first >= second;
+        boolean greaterOrEqual = first instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual((Comparable)first, new Short(second));
+        }
+        return greaterOrEqual;
+    }
+    
+    public static boolean greaterOrEqual(
+        final long first,
+        final Object second)
+    {
+        boolean greaterOrEqual = second instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual(new Long(first), (Comparable)second);
+        }
+        return greaterOrEqual;
+    }
+    
+    public static boolean greaterOrEqual(
+        final int first,
+        final Object second)
+    {
+        boolean greaterOrEqual = second instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual(new Integer(first), (Comparable)second);
+        }
+        return greaterOrEqual;
+    }
+  
+    public static boolean greaterOrEqual(
+        final short first,
+        final Object second)
+    {
+        boolean greaterOrEqual = second instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual(new Short(first), (Comparable)second);
+        }
+        return greaterOrEqual;
+    }
+    
+    public static boolean greaterOrEqual(
+        final Object first,
+        final Object second)
+    {
+        boolean greaterOrEqual = first instanceof Comparable && second instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual((Comparable)first, (Comparable)second);
+        }
+        return greaterOrEqual;
+    }
+    
+    public static boolean greaterOrEqual(
+        final Object first,
+        final double second)
+    {
+        boolean greaterOrEqual = first instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual((Comparable)first, Double.valueOf(second));
+        }
+        return greaterOrEqual;
+    }
+    
+    public static boolean greaterOrEqual(
+        final Object first,
+        final float second)
+    {
+        boolean greaterOrEqual = first instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual((Comparable)first, Float.valueOf(second));
+        }
+        return greaterOrEqual;
+    }
+    
+    public static boolean greaterOrEqual(
+        final double first,
+        final Object second)
+    {
+        boolean greaterOrEqual = second instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual(Double.valueOf(first), (Comparable)second);
+        }
+        return greaterOrEqual;
+    }
+    
+    public static boolean greaterOrEqual(
+        final float first,
+        final Object second)
+    {
+        boolean greaterOrEqual = second instanceof Comparable;
+        if (greaterOrEqual)
+        {
+            greaterOrEqual = greaterOrEqual(Float.valueOf(first), (Comparable)second);
+        }
+        return greaterOrEqual;
     }
 
     public static boolean greaterOrEqual(
@@ -391,14 +495,7 @@ public final class OCLExpressions
     {
         return first >= second;
     }
-
-    public static boolean greaterOrEqual(
-        final float first,
-        final float second)
-    {
-        return first >= second;
-    }
-
+    
     public static boolean greaterOrEqual(
         final double first,
         final double second)
