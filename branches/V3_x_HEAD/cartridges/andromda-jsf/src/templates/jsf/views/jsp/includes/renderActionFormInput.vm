@@ -29,10 +29,10 @@
 #if ($parameter.readOnly)
             <h:inputText id="$propertyId" value="#{${formValuePropertyName}}" readonly="true">
 #else
-            <x:inputCalendar id="$propertyId" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" value="#{${formValuePropertyName}}"
+            <t:inputCalendar id="$propertyId" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" value="#{${formValuePropertyName}}"
                              renderAsPopup="true" popupDateFormat="$parameter.format" required="$parameter.required">
                 <jsf:convertDateTime pattern="$parameter.format"/>
-            </x:inputCalendar>
+            </t:inputCalendar>
 #end
 #elseif ($parameter.inputCheckbox)
             <h:selectBooleanCheckbox id="$propertyId" value="#{${formValuePropertyName}}" required="$parameter.required" readonly="$parameter.readOnly"/>
@@ -55,7 +55,7 @@
 #elseif ($parameter.inputSecret)
             <h:inputSecret id="$propertyId" value="#{${formValuePropertyName}}" required="$parameter.required" readonly="$parameter.readOnly"/>
 #elseif ($parameter.inputFile)
-            <x:inputFileUpload id="$propertyId" value="#{${formValuePropertyName}}" storage="file" required="$parameter.required" readonly="$parameter.readOnly" styleClass="fileUploadInput"/>
+            <t:inputFileUpload id="$propertyId" value="#{${formValuePropertyName}}" storage="file" required="$parameter.required" readonly="$parameter.readOnly" styleClass="fileUploadInput"/>
 #elseif ($parameter.inputMultibox)
             <h:selectManyCheckbox id="$propertyId" value="#{${formValuePropertyName}}" layout="pageDirection" styleClass="selectManyCheckbox">
                 <c:if test="${!empty ${backingListName}}">
@@ -80,7 +80,7 @@
             </h:inputText>
 #end
 #if (!$parameter.inputTable)
-            <x:message for="$propertyId" styleClass="error" showDetail="true" showSummary="false"/>
+            <t:message for="$propertyId" styleClass="error" showDetail="true" showSummary="false"/>
 #end
         </h:panelGroup>
 #end
@@ -108,10 +108,10 @@
 #if ($column.readOnly)
                     <h:inputText id="$columnId" value="#{item.${column.name}}" readonly="true">
 #else
-                    <x:inputCalendar id="$columnId" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" value="#{item.${column.name}}"
+                    <t:inputCalendar id="$columnId" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" value="#{item.${column.name}}"
                                      renderAsPopup="true" popupDateFormat="$column.format" required="$column.required">
                         <jsf:convertDateTime pattern="$column.format"/>
-                    </x:inputCalendar>
+                    </t:inputCalendar>
 #end
 #elseif ($column.inputCheckbox)
                     <h:selectBooleanCheckbox id="$columnId" value="#{item.${column.name}}" required="$column.required" readonly="$column.readOnly"/>
@@ -127,7 +127,7 @@
                     <h:outputText value="#{item.${column.name}}"/>
 #end
 #if ($column.inputTypePresent)
-                    <x:message for="$columnId" styleClass="error" showDetail="true" showSummary="false"/>
+                    <t:message for="$columnId" styleClass="error" showDetail="true" showSummary="false"/>
 #end
                 </h:column>
 #end

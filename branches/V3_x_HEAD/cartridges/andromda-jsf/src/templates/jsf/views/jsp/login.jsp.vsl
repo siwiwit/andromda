@@ -8,7 +8,7 @@
 
 <f:view>
 
-    <x:panelLayout id="page" layout="#{layoutOptions.sidebarLayout}"
+    <t:panelLayout id="page" layout="#{layoutOptions.sidebarLayout}"
             styleClass="pageLayout"
             headerClass="pageHeader"
             navigationClass="pageNavigation"
@@ -75,7 +75,7 @@
 
         <%@include file="/includes/footer.jspf" %>
 
-    </x:panelLayout>
+    </t:panelLayout>
 
 </f:view>
 <script type="text/javascript" language="Javascript1.1">
