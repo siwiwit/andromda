@@ -96,7 +96,14 @@
         outputCondition="viewTypeIsFacelets"
         lastModifiedCheck="true"/>
     
-    <!--
+    <resource
+        path="resources/configuration/facelets/*.xml"
+        outputPattern="WEB-INF/{0}"
+        outlet="configuration"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets"
+        lastModifiedCheck="true"/>
+    
     <resource
         path="resources/lib/*.jar"
         outputPattern="WEB-INF/lib/{0}"
@@ -104,7 +111,6 @@
         overwrite="true"
         outputCondition="viewTypeIsFacelets"
         lastModifiedCheck="true"/>
-     -->
 
     <!-- process templates on model elements -->
     <template
@@ -429,9 +435,17 @@
         path="templates/jsf/views/facelets/layout/menu.xhtml.vsl"
         outputPattern="layout/menu.xhtml"
         outlet="views"
-        overwrite="true"     
-        generateEmptyFiles="true"
-        outputCondition="viewTypeIsFacelets"/>  
+        overwrite="true"
+        outputToSingleFile="true"
+        outputCondition="viewTypeIsFacelets">
+        <modelElements>
+            <modelElement variable="useCases">
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="registrationUseCase">false</property>
+                </type>
+            </modelElement>
+        </modelElements>        
+    </template>
    
     <template
         path="templates/jsf/views/facelets/layout/footer.xhtml.vsl"
@@ -451,6 +465,53 @@
             <modelElement>
                 <type name="org.andromda.metafacades.uml.FrontEndView">
                     <property name="popup">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/jsf/views/facelets/view-action.xhtml.vsl"
+        outputPattern="${action.viewFragmentPath}.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets">
+        <modelElements variable="action">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.FrontEndAction">
+                    <property name="tableLink">false</property>
+                    <property name="input"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/jsf/views/facelets/view-table.xhtml.vsl"
+        outputPattern="${table.view.path}-${table.name}.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets">
+        <modelElements variable="table">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.FrontEndParameter">
+                    <property name="table"/>
+                    <property name="view"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/jsf/views/facelets/view-variables.xhtml.vsl"
+        outputPattern="${view.path}-vars.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets">
+        <modelElements variable="view">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.FrontEndView">
+                    <property name="nonTableVariablesPresent"/>
                 </type>
             </modelElement>
         </modelElements>

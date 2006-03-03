@@ -10,7 +10,19 @@
     <f:loadBundle basename="$messageResources" var="messages"/>
     <ui:define name="title">#{messages['${view.titleKey}']}</ui:define>
     <ui:define name="content">
-
+#if ($view.nonTableVariablesPresent)
+        <ui:include src="${view.path}-vars.xhtml"/>
+#end
+#foreach ($action in $view.actions)
+#if (!$action.tableLink)
+        <ui:include src="${action.viewFragmentPath}.xhtml"/>
+#end
+#end
+#foreach ($variable in $view.variables)
+#if ($variable.table)
+        <ui:include src="${view.path}-${variable.name}.xhtml"/>
+#end
+#end
     </ui:define>
 </ui:composition>
     

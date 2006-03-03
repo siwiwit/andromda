@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jstl/core">
+<ui:composition>
+<h:messages id="messageList" errorClass="error" globalOnly="true"/>
+#set($formName = $action.formBeanName)
+#if ($action.hyperlink || $action.popup)
+#if ($action.hyperlink)
+<h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
+#else
+<h:form styleClass="noSpace">
+    <jsf:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
+#end
+    <h:outputText value="#{messages['$action.messageKey']}"/>
+#foreach ($parameter in $action.parameters)
+#if (!$parameter.complex)
+#renderActionCommandLinkParameter($parameter "")
+#end
+#foreach ($attribute in $parameter.attributes)
+#renderActionCommandLinkParameter($attribute $parameter)
+#end
+#end
+#if ($action.hyperlink)
+</h:commandLink>
+#else
+    </jsf:popup> 
+</h:form>
+#end
+<br/><br/>
+#else
+#set ($clientValidation = $clientValidation.equalsIgnoreCase("true"))
+#set ($formValidateName = "validate$stringUtils.capitalize($formName)")
+<h:form id="$formName" name="$formName"#if($clientValidation) onsubmit="return $formValidateName(this);"#end enctype="multipart/form-data">
+#if (!$action.hiddenParameters.empty)
+    <%@ include file="${action.viewFragmentPath}-hidden-params.jspf" %>
+#end
+    <h:panelGrid columns="3" styleClass="formTable"
+                 headerClass="formHeader"
+                 footerClass="formFooter"
+                 columnClasses="formLabels,,formInputs">           
+#foreach ($parameter in $action.parameters)
+#if (!$parameter.complex)
+#renderActionInput($parameter "")
+#else
+#foreach ($attribute in $parameter.attributes)
+#renderActionInput($attribute $parameter)
+#end
+#end
+#end
+        <h:panelGroup/>
+        <h:panelGroup/>
+        <h:panelGroup>
+            <h:commandButton id="${action.triggerName}-submit"
+                             value="#{messages['$action.messageKey']}"
+                             action="#{${action.controller.beanName}.${action.triggerName}}"
+                             type="submit"
+                             styleClass="actionButton"/>
+#if ($action.resettable)
+            <h:commandButton id="${action.triggerName}-reset"
+                             value="#{messages['$action.trigger.resetMessageKey']}"
+                             type="reset"
+                             styleClass="actionButton"/>
+#end
+        </h:panelGroup>
+    </h:panelGrid>
+    <jsf:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
+</h:form>
+#end
+</ui:composition>
+</html>
