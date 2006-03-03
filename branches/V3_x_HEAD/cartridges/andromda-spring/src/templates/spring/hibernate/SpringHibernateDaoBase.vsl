@@ -515,7 +515,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             queryObject.${setParameterOperation}($count, $argumentValue);
 #end
 #end
-#if ($finder.returnType.setType)
+#if ($finder.returnType.setType || !$finder.returnType.collectionType)
             java.util.Set results = new java.util.LinkedHashSet(queryObject.list());
 #else
             java.util.List results = queryObject.list();
