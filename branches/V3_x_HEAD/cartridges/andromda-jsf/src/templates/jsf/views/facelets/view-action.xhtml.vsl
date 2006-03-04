@@ -2,7 +2,8 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jstl/core">
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk">
 <ui:composition>
 <h:messages id="messageList" errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
@@ -34,7 +35,7 @@
 #set ($formValidateName = "validate$stringUtils.capitalize($formName)")
 <h:form id="$formName" name="$formName"#if($clientValidation) onsubmit="return $formValidateName(this);"#end enctype="multipart/form-data">
 #if (!$action.hiddenParameters.empty)
-    <%@ include file="${action.viewFragmentPath}-hidden-params.jspf" %>
+    <ui:include src="${action.viewFragmentPath}-hidden-params.xhtml"/>
 #end
     <h:panelGrid columns="3" styleClass="formTable"
                  headerClass="formHeader"
