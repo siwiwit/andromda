@@ -6,21 +6,19 @@
 <facelet-taglib>
     <namespace>http://www.andromda.org/cartridges/jsf</namespace>
 
-    <!--
     <tag>
-        <tag-name>aliasBean</tag-name>
+        <tag-name>validator</tag-name>
         <component>
             <component-type>org.andromda.cartridges.jsf.component.JSFValidatorComponent</component-type>
             <renderer-type>org.andromda.cartridges.jsf.component.JSFValidatorComponent</renderer-type>
         </component>
     </tag>
-    -->
-
+    
     <tag>
-        <tag-name>validator</tag-name>
-        <validator>
-            <validator-id>org.andromda.cartridges.jsf.validator.JSFValidator</validator-id>
-        </validator>
+        <tag-name>convertDateTime</tag-name>
+        <converter>
+            <converter-id>andromda.faces.DateTime</converter-id>
+        </converter>
     </tag>
 
 </facelet-taglib>
