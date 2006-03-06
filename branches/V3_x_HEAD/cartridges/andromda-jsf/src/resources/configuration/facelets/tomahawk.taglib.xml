@@ -149,6 +149,12 @@
         </component>                
     </tag>
     <tag>
+        <tag-name>panelLayout</tag-name>
+         <component>
+            <component-type>org.apache.myfaces.HtmlPanelLayout</component-type>
+        </component>
+    </tag>
+    <tag>
         <tag-name>panelNavigation</tag-name>
         <component>
             <component-type>org.apache.myfaces.HtmlPanelNavigation</component-type>
