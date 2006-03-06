@@ -36,15 +36,44 @@
             <f:subview id="header">
                 <ui:insert name="header">
                     <ui:include src="header.xhtml"/>
+                    <c:choose>
+                        <c:when test="${!empty ${layoutOptionsBeanName}}">
+                            <c:if test="${${layoutOptionsBeanName}.menuLayout == 'hbr'}">
+                                <ui:insert name="menu">
+                                    <ui:include src="menu.xhtml"/>
+                                </ui:insert>
+                            </c:if>
+                        </c:when>
+#if ($menuLayout.startsWith("h"))
+                        <c:otherwise>
+                            <ui:insert name="menu">
+                                <ui:include src="menu.xhtml"/>
+                            </ui:insert>
+                        </c:otherwise>
+#end
+                    </c:choose>
                 </ui:insert>
             </f:subview>
         </f:facet>
 
         <f:facet name="navigation">
             <f:subview id="menu">
-                <ui:insert name="menu">
-                    <ui:include src="menu.xhtml"/>
-                </ui:insert>
+                <c:choose>
+                    <c:when test="${!empty ${layoutOptionsBeanName}}">
+                        <c:if test="${${layoutOptionsBeanName}.menuLayout == 'vbr'}">
+                            <ui:insert name="menu">
+                                <ui:include src="menu.xhtml"/>
+                            </ui:insert>
+                        </c:if>
+                    </c:when>
+#if ($menuLayout.startsWith("v"))
+                    <c:otherwise>
+                        <ui:insert name="menu">
+                            <ui:include src="menu.xhtml"/>
+                        </ui:insert>
+                    </c:otherwise>
+#end
+                </c:choose>
             </f:subview>
         </f:facet>
 
