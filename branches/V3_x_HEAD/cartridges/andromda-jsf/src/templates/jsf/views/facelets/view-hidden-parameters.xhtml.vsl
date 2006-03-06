@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://www.andromda.org/cartridges/jsf">
 <ui:composition>
 ##
 ##    This xhtml composition stores all hidden parameters for an action.
@@ -29,7 +30,7 @@
 #end
 <h:inputHidden id="${propertyId}" value="#{${action.formBeanName}.${valuePropertyName}}">
 #if ($field.type.dateType)
-    <jsf:convertDateTime pattern="$field.format"/>
+    <a:convertDateTime pattern="$field.format"/>
 #end
 </h:inputHidden>
 #end

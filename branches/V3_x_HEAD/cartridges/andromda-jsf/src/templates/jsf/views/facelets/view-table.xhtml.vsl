@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jstl/core"
-      xmlns:t="http://myfaces.apache.org/tomahawk">
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:a="http://www.andromda.org/cartridges/jsf">
 <ui:composition>
 #set ($noSortColumnProperty = "no${stringUtils.capitalize($table.tableSortColumnProperty)}")
 <c:catch var="$noSortColumnProperty">
@@ -95,7 +96,7 @@
         <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}" styleClass="columnLink">
             <h:outputText value="#{row.${columnName}}">
 #if ($column.type.dateType)
-                <jsf:convertDateTime pattern="$defaultDateFormat"/>
+                <a:convertDateTime pattern="$defaultDateFormat"/>
 #end
             </h:outputText>
 #renderTableCommandLinkParameters()
@@ -103,7 +104,7 @@
 #else
         <h:outputText value="#{row.${columnName}}">
 #if ($column.type.dateType)
-            <jsf:convertDateTime pattern="$defaultDateFormat"/>
+            <a:convertDateTime pattern="$defaultDateFormat"/>
 #end
         </h:outputText>
 #end
@@ -116,7 +117,7 @@
         </f:facet>
         <h:outputText value="#{row}">
 #if ($column.type.dateType)
-            <jsf:convertDateTime pattern="$defaultDateFormat"/>
+            <a:convertDateTime pattern="$defaultDateFormat"/>
 #end
         </h:outputText>
     </h:column>

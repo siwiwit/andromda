@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jstl/core"
-      xmlns:t="http://myfaces.apache.org/tomahawk">
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:a="http://www.andromda.org/cartridges/jsf">
 <ui:composition>
 <h:messages id="messageList" errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
@@ -12,7 +13,7 @@
 <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
 #else
 <h:form styleClass="noSpace">
-    <jsf:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
+    <a:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
 #end
     <h:outputText value="#{messages['$action.messageKey']}"/>
 #foreach ($parameter in $action.parameters)
@@ -26,7 +27,7 @@
 #if ($action.hyperlink)
 </h:commandLink>
 #else
-    </jsf:popup> 
+    </a:popup> 
 </h:form>
 #end
 <br/><br/>
@@ -66,7 +67,7 @@
 #end
         </h:panelGroup>
     </h:panelGrid>
-    <jsf:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
+    <a:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
 </h:form>
 #end
 </ui:composition>
