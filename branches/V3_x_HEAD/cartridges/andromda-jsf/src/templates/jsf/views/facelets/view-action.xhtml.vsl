@@ -34,7 +34,7 @@
 #else
 #set ($clientValidation = $clientValidation.equalsIgnoreCase("true"))
 #set ($formValidateName = "validate$stringUtils.capitalize($formName)")
-<h:form id="$formName" name="$formName"#if($clientValidation) onsubmit="return $formValidateName(this);"#end enctype="multipart/form-data">
+<h:form id="$formName"#if($clientValidation) onsubmit="return $formValidateName(this);"#end enctype="multipart/form-data">
 #if (!$action.hiddenParameters.empty)
     <ui:include src="${action.viewFragmentPath}-hidden-params.xhtml"/>
 #end
