@@ -20,5 +20,13 @@
             <converter-id>andromda.faces.DateTime</converter-id>
         </converter>
     </tag>
+    
+    <tag>
+        <tag-name>popup</tag-name>
+        <component>
+            <component-type>org.andromda.cartridges.jsf.HtmlPopupFrame</component-type>
+            <renderer-type>org.andromda.cartridges.jsf.Popup</renderer-type>
+        </component>
+    </tag>
 
 </facelet-taglib>
