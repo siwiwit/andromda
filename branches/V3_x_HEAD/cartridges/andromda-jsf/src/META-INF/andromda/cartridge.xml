@@ -487,24 +487,6 @@
     </template>
     
     <template
-        path="templates/jsf/views/facelets/action-forward.xhtml.vsl"
-        outputPattern="${action.path}.xhtml"
-        outlet="views"
-        overwrite="true"
-        outputCondition="viewTypeIsFacelets">
-        <modelElements>
-            <modelElement variable="action">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
-            </modelElement>
-            <modelElement>
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="actionForwards" variable="action"/>
-                </type>
-            </modelElement>
-        </modelElements>
-    </template>
-    
-    <template
         path="templates/jsf/views/facelets/view-table.xhtml.vsl"
         outputPattern="${table.view.path}-${table.name}.xhtml"
         outlet="views"
@@ -670,24 +652,6 @@
                 <type name="org.andromda.metafacades.uml.FrontEndAction">
                     <property name="tableLink">false</property>
                     <property name="input"/>
-                </type>
-            </modelElement>
-        </modelElements>
-    </template>
-    
-    <template
-        path="templates/jsf/views/jsp/action-forward.jsp.vsl"
-        outputPattern="${action.path}.jsp"
-        outlet="views"
-        overwrite="true"
-        outputCondition="viewTypeIsJsp">
-        <modelElements>
-            <modelElement variable="action">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
-            </modelElement>
-            <modelElement>
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="actionForwards" variable="action"/>
                 </type>
             </modelElement>
         </modelElements>

@@ -187,12 +187,12 @@
 #foreach ($useCase in $useCases)
     <servlet>
         <servlet-name>$useCase.fullyQualifiedActionClassName</servlet-name>
-        <servlet-class>$useCase.fullyQualifiedActionClassName</servlet-class>
+        <servlet-class>${useCase.fullyQualifiedActionClassName}</servlet-class>
     </servlet>
 #foreach ($action in $useCase.actionForwards)
     <servlet>
         <servlet-name>$action.fullyQualifiedActionClassName</servlet-name>
-        <servlet-class>$action.fullyQualifiedActionClassName</servlet-class>
+        <servlet-class>${action.fullyQualifiedActionClassName}</servlet-class>
     </servlet>
 #end
 #end
@@ -222,12 +222,12 @@
 #foreach ($useCase in $useCases)
     <servlet-mapping>
         <servlet-name>$useCase.fullyQualifiedActionClassName</servlet-name>
-        <url-pattern>$useCase.path</url-pattern>
+        <url-pattern>${useCase.path}.${facesServletExtension}</url-pattern>
     </servlet-mapping>
 #foreach ($action in $useCase.actionForwards)
     <servlet-mapping>
         <servlet-name>$action.fullyQualifiedActionClassName</servlet-name>
-        <url-pattern>$action.path</url-pattern>
+        <url-pattern>${action.path}.${facesServletExtension}</url-pattern>
     </servlet-mapping>
 #end
 #end

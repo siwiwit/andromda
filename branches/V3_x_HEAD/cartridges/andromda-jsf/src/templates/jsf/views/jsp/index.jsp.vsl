@@ -1,1 +1,1 @@
-<%response.sendRedirect(request.getContextPath() + "$applicationUseCases.iterator().next().path");%>
+<%response.sendRedirect(request.getContextPath() + "${applicationUseCases.iterator().next().path}.${facesServletExtension}");%>
