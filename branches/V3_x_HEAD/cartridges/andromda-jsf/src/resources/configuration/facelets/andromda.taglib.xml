@@ -28,5 +28,21 @@
             <renderer-type>org.andromda.cartridges.jsf.Popup</renderer-type>
         </component>
     </tag>
+    
+    <tag>
+        <tag-name>binaryFile</tag-name>
+        <component>
+            <component-type>org.andromda.cartridges.jsf.component.BinaryFile</component-type>
+            <renderer-type>org.andromda.cartridges.jsf.component.BinaryFile</renderer-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>dataTable</tag-name>
+        <component>
+            <component-type>org.andromda.cartridges.jsf.component.html.HtmlExtendedDataTable</component-type>
+            <renderer-type>org.apache.myfaces.Table</renderer-type>
+        </component>
+    </tag>
 
 </facelet-taglib>
