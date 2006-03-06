@@ -109,7 +109,6 @@
         outputPattern="WEB-INF/lib/{0}"
         outlet="configuration"
         overwrite="true"
-        outputCondition="viewTypeIsFacelets"
         lastModifiedCheck="true"/>
 
     <!-- process templates on model elements -->
@@ -465,6 +464,21 @@
             <modelElement>
                 <type name="org.andromda.metafacades.uml.FrontEndView">
                     <property name="popup">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/jsf/views/facelets/view-popup.xhtml.vsl"
+        outputPattern="${view.path}.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets">
+        <modelElements variable="view">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.FrontEndView">
+                    <property name="popup"/>
                 </type>
             </modelElement>
         </modelElements>
