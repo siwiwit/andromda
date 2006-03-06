@@ -17,7 +17,10 @@
     
     <context-param>
         <param-name>facelets.LIBRARIES</param-name>
-        <param-value>/WEB-INF/tomahawk.taglib.xml</param-value>
+        <param-value>
+            /WEB-INF/tomahawk.taglib.xml;
+            /WEB-INF/andromda.taglib.xml
+        </param-value>
     </context-param>
 
 #end
