@@ -533,6 +533,13 @@
         </modelElements>
     </template>
     
+    <template
+        path="templates/jsf/views/facelets/layout-options.xhtml.vsl"
+        outputPattern="layout/layout-options.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets"/>
+    
     <!-- JSP specific view rendering -->  
     <template
         path="templates/jsf/views/jsp/includes/includes.jspf.vsl"
