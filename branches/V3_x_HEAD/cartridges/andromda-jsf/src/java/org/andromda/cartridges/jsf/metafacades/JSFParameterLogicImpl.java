@@ -872,7 +872,7 @@ public class JSFParameterLogicImpl
         final ClassifierFacade type = this.getType();
         if (type != null)
         {
-            attributes = type.getAttributes();
+            attributes = type.getAttributes(true);
         }
         return attributes == null ? Collections.EMPTY_LIST : attributes;
     }

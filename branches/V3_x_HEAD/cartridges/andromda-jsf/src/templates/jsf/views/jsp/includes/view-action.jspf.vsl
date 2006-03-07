@@ -33,7 +33,7 @@
     <h:panelGrid columns="2" styleClass="formTable"
                  headerClass="formHeader"
                  footerClass="formFooter"
-                 columnClasses="formLabels,,formInputs">           
+                 columnClasses="formLabels,formInputs">           
 #foreach ($parameter in $action.parameters)
 #if (!$parameter.complex)
 #renderActionInput($parameter "")

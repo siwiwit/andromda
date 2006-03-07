@@ -34,7 +34,7 @@
 #if ($associationEnd.many)
         <c:forEach var="item" items="${${variable.name}.${associationEnd.name}}">
             <c:set var="item" value="${item}" scope="request"/>
-#foreach ($itemAttribute in $associationEnd.type.attributes)
+#foreach ($itemAttribute in $associationEnd.type.getAttributes(true))
             <h:outputText value="#{messages['$itemAttribute.messageKey']} :"/>
             <h:outputText value="#{item.${itemAttribute.name}}">
 #if ($itemAttribute.type.dateType)
@@ -44,7 +44,7 @@
 #end
         </c:forEach>
 #else
-#foreach ($itemAttribute in $associationEnd.type.attributes)
+#foreach ($itemAttribute in $associationEnd.type.getAttributes(true))
             <h:outputText value="#{messages['$itemAttribute.messageKey']} :"/>
             <h:outputText value="#{item.${itemAttribute.name}}">
 #if ($itemAttribute.type.dateType)
