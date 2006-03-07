@@ -1,3 +1,20 @@
+##
+##  This macro renders the hidden input parameters
+##
+#macro(renderHiddenInputField $field $ownerParameter)
+#if ($field.backingListName)
+#set ($propertyId = $field.name)
+#set ($valuePropertyName = $field.name)
+#else
+#set ($propertyId = $field.getFormPropertyId($ownerParameter))
+#set ($valuePropertyName = ${field.getFormPropertyName($ownerParameter)})
+#end
+<h:inputHidden id="${propertyId}" value="#{${action.formBeanName}.${valuePropertyName}}">
+#if ($field.type.dateType)
+    <a:convertDateTime pattern="$field.format"/>
+#end
+</h:inputHidden>
+#end
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -16,23 +33,6 @@
 #end
 #end
 #end
-#end
-##
-##  This macro renders the hidden input parameters
-##
-#macro(renderHiddenInputField $field $ownerParameter)
-#if ($field.backingListName)
-#set ($propertyId = $field.name)
-#set ($valuePropertyName = $field.name)
-#else
-#set ($propertyId = $field.getFormPropertyId($ownerParameter))
-#set ($valuePropertyName = ${field.getFormPropertyName($ownerParameter)})
-#end
-<h:inputHidden id="${propertyId}" value="#{${action.formBeanName}.${valuePropertyName}}">
-#if ($field.type.dateType)
-    <a:convertDateTime pattern="$field.format"/>
-#end
-</h:inputHidden>
 #end
 </ui:composition>
 </html>

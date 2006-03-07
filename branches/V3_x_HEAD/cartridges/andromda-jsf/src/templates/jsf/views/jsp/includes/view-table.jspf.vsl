@@ -1,3 +1,21 @@
+##
+## This macro renders the <f:param> elements for a command link
+##
+#macro (renderTableCommandLinkParameters)
+#foreach ($parameter in $action.parameters)
+#if ($table.tableColumnNames.contains($parameter.name) || $table.tableAttributeNames.contains($parameter.name))
+#set ($parameterValue = "row.${parameter.name}")
+#else
+#set ($parameterValue = "${actionFormKey}.${parameter.name}")       
+#end
+#if ($parameter.type.dateType || $parameter.type.timeType)
+#set ($formattedParameterValue = "${parameter.name}Formatted")
+            <fmt:formatDate var="$formattedParameterValue" value="${${parameterValue}}" pattern="$parameter.format" scope="request"/>
+#set ($parameterValue = $formattedParameterValue)
+#end
+            <f:param name="$parameter.name" value="#{${parameterValue}}"/>  
+#end
+#end
 #set ($noSortColumnProperty = "no${stringUtils.capitalize($table.tableSortColumnProperty)}")
 <c:catch var="$noSortColumnProperty">
    <c:set var="dummy" value="${${actionFormKey}.${table.tableSortColumnProperty}}"/>
@@ -144,21 +162,3 @@
 #end
 </t:dataTable>
 </c:if>
-##
-## This macro renders the <f:param> elements for a command link
-##
-#macro (renderTableCommandLinkParameters)
-#foreach ($parameter in $action.parameters)
-#if ($table.tableColumnNames.contains($parameter.name) || $table.tableAttributeNames.contains($parameter.name))
-#set ($parameterValue = "row.${parameter.name}")
-#else
-#set ($parameterValue = "${actionFormKey}.${parameter.name}")       
-#end
-#if ($parameter.type.dateType || $parameter.type.timeType)
-#set ($formattedParameterValue = "${parameter.name}Formatted")
-            <fmt:formatDate var="$formattedParameterValue" value="${${parameterValue}}" pattern="$parameter.format" scope="request"/>
-#set ($parameterValue = $formattedParameterValue)
-#end
-            <f:param name="$parameter.name" value="#{${parameterValue}}"/>  
-#end
-#end
