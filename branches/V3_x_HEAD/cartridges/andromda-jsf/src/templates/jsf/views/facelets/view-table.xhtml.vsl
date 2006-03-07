@@ -131,7 +131,7 @@
 #else
     <h:column>
         <f:facet name="header">
-            <![CDATA[&nbsp;]]>
+            &amp;nbsp;
         </f:facet>
         <h:outputText value="#{row}">
 #if ($column.type.dateType)
@@ -145,7 +145,7 @@
 #if (!$action.tableLinkColumnName)
     <h:column>
         <f:facet name="header">
-            <![CDATA[&nbsp;]]>
+            &amp;nbsp;
         </f:facet>
         <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
             <h:outputText value="#{messages['$action.trigger.messageKey']}"/>
@@ -159,7 +159,7 @@
 #if (!$action.tableLinkColumnName)
     <h:column>
         <f:facet name="header">
-            <![CDATA[&nbsp;]]>
+            &amp;nbsp;
         </f:facet>
         <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}" styleClass="buttonLink">
             <h:outputText value="#{messages['$action.trigger.messageKey']}" />
