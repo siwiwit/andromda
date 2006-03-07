@@ -33,7 +33,7 @@
                     <h:outputText value="#{viewTitle}"/>
                 </h:panelGrid>
                 <h:messages id="messageList" errorClass="error" globalOnly="true"/>
-                <h:form id="layoutOptions" name="${layoutOptionsBeanName}">
+                <h:form id="$layoutOptionsBeanName">
                     <h:panelGrid columns="1" styleClass="formTable"
                                  headerClass="formHeader"
                                  footerClass="formFooter"
