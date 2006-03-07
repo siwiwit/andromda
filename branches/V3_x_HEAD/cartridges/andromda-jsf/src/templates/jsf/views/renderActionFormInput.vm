@@ -30,7 +30,7 @@
 #else
             <t:inputCalendar id="$propertyId" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" value="#{${formValuePropertyName}}"
                              renderAsPopup="true" popupDateFormat="$parameter.format" required="$parameter.required">
-                <jsf:convertDateTime pattern="$parameter.format"/>
+                <a:convertDateTime pattern="$parameter.format"/>
             </t:inputCalendar>
 #end
 #elseif ($parameter.inputCheckbox)
@@ -74,7 +74,7 @@
 #else
             <h:inputText id="$propertyId" value="#{${formValuePropertyName}}" required="$parameter.required" readonly="$parameter.readOnly">
 #if ($parameter.type.timeType)
-                <jsf:convertDateTime pattern="$parameter.format"/>
+                <a:convertDateTime pattern="$parameter.format"/>
 #end
             </h:inputText>
 #end
@@ -88,7 +88,7 @@
 ##  This macro renders an submittable input table
 ##
 #macro (renderInputTable $parameter)
-            <jsf:dataTable id="$parameter.name"
+            <a:dataTable id="$parameter.name"
                 columnClasses="list-column-center,list-column-right, list-column-center,list-column-right"
                 headerClass="list-header"
                 rowClasses="list-row"
@@ -109,7 +109,7 @@
 #else
                     <t:inputCalendar id="$columnId" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" value="#{item.${column.name}}"
                                      renderAsPopup="true" popupDateFormat="$column.format" required="$column.required">
-                        <jsf:convertDateTime pattern="$column.format"/>
+                        <a:convertDateTime pattern="$column.format"/>
                     </t:inputCalendar>
 #end
 #elseif ($column.inputCheckbox)
@@ -119,7 +119,7 @@
 #elseif ($column.inputText)
                     <h:inputText id="$columnId" value="#{item.${column.name}}" required="$column.required" readonly="$column.readOnly">
 #if ($column.type.timeType)
-                        <jsf:convertDateTime pattern="$column.format"/>
+                        <a:convertDateTime pattern="$column.format"/>
 #end
                     </h:inputText>                    
 #else
@@ -130,5 +130,5 @@
 #end
                 </h:column>
 #end
-            </jsf:dataTable>
+            </a:dataTable>
 #end

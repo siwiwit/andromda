@@ -106,7 +106,7 @@
         <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}" styleClass="columnLink">
             <h:outputText value="#{row.${columnName}}">
 #if ($column.type.dateType)
-                <jsf:convertDateTime pattern="$defaultDateFormat"/>
+                <a:convertDateTime pattern="$defaultDateFormat"/>
 #end
             </h:outputText>
 #renderTableCommandLinkParameters()
@@ -114,7 +114,7 @@
 #else
         <h:outputText value="#{row.${columnName}}">
 #if ($column.type.dateType)
-            <jsf:convertDateTime pattern="$defaultDateFormat"/>
+            <a:convertDateTime pattern="$defaultDateFormat"/>
 #end
         </h:outputText>
 #end
@@ -127,7 +127,7 @@
         </f:facet>
         <h:outputText value="#{row}">
 #if ($column.type.dateType)
-            <jsf:convertDateTime pattern="$defaultDateFormat"/>
+            <a:convertDateTime pattern="$defaultDateFormat"/>
 #end
         </h:outputText>
     </h:column>

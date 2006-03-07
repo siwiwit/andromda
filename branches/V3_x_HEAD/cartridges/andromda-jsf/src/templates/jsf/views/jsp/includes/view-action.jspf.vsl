@@ -5,7 +5,7 @@
 <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
 #else
 <h:form styleClass="noSpace">
-    <jsf:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
+    <a:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
 #end
     <h:outputText value="#{messages['$action.messageKey']}"/>
 #foreach ($parameter in $action.parameters)
@@ -19,7 +19,7 @@
 #if ($action.hyperlink)
 </h:commandLink>
 #else
-    </jsf:popup> 
+    </a:popup> 
 </h:form>
 #end
 <f:verbatim><br/><br/></f:verbatim>
@@ -58,6 +58,6 @@
 #end
         </h:panelGroup>
     </h:panelGrid>
-    <jsf:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
+    <a:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
 </h:form>
 #end

@@ -2,8 +2,8 @@
     
     <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine">
         <macrolibrary name="templates/jsf/controllers/Controller.java.vm"/>
-        <macrolibrary name="templates/jsf/views/jsp/includes/renderActionFormInput.vm"/>
-        <macrolibrary name="templates/jsf/views/jsp/includes/renderActionCommandLinkParameter.vm"/>
+        <macrolibrary name="templates/jsf/views/renderActionFormInput.vm"/>
+        <macrolibrary name="templates/jsf/views/renderActionCommandLinkParameter.vm"/>
         <macrolibrary name="templates/jsf/forms/formMacros.vm"/>
         <macrolibrary name="templates/jsf/forms/formImplMacros.vm"/>
         <macrolibrary name="templates/jsf/configuration/validation.xml.vm"/>
