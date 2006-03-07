@@ -6,7 +6,7 @@
       xmlns:t="http://myfaces.apache.org/tomahawk"
       xmlns:a="http://www.andromda.org/cartridges/jsf">
 <ui:composition>
-<h:messages id="messageList" errorClass="error" globalOnly="true"/>
+<h:messages id="${action.triggerName}Messages" errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
 #if ($action.hyperlink || $action.popup)
 #if ($action.hyperlink)
