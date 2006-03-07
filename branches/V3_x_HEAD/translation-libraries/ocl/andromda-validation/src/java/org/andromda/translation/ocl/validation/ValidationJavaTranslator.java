@@ -1365,6 +1365,5 @@ public class ValidationJavaTranslator
         this.getExpression().insertInTranslatedExpression(0,
                 "final java.lang.Object " + CONTEXT_ELEMENT_NAME + " = this; ");
         this.getExpression().appendToTranslatedExpression(");");
-
     }
 }
