@@ -1,6 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -17,19 +14,19 @@
                 footerClass="formFooter"
                 columnClasses="formLabels, formInputs">
                 <h:panelGroup>
-                    <h:outputLabel for="${layoutOptionsBeanName}:menu" value="#{messages['layout.options.menu']}" /> <f:verbatim>:&nbsp;</f:verbatim>
+                    <h:outputLabel for="${layoutOptionsBeanName}:menu" value="#{messages['layout.options.menu']}: " />
                     <h:selectOneMenu id="menu" value="#{${layoutOptionsBeanName}.menuLayout}">
                         <f:selectItem itemLabel="#{messages['layout.options.menu.side']}" itemValue="vbr" />
                         <f:selectItem itemLabel="#{messages['layout.options.menu.top']}" itemValue="hbr"/>
                     </h:selectOneMenu>
                     <br/>
-                    <h:outputLabel for="${layoutOptionsBeanName}:sidebar" value="#{messages['layout.options.sidebar']}" /> <f:verbatim>:&nbsp;</f:verbatim>
+                    <h:outputLabel for="${layoutOptionsBeanName}:sidebar" value="#{messages['layout.options.sidebar']}: " />
                     <h:selectOneMenu id="sidebar" value="#{${layoutOptionsBeanName}.sidebarLayout}">
                         <f:selectItem itemLabel="#{messages['layout.options.sidebar.left']}" itemValue="classic" />
                         <f:selectItem itemLabel="#{messages['layout.options.sidebar.right']}" itemValue="navigationRight"/>
                     </h:selectOneMenu>
                     <br/>
-                    <h:outputLabel for="${layoutOptionsBeanName}:theme" value="#{messages['layout.options.navigation.theme']}" /> <f:verbatim>:&nbsp;</f:verbatim>
+                    <h:outputLabel for="${layoutOptionsBeanName}:theme" value="#{messages['layout.options.navigation.theme']}: " />
                     <h:selectOneMenu id="theme" value="#{${layoutOptionsBeanName}.theme}">
                         <f:selectItem itemLabel="Office" itemValue="ThemeOffice"/>
                         <f:selectItem itemLabel="Mini Black" itemValue="ThemeMiniBlack"/>
