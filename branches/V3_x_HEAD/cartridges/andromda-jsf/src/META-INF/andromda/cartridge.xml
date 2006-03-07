@@ -7,6 +7,7 @@
         <macrolibrary name="templates/jsf/forms/formMacros.vm"/>
         <macrolibrary name="templates/jsf/forms/formImplMacros.vm"/>
         <macrolibrary name="templates/jsf/configuration/validation.xml.vm"/>
+        <macrolibrary name="templates/jsf/flow/ViewPopulator.java.vm"/>
         <!-- cartridge-macrolibrary merge-point-->
     </templateEngine>
     
