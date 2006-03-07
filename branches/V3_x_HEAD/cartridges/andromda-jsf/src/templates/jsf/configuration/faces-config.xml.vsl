@@ -67,6 +67,7 @@
         <navigation-case>
             <from-outcome>layout-options</from-outcome>
             <to-view-id>/layout/layout-options.${jsfUtils.viewExtension}</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
 #if ($stringUtils.isNotBlank($securityRealm))
@@ -75,6 +76,7 @@
         <navigation-case>
             <from-outcome>logout</from-outcome>
             <to-view-id>/logout.${jsfUtils.viewExtension}</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
 #end

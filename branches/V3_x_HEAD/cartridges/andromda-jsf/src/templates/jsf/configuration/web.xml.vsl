@@ -219,7 +219,7 @@
 #if ($securityEnabled)
     <servlet-mapping>
         <servlet-name>$logOutServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
+        <url-pattern>/${logoutFileName}.${facesServletExtension}</url-pattern>
     </servlet-mapping>
 #end
 #foreach ($useCase in $useCases)
@@ -308,8 +308,8 @@
         <auth-method>FORM</auth-method>
         <realm-name>$securityRealm</realm-name>
         <form-login-config>
-            <form-login-page>/login.${facesServletExtension}</form-login-page>
-            <form-error-page>/login.${facesServletExtension}?action=error</form-error-page>
+            <form-login-page>/${loginFileName}.${facesServletExtension}</form-login-page>
+            <form-error-page>/${loginFileName}.${facesServletExtension}?action=error</form-error-page>
         </form-login-config>
     </login-config>
 

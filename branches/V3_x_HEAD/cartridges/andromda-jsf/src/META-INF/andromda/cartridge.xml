@@ -435,6 +435,13 @@
         outputCondition="viewTypeIsFacelets"/>  
     
     <template
+        path="templates/jsf/views/facelets/layout/head.xhtml.vsl"
+        outputPattern="layout/head.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputCondition="viewTypeIsFacelets"/>
+    
+    <template
         path="templates/jsf/views/facelets/layout/menu.xhtml.vsl"
         outputPattern="layout/menu.xhtml"
         outlet="views"
@@ -557,6 +564,22 @@
         outlet="views"
         overwrite="true"
         outputCondition="viewTypeIsFacelets"/>
+    
+    <template
+        path="templates/jsf/views/facelets/login.xhtml.vsl"
+        outputPattern="${loginFileName}.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputCondition="viewTypeIsFacelets">
+        <modelElements>
+            <modelElement variable="registrationUseCases">
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="registrationUseCase"/>
+                </type>
+            </modelElement>
+        </modelElements>      
+    </template>
     
     <!-- JSP specific view rendering -->  
     <template
@@ -744,14 +767,6 @@
             </modelElement>
         </modelElements>      
     </template>
-    
-    <template
-        path="templates/jsf/views/jsp/logout.jsp.vsl"
-        outputPattern="${logoutFileName}.jsp"
-        outlet="views"
-        overwrite="true"
-        outputToSingleFile="true"
-        outputCondition="viewTypeIsJsp"/>
 
     <!-- cartridge-template merge-point -->
 

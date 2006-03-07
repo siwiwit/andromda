@@ -6,6 +6,10 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:t="http://myfaces.apache.org/tomahawk">
 
+<ui:insert name="head">
+    <ui:include src="/layout/head.xhtml"/>  
+</ui:insert>
+
 <f:view>
     <h:panelGrid id="popupView" columns="1" styleClass="popup">
         <h:panelGrid id="popupViewHeader" columns="1" styleClass="popupHeader">

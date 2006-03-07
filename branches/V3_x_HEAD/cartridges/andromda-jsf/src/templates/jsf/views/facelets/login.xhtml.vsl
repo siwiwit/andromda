@@ -1,8 +1,13 @@
-<%@ include file="/includes.jspf" %>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:c="http://java.sun.com/jstl/core">
 
-<html>
-
-<%@include file="/includes/head.jspf" %>
+<ui:insert name="head">
+    <ui:include src="/layout/head.xhtml"/>  
+</ui:insert>
 
 <body>
 
@@ -27,10 +32,10 @@
         <f:facet name="body">
             <h:panelGroup id="body">
                 <h:outputText value="#{messages['login.title']}" styleClass="actionHeader"/>
-                <f:verbatim><br/><br/></f:verbatim>
+                <br/><br/>
                 <h:outputText value="#{messages['login.text']}" styleClass="loginText" escape="false"/>
-                <f:verbatim><br/><br/></f:verbatim>
-                <f:verbatim><form id="login" name="login" action="j_security_check" method="post"></f:verbatim>
+                <br/><br/>
+                <form id="login" name="login" action="j_security_check" method="post">
                 <h:panelGrid columns="2" styleClass="formTable"
                              headerClass="formHeader"
                              footerClass="formFooter"
@@ -55,22 +60,24 @@
 #end
                     <h:panelGroup/>
                     <h:panelGroup>
-                        <f:verbatim>
-                            <input type="submit" value="<fmt:message key="login.submit"/>" class="actionButton" tabindex="10"/>
-                            <input type="reset" value="<fmt:message key="login.reset"/>" class="actionButton" tabindex="10"/>
-                        </f:verbatim>
+                        <input type="submit" value="#{messages['login.submit']}" class="actionButton" tabindex="10"/>
+                        <input type="reset" value="#{messages['login.reset']}" class="actionButton" tabindex="10"/>
                     </h:panelGroup>
                 </h:panelGrid>
-                <f:verbatim></form></f:verbatim>
+                </form>
 #set ($actionParam = "param.action")
                 <c:if test="${${actionParam} == 'error'}">
                     <h:outputText value="#{messages['login.error']}" styleClass="error"/>
-                    <f:verbatim><br/><br/></f:verbatim>
+                    <br/><br/>
                 </c:if>  
             </h:panelGroup>
         </f:facet>
 
-        <%@include file="/includes/footer.jspf" %>
+        <f:facet name="footer">
+            <ui:insert name="footer">
+                <ui:include src="/layout/footer.xhtml"/>
+            </ui:insert>
+        </f:facet>
 
     </t:panelLayout>
 

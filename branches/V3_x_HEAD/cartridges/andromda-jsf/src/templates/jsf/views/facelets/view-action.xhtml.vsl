@@ -38,7 +38,7 @@
 #if (!$action.hiddenParameters.empty)
     <ui:include src="${action.viewFragmentPath}-hidden-params.xhtml"/>
 #end
-    <h:panelGrid columns="3" styleClass="formTable"
+    <h:panelGrid columns="2" styleClass="formTable"
                  headerClass="formHeader"
                  footerClass="formFooter"
                  columnClasses="formLabels,,formInputs">           
@@ -51,7 +51,6 @@
 #end
 #end
 #end
-        <h:panelGroup/>
         <h:panelGroup/>
         <h:panelGroup>
             <h:commandButton id="${action.triggerName}-submit"

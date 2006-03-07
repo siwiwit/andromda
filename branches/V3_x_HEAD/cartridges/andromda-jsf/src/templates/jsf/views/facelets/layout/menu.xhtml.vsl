@@ -17,10 +17,10 @@
     </t:jscookMenu>
 #if ($stringUtils.isNotBlank($securityRealm))
     <h:panelGrid columns="3" styleClass="logoutPanel" width="100%">
-        <c:set var="remoteUser" value="${pageContext.request.remoteUser}" scope="request"/>
+        <c:set var="remoteUser" value="${facesContext.externalContext.request.remoteUser}" scope="request"/>
         <c:if test="${!empty remoteUser}">
             <h:panelGrid columns="1" style="text-align:right" width="100%">
-                <h:outputText value="<em>#{remoteUser}</em>" escape="false" styleClass="logoutPanel"/>
+                <em>#{remoteUser}</em>
             </h:panelGrid>
             <h:outputText value="~"/>
             <h:panelGrid columns="1" style="text-align:left" width="100%">

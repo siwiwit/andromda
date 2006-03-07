@@ -62,7 +62,7 @@
             <t:graphicImage url="/images/arrow-fr.gif" border="1" />
         </f:facet>
     </t:dataScroller>
-    <![CDATA[&nbsp;]]>
+    <br/>
     <t:dataScroller id="${table.name}Scroller2"
             for="$table.name"
             rowsCountVar="rowsCount"
