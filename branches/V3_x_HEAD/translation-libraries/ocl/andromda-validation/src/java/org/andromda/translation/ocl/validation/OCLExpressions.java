@@ -238,6 +238,18 @@ public final class OCLExpressions
     {
         return first == null ? second == null : (first.compareTo(second) <= 0);
     }
+    
+    public static boolean lessOrEqual(
+        final Object first,
+        final Object second)
+    {
+        boolean lessOrEqual = first instanceof Comparable && second instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual((Comparable)first, (Comparable)second);
+        }
+        return lessOrEqual;
+    }
 
     public static boolean lessOrEqual(
         final int first,
@@ -273,6 +285,30 @@ public final class OCLExpressions
     {
         return first <= second;
     }
+    
+    public static boolean lessOrEqual(
+        final Object first,
+        final float second)
+    {
+        boolean lessOrEqual = first instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual((Comparable)first, new Float(second));
+        }
+        return lessOrEqual;
+    }
+    
+    public static boolean lessOrEqual(
+        final float first,
+        final Object second)
+    {
+        boolean lessOrEqual = second instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual(new Float(first), (Comparable)second);
+        }
+        return lessOrEqual;
+    }
 
     public static boolean lessOrEqual(
         final double first,
@@ -280,12 +316,108 @@ public final class OCLExpressions
     {
         return first <= second;
     }
+    
+    public static boolean lessOrEqual(
+        final Object first,
+        final double second)
+    {
+        boolean lessOrEqual = first instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual((Comparable)first, new Double(second));
+        }
+        return lessOrEqual;
+    }
+    
+    public static boolean lessOrEqual(
+        final double first,
+        final Object second)
+    {
+        boolean lessOrEqual = second instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual(new Double(first), (Comparable)second);
+        }
+        return lessOrEqual;
+    }
 
     public static boolean lessOrEqual(
         final long first,
         final long second)
     {
         return first <= second;
+    }
+    
+    public static boolean lessOrEqual(
+        final Object first,
+        final long second)
+    {
+        boolean lessOrEqual = first instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual((Comparable)first, new Long(second));
+        }
+        return lessOrEqual;
+    }
+    
+    public static boolean lessOrEqual(
+        final Object first,
+        final int second)
+    {
+        boolean lessOrEqual = first instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual((Comparable)first, new Integer(second));
+        }
+        return lessOrEqual;
+    }
+    
+    public static boolean lessOrEqual(
+        final Object first,
+        final short second)
+    {
+        boolean lessOrEqual = first instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual((Comparable)first, new Short(second));
+        }
+        return lessOrEqual;
+    }
+    
+    public static boolean lessOrEqual(
+        final long first,
+        final Object second)
+    {
+        boolean lessOrEqual = second instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual(new Long(first), (Comparable)second);
+        }
+        return lessOrEqual;
+    }
+    
+    public static boolean lessOrEqual(
+        final int first,
+        final Object second)
+    {
+        boolean lessOrEqual = second instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual(new Integer(first), (Comparable)second);
+        }
+        return lessOrEqual;
+    }
+    
+    public static boolean lessOrEqual(
+        final short first,
+        final Object second)
+    {
+        boolean lessOrEqual = second instanceof Comparable;
+        if (lessOrEqual)
+        {
+            lessOrEqual = lessOrEqual(new Short(first), (Comparable)second);
+        }
+        return lessOrEqual;
     }
 
     public static boolean greater(
