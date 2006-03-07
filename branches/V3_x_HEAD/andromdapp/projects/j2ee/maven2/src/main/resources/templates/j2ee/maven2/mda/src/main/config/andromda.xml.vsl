@@ -279,6 +279,7 @@
 #if ($webservice)
                 <property name="languageMappingsUri">AxisJavaMappings</property>
 #end
+                <property name="viewType">$viewType</property>
                 <property name="applicationName">${application.name}</property>
                 <property name="forms">${web.generated.dir}</property>
                 <property name="views">${web.generated.dir}</property>
@@ -287,6 +288,7 @@
                 <property name="controller-impls">${web.manual.java.dir}</property>
                 <property name="messages">${web.generated.dir}</property>
                 <property name="configuration">${web.generated.dir}</property>
+                <property name="libraries">${web.generated.dir}</property>
                 <!-- uncomment to enable web tier security 
                 <property name="securityRealm">${application.id}</property>
                  -->

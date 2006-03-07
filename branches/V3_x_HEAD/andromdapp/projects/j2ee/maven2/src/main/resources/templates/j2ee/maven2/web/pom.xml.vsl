@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -75,17 +75,21 @@
         </dependency>
 #elseif ($jsf)
         <dependency>
-            <groupId>myfaces</groupId>
-            <artifactId>myfaces-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>myfaces</groupId>
+            <groupId>org.apache.myfaces</groupId>
             <artifactId>myfaces-api</artifactId>
-        </dependency>
+            <!-- 'unknown' because the version doesn't matter for system dependencies -->
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/myfaces-api.jar</systemPath>
+         </dependency>
         <dependency>
-            <groupId>myfaces</groupId>
+            <groupId>org.apache.myfaces</groupId>
             <artifactId>tomahawk</artifactId>
-        </dependency>
+            <!-- 'unknown' because the version doesn't matter for system dependencies -->
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/tomahawk.jar</systemPath>
+         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>

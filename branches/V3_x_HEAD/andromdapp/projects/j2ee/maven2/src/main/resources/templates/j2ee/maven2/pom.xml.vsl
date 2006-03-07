@@ -511,22 +511,6 @@
 #end
 #if ($jsf)
             <dependency>
-                <groupId>myfaces</groupId>
-                <artifactId>myfaces-impl</artifactId>
-                <version>1.1.1</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>myfaces</groupId>
-                <artifactId>myfaces-api</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>myfaces</groupId>
-                <artifactId>tomahawk</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>1.3</version>
