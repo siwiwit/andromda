@@ -27,7 +27,7 @@ public class LogOutServlet
         throws ServletException, IOException
     {
         request.getSession().invalidate();
-        response.sendRedirect(request.getContextPath() + "$useCase.path");
+        response.sendRedirect(request.getContextPath() + "${useCase.path}.${facesServletExtension}");
     }
 
     /**
