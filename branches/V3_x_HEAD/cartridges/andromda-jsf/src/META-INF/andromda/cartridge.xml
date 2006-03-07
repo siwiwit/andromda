@@ -109,6 +109,7 @@
         outputPattern="WEB-INF/lib/{0}"
         outlet="configuration"
         overwrite="true"
+        outputCondition="viewTypeIsFacelets"
         lastModifiedCheck="true"/>
 
     <!-- process templates on model elements -->
