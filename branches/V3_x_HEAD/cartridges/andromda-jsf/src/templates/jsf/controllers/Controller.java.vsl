@@ -499,17 +499,3 @@ $decisionTransition.getDocumentation("     * ")
 
 #end
 }
-##
-##  This macro determines what to do when processing a transition
-##
-#macro (processTransition $transition)
-#if (!$transition)
-null;
-#elseif ($transition.enteringFinalState || $transition.enteringView)
-"$transition.name";
-#elseif ($transition.enteringDecisionPoint)
-__${transition.operationCall.name}(#if (!$action.formFields.empty)form#end);
-#else
-${transition.target.actionMethodName}(#if (!$action.formFields.empty)form#end);
-#end
-#end
