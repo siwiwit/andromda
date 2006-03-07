@@ -24,6 +24,12 @@
                     that typically appear in WEB-INF, such as validation-rules.xml and tiles-defs.xml.
                 </documentation>
             </property>
+            <property name="libraries" required="false">
+                <documentation>
+                    The location to which JSF libraries will be generated (these are the libraries required for JSF support, 
+                    myfaces libraries, etc).  If this isn't defined, its expected that the libraries will be provided by another means.
+                </documentation>
+            </property>
             <property name="controllers">
                 <documentation>
                     The location to which any controllers are generated (this outlet

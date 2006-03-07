@@ -94,15 +94,7 @@
     <resource
         path="resources/lib/facelets/*.jar"
         outputPattern="WEB-INF/lib/{0}"
-        outlet="configuration"
-        overwrite="true"
-        outputCondition="viewTypeIsFacelets"
-        lastModifiedCheck="true"/>
-    
-    <resource
-        path="resources/configuration/facelets/*.xml"
-        outputPattern="WEB-INF/{0}"
-        outlet="configuration"
+        outlet="libraries"
         overwrite="true"
         outputCondition="viewTypeIsFacelets"
         lastModifiedCheck="true"/>
@@ -110,6 +102,13 @@
     <resource
         path="resources/lib/*.jar"
         outputPattern="WEB-INF/lib/{0}"
+        outlet="libraries"
+        overwrite="true"
+        lastModifiedCheck="true"/>
+    
+    <resource
+        path="resources/configuration/facelets/*.xml"
+        outputPattern="WEB-INF/{0}"
         outlet="configuration"
         overwrite="true"
         outputCondition="viewTypeIsFacelets"
