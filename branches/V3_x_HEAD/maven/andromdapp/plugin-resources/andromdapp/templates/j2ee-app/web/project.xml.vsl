@@ -142,28 +142,16 @@
 -->
 #elseif ($jsf)
         <dependency>
-            <groupId>myfaces</groupId>
-            <artifactId>myfaces-impl</artifactId>
-            <version>${myfaces.version}</version>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
+           <groupId>myfaces</groupId>
+           <artifactId>myfaces-api</artifactId>
+           <version>unknown</version>
+           <jar>myfaces-api.jar</jar>
         </dependency>
         <dependency>
-            <groupId>myfaces</groupId>
-            <artifactId>myfaces-api</artifactId>
-            <version>${myfaces.version}</version>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-        <dependency>
-            <groupId>myfaces</groupId>
-            <artifactId>tomahawk</artifactId>
-            <version>${myfaces.version}</version>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
+           <groupId>myfaces</groupId>
+           <artifactId>tomahawk</artifactId>
+           <version>unknown</version>
+           <jar>tomahawk.jar</jar>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
