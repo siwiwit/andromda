@@ -17,7 +17,7 @@
         </repository>
     </repositories>
     <mappingsSearchLocations>
-        <location>${basedir}/src/mappings</location>
+        <location patterns="**/*.xml">${basedir}/src/mappings</location>
     </mappingsSearchLocations>
     <namespaces>
         <namespace name="default">
