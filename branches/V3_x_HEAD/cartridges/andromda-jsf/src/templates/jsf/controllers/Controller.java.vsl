@@ -322,11 +322,20 @@ $decisionTransition.getDocumentation("     * ")
                         // - only convert if the string is not empty
                         if (parameter != null && parameter.trim().length() > 0)
                         {
-                            final java.text.DateFormat formatter = (java.text.DateFormat)formatters.get(name);
+                            java.text.DateFormat formatter = (java.text.DateFormat)formatters.get(name);
                             // - if the formatter is available we use that, otherwise we attempt to convert
                             if (formatter != null)
                             {
-                                value = formatter.parse(parameter);
+                                try
+                                {
+                                    value = formatter.parse(parameter);
+                                }
+                                catch (java.text.ParseException parseException)
+                                {
+                                    // - try the default formatter (handles the default java.util.Date.toString() format)
+                                    formatter = (java.text.DateFormat)formatters.get(null);
+                                    value = formatter.parse(parameter); 
+                                }
                             }
                             else
                             {

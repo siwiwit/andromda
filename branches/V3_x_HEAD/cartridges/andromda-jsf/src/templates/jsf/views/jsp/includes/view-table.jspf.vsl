@@ -8,11 +8,6 @@
 #else
 #set ($parameterValue = "${actionFormKey}.${parameter.name}")       
 #end
-#if ($parameter.type.dateType || $parameter.type.timeType)
-#set ($formattedParameterValue = "${parameter.name}Formatted")
-            <fmt:formatDate var="$formattedParameterValue" value="${${parameterValue}}" pattern="$parameter.format" scope="request"/>
-#set ($parameterValue = $formattedParameterValue)
-#end
             <f:param name="$parameter.name" value="#{${parameterValue}}"/>  
 #end
 #end

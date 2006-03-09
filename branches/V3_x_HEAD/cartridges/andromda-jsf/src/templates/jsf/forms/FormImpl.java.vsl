@@ -19,6 +19,10 @@ public class $action.formImplementationName
 #renderDateTimeFormatters($attribute $field)
 #end
 #end
+        // - setup the default java.util.Date.toString() formatter
+        java.text.DateFormat dateFormatter = new java.text.SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
+        dateFormatter.setLenient(true);
+        this.dateTimeFormatters.put(null, dateFormatter);
     }
 #foreach ($field in $action.formFields)
 
