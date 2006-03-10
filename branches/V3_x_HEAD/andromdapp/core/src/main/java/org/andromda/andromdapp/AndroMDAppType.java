@@ -355,6 +355,7 @@ public class AndroMDAppType
                             path,
                             location,
                             "");
+
                     if (this.isWriteable(projectRelativePath))
                     {
                         if (this.hasTemplateExtension(path))
@@ -456,7 +457,7 @@ public class AndroMDAppType
      * Indicates whether or not this path is <em>writable</em>
      * based on the path and any output conditions that may be specified.
      *
-     * @param path the path tot check.
+     * @param path the path to check.
      * @return true/false
      */
     private boolean isWriteable(String path)
@@ -470,7 +471,8 @@ public class AndroMDAppType
                     1,
                     path.length());
         }
-        List results = new ArrayList();
+        boolean writable = true;
+        final List results = new ArrayList();
         for (final Iterator iterator = this.outputConditions.iterator(); iterator.hasNext();)
         {
             final Conditions conditions = (Conditions)iterator.next();
@@ -486,6 +488,8 @@ public class AndroMDAppType
                             path,
                             patterns))
                     {
+                        // - assume writable is false, since the path matches at least one conditions path.
+                        writable = false;
                         for (final Iterator conditionIterator = conditions.getConditions().iterator();
                             conditionIterator.hasNext();)
                         {
@@ -493,23 +497,22 @@ public class AndroMDAppType
                             final String id = condition.getId();
                             if (id != null && id.trim().length() > 0)
                             {
-                                final boolean writable = condition.evaluate(this.templateContext.get(id));
-
+                                final boolean result = condition.evaluate(this.templateContext.get(id));
                                 // - if we're 'anding' the conditions, we break at the first false
                                 if (Conditions.TYPE_AND.equals(conditionsType))
                                 {
-                                    if (!writable)
+                                    if (!result)
                                     {
-                                        results.add(Boolean.valueOf(writable));
+                                        results.add(Boolean.valueOf(result));
                                         break;
                                     }
                                 }
                                 if (!conditionIterator.hasNext())
                                 {
                                     // - otherwise we break at the first true condition
-                                    if (writable)
+                                    if (result)
                                     {
-                                        results.add(Boolean.valueOf(writable));
+                                        results.add(Boolean.valueOf(result));
                                         break;
                                     }
                                 }
@@ -519,7 +522,6 @@ public class AndroMDAppType
                 }
             }
         }
-        boolean writable = true;
 
         // - we loop through the results and break on the first one that's true
         for (final Iterator iterator = results.iterator(); iterator.hasNext();)
