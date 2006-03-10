@@ -18,7 +18,7 @@
 
             <p>
                 <div align="center">
-                    <img src="images/PersonEntity.jpg"/>
+                    <img src="images/magicdraw/PersonEntity.jpg"/>
                 </div>
             </p>
 
@@ -50,10 +50,11 @@
                 Now let us enter the <code>Person</code> entity in the empty model that was created by the
                 AndroMDA application plugin. If you remember, this model was created at
                 timetracker/mda/src/uml/TimeTrackerModel.xmi. Please follow one of the links below to edit
-                the model with the UML tool of your choice. (There is only one choice at the time of this writing.)
+                the model with the UML tool of your choice.
             </p>
 
             <p>
+                <a href="resources/uml-tools/argouml/create-person-entity.html" target="_blank">ArgoUML</a>
                 <a href="resources/uml-tools/magicdraw/create-person-entity.html" target="_blank">MagicDraw</a>
             </p>
         </section>

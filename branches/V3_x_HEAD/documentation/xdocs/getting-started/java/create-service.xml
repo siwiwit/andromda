@@ -16,7 +16,7 @@
 
             <p>
                 <div align="center">
-                    <img src="images/PeopleService.jpg"/>
+                    <img src="images/magicdraw/PeopleService.jpg"/>
                 </div>
             </p>
 
@@ -32,6 +32,7 @@
             </p>
 
             <p>
+                <a href="resources/uml-tools/argouml/create-people-service.html" target="_blank">ArgoUML</a>
                 <a href="resources/uml-tools/magicdraw/create-people-service.html" target="_blank">MagicDraw</a>
             </p>
         </section>

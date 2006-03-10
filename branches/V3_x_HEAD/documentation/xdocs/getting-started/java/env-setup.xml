@@ -166,13 +166,13 @@
                     Install a tool that will allow you to model your applications in UML and
                     export these models into a format that AndroMDA can understand. AndroMDA
                     currently supports UML 1.4 and XMI 1.2. Please follow one of the links
-                    below to install the UML tool of your choice. (As of this writing only
-                    one tool is supported. We invite UML tool vendors and open-source projects
-                    to test their tools with AndroMDA and supply installation instructions for
-                    inclusion in this section.)
+                    below to install the UML tool of your choice. (We invite UML tool vendors
+                    and open-source projects to test their tools with AndroMDA and supply
+                    installation instructions for inclusion in this section.)
                 </p>
 
                 <p>
+                    <a href="resources/uml-tools/argouml/install.html" target="_blank">ArgoUML 0.20</a>
                     <a href="resources/uml-tools/magicdraw/install.html" target="_blank">MagicDraw 9.5</a>
                 </p>
             </subsection>

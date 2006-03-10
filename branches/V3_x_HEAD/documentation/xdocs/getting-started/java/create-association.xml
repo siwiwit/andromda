@@ -15,7 +15,7 @@
 
             <p>
                 <div align="center">
-                    <img src="images/TimecardEntity.jpg"/>
+                    <img src="images/magicdraw/TimecardEntity.jpg"/>
                 </div>
             </p>
 
@@ -51,6 +51,7 @@
             </p>
 
             <p>
+                <a href="resources/uml-tools/argouml/create-timecard-entity.html" target="_blank">ArgoUML</a>
                 <a href="resources/uml-tools/magicdraw/create-timecard-entity.html" target="_blank">MagicDraw</a>
             </p>
         </section>

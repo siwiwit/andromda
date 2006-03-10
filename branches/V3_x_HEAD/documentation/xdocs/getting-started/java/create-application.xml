@@ -11,8 +11,31 @@
             <p>
                 In this section we will create a starter application using
                 the AndroMDA plugin. Later we will build on this application to
-                incrementally add time tracking features. To create the starter
-                application follow the steps below.
+                incrementally add time tracking features. Note that the completed
+                TimeTracker application is available in the
+                <a href="http://team.andromda.org/maven/andromda/distributions" target="_blank">
+                source and binary distributions</a> under /samples/time-tracker-java. We recommend
+                that you have the completed application available at hand in case there is a need
+                to troubleshoot your own version.
+            </p>
+
+            <p>
+                Couple of tips before we start:
+                <ul>
+                    <li>Please follow the instructions in this tutorial very carefully and
+                    precisely. DO NOT take any shortcuts. Doing so will only waste your time.
+                    There is a reason for every step in the tutorial. You will not find any
+                    fluff here!</li>
+
+                    <li>It is recommended that you use FireFox or Internet Explorer 7 to go through
+                    this tutorial. Internet Explorer 6 is not able to select text in the tutorial
+                    pages correctly, so it is difficult to copy code from here.</li>
+                </ul>
+            </p>
+
+            <p>
+                Ok, we are now ready to start. Create the starter application by following
+                the steps below.
 
                 <ol>
                     <li>Open a Command Prompt and change directory to any directory where you would like

@@ -20,7 +20,7 @@
 
             <p>
                 <div align="center">
-                    <img src="images/DomainObjects.jpg"/>
+                    <img src="images/magicdraw/DomainObjects.jpg"/>
                 </div>
             </p>
 
@@ -51,6 +51,7 @@
                     tagged value to <code>all-delete-orphan</code>. Follow the appropriate
                     link below to learn how to add a tagged value to the association end.
                     <p>
+                        <a href="resources/uml-tools/argouml/create-tagged-value.html" target="_blank">ArgoUML</a>
                         <a href="resources/uml-tools/magicdraw/create-tagged-value.html" target="_blank">MagicDraw</a>
                     </p>
                     </li>
@@ -75,7 +76,7 @@
 
             <p>
                 <div align="center">
-                    <img src="images/DomainObjectsBehavior.jpg"/>
+                    <img src="images/magicdraw/DomainObjectsBehavior.jpg"/>
                 </div>
             </p>
 
@@ -138,7 +139,7 @@ public void addTimeAllocation(org.andromda.timetracker.domain.TimeAllocation tim
 
             <p>
                 <div align="center">
-                    <img src="images/ValueObjects.jpg"/>
+                    <img src="images/magicdraw/ValueObjects.jpg"/>
                 </div>
             </p>
 
@@ -164,7 +165,7 @@ public void addTimeAllocation(org.andromda.timetracker.domain.TimeAllocation tim
 
             <p>
                 <div align="center">
-                    <img src="images/Services.jpg"/>
+                    <img src="images/magicdraw/Services.jpg"/>
                 </div>
             </p>
 
