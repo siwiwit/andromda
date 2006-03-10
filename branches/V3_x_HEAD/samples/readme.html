@@ -3,27 +3,27 @@
        <title>Andromda Samples</title>
     </head>
     <body>
-        The samples illustrate the use of AndroMDA with Maven.  
+        The samples illustrate the use of AndroMDA with Maven.
         Both the Animal Quiz and Car Rental System show typical
-        AndroMDA project structures. 
+        AndroMDA project structures.
         <p>
             Provided in this
             distribution is a maven plugin, you can use this
-            plugin to generate your own application having the 
+            plugin to generate your own application having the
             same structure as these samples.  To run it, just install
             the plugin into your $MAVEN_HOME/plugins directory (copy the
-            file maven-andromdapp-plugin-[VERSION-NAME].jar).  
+            file maven-andromdapp-plugin-[VERSION-NAME].jar).
             In the directory where you would like your project directory
-            created enter 'maven andromdapp:generate'.  
+            created enter 'maven andromdapp:generate'.
         </p>
         <p>
-            It's also possible to build an Ant based project with AndroMDA by 
+            It's also possible to build an Ant based project with AndroMDA by
             using the &#60;andromda&#62;. ant task (although its currently not shown in the
             samples).
         </p>
         <p>
             The following instructions assume you are familiar with operating
-            a JBoss system. The JBOSS_HOME environment variable should be set. 
+            a JBoss system. The JBOSS_HOME environment variable should be set.
 			The sample configuration is set to use the default server.
 			To change modify the jboss.config setting in the app/project.proerties file.
         </p>
@@ -36,21 +36,21 @@
                     1.0.2.
                 </li>
                 <li>
-                    From this directory (the directory in which this file you're reading is located) type 'maven'; 
+                    From this directory (the directory in which this file you're reading is located) type 'maven';
                     this will build all samples.  After the build has completed successfully,
                     follow the instructions for each sample below.
                 </li>
             </ol>
         </p>
-        <p>   
-        NOTE: After you've built the samples the first time, you can build them again 
+        <p>
+        NOTE: After you've built the samples the first time, you can build them again
               with the '-o' parameter passed to maven.  (i.e. you can
               type 'maven -o').  The '-o' tells Maven to build offline and since
               it isn't trying to download the dependencies, it will build much faster.
         </p>
 
 		http://www.andromda.org/crud
-		
+
         <h2>OnlineStore application.</h2>
         <p>
             To run:
@@ -68,7 +68,7 @@
                     name must be at least 3 characters and start with a capital, the password
                     needs to be 6 characters or more and consists of alphanumerical characters
                     (both uppercase and lowercase), when the user clicks on 'proceed' we go to the
-                    second page 
+                    second page
                 </li>
                 <li>
                     The second page lists items that can be purchased, the user can select
@@ -78,23 +78,23 @@
                 <li>
                     The third and last page asks the user to enter his email and creditcard
                     number, he also needs to enter his age, which must be in a range from 12
-                    to 112. After placing the order the application returns to the beginning.  
+                    to 112. After placing the order the application returns to the beginning.
                 </li>
-            </ol>     
+            </ol>
             For the latest version of these instructions go to:
             <a href="http://www.andromda.org/andromda-bpm4struts-cartridge/samples.html#online-store">Online Store</a>
         </p>
- 
+
      <h2>AnimalQuiz Sample</h2>
         <p>
             To run:
             <ol>
                 <li>
-                    Check that HSQLDB TCP connnections are enabled. 
+                    Check that HSQLDB TCP connnections are enabled.
                     Edit [JBOSS_HOME]/server/[SERVER_NAME]/deploy/hsqldb-ds.xml
-                    and uncomment two pragmas, one for the connection 
+                    and uncomment two pragmas, one for the connection
 					<pre>
-      &lt;connection-url&gt;jdbc:hsqldb:hsql://localhost:1701&lt;/connection-url&gt;					
+      &lt;connection-url&gt;jdbc:hsqldb:hsql://localhost:1701&lt;/connection-url&gt;
 					</pre>
 					and one for the mbean.
 					<pre>
@@ -106,19 +106,19 @@
      &lt;attribute name="Trace"&gt;false&lt;/attribute&gt;
      &lt;attribute name="No_system_exit"&gt;true&lt;/attribute&gt;
    &lt;/mbean&gt;
-						
+
 					</pre>
                 </li>
                 <li>
-                    If deploying against JBoss 4.x, remove the jboss-ws4ee.sar file from your jboss configuration's 
-                    deploy directory. JBoss 4.x bundles axis libraries in this sar file and this causes problems for 
-                    any other application deployed in the container that also bundles the axis libraries. As the animal 
-                    quiz has web service support, it has the axis libraries bundled with it - hence the need to remove 
-                    the ones JBoss provides. 
+                    If deploying against JBoss 4.x, remove the jboss-ws4ee.sar file from your jboss configuration's
+                    deploy directory. JBoss 4.x bundles axis libraries in this sar file and this causes problems for
+                    any other application deployed in the container that also bundles the axis libraries. As the animal
+                    quiz has web service support, it has the axis libraries bundled with it - hence the need to remove
+                    the ones JBoss provides.
                 </li>
                 <li>[Re]Start JBoss as neccessary.</li>
                 <li>
-                    Change directory to samples/animal-quiz and 
+                    Change directory to samples/animal-quiz and
                     execute maven -o create-schema. You may have to tweak the
 					settings in project.properties if you change the database.
                     You should see something like:
@@ -189,7 +189,7 @@ deploy:
     [copy] Copying 1 file to /usr/local/jboss/server/default/deploy
 BUILD SUCCESSFUL
                                    </pre>
-				</li>				   
+				</li>
                 <li>Open <a href="http://localhost:8080/animal-quiz">Local AnimalQuiz</a></li>
                 <li>Now you have to think of an animal and click the got one button.</li>
                 <li>
@@ -205,7 +205,7 @@ BUILD SUCCESSFUL
             <ol>
                 <li>Deploy the ear to the app server as follows:
 				<li>
-                    Change directory to samples/animal-quiz and 
+                    Change directory to samples/animal-quiz and
                     execute maven -o create-schema. You may have to tweak the
 					settings in project.properties if you change the database.
                     You should see something like:
@@ -219,7 +219,7 @@ execute-script:
 BUILD SUCCESSFUL
 Total time: 8 seconds
                                        </pre>
-					
+
 				</li>
                 <li>Start JBoss.</li>
                 <ol>
@@ -231,7 +231,7 @@ Total time: 8 seconds
                 <li>
                     TBC
                 </li>
-            </ol>     
+            </ol>
             For the latest version of these instructions go to:
             <a href="http://www.andromda.org/andromda-bpm4struts-cartridge/samples.html#crud">CRUD</a>
         </p>
@@ -251,12 +251,20 @@ Total time: 8 seconds
                 <li>[Re]Start JBoss as necessary.</li>
                 <li>Open <a href="http://localhost:8080/car-rental-system">Local Car Rental System</a></li>
                 <li>
-                    The follow the instructions at  
+                    The follow the instructions at
                     <a href="http://www.andromda.org/docs/car-rental-system.html">
                     andromda car-rental system</a>.
                 </li>
             </ol>
         </p>
+
+        <h2>TimeTracker Application</h2>
+        <p>
+            This is the completed version of the example used in the Getting Started guide.
+            It is included here in case you need to troubleshoot your own version
+            while going through the tutorial.
+        </p>
+
         <p>
             Good Luck!
             <br/>
