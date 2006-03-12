@@ -38,7 +38,7 @@
             <subsection name="EHCache">
                 <p>
                     Currently AndroMDA fully supports
-                    <a href="http://ehcache.sourceforge.net">EhCache</a>to provide the second level cache features to
+                    <a href="http://ehcache.sourceforge.net/">EhCache</a>to provide the second level cache features to
                     the cartridge. When enabled, the cartridge will create caches on queries, the Hibernate descriptor
                     files, and the <code>EhCache.xml</code>file with the specific configuration.
                 </p>
@@ -51,12 +51,12 @@
                     for the cache settings are as following:
                     <ul>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">hibernateCacheProvider</a>: Specifies the cache
+                            <a href="namespace.html#hibernateCacheProvider">hibernateCacheProvider</a>: Specifies the cache
                             provider implementation that will be used for caching services. Default value is
                             <code>net.sf.hibernate.cache.EhCacheProvider</code>
                         </li>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">hibernateQueryCacheFactory</a>: Factory class for
+                            <a href="namespace.html#hibernateQueryCacheFactory">hibernateQueryCacheFactory</a>: Factory class for
                             the caching queries. Default value is
                             <code>net.sf.hibernate.cache.StandardQueryCacheFactory</code>
                         </li>
@@ -71,14 +71,18 @@
                     To enable cache features on generated files, the following namespace properties should be used.
                     <ul>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">hibernateEnableCache</a>: this property activates
+                            <a href="namespace.html#cache">cache</a>: you will need to specify this property in
+                            order to let the cartridge know where to output cache configuration files.
+                        </li>
+                        <li>
+                            <a href="namespace.html#hibernateEnableCache">hibernateEnableCache</a>: this property activates
                             the caching features within the cartridge. When enabled, all Hibernate mapping files will
                             be created with the required cache settings, the EhCache descriptor file will be generated, and the
                             Hibernate configuration file property <code>hibernate.cache.use_query_cache</code> 
                             will be set to <code>true</code>.
                         </li>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">hibernateEnableAssociationsCache</a>: this
+                            <a href="namespace.html#hibernateEnableAssociationsCache">hibernateEnableAssociationsCache</a>: this
                             property activates the custom cache settings for each association. When enabled,
                             each association ends can contain its own specific configuration.
                             default values for undefined properties are allowed.
@@ -94,7 +98,7 @@
                     for entities are:
                     <ul>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">hibernateEntityCache</a>: The cartridge default
+                            <a href="namespace.html#hibernateEntityCache">hibernateEntityCache</a>: The cartridge default
                             settings for this property is <code>read-write</code>, other possible values are
                             <code>nonstrict-read-write</code>and
                             <code>read-only</code>
@@ -115,23 +119,23 @@
                     Namespace properties for EhCache configuration are:
                     <ul>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">ehCacheMaxElementsInMemory</a>: Defines the
+                            <a href="namespace.html#ehCacheMaxElementsInMemory">ehCacheMaxElementsInMemory</a>: Defines the
                             default maximum number of objects that will be created in memory
                         </li>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">ehCacheEternal</a>: Defines a default value for
+                            <a href="namespace.html#ehCacheEternal">ehCacheEternal</a>: Defines a default value for
                             the eternal parameter.
                         </li>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">ehCacheTimeToIdleSeconds</a>: Defines the default
+                            <a href="namespace.html#ehCacheTimeToIdleSeconds">ehCacheTimeToIdleSeconds</a>: Defines the default
                             time to idle for an element before it expires.
                         </li>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">ehCacheTimeToLiveSeconds</a>: Defines the default
+                            <a href="namespace.html#ehCacheTimeToLiveSeconds">ehCacheTimeToLiveSeconds</a>: Defines the default
                             time to live for an element before it expires.
                         </li>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">ehCacheOverflowToDisk</a>: Defines the default
+                            <a href="namespace.html#ehCacheOverflowToDisk">ehCacheOverflowToDisk</a>: Defines the default
                             value for the overflow to disk property.
                         </li>
                     </ul>
@@ -167,7 +171,7 @@
                     Namespace property for EhCache configuration is:
                     <ul>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">hibernateAssociationCache</a>: The cartridge
+                            <a href="namespace.html#hibernateAssociationCache">hibernateAssociationCache</a>: The cartridge
                             default settings for this property is <code>read-write</code>, other possible values are
                             <code>nonstrict-read-write</code>and
                             <code>read-only</code>
@@ -190,7 +194,7 @@
                     The namespace property for finder methods is:
                     <ul>
                         <li>
-                            <a href="namespace.html#SecondLevelCache">hibernateUseQueryCache</a>: The cartridge default
+                            <a href="namespace.html#hibernateUseQueryCache">hibernateUseQueryCache</a>: The cartridge default
                             settings for this property is <code>read-write</code>, other possible values are
                             <code>nonstrict-read-write</code>and
                             <code>read-only</code>
