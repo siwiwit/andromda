@@ -129,6 +129,14 @@ public class ModelFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.ModelFacade#getAllObjectFlowStates()
+     */
+    protected java.util.Collection handleGetAllObjectFlowStates()
+    {
+        return null;
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.ModelFacade#getAllClasses()
      */
     protected java.util.Collection handleGetAllClasses()

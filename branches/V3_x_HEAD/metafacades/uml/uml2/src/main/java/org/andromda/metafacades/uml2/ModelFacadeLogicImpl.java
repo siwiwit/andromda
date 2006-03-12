@@ -1,6 +1,5 @@
 package org.andromda.metafacades.uml2;
 
-
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.ModelFacade.
  *
@@ -131,4 +130,11 @@ public class ModelFacadeLogicImpl
         return null;
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.ModelFacade#getAllObjectFlowStates()
+     */
+    protected java.util.Collection handleGetAllObjectFlowStates()
+    {
+        return null;
+    }
 }

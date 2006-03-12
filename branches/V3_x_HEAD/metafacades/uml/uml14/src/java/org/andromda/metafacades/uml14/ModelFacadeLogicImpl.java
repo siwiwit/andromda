@@ -72,6 +72,14 @@ public class ModelFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.ModelFacade#getAllObjectFlowStates()
+     */
+    protected Collection handleGetAllObjectFlowStates()
+    {
+        return metaObject.getActivityGraphs().getObjectFlowState().refAllOfType();
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.ModelFacade#findUseCaseWithTaggedValueOrHyperlink(java.lang.String, java.lang.String)
      */
     protected UseCaseFacade handleFindUseCaseWithTaggedValueOrHyperlink(
