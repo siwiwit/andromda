@@ -59,7 +59,8 @@
                 <util:file var="projectCssFile" name="${maven.docs.src}/style/project.css"/>
 
                 <link rel="stylesheet" type="text/css" href="${relativePath}/style/maven-base.css" media="all"/>
-                <link title="default" rel="stylesheet" type="text/css" href="${relativePath}/style/maven-andromda.css" media="screen"/>
+                <link rel="stylesheet" type="text/css" href="${relativePath}/style/maven-andromda.css" media="screen" title="default"></link>
+                <link rel="stylesheet" type="text/css" href="${relativePath}/style/printer.css" media="print"></link>
 
                 <meta http-equiv="Content-Type" content="text/html; charset=${outputencoding}"/>
                 <meta name="Description" content="AndroMDA is an open source code generation framework that follows the Model Driven Architecture (MDA) paradigm."></meta>
