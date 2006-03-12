@@ -113,6 +113,11 @@ public class UMLProfile
     public static final String STEREOTYPE_MANAGEABLE = profile.get("MANAGEABLE");
 
     /**
+     * Indicates if a persistence type's property is transient.
+     */
+    public static final String STEREOTYPE_TRANSIENT = profile.get("TRANSIENT");
+
+    /**
      * Represents a "front end" use case (that is a use case used to model a presentation tier or "front end").
      */
     public static final String STEREOTYPE_FRONT_END_USECASE = profile.get("FRONT_END_USE_CASE");
@@ -173,11 +178,6 @@ public class UMLProfile
      * Indicates if a persistence type is immutable.
      */
     public static final String TAGGEDVALUE_PERSISTENCE_IMMUTABLE = profile.get("PERSISTENCE_IMMUTABLE");
-
-    /**
-     * Indicates if a persistence type's property is transient.
-     */
-    public static final String TAGGEDVALUE_PERSISTENCE_TRANSIENT = profile.get("PERSISTENCE_TRANSIENT");
 
     /**
      * Used on an association end to indicate whether its owning entity should have its identifier also be the foreign

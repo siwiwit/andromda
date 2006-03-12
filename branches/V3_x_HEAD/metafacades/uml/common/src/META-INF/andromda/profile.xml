@@ -111,6 +111,13 @@
                 <value>Nullable</value>
                 <appliedOnElement>Service operation parameter</appliedOnElement>
             </element>
+            <element name="TRANSIENT">
+                <documentation>
+                    Indicates the attribute or association end should not be persisted/serialized.
+                </documentation>
+                <value>Transient</value>
+                <appliedOnElement>Attribute or AssociationEnd</appliedOnElement>
+            </element>
             <element name="MANAGEABLE">
                 <documentation>
                     Only makes sense when there already is an Entity stereotype.
@@ -205,12 +212,6 @@
                     Denotes this entity's property can only be set at construction time.
                 </documentation>
                 <value>@andromda.persistence.immutable</value>
-            </element>
-            <element name="PERSISTENCE_TRANSIENT">
-                <documentation>
-                    Indicates the tagged attribute or association end should be ignored by the persistence layer.
-                </documentation>
-                <value>@andromda.persistence.transient</value>
             </element>
             <element name="PRESENTATION_CONTROLLER_USECASE">
                 <documentation>

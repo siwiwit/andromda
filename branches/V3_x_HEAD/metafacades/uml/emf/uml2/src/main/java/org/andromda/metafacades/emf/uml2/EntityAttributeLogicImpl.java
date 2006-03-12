@@ -198,7 +198,6 @@ public class EntityAttributeLogicImpl
 
     protected boolean handleIsTransient()
     {
-        final String tag = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_COLUMN_INDEX);
-        return tag != null && Boolean.valueOf(tag).booleanValue();
+        return this.hasStereotype(UMLProfile.STEREOTYPE_TRANSIENT);
     }
 }
