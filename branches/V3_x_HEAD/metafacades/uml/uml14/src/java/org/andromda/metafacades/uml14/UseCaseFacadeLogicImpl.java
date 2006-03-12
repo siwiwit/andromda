@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.omg.uml.behavioralelements.activitygraphs.ActivityGraph;
 import org.omg.uml.foundation.core.ModelElement;
+import org.andromda.utils.StringUtilsHelper;
 
 
 /**
@@ -18,6 +19,14 @@ public class UseCaseFacadeLogicImpl
         String context)
     {
         super(metaObject, context);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
+     */
+    protected String handleGetName()
+    {
+        return StringUtilsHelper.toSingleLine(super.handleGetName());
     }
 
     /**
@@ -57,7 +66,7 @@ public class UseCaseFacadeLogicImpl
         return metaObject.getExtensionPoint();
     }
 
-    /***
+    /**
      * @see org.andromda.metafacades.uml.UseCaseFacade#getExtends()
      */
     protected Collection handleGetExtends()
