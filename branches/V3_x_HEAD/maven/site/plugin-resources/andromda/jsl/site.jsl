@@ -58,7 +58,7 @@
                 <j:set var="themeUrl" value="${maven.xdoc.theme.url}"/>
                 <util:file var="projectCssFile" name="${maven.docs.src}/style/project.css"/>
 
-                <link rel="stylesheet" type="text/css" href="${relativePath}/style/maven-base.css" media="all"/>
+                <link rel="stylesheet" type="text/css" href="${relativePath}/style/maven-base.css" media="all"></link>
                 <link rel="stylesheet" type="text/css" href="${relativePath}/style/maven-andromda.css" media="screen" title="default"></link>
                 <link rel="stylesheet" type="text/css" href="${relativePath}/style/printer.css" media="print"></link>
 
