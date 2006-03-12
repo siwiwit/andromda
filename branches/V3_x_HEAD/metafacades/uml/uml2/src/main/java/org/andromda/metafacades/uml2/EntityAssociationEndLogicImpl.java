@@ -69,4 +69,9 @@ public class EntityAssociationEndLogicImpl
         return null;
     }
 
+    protected boolean handleIsTransient()
+    {
+        // TODO: put your implementation here.
+        return false;
+    }
 }

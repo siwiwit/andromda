@@ -195,4 +195,10 @@ public class EntityAttributeLogicImpl
         }
         return mappings;
     }
+
+    protected boolean handleIsTransient()
+    {
+        final String tag = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_COLUMN_INDEX);
+        return tag != null && Boolean.valueOf(tag).booleanValue();
+    }
 }
