@@ -343,6 +343,7 @@ public class ClassifierFacadeLogicImpl
     public Collection handleGetAllRequiredConstructorParameters()
     {
         final Collection allRequiredConstructorParameters = new ArrayList();
+        allRequiredConstructorParameters.addAll(this.getRequiredConstructorParameters());
 
         final Collection generalizations = this.getGeneralizations();
         for (Iterator parents = generalizations.iterator(); parents.hasNext();)
@@ -353,8 +354,6 @@ public class ClassifierFacadeLogicImpl
                 allRequiredConstructorParameters.addAll(((ClassifierFacade)parent).getAllRequiredConstructorParameters());
             }
         }
-
-        allRequiredConstructorParameters.addAll(this.getRequiredConstructorParameters());
 
         return allRequiredConstructorParameters;
     }
