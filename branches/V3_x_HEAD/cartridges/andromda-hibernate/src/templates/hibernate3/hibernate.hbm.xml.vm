@@ -12,7 +12,7 @@
 #if ($attribute.containsEmbeddedObject)
         <component name="$attribute.name" class="${attribute.type.packageName}.${attribute.type.implementationName}"#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
 ## render the properties of the embedded type
-#set ($sqlPrefix = $attribute.columnName)
+#set ($sqlPrefix = $attribute.concatColumnName($paramSqlPrefix, $attribute.columnName))
 #renderPropertiesAndAssociations3($attribute.type $sqlPrefix)
         </component>
 #else
