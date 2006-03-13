@@ -100,6 +100,7 @@
     <property reference="service-impls"/>
     <property reference="dao-impls"/>
     <property reference="daos"/>
+    <property reference="daoInheritanceEnabled"/>
     <property reference="enableDaoPropertiesCreateMethod"/>
     <property reference="acegiServiceSecurity"/>
     <property reference="acegiServiceSecurityInterceptor"/>
@@ -139,6 +140,7 @@
     <property reference="toDoTag"/>
     <property reference="serverTestBeanRefFactory"/>
     <property reference="serverTestContextDataSource"/>
+    <property reference="enableTemplating"/>
     <!-- cartridge-property merge-point -->
 
     <!-- cartridge-resource merge-point -->

@@ -1,5 +1,10 @@
 #parse("templates/spring/SpringGlobals.vm")
 #set ($generatedFile = "${entity.packagePath}/${entity.daoBaseName}.java")
+#if ($enableTemplating == "true")
+#set ($entityCollectionType = "java.util.Collection<${entity.fullyQualifiedEntityName}>")
+#else
+#set ($entityCollectionType = "java.util.Collection")
+#end
 // license-header java merge-point
 //
 // Attention: Generated code! Do not modify by hand!
@@ -7,6 +12,14 @@
 //
 #if ($stringUtils.isNotBlank($entity.packageName))
 package $entity.packageName;
+#end
+#set ($daoInheritance = $entity.generalization && $daoInheritanceEnabled=="true")
+#if ($daoInheritance)
+#set ($rootEntityType = $entity.root.fullyQualifiedEntityName)
+#set ($rootDaoType = $entity.root.fullyQualifiedDaoName)
+#else
+#set ($rootEntityType = $entity.fullyQualifiedEntityName)
+#set ($rootDaoType = $entity.fullyQualifiedDaoName)
 #end
 
 /**
@@ -18,7 +31,7 @@ package $entity.packageName;
  * @see $entity.fullyQualifiedEntityName
  */
 public abstract class $entity.daoBaseName
-#if($entity.generalization)
+#if ($daoInheritance)
     extends $entity.generalization.fullyQualifiedDaoImplementationName
 #else
     extends ${hibernateUtils.springHibernatePackage}.support.HibernateDaoSupport
@@ -95,7 +108,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#load($identifier.type.fullyQualifiedName)
      */
-    public $entity.root.fullyQualifiedEntityName load($identifier.type.fullyQualifiedName $identifier.name)
+    public $rootEntityType load($identifier.type.fullyQualifiedName $identifier.name)
     {
         return ($entity.fullyQualifiedEntityName)this.load($entity.daoNoTransformationConstantName, $identifier.name);
     }
@@ -103,9 +116,12 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#loadAll()
      */
-    public java.util.Collection loadAll()
+#if ($enableTemplating == "true")
+    @SuppressWarnings({"unchecked"})
+#end
+    public $entityCollectionType loadAll()
     {
-        return this.loadAll(TRANSFORM_NONE);
+        return ($entityCollectionType)this.loadAll(TRANSFORM_NONE);
     }
 
     /**
@@ -124,7 +140,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#create($entity.fullyQualifiedEntityName)
      */
-    public $entity.root.fullyQualifiedEntityName create($entity.fullyQualifiedEntityName $argumentName)
+    public $rootEntityType create($entity.fullyQualifiedEntityName $argumentName)
     {
         return ($entity.fullyQualifiedEntityName)this.create($entity.daoNoTransformationConstantName, $argumentName);
     }
@@ -134,9 +150,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#create(org.dom4j.Element)
      */
-    public $entity.root.fullyQualifiedEntityName create(org.dom4j.Element $argumentName)
+    public $rootEntityType create(org.dom4j.Element $argumentName)
     {
-       return ($entity.root.fullyQualifiedEntityName)this.create(TRANSFORM_NONE, $argumentName);
+       return ($entity.fullyQualifiedEntityName)this.create(TRANSFORM_NONE, $argumentName);
     }
 
     /**
@@ -195,17 +211,20 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
 
     /**
-     * @see ${entity.fullyQualifiedDaoName}#create(java.util.Collection)
+     * @see ${entity.fullyQualifiedDaoName}#create($entityCollectionType)
      */
-    public java.util.Collection create(final java.util.Collection entities)
+#if ($enableTemplating == "true")
+    @SuppressWarnings({"unchecked"})
+#end
+    public $entityCollectionType create(final $entityCollectionType entities)
     {
         return create($entity.daoNoTransformationConstantName, entities);
     }
 
     /**
-     * @see ${entity.fullyQualifiedDaoName}#create(int, java.util.Collection)
+     * @see ${entity.fullyQualifiedDaoName}#create(int, $entityCollectionType)
      */
-    public java.util.Collection create(final int transform, final java.util.Collection entities)
+    public java.util.Collection create(final int transform, final $entityCollectionType entities)
     {
         if (entities == null)
         {
@@ -215,6 +234,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
             new ${hibernateUtils.springHibernatePackage}.HibernateCallback()
             {
+#if ($enableTemplating == "true")
+                @SuppressWarnings({"ForLoopReplaceableByForEach"})
+#end
                 public Object doInHibernate(${hibernateUtils.basePackage}.Session session)
                     throws ${hibernateUtils.basePackage}.HibernateException
                 {
@@ -233,19 +255,19 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #set ($attributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
 #if (!$attributes.empty)
     /**
-     * @see ${entity.root.fullyQualifiedDaoName}#create(${entity.getAttributeTypeList(true, false)})
+     * @see ${rootDaoType}#create(${entity.getAttributeTypeList(true, false)})
      */
-    public $entity.root.fullyQualifiedEntityName create(
+    public $rootEntityType create(
 #foreach($attribute in $attributes)
         $attribute.type.fullyQualifiedName $attribute.name#if($velocityCount != $attributes.size()),#else)#end
 
 #end
     {
-        return ($entity.root.fullyQualifiedEntityName)this.create($entity.daoNoTransformationConstantName, ${entity.getAttributeNameList(true, $entity.usingAssignedIdentifier)});
+        return ($rootEntityType)this.create($entity.daoNoTransformationConstantName, ${entity.getAttributeNameList(true, $entity.usingAssignedIdentifier)});
     }
 
     /**
-     * @see ${entity.root.fullyQualifiedDaoName}#create(int, ${entity.getAttributeTypeList(true, false)})
+     * @see ${rootDaoType}#create(int, ${entity.getAttributeTypeList(true, false)})
      */
     public Object create(
         final int transform,
@@ -267,13 +289,13 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#create(${entity.getRequiredPropertyTypeList(true, false)})
      */
-    public $entity.root.fullyQualifiedEntityName create(
+    public $rootEntityType create(
 #foreach($property in $requiredProperties)
         $property.getterSetterTypeName $property.name#if($velocityCount != $requiredProperties.size()),#else)#end
 
 #end
     {
-        return ($entity.root.fullyQualifiedEntityName)this.create($entity.daoNoTransformationConstantName, ${entity.getRequiredPropertyNameList(true,false)});
+        return ($rootEntityType)this.create($entity.daoNoTransformationConstantName, ${entity.getRequiredPropertyNameList(true,false)});
     }
 
     /**
@@ -336,9 +358,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 
 #end
     /**
-     * @see ${entity.fullyQualifiedDaoName}#update(java.util.Collection)
+     * @see ${rootDaoType}#update($entityCollectionType)
      */
-    public void update(final java.util.Collection entities)
+    public void update(final $entityCollectionType entities)
     {
         if (entities == null)
         {
@@ -427,9 +449,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
 
     /**
-     * @see ${entity.fullyQualifiedDaoName}#remove(java.util.Collection)
+     * @see ${rootDaoType}#remove($entityCollectionType)
      */
-    public void remove(java.util.Collection entities)
+    public void remove($entityCollectionType entities)
     {
         if (entities == null)
         {
@@ -870,7 +892,7 @@ ${indent}$getVal## no new line
 #if ($indent != '')
 ,
 #end
-${indent}${property.type.javaNullString}## no new line
+($property.type.fullyQualifiedName)${indent}${property.type.javaNullString}## no new line
 #end
 #set ($indent = "                 ")
 #end
@@ -895,7 +917,7 @@ ${indent}${property.type.javaNullString}## no new line
 #set ($getVal = false)
 #set ($getVal = $converter.typeConvert($voProperty.type.fullyQualifiedName, "sourceVO.${voProperty.getterName}()", $attribute.type.fullyQualifiedName) )
 #if ($getVal)
-        if (copyIfNull == true || sourceVO.${voProperty.getterName}() != $voProperty.type.javaNullString)
+        if (copyIfNull || sourceVO.${voProperty.getterName}() != $voProperty.type.javaNullString)
         {
             targetEntity.${attribute.setterName}($getVal);
         }

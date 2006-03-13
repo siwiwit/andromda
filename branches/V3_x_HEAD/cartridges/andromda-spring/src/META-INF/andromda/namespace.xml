@@ -174,6 +174,15 @@
                     directly in the XML.
                 </documentation>
             </property>
+            <property name="daoInheritanceEnabled">
+                <default>true</default>
+                <documentation>
+                    Whether or not the DAOs should make up an inheritance tree in the same way as their respective
+                    entities. This is enabled by default but you might want to disable it if you prefer not to have
+                    top-level DAO operations visible in child DAO classes, this is usually the case when using JDK5
+                    generics, which can be enabled using the <code>enableTemplating</code> namespace property.
+                </documentation>
+            </property>
             <property name="enableDaoPropertiesCreateMethod">
                 <default>true</default>
                 <documentation>
