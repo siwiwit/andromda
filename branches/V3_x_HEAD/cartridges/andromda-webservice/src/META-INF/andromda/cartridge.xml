@@ -49,6 +49,13 @@
         overwrite="true"
         lastModifiedCheck="true"
         outputCondition="axis2"/>
+    
+    <resource
+        path="resources/webservice/axis2/views/*.jsp"
+        outputPattern="{0}"
+        outlet="axis-configuration"
+        overwrite="true"
+        outputCondition="axis2"/>
 
     <template
         path="templates/webservice/jboss/jboss-web.xml.vsl"
