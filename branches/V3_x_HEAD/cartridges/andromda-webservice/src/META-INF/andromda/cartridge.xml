@@ -42,6 +42,13 @@
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
+    <resource
+        path="resources/webservice/axis2/modules/*.mar"
+        outputPattern="WEB-INF/modules/{0}"
+        outlet="axis-configuration"
+        overwrite="true"
+        lastModifiedCheck="true"
+        outputCondition="axis2"/>
 
     <template
         path="templates/webservice/jboss/jboss-web.xml.vsl"
@@ -51,6 +58,7 @@
         outputCondition="securityEnabled"/>
     
     <!-- Axis 2.x support -->
+    
     <template
         path="templates/webservice/wsdl/wrapped-wsdl.vsl"
         outputPattern="WEB-INF/services/webservices/META-INF/${service.fullyQualifiedName}.wsdl"
