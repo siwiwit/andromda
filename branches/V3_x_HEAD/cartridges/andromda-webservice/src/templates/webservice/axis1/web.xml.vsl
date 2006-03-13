@@ -73,7 +73,6 @@
         <!-- welcome-file merge-point -->
     </welcome-file-list>
     <!-- error-page merge-point -->
-#parse("templates/webservice/axis/AxisGlobals.vm")
 #if ($securityEnabled)
 #foreach ($service in $services)
 #if ($service.secured)

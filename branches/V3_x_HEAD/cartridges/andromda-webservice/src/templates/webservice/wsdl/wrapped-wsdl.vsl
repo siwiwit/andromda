@@ -181,7 +181,7 @@ $operation.getDocumentation("                ", 64, false)
     </wsdl:binding>
     
     <!-- Service Definition -->
-    <wsdl:service name="${service.qName}Service">
+    <wsdl:service name="$service.qName">
         <wsdl:documentation> 
 $service.getDocumentation("            ", 64, false)
         </wsdl:documentation>

@@ -48,7 +48,7 @@ $service.getDocumentation("            ", 64, false)
         <namespace>$service.namespace</namespace>
         <parameter name="allowedMethods" value="$service.allowedMethods"/>
 #parse("templates/webservice/${service.provider}-Globals.vm")
-#parse("templates/webservice/axis/${service.provider}-provider.vm")
+#parse("templates/webservice/axis1/${service.provider}-provider.vm")
 #foreach ( $operation in $service.allowedOperations )
         <operation name="${operation.name}">
 #foreach ( $argument in $operation.arguments )
