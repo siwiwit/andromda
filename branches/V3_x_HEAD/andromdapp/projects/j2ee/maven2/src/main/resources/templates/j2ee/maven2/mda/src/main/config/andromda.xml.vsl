@@ -67,6 +67,7 @@
                 <property name="commons">${common.generated.dir}</property>
                 <property name="services">${core.generated.dir}</property>
                 <property name="application-config">${application.config.dir}</property>
+                <property name="application-metainf">${application.metainf.dir}</property>
                 <property name="ejb3TypesPackage">${application.package}</property>
                 <property name="persistenceContainerName">jboss</property>
                 <property name="persistenceContextUnitName">${application.id}</property>
@@ -75,6 +76,9 @@
                 <property name="hibernateDialect">${hibernate.dialect}</property>
                 <property name="hibernateHbm2DDLAuto">update</property>
                 <property name="enableTemplating">true</property>
+                <!-- uncomment to specify transaction manager
+                <property name="hibernateTransactionManagerLookupClass">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+                -->
                 <!-- uncomment to enable ejb3 merge mapping
                 <property name="mergeMappingsUri">file:${conf.dir}/mappings/EJB3MergeMappings.xml</property>
                 -->
@@ -84,6 +88,18 @@
 #if ($ear)
                 <property name="jndiNamePrefix">${application.id}-${pom.version}</property>
 #end
+                <property name="hibernateEnableCache">false</property>
+                <property name="hibernateEnableAssociationsCache">false</property>
+                <property name="hibernateUseQueryCache">false</property>
+                <property name="hibernateCacheProvider">org.jboss.ejb3.entity.TreeCacheProviderHook</property>
+                <property name="hibernateTreecacheMbeanObject">jboss.cache:service=EJB3EntityTreeCache</property>
+                <!-- uncomment to enable default entity cache settings
+                <property name="hibernateEntityCache">TRANSACTIONAL</property>
+                -->
+                <!-- uncomment to enable default association caching configuration
+                <property name="hibernateAssociationCache">TRANSACTIONAL</property>
+                -->
+                <property name="enableClustering">false</property>
             </properties>
         </namespace>
 #elseif ($hibernate)
