@@ -56,6 +56,21 @@
         outlet="axis-configuration"
         overwrite="true"
         outputCondition="axis2"/>
+    
+    <template
+        path="templates/webservice/axis/web.xml.vsl"
+        outputPattern="WEB-INF/web.xml"
+        outlet="axis-configuration"
+        overwrite="true"
+        outputToSingleFile="true">
+        <modelElements variable="services">
+            <modelElement>
+                <type name="org.andromda.cartridges.webservice.metafacades.WebService">
+                    <property name="allowedOperations"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
 
     <template
         path="templates/webservice/jboss/jboss-web.xml.vsl"
@@ -80,23 +95,7 @@
             </modelElement>
         </modelElements>
     </template>
-    
-    <template
-        path="templates/webservice/axis2/web.xml.vsl"
-        outputPattern="WEB-INF/web.xml"
-        outlet="axis-configuration"
-        overwrite="true"
-        outputToSingleFile="true"
-        outputCondition="axis2">
-        <modelElements variable="services">
-            <modelElement>
-                <type name="org.andromda.cartridges.webservice.metafacades.WebService">
-                    <property name="allowedOperations"/>
-                </type>
-            </modelElement>
-        </modelElements>
-    </template>
-    
+        
     <template
         path="templates/webservice/axis2/axis2.xml.vsl"
         outputPattern="WEB-INF/axis2.xml"
@@ -146,22 +145,6 @@
             </modelElement>
         </modelElements>
     </template>  
-    
-    <template
-        path="templates/webservice/axis1/web.xml.vsl"
-        outputPattern="WEB-INF/web.xml"
-        outlet="axis-configuration"
-        overwrite="true"
-        outputToSingleFile="true"
-        outputCondition="axis1">
-        <modelElements variable="services">
-            <modelElement>
-                <type name="org.andromda.cartridges.webservice.metafacades.WebService">
-                    <property name="allowedOperations"/>
-                </type>
-            </modelElement>
-        </modelElements>
-    </template>
 
     <template
         path="templates/webservice/axis1/server-config.wsdd.vsl"

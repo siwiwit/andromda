@@ -8,10 +8,13 @@
     <!-- context-param merge-point -->
     <!-- filter merge-point -->
     <!-- filter-mapping merge-point -->
+#if ($axis1)
     <listener>
         <listener-class>org.apache.axis.transport.http.AxisHTTPSessionListener</listener-class>
     </listener>
+#end
     <!-- listener merge-point -->
+#if ($axis1)
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>
         <servlet-name>AxisServlet</servlet-name>
@@ -33,6 +36,13 @@
         </init-param>
         <load-on-startup>100</load-on-startup>
     </servlet>
+#elseif ($axis2)
+    <servlet>
+        <display-name>Apache-Axis Servlet</display-name>
+        <servlet-name>AxisServlet</servlet-name>
+        <servlet-class>org.apache.axis2.transport.http.AxisServlet</servlet-class>
+    </servlet>
+#end
     <!-- servlet merge-point -->
     <servlet-mapping>
         <servlet-name>AxisServlet</servlet-name>
@@ -40,20 +50,60 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AxisServlet</servlet-name>
-        <url-pattern>*.jws</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AxisServlet</servlet-name>
         <url-pattern>$servicesPath*</url-pattern>
     </servlet-mapping>
+#if ($axis1)
     <servlet-mapping>
         <servlet-name>SOAPMonitorService</servlet-name>
         <url-pattern>/SOAPMonitor</url-pattern>
     </servlet-mapping>
+#elseif ($axis2)
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/listServices</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/listService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/listModules</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/globalModules</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/listPhases</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/engageToService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/selectService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/viewServiceHandlers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/listoperation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AxisServlet</servlet-name>
+        <url-pattern>/listOperations</url-pattern>
+    </servlet-mapping>
+#end
     <!-- servlet-mapping merge-point -->
     <session-config>
         <session-timeout>$sessionTimeout</session-timeout>
     </session-config>
+#if ($axis1)
     <!-- currently the W3C havent settled on a media type for WSDL;
          http://www.w3.org/TR/2003/WD-wsdl12-20030303/#ietf-draft
          for now we go with the basic 'it's XML' response -->
@@ -65,11 +115,10 @@
         <extension>xsd</extension>
         <mime-type>text/xml</mime-type>
     </mime-mapping>
+#end
     <!-- mime-mapping merge-point -->
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
         <welcome-file>index.jsp</welcome-file>
-        <welcome-file>index.jws</welcome-file>
         <!-- welcome-file merge-point -->
     </welcome-file-list>
     <!-- error-page merge-point -->
