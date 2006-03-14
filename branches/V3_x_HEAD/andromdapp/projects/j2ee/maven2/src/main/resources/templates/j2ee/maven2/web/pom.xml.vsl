@@ -171,7 +171,11 @@
                 <configuration>
                     <tasks>
                         <copy todir="${pom.basedir}/target/src" overwrite="true" failonerror="false">
-                            <fileset dir="${pom.basedir}/src/main/$viewType">
+#set ($viewSrcType = "jsp")
+#if ($facelets)
+#set ($viewSrcType = "xhtml")
+#end
+                            <fileset dir="${pom.basedir}/src/main/$viewSrcType">
                                 <include name="**/*"/>
                             </fileset>
                             <fileset dir="${pom.basedir}/src/main">
