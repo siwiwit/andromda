@@ -169,8 +169,10 @@
 #end
 #if ($webservice)
                 <property name="javaTypeConversionIgnoreList">java.util.Date,java.sql.Timestamp,java.sql.Date</property>
+#if ($axisVersion.equals("1"))
                 <property name="webServiceOutgoingAttachmentHandlerCallPattern">${application.package}.AxisAttachmentHandler.saveAttachment(content, contentType, dime)</property>
                 <property name="webServiceIncomingAttachmentHandlerCallPattern">${application.package}.AxisAttachmentHandler.getAttachments()</property>
+#end
 #end
             </properties>
         </namespace>
@@ -210,6 +212,7 @@
 #if ($webservice)
         <namespace name="webservice">
             <properties>
+                <property name="axisVersion">$axisVersion</property>
                 <property name="schemaTypeMappingsUri">AxisWSDLMappings</property>
                 <property name="languageMappingsUri">AxisJavaMappings</property>
                 <property name="defaultProvider">RPC</property>

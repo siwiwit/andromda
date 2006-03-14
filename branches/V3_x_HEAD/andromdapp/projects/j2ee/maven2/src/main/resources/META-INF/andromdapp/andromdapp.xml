@@ -158,7 +158,7 @@
                 </conditions>
             </prompt>
             <prompt id="hibernateVersion">
-                <text>Please enter the hibernate version number  (enter '2' for 2.1.x or '3' for 3.0.x)</text>
+                <text>Please enter the hibernate version number (enter '2' for 2.1.x or '3' for 3.0.x)</text>
                 <preconditions type="or">
                     <condition id="transactionPersistenceType" equal="spring"/>
                     <condition id="transactionPersistenceType" equal="hibernate"/>
@@ -200,6 +200,16 @@
                 <responses type="java.lang.Boolean">
                     <response>yes</response>
                     <response>no</response>
+                </responses>
+            </prompt>
+            <prompt id="axisVersion">
+                <text>Would you like to use Axis 1.x or Axis 2.x (enter '1' for 1.x or '2' for 2.x)?</text>
+                <preconditions>
+                    <condition id="webservice" equal="true"/>
+                </preconditions>
+                <responses>
+                    <response>1</response>
+                    <response>2</response>
                 </responses>
             </prompt>
         </promptGroup>
