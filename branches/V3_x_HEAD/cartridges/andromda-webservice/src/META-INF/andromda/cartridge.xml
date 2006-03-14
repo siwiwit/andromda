@@ -119,6 +119,7 @@
         outlet="axis-configuration"
         overwrite="true"
         outputToSingleFile="true"
+        outputOnEmptyElements="false"
         outputCondition="axis2">
         <modelElements variable="services">
             <modelElement>
