@@ -171,7 +171,7 @@
                 <configuration>
                     <tasks>
                         <copy todir="${pom.basedir}/target/src" overwrite="true" failonerror="false">
-                            <fileset dir="${pom.basedir}/src/main/jsp">
+                            <fileset dir="${pom.basedir}/src/main/$viewType">
                                 <include name="**/*"/>
                             </fileset>
                             <fileset dir="${pom.basedir}/src/main">
