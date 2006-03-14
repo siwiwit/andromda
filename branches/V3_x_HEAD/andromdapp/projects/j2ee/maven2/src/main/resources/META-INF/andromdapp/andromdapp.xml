@@ -16,6 +16,10 @@
             <condition id="ear" equal="true"/>         
             <output patterns="**/*">webservice/</output>  
         </conditions>
+        <conditions>
+            <condition id="war" equal="true"/>      
+            <output>web/src/main/resources/META-INF/context.xml.vsl</output>  
+        </conditions>
         <conditions type="or">
             <condition id="web" equal="true"/> 
             <condition id="war" equal="true"/>      
@@ -29,10 +33,6 @@
             <condition id="war" equal="true"/>
             <condition id="webservice" equal="true"/>
             <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
-        </conditions>
-        <conditions>
-            <condition id="war" equal="true"/>      
-            <output patterns="**/*">web/src/main/resources/META-INF/context.xml.vsl</output>  
         </conditions>
         <conditions>
             <condition id="model" present="false"/>        
