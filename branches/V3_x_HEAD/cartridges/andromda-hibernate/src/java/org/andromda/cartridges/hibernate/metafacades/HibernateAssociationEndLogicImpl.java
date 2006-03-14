@@ -656,15 +656,19 @@ public class HibernateAssociationEndLogicImpl
      */
     protected boolean handleIsBidirectionalOrderedListParent()
     {
+        boolean isBidirectionalOrderedListParent = false;
         boolean biDirectional = this.isNavigable() && this.getOtherEnd().isNavigable();
+        
         if (biDirectional && this.isOne2Many() && (this.getOtherEnd() instanceof HibernateAssociationEnd))
         {
             HibernateAssociationEnd otherEnd = (HibernateAssociationEnd)this.getOtherEnd();
 
-            biDirectional = otherEnd.getCollectionType().equals(COLLECTION_TYPE_LIST) &&
-                otherEnd.isIndexedCollection();
+            isBidirectionalOrderedListParent
+                =    otherEnd.getCollectionType().equals(COLLECTION_TYPE_LIST)
+                  && otherEnd.isIndexedCollection();
         }
-        return biDirectional;
+        
+        return isBidirectionalOrderedListParent;
     }
 
     /**
