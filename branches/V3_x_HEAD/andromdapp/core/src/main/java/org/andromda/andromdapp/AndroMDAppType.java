@@ -498,23 +498,16 @@ public class AndroMDAppType
                             if (id != null && id.trim().length() > 0)
                             {
                                 final boolean result = condition.evaluate(this.templateContext.get(id));
-                                // - if we're 'anding' the conditions, we break at the first false
-                                if (Conditions.TYPE_AND.equals(conditionsType))
+                                results.add(Boolean.valueOf(result));
+                                if (Conditions.TYPE_AND.equals(conditionsType) && !result)
                                 {
-                                    if (!result)
-                                    {
-                                        results.add(Boolean.valueOf(result));
-                                        break;
-                                    }
-                                }
-                                if (!conditionIterator.hasNext())
+                                    // - if we're 'anding' the conditions, we break at the first false
+                                    break;
+                                } 
+                                else if (Conditions.TYPE_OR.equals(conditionsType) && result)
                                 {
                                     // - otherwise we break at the first true condition
-                                    if (result)
-                                    {
-                                        results.add(Boolean.valueOf(result));
-                                        break;
-                                    }
+                                    break;
                                 }
                             }
                         }
