@@ -282,6 +282,12 @@
                 <version>3</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-annotations</artifactId>
+                <version>3</version>
+                <scope>provided</scope>
+            </dependency>
 #else
             <dependency>
                 <groupId>jboss</groupId>
