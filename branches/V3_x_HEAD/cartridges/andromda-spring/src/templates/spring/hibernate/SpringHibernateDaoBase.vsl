@@ -888,7 +888,7 @@ ${indent}$getVal## no new line
 #end
 #end
 #end
-#if ($matchFound == false)
+#if (!$matchFound)
 #if ($indent != '')
 ,
 #end
