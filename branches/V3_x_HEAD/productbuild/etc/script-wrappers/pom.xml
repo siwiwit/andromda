@@ -19,7 +19,7 @@
         <dependency>
             <groupId>groovy</groupId>
             <artifactId>groovy-all-1.0-jsr</artifactId>
-            <version>04</version>
+            <version>05</version>
         </dependency>
     </dependencies>
     <build>
