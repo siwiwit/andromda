@@ -1,6 +1,6 @@
 #parse("templates/spring/SpringGlobals.vm")
 #set ($generatedFile = "${entity.packagePath}/${entity.daoBaseName}.java")
-#if ($enableTemplating == "true")
+#if ($enableTemplating)
 #set ($entityCollectionType = "java.util.Collection<${entity.fullyQualifiedEntityName}>")
 #else
 #set ($entityCollectionType = "java.util.Collection")
@@ -13,7 +13,7 @@
 #if ($stringUtils.isNotBlank($entity.packageName))
 package $entity.packageName;
 #end
-#set ($daoInheritance = $entity.generalization && $daoInheritanceEnabled=="true")
+#set ($daoInheritance = $entity.generalization && $daoInheritanceEnabled)
 #if ($daoInheritance)
 #set ($rootEntityType = $entity.root.fullyQualifiedEntityName)
 #set ($rootDaoType = $entity.root.fullyQualifiedDaoName)
@@ -116,7 +116,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#loadAll()
      */
-#if ($enableTemplating == "true")
+#if ($enableTemplating)
     @SuppressWarnings({"unchecked"})
 #end
     public $entityCollectionType loadAll()
@@ -213,7 +213,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#create($entityCollectionType)
      */
-#if ($enableTemplating == "true")
+#if ($enableTemplating)
     @SuppressWarnings({"unchecked"})
 #end
     public $entityCollectionType create(final $entityCollectionType entities)
@@ -234,7 +234,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
             new ${hibernateUtils.springHibernatePackage}.HibernateCallback()
             {
-#if ($enableTemplating == "true")
+#if ($enableTemplating)
                 @SuppressWarnings({"ForLoopReplaceableByForEach"})
 #end
                 public Object doInHibernate(${hibernateUtils.basePackage}.Session session)
@@ -892,7 +892,7 @@ ${indent}$getVal## no new line
 #if ($indent != '')
 ,
 #end
-($property.type.fullyQualifiedName)${indent}${property.type.javaNullString}## no new line
+${indent}($property.getterSetterTypeName)${property.type.javaNullString}## no new line
 #end
 #set ($indent = "                 ")
 #end

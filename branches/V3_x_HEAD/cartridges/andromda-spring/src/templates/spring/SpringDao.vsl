@@ -1,5 +1,5 @@
 #set ($generatedFile = "${entity.packagePath}/${entity.daoName}.java")
-#if ($enableTemplating == "true")
+#if ($enableTemplating)
 #set ($entityCollectionType = "java.util.Collection<${entity.fullyQualifiedEntityName}>")
 #else
 #set ($entityCollectionType = "java.util.Collection")
@@ -14,7 +14,7 @@ package $entity.packageName;
 #end
 
 #set ($superclass = $entity.generalization)
-#set ($daoInheritance = $superclass && $daoInheritanceEnabled=="true")
+#set ($daoInheritance = $superclass && $daoInheritanceEnabled)
 #if ($daoInheritance)
 #set ($rootEntityType = $entity.root.fullyQualifiedEntityName)
 #else
