@@ -145,6 +145,13 @@
     
     <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
     <condition name="daoInheritanceEnabled">$daoInheritanceEnabled.equalsIgnoreCase("true")</condition>
+    <condition name="acegiServiceSecurity">$acegiServiceSecurity.equalsIgnoreCase("true")</condition>
+    <condition name="richClient">$richClient.equalsIgnoreCase("true")</condition>
+    <condition name="ejbsEnabled">$stringUtils.isNotBlank($session-ejbs)</condition>
+    <condition name="daosEnabled">$stringUtils.isNotBlank($daos)</condition>
+    <condition name="adviceEnabled">$stringUtils.isNotBlank($advice-impls)</condition>
+    <condition name="requiredCheckEnabled">$parameterRequiredCheck.equalsIgnoreCase("true")</condition>
+    <condition name="ejbSecurityEnabled">$stringUtils.isNotBlank($securityRealm)</condition> 
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
@@ -482,7 +489,8 @@
         path="templates/spring/ejb/SpringSessionBean.vsl"
         outputPattern="$generatedFile"
         outlet="session-ejbs"
-        overwrite="true">
+        overwrite="true"
+        outputCondition="ejbsEnabled">
         <modelElements variable="service">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -496,7 +504,8 @@
         path="templates/spring/ejb/SpringSession.vsl"
         outputPattern="$generatedFile"
         outlet="session-ejbs"
-        overwrite="true">
+        overwrite="true"
+        outputCondition="ejbsEnabled">
         <modelElements variable="service">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -510,7 +519,8 @@
         path="templates/spring/ejb/SpringSessionHome.vsl"
         outputPattern="$generatedFile"
         outlet="session-ejbs"
-        overwrite="true">
+        overwrite="true"
+        outputCondition="ejbsEnabled">
         <modelElements variable="service">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -667,7 +677,8 @@
         outlet="server-config"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="acegiServiceSecurity">
         <modelElements>
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -731,7 +742,8 @@
         outlet="client-config"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="acegiServiceSecurity">
         <modelElements>
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -818,7 +830,8 @@
         outlet="session-ejbs"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="ejbsEnabled">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -835,7 +848,8 @@
         outlet="server-config"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="ejbsEnabled">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -852,7 +866,8 @@
         outlet="session-ejbs"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="ejbsEnabled">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -869,7 +884,8 @@
         outlet="server-config"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="ejbsEnabled">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">

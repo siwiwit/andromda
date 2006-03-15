@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 <?xml version="1.0" encoding="$xmlEncoding"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
@@ -201,7 +200,7 @@
         </property>
         <property name="interceptorNames">
             <list>
-#if ($acegiServiceSecurityEnabled)
+#if ($acegiServiceSecurity)
                 <value>serviceSecurityInterceptor</value>
 #end
 #if ($enableSpringTransactions)
@@ -220,7 +219,7 @@
 #end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
 
-#if ($acegiServiceSecurityEnabled)
+#if ($acegiServiceSecurity)
     <!-- ================= Start of ACEGI SERVICE SECURITY DEFINITIONS ================ -->
 
     <bean id="serviceSecurityInterceptor" class="$acegiServiceSecurityInterceptor">

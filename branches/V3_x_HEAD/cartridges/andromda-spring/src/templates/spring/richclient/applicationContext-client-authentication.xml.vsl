@@ -1,4 +1,3 @@
-#if ($acegiServiceSecurity == 'true')
 <beans>
     <!-- Acegi Authentication Manager used to authenticate initial user credentials and gather granted authorities on the remote system -->
     <bean id="${acegiAuthenticationManager}"
@@ -18,4 +17,3 @@
     <!-- applicationContext client authentication merge-point -->
 
 </beans>
-#end

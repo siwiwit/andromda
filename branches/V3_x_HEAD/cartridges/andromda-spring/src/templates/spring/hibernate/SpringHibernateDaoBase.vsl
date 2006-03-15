@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 #set ($generatedFile = "${entity.packagePath}/${entity.daoBaseName}.java")
 #if ($enableTemplating)
 #set ($entityCollectionType = "java.util.Collection<${entity.fullyQualifiedEntityName}>")

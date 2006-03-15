@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 <?xml version="1.0" encoding="$xmlEncoding"?>
 
 <!DOCTYPE beans
@@ -20,9 +19,9 @@
 #if (!$manageables.empty)
                 <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
 #end
-#if ($richClient == 'true')
+#if ($richClient)
                 <value>${applicationContextServer}</value>
-#if ($acegiServiceSecurity == 'true')
+#if ($acegiServiceSecurity)
                 <value>$stringUtils.replace($applicationContextServerAuthentication, '/', '.')</value>
 #end
 #end                

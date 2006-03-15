@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 <?xml version="1.0" encoding="$xmlEncoding"?>
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app>
@@ -7,7 +6,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/${applicationContext}
-#if ($acegiServiceSecurity == 'true')
+#if ($acegiServiceSecurity)
             /WEB-INF/${applicationContextServerAuthentication}
 #end
 #if ($stringUtils.isNotBlank($dataSource))
@@ -22,7 +21,7 @@
         </param-value>
     </context-param>
 
-#if ($acegiServiceSecurity == 'true')
+#if ($acegiServiceSecurity)
     <filter>
         <filter-name>${serviceRemoteContext}_HTTP_BASIC_Authorization_Filter</filter-name>
         <filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>

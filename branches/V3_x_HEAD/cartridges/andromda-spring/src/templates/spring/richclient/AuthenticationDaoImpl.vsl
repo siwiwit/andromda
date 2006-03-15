@@ -16,10 +16,11 @@ import org.acegisecurity.userdetails.UsernameNotFoundException;
 * This class implements the "user look-up" service needed by the Acegi Security Framework
 * for application supplied user management.
 */
-public class ${className} implements UserDetailsService
+public class $className 
+    implements UserDetailsService
 {
 
-    // ${toDoTag} Follow steps to integrate Acegi user management
+    // $toDoTag Follow steps to integrate Acegi user management
     // 1. Write code to implement loadUserByUsername (below)
     //
     // 2. If you need the services of other Spring beans (like a user Dao), supply
@@ -35,7 +36,7 @@ public class ${className} implements UserDetailsService
     public UserDetails loadUserByUsername(String username)
         throws UsernameNotFoundException, DataAccessException
     {
-        // ${toDoTag} implement loadUserByUsername()
+        // $toDoTag implement loadUserByUsername()
         throw new java.lang.UnsupportedOperationException("com.lighthousepmg.kore.kUsers.services.UserManagementService.handleAddRole(java.lang.String userID, java.lang.String roleToAdd) Not implemented!");
 
         /* Usually, your implementation will look up a "user" from your database,
@@ -54,7 +55,7 @@ public class ${className} implements UserDetailsService
         */
     }
 
-// ${toDoTag} specify user Dao object(s) used by the authentication Dao here
+// $toDoTag specify user Dao object(s) used by the authentication Dao here
 
 /* If you do inject any Spring beans, be sure to update the SpringMergeMappings.xml file
    to supply the Spring beans you want. A typical example is here:

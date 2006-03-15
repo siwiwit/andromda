@@ -1,2 +1,1 @@
-#parse("templates/spring/SpringGlobals.vm")
 #set ($ejbSecurityEnabled = $stringUtils.isNotBlank($securityRealm))
