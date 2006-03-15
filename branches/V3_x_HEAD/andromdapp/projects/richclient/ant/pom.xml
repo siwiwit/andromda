@@ -19,13 +19,33 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-mock</artifactId>
-            <version>1.2.5</version>
+            <version>1.2.7</version>
             <exclusions>
                  <exclusion>
                      <groupId>javax.transaction</groupId>
                      <artifactId>jta</artifactId>
                  </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>aopalliance</groupId> 
+            <artifactId>aopalliance</artifactId> 
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.acegisecurity</groupId>

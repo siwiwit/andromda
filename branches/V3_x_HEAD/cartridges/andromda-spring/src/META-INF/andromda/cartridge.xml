@@ -200,6 +200,21 @@
     </template>
 
     <template
+        path="templates/spring/richclient/ThisBeanFactory.java.vsl"
+        outputPattern="org/andromda/utils/ThisBeanFactory.java"
+        outlet="server-test"
+        overwrite="false"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="service">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
         path="templates/spring/SpringClientServiceLocator.vsl"
         outputPattern="$generatedFile"
         outlet="services"
@@ -557,27 +572,6 @@
         </modelElements>
     </template>
 
-    <template
-        path="templates/spring/richclient/applicationContext-server-test-dataSource.xml.vsl"
-        outputPattern="$serverTestContextDataSource"
-        outlet="server-test-config"
-        overwrite="false"
-        outputToSingleFile="true"
-        outputOnEmptyElements="false">
-        <modelElements>
-            <modelElement variable="entities">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity">
-                    <property name="richClient">true</property>
-                </type>
-            </modelElement>
-            <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
-                    <property name="richClient">true</property>
-                </type>
-            </modelElement>
-        </modelElements>
-    </template>
-
     <!-- this configuration is supposed to be used by web components, typically Hessian or Burlap -->
     <template
         path="templates/spring/applicationContext-server.xml.vsl"
@@ -922,6 +916,22 @@
             </modelElement>
             <modelElement variable="manageables">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/richclient/serverTestBeanRefFactory.properties.vsl"
+        outputPattern="$generatedFile"
+        outlet="server-test-config"
+        overwrite="false"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
                 </type>
             </modelElement>

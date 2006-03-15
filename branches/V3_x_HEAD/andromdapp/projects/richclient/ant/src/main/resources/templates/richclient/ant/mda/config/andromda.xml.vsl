@@ -20,7 +20,7 @@
         </repository>
     </repositories>
     <mappingsSearchLocations>
-        <location>${andromda.mappings.dir}</location>
+        <location patterns="**/*.xml">${andromda.mappings.dir}</location>
     </mappingsSearchLocations>
     <namespaces>
         <namespace name="default">
