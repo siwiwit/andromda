@@ -23,9 +23,9 @@
 
         <f:facet name="header">
             <f:subview id="header">
-                <h:panelGrid id="header_group1" columns="1" styleClass="pageHeader" width="100%" >
-                    <h:outputText value="#{messages['application.name']}" styleClass="applicationTitle"/>
-                </h:panelGrid>
+                <ui:insert name="header">
+                    <ui:include src="/layout/header.xhtml"/>
+                </ui:insert>
             </f:subview>
         </f:facet>
 
