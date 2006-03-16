@@ -326,6 +326,10 @@
                 <documentation></documentation>
                 <value>datatype::Blob</value>
             </element>
+            <element name="CLOB_TYPE">
+                <documentation></documentation>
+                <value>datatype::Clob</value>
+            </element>
             <element name="MAP_TYPE">
                 <documentation></documentation>
                 <value>datatype::Map</value>
