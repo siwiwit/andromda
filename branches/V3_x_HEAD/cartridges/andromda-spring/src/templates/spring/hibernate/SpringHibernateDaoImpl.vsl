@@ -45,7 +45,7 @@ public class $entity.daoImplementationName
 #end
 #foreach ($valueObjectRef in $entity.valueObjectReferences)
     /**
-     * @see @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName, $valueObjectRef.targetElement.fullyQualifiedName)
+     * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName, $valueObjectRef.targetElement.fullyQualifiedName)
      */
     public void ${valueObjectRef.transformationMethodName}(
         $entity.fullyQualifiedEntityName sourceEntity, 
@@ -56,14 +56,10 @@ public class $entity.daoImplementationName
 #foreach ($property in $valueObjectRef.targetElement.allProperties)
 #foreach ($entityProp in $entity.allProperties)
 #if ($property.name == $entityProp.name)
-#if ($property.readOnly == true)
-        // WARNING! No conversion for targetVO.${property.name} (it is read-only and doesn't have a setter).
-#else
 #set ($getVal = false)
 #set ($getVal = $converter.typeConvert($entityProp.type.fullyQualifiedName, "sourceEntity.${entityProp.getterName}()", $property.type.fullyQualifiedName) )
 #if (!$getVal)
         // WARNING! No conversion for targetVO.${property.name} (can't convert sourceEntity.${entityProp.getterName}():${entityProp.type.fullyQualifiedName} to $property.type.fullyQualifiedName
-#end
 #end
 #end
 #end
