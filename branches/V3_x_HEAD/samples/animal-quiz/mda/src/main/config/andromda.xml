@@ -31,7 +31,7 @@
         <namespace name="spring">
             <properties>
                 <property name="dataSource">${dataSource}</property>
-                <property name="hibernateDialect">${hibernate.db.dialect}</property>
+                <property name="hibernateDialect">${hibernate.dialect}</property>
                 <property name="hibernateShowSql">${hibernate.db.showSql}</property>
                 <property name="hibernateQueryUseNamedParameters">true</property>
                 <property name="hibernateCacheProvider">net.sf.hibernate.cache.EhCacheProvider</property>
