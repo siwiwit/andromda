@@ -9,6 +9,9 @@
     <property reference="toDoTag"/>
     <property reference="enableTemplating"/>
     <!-- cartridge-property merge-point-->  
+    
+    <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
+    <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
 

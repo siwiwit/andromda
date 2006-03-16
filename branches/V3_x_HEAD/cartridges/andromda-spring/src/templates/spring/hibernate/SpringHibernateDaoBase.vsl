@@ -874,63 +874,50 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      */
     public $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(final $entity.fullyQualifiedName entity)
     {
-        $valueObjectRef.targetElement.fullyQualifiedName $stringUtils.uncapitalize($valueObjectRef.name) = 
-             new ${valueObjectRef.targetElement.fullyQualifiedName}(
-                 ## no new line
-#set ($indent = "")
+        final $valueObjectRef.targetElement.fullyQualifiedName target = new ${valueObjectRef.targetElement.fullyQualifiedName}();
+#set ($entityProperties = $entity.allProperties)
 #foreach ($property in $valueObjectRef.targetElement.allProperties)
-#set ($matchFound = false)
-#foreach ($entityProp in $entity.allProperties)
-#if ($property.name.equals($entityProp.name))
-#set ($getVal = false)
-#set ($getVal = $converter.typeConvert($entityProp.type.fullyQualifiedName, "entity.${entityProp.getterName}()", $property.type.fullyQualifiedName) )
-#if ($getVal)
-#if ($indent != '')
-,
+#* *##set ($matchFound = false)
+#* *##set ($entityPropertyGetterValue = false)
+#* *##foreach ($entityProperty in $entityProperties)
+#*    *##if ($property.name.equals($entityProperty.name))
+#*        *##set ($matchFound = true)
+#*        *##set ($entityPropertyGetterValue = $converter.typeConvert($entityProperty.type.fullyQualifiedName, "entity.${entityProperty.getterName}()", $property.type.fullyQualifiedName))
+#*    *##end
+#* *##end
+#* *##if ($matchFound && $entityPropertyGetterValue)
+        target.${property.setterName}($entityPropertyGetterValue);
+#* *##end
 #end
-${indent}$getVal## no new line
-#set ($matchFound = true)
-#end
-#end
-#end
-#if (!$matchFound)
-#if ($indent != '')
-,
-#end
-${indent}($property.getterSetterTypeName)${property.type.javaNullString}## no new line
-#end
-#set ($indent = "                 ")
-#end
-
-                 );
-
-        return ${stringUtils.uncapitalize($valueObjectRef.name)};
+        return target;
     }
     
     /**
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToEntityMethodName}($valueObjectRef.targetElement.fullyQualifiedName, $entity.fullyQualifiedEntityName)
      */
     public void ${valueObjectRef.transformationToEntityMethodName}(
-        $valueObjectRef.targetElement.fullyQualifiedName sourceVO,
-        $entity.fullyQualifiedEntityName targetEntity,
+        $valueObjectRef.targetElement.fullyQualifiedName source,
+        $entity.fullyQualifiedEntityName target,
         boolean copyIfNull)
     {
-#set ($attributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
-#foreach ($attribute in $attributes)
-#foreach ($voProperty in $valueObjectRef.targetElement.allProperties)
-#if ($attribute.name == $voProperty.name)
-#set ($getVal = false)
-#set ($getVal = $converter.typeConvert($voProperty.type.fullyQualifiedName, "sourceVO.${voProperty.getterName}()", $attribute.type.fullyQualifiedName) )
-#if ($getVal)
-        if (copyIfNull || sourceVO.${voProperty.getterName}() != $voProperty.type.javaNullString)
+#set ($entityAttributes = $entity.getAttributes(true, $entity.usingAssignedIdentifier))
+#foreach ($entityProperty in $entityAttributes)
+#* *##if (!$entityProperty.readOnly)
+#*    *##foreach ($property in $valueObjectRef.targetElement.allProperties)
+#*        *##if ($property.name.equals($entityProperty.name))
+#*            *##set ($propertyGetterValue = false)
+#*            *##set ($propertyGetterValue = $converter.typeConvert($property.type.fullyQualifiedName, "source.${property.getterName}()", $entityProperty.type.fullyQualifiedName) )
+#*            *##if ($propertyGetterValue)
+        if (copyIfNull || source.${property.getterName}() != $property.type.javaNullString)
         {
-            targetEntity.${attribute.setterName}($getVal);
+            target.${entityProperty.setterName}($propertyGetterValue);
         }
-#else
-        // No conversion for targetEntity.${attribute.name} (can't convert sourceVO.${voProperty.getterName}():${voProperty.type.fullyQualifiedName} to $attribute.type.fullyQualifiedName)
-#end        
-#end
-#end
+#*            *##else
+        // No conversion for target.${entityProperty.name} (can't convert source.${property.getterName}():${property.type.fullyQualifiedName} to $entityProperty.type.fullyQualifiedName)
+#*            *##end        
+#*        *##end
+#*    *##end
+#**##end
 #end
     }
     

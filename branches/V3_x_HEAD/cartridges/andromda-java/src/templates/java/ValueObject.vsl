@@ -19,8 +19,8 @@ public#if($class.abstract) abstract#end class $class.name
 #end
 {
 #if ($serializable == 'true')
-    /** 
-     * The serial version UID of this class. Needed for serialization. 
+    /**
+     * The serial version UID of this class. Needed for serialization.
      */
     private static final long serialVersionUID = ${class.serialVersionUID}L;
 
@@ -49,7 +49,7 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #end
 )
     {
-#if($class.generalization)	
+#if($class.generalization)
         super(## no newline
 #set ($comma = "")
 #foreach ($property in $class.generalization.allRequiredConstructorParameters)
@@ -72,7 +72,7 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
 #end
 )
     {
-#if($class.generalization)	
+#if($class.generalization)
         super(## no newline
 #set ($comma = "")
 #foreach ($property in $class.generalization.allProperties)
@@ -124,12 +124,9 @@ $attribute.getDocumentation("     * ")
         return this.${attribute.name};
     }
 
-#if ($attribute.readOnly)
-    protected ## no newline
-#else
-    public ## no newline
-#end
-void ${attribute.setterName}($attribute.getterSetterTypeName $attribute.name)
+## - always have as public, having read-only causes too many issues when attempting to 
+##   use in other cartridges
+    public void ${attribute.setterName}($attribute.getterSetterTypeName $attribute.name)
     {
         this.${attribute.name} = $attribute.name;
     }
@@ -150,15 +147,12 @@ $target.getDocumentation("     * ")
         return this.${target.name};
     }
 
+## - always have as public, having read-only causes too many issues when attempting to 
+##   use in other cartridges
     /**
-     * Set the $target.name
+     * Sets the $target.name
      */
-#if ($associationEnd.readOnly)
-    protected ## no newline
-#else
-    public ## no newline
-#end
-void ${target.setterName}($target.getterSetterTypeName $target.name)
+    public void ${target.setterName}($target.getterSetterTypeName $target.name)
     {
         this.${target.name} = ${target.name};
     }
