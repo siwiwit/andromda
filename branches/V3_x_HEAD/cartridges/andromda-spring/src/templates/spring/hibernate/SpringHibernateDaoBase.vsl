@@ -889,7 +889,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #*    *##foreach ($property in $valueObjectRef.targetElement.allProperties)
 #*        *##if ($property.name.equals($entityProperty.name))
 #*            *##set ($propertyGetterValue = false)
-#*            *##set ($propertyGetterValue = $converter.typeConvert($property.type.fullyQualifiedName, "source.${property.getterName}()", $entityProperty.type.fullyQualifiedName) )
+#*            *##set ($propertyGetterValue = $converter.typeConvert($property.type.fullyQualifiedName, "source.${property.getterName}()", $entityProperty.type.fullyQualifiedName))
 #*            *##if ($propertyGetterValue)
         if (copyIfNull || source.${property.getterName}() != $property.type.javaNullString)
         {
