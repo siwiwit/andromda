@@ -14,11 +14,11 @@ public#if($class.abstract) abstract#end class $class.name
 #if($class.generalization)
     extends $class.generalization.fullyQualifiedName
 #end
-#if ($serializable == 'true')
+#if ($serializable)
     implements java.io.Serializable
 #end
 {
-#if ($serializable == 'true')
+#if ($serializable)
     /**
      * The serial version UID of this class. Needed for serialization.
      */

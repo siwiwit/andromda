@@ -28,10 +28,17 @@ $enumeration.getDocumentation(" * ")
 public class $enumeration.name
 #if($enumeration.generalization)
     extends ${enumeration.generalization.fullyQualifiedName}
-#elseif ($serializable.equalsIgnoreCase("true"))
+#elseif ($serializable)
     implements java.io.Serializable
 #end
 {
+#if ($serializable)
+    /**
+     * The serial version UID of this class. Needed for serialization.
+     */
+    private static final long serialVersionUID = ${enumeration.serialVersionUID}L;
+
+#end
 #foreach ($literal in $enumeration.literals)
     /**
 $literal.getDocumentation("     * ")

@@ -11,6 +11,7 @@
     <!-- cartridge-property merge-point-->  
     
     <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
+    <condition name="serializable">$serializable.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
