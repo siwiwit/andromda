@@ -330,6 +330,12 @@ public class UMLProfile
     public static final String BLOB_TYPE_NAME = profile.get("BLOB_TYPE");
 
     /**
+     * Used to identify a Clob type in the model, any other type that will be identified as a Clob type must specialize
+     * this type.
+     */
+    public static final String CLOB_TYPE_NAME = profile.get("CLOB_TYPE");
+    
+    /**
      * Used to identify a map type in the model, any other type that will be identified as a map type must specialize
      * this type.
      */
