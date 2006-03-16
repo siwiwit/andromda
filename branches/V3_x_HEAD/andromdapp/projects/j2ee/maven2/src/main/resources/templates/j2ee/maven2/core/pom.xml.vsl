@@ -75,6 +75,10 @@
             <groupId>net.sf.hibernate</groupId>
             <artifactId>hibernate</artifactId>
         </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
 #else
         <dependency>
             <groupId>org.hibernate</groupId>
