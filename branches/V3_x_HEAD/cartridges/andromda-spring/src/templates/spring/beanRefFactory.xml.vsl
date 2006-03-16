@@ -35,10 +35,10 @@
          class="org.springframework.context.support.ClassPathXmlApplicationContext">
         <constructor-arg>
            <list>
-#if ($springUtils.remoteEjbsPresent($services))
+#if ($remoteEjbsPresent)
                 <value>$stringUtils.replace($applicationContextRemoteEjb, '/', '.')</value>
 #end
-#if ($springUtils.localEjbsPresent($services))
+#if ($localEjbsPresent)
                 <value>$stringUtils.replace($applicationContextLocalEjb, '/', '.')</value>
 #end
                 <!-- beanRefFactoryEjb merge-point -->

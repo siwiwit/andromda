@@ -151,7 +151,9 @@
     <condition name="daosEnabled">$stringUtils.isNotBlank($daos)</condition>
     <condition name="adviceEnabled">$stringUtils.isNotBlank($advice-impls)</condition>
     <condition name="requiredCheckEnabled">$parameterRequiredCheck.equalsIgnoreCase("true")</condition>
-    <condition name="ejbSecurityEnabled">$stringUtils.isNotBlank($securityRealm)</condition> 
+    <condition name="ejbSecurityEnabled">$stringUtils.isNotBlank($securityRealm)</condition>
+    <condition name="remoteEjbsPresent">$springUtils.remoteEjbsPresent($services)</condition> 
+    <condition name="localEjbsPresent">$springUtils.localEjbsPresent($services)</condition> 
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->

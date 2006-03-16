@@ -846,28 +846,24 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName, $valueObjectRef.targetElement.fullyQualifiedName)
      */
     public void ${valueObjectRef.transformationMethodName}(
-        $entity.fullyQualifiedEntityName sourceEntity, 
-        $valueObjectRef.targetElement.fullyQualifiedName targetVO)
+        $entity.fullyQualifiedEntityName source, 
+        $valueObjectRef.targetElement.fullyQualifiedName target)
     {
+#set ($entityProperties = $entity.allProperties)
 #foreach ($property in $valueObjectRef.targetElement.allProperties)
-#foreach ($entityProp in $entity.allProperties)
-#if ($property.name == $entityProp.name)
-#if ($property.readOnly == true)
-        // No conversion for targetVO.${property.name} (it is read only and doesn't have a setter)
-#else
-#set ($getVal = false)
-#set ($getVal = $converter.typeConvert($entityProp.type.fullyQualifiedName, "sourceEntity.${entityProp.getterName}()", $property.type.fullyQualifiedName) )
-#if ($getVal)
-        targetVO.${property.setterName}($getVal);
-#else
-        // No conversion for targetVO.${property.name} (can't convert sourceEntity.${entityProp.getterName}():${entityProp.type.fullyQualifiedName} to $property.type.fullyQualifiedName)
-#end
-#end
-#end
-#end
+#* *##foreach ($entityProperty in $entityProperties)
+#*    *##if ($property.name.equals($entityProperty.name))
+#*        *##set ($entityPropertyGetterValue = false)
+#*        *##set ($entityPropertyGetterValue = $converter.typeConvert($entityProperty.type.fullyQualifiedName, "source.${entityProperty.getterName}()", $property.type.fullyQualifiedName))
+#*        *##if ($entityPropertyGetterValue)
+        target.${property.setterName}($entityPropertyGetterValue);
+#*        *##else
+        // No conversion for target.${property.name} (can't convert source.${entityProperty.getterName}():${entityProperty.type.fullyQualifiedName} to $property.type.fullyQualifiedName)
+#*        *##end
+#*    *##end
+#* *##end
 #end
     }
-
 
     /**
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedName)
@@ -875,20 +871,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     public $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(final $entity.fullyQualifiedName entity)
     {
         final $valueObjectRef.targetElement.fullyQualifiedName target = new ${valueObjectRef.targetElement.fullyQualifiedName}();
-#set ($entityProperties = $entity.allProperties)
-#foreach ($property in $valueObjectRef.targetElement.allProperties)
-#* *##set ($matchFound = false)
-#* *##set ($entityPropertyGetterValue = false)
-#* *##foreach ($entityProperty in $entityProperties)
-#*    *##if ($property.name.equals($entityProperty.name))
-#*        *##set ($matchFound = true)
-#*        *##set ($entityPropertyGetterValue = $converter.typeConvert($entityProperty.type.fullyQualifiedName, "entity.${entityProperty.getterName}()", $property.type.fullyQualifiedName))
-#*    *##end
-#* *##end
-#* *##if ($matchFound && $entityPropertyGetterValue)
-        target.${property.setterName}($entityPropertyGetterValue);
-#* *##end
-#end
+        this.${valueObjectRef.transformationMethodName}(entity, target);
         return target;
     }
     
