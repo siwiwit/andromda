@@ -198,6 +198,15 @@ public class ClassifierFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#isClobType()
+     */
+    protected boolean handleIsClobType()
+    {
+        // TODO: put your implementation here.
+        return false;
+    }
+    
+    /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#isBooleanType()
      */
     protected boolean handleIsBooleanType()
