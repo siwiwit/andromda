@@ -660,6 +660,12 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             $call
 #end
         }
+#foreach($exception in $operation.exceptions)
+        catch ($exception.fullyQualifiedName ex)
+        {
+            throw ex;
+        }
+#end
         catch (Throwable th)
         {
             throw new java.lang.RuntimeException(
