@@ -305,12 +305,6 @@
                 <artifactId>hibernate</artifactId>
                 <version>2.1.8</version>
             </dependency>
-            <dependency>
-                <groupId>dom4j</groupId>
-                <artifactId>dom4j</artifactId>
-                <version>1.6.1</version>
-                <scope>runtime</scope>
-            </dependency>
 #else
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -318,7 +312,12 @@
                 <version>3.0.5</version>
             </dependency>
 #end
-            
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
+                <scope>runtime</scope>
+            </dependency>      
 #end
 #if ($spring)
             <dependency>
