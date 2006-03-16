@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>${pom.groupId}</groupId>
-            <artifactId>andromda-repository-mdr-common</artifactId>
+            <artifactId>andromda-repository-mdr</artifactId>
             <version>${pom.version}</version>
         </dependency>
         <dependency>
