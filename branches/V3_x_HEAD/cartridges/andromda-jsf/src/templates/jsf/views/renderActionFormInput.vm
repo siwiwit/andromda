@@ -54,7 +54,7 @@
 #elseif ($parameter.inputSecret)
             <h:inputSecret id="$propertyId" value="#{${formValuePropertyName}}" required="$parameter.required" readonly="$parameter.readOnly"/>
 #elseif ($parameter.inputFile)
-            <t:inputFileUpload id="$propertyId" value="#{${formValuePropertyName}}" storage="file" required="$parameter.required" readonly="$parameter.readOnly" styleClass="fileUploadInput"/>
+            <t:inputFileUpload id="$propertyId" value="#{${formValuePropertyName}}" storage="file" size="50" required="$parameter.required" readonly="$parameter.readOnly" styleClass="fileUploadInput"/>
 #elseif ($parameter.inputMultibox)
             <h:selectManyCheckbox id="$propertyId" value="#{${formValuePropertyName}}" layout="pageDirection" styleClass="selectManyCheckbox">
                 <c:if test="${!empty ${backingListName}}">
