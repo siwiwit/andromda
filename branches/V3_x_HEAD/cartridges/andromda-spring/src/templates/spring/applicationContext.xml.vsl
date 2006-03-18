@@ -119,7 +119,7 @@
 #end
 #end
 ## also initialize daos of parent dao
-#if($entity.generalization)
+#if($daoInheritanceEnabled && $entity.generalization)
 #foreach($entityRef in $entity.generalization.entityReferences)
 #if (!$entityRef.circularReference)
                 <property name="$entityRef.daoName"><ref bean="$entityRef.targetElement.getBeanName(false)"/></property>
