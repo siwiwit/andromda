@@ -5,7 +5,7 @@
       xmlns:a="http://www.andromda.org/cartridges/jsf">
 <ui:composition>
 <h:panelGrid columns="1" id="viewVariables" width="100%">
-    <h:panelGrid columns="2" columnClasses="viewVariableLabel,,viewVariableText">
+    <h:panelGrid columns="2" columnClasses="viewVariableLabel,viewVariableText">
 #foreach ($variable in $view.variables)
 #if (!$variable.table)
 #if ($variable.attributes.empty)
