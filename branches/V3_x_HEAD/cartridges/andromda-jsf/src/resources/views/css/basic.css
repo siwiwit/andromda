@@ -34,7 +34,6 @@
 {
     font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 12px;
-    color: #6392C6;
     border-color: #6392C6;
     padding: 2px;
     border-style: dashed;
@@ -57,7 +56,6 @@
     font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
     font-style: italic;
     font-size: 12px;
-    color: #6392C6;
 }
 
 .paginator
@@ -70,7 +68,6 @@
 {
     font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 12px;
-    color: #6392C6;
     padding: 2;
     border-style: solid;
     border-color: #6392C6;
@@ -82,7 +79,6 @@
     color: #000000;
     background-color: #E7EFF7;
     border-color: #6392C6;
-    color: #6392C6;
     padding: 2px;
     border-width: 1px;
     border-style: solid;
@@ -325,7 +321,6 @@ a.navitem:hover,active
 {
     white-space : nowrap;
     text-decoration: none;
-    color: #6392C6;
 }
 
 .navitem_open
@@ -340,7 +335,6 @@ a.navitem_open:hover,active
     white-space : nowrap;
     text-decoration: none;
     font-weight : bold;
-    color: #6392C6;
 }
 
 .navitem_active
@@ -471,7 +465,6 @@ div.titlebar {
 {
     font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 12px;
-    color: #6392C6;
     border-color: #6392C6;
     padding: 2px;
     border-style: dashed;
@@ -483,7 +476,6 @@ div.titlebar {
 {
     font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 12px;
-    color: #6392C6;
     border-color: #6392C6;
     padding: 2;
     border-style: none;
@@ -496,7 +488,6 @@ div.titlebar {
 {
     font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 12px;
-    color: #6392C6;
     border-color: #6392C6;
     padding: 2;
     border-style: none;
