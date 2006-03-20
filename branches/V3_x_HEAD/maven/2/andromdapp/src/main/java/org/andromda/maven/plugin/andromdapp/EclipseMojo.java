@@ -149,22 +149,19 @@ public class EclipseMojo
                     this.getLog());
             projectWriter.write();
             final List projects = this.collectProjects();
-            if (!projects.isEmpty())
-            {
-                final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
-                        this.getLog());
-                classpathWriter.write(
-                    projects,
-                    this.repositoryVariableName,
-                    this.artifactFactory,
-                    this.artifactResolver,
-                    this.localRepository,
-                    this.artifactMetadataSource,
-                    this.classpathArtifactTypes,
-                    this.project.getRemoteArtifactRepositories(),
-                    this.resolveTransitiveDependencies,
-                    this.classpathMerge);
-            }
+            final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
+                    this.getLog());
+            classpathWriter.write(
+                projects,
+                this.repositoryVariableName,
+                this.artifactFactory,
+                this.artifactResolver,
+                this.localRepository,
+                this.artifactMetadataSource,
+                this.classpathArtifactTypes,
+                this.project.getRemoteArtifactRepositories(),
+                this.resolveTransitiveDependencies,
+                this.classpathMerge);
         }
         catch (Throwable throwable)
         {
@@ -336,17 +333,20 @@ public class EclipseMojo
     {
         if (this.rootProject == null)
         {
-            MavenProject root = null;
-            for (root = this.project.getParent(); root.getParent() != null; root = root.getParent())
+            final MavenProject firstParent = this.project.getParent();
+            if (firstParent != null)
             {
-                ;
+                for (this.rootProject = firstParent; 
+                     this.rootProject.getParent() != null; 
+                     this.rootProject = this.rootProject.getParent())
+                {
+                    ;
+                }
             }
-            if (root == null)
+            else
             {
-                throw new MojoExecutionException("No parent could be retrieved for project --> " +
-                    this.project.getId() + "', you must specify a parent project");
+                this.rootProject = this.project;
             }
-            this.rootProject = root;
         }
         return this.rootProject;
     }

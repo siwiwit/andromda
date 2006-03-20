@@ -117,7 +117,7 @@ public class ClasspathWriter
                 }
             }
 
-            final Set artifacts = project.createArtifacts(
+            final Set artifacts = this.project.createArtifacts(
                     artifactFactory,
                     null,
                     null);
