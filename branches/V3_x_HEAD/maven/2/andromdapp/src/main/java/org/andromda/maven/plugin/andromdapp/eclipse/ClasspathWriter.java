@@ -90,8 +90,11 @@ public class ClasspathWriter
                     project.getPackaging());
             projectArtifactIds.add(projectArtifact.getId());
         }
-
-        final Set allArtifacts = new LinkedHashSet();
+       
+        final Set allArtifacts = new LinkedHashSet(this.project.createArtifacts(
+            artifactFactory,
+            null,
+            null));
         for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
         {
             final MavenProject project = (MavenProject)iterator.next();
