@@ -91,6 +91,9 @@ public class ClasspathWriter
             projectArtifactIds.add(projectArtifact.getId());
         }
        
+        // - write the source roots for the root project (if they are any)
+        this.writeSourceRoots(this.project, rootDirectory, writer);
+        
         final Set allArtifacts = new LinkedHashSet(this.project.createArtifacts(
             artifactFactory,
             null,
@@ -98,28 +101,7 @@ public class ClasspathWriter
         for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
         {
             final MavenProject project = (MavenProject)iterator.next();
-            for (final Iterator sourceIterator = project.getCompileSourceRoots().iterator(); sourceIterator.hasNext();)
-            {
-                final String sourceRoot = ResourceUtils.normalizePath((String)sourceIterator.next());
-                if (new File(sourceRoot).isDirectory())
-                {
-                    String sourceRootPath = StringUtils.replace(
-                            sourceRoot,
-                            rootDirectory,
-                            "");
-                    if (sourceRootPath.startsWith("/"))
-                    {
-                        sourceRootPath = sourceRootPath.substring(
-                                1,
-                                sourceRootPath.length());
-                        this.writeClasspathEntry(
-                            writer,
-                            "src",
-                            sourceRootPath);
-                    }
-                }
-            }
-
+            this.writeSourceRoots(project, rootDirectory, writer);
             final Set artifacts = project.createArtifacts(
                     artifactFactory,
                     null,
@@ -269,6 +251,38 @@ public class ClasspathWriter
 
         logger.info("Classpath file written --> '" + classpathFile + "'");
         IOUtil.close(fileWriter);
+    }
+    
+    /**
+     * Writes the source roots for the given project.
+     * 
+     * @param project the project for which to write the source roots.
+     * @param rootDirectory the root project's base directory
+     * @param writer the XMLWriter used to write the source roots.
+     */
+    private void writeSourceRoots(final MavenProject project, final String rootDirectory, final XMLWriter writer)
+    {
+        for (final Iterator sourceIterator = project.getCompileSourceRoots().iterator(); sourceIterator.hasNext();)
+        {
+            final String sourceRoot = ResourceUtils.normalizePath((String)sourceIterator.next());
+            if (new File(sourceRoot).isDirectory())
+            {
+                String sourceRootPath = StringUtils.replace(
+                        sourceRoot,
+                        rootDirectory,
+                        "");
+                if (sourceRootPath.startsWith("/"))
+                {
+                    sourceRootPath = sourceRootPath.substring(
+                            1,
+                            sourceRootPath.length());
+                    this.writeClasspathEntry(
+                        writer,
+                        "src",
+                        sourceRootPath);
+                }
+            }
+        }
     }
 
     /**
