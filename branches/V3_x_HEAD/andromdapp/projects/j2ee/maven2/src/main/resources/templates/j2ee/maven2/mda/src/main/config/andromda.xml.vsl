@@ -91,6 +91,7 @@
                 <property name="hibernateEnableCache">false</property>
                 <property name="hibernateEnableAssociationsCache">false</property>
                 <property name="hibernateUseQueryCache">false</property>
+                <property name="useDefaultCacheRegion">false</property>
                 <property name="hibernateCacheProvider">org.jboss.ejb3.entity.TreeCacheProviderHook</property>
                 <property name="hibernateTreecacheMbeanObject">jboss.cache:service=EJB3EntityTreeCache</property>
                 <!-- uncomment to enable default entity cache settings
