@@ -44,7 +44,10 @@
                 <li>Now right-click on the TimeTracker model you just created and select New Element > Package.
                     A new package will be created under the TimeTracker model element with an edit box
                     to its side. Type in <code>org.andromda.timetracker</code> as the name of the package. AndroMDA
-                    will map this package to a Java package with the same name.</li>
+                    will map this package to a Java package with the same name. Note: Make sure the package name is
+                    exactly <code>org.andromda.timetracker</code>, with no leading or trailing spaces. We
+                    have found that some browsers introduce a leading space in the package name if you copy
+                    it from this page!</li>
                 <li>Now create a package called <code>domain</code> under <code>org.andromda.timetracker</code>.
                     We will create our entities and supporting classes in this package. Note that AndroMDA
                     does not require this package structure. We are doing it simply to separate our business
