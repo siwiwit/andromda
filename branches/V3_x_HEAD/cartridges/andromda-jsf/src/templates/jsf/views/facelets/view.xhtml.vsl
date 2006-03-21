@@ -4,7 +4,6 @@
       xmlns:f="http://java.sun.com/jsf/core">
     
 <ui:composition template="/layout/layout.xhtml">
-    <f:loadBundle basename="$messageResources" var="messages"/>
     <ui:define name="title">#{messages['${view.titleKey}']}</ui:define>
     <ui:define name="content">
 #if ($view.nonTableVariablesPresent)
