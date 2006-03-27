@@ -120,7 +120,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
     public $entityCollectionType loadAll()
     {
-        return ($entityCollectionType)this.loadAll(TRANSFORM_NONE);
+        return#if ($enableTemplating)($entityCollectionType) #end this.loadAll(TRANSFORM_NONE);
     }
 
     /**
