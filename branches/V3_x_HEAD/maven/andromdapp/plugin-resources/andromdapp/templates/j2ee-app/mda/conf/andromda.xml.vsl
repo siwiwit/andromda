@@ -241,7 +241,7 @@
                 <property name="controller-impls">${maven.andromda.web.manual.java.dir}</property>
                 <property name="messages">${maven.andromda.web.generated.dir}</property>
                 <property name="configuration">${maven.andromda.web.generated.dir}</property>
-                <property name="libraries"></property>
+                <property name="libraries">${maven.andromda.web.generated.dir}</property>
                 <!-- uncomment to enable web tier security  -->
                 <property name="securityRealm">${application.id}</property>
 #if ($ejb)
