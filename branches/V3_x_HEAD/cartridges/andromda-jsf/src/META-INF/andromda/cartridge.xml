@@ -15,6 +15,7 @@
     <templateObject name="stringUtils" className="org.andromda.core.common.StringUtilsHelper"/>
     <templateObject name="jsfUtils" className="org.andromda.cartridges.jsf.JSFUtils">
         <property reference="viewType"/>
+        <property reference="strictDateTimeFormat"/>
     </templateObject>
     <!-- cartridge-templateObject merge-point-->
 
@@ -56,6 +57,7 @@
     <property reference="toDoTag"/>
     <property reference="enableFaceletsDevelopmentSupport"/>
     <property reference="viewType"/>
+    <property reference="strictDateTimeFormat"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>

@@ -21,6 +21,7 @@ import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -197,7 +198,8 @@ public class JSFUtils
      */
     public static String getDateFormat(String format)
     {
-        return isStrictDateFormat(format) ? getToken(
+        format = StringUtils.trimToEmpty(format);
+        return format.endsWith(STRICT) ? getToken(
             format,
             1,
             2) : getToken(
@@ -205,13 +207,15 @@ public class JSFUtils
             0,
             1);
     }
+    
+    private static final String STRICT = "strict";
 
     /**
      * @return <code>true</code> if this field's value needs to conform to a strict date format, <code>false</code> otherwise
      */
     public static boolean isStrictDateFormat(String format)
     {
-        return "strict".equalsIgnoreCase(getToken(
+        return strictDateTimeFormat ? strictDateTimeFormat : STRICT.equalsIgnoreCase(getToken(
                 format,
                 0,
                 2));
@@ -851,7 +855,7 @@ public class JSFUtils
         else if ("date".equals(validatorType))
         {
             final String validatorFormat = JSFUtils.getInputFormat(element);
-            if (validatorFormat != null && JSFUtils.isStrictDateFormat(validatorFormat))
+            if (JSFUtils.isStrictDateFormat(validatorFormat))
             {
                 args.add("${var:datePatternStrict}");
             }
@@ -910,6 +914,21 @@ public class JSFUtils
         }
         return args;
     }
+    
+    /**
+     * Whether or not date patterns should be treated as strict.
+     */
+    private static boolean strictDateTimeFormat;
+    
+    /**
+     * Sets whether or not the dattern patterns should be treated as strict.
+     * 
+     * @param strictDateTimeFormat
+     */
+    public void setStrictDateTimeFormat(final boolean strictDateTimeFormat)
+    {
+        JSFUtils.strictDateTimeFormat = strictDateTimeFormat;
+    }
 
     /**
      * Indicates whether or not the format for this element is a strict date
@@ -919,7 +938,7 @@ public class JSFUtils
     public static boolean isStrictDateFormat(final ModelElementFacade element)
     {
         final String format = JSFUtils.getInputFormat(element);
-        return format != null && JSFUtils.isStrictDateFormat(format);
+        return JSFUtils.isStrictDateFormat(format);
     }
 
     /**
