@@ -5,9 +5,25 @@ package org.andromda.cartridges.hibernate.metafacades;
  * Stores Globals specific to the Hibernate cartridge.
  *
  * @author Chad Brandon
+ * @author Wouter Zoons
  */
 public class HibernateGlobals
 {
+    /**
+     * Denotes whether or not subclasses require their own mapping file.
+     */
+    static public final String HIBERNATE_MAPPING_STRATEGY = "hibernateMappingStrategy";
+
+    /**
+     * A mapping file per subclass.
+     */
+    static public final String HIBERNATE_MAPPING_STRATEGY_SUBCLASS = "subclass";
+
+    /**
+     * A mapping file per hierarchy.
+     */
+    static public final String HIBERNATE_MAPPING_STRATEGY_HIERARCHY = "hierachy";
+
     /**
      * Indicates if "XML Persistence" code generation is enabled. Requires Hibernate 3.
      */

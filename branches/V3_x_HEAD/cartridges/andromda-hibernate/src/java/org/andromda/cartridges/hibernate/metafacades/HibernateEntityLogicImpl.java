@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Martin West
  * @author Carlos Cuenca
  * @author Peter Friese
+ * @author Wouter Zoons
  */
 public class HibernateEntityLogicImpl
     extends HibernateEntityLogic
@@ -639,12 +640,14 @@ public class HibernateEntityLogicImpl
     protected boolean handleIsRequiresMapping()
     {
         final HibernateEntity superEntity = this.getSuperEntity();
-        final boolean requiresMapping = this.isRoot() &&
-        (
-            !this.isHibernateInheritanceInterface() || this.getSpecializations().isEmpty() ||
-            (superEntity != null && superEntity.isHibernateInheritanceInterface())
-        );
-        return requiresMapping;
+        return
+            HibernateUtils.mapSubclassesInSeparateFile(
+                (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_MAPPING_STRATEGY)) ||
+            this.isRoot() &&
+            (
+                !this.isHibernateInheritanceInterface() || this.getSpecializations().isEmpty() ||
+                (superEntity != null && superEntity.isHibernateInheritanceInterface())
+            );
     }
 
     /**
@@ -667,7 +670,9 @@ public class HibernateEntityLogicImpl
      */
     protected boolean handleIsRequiresSpecializationMapping()
     {
-        return this.isRoot() && (this.isHibernateInheritanceSubclass()
+        return !HibernateUtils.mapSubclassesInSeparateFile(
+            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_MAPPING_STRATEGY)) &&
+            this.isRoot() && (this.isHibernateInheritanceSubclass()
             || this.isHibernateInheritanceClass()
             || this.isHibernateInheritanceUnionSubClass());
     }
@@ -713,7 +718,7 @@ public class HibernateEntityLogicImpl
     }
 
     /**
-     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#getHibernateVersion()
+     * @see HibernateEntity#getHibernateVersionProperty()
      */
     protected String handleGetHibernateVersionProperty()
     {
@@ -756,6 +761,5 @@ public class HibernateEntityLogicImpl
 
         }
         return (StringUtils.isBlank(tagName)) ? null : tagName;
-    }    
-    
+    }
 }

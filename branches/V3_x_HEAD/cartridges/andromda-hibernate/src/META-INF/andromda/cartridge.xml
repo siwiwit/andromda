@@ -12,6 +12,7 @@
     <templateObject name="hibernateUtils" className="org.andromda.cartridges.hibernate.HibernateUtils">
         <property reference="hibernateVersion"/>
         <property reference="hibernateXMLPersistence"/>
+        <property reference="hibernateMappingStrategy"/>
     </templateObject>
     <!-- cartridge-templateObject merge-point-->
 
@@ -59,6 +60,9 @@
     <property reference="toDoTag"/>
 
     <!-- cartridge-property merge-point-->
+
+    <condition name="mapSubclassesInSeparateFile">$hibernateUtils.mapSubclassesInSeparateFile</condition>
+    <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
 

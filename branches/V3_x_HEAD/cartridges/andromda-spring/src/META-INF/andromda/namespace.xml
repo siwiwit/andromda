@@ -642,6 +642,19 @@
                     </ul>
                 </documentation>
             </property>
+            <property name="hibernateMappingStrategy">
+                <default>hierarchy</default>
+                <documentation>
+                    Denotes whether or not subclasses should be mapped into the same <code>.hbm.xml</code> file or
+                    in a separate one.
+                    <ul>
+                        <li>Set this value to <code>subclass</code> when you want to have a mapping file per entity</li>
+                        <li>The default is <code>hierarchy</code> which will render a mapping file per subclass</li>
+                    </ul>
+                    This information is important for the Spring cartridge because it needs to know which entities
+                    require a mapping file and which don't.
+                </documentation>
+            </property>
             <property name="hibernateXMLPersistence">
                 <default>false</default>
                 <documentation>

@@ -122,4 +122,23 @@ public class SpringHibernateUtils
         return isVersion3(hibernateVersionPropertyValue) &&
             "true".equalsIgnoreCase(hibernateXMLPersistencePropertyValue);
     }
+
+    private String hibernateMappingStrategy;
+
+    public void setHibernateMappingStrategy(String hibernateMappingStrategy)
+    {
+        this.hibernateMappingStrategy = hibernateMappingStrategy;
+    }
+
+    public boolean isMapSubclassesInSeparateFile()
+    {
+        return mapSubclassesInSeparateFile(this.hibernateMappingStrategy);
+    }
+
+    public static boolean mapSubclassesInSeparateFile(
+        String hibernateMappingStrategy)
+    {
+        // subclass or hierarchy
+        return SpringGlobals.HIBERNATE_MAPPING_STRATEGY_SUBCLASS.equalsIgnoreCase(hibernateMappingStrategy);
+    }
 }

@@ -34,6 +34,7 @@
         <mapping>
             <stereotype>ENTITY</stereotype>
         </mapping>
+        <property reference="hibernateMappingStrategy"/>
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEndLogicImpl">
         <mapping>

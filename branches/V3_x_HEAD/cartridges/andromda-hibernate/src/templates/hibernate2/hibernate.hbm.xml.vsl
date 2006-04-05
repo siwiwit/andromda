@@ -9,6 +9,9 @@
           "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
 
 <hibernate-mapping default-cascade="$entity.hibernateDefaultCascade">
+#if ($mapSubclassesInSeparateFile && $entity.generalization)
+#renderSubClass($entity "    ")
+#else
     <class name="$entity.fullyQualifiedEntityImplementationName" table="$entity.tableName"#if($entity.lazy) lazy="true"#end#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate"#if (!$entity.specializations.empty && $entity.hibernateInheritanceClass && !$entity.abstract) discriminator-value="$entity.entityImplementationName"#end>
 #if($hibernateEnableCache.equalsIgnoreCase("true"))
         <cache usage="$entity.hibernateCacheType" />
@@ -35,16 +38,17 @@
 ## If super inheritance is 'interface', render super properties etc
 #foreach ($generalization in $entity.allGeneralizations)
 #if($generalization.mappingRequiresSuperProperties)
-#renderPropertiesAndAssociations($generalization "" )
+#renderPropertiesAndAssociations($generalization "" "        ")
 #end
 #end
 ## render the properties and associations (if any)
-#renderPropertiesAndAssociations($entity "" )
+#renderPropertiesAndAssociations($entity "" "        ")
 ## render the subclass elements if class or subclass strategy.
 #if ($entity.requiresSpecializationMapping)
 #foreach ($entity in $entity.specializations)
-#renderSubClass($entity)
+#renderSubClass($entity "        ")
 #end## foreach
 #end## ($entity.requiresMappingSpecialization)
     </class>
+#end
 </hibernate-mapping>

@@ -9,6 +9,21 @@ package org.andromda.cartridges.spring.metafacades;
 public class SpringGlobals
 {   
     /**
+     * Denotes whether or not subclasses require their own mapping file.
+     */
+    static public final String HIBERNATE_MAPPING_STRATEGY = "hibernateMappingStrategy";
+
+    /**
+     * A mapping file per subclass.
+     */
+    static public final String HIBERNATE_MAPPING_STRATEGY_SUBCLASS = "subclass";
+
+    /**
+     * A mapping file per hierarchy.
+     */
+    static public final String HIBERNATE_MAPPING_STRATEGY_HIERARCHY = "hierachy";
+
+    /**
      * POJO implementation class suffix.
      */
     final static String IMPLEMENTATION_SUFFIX = "Impl";
