@@ -43,7 +43,7 @@
                             Make sure you have set the <code>JAVA_HOME</code> variable set
                             and it is pointing to the directory where you installed the JDK.
                             If not, add/edit the variable and set it to the correct value,
-                            e.g. C:/Program Files/Java/jdk1.5.0. You may add the variable
+                            e.g. C:\Program Files\Java\jdk1.5.0. You may add the variable
                             to the list of user variables or system variables.
                         </li>
                     </ol>
@@ -67,7 +67,7 @@
                         </li>
                         <li>
                             Install the downloaded binary. (We will assume you installed it in
-                            <code>C:/Program Files/Apache Software Foundation/Maven 1.0.2</code>)
+                            <code>C:\Program Files\Apache Software Foundation\Maven 1.0.2</code>)
                         </li>
                         <li>
                             If the installation would complain that the JAVA_HOME environment
@@ -78,7 +78,7 @@
                         <li>
                             Go to your <code>home</code> directory. (If your login is
                             <code>foo</code> this means here:
-                            <code>C:/Documents and Settings/foo</code>)
+                            <code>C:\Documents and Settings\foo</code>)
                         </li>
                         <li>
                             Create a file there, called <code>build.properties</code> and
@@ -106,13 +106,13 @@
                         </tr>
                         <tr>
                             <td>JAVA_HOME</td>
-                            <td>Java installation directory, e.g. <code>C:/Program Files/Java/jdk1.5.0</code></td>
+                            <td>Java installation directory, e.g. <code>C:\Program Files\Java/jdk1.5.0</code></td>
                             <td>Yes</td>
                         </tr>
                         <tr>
                             <td>MAVEN_HOME</td>
                             <td>Maven installation directory, e.g.
-                                <code>C:/Program Files/Apache Software Foundation/Maven 1.0.2</code>
+                                <code>C:\Program Files\Apache Software Foundation\Maven 1.0.2</code>
                                 (this may have already been set by the Maven installer)</td>
                             <td>Yes</td>
                         </tr>
@@ -127,7 +127,7 @@
                             <td>PATH</td>
                             <td>This makes sure the system will search for console commands in
                                 the directories listed here. If this property already exists you
-                                should simply add <code>%JAVA_HOME%/bin;%MAVEN_HOME%/bin</code>
+                                should simply add <code>%JAVA_HOME%\bin;%MAVEN_HOME%\bin</code>
                             </td>
                             <td>Yes</td>
                         </tr>
@@ -156,7 +156,7 @@
                 <p>
                     Notice that you will now have <code>maven-andromdapp-plugin-3.2-RC1-SNAPSHOT.jar</code>
                     installed at MAVEN_HOME/plugins
-                    (<code>C:/Program Files/Apache Software Foundation/Maven 1.0.2/plugins</code>
+                    (<code>C:\Program Files\Apache Software Foundation\Maven 1.0.2\plugins</code>
                     for this example).
                 </p>
             </subsection>
@@ -194,7 +194,7 @@
                         These are GUI based tools that will make your development much easier. Finally, download and unzip
                         <a href="http://dev.mysql.com/downloads/connector/j/3.1.html" target="_blank">MySQL Connector/J</a>
                         (the MySQL JDBC driver) in a convenient directory. For the purpose of this tutorial we will assume that
-                        you have installed the driver at <code>D:/Program Files/MySQL/mysql-connector-java-3.1.12</code>.</li>
+                        you have installed the driver at <code>C:\Program Files\MySQL\mysql-connector-java-3.1.12</code>.</li>
 
                         <li><strong>PostgreSQL 8.1:</strong> PostgreSQL is an open source database. You can download it from
                         <a href="http://www.postgresql.org/ftp/binary/v8.1.2/win32/" target="_blank">here</a>. The Postgres
