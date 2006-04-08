@@ -413,12 +413,16 @@ public class FrontEndActionLogicImpl
                     {
                         FrontEndParameter variable = (FrontEndParameter)parameter;
                         final String name = variable.getName();
-                        final FrontEndParameter existingVariable = (FrontEndParameter)formFieldMap.get(name);
-                        if (existingVariable != null)
+                        final Object existingParameter = formFieldMap.get(name);
+                        if (existingParameter instanceof FrontEndParameter)
                         {
-                            if (existingVariable.isTable())
+                            final FrontEndParameter existingVariable = (FrontEndParameter)existingParameter;
+                            if (existingVariable != null)
                             {
-                                variable = existingVariable;
+                                if (existingVariable.isTable())
+                                {
+                                    variable = existingVariable;
+                                }
                             }
                         }
                         formFieldMap.put(
@@ -448,10 +452,14 @@ public class FrontEndActionLogicImpl
         final Collection actionParameters = this.getParameters();
         for (final Iterator parameterIterator = actionParameters.iterator(); parameterIterator.hasNext();)
         {
-            FrontEndParameter variable = (FrontEndParameter)parameterIterator.next();
-            formFieldMap.put(
-                variable.getName(),
-                variable);
+            final Object parameter = parameterIterator.next();
+            if (parameter instanceof FrontEndParameter)
+            {
+                final FrontEndParameter variable = (FrontEndParameter)parameter;
+                formFieldMap.put(
+                    variable.getName(),
+                    variable);
+            }
         }
 
         // - if we don't have any fields defined on this action and there are no action forwards, 

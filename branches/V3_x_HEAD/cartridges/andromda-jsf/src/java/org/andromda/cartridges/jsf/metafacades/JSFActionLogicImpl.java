@@ -496,11 +496,15 @@ public class JSFActionLogicImpl
         final Collection actionParameters = this.getParameters();
         for (final Iterator iterator = actionParameters.iterator(); iterator.hasNext();)
         {
-            final JSFParameter parameter = (JSFParameter)iterator.next();
-            if (parameter.isValidationRequired())
+            final Object object = iterator.next();
+            if (object instanceof JSFParameter)
             {
-                required = true;
-                break;
+                final JSFParameter parameter = (JSFParameter)object;
+                if (parameter.isValidationRequired())
+                {
+                    required = true;
+                    break;
+                }
             }
         }
         return required;
