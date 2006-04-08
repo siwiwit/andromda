@@ -408,19 +408,23 @@ public class FrontEndActionLogicImpl
                 {
                     // - don't allow existing parameters that are tables be overwritten (since they take
                     //   precedence
-                    FrontEndParameter variable = (FrontEndParameter)actionParameterIterator.next();
-                    final String name = variable.getName();
-                    final FrontEndParameter existingVariable = (FrontEndParameter)formFieldMap.get(name);
-                    if (existingVariable != null)
+                    final Object parameter = actionParameterIterator.next();
+                    if (parameter instanceof FrontEndParameter)
                     {
-                        if (existingVariable.isTable())
+                        FrontEndParameter variable = (FrontEndParameter)parameter;
+                        final String name = variable.getName();
+                        final FrontEndParameter existingVariable = (FrontEndParameter)formFieldMap.get(name);
+                        if (existingVariable != null)
                         {
-                            variable = existingVariable;
+                            if (existingVariable.isTable())
+                            {
+                                variable = existingVariable;
+                            }
                         }
+                        formFieldMap.put(
+                            name,
+                            variable);
                     }
-                    formFieldMap.put(
-                        name,
-                        variable);
                 }
             }
             else if (target instanceof FrontEndFinalState)
