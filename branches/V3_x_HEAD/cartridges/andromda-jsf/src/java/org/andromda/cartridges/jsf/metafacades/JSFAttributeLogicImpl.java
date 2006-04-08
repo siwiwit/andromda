@@ -327,17 +327,21 @@ public class JSFAttributeLogicImpl
                         for (final Iterator parameterIterator = parameters.iterator();
                             parameterIterator.hasNext() && !selectable;)
                         {
-                            final JSFParameter parameter = (JSFParameter)parameterIterator.next();
-                            final String parameterName = parameter.getName();
-                            final ClassifierFacade parameterType = parameter.getType();
-                            if (parameterType != null)
+                            final Object object = parameterIterator.next();
+                            if (object instanceof JSFParameter)
                             {
-                                final String parameterTypeName = parameterType.getFullyQualifiedName();
-                                if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                                final JSFParameter parameter = (JSFParameter)object;
+                                final String parameterName = parameter.getName();
+                                final ClassifierFacade parameterType = parameter.getType();
+                                if (parameterType != null)
                                 {
-                                    selectable =
-                                        parameter.isInputMultibox() || parameter.isInputSelect() ||
-                                        parameter.isInputRadio();
+                                    final String parameterTypeName = parameterType.getFullyQualifiedName();
+                                    if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                                    {
+                                        selectable =
+                                            parameter.isInputMultibox() || parameter.isInputSelect() ||
+                                            parameter.isInputRadio();
+                                    }
                                 }
                             }
                         }
@@ -354,10 +358,14 @@ public class JSFAttributeLogicImpl
                     final Collection formFields = action.getFormFields();
                     for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !selectable;)
                     {
-                        final JSFParameter parameter = (JSFParameter)fieldIterator.next();
-                        if (name.equals(parameter.getName()))
+                        final Object object = fieldIterator.next();
+                        if (object instanceof JSFParameter)
                         {
-                            selectable = parameter.isSelectable();
+                            final JSFParameter parameter = (JSFParameter)object;
+                            if (name.equals(parameter.getName()))
+                            {
+                                selectable = parameter.isSelectable();
+                            }
                         }
                     }
                 }
@@ -634,15 +642,19 @@ public class JSFAttributeLogicImpl
                         for (final Iterator parameterIterator = parameters.iterator();
                             parameterIterator.hasNext() && !required;)
                         {
-                            final JSFParameter parameter = (JSFParameter)parameterIterator.next();
-                            final String parameterName = parameter.getName();
-                            final ClassifierFacade parameterType = parameter.getType();
-                            if (parameterType != null)
+                            final Object object = parameterIterator.next();
+                            if (object instanceof JSFParameter)
                             {
-                                final String parameterTypeName = parameterType.getFullyQualifiedName();
-                                if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                                final JSFParameter parameter = (JSFParameter)object;
+                                final String parameterName = parameter.getName();
+                                final ClassifierFacade parameterType = parameter.getType();
+                                if (parameterType != null)
                                 {
-                                    required = parameter.isInputTable();
+                                    final String parameterTypeName = parameterType.getFullyQualifiedName();
+                                    if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                                    {
+                                        required = parameter.isInputTable();
+                                    }
                                 }
                             }
                         }
@@ -659,10 +671,14 @@ public class JSFAttributeLogicImpl
                     final Collection formFields = action.getFormFields();
                     for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !required;)
                     {
-                        final JSFParameter parameter = (JSFParameter)fieldIterator.next();
-                        if (name.equals(parameter.getName()))
+                        final Object object = fieldIterator.next();
+                        if (object instanceof JSFParameter)
                         {
-                            required = parameter.isBackingValueRequired();
+                            final JSFParameter parameter = (JSFParameter)object;
+                            if (name.equals(parameter.getName()))
+                            {
+                                required = parameter.isBackingValueRequired();
+                            }
                         }
                     }
                 }
