@@ -27,7 +27,7 @@
 #set ($noSortColumnCondition = "empty $noSortColumnProperty")
 <c:if test="${${noSortColumnCondition}}">
 #set ($targetColumns = $table.targettedTableColumnNames)
-<h:panelGrid columns="3" columnClasses="standardTableColumnCentered" >
+<h:panelGrid columns="3" columnClasses="dataTableColumn" >
     <t:dataScroller id="${table.name}Scroller1"
             for="$table.name"
             fastStep="10"
@@ -78,11 +78,11 @@
 </h:panelGrid>
 
 <t:dataTable id="$table.name"
-        styleClass="scrollerTable"
-        headerClass="standardTableHeader"
-        footerClass="standardTableHeader"
-        rowClasses="standardTableRow1,standardTableRow2"
-        columnClasses="standardTableColumnCentered"
+        styleClass="dataTable"
+        headerClass="dataTableHeader"
+        headerClass="dataTableFooter"
+        rowClasses="rowOdd,rowEven"
+        columnClasses="dataTableColumn"
         var="row"
         value="#{${table.name}}"
         sortColumn="#{${actionFormKey}.${table.tableSortColumnProperty}}"

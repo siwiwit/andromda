@@ -30,7 +30,7 @@
     font-weight: bold;
 }
 
-.scrollerTable
+.dataTable
 {
     font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
     font-size: 12px;
@@ -64,17 +64,7 @@
     font-size: 12px;
 }
 
-.standardTable
-{
-    font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    padding: 2;
-    border-style: solid;
-    border-color: #6392C6;
-    border-width: 1px;
-}
-
-.standardTableHeader
+.dataTableHeader
 {
     color: #000000;
     background-color: #E7EFF7;
@@ -85,33 +75,26 @@
     text-align: center;
 }
 
-.standardTableSortHeader
-{
-    background-color: #FFDD00;
-    color: #000000;
-    padding: 3;
-    text-align: center;
-    border: none;
-    font-weight: bold;
-}
-
-.standardTableFooter
+.dataTableFooter
 {
     background-color: #FFFFE0;
 }
 
-.standardTableRowOdd
+table.dataTable tbody tr.rowEven td 
 {
-    background-color: #FFFFE0;
+    background: #ffffff url('../images/td_back.gif') repeat-x; 
+    text-align: left;
 }
 
-.standardTableRowEven
+table.dataTable tbody tr.rowOdd td 
 {
-    background-color: #FFFFE0;
-}
+    background: #fcfcfc url('../images/td_back.gif') repeat-x; 
+    text-align: left;
+} 
 
-.standardTableColumn
+table.dataTable tbody tr:hover td 
 {
+    background: #f7f7f7; color: #000;
 }
 
 .loginText
@@ -147,7 +130,7 @@
    font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 
-.standardTableColumnCentered
+.dataTableColumn
 {
     text-align: center
 }
