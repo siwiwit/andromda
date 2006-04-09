@@ -85,13 +85,13 @@ public abstract class AbstractHighlightTag
         {
             AttributesImpl attributes = new AttributesImpl();
             attributes.addAttribute("", "class", "class", "string", cssClass);
-            output.startElement("span", attributes);
+            output.startElement("div", attributes);
         }
     }
 
     protected void endTokenHighlight(XMLOutput output) throws SAXException
     {
-        output.endElement("span");
+        output.endElement("div");
     }
 
     public String getValue()
