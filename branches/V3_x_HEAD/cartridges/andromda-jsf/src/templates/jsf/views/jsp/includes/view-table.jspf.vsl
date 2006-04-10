@@ -72,7 +72,7 @@
 <t:dataTable id="$table.name"
         styleClass="dataTable"
         headerClass="dataTableHeader"
-        headerClass="dataTableFooter"
+        footerClass="dataTableFooter"
         rowClasses="rowOdd,rowEven"
         columnClasses="dataTableColumn"
         var="row"
