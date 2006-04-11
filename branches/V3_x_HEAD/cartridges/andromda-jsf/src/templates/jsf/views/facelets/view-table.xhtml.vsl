@@ -89,7 +89,8 @@
         sortAscending="#{${actionFormKey}.${table.tableSortAscendingProperty}}"
         preserveDataModel="false"
         preserveSort="true"
-        rows="10">
+        rows="10"
+        cellspacing="0" cellpadding="2">
 #if (!$table.tableColumns.empty)
 #foreach ($column in $table.tableColumns)
 #if($column.name)

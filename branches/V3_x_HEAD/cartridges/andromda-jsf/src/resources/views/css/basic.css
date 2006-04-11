@@ -70,8 +70,8 @@
     background-color: #E7EFF7;
     border-color: #6392C6;
     padding: 2px;
-    border-width: 1px;
-    border-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
     text-align: center;
 }
 
