@@ -53,8 +53,8 @@
             <to>${applicationId}.xmi.vsl</to>
         </mapping>
         <mapping>
-            <from>app/src/main/config/jboss-datasource.xml</from>
-            <to>app/src/main/config/${applicationId}-ds.xml</to>
+            <from>app/src/main/config/jboss-datasource.xml.vsl</from>
+            <to>app/src/main/config/${applicationId}-ds.xml.vsl</to>
         </mapping>
         <mapping>
             <from>ejb-jar.xml</from>
