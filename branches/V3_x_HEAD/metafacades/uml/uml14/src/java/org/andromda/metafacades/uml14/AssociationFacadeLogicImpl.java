@@ -66,20 +66,42 @@ public class AssociationFacadeLogicImpl
     }
 
 	/**
-     * @see org.andromda.metafacades.uml14.AssociationFacadeLogic#handleIsAssociationClass()
+     * @see org.andromda.metafacades.uml.AssociationFacade#isAssociationClass()
      */
     protected boolean handleIsAssociationClass()
     {
         return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#getAssociationEndA()
+     */
     protected Object handleGetAssociationEndA()
     {
         return this.getAssociationEnds().get(0);
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#getAssociationEndB()
+     */
     protected Object handleGetAssociationEndB()
     {
         return this.getAssociationEnds().get(1);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#isAbstract()
+     */
+    protected boolean handleIsAbstract()
+    {
+        return this.metaObject.isAbstract();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#isLeaf
+     */
+    protected boolean handleIsLeaf()
+    {
+        return this.metaObject.isLeaf();
     }
 }

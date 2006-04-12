@@ -51,14 +51,21 @@ public class AssociationFacadeLogicImpl
         return null;
     }
 
-    protected Object handleGetAssociationEndA()
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#isAbstract()
+     */
+    protected boolean handleIsAbstract()
     {
-        return this.getAssociationEnds().get(0);
+        // TODO: add your implementation here!
+        return false;
     }
 
-    protected Object handleGetAssociationEndB()
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#isLeaf
+     */
+    protected boolean handleIsLeaf()
     {
-        return this.getAssociationEnds().get(1);
+        // TODO: add your implementation here!
+        return false;
     }
-
 }
