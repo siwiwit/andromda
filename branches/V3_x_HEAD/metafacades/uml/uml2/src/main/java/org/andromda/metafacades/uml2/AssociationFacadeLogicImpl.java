@@ -68,4 +68,16 @@ public class AssociationFacadeLogicImpl
         // TODO: add your implementation here!
         return false;
     }
+
+    protected Object handleGetAssociationEndA()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    protected Object handleGetAssociationEndB()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
