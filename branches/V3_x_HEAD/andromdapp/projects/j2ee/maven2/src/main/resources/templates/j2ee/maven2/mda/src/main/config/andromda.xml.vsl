@@ -101,6 +101,13 @@
                 <property name="hibernateAssociationCache">TRANSACTIONAL</property>
                 -->
                 <property name="enableClustering">false</property>
+#if ($jsr181Webservice)
+                <property name="webServiceEnabled">true</property>
+#else
+                <property name="webServiceEnabled">false</property>
+#end
+                <property name="webServiceContextRoot">/${application.id}-ws</property>
+                <property name="webServiceUrlPattern">/services</property>
             </properties>
         </namespace>
 #elseif ($hibernate)
@@ -226,7 +233,7 @@
             </properties>
         </namespace>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
         <namespace name="webservice">
             <properties>
                 <property name="axisVersion">$axisVersion</property>
@@ -257,7 +264,7 @@
 #end
         <namespace name="java">
             <properties>
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
                 <property name="languageMappingsUri">AxisJavaMappings</property>
                 <property name="useArraysForMultiplicitiesOfTypeMany">true</property>
 #end
@@ -300,7 +307,7 @@
 #elseif ($jsf)
         <namespace name="jsf">
             <properties>
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
                 <property name="languageMappingsUri">AxisJavaMappings</property>
 #end
                 <property name="viewType">$viewType</property>

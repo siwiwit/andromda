@@ -135,6 +135,12 @@
             <groupId>org.jboss</groupId>
             <artifactId>jboss-aspect-library-jdk50</artifactId>
         </dependency>
+#if ($jsr181Webservice)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jbossws-client</artifactId>
+        </dependency>
+#end
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>
@@ -153,7 +159,7 @@
             <groupId>org.andromda</groupId>
             <artifactId>andromda-script-wrappers</artifactId>
         </dependency>
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
 #if ($axisVersion.equals("1"))
         <dependency>
             <groupId>axis</groupId>

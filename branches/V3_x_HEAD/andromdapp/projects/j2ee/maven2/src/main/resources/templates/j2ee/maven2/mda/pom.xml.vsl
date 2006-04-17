@@ -44,7 +44,7 @@
             <artifactId>andromda-jbpm-cartridge</artifactId>
         </dependency>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
         <dependency>
             <groupId>org.andromda.cartridges</groupId>
             <artifactId>andromda-webservice-cartridge</artifactId>
@@ -139,7 +139,7 @@
         <workflow.generated.dir>${pom.basedir}/../workflow/target/src</workflow.generated.dir>
         <workflow.manual.dir>${pom.basedir}/../workflow/src/main</workflow.manual.dir>    
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
 #if ($war)
         <webservice.generated.dir>${web.generated.dir}</webservice.generated.dir>
 #else

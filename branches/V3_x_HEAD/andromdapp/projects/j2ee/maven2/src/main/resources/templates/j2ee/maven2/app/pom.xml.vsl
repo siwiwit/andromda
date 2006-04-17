@@ -64,7 +64,7 @@
             <type>war</type>
         </dependency>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-webservice</artifactId>
@@ -126,7 +126,7 @@
                             <contextRoot>/${application.id}</contextRoot>
                         </webModule>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
                         <webModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-webservice</artifactId>
