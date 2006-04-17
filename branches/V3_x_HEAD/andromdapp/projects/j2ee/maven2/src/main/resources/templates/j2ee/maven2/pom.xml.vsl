@@ -111,7 +111,7 @@
                 <scope>runtime</scope>
             </dependency>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-webservice-cartridge</artifactId>
@@ -213,79 +213,93 @@
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-j2ee</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jbossall-client</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-ejb3</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-ejb3x</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>ejb3-persistence</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-annotations-ejb3</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-serialization</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-remoting</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jnp-client</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-aop-jdk50</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-aspect-library-jdk50</artifactId>
-                <version>4.0.4-RC1</version>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+#if ($jsr181Webservice)
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jbossws-client</artifactId>
+                <version>4.0.4-CR2</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-jaxrpc</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+#end
+            <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate</artifactId>
-                <version>3</version>
+                <version>3.2.0-CR1</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-annotations</artifactId>
-                <version>3</version>
+                <version>3.2.0-CR1</version>
                 <scope>provided</scope>
             </dependency>
 #else
@@ -531,7 +545,7 @@
                 <scope>runtime</scope>
             </dependency>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
 #if ($axisVersion.equals("1"))
             <dependency>
                 <groupId>axis</groupId>
@@ -745,7 +759,7 @@
 #if ($web || $war)
         <module>web</module>
 #end
-#if ($webservice && $ear)
+#if ($webservice && !$jsr181Webservice && $ear)
         <module>webservice</module>
 #end
 #if ($workflow)
