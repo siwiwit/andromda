@@ -58,6 +58,7 @@
     <property reference="enableFaceletsDevelopmentSupport"/>
     <property reference="viewType"/>
     <property reference="strictDateTimeFormat"/>
+    <property reference="libraries"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
@@ -65,6 +66,7 @@
     <condition name="faceletsDevelopmentSupportEnabled">
         #if ($viewType.equalsIgnoreCase("facelets") &amp;&amp; $enableFaceletsDevelopmentSupport.equalsIgnoreCase("true"))true#end
     </condition>
+    <condition name="outputLibraries">$stringUtils.isNotBlank($libraries)</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->

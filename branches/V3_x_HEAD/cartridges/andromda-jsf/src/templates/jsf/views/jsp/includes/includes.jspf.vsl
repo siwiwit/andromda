@@ -1,6 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+#if ($outputLibraries)
+<%@ taglib uri="http://myfaces.apache.org/tomahawk" prefix="t"%>
+#else
 <%@ taglib uri="http://myfaces.apache.org/extensions" prefix="t"%>
+#end
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="xm" %>

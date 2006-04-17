@@ -107,7 +107,11 @@
     <!-- Extensions Filter -->
     <filter>
         <filter-name>extensionsFilter</filter-name>
+#if ($outputLibraries)
         <filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
+#else
+        <filter-class>org.apache.myfaces.component.html.util.ExtensionsFilter</filter-class>
+#end
         <init-param>
             <description>
                 Set the size limit for uploaded files.
