@@ -258,4 +258,12 @@ public class EntityLogicImpl
         return null;
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.Entity#getSchema()
+     */
+    protected String handleGetSchema()
+    {
+        // TODO: put your implementation here.
+        return null;
+    }
 }

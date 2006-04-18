@@ -29,6 +29,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.uml2.Property;
 import org.eclipse.uml2.Stereotype;
 import org.eclipse.uml2.Type;
@@ -168,7 +169,9 @@ public class EntityLogicImpl
         {
             ((org.eclipse.uml2.Classifier)metaObject).getModel();
             final String actualType = type;
-            final Object modelElement = UmlUtilities.findByName(umlClass.eResource().getResourceSet(), actualType);
+            final Object modelElement = UmlUtilities.findByName(
+                    umlClass.eResource().getResourceSet(),
+                    actualType);
             if (modelElement instanceof Type)
             {
                 Type element = (Type)modelElement;
@@ -191,7 +194,8 @@ public class EntityLogicImpl
                     kind = VisibilityKind.PROTECTED_LITERAL;
                 }
                 property.setVisibility(kind);
-                Stereotype stereotype = UmlUtilities.findApplicableStereotype(
+                Stereotype stereotype =
+                    UmlUtilities.findApplicableStereotype(
                         property,
                         UMLProfile.STEREOTYPE_IDENTIFIER);
                 if (stereotype == null)
@@ -796,5 +800,18 @@ public class EntityLogicImpl
                        .booleanValue();
         }
         return assigned;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Entity#getSchema()
+     */
+    protected String handleGetSchema()
+    {
+        String schemaName = ObjectUtils.toString(this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_SCHEMA));
+        if (StringUtils.isBlank(schemaName))
+        {
+            schemaName = ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.SCHEMA_NAME));
+        }
+        return schemaName;
     }
 }

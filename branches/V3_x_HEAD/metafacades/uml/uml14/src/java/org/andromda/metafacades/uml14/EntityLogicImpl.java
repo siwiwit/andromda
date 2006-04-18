@@ -29,6 +29,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Classifier;
 
@@ -741,5 +742,18 @@ public class EntityLogicImpl
                        .booleanValue();
         }
         return assigned;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Entity#getSchema()
+     */
+    protected String handleGetSchema()
+    {
+        String schemaName = ObjectUtils.toString(this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_SCHEMA));
+        if (StringUtils.isBlank(schemaName))
+        {
+            schemaName = ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.SCHEMA_NAME));
+        }
+        return schemaName;
     }
 }

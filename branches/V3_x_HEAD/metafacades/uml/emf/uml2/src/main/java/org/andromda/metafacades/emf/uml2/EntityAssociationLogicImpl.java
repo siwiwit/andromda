@@ -9,6 +9,7 @@ import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -57,5 +58,18 @@ public class EntityAssociationLogicImpl
             }
         }
         return tableName;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityAssociation#getSchema()
+     */
+    protected String handleGetSchema()
+    {
+        String schemaName = ObjectUtils.toString(this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_SCHEMA));
+        if (StringUtils.isBlank(schemaName))
+        {
+            schemaName = ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.SCHEMA_NAME));
+        }
+        return schemaName;
     }
 }

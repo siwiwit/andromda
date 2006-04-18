@@ -173,6 +173,12 @@
                 <documentation>Represents an external hyperlink (i.e. to an external website for example).</documentation>
                 <value>hyperlinkTextActive</value>
             </element>
+            <element name="PERSISTENCE_SCHEMA">
+                <documentation>
+                    The name of the persistence schema that contains the table.
+                </documentation>
+                <value>@andromda.persistence.schema</value>
+            </element>
             <element name="PERSISTENCE_TABLE">
                 <documentation>
                     The name of the table corresponding to this entity in the persistent store.

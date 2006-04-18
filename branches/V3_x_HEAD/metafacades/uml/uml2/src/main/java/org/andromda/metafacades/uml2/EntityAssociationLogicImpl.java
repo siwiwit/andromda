@@ -1,6 +1,8 @@
 package org.andromda.metafacades.uml2;
 
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.apache.commons.lang.ObjectUtils;
 
 
 /**
@@ -21,6 +23,15 @@ public class EntityAssociationLogicImpl
      * @see org.andromda.metafacades.uml.EntityAssociation#getTableName()
      */
     protected java.lang.String handleGetTableName()
+    {
+        // TODO: put your implementation here.
+        return null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityAssociation#getSchema()
+     */
+    protected String handleGetSchema()
     {
         // TODO: put your implementation here.
         return null;

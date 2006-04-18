@@ -17,6 +17,11 @@ public class UMLMetafacadeProperties
      * where possible.
      */
     public static final String ENABLE_TEMPLATING = "enableTemplating";
+
+    /**
+     * Stores the property defining the default schema name for entity tables.
+     */
+    public static final String SCHEMA_NAME = "schemaName";
     
     /**
      * Stores the property defining the prefix for entity table names.

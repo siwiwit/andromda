@@ -155,6 +155,11 @@ public class UMLProfile
     public static final String TAGGEDVALUE_EXTERNAL_HYPERLINK = profile.get("EXTERNAL_HYPERLINK");
 
     /**
+     * Represents the name of the schema for entity persistence.
+     */
+    public static final String TAGGEDVALUE_PERSISTENCE_SCHEMA = profile.get("PERSISTENCE_SCHEMA");
+
+    /**
      * Represents a relational table name for entity persistence.
      */
     public static final String TAGGEDVALUE_PERSISTENCE_TABLE = profile.get("PERSISTENCE_TABLE");
