@@ -210,7 +210,6 @@
     </servlet>
 
     <!-- precompilation merge-point -->
-    <!-- servlet-mapping merge-point -->
     <servlet-mapping>
         <servlet-name>AndroMDA JSF Servlet</servlet-name>
         <url-pattern>/jsf/*</url-pattern>
