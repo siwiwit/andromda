@@ -12,6 +12,7 @@ import java.util.Set;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.FilteredCollection;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.OperationFacade;
@@ -24,12 +25,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.uml2.Abstraction;
 import org.eclipse.uml2.Association;
 import org.eclipse.uml2.AssociationClass;
 import org.eclipse.uml2.DataType;
+import org.eclipse.uml2.Enumeration;
 import org.eclipse.uml2.Interface;
 import org.eclipse.uml2.PrimitiveType;
 import org.eclipse.uml2.Property;
+
 
 
 /**
@@ -352,7 +356,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected boolean handleIsEnumeration()
     {
-        return this.hasStereotype(UMLProfile.STEREOTYPE_ENUMERATION);
+        return (this.hasStereotype(UMLProfile.STEREOTYPE_ENUMERATION)) || (this.metaObject instanceof Enumeration);
     }
 
     /**
@@ -615,10 +619,11 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetOperations()
     {
-        if (metaObject instanceof org.eclipse.uml2.Class)
+        if (this.metaObject instanceof org.eclipse.uml2.Class || 
+                this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             return UmlUtilities.getOperations(
-                (org.eclipse.uml2.Class)metaObject,
+                metaObject,
                 false);
         }
         return null;
@@ -630,10 +635,11 @@ public class ClassifierFacadeLogicImpl
     protected java.util.Collection handleGetAttributes()
     {
         final Collection attributes = new ArrayList();
-        if (this.metaObject instanceof org.eclipse.uml2.Class)
+        if (this.metaObject instanceof org.eclipse.uml2.Class || 
+                this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             final Collection properties = UmlUtilities.getProperties(
-                    (org.eclipse.uml2.Class)metaObject,
+                    metaObject,
                     false,
                     false);
             for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
@@ -657,10 +663,11 @@ public class ClassifierFacadeLogicImpl
     protected java.util.List handleGetAssociationEnds()
     {
         final List associationEnds = new ArrayList();
-        if (this.metaObject instanceof org.eclipse.uml2.Class)
+        if (this.metaObject instanceof org.eclipse.uml2.Class ||
+                this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             final Collection properties = UmlUtilities.getProperties(
-                    (org.eclipse.uml2.Class)metaObject,
+                    metaObject,
                     false,
                     false);
             for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
@@ -727,7 +734,7 @@ public class ClassifierFacadeLogicImpl
     protected java.util.Collection handleGetStaticAttributes()
     {
         Collection c = UmlUtilities.getProperties(
-                (org.eclipse.uml2.Class)metaObject,
+                metaObject,
                 false,
                 false);
         ArrayList stats = new ArrayList();
@@ -789,8 +796,13 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetAbstractions()
     {
-        // TODO: add your implementation here!
-        return null;
+        return new FilteredCollection(this.metaObject.getClientDependencies())
+        {
+            public boolean evaluate(Object object)
+            {
+                return object instanceof Abstraction;
+            }
+        };
     }
 
     /**
@@ -860,14 +872,53 @@ public class ClassifierFacadeLogicImpl
 
     protected Collection handleGetInterfaceAbstractions()
     {
-        // TODO Auto-generated method stub
-        return null;
+        final Collection interfaceAbstractions = new LinkedHashSet();
+        if (this.getAbstractions() != null)
+        {
+            for (Iterator abstractionIterator = this.getAbstractions().iterator(); abstractionIterator.hasNext();)
+            {
+                final DependencyFacade abstraction = (DependencyFacade)abstractionIterator.next();
+                final ModelElementFacade element = abstraction.getTargetElement();
+
+                if (element instanceof ClassifierFacade)
+                {
+                    final ClassifierFacade classifier = (ClassifierFacade)element;
+                    if (classifier.isInterface())
+                    {
+                        interfaceAbstractions.add(classifier);
+                    }
+                }
+            }
+        }
+
+        return interfaceAbstractions;
     }
 
     protected String handleGetImplementedInterfaceList()
     {
-        // TODO Auto-generated method stub
-        return null;
+        final String interfaceList;
+
+        final Collection interfaces = this.getInterfaceAbstractions();
+        if (interfaces.isEmpty())
+        {
+            interfaceList = "";
+        }
+        else
+        {
+            final StringBuffer list = new StringBuffer();
+            for (final Iterator iterator = interfaces.iterator(); iterator.hasNext();)
+            {
+                final ModelElementFacade element = (ModelElementFacade)iterator.next();
+                list.append(element.getFullyQualifiedName());
+                if (iterator.hasNext())
+                {
+                    list.append(", ");
+                }
+            }
+            interfaceList = list.toString();
+        }
+
+        return interfaceList;
     }
 
     protected Object handleFindTaggedValue(
