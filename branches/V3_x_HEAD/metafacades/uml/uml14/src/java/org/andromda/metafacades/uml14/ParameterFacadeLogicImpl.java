@@ -186,4 +186,22 @@ public class ParameterFacadeLogicImpl
     {
         return ParameterDirectionKindEnum.PDK_INOUT.equals(this.metaObject.getKind());
     }
+    
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper() {
+        this.logger.error("getLower() not support for UML14");
+        return 0;
+    }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower() {
+        this.logger.error("getUpper() not support for UML14");
+        return -1;
+    }
 }

@@ -9,7 +9,11 @@ import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.Enumeration;
+import org.eclipse.uml2.NamedElement;
+import org.eclipse.uml2.Type;
+import org.eclipse.uml2.UML2Factory;
 
 
 /**
@@ -99,7 +103,33 @@ public class EnumerationFacadeLogicImpl
             }
             else
             {
-                throw new MetafacadeException("Note that real Literals are not supported yet.");
+                NamedElement enumeration = (NamedElement)metaObject;
+
+                //fake a primitive type called string to return. This should work...
+                //if not we will need to pass in a type qName as a parameter and search for it
+                Type syntheticType = UML2Factory.eINSTANCE.createPrimitiveType();
+                syntheticType.setName("string");
+
+                //for example:
+//                final String syntheticTypeName = "MODEL-TYPES::string";
+//                final Object syntheticType =
+//                    UmlUtilities.findByName(
+//                        enumeration.eResource().getResourceSet(),
+//                        syntheticTypeName);
+                if (syntheticType instanceof Type)
+                {
+                    type = syntheticType;
+                    if (((Type)type).eIsProxy())
+                    {
+                        EcoreUtil.resolve(
+                            (Type)type,
+                            enumeration.eResource().getResourceSet());
+                    }
+                }
+                else
+                {
+                    throw new MetafacadeException("Note that real Literals are not supported yet.");
+                }
             }
         }
         return type;

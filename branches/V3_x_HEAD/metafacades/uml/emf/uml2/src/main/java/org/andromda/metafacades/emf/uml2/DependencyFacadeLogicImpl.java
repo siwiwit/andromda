@@ -1,5 +1,9 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.andromda.metafacades.uml.UMLMetafacadeUtils;
+import org.andromda.utils.StringUtilsHelper;
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.DependencyFacade.
@@ -17,12 +21,28 @@ public class DependencyFacadeLogicImpl
     }
 
     /**
+     * Gets the name in the following manner. <ol> <li>If the dependency has a name return it.</li> <li>If the
+     * dependency does <strong>NOT </strong> have a name, get the target element's and return its name
+     * uncapitalized.</li> </ol>
+     *
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
+     */
+    public String handleGetName()
+    {
+        String name = super.handleGetName();
+        if (StringUtils.isBlank(name) && this.getTargetElement() != null)
+        {
+            name = StringUtils.uncapitalize(this.getTargetElement().getName());
+        }
+        return name;
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.DependencyFacade#getGetterName()
      */
     protected java.lang.String handleGetGetterName()
     {
-        // TODO: put your implementation here.
-        return null;
+        return "get" + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -30,8 +50,7 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.String handleGetSetterName()
     {
-        // TODO: put your implementation here.
-        return null;
+        return "set" + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -39,8 +58,7 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.Object handleGetTargetElement()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getTargets().toArray()[0];
     }
 
     /**
@@ -48,7 +66,6 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.Object handleGetSourceElement()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getClients().toArray()[0];
     }
 }
