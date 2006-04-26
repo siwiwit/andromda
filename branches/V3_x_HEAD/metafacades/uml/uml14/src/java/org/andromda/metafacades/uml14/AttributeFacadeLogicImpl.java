@@ -3,7 +3,10 @@ package org.andromda.metafacades.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.andromda.core.common.ExceptionUtils;
+import org.andromda.core.metafacade.MetafacadeImplsException;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EnumerationFacade;
 import org.andromda.metafacades.uml.NameMasker;
@@ -340,17 +343,17 @@ public class AttributeFacadeLogicImpl
      * Get the UML upper multiplicity
      * Not implemented for UML1.4
      */
-    protected int handleGetUpper() {
-        this.logger.error("getLower() not support for UML14");
-        return 0;
+    protected int handleGetUpper()
+    {
+        throw new MetafacadeImplsException(new OperationNotSupportedException("'upper' is not a UML1.4 feature"));
     }
 
     /**
      * Get the UML lower multiplicity
      * Not implemented for UML1.4
      */
-    protected int handleGetLower() {
-        this.logger.error("getUpper() not support for UML14");
-        return -1;
+    protected int handleGetLower()
+    {
+        throw new MetafacadeImplsException(new OperationNotSupportedException("'lower' is not a UML1.4 feature"));
     }
 }
