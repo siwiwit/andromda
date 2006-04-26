@@ -345,8 +345,8 @@ public class AttributeFacadeLogicImpl
      */
     protected int handleGetUpper()
     {
-        throw new MetafacadeImplsException(new OperationNotSupportedException("'upper' is not a UML1.4 feature"));
-    }
+        throw new java.lang.UnsupportedOperationException("'upper' is not a UML1.4 feature");
+     }
 
     /**
      * Get the UML lower multiplicity
@@ -354,6 +354,6 @@ public class AttributeFacadeLogicImpl
      */
     protected int handleGetLower()
     {
-        throw new MetafacadeImplsException(new OperationNotSupportedException("'lower' is not a UML1.4 feature"));
+        throw new java.lang.UnsupportedOperationException("'lower' is not a UML1.4 feature");
     }
 }
