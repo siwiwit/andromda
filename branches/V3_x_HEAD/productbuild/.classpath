@@ -52,10 +52,6 @@
 	<classpathentry kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.2.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-collections/jars/commons-collections-3.1.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/mdr/jars/jmiutils-20040826.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/mdr/jars/mdrapi-20040826.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/mdr/jars/nbmdr-20040826.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/mdr/jars/openide-util-20040826.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/jmi/jars/jmiuml-1.4di.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/jmi/jars/mof-20030918.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/jmi/jars/jmi-20030918.jar"/>
@@ -79,5 +75,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/jmi/jmiuml-mof1/2.0-SNAPSHOT/jmiuml-mof1-2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/netbeans/mdr/jmiutils/20050711/jmiutils-20050711.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/netbeans/mdr/mdrant/20030910/mdrant-20030910.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/netbeans/mdr/mdrapi/20050711/mdrapi-20050711.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/netbeans/mdr/nbmdr/20050711/nbmdr-20050711.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/netbeans/mdr/openide-util/20050711/openide-util-20050711.jar"/>
 	<classpathentry kind="output" path="target"/>
 </classpath>
