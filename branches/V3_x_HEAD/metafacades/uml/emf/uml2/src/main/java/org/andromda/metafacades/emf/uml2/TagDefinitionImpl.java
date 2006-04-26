@@ -45,7 +45,7 @@ public class TagDefinitionImpl
     private String name;
 
     /**
-     * The value of the tag. Should be a string or a collection of strings. 
+     * The value of the tag. Should be a string or a collection of strings.
      */
     private Object value;
 
@@ -99,17 +99,17 @@ public class TagDefinitionImpl
      */
     public Collection getValues()
     {
-        Collection c;
+        Collection values;
         if (value instanceof Collection)
         {
-            c = (Collection)value;
+            values = (Collection)value;
         }
         else
         {
-            c = new ArrayList();
-            c.add(value);
+            values = new ArrayList();
+            values.add(value);
         }
-        return c;
+        return values;
     }
 
     /**
