@@ -147,7 +147,8 @@ public class ParameterFacadeLogicImpl
      */
     protected int handleGetUpper()
     {
-        return this.metaObject.getUpper();
+        // TODO: add your implementation here!
+        return 0;
     }
 
     /**
@@ -156,6 +157,7 @@ public class ParameterFacadeLogicImpl
      */
     protected int handleGetLower()
     {
-        return this.metaObject.getLower();
+        // TODO: add your implementation here!
+        return 0;
     }
 }

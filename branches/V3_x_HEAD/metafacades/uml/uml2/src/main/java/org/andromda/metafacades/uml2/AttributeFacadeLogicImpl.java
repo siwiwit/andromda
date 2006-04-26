@@ -183,7 +183,7 @@ public class AttributeFacadeLogicImpl
      */
     protected int handleGetUpper()
     {
-        return this.metaObject.getUpper();
+        return 0;
     }
 
     /**
@@ -192,7 +192,7 @@ public class AttributeFacadeLogicImpl
      */
     protected int handleGetLower()
     {
-        return this.metaObject.getLower();
+        return 0;
     }
 
 }
