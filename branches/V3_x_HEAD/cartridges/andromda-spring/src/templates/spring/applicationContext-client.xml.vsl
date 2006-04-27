@@ -47,20 +47,30 @@
         <property name="target">
 #if($service.remotingTypeHttpInvoker)
             <bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="httpInvokerRequestExecutor">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeHessian)
             <bean class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="proxyFactory">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeBurlap)
             <bean class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="proxyFactory">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeRmi)
             <bean class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
 #end
                 <property name="serviceUrl"><value>$service.remoteUrl</value></property>
                 <property name="serviceInterface"><value>$service.fullyQualifiedName</value></property>
-#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
-                <property name="httpInvokerRequestExecutor">
-                    <ref local="httpInvokerRequestExecutor"/>
-                </property>
-#end
             </bean>
         </property>
         <property name="proxyInterfaces"><value>$service.fullyQualifiedName</value></property>
@@ -104,7 +114,7 @@
 
 #end
 #if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
-    <bean id="httpInvokerRequestExecutor" class="$clientHttpInvokerExecutor"/>
+    <bean id="clientRequestInterceptor" class="$clientHttpInvokerExecutor"/>
 
 #end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
