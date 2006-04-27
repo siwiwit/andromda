@@ -168,6 +168,24 @@ public class SpringUtils
     }
     
     /**
+     * Removes generics from string. Currently used to strip generics 
+     * from ejb-jar.xml method parameters.
+     * 
+     * @param String containing generics
+     * @return String with generics stripped
+     */
+    public String removeGenerics(final String parameter)
+    {
+		int position = parameter.indexOf("<");
+		String result = parameter;
+		if(position != -1)
+        {
+			result = result.substring(0, position);
+        }
+		return result;
+    }
+    
+    /**
      * Are we generating code for a rich client?
      */
     private boolean richClient = false;

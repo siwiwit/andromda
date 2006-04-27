@@ -97,7 +97,7 @@
 #if (!$operation.arguments.empty)
                 <method-params>
 #foreach ($argument in $operation.arguments)
-                    <method-param>$argument.type.fullyQualifiedName</method-param>
+                    <method-param>$springUtils.removeGenerics($argument.type.fullyQualifiedName)</method-param>
 #end
                 </method-params>
 #end
@@ -115,7 +115,7 @@
                 <method-name>$operation.name</method-name>
                 <method-params>
 #foreach ($argument in $operation.arguments)
-                    <method-param>$argument.type.fullyQualifiedName</method-param>
+                    <method-param>$springUtils.removeGenerics($argument.type.fullyQualifiedName)</method-param>
 #end
                 </method-params>
             </method>
