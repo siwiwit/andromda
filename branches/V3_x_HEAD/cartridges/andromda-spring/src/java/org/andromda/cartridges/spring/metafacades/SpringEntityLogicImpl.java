@@ -227,11 +227,6 @@ public class SpringEntityLogicImpl
     }
 
     /**
-     * The namespace property storing the hibernate default-cascade value for an entity.
-     */
-    private static final String HIBERNATE_DEFAULT_CASCADE = "hibernateDefaultCascade";
-
-    /**
      * @see org.andromda.cartridges.spring.metafacades.SpringEntity#isDaoBusinessOperationsPresent()
      */
     protected boolean handleIsDaoBusinessOperationsPresent()
