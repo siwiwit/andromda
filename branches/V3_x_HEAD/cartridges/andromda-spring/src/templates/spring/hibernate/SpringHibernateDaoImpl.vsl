@@ -14,8 +14,9 @@
 #if ($stringUtils.isNotBlank($entity.packageName))
 package $entity.packageName;
 #end
-
-#set ($superclass = $entity.generalization)
+##
+#set ($daoInheritance = $entity.generalization && $daoInheritanceEnabled)
+##
 /**
  * @see $entity.fullyQualifiedName
  */
@@ -40,15 +41,24 @@ public class $entity.daoImplementationName
 #else
         throw new java.lang.UnsupportedOperationException("${entity.fullyQualifiedName}.${signature} Not implemented!");
 #end
-    }
+}
 
 #end
-#foreach ($valueObjectRef in $entity.valueObjectReferences)
+##
+## When not using daoInheritance, generate transformations for _all_ of the value object references (and not just those
+## on this entity - as is the case when dao inheritance is enabled).
+##
+#if ($daoInheritance)
+#set ($valueObjectReferences = $entity.valueObjectReferences)
+#else
+#set ($valueObjectReferences = $entity.allValueObjectReferences)
+#end
+#foreach ($valueObjectRef in $valueObjectReferences)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName, $valueObjectRef.targetElement.fullyQualifiedName)
      */
     public void ${valueObjectRef.transformationMethodName}(
-        $entity.fullyQualifiedEntityName sourceEntity, 
+        $entity.fullyQualifiedEntityName sourceEntity,
         $valueObjectRef.targetElement.fullyQualifiedName targetVO)
     {
         // ${toDoTag} verify behavior of ${valueObjectRef.transformationMethodName}
@@ -79,7 +89,7 @@ public class $entity.daoImplementationName
 
     /**
      * Retrieves the entity object that is associated with the specified value object
-     * from the object store. If no such entity object exists in the object store, 
+     * from the object store. If no such entity object exists in the object store,
      * a new, blank entity is created
      */
     private $entity.fullyQualifiedEntityName load${entity.name}From${valueObjectRef.targetElement.name}($valueObjectRef.targetElement.fullyQualifiedName $stringUtils.uncapitalize($valueObjectRef.name))
@@ -87,7 +97,7 @@ public class $entity.daoImplementationName
         // ${toDoTag} implement load${entity.name}From${valueObjectRef.targetElement.name}
         throw new java.lang.UnsupportedOperationException("${entity.packageName}.load${entity.name}From${valueObjectRef.targetElement.name}($valueObjectRef.targetElement.fullyQualifiedName) not yet implemented.");
 
-        /* A typical implementation looks like this:        
+        /* A typical implementation looks like this:
         $entity.fullyQualifiedEntityName $stringUtils.uncapitalize($entity.name) = this.load(${stringUtils.uncapitalize($valueObjectRef.name)}.getId());
         if ($stringUtils.uncapitalize($entity.name) == null)
         {
@@ -128,7 +138,7 @@ public class $entity.daoImplementationName
 #set ($getVal = $converter.typeConvert($voProperty.type.fullyQualifiedName, "sourceVO.${voProperty.getterName}()", $attribute.type.fullyQualifiedName) )
 #if (!$getVal)
         // No conversion for targetEntity.${attribute.name} (can't convert sourceVO.${voProperty.getterName}():${voProperty.type.fullyQualifiedName} to $attribute.type.fullyQualifiedName
-#end        
+#end
 #end
 #end
 #end

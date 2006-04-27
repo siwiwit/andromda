@@ -120,7 +120,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
     public $entityCollectionType loadAll()
     {
-        return#if ($enableTemplating)($entityCollectionType) #end this.loadAll(TRANSFORM_NONE);
+        return ($entityCollectionType)this.loadAll(TRANSFORM_NONE);
     }
 
     /**
@@ -233,9 +233,6 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
             new ${hibernateUtils.springHibernatePackage}.HibernateCallback()
             {
-#if ($enableTemplating)
-                @SuppressWarnings({"ForLoopReplaceableByForEach"})
-#end
                 public Object doInHibernate(${hibernateUtils.basePackage}.Session session)
                     throws ${hibernateUtils.basePackage}.HibernateException
                 {
@@ -437,7 +434,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
 #end
 #set ($loadCall = "this.load($identifier.name)")
-#if ($entity.generalization)
+#if ($entity.generalization && $daoInheritance)
 #set ($loadCall = "($entity.fullyQualifiedEntityName)${loadCall}")
 #end
         $entity.fullyQualifiedEntityName entity = $loadCall;
@@ -459,8 +456,17 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
         this.getHibernateTemplate().deleteAll(entities);
     }
-
-#foreach ($finder in $entity.getQueryOperations(true))
+##
+## With daoInheritance disabled, only generate the finder methods defined on this entity; i.e. do _not_
+## include those defined on any of the super-entities.
+##
+#if ($daoInheritance)
+#set ($queryOperations = $entity.getQueryOperations(true))
+#else
+#set ($queryOperations = $entity.queryOperations)
+#end
+##
+#foreach ($finder in $queryOperations)
 #set ($returnType = $finder.returnType.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#$finder.getSignature(false)
@@ -510,6 +516,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
+#if ($enableTemplating)
+    @SuppressWarnings("unchecked")
+#end	 
     $finder.visibility $returnType ${finder.name}(final int transform, final java.lang.String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
         throws $finder.exceptionList
@@ -714,7 +723,15 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             switch (transform)
             {
 #foreach ($valueObjectRef in $entity.allValueObjectReferences)
+##
+## When not using daoInheritance, we _must_ refer to the TransformationConstantNames defined in our own interface (and
+## not, as is the case for dao inheritance, to those defined in the super-dao's interface).
+##
+#if ($daoInheritance)
                 case ${valueObjectRef.sourceElement.fullyQualifiedDaoName}.${valueObjectRef.transformationConstantName} :
+#else
+                case ${valueObjectRef.transformationConstantName} :
+#end
                     target = ${valueObjectRef.transformationMethodName}(entity);
                     break;
 #end
@@ -743,7 +760,14 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         switch (transform)
         {
 #foreach ($valueObjectRef in $entity.allValueObjectReferences)
+##
+## When not using daoInheritance, we _must_ refer to our TransformationConstantNames (see comment above).
+##
+#if ($daoInheritance)
             case ${valueObjectRef.sourceElement.fullyQualifiedDaoName}.${valueObjectRef.transformationConstantName} :
+#else
+            case ${valueObjectRef.transformationConstantName} :
+#end
                 ${valueObjectRef.transformationToCollectionMethodName}(entities);
                 break;
 #end
@@ -753,7 +777,17 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
     }
 
-#foreach ($valueObjectRef in $entity.valueObjectReferences)
+##
+## When daoInheritance is disabled we need to generated the transformations for _all_ of our value object
+## references (and not only "ours" as is the case when daoInheritance is enabled).
+##
+#if ($daoInheritance)
+#set ($valueObjectReferences = $entity.valueObjectReferences)
+#else
+#set ($valueObjectReferences = $entity.allValueObjectReferences)
+#end
+##
+#foreach ($valueObjectRef in $valueObjectReferences)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToCollectionMethodName}(java.util.Collection)
      */
@@ -846,7 +880,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName, $valueObjectRef.targetElement.fullyQualifiedName)
      */
     public void ${valueObjectRef.transformationMethodName}(
-        $entity.fullyQualifiedEntityName source, 
+        $entity.fullyQualifiedEntityName source,
         $valueObjectRef.targetElement.fullyQualifiedName target)
     {
 #set ($entityProperties = $entity.allProperties)
