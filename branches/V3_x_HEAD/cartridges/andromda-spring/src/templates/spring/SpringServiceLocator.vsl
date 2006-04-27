@@ -128,41 +128,6 @@ public class $serviceLocatorName
             this.beanFactoryReference = null;
         }
     }
-#if ($ejbsEnabled)
-
-    /**
-     * Helper for setting jndiEnvironment property of SimpleRemoteStatelessSessionProxyFactoryBean
-     * through PropertyOverrideConfigurer
-     */
-    static final public class JndiEnvironment
-        extends java.util.Properties
-    {
-        private static final long serialVersionUID = 1L;
-
-        /**
-         * Convienience method for setting servername and protocol without "jnp"
-         */
-        public void setServer(String servername)
-        {
-            setProperty(javax.naming.Context.PROVIDER_URL, "jnp://" + servername);
-        }
-
-        public void setProviderUrl(String providerUrl)
-        {
-            setProperty(javax.naming.Context.PROVIDER_URL, providerUrl);
-        }
-
-        public void setInitialContextFactory(String initialContextFactory)
-        {
-            setProperty(javax.naming.Context.INITIAL_CONTEXT_FACTORY, initialContextFactory);
-        }
-
-        public void setUrlPkgPrefixes(String urlPkgPrefixes)
-        {
-            setProperty(javax.naming.Context.URL_PKG_PREFIXES, urlPkgPrefixes);
-        }
-    }
-#end
 
 #foreach ($service in $services)
     /**
