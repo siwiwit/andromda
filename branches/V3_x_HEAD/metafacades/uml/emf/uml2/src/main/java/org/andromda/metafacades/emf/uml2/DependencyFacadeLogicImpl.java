@@ -1,7 +1,5 @@
 package org.andromda.metafacades.emf.uml2;
 
-import org.andromda.metafacades.uml.UMLMetafacadeUtils;
-import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.StringUtils;
 
 

@@ -105,30 +105,20 @@ public class EnumerationFacadeLogicImpl
             {
                 NamedElement enumeration = (NamedElement)metaObject;
 
-                //fake a primitive type called string to return. This should work...
-                //if not we will need to pass in a type qName as a parameter and search for it
+                // fake a primitive type called string to return. This should work...
+                // if not we will need to pass in a type qName as a parameter and search for it
                 Type syntheticType = UML2Factory.eINSTANCE.createPrimitiveType();
                 syntheticType.setName("string");
 
-                //for example:
-//                final String syntheticTypeName = "MODEL-TYPES::string";
-//                final Object syntheticType =
-//                    UmlUtilities.findByName(
-//                        enumeration.eResource().getResourceSet(),
-//                        syntheticTypeName);
-                if (syntheticType instanceof Type)
+                if (syntheticType.eIsProxy())
                 {
-                    type = syntheticType;
-                    if (((Type)type).eIsProxy())
-                    {
-                        EcoreUtil.resolve(
-                            (Type)type,
-                            enumeration.eResource().getResourceSet());
-                    }
+                    EcoreUtil.resolve(
+                        (Type)type,
+                        enumeration.eResource().getResourceSet());
                 }
                 else
                 {
-                    throw new MetafacadeException("Note that real Literals are not supported yet.");
+                    throw new MetafacadeException("Real Literals are not supported yet!");
                 }
             }
         }
