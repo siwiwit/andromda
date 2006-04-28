@@ -675,7 +675,7 @@ public class ClassifierFacadeLogicImpl
                 final Property property = (Property)iterator.next();
 
                 final Object associationEnd = UmlUtilities.getOppositeAssociationEnd(property);
-                if (associationEnd != null)
+                if (associationEnd instanceof AssociationEndFacade)
                 {
                     associationEnds.add(associationEnd);
                 }
