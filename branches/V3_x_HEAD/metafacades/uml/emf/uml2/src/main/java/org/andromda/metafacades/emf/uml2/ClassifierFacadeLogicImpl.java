@@ -9,6 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
@@ -673,11 +674,16 @@ public class ClassifierFacadeLogicImpl
             for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
             {
                 final Property property = (Property)iterator.next();
-
                 final Object associationEnd = UmlUtilities.getOppositeAssociationEnd(property);
                 if (associationEnd instanceof AssociationEndFacade)
                 {
                     associationEnds.add(associationEnd);
+                }
+                else
+                {
+                    throw new MetafacadeException("The association end has incorrectly been mapped " + 
+                        "to an instance that does not descend from '" + AssociationEndFacade.class.getName() + "': " + associationEnd 
+                        + ", check your metafacades.xml and make sure things are mapped correctly");
                 }
             }
         }
