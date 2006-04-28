@@ -496,52 +496,44 @@ public class UmlUtilities
     public static Collection getAndroMDATags(Element element)
     {
         final Collection tags = new ArrayList();
-        try
+        final Stereotype tagStereotype = findAppliedStereotype(
+                element,
+                TAGGED_VALUES_STEREOTYPE);
+        if (tagStereotype != null)
         {
-            Stereotype tagStereotype = findAppliedStereotype(
-                    element,
-                    TAGGED_VALUES_STEREOTYPE);
-            if (tagStereotype != null)
+            List tagNames = (List)element.getValue(
+                    tagStereotype,
+                    "TagName");
+            List tagValues = (List)element.getValue(
+                    tagStereotype,
+                    "TagValue");
+            for (int ctr = 0; ctr < tagValues.size(); ctr++)
             {
-                List tagNames = (List)element.getValue(
-                        tagStereotype,
-                        "TagName");
-                List tagValues = (List)element.getValue(
-                        tagStereotype,
-                        "TagValue");
-                for (int ctr = 0; ctr < tagValues.size(); ctr++)
-                {
-                    tags.add(new TagDefinitionImpl(
-                            tagNames.get(ctr),
-                            tagValues.get(ctr)));
-                }
-            }
-            List stereos = getStereotypeNames(element);
-            for (Iterator i = stereos.iterator(); i.hasNext();)
-            {
-                String sName = (String)i.next();
-                if (!sName.equalsIgnoreCase(TAGGED_VALUES_STEREOTYPE))
-                {
-                    Stereotype stereo = findAppliedStereotype(
-                            element,
-                            (String)sName);
-                    if (element.hasValue(
-                            stereo,
-                            "value"))
-                    {
-                        Object sVal = element.getValue(
-                                stereo,
-                                "value");
-                        tags.add(new TagDefinitionImpl(
-                                sName,
-                                sVal));
-                    }
-                }
+                tags.add(new TagDefinitionImpl(
+                        tagNames.get(ctr),
+                        tagValues.get(ctr)));
             }
         }
-        catch (Exception c)
+        for (final Iterator iterator = getStereotypeNames(element).iterator(); iterator.hasNext();)
         {
-            c.printStackTrace();
+            final String name = (String)iterator.next();
+            if (!name.equalsIgnoreCase(TAGGED_VALUES_STEREOTYPE))
+            {
+                final Stereotype stereotype = findAppliedStereotype(
+                        element,
+                        name);
+                if (element.hasValue(
+                        stereotype,
+                        "value"))
+                {
+                    final Object value = element.getValue(
+                            stereotype,
+                            "value");
+                    tags.add(new TagDefinitionImpl(
+                            name,
+                            value));
+                }
+            }
         }
         return tags;
     }
