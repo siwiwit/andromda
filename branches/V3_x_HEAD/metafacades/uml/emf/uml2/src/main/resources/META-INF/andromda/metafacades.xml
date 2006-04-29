@@ -116,14 +116,14 @@
     <metafacade class="org.andromda.metafacades.emf.uml2.EntityAssociationEndLogicImpl">
         <mapping>
             <property name="type.entityMetaType"/>
-            <property name="association"/>
         </mapping>
         <property reference="sqlMappingsUri"/>
         <property reference="jdbcMappingsUri"/>
         <property reference="entityPropertyNameMask"/>
     </metafacade>
-    <metafacade class="org.andromda.metafacades.emf.uml2.EntityAssociationLogicImpl">
+	 <metafacade class="org.andromda.metafacades.emf.uml2.EntityAssociationLogicImpl">
         <mapping>
+            <property name="association"/>
             <property name="associationEndA.entityAssociationEndMetaType"/>
         </mapping>
     </metafacade>
