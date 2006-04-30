@@ -64,6 +64,8 @@
                 <property name="session-config">${core.generated.dir}</property>
                 <property name="message-driven-beans">${core.generated.dir}</property>
                 <property name="message-driven-impls">${core.manual.dir}</property>
+                <property name="daos">${core.generated.dir}</property>
+                <property name="dao-impls">${core.manual.dir}</property>
                 <property name="commons">${common.generated.dir}</property>
                 <property name="services">${core.generated.dir}</property>
                 <property name="application-config">${application.config.dir}</property>
