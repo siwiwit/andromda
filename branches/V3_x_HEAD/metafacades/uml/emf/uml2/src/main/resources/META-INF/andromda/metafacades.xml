@@ -105,8 +105,8 @@
         <property reference="relationNameSeparator"/>
         <property reference="entityNameMask"/>
     </metafacade>
-    <metafacade class="org.andromda.metafacades.emf.uml2.EntityAttributeLogicImpl">
-        <mapping>
+     <metafacade class="org.andromda.metafacades.emf.uml2.EntityAttributeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.PropertyImpl">
             <property name="owner.entityMetaType"/>
         </mapping>
         <property reference="sqlMappingsUri"/>
@@ -114,7 +114,7 @@
         <property reference="entityPropertyNameMask"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.EntityAssociationEndLogicImpl">
-        <mapping>
+        <mapping class="org.eclipse.uml2.impl.PropertyImpl">
             <property name="type.entityMetaType"/>
         </mapping>
         <property reference="sqlMappingsUri"/>
@@ -122,9 +122,8 @@
         <property reference="entityPropertyNameMask"/>
     </metafacade>
 	 <metafacade class="org.andromda.metafacades.emf.uml2.EntityAssociationLogicImpl">
-        <mapping>
-            <property name="association"/>
-            <property name="associationEndA.entityAssociationEndMetaType"/>
+        <mapping class="org.eclipse.uml2.impl.AssociationImpl">
+            <property name="entityAssociation"/>
         </mapping>
     </metafacade>
     <!-- Service metafacades -->

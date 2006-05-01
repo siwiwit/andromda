@@ -176,5 +176,23 @@ public class AssociationEndFacadeLogicImpl
         // TODO: add your implementation here!
         return null;
     }
+    
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        return 0;
+    }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        return 0;
+    }
 
 }

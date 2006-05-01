@@ -338,4 +338,22 @@ public class AssociationEndFacadeLogicImpl
     {
         return ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.DEFAULT_MULTIPLICITY));
     }
+    
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        throw new java.lang.UnsupportedOperationException("'upper' is not a UML1.4 feature");
+     }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        throw new java.lang.UnsupportedOperationException("'lower' is not a UML1.4 feature");
+    }
 }

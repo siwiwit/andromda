@@ -71,4 +71,11 @@ public class EntityAssociationLogicImpl
         }
         return schemaName;
     }
+
+    /**
+     * This method is only needed for the UML2 facades.
+     */
+    protected boolean handleIsEntityAssociation() {
+        throw new java.lang.UnsupportedOperationException("entityAssociation not implemented for this facade.");
+    }
 }

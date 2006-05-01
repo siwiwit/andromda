@@ -36,4 +36,9 @@ public class EntityAssociationLogicImpl
         // TODO: put your implementation here.
         return null;
     }
+
+    protected boolean handleIsEntityAssociation() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

@@ -631,8 +631,7 @@ public class UmlUtilities
         Object opposite = null;
         Association association = associationEnd.getAssociation();
 
-        // - for now we don't return association classes with associations (maybe we should?)
-        if (association != null && !(association instanceof AssociationClass))
+        if (association != null)
         {
             Collection ends = association.getMemberEnds();
             for (final Iterator endIterator = ends.iterator(); endIterator.hasNext();)

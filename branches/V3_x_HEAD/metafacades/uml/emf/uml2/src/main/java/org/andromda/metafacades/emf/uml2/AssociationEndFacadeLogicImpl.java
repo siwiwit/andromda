@@ -199,4 +199,22 @@ public class AssociationEndFacadeLogicImpl
     {
         return this.getType();
     }
+    
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        return this.metaObject.getUpper();
+    }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        return this.metaObject.getLower();
+    }
 }

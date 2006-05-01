@@ -674,17 +674,16 @@ public class ClassifierFacadeLogicImpl
             for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
             {
                 final Property property = (Property)iterator.next();
-                final Object associationEnd = UmlUtilities.getOppositeAssociationEnd(property);
-                if (associationEnd instanceof AssociationEndFacade)
+                if (property.getAssociation() == null)
+                    continue;
+                final Property associationEnd = (Property) UmlUtilities.getOppositeAssociationEnd(property);
+                if (associationEnd == null)
                 {
-                    associationEnds.add(associationEnd);
+                    throw new MetafacadeException("There is an error in the model or a cartiridge metafacade mapping file. "+
+                            "The opposite end of "+ property +" is null."+
+                            ", check your metafacades.xml and make sure things are mapped correctly");
                 }
-                else
-                {
-                    throw new MetafacadeException("The association end has incorrectly been mapped " + 
-                        "to an instance that does not descend from '" + AssociationEndFacade.class.getName() + "': " + associationEnd 
-                        + ", check your metafacades.xml and make sure things are mapped correctly");
-                }
+                associationEnds.add(associationEnd);
             }
         }
         return associationEnds;
