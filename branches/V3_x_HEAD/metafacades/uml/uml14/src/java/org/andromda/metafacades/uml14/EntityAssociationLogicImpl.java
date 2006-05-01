@@ -73,9 +73,15 @@ public class EntityAssociationLogicImpl
     }
 
     /**
-     * This method is only needed for the UML2 facades.
+     *  @see org.andromda.metafacades.uml.EntityAssociation#isEntityAssociation()
      */
-    protected boolean handleIsEntityAssociation() {
-        throw new java.lang.UnsupportedOperationException("entityAssociation not implemented for this facade.");
+    protected boolean handleIsEntityAssociation()
+    {
+        boolean isEntityAssociation = false;
+        if (getAssociationEndA().isAssociationEndFacadeMetaType())
+        {
+            isEntityAssociation = true;
+        }
+        return isEntityAssociation;
     }
 }
