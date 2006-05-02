@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ResourceUtils;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
 
@@ -32,6 +33,12 @@ public class EMFURIConverter
     public EMFURIConverter(final List moduleSearchPaths)
     {
         this.moduleSearchPaths = moduleSearchPaths;
+        if (logger.isDebugEnabled()){
+            for (Iterator msp = this.moduleSearchPaths.iterator();msp.hasNext();)
+            {
+                logger.debug("Model search path:"+msp.next());
+            }
+        }
     }
 
     /**
@@ -43,6 +50,11 @@ public class EMFURIConverter
      * Stores the URIs that have been normalized.
      */
     private final Map normalizedUris = new HashMap();
+    
+    /**
+     * The logger instance.
+     */
+    private static Logger logger = Logger.getLogger(EMFURIConverter.class);
 
     /**
      * Overwridden to provide the normalization of uris given the module search paths.
@@ -98,7 +110,7 @@ public class EMFURIConverter
                         }
                         catch (final Exception exception)
                         {
-                            // - ignore
+                            logger.debug("Caught exception in EMFURIConverter", exception);
                         }
                     }
                 }
