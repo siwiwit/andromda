@@ -90,7 +90,7 @@ public class Uml2ArchiverMojo
     /**
      * Whether or not to do replacement of embedded model HREF reference extensions.
      *
-     * @parameter expression=true
+     * @parameter expression=false
      * @required
      */
     protected boolean replaceExtensions;
@@ -158,7 +158,7 @@ public class Uml2ArchiverMojo
                                 extractedFile.renameTo(newFile);
                                 String contents = IOUtils.toString(new FileReader(newFile));
                                 getLog().info("Not doing stuff: " + replaceExtensions);
-                                if (!replaceExtensions)
+                                if (replaceExtensions)
                                 {
                                     for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
                                     {
