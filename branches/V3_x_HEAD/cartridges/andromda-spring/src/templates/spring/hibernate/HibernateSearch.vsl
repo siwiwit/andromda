@@ -23,6 +23,9 @@ package $springTypesPackage;
  * @see ${hibernateUtils.basePackage}.Criteria
  * @see ${hibernateUtils.criterionPackage}.Expression
  */
+#if ($enableTemplating)
+@SuppressWarnings({"unchecked"})
+#end
 public class $criteriaSearchBaseName
 {
     private ${criteriaSearchBaseName}Configuration configuration;
