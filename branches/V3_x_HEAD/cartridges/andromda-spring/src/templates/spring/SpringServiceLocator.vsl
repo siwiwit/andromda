@@ -79,11 +79,6 @@ public class $serviceLocatorName
         this.beanFactoryReference = null;
     }
     
-#if ($ejbsEnabled)
-#set ($factoryId = $beanRefFactoryEjbId)
-#else
-#set ($factoryId = $beanRefFactoryId)
-#end
     /**
      * The default bean reference factory location.
      */
@@ -92,7 +87,7 @@ public class $serviceLocatorName
     /**
      * The default bean reference factory ID.
      */
-    private final String DEFAULT_BEAN_REFERENCE_ID = "$factoryId";
+    private final String DEFAULT_BEAN_REFERENCE_ID = "$beanRefFactoryId";
 
     /**
      * Gets the Spring ApplicationContext.
