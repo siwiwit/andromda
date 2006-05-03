@@ -16,7 +16,11 @@ package $springTypesPackage;
  */
 public final class PrincipalStore
 {
+#if ($enableTemplating)
+	private static final ThreadLocal<java.security.Principal> store = new ThreadLocal<java.security.Principal>();
+#else
     private static final ThreadLocal store = new ThreadLocal();
+#end
 
     /**
      * Get the user <code>principal</code>
@@ -26,7 +30,11 @@ public final class PrincipalStore
      */
     public static java.security.Principal get()
     {
+#if($enableTemplating)
+        return store.get();
+#else
         return (java.security.Principal)store.get();
+#end
     }
 
     /**
