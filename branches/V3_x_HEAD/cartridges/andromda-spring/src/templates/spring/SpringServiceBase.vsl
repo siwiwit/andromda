@@ -134,7 +134,7 @@ public abstract class $service.baseName
      * @return the current principal
      */
 #if ($externalPrincipalStoreClass)
-#set ($principalStoreCall = "(${externalPrincipalStoreGetterType})${externalPrincipalStoreClass}.${externalPrincipalStoreGetter};")
+#set ($principalStoreCall = "#if(!$enableTemplating)(${externalPrincipalStoreGetterType})#end${externalPrincipalStoreClass}.${externalPrincipalStoreGetter};")
 #set ($principalStoreType = ${externalPrincipalStoreGetterType})
 #else
 #set ($principalStoreCall = "${principalStoreName}.get();")
