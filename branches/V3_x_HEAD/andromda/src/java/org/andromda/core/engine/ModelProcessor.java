@@ -7,7 +7,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.andromda.core.ModelValidationException;
 import org.andromda.core.cartridge.Cartridge;
@@ -21,6 +23,7 @@ import org.andromda.core.common.XmlObjectFactory;
 import org.andromda.core.configuration.Configuration;
 import org.andromda.core.configuration.Filters;
 import org.andromda.core.configuration.Model;
+import org.andromda.core.configuration.Namespace;
 import org.andromda.core.configuration.Namespaces;
 import org.andromda.core.configuration.Property;
 import org.andromda.core.metafacade.MetafacadeFactory;
@@ -212,33 +215,42 @@ public class ModelProcessor
                 {
                     AndroMDALogger.warn("WARNING! No cartridges found, check your classpath!");
                 }
+                
+                final Map cartridgesByNamespace = this.loadCartridgesByNamespace(cartridges);
+                
+                // - we want to process by namespace so that the order within the configuration is kept
+                final Collection namespaces = this.namespaces.getNamespaces();
 
                 // - pre-load the models
                 messages = this.loadIfNecessary(models);
-                for (final Iterator iterator = cartridges.iterator(); iterator.hasNext();)
+                for (final Iterator iterator = namespaces.iterator(); iterator.hasNext();)
                 {
-                    final Cartridge cartridge = (Cartridge)iterator.next();
-                    cartridgeName = cartridge.getNamespace();
-                    if (this.shouldProcess(cartridgeName))
+                    final Namespace namespace = (Namespace)iterator.next();
+                    final Cartridge cartridge = (Cartridge)cartridgesByNamespace.get(namespace.getName());
+                    if (cartridge != null)
                     {
-                        // - set the active namespace on the shared factory and profile instances
-                        this.factory.setNamespace(cartridgeName);
-                        cartridge.initialize();
-
-                        // - process each model with the cartridge
-                        for (int ctr = 0; ctr < models.length; ctr++)
+                        cartridgeName = cartridge.getNamespace();
+                        if (this.shouldProcess(cartridgeName))
                         {
-                            final Model model = models[ctr];
-
-                            // - set the namespace on the metafacades instance so we know the 
-                            //   correct facades to use
-                            this.factory.setModel(
-                                this.repositories.getImplementation(repositoryName).getModel(),
-                                model.getType());
-                            cartridge.processModelElements(this.factory);
-                            writer.writeHistory();
+                            // - set the active namespace on the shared factory and profile instances
+                            this.factory.setNamespace(cartridgeName);
+                            cartridge.initialize();
+    
+                            // - process each model with the cartridge
+                            for (int ctr = 0; ctr < models.length; ctr++)
+                            {
+                                final Model model = models[ctr];
+    
+                                // - set the namespace on the metafacades instance so we know the 
+                                //   correct facades to use
+                                this.factory.setModel(
+                                    this.repositories.getImplementation(repositoryName).getModel(),
+                                    model.getType());
+                                cartridge.processModelElements(this.factory);
+                                writer.writeHistory();
+                            }
+                            cartridge.shutdown();
                         }
-                        cartridge.shutdown();
                     }
                 }
             }
@@ -262,6 +274,23 @@ public class ModelProcessor
             throw new ModelProcessorException(messsage, throwable);
         }
         return messages == null ? Collections.EMPTY_LIST : messages;
+    }
+    
+    /**
+     * Loads the given list of <code>cartridges</code> into a map keyed by namespace.
+     * 
+     * @param cartridges the cartridges loaded.
+     * @return the loaded cartridge map.
+     */
+    private Map loadCartridgesByNamespace(final Collection cartridges)
+    {
+        final Map cartridgesByNamespace = new LinkedHashMap();
+        for (final Iterator iterator = cartridges.iterator(); iterator.hasNext();)
+        {
+            final Cartridge cartridge = (Cartridge)iterator.next();
+            cartridgesByNamespace.put(cartridge.getNamespace(), cartridge);
+        }
+        return cartridgesByNamespace;
     }
 
     /**
@@ -567,8 +596,8 @@ public class ModelProcessor
 
     /**
      * Indicates whether or not the <code>namespace</code> should be processed. This is determined in conjunction with
-     * {@link #setCartridgeFilter(String)}. If the <code>cartridgeFilter</code> is not defined, then this method will
-     * <strong>ALWAYS </strong> return true.
+     * {@link #setCartridgeFilter(String)}. If the <code>cartridgeFilter</code> is not defined and the namespace is
+     * present within the configuration, then this method will <strong>ALWAYS </strong> return true.
      *
      * @param namespace the name of the namespace to check whether or not it should be processed.
      * @return true/false on whether or not it should be processed.
