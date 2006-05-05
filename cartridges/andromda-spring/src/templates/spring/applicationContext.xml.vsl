@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 <?xml version="1.0" encoding="$xmlEncoding"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
@@ -90,6 +89,7 @@
 #if ($stringUtils.isNotBlank($hibernateConnectionReleaseMode))
                 <prop key="hibernate.connection.release_mode">$hibernateConnectionReleaseMode</prop>
 #end
+                <!-- applicationContext hibernateProperties merge-point -->
             </props>
         </property>
     </bean>
@@ -119,7 +119,7 @@
 #end
 #end
 ## also initialize daos of parent dao
-#if($entity.generalization)
+#if($daoInheritanceEnabled && $entity.generalization)
 #foreach($entityRef in $entity.generalization.entityReferences)
 #if (!$entityRef.circularReference)
                 <property name="$entityRef.daoName"><ref bean="$entityRef.targetElement.getBeanName(false)"/></property>
@@ -155,7 +155,7 @@
         <property name="transactionAttributeSource">
             <value>
 #foreach ($service in $services)
-#foreach ($operation in $service.operations)
+#foreach ($operation in $springUtils.filterUniqueByName($service.operations))
                 ${service.fullyQualifiedName}.${operation.name}=${operation.transactionType}
 #end
 #end
@@ -183,12 +183,12 @@
 ## Because of a bug in Spring with circular references (and using AOP proxies),
 ## we need to use the lookup-method as a work-a-round for dependencies
 ## which represent circular references
-#foreach($serviceRef in $service.serviceReferences)
+#foreach($serviceRef in $service.allServiceReferences)
 #if (!$serviceRef.circularReference)
                 <property name="$serviceRef.name"><ref bean="$serviceRef.targetElement.beanName"/></property>
 #end
 #end
-#foreach($serviceRef in $service.serviceReferences)
+#foreach($serviceRef in $service.allServiceReferences)
 #if ($serviceRef.circularReference)
                 <lookup-method name="$serviceRef.getterName" bean="$serviceRef.targetElement.beanName"/>
 #end
@@ -200,7 +200,7 @@
         </property>
         <property name="interceptorNames">
             <list>
-#if ($acegiServiceSecurityEnabled)
+#if ($acegiServiceSecurity)
                 <value>serviceSecurityInterceptor</value>
 #end
 #if ($enableSpringTransactions)
@@ -219,7 +219,7 @@
 #end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
 
-#if ($acegiServiceSecurityEnabled)
+#if ($acegiServiceSecurity)
     <!-- ================= Start of ACEGI SERVICE SECURITY DEFINITIONS ================ -->
 
     <bean id="serviceSecurityInterceptor" class="$acegiServiceSecurityInterceptor">
@@ -233,7 +233,7 @@
         <property name="objectDefinitionSource">
             <value>
 #foreach($service in $services)
-#foreach ($operation in $service.operations)
+#foreach ($operation in $springUtils.filterUniqueByName($service.operations))
 #if (!$operation.roles.empty)
                 ${service.fullyQualifiedName}.${operation.name}=#foreach($role in $operation.roles)#if($acegiRolePrefix && !$role.name.startsWith("$acegiRolePrefix"))$acegiRolePrefix#end$role.name#if($velocityCount != $operation.roles.size()), #end#end
 

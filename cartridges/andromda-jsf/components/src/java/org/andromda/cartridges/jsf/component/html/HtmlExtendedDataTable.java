@@ -17,7 +17,7 @@ import org.apache.myfaces.component.html.ext.HtmlDataTable;
 
 
 /**
- * Extends the datatype and provides the ability to have a backing value: this is
+ * Extends the datatable and provides the ability to have a backing value: this is
  * useful when submitting tables of information.
  *
  * @author Chad Brandon

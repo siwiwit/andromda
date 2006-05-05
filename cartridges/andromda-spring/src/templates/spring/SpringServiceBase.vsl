@@ -1,5 +1,4 @@
 #set ($generatedFile = "${service.packagePath}/${service.baseName}.java")
-#parse("templates/spring/SpringGlobals.vm")
 // license-header java merge-point
 //
 // Attention: Generated code! Do not modify by hand!
@@ -134,16 +133,22 @@ public abstract class $service.baseName
      *
      * @return the current principal
      */
-    protected java.security.Principal getPrincipal()
-    {
+#if ($externalPrincipalStoreClass)
+#set ($principalStoreCall = "#if(!$enableTemplating)(${externalPrincipalStoreGetterType})#end${externalPrincipalStoreClass}.${externalPrincipalStoreGetter};")
+#set ($principalStoreType = ${externalPrincipalStoreGetterType})
+#else
 #set ($principalStoreCall = "${principalStoreName}.get();")
 #if($stringUtils.isNotEmpty($springTypesPackage))
 #set ($principalStoreCall = "${springTypesPackage}.${principalStoreCall}")
 #end
+#set ($principalStoreType = "java.security.Principal")
+#end
+    protected $principalStoreType getPrincipal()
+    {
         return $principalStoreCall
     }
 #if ($service.webServiceOutgoingAttachmentHandlerCall)
-    
+
     /**
      * Adds an attachment in the webservice's outgoing response message (this only makes sense
      * when the operation this is called within is a web service exposed operation).
@@ -159,7 +164,7 @@ public abstract class $service.baseName
     }
 #end
 #if ($service.webServiceIncomingAttachmentHandlerCall)
-    
+
     /**
      * Retrieves any incoming attachments in the webservice's request message (this only makes sense
      * when the operation this is called within is a web service exposed operation).

@@ -87,7 +87,7 @@ public class $className
             try
             {
 #foreach ($action in $useCase.actions)
-                map.put("$action.fullyQualifiedFormImplementationName", controllerClass.getMethod("$action.triggerName", null));
+                map.put("$action.fullyQualifiedFormImplementationName", controllerClass.getMethod("$action.triggerName", (Class[])null));
 #end
                 triggersAndFormBeanNamesByUseCase.put("$useCase.name", map);
             }

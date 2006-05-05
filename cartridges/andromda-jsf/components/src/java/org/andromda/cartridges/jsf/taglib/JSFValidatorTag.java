@@ -62,9 +62,6 @@ public class JSFValidatorTag
         final String validatorId = this.getId();
         if (validatorId != null)
         {
-            component.getAttributes().put(
-                JSFValidatorComponent.VALIDATOR_ID,
-                validatorId);
             component.setId(validatorId);
         }
     }

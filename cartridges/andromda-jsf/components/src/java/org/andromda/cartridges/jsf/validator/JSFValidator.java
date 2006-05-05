@@ -218,22 +218,38 @@ public class JSFValidator
         {
             try
             {
-                final Collection errors = new ArrayList();
-                this.getValidatorMethod().invoke(
-                    this.getValidatorClass(),
-                    new Object[]
-                    {
-                        context, value, this.getParameters(), errors, this.validatorAction,
-                        this.getFormField(
-                            form.getId(),
-                            component.getId())
-                    });
-                if (!errors.isEmpty())
+                final Form validatorForm = getValidatorResources().getForm(
+                    Locale.getDefault(),
+                    form.getId());
+                if (validatorForm != null)
                 {
-                    throw new ValidatorException(new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR,
-                            (String)errors.iterator().next(),
-                            null));
+                    final Field field = this.getFormField(validatorForm, component.getId());
+                    if (field != null)
+                    {
+                        final Collection errors = new ArrayList();
+                        this.getValidatorMethod().invoke(
+                            this.getValidatorClass(),
+                            new Object[]
+                            {
+                                context, value, this.getParameters(), errors, this.validatorAction,
+                                field
+                            });
+                        if (!errors.isEmpty())
+                        {
+                            throw new ValidatorException(new FacesMessage(
+                                    FacesMessage.SEVERITY_ERROR,
+                                    (String)errors.iterator().next(),
+                                    null));
+                        }
+                    }
+                    else
+                    {
+                        logger.error("No field with id '" + component.getId() + "' found on form '" + form.getId() + "'");
+                    }
+                }
+                else
+                {
+                    logger.error("No validator form could be found with id '" + form.getId() + "'");
                 }
             }
             catch (final ValidatorException exception)
@@ -303,18 +319,15 @@ public class JSFValidator
      * Attempts to retrieve the form field from the form with the given <code>formName</code>
      * and the field with the given <code>fieldName</code>.  If it can't be retrieved, null
      * is returned.
-     * @param formName the name of the form.
+     * @param form the form to validate.
      * @param fieldName the name of the field.
      * @return the found field or null if it could not be found.
      */
     private Field getFormField(
-        final String formName,
+        final Form form,
         final String fieldName)
     {
         Field field = null;
-        final Form form = getValidatorResources().getForm(
-                Locale.getDefault(),
-                formName);
         if (form != null)
         {
             field = form.getField(fieldName);

@@ -9,7 +9,7 @@
     </parent>
     <artifactId>${applicationId}-workflow</artifactId>
     <packaging>jar</packaging>
-    <name>$applicationName Workflow Module</name>
+    <name>${applicationName} Workflow Module</name>
     <dependencyManagement>
         <dependencies>
             <dependency>

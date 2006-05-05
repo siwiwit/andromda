@@ -73,7 +73,7 @@ public class Template
         final File directory,
         String outputPattern)
     {
-        File file = null;
+        File file;
 
         if (outputPattern == null || outputPattern.trim().length() == 0)
         {
@@ -177,7 +177,7 @@ public class Template
      * Sets whether or not we should output a file when no elements exist in the collection of elements when {@link
      * #isOutputToSingleFile()} returns <code>true</code>.
      *
-     * @param outputOnNoElements the boolean flag.
+     * @param outputOnEmptyElements the boolean flag.
      * @see #isOutputOnEmptyElements()
      * @see #isOutputToSingleFile()
      */

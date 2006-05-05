@@ -17,6 +17,11 @@ public class UMLMetafacadeProperties
      * where possible.
      */
     public static final String ENABLE_TEMPLATING = "enableTemplating";
+
+    /**
+     * Stores the property defining the default schema name for entity tables.
+     */
+    public static final String SCHEMA_NAME = "schemaName";
     
     /**
      * Stores the property defining the prefix for entity table names.
@@ -159,6 +164,11 @@ public class UMLMetafacadeProperties
      * Stores the suffix given to array type names.
      */
     public static final String ARRAY_NAME_SUFFIX = "arrayNameSuffix";
+
+    /**
+     * Whether or not to enable manageable entities for the currently running cartridge.
+     */
+    public static final String ENABLE_MANAGEABLE_ENTITIES = "enableManageableEntities";
 
     /**
      * The namespace property used to denote the name of the subpackage create for

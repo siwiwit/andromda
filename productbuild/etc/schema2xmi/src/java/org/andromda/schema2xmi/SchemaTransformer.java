@@ -156,7 +156,7 @@ public class SchemaTransformer
         if (repository == null)
         {
             throw new ModelProcessorException(
-                "No Repository could be found, " + "please make sure you have a " + RepositoryFacade.class.getName() +
+                "No Repository could be found, please make sure you have a " + RepositoryFacade.class.getName() +
                 " instance on your classpath");
         }
         repository.open();
@@ -352,7 +352,7 @@ public class SchemaTransformer
     private final Object transform(final Connection connection)
         throws Exception
     {
-        this.umlPackage = (UmlPackage)this.repository.getModel(null).getModel();
+        this.umlPackage = (UmlPackage)this.repository.getModel().getModel();
 
         final ModelManagementPackage modelManagementPackage = umlPackage.getModelManagement();
 
@@ -892,7 +892,11 @@ public class SchemaTransformer
         String baseClass)
     {
         Collection stereotypes = new HashSet();
-        String[] stereotypeNames = names.split(",");
+        String[] stereotypeNames = null;
+        if (names != null)
+        {
+            stereotypeNames = names.split(",");
+        }
         if (stereotypeNames != null && stereotypeNames.length > 0)
         {
             for (int ctr = 0; ctr < stereotypeNames.length; ctr++)

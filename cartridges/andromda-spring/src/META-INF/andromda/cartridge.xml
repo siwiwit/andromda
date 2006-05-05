@@ -1,6 +1,6 @@
 <cartridge>
 
-    <templateEngine>
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine">
         <macrolibrary name="templates/spring/RenderPreconditions.vm"/>
         <!-- cartridge-macrolibrary merge-point-->
     </templateEngine>
@@ -12,7 +12,13 @@
     <templateObject name="escapeUtils" className="org.apache.commons.lang.StringEscapeUtils"/>
     <templateObject name="hibernateUtils" className="org.andromda.cartridges.spring.SpringHibernateUtils">
         <property reference="hibernateVersion"/>
+        <property reference="hibernateXMLPersistence"/>
+        <property reference="hibernateMappingStrategy"/>
     </templateObject>
+    <templateObject name="converter" className="org.andromda.utils.JavaTypeConverter">
+        <property reference="javaTypeConversionIgnoreList"/>
+    </templateObject>
+
     <!-- cartridge-templateObject merge-point-->
 
     <property reference="driver"/>
@@ -57,6 +63,7 @@
     <property reference="transactionManagerName"/>
     <property reference="sessionFactory"/>
     <property reference="serviceLocatorName"/>
+    <property reference="serviceLocatorDefaultFactoryId"/>
     <property reference="springTypesPackage"/>
     <property reference="springPresentationTypesPackage"/>
     <property reference="manageableServiceLocatorName"/>
@@ -65,6 +72,9 @@
     <property reference="clientExceptionHandlingAdviceName"/>
     <property reference="criteriaSearchBaseName"/>
     <property reference="principalStoreName"/>
+    <property reference="externalPrincipalStoreClass"/>
+    <property reference="externalPrincipalStoreGetter"/>
+    <property reference="externalPrincipalStoreGetterType"/>
     <property reference="openSessionInViewFilterName"/>
     <property reference="ejbViewType"/>
     <property reference="ejbRemoteProxyFactoryBean"/>
@@ -89,7 +99,10 @@
     <property reference="xmlEncoding"/>
     <property reference="session-ejbs"/>
     <property reference="advice-impls"/>
+    <property reference="service-impls"/>
+    <property reference="dao-impls"/>
     <property reference="daos"/>
+    <property reference="daoInheritanceEnabled"/>
     <property reference="enableDaoPropertiesCreateMethod"/>
     <property reference="acegiServiceSecurity"/>
     <property reference="acegiServiceSecurityInterceptor"/>
@@ -98,6 +111,18 @@
     <property reference="acegiRolePrefix"/>
     <property reference="acegiAuthenticationManager"/>
     <property reference="acegiRunAsManager"/>
+    <property reference="acegiAuthenticationDaoBeanName"/>
+    <property reference="acegiAuthenticationManagerImplClass"/>
+    <property reference="acegiDaoAuthenticationProviderBeanName"/>
+    <property reference="acegiDaoAuthenticationProviderImplClass"/>
+    <property reference="acegiDaoUserCacheBeanName"/>
+    <property reference="acegiDaoUserCacheImplClass"/>
+    <property reference="acegiUserCacheConfigLocation"/>
+    <property reference="acegiUserCacheName"/>
+    <property reference="acegiPasswordEncoderBeanName"/>
+    <property reference="acegiPasswordEncoderImplClass"/>
+    <property reference="acegiPasswordSaltSourceBeanName"/>
+    <property reference="acegiAuthenticationDaoImplClass"/>
     <property reference="richClient"/>
     <property reference="configPropertyPrefix"/>
     <property reference="client"/>
@@ -108,10 +133,30 @@
     <property reference="server-config"/>
     <property reference="server-test"/>
     <property reference="server-test-config"/>
+    <property reference="criteria"/>
+    <property reference="merge-mappings"/>
+    <property reference="applicationContextServerAuthentication"/>
+    <property reference="applicationContextClientAuthentication"/>
+    <property reference="serverTestContextAuthentication"/>
+    <property reference="clientHttpInvokerExecutor"/>
     <property reference="toDoTag"/>
     <property reference="serverTestBeanRefFactory"/>
     <property reference="serverTestContextDataSource"/>
+    <property reference="enableTemplating"/>
     <!-- cartridge-property merge-point -->
+    
+    <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
+    <condition name="daoInheritanceEnabled">$daoInheritanceEnabled.equalsIgnoreCase("true")</condition>
+    <condition name="acegiServiceSecurity">$acegiServiceSecurity.equalsIgnoreCase("true")</condition>
+    <condition name="richClient">$richClient.equalsIgnoreCase("true")</condition>
+    <condition name="ejbsEnabled">$stringUtils.isNotBlank($session-ejbs)</condition>
+    <condition name="daosEnabled">$stringUtils.isNotBlank($daos)</condition>
+    <condition name="adviceEnabled">$stringUtils.isNotBlank($advice-impls)</condition>
+    <condition name="requiredCheckEnabled">$parameterRequiredCheck.equalsIgnoreCase("true")</condition>
+    <condition name="ejbSecurityEnabled">$stringUtils.isNotBlank($securityRealm)</condition>
+    <condition name="remoteEjbsPresent">$springUtils.remoteEjbsPresent($services)</condition> 
+    <condition name="localEjbsPresent">$springUtils.localEjbsPresent($services)</condition> 
+    <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
 
@@ -126,7 +171,11 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">false</property>
+                    <property name="abstract">false</property>
                 </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
             </modelElement>
         </modelElements>
     </template>
@@ -144,12 +193,30 @@
                     <property name="richClient">true</property>
                 </type>
             </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+            </modelElement>
         </modelElements>
     </template>
 
     <template
         path="templates/spring/richclient/SpringServerTest.vsl"
         outputPattern="$generatedFile"
+        outlet="server-test"
+        overwrite="false"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="service">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/richclient/ThisBeanFactory.java.vsl"
+        outputPattern="org/andromda/utils/ThisBeanFactory.java"
         outlet="server-test"
         overwrite="false"
         outputOnEmptyElements="false">
@@ -176,6 +243,9 @@
                     <property name="richClient">false</property>
                 </type>
             </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+            </modelElement>
         </modelElements>
     </template>
 
@@ -192,6 +262,9 @@
                     <property name="remotable"/>
                     <property name="richClient">true</property>
                 </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
             </modelElement>
         </modelElements>
     </template>
@@ -231,7 +304,7 @@
     <template
         path="templates/spring/SpringService.vsl"
         outputPattern="{0}/{1}.java"
-        outlet="services"
+        outlet="service-interfaces"
         overwrite="true">
         <modelElements variable="service">
             <modelElement>
@@ -265,7 +338,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="configonly">false</property>
-                    <property name="richClient">false</property>                    
+                    <property name="richClient">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -280,7 +353,7 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="configonly">false</property>
-                    <property name="richClient">true</property>                    
+                    <property name="richClient">true</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -352,7 +425,7 @@
     <template
         path="templates/spring/DefaultServiceException.vsl"
         outputPattern="$generatedFile"
-        outlet="services"
+        outlet="service-interfaces"
         overwrite="true">
         <modelElements variable="service">
             <modelElement>
@@ -403,7 +476,7 @@
     </template>
 
     <template
-        path="templates/spring/hibernate/SpringHibernateDaoImplManual.vsl"
+        path="templates/spring/hibernate/SpringHibernateDaoImpl.vsl"
         outputPattern="$generatedFile"
         outlet="dao-impls"
         overwrite="false">
@@ -420,7 +493,8 @@
         path="templates/spring/ejb/SpringSessionBean.vsl"
         outputPattern="$generatedFile"
         outlet="session-ejbs"
-        overwrite="true">
+        overwrite="true"
+        outputCondition="ejbsEnabled">
         <modelElements variable="service">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -434,7 +508,8 @@
         path="templates/spring/ejb/SpringSession.vsl"
         outputPattern="$generatedFile"
         outlet="session-ejbs"
-        overwrite="true">
+        overwrite="true"
+        outputCondition="ejbsEnabled">
         <modelElements variable="service">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -448,7 +523,8 @@
         path="templates/spring/ejb/SpringSessionHome.vsl"
         outputPattern="$generatedFile"
         outlet="session-ejbs"
-        overwrite="true">
+        overwrite="true"
+        outputCondition="ejbsEnabled">
         <modelElements variable="service">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -506,39 +582,38 @@
         outputOnEmptyElements="false">
         <modelElements>
             <modelElement variable="entities">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity">
-                    <property name="richClient">false</property>
-                </type>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity"/>
             </modelElement>
             <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
-                    <property name="richClient">false</property>
-                </type>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService"/>
             </modelElement>
         </modelElements>
     </template>
 
+    <!-- this configuration is supposed to be used by web components, typically Hessian or Burlap -->
     <template
-        path="templates/spring/richclient/applicationContext-server-test-dataSource.xml.vsl"
-        outputPattern="$serverTestContextDataSource"
-        outlet="server-test-config"
-        overwrite="false"
+        path="templates/spring/applicationContext-server.xml.vsl"
+        outputPattern="${serviceRemoteContext}-servlet.xml"
+        outlet="spring-configuration"
+        overwrite="true"
         outputToSingleFile="true"
         outputOnEmptyElements="false">
         <modelElements>
-            <modelElement variable="entities">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity">
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="remotable"/>
                     <property name="richClient">true</property>
                 </type>
             </modelElement>
-            <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
-                    <property name="richClient">true</property>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
+                    <property name="remotable"/>
                 </type>
             </modelElement>
         </modelElements>
     </template>
 
+    <!-- this configuration is supposed to be used by non-web components -->
     <template
         path="templates/spring/applicationContext-server.xml.vsl"
         outputPattern="$applicationContextServer"
@@ -549,6 +624,11 @@
         <modelElements>
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="remotable"/>
+                </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
                     <property name="remotable"/>
                 </type>
             </modelElement>
@@ -569,6 +649,9 @@
                     <property name="richClient">false</property>
                 </type>
             </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+            </modelElement>
         </modelElements>
     </template>
 
@@ -583,6 +666,91 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="remotable"/>
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/richclient/applicationContext-server-authentication.xml.vsl"
+        outputPattern="WEB-INF/$applicationContextServerAuthentication"
+        outlet="server-config"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false"
+        outputCondition="acegiServiceSecurity">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/richclient/ehcache-server-authentication.xml.vsl"
+        outputPattern="WEB-INF/ehcache-server-authentication.xml"
+        outlet="server-config"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/richclient/AuthenticationDaoImpl.vsl"
+        outputPattern="$generatedFile"
+        outlet="server-impl"
+        overwrite="false"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/richclient/SpringMergeMappings.vsl"
+        outputPattern="SpringMergeMappings.xml"
+        outlet="merge-mappings"
+        overwrite="false"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/richclient/applicationContext-client-authentication.xml.vsl"
+        outputPattern="$applicationContextClientAuthentication"
+        outlet="client-config"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false"
+        outputCondition="acegiServiceSecurity">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
                 </type>
             </modelElement>
@@ -620,6 +788,11 @@
                     <property name="richClient">true</property>
                 </type>
             </modelElement>
+            <modelElement variable="manageables">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
+                    <property name="remotable"/>
+                </type>
+            </modelElement>
         </modelElements>
     </template>
 
@@ -632,7 +805,9 @@
         outputOnEmptyElements="false">
         <modelElements>
             <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService" />
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="abstract">false</property>
+                </type>
             </modelElement>
         </modelElements>
     </template>
@@ -646,7 +821,9 @@
         outputOnEmptyElements="false">
         <modelElements>
             <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService"/>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="abstract">false</property>
+                </type>
             </modelElement>
         </modelElements>
     </template>
@@ -657,11 +834,13 @@
         outlet="session-ejbs"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="ejbsEnabled">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">false</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -673,11 +852,13 @@
         outlet="server-config"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="ejbsEnabled">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -689,11 +870,13 @@
         outlet="session-ejbs"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="ejbsEnabled">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">false</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -705,11 +888,13 @@
         outlet="server-config"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="ejbsEnabled">
         <modelElements variable="services">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -755,6 +940,22 @@
             </modelElement>
             <modelElement variable="manageables">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
+                    <property name="richClient">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/richclient/serverTestBeanRefFactory.properties.vsl"
+        outputPattern="$generatedFile"
+        outlet="server-test-config"
+        overwrite="false"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
                 </type>
             </modelElement>
@@ -816,7 +1017,7 @@
     <template
         path="templates/spring/hibernate/SearchCriteria.vsl"
         outputPattern="{0}/{1}.java"
-        outlet="daos"
+        outlet="$outlet"
         overwrite="true">
         <modelElements variable="class">
             <modelElement stereotype="CRITERIA"/>
@@ -871,7 +1072,7 @@
     <template
         path="templates/spring/crud/SpringCrudService.vsl"
         outputPattern="$generatedFile"
-        outlet="services"
+        outlet="service-interfaces"
         overwrite="true">
         <modelElements variable="manageable">
             <modelElement>
@@ -919,7 +1120,7 @@
     <template
         path="templates/spring/crud/SpringCrudValueObject.vsl"
         outputPattern="$generatedFile"
-        outlet="daos"
+        outlet="value-objects"
         overwrite="true">
         <modelElements variable="manageable">
             <modelElement>

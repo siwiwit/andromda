@@ -29,17 +29,25 @@ import org.eclipse.uml2.TemplateBinding;
 import org.eclipse.uml2.TemplateSignature;
 import org.eclipse.uml2.VisibilityKind;
 
+
 /**
  * Represents a TagDefinition metaclass (was needed because it doesn't
  * exist in the uml2 metamodel).
- * 
- * @author Steve Jermain
+ *
+ * @author Steve Jerman
  */
 public class TagDefinitionImpl
     implements TagDefinition
 {
+    /**
+     * The name of the tag.
+     */
     private String name;
-    private String value;
+
+    /**
+     * The value of the tag. Should be a string or a collection of strings.
+     */
+    private Object value;
 
     /**
      * Constructor
@@ -55,6 +63,7 @@ public class TagDefinitionImpl
     }
 
     /**
+     * Generalized constructor.
      * @param object
      * @param object2
      */
@@ -62,30 +71,50 @@ public class TagDefinitionImpl
         Object name,
         Object value)
     {
-        if (name instanceof String && value instanceof String)
+        if (name instanceof String)
         {
             this.name = (String)name;
-            this.value = (String)value;
+            this.value = value;
         }
     }
 
+    /**
+     * @see org.andromda.metafacades.emf.uml2.TagDefinition#getName()
+     */
     public String getName()
     {
         return name;
     }
 
-    public String getValue()
+    /**
+     * @see org.andromda.metafacades.emf.uml2.TagDefinition#getValue()
+     */
+    public Object getValue()
     {
         return value;
     }
 
+    /**
+     * @see org.andromda.metafacades.emf.uml2.TagDefinition#getValues()
+     */
     public Collection getValues()
     {
-        ArrayList c = new ArrayList();
-        c.add(value);
-        return c;
+        Collection values;
+        if (value instanceof Collection)
+        {
+            values = (Collection)value;
+        }
+        else
+        {
+            values = new ArrayList();
+            values.add(value);
+        }
+        return values;
     }
 
+    /**
+     * @see org.andromda.metafacades.emf.uml2.TagDefinition#toString()
+     */
     public String toString()
     {
         return name + " : " + value;

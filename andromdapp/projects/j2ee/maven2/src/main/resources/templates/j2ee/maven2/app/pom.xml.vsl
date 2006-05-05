@@ -64,7 +64,7 @@
             <type>war</type>
         </dependency>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-webservice</artifactId>
@@ -85,16 +85,33 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>${application.id}-${pom.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/config</directory>
+                <targetPath>../</targetPath>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/application</directory>
+                <targetPath>../${application.id}-${pom.version}</targetPath>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
+                <version>2.1</version>
                 <configuration>
+                    <includes>**/*.xml</includes>
+                    <excludes>**/jboss-app.xml</excludes>
                     <version>1.4</version>
                     <modules>
                         <javaModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-common</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
                         </javaModule>
 #if (!$transactionPersistenceType.equals("none"))
                         <ejbModule>
@@ -106,14 +123,14 @@
                         <webModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-web</artifactId>
-                            <contextRoot>/${applicationId}</contextRoot>
+                            <contextRoot>/${application.id}</contextRoot>
                         </webModule>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
                         <webModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-webservice</artifactId>
-                            <contextRoot>/${applicationId}-ws</contextRoot>
+                            <contextRoot>/${application.id}-ws</contextRoot>
                         </webModule>
 #end
 #if ($workflow)
@@ -137,6 +154,10 @@
                 </executions>
                 <configuration>
                     <deployLocation>${jboss.home}/server/default/deploy</deployLocation>
+                    <!-- include the generated data source file -->
+                    <includes>
+                        <include>*ds.xml</include>
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>

@@ -23,6 +23,20 @@ public class HibernateProfile
     /* ----------------- Tagged Values -------------------- */
 
     /**
+     * Tag attached to entities, attributes, and/or association ends to specify the
+     * name of the XML node to generate when v3 XML Persistence is activated.
+     */
+    public static final String TAGGEDVALUE_HIBERNATE_XML_TAG_NAME = profile.get("HIBERNATE_XML_TAG_NAME");
+
+    
+    /**
+     * Tag attached to association ends to determine if the associated entity should be embed
+     * in as XML when v3 XML Persistence is activated.
+     */
+    public static final String TAGGEDVALUE_HIBERNATE_XML_EMBED = profile.get("HIBERNATE_XML_EMBED");
+
+    
+    /**
      * Stores the hibernate generator class.
      */
     public static final String TAGGEDVALUE_HIBERNATE_GENERATOR_CLASS = profile.get("HIBERNATE_GENERATOR_CLASS");

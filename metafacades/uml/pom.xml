@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.metafacades</groupId>
         <artifactId>andromda-metafacades</artifactId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <artifactId>andromda-uml-metafacades</artifactId>
     <packaging>pom</packaging>
@@ -50,7 +50,7 @@
                       </execution>
                   </executions>
                   <configuration>
-                      <buildSourceDirectory>${basedir}/target/src</buildSourceDirectory>
+                      <buildSourceDirectory>${pom.basedir}/target/src</buildSourceDirectory>
                       <lastModifiedCheck>true</lastModifiedCheck>
                   </configuration>
                 </plugin>
@@ -66,14 +66,14 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <buildSourceDirectory>${basedir}/target/src</buildSourceDirectory>
+                        <buildSourceDirectory>${pom.basedir}/target/src</buildSourceDirectory>
                         <lastModifiedCheck>true</lastModifiedCheck>
                     </configuration>        
                 </plugin>
                 <plugin>
                     <groupId>org.andromda.maven.plugins</groupId>
-                    <artifactId>andromda-bootstrap-install-plugin</artifactId> 
-                    <version>${pom.version}</version>   
+                    <artifactId>andromda-bootstrap-install-plugin</artifactId>    
+                    <version>${pom.version}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -98,9 +98,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <filters>
-            <filter>mda.properties</filter>
-        </filters>
 		<resources>
 	      	<resource>
 		        <directory>src/java</directory>
@@ -146,6 +143,13 @@
     <modules>
         <module>common</module>
         <module>uml14</module>
+        <module>uml2</module>
         <module>emf/uml2</module>
     </modules>
+    <properties>
+        <model.file>${pom.basedir}/src/main/uml/${pom.artifactId}.xml.zip</model.file>
+        <maven.andromda.model.uri>jar:file:${model.file}!/${pom.artifactId}.xml</maven.andromda.model.uri>
+        <maven.build.src>${pom.basedir}/target/src</maven.build.src>
+        <maven.src.dir>${pom.basedir}/src/main</maven.src.dir>
+    </properties>
 </project>

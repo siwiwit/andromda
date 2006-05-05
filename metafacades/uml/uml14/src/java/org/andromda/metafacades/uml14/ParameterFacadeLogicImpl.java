@@ -1,5 +1,11 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import javax.naming.OperationNotSupportedException;
+
+import org.andromda.core.metafacade.MetafacadeImplsException;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
@@ -11,19 +17,16 @@ import org.omg.uml.foundation.core.Operation;
 import org.omg.uml.foundation.datatypes.Expression;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 
 /**
  * Metaclass facade implementation.
  */
 public class ParameterFacadeLogicImpl
-        extends ParameterFacadeLogic
+    extends ParameterFacadeLogic
 {
     public ParameterFacadeLogicImpl(
-            org.omg.uml.foundation.core.Parameter metaObject,
-            String context)
+        org.omg.uml.foundation.core.Parameter metaObject,
+        String context)
     {
         super(metaObject, context);
     }
@@ -36,7 +39,9 @@ public class ParameterFacadeLogicImpl
     protected String handleGetName()
     {
         final String nameMask = String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.PARAMETER_NAME_MASK));
-        return NameMasker.mask(super.handleGetName(), nameMask);
+        return NameMasker.mask(
+            super.handleGetName(),
+            nameMask);
     }
 
     /**
@@ -78,7 +83,7 @@ public class ParameterFacadeLogicImpl
         final Expression expression = this.metaObject.getDefaultValue();
         return expression == null ? "" : expression.getBody();
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.ParameterFacade#isDefaultValuePresent()
      */
@@ -185,5 +190,23 @@ public class ParameterFacadeLogicImpl
     protected boolean handleIsInoutParameter()
     {
         return ParameterDirectionKindEnum.PDK_INOUT.equals(this.metaObject.getKind());
+    }
+
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        throw new java.lang.UnsupportedOperationException("'upper' is not a UML1.4 feature");
+     }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        throw new java.lang.UnsupportedOperationException("'lower' is not a UML1.4 feature");
     }
 }

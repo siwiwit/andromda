@@ -275,7 +275,6 @@ public class MetafacadeLogicImpl
         }
         catch (Throwable th)
         {
-            th.printStackTrace();
             throw new RuntimeException(th);
         }
     }
@@ -447,5 +446,25 @@ public class MetafacadeLogicImpl
             MetafacadeGeneralization b = (MetafacadeGeneralization)objectB;
             return a.getPrecedence().compareTo(b.getPrecedence());
         }
+    }
+
+    /**
+     * @see org.andromda.cartridges.meta.metafacades.MetafacadeLogic#getAllParents()
+     */
+    protected Collection handleGetAllParents()
+    {
+        Set allParents = new LinkedHashSet();
+        final Collection parents = this.getGeneralizations();
+        allParents.addAll(parents);
+        for (final Iterator iterator = parents.iterator(); iterator.hasNext();)
+        {
+            final Object object = iterator.next();
+            if (object instanceof Metafacade)
+            {
+                final Metafacade metafacade = (Metafacade)object;
+                allParents.addAll(metafacade.getAllParents());    
+            }
+        }
+        return allParents;
     }
 }

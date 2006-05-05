@@ -5,7 +5,7 @@
     <parent>
         <artifactId>andromda-maven-plugins</artifactId>
         <groupId>org.andromda.maven.plugins</groupId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>andromdapp-maven-plugin</artifactId>
@@ -25,6 +25,11 @@
         <dependency>
             <groupId>org.andromda.andromdapp.projects</groupId>
             <artifactId>andromda-andromdapp-project-j2ee-maven2</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda.andromdapp.projects</groupId>
+            <artifactId>andromda-andromdapp-project-richclient-ant</artifactId>
             <version>${pom.version}</version>
         </dependency>
         <dependency>
@@ -57,7 +62,11 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
             <version>2.1</version>
-            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>javassist</artifactId>
+            <version>2.6</version>
         </dependency>
     </dependencies>
     <build>

@@ -4,7 +4,7 @@
   <artifactId>andromda-metafacades-uml14</artifactId>
   <packaging>xml.zip</packaging>
   <name>AndroMDA UML 1.4 Metafacades</name>
-  <version>4.0-M1-SNAPSHOT</version>
+  <version>3.2-RC1-SNAPSHOT</version>
   <description>The UML 1.4 metafacades.  This is the set of UML 1.4 metafacades
   		implementations.  These implement the common UML metafacades.</description>
   <url>http://www.andromda.org/andromda-metafacades/andromda-uml-metafacades/andromda-metafacades-uml14</url>
@@ -59,11 +59,6 @@
       <url>http://team.andromda.org/maven2</url>
     </repository>
     <repository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
-    </repository>
-    <repository>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -77,11 +72,6 @@
       <id>andromda</id>
       <name>AndroMDA Repository</name>
       <url>http://team.andromda.org/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
     </pluginRepository>
     <pluginRepository>
       <releases>
@@ -105,4 +95,10 @@
       <url>scp://galaxy.andromda.org/var/www/andromda/maven2</url>
     </repository>
   </distributionManagement>
+  <properties>
+    <maven.andromda.model.uri>jar:file:f:\java\development\andromda-all-v3\metafacades\uml\uml14/src/uml/andromda-metafacades-uml14.xml.zip!/andromda-metafacades-uml14.xml</maven.andromda.model.uri>
+    <model.file>f:\java\development\andromda-all-v3\metafacades\uml\uml14/src/uml/andromda-metafacades-uml14.xml.zip</model.file>
+    <maven.src.dir>f:\java\development\andromda-all-v3\metafacades\uml\uml14/src</maven.src.dir>
+    <maven.build.src>f:\java\development\andromda-all-v3\metafacades\uml\uml14/target/src</maven.build.src>
+  </properties>
 </project>

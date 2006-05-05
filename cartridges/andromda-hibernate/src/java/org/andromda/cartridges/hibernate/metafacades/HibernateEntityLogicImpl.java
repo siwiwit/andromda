@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.andromda.cartridges.hibernate.HibernateProfile;
+import org.andromda.cartridges.hibernate.HibernateUtils;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.EntityAttribute;
@@ -30,6 +31,8 @@ import org.apache.commons.lang.StringUtils;
  * @author Chad Brandon
  * @author Martin West
  * @author Carlos Cuenca
+ * @author Peter Friese
+ * @author Wouter Zoons
  */
 public class HibernateEntityLogicImpl
     extends HibernateEntityLogic
@@ -291,6 +294,20 @@ public class HibernateEntityLogicImpl
     }
 
     /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#isLazy()
+     */
+    protected boolean handleIsLazy()
+    {
+        String value = (String)findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_LAZY);
+        if (StringUtils.isBlank(value))
+        {
+            String version = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION);
+            value = version.equals(HibernateGlobals.HIBERNATE_VERSION_2) ? "false" : "true";
+        }
+        return Boolean.valueOf(value).booleanValue();
+    }
+
+    /**
      * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#getHibernateCacheType()
      */
     protected String handleGetHibernateCacheType()
@@ -483,7 +500,7 @@ public class HibernateEntityLogicImpl
             maxElements = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_MAX_ELEMENTS);
         }
 
-        return Integer.parseInt(maxElements);
+        return Integer.parseInt(StringUtils.trimToEmpty(maxElements));
     }
 
     /**
@@ -496,7 +513,7 @@ public class HibernateEntityLogicImpl
         {
             eternal = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_ETERNAL);
         }
-        return Boolean.valueOf(eternal).booleanValue();
+        return Boolean.valueOf(StringUtils.trimToEmpty(eternal)).booleanValue();
     }
 
     /**
@@ -512,7 +529,7 @@ public class HibernateEntityLogicImpl
             timeToIdle = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_TIME_TO_IDLE);
         }
 
-        return Integer.parseInt(timeToIdle);
+        return Integer.parseInt(StringUtils.trimToEmpty(timeToIdle));
     }
 
     /**
@@ -528,7 +545,7 @@ public class HibernateEntityLogicImpl
             timeToLive = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_TIME_TO_LIVE);
         }
 
-        return Integer.parseInt(timeToLive);
+        return Integer.parseInt(StringUtils.trimToEmpty(timeToLive));
     }
 
     /**
@@ -543,7 +560,7 @@ public class HibernateEntityLogicImpl
             eternal = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_EHCACHE_OVERFLOW_TO_DISK);
         }
 
-        return Boolean.valueOf(eternal).booleanValue();
+        return Boolean.valueOf(StringUtils.trimToEmpty(eternal)).booleanValue();
     }
 
     /**
@@ -623,12 +640,14 @@ public class HibernateEntityLogicImpl
     protected boolean handleIsRequiresMapping()
     {
         final HibernateEntity superEntity = this.getSuperEntity();
-        final boolean requiresMapping = this.isRoot() &&
-        (
-            !this.isHibernateInheritanceInterface() || this.getSpecializations().isEmpty() ||
-            (superEntity != null && superEntity.isHibernateInheritanceInterface())
-        );
-        return requiresMapping;
+        return
+            HibernateUtils.mapSubclassesInSeparateFile(
+                (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_MAPPING_STRATEGY)) ||
+            this.isRoot() &&
+            (
+                !this.isHibernateInheritanceInterface() || this.getSpecializations().isEmpty() ||
+                (superEntity != null && superEntity.isHibernateInheritanceInterface())
+            );
     }
 
     /**
@@ -642,7 +661,7 @@ public class HibernateEntityLogicImpl
             (this.isHibernateInheritanceConcrete() || this.isHibernateInheritanceInterface()) && this.isAbstract();
 
         return (this.getSuperEntity() == null ||
-            (superEntity.isHibernateInheritanceInterface() || superEntity.isHibernateInheritanceConcrete())) 
+            (superEntity.isHibernateInheritanceInterface() || superEntity.isHibernateInheritanceConcrete()))
             && !abstractConcreteEntity;
     }
 
@@ -651,7 +670,9 @@ public class HibernateEntityLogicImpl
      */
     protected boolean handleIsRequiresSpecializationMapping()
     {
-        return this.isRoot() && (this.isHibernateInheritanceSubclass() 
+        return !HibernateUtils.mapSubclassesInSeparateFile(
+            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_MAPPING_STRATEGY)) &&
+            this.isRoot() && (this.isHibernateInheritanceSubclass()
             || this.isHibernateInheritanceClass()
             || this.isHibernateInheritanceUnionSubClass());
     }
@@ -697,7 +718,7 @@ public class HibernateEntityLogicImpl
     }
 
     /**
-     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#getHibernateVersion()
+     * @see HibernateEntity#getHibernateVersionProperty()
      */
     protected String handleGetHibernateVersionProperty()
     {
@@ -715,5 +736,30 @@ public class HibernateEntityLogicImpl
     protected int handleGetVersion()
     {
         return Integer.parseInt((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION));
+    }
+
+    
+    private boolean isXmlPersistenceActive()
+    {
+       return HibernateUtils.isXmlPersistenceActive((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION),
+                                                    (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_XML_PERSISTENCE));
+    }
+    
+    
+    protected String handleGetXmlTagName()
+    {
+        String tagName = null;
+        
+        if (isXmlPersistenceActive())
+        {
+            tagName = (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_XML_TAG_NAME);
+
+            if (tagName == null)
+            {
+                tagName = this.getName();
+            }
+
+        }
+        return (StringUtils.isBlank(tagName)) ? null : tagName;
     }
 }

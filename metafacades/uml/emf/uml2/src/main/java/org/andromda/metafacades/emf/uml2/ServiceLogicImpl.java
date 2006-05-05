@@ -1,5 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
+import java.util.Collection;
+
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.FilteredCollection;
@@ -50,6 +52,15 @@ public class ServiceLogicImpl
                     return targetElement != null && Entity.class.isAssignableFrom(targetElement.getClass());
                 }
             };
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.getAllServiceReferences
+     */
+    protected Collection handleGetAllServiceReferences()
+    {
+        // TODO add your implementation here!
+        return null;
     }
 
     /**

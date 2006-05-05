@@ -8,7 +8,7 @@
 
 <f:view>
 
-    <x:panelLayout id="page" layout="#{layoutOptions.sidebarLayout}"
+    <t:panelLayout id="page" layout="#{layoutOptions.sidebarLayout}"
             styleClass="pageLayout"
             headerClass="pageHeader"
             navigationClass="pageNavigation"
@@ -31,18 +31,16 @@
                 <h:outputText value="#{messages['login.text']}" styleClass="loginText" escape="false"/>
                 <f:verbatim><br/><br/></f:verbatim>
                 <f:verbatim><form id="login" name="login" action="j_security_check" method="post"></f:verbatim>
-                <h:panelGrid columns="3" styleClass="formTable"
+                <h:panelGrid columns="2" styleClass="formTable"
                              headerClass="formHeader"
                              footerClass="formFooter"
-                             columnClasses="formLabels,,formInputs"
+                             columnClasses="formLabels,formInputs"
                              title="#{messages['login.title']}"> 
-                    <h:outputLabel for="j_username" value="#{messages['login.username']}"/>
-                    <f:verbatim>:</f:verbatim>
+                    <h:outputLabel for="j_username" value="#{messages['login.username']}: "/>
                     <h:panelGroup>
                         <h:inputText id="j_username" title="#{messages['login.username']}" tabindex="10"/>
                     </h:panelGroup>
-                    <h:outputLabel for="j_password" value="#{messages['login.password']}"/>
-                    <f:verbatim>:</f:verbatim>
+                    <h:outputLabel for="j_password" value="#{messages['login.password']}: "/>
                     <h:panelGroup>
                         <h:inputSecret id="j_password" title="#{messages['login.password']}" tabindex="10"/>
                     </h:panelGroup>
@@ -55,7 +53,6 @@
                         </h:commandLink> 
                     </h:panelGrid> 
 #end
-                    <h:panelGroup/>
                     <h:panelGroup/>
                     <h:panelGroup>
                         <f:verbatim>
@@ -75,7 +72,7 @@
 
         <%@include file="/includes/footer.jspf" %>
 
-    </x:panelLayout>
+    </t:panelLayout>
 
 </f:view>
 <script type="text/javascript" language="Javascript1.1">

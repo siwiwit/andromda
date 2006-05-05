@@ -26,7 +26,7 @@ public class UMLProfile
      * Represents a persistent entity.
      */
     public static final String STEREOTYPE_ENTITY = profile.get("ENTITY");
-    
+
     /**
      * Represents an embedded value (typically embedded with an entity as an attribute).
      */
@@ -111,22 +111,27 @@ public class UMLProfile
      * Represents a manageable entity.
      */
     public static final String STEREOTYPE_MANAGEABLE = profile.get("MANAGEABLE");
-    
+
+    /**
+     * Indicates if a persistence type's property is transient.
+     */
+    public static final String STEREOTYPE_TRANSIENT = profile.get("TRANSIENT");
+
     /**
      * Represents a "front end" use case (that is a use case used to model a presentation tier or "front end").
      */
     public static final String STEREOTYPE_FRONT_END_USECASE = profile.get("FRONT_END_USE_CASE");
-    
+
     /**
      * Represents a "front end" use case that is the entry point to the presentation tier.
      */
     public static final String STEREOTYPE_FRONT_END_APPLICATION = profile.get("FRONT_END_APPLICATION");
-    
+
     /**
      * Represents a "front end" view (that is it can represent a JSP page, etc).
      */
     public static final String STEREOTYPE_FRONT_END_VIEW = profile.get("FRONT_END_VIEW");
-    
+
     /**
      * Represents an exception on a "front-end" view.
      */
@@ -138,16 +143,21 @@ public class UMLProfile
      * Represents documentation stored as a tagged value
      */
     public static final String TAGGEDVALUE_DOCUMENTATION = profile.get("DOCUMENTATION");
-    
+
     /**
      * Represents a model hyperlink stored as a tagged value.
      */
     public static final String TAGGEDVALUE_MODEL_HYPERLINK = profile.get("MODEL_HYPERLINK");
-    
+
     /**
      * Represents an external hyperlink (a website outside of a model).
      */
     public static final String TAGGEDVALUE_EXTERNAL_HYPERLINK = profile.get("EXTERNAL_HYPERLINK");
+
+    /**
+     * Represents the name of the schema for entity persistence.
+     */
+    public static final String TAGGEDVALUE_PERSISTENCE_SCHEMA = profile.get("PERSISTENCE_SCHEMA");
 
     /**
      * Represents a relational table name for entity persistence.
@@ -168,7 +178,7 @@ public class UMLProfile
      * Represents a relational table column index name.
      */
     public static final String TAGGEDVALUE_PERSISTENCE_COLUMN_INDEX = profile.get("PERSISTENCE_COLUMN_INDEX");
-    
+
     /**
      * Indicates if a persistence type is immutable.
      */
@@ -180,7 +190,7 @@ public class UMLProfile
      */
     public static final String TAGGEDVALUE_PERSISTENCE_FOREIGN_IDENTIFIER = profile.get(
         "PERSISTENCE_FOREIGN_IDENTIFIER");
-    
+
     /**
      * Used on an identifier to indicate whether or not the identifier is <em>assigned</em> (meaning
      * that the identifier is manually assigned instead of generated.
@@ -193,17 +203,17 @@ public class UMLProfile
      */
     public static final String TAGGEDVALUE_PERSISTENCE_FOREIGN_KEY_CONSTRAINT_NAME = profile.get(
         "PERSISTENCE_FOREIGN_KEY_CONSTRAINT_NAME");
-    
+
     /**
      * Used to assign the controller to the activity (when it can not be assigned explicity).
      */
     public static final String TAGGEDVALUE_PRESENTATION_CONTROLLER_USECASE = profile.get("PRESENTATION_CONTROLLER_USECASE");
-    
+
     /**
      * Used to assign the table columns to a collection/array type parameter representing a table.
      */
     public static final String TAGGEDVALUE_PRESENTATION_TABLE_COLUMNS = profile.get("PRESENTATION_TABLE_COLUMNS");
-    
+
     /**
      * Used to indicate whether or not a parameter should be considered a table (used when no
      * table columns are specified).
@@ -234,7 +244,7 @@ public class UMLProfile
      * Stores the name of the role (if it's different than the name of the actor stereotyped as role)
      */
     public static final String TAGGEDVALUE_ROLE_NAME = profile.get("ROLE_NAME");
-    
+
     /**
      * Stores the serial version UID to be used for a class. If not specified, it will be calculated
      * based on the class signature.
@@ -294,7 +304,7 @@ public class UMLProfile
      * type.
      */
     public static final String DATE_TYPE_NAME = profile.get("DATE_TYPE");
-    
+
     /**
      * Used to identify time types in the model, any other type that will be identified as a time must specialize this
      * type.
@@ -324,6 +334,12 @@ public class UMLProfile
      */
     public static final String BLOB_TYPE_NAME = profile.get("BLOB_TYPE");
 
+    /**
+     * Used to identify a Clob type in the model, any other type that will be identified as a Clob type must specialize
+     * this type.
+     */
+    public static final String CLOB_TYPE_NAME = profile.get("CLOB_TYPE");
+    
     /**
      * Used to identify a map type in the model, any other type that will be identified as a map type must specialize
      * this type.

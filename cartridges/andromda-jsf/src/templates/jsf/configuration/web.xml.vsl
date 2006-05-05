@@ -4,11 +4,39 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
-         
+
 #if ($distributable.equalsIgnoreCase("true"))
     <distributable/>
 
 #end
+#if ($viewTypeIsFacelets)
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>facelets.LIBRARIES</param-name>
+        <param-value>
+            /WEB-INF/tomahawk.taglib.xml;
+            /WEB-INF/andromda.taglib.xml
+        </param-value>
+    </context-param>
+
+#end
+#if ($faceletsDevelopmentSupportEnabled)
+    <context-param>
+        <param-name>facelets.REFRESH_PERIOD</param-name>
+        <param-value>2</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value>
+    </context-param>
+        
+#end    
+#if ($facesConfigFiles)
     <context-param>
         <description>
             Comma separated list of URIs of (additional) faces config files.
@@ -17,10 +45,12 @@
         </description>
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>
-            /WEB-INF/$facesConfig
+            $facesConfigFiles
         </param-value>
     </context-param>
-
+   
+#end 
+    
     <context-param>
         <description>
             State saving method: "client" or "server" (= default)
@@ -77,11 +107,15 @@
     <!-- Extensions Filter -->
     <filter>
         <filter-name>extensionsFilter</filter-name>
+#if ($outputLibraries)
+        <filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
+#else
         <filter-class>org.apache.myfaces.component.html.util.ExtensionsFilter</filter-class>
+#end
         <init-param>
             <description>
                 Set the size limit for uploaded files.
-                
+
                 Format: 10 - 10 bytes
                         10k - 10 KB
                         10m - 10 MB
@@ -169,14 +203,13 @@
     </servlet>
 #end
 #end
-    <servlet> 
+    <servlet>
         <servlet-name>AndroMDA JSF Servlet</servlet-name>
         <servlet-class>org.andromda.cartridges.jsf.JSFServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
-    
+
     <!-- precompilation merge-point -->
-    <!-- servlet-mapping merge-point -->    
     <servlet-mapping>
         <servlet-name>AndroMDA JSF Servlet</servlet-name>
         <url-pattern>/jsf/*</url-pattern>
@@ -189,18 +222,18 @@
 #if ($securityEnabled)
     <servlet-mapping>
         <servlet-name>$logOutServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
+        <url-pattern>/${logoutFileName}.${facesServletExtension}</url-pattern>
     </servlet-mapping>
 #end
 #foreach ($useCase in $useCases)
     <servlet-mapping>
         <servlet-name>$useCase.fullyQualifiedActionClassName</servlet-name>
-        <url-pattern>$useCase.path</url-pattern>
+        <url-pattern>${useCase.path}.${facesServletExtension}</url-pattern>
     </servlet-mapping>
 #foreach ($action in $useCase.actionForwards)
     <servlet-mapping>
         <servlet-name>$action.fullyQualifiedActionClassName</servlet-name>
-        <url-pattern>$action.path</url-pattern>
+        <url-pattern>${action.path}.${facesServletExtension}</url-pattern>
     </servlet-mapping>
 #end
 #end
@@ -232,14 +265,14 @@
 #set ($useCases = $applicationUseCase.allUseCases)
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Raw-JSF-JSP-Pages</web-resource-name>
+            <web-resource-name>Raw-JSF-Pages</web-resource-name>
             <description>
-                Prevent access to raw JSP pages that are for JSF pages.
+                Prevent access to raw pages that are for JSF pages.
                 (No roles, so no direct access)
             </description>
 #foreach ($useCase in $useCases)
 #foreach ($view in $useCase.views)
-            <url-pattern>${view.path}.jsp</url-pattern>
+            <url-pattern>${view.path}.${jsfUtils.viewExtension}</url-pattern>
 #end
 #end
         </web-resource-collection>
@@ -278,8 +311,8 @@
         <auth-method>FORM</auth-method>
         <realm-name>$securityRealm</realm-name>
         <form-login-config>
-            <form-login-page>/login.${facesServletExtension}</form-login-page>
-            <form-error-page>/login.${facesServletExtension}?action=error</form-error-page>
+            <form-login-page>/${loginFileName}.${facesServletExtension}</form-login-page>
+            <form-error-page>/${loginFileName}.${facesServletExtension}?action=error</form-error-page>
         </form-login-config>
     </login-config>
 
@@ -289,7 +322,7 @@
     </security-role>
 #end
     <!-- security-role merge-point -->
-    
+
 #end
 #end
 </web-app>

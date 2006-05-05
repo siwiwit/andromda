@@ -100,6 +100,8 @@
                 <property name="hibernateDefaultCascade">none</property>
                 <property name="entities">${maven.andromda.core.generated.dir}</property>
                 <property name="entity-impls">${maven.andromda.core.manual.dir}</property>
+                <property name="entity-mappings">${maven.andromda.core.generated.dir}</property>
+                <property name="user-types">${maven.andromda.core.generated.dir}</property>
                 <property name="customTypesPackage">${application.package}</property>
                 <property name="compositionDefinesEagerLoading">true</property>
             </properties>
@@ -706,8 +708,8 @@
                         <source language="xml">
 <![CDATA[<modelPackages>
     ...
-    <modelPackage process="false">my::package::bar::*</modelPackage>
-    <modelPackage process="false">my::package::bar**</modelPackage>
+    <modelPackage process="false">name="my::package::bar::*</modelPackage>                                
+    <modelPackage process="false">name="my::package::bar**</modelPackage>
     ...
 </modelPackages>]]>                                
                         </source>
@@ -744,7 +746,7 @@
 <![CDATA[<modelPackages>
   ...
     <modelPackage>my::package::foo</modelPackage>
-    <modelPackage process="false">my::package::bar</modelPackage>
+    <modelPackage process="false">name="my::package::bar</modelPackage>
   ...
 </modelPackages>]]></source>
                                 <p>
@@ -830,9 +832,9 @@
                         <source language="xml">
 <![CDATA[<constraints>
     ...
-    <constraint enforce="false">my::package::bar::SomeClass::*</constraint>
-    <constraint enforce="false">my::package::bar**</constraint>
-    <constraint enforce="false">my::package::bar::SomeClass::a constraint**</constraint>
+    <constraint enforce="false">name="my::package::bar::SomeClass::*</constraint>                                
+    <constraint enforce="false">name="my::package::bar**</constraint>
+    <constraint enforce="false">name="my::package::bar::SomeClass::a constraint**</constraint>
     ...
 </constraints>]]>                                
                         </source>

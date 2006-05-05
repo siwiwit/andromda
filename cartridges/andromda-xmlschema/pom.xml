@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.cartridges</groupId>
         <artifactId>andromda-cartridges</artifactId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.2-RC1-SNAPSHOT</version>
     </parent>
     <artifactId>andromda-xmlschema-cartridge</artifactId>
     <packaging>andromda-cartridge</packaging>
@@ -35,9 +35,9 @@
                 <artifactId>andromda-cartridge-plugin</artifactId>    
             </plugin>
         </plugins> 
-    </build>
+    </build> 
     <properties>
         <model.uri>jar:file:${src.dir}/uml/XmlSchemaMetafacadeModel.xml.zip!/XmlSchemaMetafacadeModel.xml</model.uri>
         <test.model.uri>jar:file:${test.src.dir}/uml/XmlSchemaCartridgeTestModel.xml.zip!/XmlSchemaCartridgeTestModel.xml</test.model.uri>
-    </properties> 
+    </properties>
 </project>

@@ -1,5 +1,3 @@
-#parse("templates/spring/ejb/SpringSessionEJBGlobals.vm")
-#if ($ejbsEnabled)
 <?xml version="1.0" encoding="$xmlEncoding"?>
 <!DOCTYPE ejb-jar PUBLIC "-//Sun Microsystems, Inc.//DTD Enterprise JavaBeans 2.0//EN"
                          "http://java.sun.com/dtd/ejb-jar_2_0.dtd">
@@ -99,7 +97,7 @@
 #if (!$operation.arguments.empty)
                 <method-params>
 #foreach ($argument in $operation.arguments)
-                    <method-param>$argument.type.fullyQualifiedName</method-param>
+                    <method-param>$springUtils.removeGenerics($argument.type.fullyQualifiedName)</method-param>
 #end
                 </method-params>
 #end
@@ -117,7 +115,7 @@
                 <method-name>$operation.name</method-name>
                 <method-params>
 #foreach ($argument in $operation.arguments)
-                    <method-param>$argument.type.fullyQualifiedName</method-param>
+                    <method-param>$springUtils.removeGenerics($argument.type.fullyQualifiedName)</method-param>
 #end
                 </method-params>
             </method>
@@ -130,4 +128,3 @@
     </assembly-descriptor>
 
 </ejb-jar>
-#end

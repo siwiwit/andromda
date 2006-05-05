@@ -143,7 +143,7 @@ public class UMLModelAccessFacade
         final ArrayList elements = new ArrayList();
         for (TreeIterator iterator = this.model.eAllContents(); iterator.hasNext();)
         {
-            EObject object = (EObject)iterator.next();
+            final EObject object = (EObject)iterator.next();
             if (object instanceof NamedElement)
             {
                 final NamedElement element = (NamedElement)object;

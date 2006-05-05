@@ -46,7 +46,7 @@
          |     |        additional sources such as merge-mappings can be
          |     |        placed here, check out the /main/uml directory, it contains
          |     |        the UML model from which AndroMDA will generate code
-         |     +-- /conf/andromda.xml
+         |     +-- /src/main/config/andromda.xml
          |              configures AndroMDA and its components, most
          |              importantly the cartridges which are listed in
          |              their own namespace; global settings are done in the
@@ -63,21 +63,21 @@
          |              shared resources and java classes are generated here,
          |              such as value objects and exceptions
          |
-#if ($ejb)
+#if ($ejb || $ejb3)
          +-- /core
          |     |
          |     |    The CORE module collects those resources and classes
          |     |    that use the EJB framework
          |     |
          |     +-- pom.xml
-         |     |        lists EJB dependencies
+         |     |        lists EJB[3.0] dependencies
          |     +-- /src/main/java
-         |     |        EJB classes that need manual implementation are
+         |     |        EJB[3.0] classes that need manual implementation are
          |     |        generated here, they will not be overwritten upon
          |     |        regeneration
          |     +-- /target
-         |              the EJB classes here will be overwriten each time
-         |              AndroMDA generates new code using the EJB cartridge
+         |              the EJB[3.0] classes here will be overwriten each time
+         |              AndroMDA generates new code using the EJB[3.0] cartridge
          |
 #end
 #if ($hibernate)
@@ -220,7 +220,7 @@
         %> mvn -f web/pom.xml -Ddeploy
 #end
 
-            collects all artifacts and builds a deployable .$projectType which is then
+            collects all artifacts and builds a deployable .$applicationType which is then
             deployed
 
         %> mvn clean
@@ -231,9 +231,16 @@
 
             rebuilds the entire application and deploys
              
-        % > mvn -f web/pom.xml andromdapp:undeploy -o 
+        %> mvn install -Denv=prod
 
-            undeploys the $projectType from your app server
+            builds the entire application for the production environment, possible 'env' property values
+            are 'prod' for production, 'val' for validation and 'dev' for development; not specifying
+            any value for this property will build the application for the local configuration
+            (more info at http://maven.apache.org/guides/introduction/introduction-to-profiles.html)
+
+        %> mvn -f web/pom.xml andromdapp:undeploy -o
+
+            undeploys the $applicationType from your app server
 
         %> mvn -N andromdapp:build -Dmodules=core (or mvn -f core/pom.xml)
 
@@ -272,6 +279,16 @@
 
             generates the drop and create DDL code and subsequently tells the database
             to drop and then create the schema for the entities
+
+        %> mvn -f core/pom.xml andromdapp:schema -Dtasks=update
+
+            attempts to update the database schema with incremental changes, might not work with all JDBC drivers
+            see http://www.hibernate.org/hib_docs/v3/reference/en/html_single/#toolsetguide-s1-6
+
+        %> mvn -f core/pom.xml andromdapp:schema -Dtasks=validate
+
+            validates the current Hibernate mappings against the database, you can also use this to simply
+            check whether or not the mappings have been properly generated (in case of customizations)
 
         %> mvn -N andromdapp:build -Dmodules=mda:[andromda:start-server] (or mvn -f mda/pom.xml andromda:start-server)
 
@@ -315,8 +332,7 @@
 
 
     Please note that you may use the '-o' flag at any time to avoid
-    having Maven download the dependencies, only build online when Maven
-    complains about missing dependencies.
+    having Maven downloading any SNAPSHOT dependencies.
 
     Each module will install its artifact into the local Maven repository,
     this might be a directory looking like this:

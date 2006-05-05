@@ -58,9 +58,7 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.String handleGetDefaultValue()
     {
-        String ret = null;
-        ret = metaObject.getDefault();
-        return ret;
+        return metaObject.getDefault();
     }
 
     /**
@@ -76,7 +74,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return false;
+        return (metaObject.getLower() > 0);
     }
 
     /**
@@ -166,17 +164,6 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#findTaggedValue(java.lang.String, boolean)
-     */
-    protected java.lang.Object handleFindTaggedValue(
-        java.lang.String name,
-        boolean follow)
-    {
-        // TODO: put your implementation here.
-        return null;
-    }
-
-    /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getOwner()
      */
     protected java.lang.Object handleGetOwner()
@@ -210,8 +197,7 @@ public class AttributeFacadeLogicImpl
 
     protected boolean handleIsDefaultValuePresent()
     {
-        // TODO Auto-generated method stub
-        return false;
+        return !(this.getDefaultValue() == null || this.getDefaultValue().equals(""));
     }
 
     protected boolean handleIsBindingDependenciesPresent()
@@ -241,5 +227,41 @@ public class AttributeFacadeLogicImpl
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        return this.metaObject.getUpper();
+    }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        return this.metaObject.getLower();
+    }
+
+    protected Object handleFindTaggedValue(
+        String name,
+        boolean follow)
+    {
+        name = StringUtils.trimToEmpty(name);
+        Object value = findTaggedValue(name);
+        if (follow)
+        {
+            ClassifierFacade type = this.getType();
+            while (value == null && type != null)
+            {
+                value = type.findTaggedValue(name);
+                type = (ClassifierFacade)type.getGeneralization();
+            }
+        }
+        return value;
     }
 }

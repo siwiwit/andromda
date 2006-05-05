@@ -1,11 +1,11 @@
-<h:messages id="messageList" errorClass="error" globalOnly="true"/>
+<h:messages id="${action.triggerName}Messages" errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
 #if ($action.hyperlink || $action.popup)
 #if ($action.hyperlink)
 <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
 #else
 <h:form styleClass="noSpace">
-    <jsf:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
+    <a:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
 #end
     <h:outputText value="#{messages['$action.messageKey']}"/>
 #foreach ($parameter in $action.parameters)
@@ -19,21 +19,21 @@
 #if ($action.hyperlink)
 </h:commandLink>
 #else
-    </jsf:popup> 
+    </a:popup> 
 </h:form>
 #end
 <f:verbatim><br/><br/></f:verbatim>
 #else
 #set ($clientValidation = $clientValidation.equalsIgnoreCase("true"))
 #set ($formValidateName = "validate$stringUtils.capitalize($formName)")
-<h:form id="$formName" name="$formName"#if($clientValidation) onsubmit="return $formValidateName(this);"#end enctype="multipart/form-data">
+<h:form id="$formName"#if($clientValidation) onsubmit="return $formValidateName(this);"#end enctype="multipart/form-data">
 #if (!$action.hiddenParameters.empty)
     <%@ include file="${action.viewFragmentPath}-hidden-params.jspf" %>
 #end
-    <h:panelGrid columns="3" styleClass="formTable"
+    <h:panelGrid columns="2" styleClass="formTable"
                  headerClass="formHeader"
                  footerClass="formFooter"
-                 columnClasses="formLabels,,formInputs">           
+                 columnClasses="formLabels,formInputs">           
 #foreach ($parameter in $action.parameters)
 #if (!$parameter.complex)
 #renderActionInput($parameter "")
@@ -43,7 +43,6 @@
 #end
 #end
 #end
-        <h:panelGroup/>
         <h:panelGroup/>
         <h:panelGroup>
             <h:commandButton id="${action.triggerName}-submit"
@@ -59,6 +58,6 @@
 #end
         </h:panelGroup>
     </h:panelGrid>
-    <jsf:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
+    <a:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
 </h:form>
 #end

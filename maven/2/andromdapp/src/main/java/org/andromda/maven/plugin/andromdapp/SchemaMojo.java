@@ -33,6 +33,7 @@ import org.andromda.core.common.ResourceUtils;
 import org.andromda.maven.plugin.andromdapp.hibernate.HibernateCreateSchema;
 import org.andromda.maven.plugin.andromdapp.hibernate.HibernateDropSchema;
 import org.andromda.maven.plugin.andromdapp.hibernate.HibernateUpdateSchema;
+import org.andromda.maven.plugin.andromdapp.hibernate.HibernateValidateSchema;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
@@ -59,7 +60,7 @@ public class SchemaMojo
     extends AbstractMojo
 {
     /**
-     * The schema task to execute (create, drop, update)
+     * The schema task to execute (create, drop, update, validate)
      *
      * @parameter expression="${tasks}"
      */
@@ -565,7 +566,7 @@ public class SchemaMojo
 
     static
     {
-        // - initialize the hibernat taks types
+        // - initialize the hibernate task types
         final Map hibernateTasks = new LinkedHashMap();
         tasksCache.put(
             "hibernate",
@@ -579,5 +580,8 @@ public class SchemaMojo
         hibernateTasks.put(
             "update",
             HibernateUpdateSchema.class);
+        hibernateTasks.put(
+            "validate",
+            HibernateValidateSchema.class);
     }
 }

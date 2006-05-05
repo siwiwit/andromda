@@ -55,7 +55,7 @@ public class Mappings
      * @param mappingsUri the URI to the XML type mappings configuration file.
      * @return Mappings the configured Mappings instance.
      */
-    public static final Mappings getInstance(String mappingsUri)
+    public static Mappings getInstance(String mappingsUri)
     {
         mappingsUri = StringUtils.trimToEmpty(mappingsUri);
         ExceptionUtils.checkEmpty(
@@ -94,7 +94,7 @@ public class Mappings
      *         <code>mappings</code> doesn't extend anything.
      * @throws Exception if an exception occurs.
      */
-    private static final Mappings getInheritedMappings(final Mappings mappings)
+    private static Mappings getInheritedMappings(final Mappings mappings)
         throws Exception
     {
         return getInheritedMappings(
@@ -115,7 +115,7 @@ public class Mappings
      *         <code>mappings</code> doesn't extend anything.
      * @throws Exception if an exception occurs.
      */
-    private static final Mappings getInheritedMappings(
+    private static Mappings getInheritedMappings(
         final Mappings mappings,
         final boolean ignoreInheritanceFailure)
         throws Exception
@@ -159,7 +159,7 @@ public class Mappings
      * @param mappingsUri the URI to the XML type mappings configuration file.
      * @return Mappings the configured Mappings instance.
      */
-    public static final Mappings getInstance(final URL mappingsUri)
+    public static Mappings getInstance(final URL mappingsUri)
     {
         return getInstance(
             mappingsUri,
@@ -175,7 +175,7 @@ public class Mappings
      *        to retrieve the mapping's inheritance should be ignored.
      * @return Mappings the configured Mappings instance.
      */
-    private static final Mappings getInstance(
+    private static Mappings getInstance(
         final URL mappingsUri,
         final boolean ignoreInheritanceFailure)
     {
@@ -200,10 +200,10 @@ public class Mappings
      * Returns a new configured instance of this Mappings configured from the
      * mappingsFile.
      *
-     * @param mappingsUri the URI to the XML type mappings configuration file.
+     * @param mappingsFile the XML type mappings configuration file.
      * @return Mappings the configured Mappings instance.
      */
-    private static final Mappings getInstance(final File mappingsFile)
+    private static Mappings getInstance(final File mappingsFile)
         throws Exception
     {
         final Mappings mappings =
@@ -216,7 +216,7 @@ public class Mappings
      * This initializes all logical mappings that
      * are contained with global Mapping set.  This
      * <strong>MUST</strong> be called after all logical
-     * mappings have been added through {@link #addLogicalMappings(Mappings)}
+     * mappings have been added through {@link #addLogicalMappings(java.net.URL)}
      * otherwise inheritance between logical mappings will not work correctly.
      */
     public static void initializeLogicalMappings()
@@ -353,7 +353,7 @@ public class Mappings
      * class to instatiate mappings from logical names as opposed to physical
      * names.
      *
-     * @param mappings the Mappings to add to the globally available Mapping
+     * @param mappingsUri the Mappings URI to add to the globally available Mapping
      *        instances.
      */
     public static void addLogicalMappings(final URL mappingsUri)

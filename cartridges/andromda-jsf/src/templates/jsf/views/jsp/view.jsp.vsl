@@ -9,7 +9,7 @@
 
 <f:view>
 
-    <x:panelLayout id="page" layout="#{${layoutOptionsBeanName}.sidebarLayout}"
+    <t:panelLayout id="page" layout="#{${layoutOptionsBeanName}.sidebarLayout}"
             styleClass="pageLayout"
             headerClass="pageHeader"
             navigationClass="#{${layoutOptionsBeanName}.pageNavigationClass}"
@@ -58,7 +58,7 @@
 
         <%@include file="/includes/footer.jspf" %>
 
-    </x:panelLayout>
+    </t:panelLayout>
 
 </f:view>
 

@@ -13,8 +13,6 @@ import org.andromda.core.common.ResourceWriter;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 
 
-//import org.hibernate.cfg.Configuration;
-
 /**
  * Provides the ability to create a schema from Hibernate
  * mapping files.

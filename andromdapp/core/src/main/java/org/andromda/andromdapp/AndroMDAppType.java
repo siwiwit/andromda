@@ -355,6 +355,7 @@ public class AndroMDAppType
                             path,
                             location,
                             "");
+
                     if (this.isWriteable(projectRelativePath))
                     {
                         if (this.hasTemplateExtension(path))
@@ -453,10 +454,17 @@ public class AndroMDAppType
     }
 
     /**
+     * The keeps track of the paths that have been evaluated and whether or not
+     * they are writable.
+     */
+
+    //private Map evaluatedPaths = new LinkedHashMap();
+
+    /**
      * Indicates whether or not this path is <em>writable</em>
      * based on the path and any output conditions that may be specified.
      *
-     * @param path the path tot check.
+     * @param path the path to check.
      * @return true/false
      */
     private boolean isWriteable(String path)
@@ -470,54 +478,72 @@ public class AndroMDAppType
                     1,
                     path.length());
         }
-        boolean writable = true;
+
+        Boolean writable = null;
+
+        final Map evaluatedPaths = new LinkedHashMap();
+
         for (final Iterator iterator = this.outputConditions.iterator(); iterator.hasNext();)
         {
             final Conditions conditions = (Conditions)iterator.next();
             final Map outputPaths = conditions.getOutputPaths();
             final String conditionsType = conditions.getType();
-            for (final Iterator pathIterator = outputPaths.keySet().iterator(); pathIterator.hasNext();)
+            int ctr = 0;
+            for (final Iterator pathIterator = outputPaths.keySet().iterator(); pathIterator.hasNext(); ctr++)
             {
                 final String outputPath = (String)pathIterator.next();
-                if (path.startsWith(outputPath))
-                {
-                    final String[] patterns = (String[])outputPaths.get(outputPath);
-                    if (ResourceUtils.matchesAtLeastOnePattern(
-                            path,
-                            patterns))
-                    {
-                        for (final Iterator conditionIterator = conditions.getConditions().iterator();
-                            conditionIterator.hasNext();)
-                        {
-                            final Condition condition = (Condition)conditionIterator.next();
-                            final String id = condition.getId();
-                            if (id != null && id.trim().length() > 0)
-                            {
-                                writable = condition.evaluate(this.templateContext.get(id));
 
-                                // - if we're 'anding' the conditions, we break at the first false
-                                if (Conditions.TYPE_AND.equals(conditionsType))
+                // - only evaluate if we haven't yet evaluated
+                writable = (Boolean)evaluatedPaths.get(path);
+                if (writable == null)
+                {
+                    if (path.startsWith(outputPath))
+                    {
+                        final String[] patterns = (String[])outputPaths.get(outputPath);
+                        if (ResourceUtils.matchesAtLeastOnePattern(
+                                path,
+                                patterns))
+                        {
+                            // - assume writable is false, since the path matches at least one conditions path.
+                            for (final Iterator conditionIterator = conditions.getConditions().iterator();
+                                conditionIterator.hasNext();)
+                            {
+                                final Condition condition = (Condition)conditionIterator.next();
+                                final String id = condition.getId();
+                                if (id != null && id.trim().length() > 0)
                                 {
-                                    if (!writable)
+                                    final boolean result = condition.evaluate(this.templateContext.get(id));
+                                    writable = Boolean.valueOf(result);
+                                    if (Conditions.TYPE_AND.equals(conditionsType) && !result)
                                     {
+                                        // - if we 'and' the conditions, we break at the first false
                                         break;
                                     }
-                                }
-                                else
-                                {
-                                    // otherwise we break at the first true condition
-                                    if (writable)
+                                    else if (Conditions.TYPE_OR.equals(conditionsType) && result)
                                     {
+                                        // - otherwise we break at the first true condition
                                         break;
                                     }
                                 }
                             }
                         }
                     }
+                    if (writable != null)
+                    {
+                        evaluatedPaths.put(
+                            path,
+                            writable);
+                    }
                 }
             }
         }
-        return writable;
+
+        // - if writable is still null, set to true
+        if (writable == null)
+        {
+            writable = Boolean.TRUE;
+        }
+        return writable.booleanValue();
     }
 
     /**

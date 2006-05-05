@@ -76,6 +76,10 @@ public class SpringServiceOperationLogicImpl
         String transactionType = (String)this.findTaggedValue(SpringProfile.TAGGEDVALUE_TRANSACTION_TYPE);
         if (StringUtils.isBlank(transactionType))
         {
+            transactionType = (String)this.getOwner().findTaggedValue(SpringProfile.TAGGEDVALUE_TRANSACTION_TYPE);
+        }
+        if (StringUtils.isBlank(transactionType))
+        {
             transactionType = String.valueOf(this.getConfiguredProperty(SERVICE_OPERATION_TRANSACTION_TYPE));
         }
         return transactionType;
@@ -92,6 +96,10 @@ public class SpringServiceOperationLogicImpl
     protected String handleGetEjbTransactionType()
     {
         String transactionType = (String)this.findTaggedValue(SpringProfile.TAGGEDVALUE_EJB_TRANSACTION_TYPE);
+        if (StringUtils.isBlank(transactionType))
+        {
+            transactionType = (String)this.getOwner().findTaggedValue(SpringProfile.TAGGEDVALUE_EJB_TRANSACTION_TYPE);
+        }
         if (StringUtils.isBlank(transactionType))
         {
             transactionType = String.valueOf(this.getConfiguredProperty(EJB_SERVICE_OPERATION_TRANSACTION_TYPE));

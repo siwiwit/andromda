@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 <?xml version="1.0" encoding="$xmlEncoding"?>
 
 <!DOCTYPE beans
@@ -20,6 +19,12 @@
 #if (!$manageables.empty)
                 <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
 #end
+#if ($richClient)
+                <value>${applicationContextServer}</value>
+#if ($acegiServiceSecurity)
+                <value>$stringUtils.replace($applicationContextServerAuthentication, '/', '.')</value>
+#end
+#end                
                 <!-- beanRefFactory merge-point -->
            </list>
         </constructor-arg>
@@ -30,15 +35,17 @@
          class="org.springframework.context.support.ClassPathXmlApplicationContext">
         <constructor-arg>
            <list>
-#if ($springUtils.remoteEjbsPresent($services))
+#if ($remoteEjbsPresent)
                 <value>$stringUtils.replace($applicationContextRemoteEjb, '/', '.')</value>
 #end
-#if ($springUtils.localEjbsPresent($services))
+#if ($localEjbsPresent)
                 <value>$stringUtils.replace($applicationContextLocalEjb, '/', '.')</value>
 #end
+                <!-- beanRefFactoryEjb merge-point -->
            </list>
         </constructor-arg>
     </bean>
 #end
-
+    <!-- beanRefFactoryEjbXml merge-point -->
+    
 </beans>

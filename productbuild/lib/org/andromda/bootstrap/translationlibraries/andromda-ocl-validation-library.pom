@@ -3,7 +3,7 @@
   <groupId>org.andromda.bootstrap.translationlibraries</groupId>
   <artifactId>andromda-ocl-validation-library</artifactId>
   <name>AndroMDA OCL Validation Translation-Library</name>
-  <version>4.0-M1-SNAPSHOT</version>
+  <version>3.2-RC1-SNAPSHOT</version>
   <description>Translates OCL into validation code for any platform.</description>
   <url>http://www.andromda.org/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-validation-library</url>
   <issueManagement>
@@ -57,11 +57,6 @@
       <url>http://team.andromda.org/maven2</url>
     </repository>
     <repository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
-    </repository>
-    <repository>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -75,11 +70,6 @@
       <id>andromda</id>
       <name>AndroMDA Repository</name>
       <url>http://team.andromda.org/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
     </pluginRepository>
     <pluginRepository>
       <releases>

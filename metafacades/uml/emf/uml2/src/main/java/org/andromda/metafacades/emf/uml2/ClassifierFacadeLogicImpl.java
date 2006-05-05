@@ -2,16 +2,18 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.FilteredCollection;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.OperationFacade;
@@ -24,11 +26,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.uml2.Abstraction;
 import org.eclipse.uml2.Association;
+import org.eclipse.uml2.AssociationClass;
 import org.eclipse.uml2.DataType;
+import org.eclipse.uml2.Enumeration;
 import org.eclipse.uml2.Interface;
 import org.eclipse.uml2.PrimitiveType;
 import org.eclipse.uml2.Property;
+
 
 
 /**
@@ -351,7 +357,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected boolean handleIsEnumeration()
     {
-        return this.hasStereotype(UMLProfile.STEREOTYPE_ENUMERATION);
+        return (this.hasStereotype(UMLProfile.STEREOTYPE_ENUMERATION)) || (this.metaObject instanceof Enumeration);
     }
 
     /**
@@ -491,6 +497,16 @@ public class ClassifierFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#isClobType()
+     */
+    protected boolean handleIsClobType()
+    {
+        return UMLMetafacadeUtils.isType(
+            this,
+            UMLProfile.CLOB_TYPE_NAME);
+    }
+    
+    /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#isBooleanType()
      */
     protected boolean handleIsBooleanType()
@@ -604,10 +620,11 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetOperations()
     {
-        if (metaObject instanceof org.eclipse.uml2.Class)
+        if (this.metaObject instanceof org.eclipse.uml2.Class || 
+                this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             return UmlUtilities.getOperations(
-                (org.eclipse.uml2.Class)metaObject,
+                metaObject,
                 false);
         }
         return null;
@@ -619,10 +636,11 @@ public class ClassifierFacadeLogicImpl
     protected java.util.Collection handleGetAttributes()
     {
         final Collection attributes = new ArrayList();
-        if (this.metaObject instanceof org.eclipse.uml2.Class)
+        if (this.metaObject instanceof org.eclipse.uml2.Class || 
+                this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             final Collection properties = UmlUtilities.getProperties(
-                    (org.eclipse.uml2.Class)metaObject,
+                    metaObject,
                     false,
                     false);
             for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
@@ -643,24 +661,29 @@ public class ClassifierFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#getAssociationEnds()
      */
-    protected java.util.Collection handleGetAssociationEnds()
+    protected java.util.List handleGetAssociationEnds()
     {
-        final Collection associationEnds = new ArrayList();
-        if (this.metaObject instanceof org.eclipse.uml2.Class)
+        final List associationEnds = new ArrayList();
+        if (this.metaObject instanceof org.eclipse.uml2.Class ||
+                this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             final Collection properties = UmlUtilities.getProperties(
-                    (org.eclipse.uml2.Class)metaObject,
+                    metaObject,
                     false,
                     false);
             for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
             {
                 final Property property = (Property)iterator.next();
-
-                final Object associationEnd = UmlUtilities.getOppositeAssociationEnd(property);
-                if (associationEnd != null)
+                if (property.getAssociation() == null)
+                    continue;
+                final Property associationEnd = (Property) UmlUtilities.getOppositeAssociationEnd(property);
+                if (associationEnd == null)
                 {
-                    associationEnds.add(associationEnd);
+                    throw new MetafacadeException("There is an error in the model or a cartiridge metafacade mapping file. "+
+                            "The opposite end of "+ property +" is null."+
+                            ", check your metafacades.xml and make sure things are mapped correctly");
                 }
+                associationEnds.add(associationEnd);
             }
         }
         return associationEnds;
@@ -716,7 +739,7 @@ public class ClassifierFacadeLogicImpl
     protected java.util.Collection handleGetStaticAttributes()
     {
         Collection c = UmlUtilities.getProperties(
-                (org.eclipse.uml2.Class)metaObject,
+                metaObject,
                 false,
                 false);
         ArrayList stats = new ArrayList();
@@ -728,7 +751,7 @@ public class ClassifierFacadeLogicImpl
                 stats.add(p);
             }
         }
-        return c;
+        return stats;
     }
 
     /**
@@ -778,8 +801,13 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetAbstractions()
     {
-        // TODO: add your implementation here!
-        return null;
+        return new FilteredCollection(this.metaObject.getClientDependencies())
+        {
+            public boolean evaluate(Object object)
+            {
+                return object instanceof Abstraction;
+            }
+        };
     }
 
     /**
@@ -809,16 +837,93 @@ public class ClassifierFacadeLogicImpl
         return connectingEnds;
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#getNavigableConnectingEnds(boolean)
+     */
+    protected Collection handleGetNavigableConnectingEnds(boolean follow)
+    {
+        final Collection connectionEnds = new ArrayList(this.getNavigableConnectingEnds());
+
+        for (ClassifierFacade superClass = (ClassifierFacade)getGeneralization(); superClass != null && follow;
+             superClass = (ClassifierFacade)superClass.getGeneralization())
+        {
+            for (final Iterator iterator = superClass.getNavigableConnectingEnds().iterator(); iterator.hasNext();)
+            {
+                final AssociationEndFacade superAssociationEnd = (AssociationEndFacade)iterator.next();
+                boolean present = false;
+                for (final Iterator endIterator = this.getAssociationEnds().iterator(); endIterator.hasNext();)
+                {
+                    final AssociationEndFacade associationEnd = (AssociationEndFacade)endIterator.next();
+                    if (associationEnd.getName().equals(superAssociationEnd.getName()))
+                    {
+                        present = true;
+                        break;
+                    }
+                }
+                if (!present)
+                {
+                    connectionEnds.add(superAssociationEnd);
+                }
+            }
+        }
+        return connectionEnds;
+    }
+
     protected boolean handleIsLeaf()
     {
         // TODO Auto-generated method stub
         return false;
     }
 
+    protected Collection handleGetInterfaceAbstractions()
+    {
+        final Collection interfaceAbstractions = new LinkedHashSet();
+        if (this.getAbstractions() != null)
+        {
+            for (Iterator abstractionIterator = this.getAbstractions().iterator(); abstractionIterator.hasNext();)
+            {
+                final DependencyFacade abstraction = (DependencyFacade)abstractionIterator.next();
+                final ModelElementFacade element = abstraction.getTargetElement();
+
+                if (element instanceof ClassifierFacade)
+                {
+                    final ClassifierFacade classifier = (ClassifierFacade)element;
+                    if (classifier.isInterface())
+                    {
+                        interfaceAbstractions.add(classifier);
+                    }
+                }
+            }
+        }
+
+        return interfaceAbstractions;
+    }
+
     protected String handleGetImplementedInterfaceList()
     {
-        // TODO Auto-generated method stub
-        return null;
+        final String interfaceList;
+
+        final Collection interfaces = this.getInterfaceAbstractions();
+        if (interfaces.isEmpty())
+        {
+            interfaceList = "";
+        }
+        else
+        {
+            final StringBuffer list = new StringBuffer();
+            for (final Iterator iterator = interfaces.iterator(); iterator.hasNext();)
+            {
+                final ModelElementFacade element = (ModelElementFacade)iterator.next();
+                list.append(element.getFullyQualifiedName());
+                if (iterator.hasNext())
+                {
+                    list.append(", ");
+                }
+            }
+            interfaceList = list.toString();
+        }
+
+        return interfaceList;
     }
 
     protected Object handleFindTaggedValue(
@@ -857,4 +962,25 @@ public class ClassifierFacadeLogicImpl
         // TODO Auto-generated method stub
         return null;
     }
+
+	/**
+     * @see org.andromda.metafacades.emf.uml2.ClassifierFacadeLogic#handleIsAssociationClass()
+     */
+    protected boolean handleIsAssociationClass()
+    {
+        return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
+    }
+
+    protected java.util.Collection handleGetAssociatedClasses()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    protected java.util.Collection handleGetAllAssociatedClasses()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

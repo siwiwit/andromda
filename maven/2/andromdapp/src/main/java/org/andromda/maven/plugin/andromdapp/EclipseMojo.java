@@ -129,6 +129,12 @@ public class EclipseMojo
      */
     private boolean resolveTransitiveDependencies = true;
    
+    /**
+     * Allows non-generated configuration to be "merged" into the generated .classpath file.
+     * 
+     * @parameter
+     */
+    private String classpathMerge;
 
     /**
      * @see org.apache.maven.plugin.Mojo#execute()
@@ -143,21 +149,19 @@ public class EclipseMojo
                     this.getLog());
             projectWriter.write();
             final List projects = this.collectProjects();
-            if (!projects.isEmpty())
-            {
-                final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
-                        this.getLog());
-                classpathWriter.write(
-                    projects,
-                    this.repositoryVariableName,
-                    this.artifactFactory,
-                    this.artifactResolver,
-                    this.localRepository,
-                    this.artifactMetadataSource,
-                    this.classpathArtifactTypes,
-                    this.project.getRemoteArtifactRepositories(),
-                    this.resolveTransitiveDependencies);
-            }
+            final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
+                    this.getLog());
+            classpathWriter.write(
+                projects,
+                this.repositoryVariableName,
+                this.artifactFactory,
+                this.artifactResolver,
+                this.localRepository,
+                this.artifactMetadataSource,
+                this.classpathArtifactTypes,
+                this.project.getRemoteArtifactRepositories(),
+                this.resolveTransitiveDependencies,
+                this.classpathMerge);
         }
         catch (Throwable throwable)
         {
@@ -196,6 +200,11 @@ public class EclipseMojo
                 }
                 final Set compileSourceRoots = new LinkedHashSet(project.getCompileSourceRoots());
                 compileSourceRoots.addAll(this.getExtraSourceDirectories(project));
+                final String testSourceDirectory = project.getBuild().getTestSourceDirectory();
+                if (testSourceDirectory != null && testSourceDirectory.trim().length() > 0)
+                {
+                    compileSourceRoots.add(testSourceDirectory);
+                }
                 project.getCompileSourceRoots().clear();
                 project.getCompileSourceRoots().addAll(compileSourceRoots);
                 this.getLog().info("Processing project " + project.getId());
@@ -208,8 +217,6 @@ public class EclipseMojo
         }
         return projects;
     }
-    
-    //buildFromRepository(Artifact artifact, List remoteArtifactRepositories, ArtifactRepository localRepository, boolean allowStubModel)
 
     /**
      * The artifact id for the multi source plugin.
@@ -326,17 +333,20 @@ public class EclipseMojo
     {
         if (this.rootProject == null)
         {
-            MavenProject root = null;
-            for (root = this.project.getParent(); root.getParent() != null; root = root.getParent())
+            final MavenProject firstParent = this.project.getParent();
+            if (firstParent != null)
             {
-                ;
+                for (this.rootProject = firstParent; 
+                     this.rootProject.getParent() != null; 
+                     this.rootProject = this.rootProject.getParent())
+                {
+                    ;
+                }
             }
-            if (root == null)
+            else
             {
-                throw new MojoExecutionException("No parent could be retrieved for project --> " +
-                    this.project.getId() + "', you must specify a parent project");
+                this.rootProject = this.project;
             }
-            this.rootProject = root;
         }
         return this.rootProject;
     }

@@ -12,9 +12,14 @@
             <output patterns="**/*">workflow/</output>  
         </conditions>
         <conditions>
-            <condition id="webservice" equal="true"/>   
+            <condition id="webservice" equal="true"/>  
+            <condition id="jsr181Webservice" notEqual="true"/>
             <condition id="ear" equal="true"/>         
             <output patterns="**/*">webservice/</output>  
+        </conditions>
+        <conditions>
+            <condition id="war" equal="true"/>      
+            <output>web/src/main/resources/META-INF/context.xml.vsl</output>  
         </conditions>
         <conditions type="or">
             <condition id="web" equal="true"/> 
@@ -22,8 +27,13 @@
             <output patterns="**/*">web/</output>  
         </conditions>
         <conditions>
-            <condition id="war" equal="true"/>      
-            <output patterns="**/*">web/src/main/resources/META-INF/context.xml.vsl</output>  
+            <condition id="web" equal="true"/>
+            <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
+        </conditions>
+        <conditions type="and">
+            <condition id="war" equal="true"/>
+            <condition id="webservice" equal="true"/>
+            <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
         </conditions>
         <conditions>
             <condition id="model" present="false"/>        
@@ -31,7 +41,7 @@
         </conditions>
         <conditions>
             <condition id="configurationUri" present="false"/>        
-            <output>mda/conf/andromda.xml</output>  
+            <output>mda/src/main/config/andromda.xml</output>  
         </conditions>
         <conditions>
             <condition id="transactionPersistenceType" notEqual="none"/>        
@@ -42,6 +52,10 @@
         <mapping>
             <from>empty-model.xmi</from>
             <to>${applicationId}.xmi.vsl</to>
+        </mapping>
+        <mapping>
+            <from>app/src/main/config/jboss-datasource.xml.vsl</from>
+            <to>app/src/main/config/${applicationId}-ds.xml.vsl</to>
         </mapping>
         <mapping>
             <from>ejb-jar.xml</from>
@@ -72,7 +86,7 @@
                 <text>Please enter the location in which your new application will be created (i.e. f:/java/development)</text>
             </prompt>
             <prompt id="author">
-                <text>Please enter your first and last last name (i.e. Chad Brandon)</text>
+                <text>Please enter your first and last name (i.e. Chad Brandon)</text>
             </prompt>
             <prompt id="applicationName">
                 <text>Please enter the name of your J2EE project (i.e. Animal Quiz)</text>
@@ -108,8 +122,28 @@
                 <responses>
                     <response>hibernate</response>
                     <response>ejb</response>
+                    <response>ejb3</response>
                     <response>spring</response>
                     <response>none</response>
+                </responses>
+            </prompt>
+            <prompt id="databaseType" setResponseAsTrue="true">
+                <text>Please enter the database backend for the persistence layer</text>
+                <preconditions>
+                    <condition id="transactionPersistenceType" notEqual="none"/>
+                </preconditions>
+                <responses>
+                    <response>hypersonic</response>
+                    <response>mysql</response>
+                    <response>oracle</response>
+                    <response>db2</response>
+                    <response>informix</response>
+                    <response>mssql</response>
+                    <response>pointbase</response>
+                    <response>postgres</response>
+                    <response>sybase</response>
+                    <response>sabdb</response>
+                    <response>progress</response>
                 </responses>
             </prompt>
             <prompt id="workflow">
@@ -125,7 +159,7 @@
                 </conditions>
             </prompt>
             <prompt id="hibernateVersion">
-                <text>Please enter the hibernate version number  (enter '2' for 2.1.x or '3' for 3.0.x)</text>
+                <text>Please enter the hibernate version number (enter '2' for 2.1.x or '3' for 3.0.x)</text>
                 <preconditions type="or">
                     <condition id="transactionPersistenceType" equal="spring"/>
                     <condition id="transactionPersistenceType" equal="hibernate"/>
@@ -152,11 +186,43 @@
                     <response>struts</response>
                 </responses>
             </prompt>
+            <prompt id="viewType" setResponseAsTrue="true">
+                <text>Would you like to use Facelets or JSP as your view type for JSF?</text>
+                <preconditions>
+                    <condition id="jsf" equal="true"/>
+                </preconditions>
+                <responses>
+                    <response>facelets</response>
+                    <response>jsp</response>
+                </responses>
+            </prompt>
             <prompt id="webservice">
                 <text>Would you like to be able to expose your services as web services?</text>
                 <responses type="java.lang.Boolean">
                     <response>yes</response>
                     <response>no</response>
+                </responses>
+            </prompt>
+            <prompt id="jsr181Webservice" setResponseAsTrue="false">
+                <text>Would you like to use the JSR181 (webservice defined by annotations) cartridge specific implementation?</text>
+                <preconditions>
+                    <condition id="webservice" equal="true"/>
+                    <condition id="transactionPersistenceType" equal="ejb3"/>
+                </preconditions>
+                <responses type="java.lang.Boolean">
+                    <response>yes</response>
+                    <response>no</response>
+                </responses>
+            </prompt>
+            <prompt id="axisVersion">
+                <text>Would you like to use Axis 1.x or Axis 2.x (enter '1' for 1.x or '2' for 2.x)?</text>
+                <preconditions>
+                    <condition id="webservice" equal="true"/>
+                    <condition id="jsr181Webservice" notEqual="true"/>
+                </preconditions>
+                <responses>
+                    <response>1</response>
+                    <response>2</response>
                 </responses>
             </prompt>
         </promptGroup>

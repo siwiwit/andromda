@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 <?xml version="1.0" encoding="$xmlEncoding"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
@@ -48,10 +47,25 @@
         <property name="target">
 #if($service.remotingTypeHttpInvoker)
             <bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="httpInvokerRequestExecutor">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeHessian)
             <bean class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="proxyFactory">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeBurlap)
             <bean class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="proxyFactory">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeRmi)
             <bean class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
 #end
@@ -70,6 +84,38 @@
     </bean>
 
 #end
+#end
+#foreach ($manageable in $manageables)
+    <!-- $manageable.manageableServiceName Remote Service Local Proxy with inner $manageable.manageableServiceName Remote Service invoker -->
+    <bean id="$manageable.manageableServiceName" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+#if($manageable.remotingTypeHttpInvoker)
+            <bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+#elseif($manageable.remotingTypeHessian)
+            <bean class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+#elseif($manageable.remotingTypeBurlap)
+            <bean class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">
+#elseif($manageable.remotingTypeRmi)
+            <bean class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+#end
+                <property name="serviceUrl"><value>$manageable.remoteUrl</value></property>
+                <property name="serviceInterface"><value>$manageable.fullyQualifiedManageableServiceName</value></property>
+            </bean>
+        </property>
+        <property name="proxyInterfaces"><value>$manageable.fullyQualifiedManageableServiceName</value></property>
+#if ($adviceEnabled)
+        <property name="interceptorNames">
+            <list>
+                <value>exceptionHandlingAdvice</value>
+            </list>
+        </property>
+#end
+    </bean>
+
+#end
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+    <bean id="clientRequestInterceptor" class="$clientHttpInvokerExecutor"/>
+
 #end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->
 

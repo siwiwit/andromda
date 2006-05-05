@@ -2,7 +2,6 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -30,6 +29,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.uml2.Property;
 import org.eclipse.uml2.Stereotype;
 import org.eclipse.uml2.Type;
@@ -169,7 +169,9 @@ public class EntityLogicImpl
         {
             ((org.eclipse.uml2.Classifier)metaObject).getModel();
             final String actualType = type;
-            final Object modelElement = UmlUtilities.findByName(umlClass.eResource().getResourceSet(), actualType);
+            final Object modelElement = UmlUtilities.findByName(
+                    umlClass.eResource().getResourceSet(),
+                    actualType);
             if (modelElement instanceof Type)
             {
                 Type element = (Type)modelElement;
@@ -192,7 +194,8 @@ public class EntityLogicImpl
                     kind = VisibilityKind.PROTECTED_LITERAL;
                 }
                 property.setVisibility(kind);
-                Stereotype stereotype = UmlUtilities.findApplicableStereotype(
+                Stereotype stereotype =
+                    UmlUtilities.findApplicableStereotype(
                         property,
                         UMLProfile.STEREOTYPE_IDENTIFIER);
                 if (stereotype == null)
@@ -625,7 +628,7 @@ public class EntityLogicImpl
         final boolean follow,
         final boolean withIdentifiers)
     {
-        final Set properties = new HashSet(this.getProperties(
+        final Set properties = new LinkedHashSet(this.getProperties(
                     follow,
                     withIdentifiers));
         CollectionUtils.filter(
@@ -734,9 +737,9 @@ public class EntityLogicImpl
      *
      * @see org.andromda.metafacades.uml.ClassifierFacade#getAssociationEnds()
      */
-    public Collection handleGetAssociationEnds()
+    public List handleGetAssociationEnds()
     {
-        final Collection associationEnds = this.shieldedElements(super.handleGetAssociationEnds());
+        final List associationEnds = (List)this.shieldedElements(super.handleGetAssociationEnds());
         CollectionUtils.filter(
             associationEnds,
             new Predicate()
@@ -797,5 +800,18 @@ public class EntityLogicImpl
                        .booleanValue();
         }
         return assigned;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Entity#getSchema()
+     */
+    protected String handleGetSchema()
+    {
+        String schemaName = ObjectUtils.toString(this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_SCHEMA));
+        if (StringUtils.isBlank(schemaName))
+        {
+            schemaName = ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.SCHEMA_NAME));
+        }
+        return schemaName;
     }
 }

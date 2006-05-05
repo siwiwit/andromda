@@ -68,7 +68,7 @@
                 <p class="highlight">
                     Using AndroMDA in combination with Maven (instead of Ant) will save you a considerable amount of
                     time and effort if you've never used AndroMDA before. Just make sure you are using the latest
-                    version, Maven 1.0.2 or higher is recommended, earlier versions are less performant and contain
+                    version, Maven 1.0.2 is recommended, earlier versions are less performant and contain
                     critical bugs.
                 </p>
                 <p>
@@ -279,7 +279,7 @@
                 <a href="maven-andromdapp-plugin/index.html">here</a>.
             </p>
             <p>
-                <code>maven plugin:download -DgroupId=andromda -DartifactId=maven-andromdapp-plugin -Dversion=4.0-M1-SNAPSHOT</code>
+                <code>maven plugin:download -DgroupId=andromda -DartifactId=maven-andromdapp-plugin -Dversion=3.2-RC1</code>
             </p>
             <pre class="console">
 
@@ -317,9 +317,9 @@ build:start:
 plugin:download-artifact:
     [mkdir] Created dir: C:\Documents and Settings\foo\.maven\repository\andromda\plugins
     [echo] repo is 'http://www.ibiblio.org/maven'
-    [echo] trying to download http://www.ibiblio.org/maven/andromda/plugins/maven-andromdapp-plugin-4.0-M1-SNAPSHOT.jar
+    [echo] trying to download http://www.ibiblio.org/maven/andromda/plugins/maven-andromdapp-plugin-3.2-RC1.jar
     [echo] repo is 'http://team.andromda.org/maven'
-    [echo] trying to download http://team.andromda.org/maven/andromda/plugins/maven-andromdapp-plugin-4.0-M1-SNAPSHOT.jar
+    [echo] trying to download http://team.andromda.org/maven/andromda/plugins/maven-andromdapp-plugin-3.2-RC1.jar
 40K downloaded
 
 plugin:download:

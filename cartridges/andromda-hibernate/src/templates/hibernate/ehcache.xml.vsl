@@ -39,7 +39,7 @@
 
 #if($hibernateEnableCache == "true")
 #foreach($entity in $entities)
-    <cache 
+    <cache
         name="$entity.fullyQualifiedEntityImplementationName"
         maxElementsInMemory="$entity.ehCacheMaxElementsInMemory"
         eternal="$entity.ehCacheEternal"
@@ -51,8 +51,9 @@
 #foreach ($sourceEnd in $entity.associationEnds)
 #if ($sourceEnd.one2Many)
 #set ($otherEnd = $sourceEnd.otherEnd)
+#if ($otherEnd.navigable)
 #set ($association = $sourceEnd.association)
-    <cache 
+    <cache
         name="${entity.fullyQualifiedEntityImplementationName}.$otherEnd.name"
         maxElementsInMemory="$association.ehCacheMaxElementsInMemory"
         eternal="$association.ehCacheEternal"
@@ -60,6 +61,7 @@
         timeToLiveSeconds="$association.ehCacheTimeToLiveSeconds"
         overflowToDisk="$association.ehCacheOverflowToDisk"/>
 
+#end
 #end
 #end
 #end

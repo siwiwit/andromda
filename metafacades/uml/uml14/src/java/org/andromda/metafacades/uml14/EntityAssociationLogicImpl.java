@@ -8,12 +8,13 @@ import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.EntityAssociationFacade.
  *
- * @see org.andromda.metafacades.uml.EntityAssociationFacade
+ * @see org.andromda.metafacades.uml.EntityAssociation
  */
 public class EntityAssociationLogicImpl
     extends EntityAssociationLogic
@@ -26,7 +27,7 @@ public class EntityAssociationLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.EntityAssociationFacade#getTableName()
+     * @see org.andromda.metafacades.uml.EntityAssociation#getTableName()
      */
     public String handleGetTableName()
     {
@@ -56,5 +57,31 @@ public class EntityAssociationLogicImpl
             }
         }
         return tableName;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityAssociation#getSchema()
+     */
+    protected String handleGetSchema()
+    {
+        String schemaName = ObjectUtils.toString(this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_SCHEMA));
+        if (StringUtils.isBlank(schemaName))
+        {
+            schemaName = ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.SCHEMA_NAME));
+        }
+        return schemaName;
+    }
+
+    /**
+     *  @see org.andromda.metafacades.uml.EntityAssociation#isEntityAssociation()
+     */
+    protected boolean handleIsEntityAssociation()
+    {
+        boolean isEntityAssociation = false;
+        if (getAssociationEndA().isAssociationEndFacadeMetaType())
+        {
+            isEntityAssociation = true;
+        }
+        return isEntityAssociation;
     }
 }

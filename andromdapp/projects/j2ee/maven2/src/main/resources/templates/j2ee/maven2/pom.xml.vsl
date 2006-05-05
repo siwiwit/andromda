@@ -55,12 +55,18 @@
                 <version>$andromdaVersion</version>
                 <scope>provided</scope>
             </dependency>
+#elseif ($ejb3)
+            <dependency>
+                <groupId>org.andromda.cartridges</groupId>
+                <artifactId>andromda-ejb3-cartridge</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>runtime</scope>
+            </dependency>
 #elseif ($spring)
             <dependency>
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-core</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -84,13 +90,11 @@
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-translation-core</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-validation-library</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
@@ -107,7 +111,7 @@
                 <scope>runtime</scope>
             </dependency>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-webservice-cartridge</artifactId>
@@ -147,7 +151,6 @@
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-utils</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -176,6 +179,15 @@
                 <scope>runtime</scope>
             </dependency>
 #end
+            <!-- This dependency provides the ability to implement your
+                 business logic in an interpreted manner during development on
+                 your local machine -->
+            <dependency>
+                <groupId>org.andromda</groupId>
+                <artifactId>andromda-script-wrappers</artifactId>
+                <version>$andromdaVersion</version>
+                <scope>runtime</scope>
+            </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
@@ -197,6 +209,100 @@
                 <version>1.0.4</version>
                 <scope>provided</scope>
             </dependency>
+#if ($ejb3)
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-j2ee</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jbossall-client</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-ejb3</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-ejb3x</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>ejb3-persistence</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-annotations-ejb3</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-serialization</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-remoting</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jnp-client</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-aop-jdk50</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-aspect-library-jdk50</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+#if ($jsr181Webservice)
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jbossws-client</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-jaxrpc</artifactId>
+                <version>4.0.4-CR2</version>
+                <scope>provided</scope>
+            </dependency>
+#end
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate</artifactId>
+                <version>3.2.0-CR1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-annotations</artifactId>
+                <version>3.2.0-CR1</version>
+                <scope>provided</scope>
+            </dependency>
+#else
             <dependency>
                 <groupId>jboss</groupId>
                 <artifactId>jboss-j2ee</artifactId>
@@ -205,31 +311,38 @@
                 <scope>provided</scope>
 #end
             </dependency>
-#if (!$ejb)
-            <dependency>
+#end
+#if (!$ejb && !$ejb3)
 #if ($hibernateVersion.equals("2"))
+            <dependency>
                 <groupId>net.sf.hibernate</groupId>
                 <artifactId>hibernate</artifactId>
                 <version>2.1.8</version>
+            </dependency>
 #else
+            <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate</artifactId>
                 <version>3.0.5</version>
-#end
             </dependency>
+#end
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
+                <scope>runtime</scope>
+            </dependency>      
 #end
 #if ($spring)
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
-                <version>1.2.5</version>
-                <scope>compile</scope>
+                <version>1.2.7</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
-                <version>1.2.5</version>
-                <scope>compile</scope>
+                <version>1.2.7</version>
                 <exclusions>
                     <exclusion>
                         <groupId>cglib</groupId>
@@ -240,14 +353,12 @@
              <dependency>
                  <groupId>org.springframework</groupId>
                  <artifactId>spring-core</artifactId>
-                 <version>1.2.5</version>
-                 <scope>compile</scope>
+                 <version>1.2.7</version>
              </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-dao</artifactId>
-                <version>1.2.5</version>
-                <scope>compile</scope>
+                <version>1.2.7</version>
                 <exclusions>
                      <exclusion>
                          <groupId>javax.transaction</groupId>
@@ -258,8 +369,7 @@
             <dependency>
                  <groupId>org.springframework</groupId>
                  <artifactId>spring-hibernate</artifactId>
-                 <version>1.2.5</version>
-                 <scope>compile</scope>
+                 <version>1.2.7</version>
 #if ($hibernateVersion.equals("2"))
                  <exclusions>
                      <exclusion>
@@ -272,38 +382,22 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
-                <version>1.2.5</version>
-                <scope>compile</scope>
-                <exclusions>
-                     <exclusion>
-                         <groupId>org.springframework</groupId>
-                         <artifactId>spring-webmvc</artifactId>
-                     </exclusion>
-                 </exclusions>
+                <version>1.2.7</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-remoting</artifactId>
-                <version>1.2.5</version>
-                <scope>compile</scope>
-                <exclusions>
-                     <exclusion>
-                         <groupId>org.springframework</groupId>
-                         <artifactId>spring-webmvc</artifactId>
-                     </exclusion>
-                 </exclusions>
+                <version>1.2.7</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>1.2.5</version>
-                <scope>compile</scope>
+                <version>1.2.7</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-support</artifactId>
-                <version>1.2.5</version>
-                <scope>compile</scope>
+                <version>1.2.7</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.resource</groupId>
@@ -334,11 +428,6 @@
                 <groupId>org.jbpm</groupId>
                 <artifactId>jbpm-identity</artifactId>
                 <version>3.0</version>
-            </dependency>
-            <dependency>
-                <groupId>bsh</groupId>
-                <artifactId>bsh</artifactId>
-                <version>2.0b1</version>
             </dependency>
             <dependency>
                 <groupId>c3p0</groupId>
@@ -450,29 +539,14 @@
 #end
 #if ($jsf)
             <dependency>
-                <groupId>myfaces</groupId>
-                <artifactId>myfaces-impl</artifactId>
-                <version>1.1.1</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>myfaces</groupId>
-                <artifactId>myfaces-api</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>myfaces</groupId>
-                <artifactId>tomahawk</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>1.3</version>
                 <scope>runtime</scope>
             </dependency>
 #end
-#if ($webservice)
+#if ($webservice && !$jsr181Webservice)
+#if ($axisVersion.equals("1"))
             <dependency>
                 <groupId>axis</groupId>
                 <artifactId>axis</artifactId>
@@ -505,6 +579,122 @@
                 <version>0.2</version>
                 <scope>runtime</scope>
             </dependency>
+#else
+            <!-- Axis2 Dependencies -->
+            <dependency>
+                <groupId>axis</groupId>
+                <artifactId>axis-wsdl4j</artifactId>
+                <version>1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>axis2</groupId>
+                <artifactId>axis2-adb</artifactId>
+                <version>0.94</version>
+            </dependency>
+            <dependency>
+                <groupId>axis2</groupId>
+                <artifactId>axis2-core</artifactId>
+                <version>0.94</version>
+            </dependency>
+            <dependency>
+                <groupId>axis2</groupId>
+                <artifactId>axis2-codegen</artifactId>
+                <version>0.94</version>
+            </dependency>
+            <dependency>
+                <groupId>axis2</groupId>
+                <artifactId>axis2-doom</artifactId>
+                <version>0.94</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-activation_1.0.2_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-javamail_1.3.1_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jms_1.1_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.0</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>woodstox</groupId>
+                <artifactId>wstx-asl</artifactId>
+                <version>2.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>stax</groupId>
+                <artifactId>stax-api</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>backport-util-concurrent</groupId>
+                <artifactId>backport-util-concurrent</artifactId>
+                <version>2.0_01_pd</version>
+            </dependency>
+            <dependency>
+                <groupId>annogen</groupId>
+                <artifactId>annogen</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.ws.commons</groupId>
+                <artifactId>XmlSchema</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.ws.commons</groupId>
+                <artifactId>axiom</artifactId>
+                <version>1.0-20060310</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.ws.commons</groupId>
+                <artifactId>policy</artifactId>
+                <version>0.92-20060310</version>
+            </dependency>
+            <dependency>
+                <groupId>jaxen</groupId>
+                <artifactId>jaxen</artifactId>
+                <version>1.1-beta-8</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jdom</groupId>
+                        <artifactId>jdom</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xmlParserAPIs</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>icu4j</groupId>
+                        <artifactId>icu4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.ccil.cowan</groupId>
+                        <artifactId>tagsoup</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+#end
 #end
         </dependencies>
     </dependencyManagement>
@@ -547,6 +737,16 @@
                     <artifactId>andromdapp-maven-plugin</artifactId>
                     <version>$andromdaVersion</version>
                 </plugin>
+#if ($ejb3)
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+#end
             </plugins>
         </pluginManagement>
     </build>
@@ -559,7 +759,7 @@
 #if ($web || $war)
         <module>web</module>
 #end
-#if ($webservice && $ear)
+#if ($webservice && !$jsr181Webservice && $ear)
         <module>webservice</module>
 #end
 #if ($workflow)
@@ -570,47 +770,187 @@
 #end
     </modules>
     <properties>
-        <!-- 
+        <!--
             Change this to generate to the correct MDA database mappings,
             For MySql use: MySQL
             For Hypersonic use: HypersonicSql
             For Oracle9i use: Oracle9i
-          -->
-        <sql.mappings>HypersonicSql</sql.mappings>
-#if ($hibernate || $spring)
+            For DB2 use: DB2
+            For Informix use: InformixDB
+            For MSSQL use: MSSQL
+            For Pointbase use: PointBase
+            For Postgres use: PostgreSQL
+            For Sybase use: Sybase
+            For SapDB use: SapDB
+        -->
+        <sql.mappings>
+#if ($mysql)
+            MySQL
+#elseif ($oracle)
+            Oracle9i
+#elseif ($db2)
+            DB2
+#elseif ($informix)
+            InformixDB
+#elseif ($mssql)
+            MSSQL
+#elseif ($pointbase)
+            PointBase
+#elseif ($postgres)
+            PostgreSQL
+#elseif ($sybase)
+            Sybase
+#elseif ($sapdb)
+            SapDB
+#elseif ($progress)
+            PostgreSQL 7.2
+#else
+            HypersonicSql
+#end
+        </sql.mappings>
+#if ($hibernate || $spring || $ejb3)
 #if ($hibernateVersion == "2")
-        <!-- 
+        <!--
             Change this for the appropriate database
             For MySql use: net.sf.hibernate.dialect.MySQLDialect
             For Hypersonic use: net.sf.hibernate.dialect.HSQLDialect
             For Oracle9i use: net.sf.hibernate.dialect.Oracle9Dialect
-          -->
-        <hibernate.dialect>net.sf.hibernate.dialect.HSQLDialect</hibernate.dialect>
+            For DB2 use: net.sf.hibernate.dialect.DB2Dialect
+            For Informix use: net.sf.hibernate.dialect.InformixDialect
+            For MSSQL use: net.sf.hibernate.dialect.SQLServerDialect
+            For Pointbase use: net.sf.hibernate.dialect.PointbaseDialect
+            For Postgres use: net.sf.hibernate.dialect.PostgreSQLDialect
+            For Sybase use: net.sf.hibernate.dialect.SybaseDialect
+            For Sybase Anywhere use: net.sf.hibernate.dialect.SybaseAnywhereDialect
+            For SapDB use: net.sf.hibernate.dialect.SAPDBDialect
+            For Progress use: net.sf.hibernate.dialect.ProgressDialect
+        -->
+        <hibernate.dialect>
+#if ($mysql)
+            net.sf.hibernate.dialect.MySQLDialect
+#elseif ($oracle)
+            net.sf.hibernate.dialect.Oracle9Dialect
+#elseif ($db2)
+            net.sf.hibernate.dialect.DB2Dialect
+#elseif ($informix)
+            net.sf.hibernate.dialect.InformixDialect
+#elseif ($mssql)
+            net.sf.hibernate.dialect.SQLServerDialect
+#elseif ($pointbase)
+            net.sf.hibernate.dialect.PointbaseDialect
+#elseif ($postgres)
+            net.sf.hibernate.dialect.PostgreSQLDialect
+#elseif ($sybase)
+            net.sf.hibernate.dialect.SybaseDialect
+#elseif ($sapdb)
+            net.sf.hibernate.dialect.SAPDBDialect
+#elseif ($progress)
+            net.sf.hibernate.dialect.ProgressDialect
 #else
-        <!-- 
+            net.sf.hibernate.dialect.HSQLDialect
+#end
+        </hibernate.dialect>
+#else
+        <!--
             Change this for the appropriate database
             For MySql use: org.hibernate.dialect.MySQLDialect
+            For MySql InnoDB use: org.hibernate.dialect.MySQLInnoDBDialect
+            For MySql MyISAM use: org.hibernate.dialect.MySQLMyISAMDialect
             For Hypersonic use: org.hibernate.dialect.HSQLDialect
-            For Oracle9i use: org.hibernate.dialect.Oracle9Dialect
-          -->
-        <hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
+            For Oracle any version use: org.hibernate.dialect.OracleDialect
+            For Oracle9i/10g use: org.hibernate.dialect.Oracle9Dialect
+            For DB2 use: org.hibernate.dialect.DB2Dialect
+            For Informix use: org.hibernate.dialect.InformixDialect
+            For MSSQL use: org.hibernate.dialect.SQLServerDialect
+            For Pointbase use: org.hibernate.dialect.PointbaseDialect
+            For Postgres use: org.hibernate.dialect.PostgreSQLDialect
+            For Sybase use: org.hibernate.dialect.SybaseDialect
+            For Sybase Anywhere use: org.hibernate.dialect.SybaseAnywhereDialect
+            For SapDB use: org.hibernate.dialect.SAPDBDialect
+            For Progress use: org.hibernate.dialect.ProgressDialect
+        -->
+        <hibernate.dialect>
+#if ($mysql)
+            org.hibernate.dialect.MySQLInnoDBDialect
+#elseif ($oracle)
+            org.hibernate.dialect.Oracle9Dialect
+#elseif ($db2)
+            org.hibernate.dialect.DB2Dialect
+#elseif ($informix)
+            org.hibernate.dialect.InformixDialect
+#elseif ($mssql)
+            org.hibernate.dialect.SQLServerDialect
+#elseif ($pointbase)
+            org.hibernate.dialect.PointbaseDialect
+#elseif ($postgres)
+            org.hibernate.dialect.PostgreSQLDialect
+#elseif ($sybase)
+            org.hibernate.dialect.SybaseDialect
+#elseif ($sapdb)
+            org.hibernate.dialect.SAPDBDialect
+#elseif ($progress)
+            org.hibernate.dialect.ProgressDialect
+#else
+            org.hibernate.dialect.HSQLDialect
+#end
+        </hibernate.dialect>
 #end
 #end
-#if ($ejb)
-        <!-- Change this to the correct database type mappings (for Jboss) -->
-        <jboss.typeMappings>Hypersonic SQL</jboss.typeMappings>
+#if ($ejb || $ejb3)
+        <!--
+            Change this to the correct database type mappings (for Jboss)
+            For MySql use: mySQL
+            For Hypersonic use: Hypersonic SQL
+            For Oracle9i use: Oracle9i
+            For DB2 use: DB2
+            For Informix use: InformixDB
+            For MSSQL use: MS SQLSERVER2000
+            For Pointbase use: PointBase
+            For Postgres use: PostgreSQL 7.2
+            For Sybase use: Sybase
+            For SapDB use: SapDB
+            For Progress use: PostgreSQL 7.2
+        -->
+        <jboss.typeMappings>
+#if ($mysql)
+            mySQL
+#elseif ($oracle)
+            Oracle9i
+#elseif ($db2)
+            DB2
+#elseif ($informix)
+            InformixDB
+#elseif ($mssql)
+            MS SQLSERVER2000
+#elseif ($pointbase)
+            PointBase
+#elseif ($postgres)
+            PostgreSQL 7.2
+#elseif ($sybase)
+            Sybase
+#elseif ($sapdb)
+            SapDB
+#elseif ($progress)
+            PostgreSQL 7.2
+#else
+            Hypersonic SQL
+#end
+        </jboss.typeMappings>
 #end
 #if ($ear)
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
 #else
         <tomcat.home>${env.CATALINA_HOME}</tomcat.home>
 #end
-        <application.id>${project.artifactId}</application.id>
-        <application.package>${project.groupId}</application.package>
+        <application.id>$applicationId</application.id>
+        <application.package>$applicationPackage</application.package>
+        <application.name>$applicationName</application.name>
+        <application.version>$applicationVersion</application.version>
+        <dataSource.name>jdbc/${application.id}</dataSource.name>
 #if ($ear)
-        <dataSource>java:/DefaultDS</dataSource>
+        <dataSource>java:/${dataSource.name}</dataSource>
 #else
-        <dataSource>java:comp/env/${applicationId}DS</dataSource>
+        <dataSource>java:comp/env/${dataSource.name}</dataSource>
 #end
     </properties>
     <profiles>
@@ -620,15 +960,123 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <!--
+                    Change driver jar for appropriate database
+                    For MySQL use: mysql-connector-java-X-bin.jar
+                    For Hypersonic use: hsqldb.jar
+                -->
 #if ($ear)
                 <jdbc.driver.jar>${jboss.home}/server/default/lib/hsqldb.jar</jdbc.driver.jar>
 #else
                 <jdbc.driver.jar>/path/to/hsqldb/hsqldb.jar</jdbc.driver.jar>
 #end
-                <jdbc.driver>org.hsqldb.jdbcDriver</jdbc.driver>
-                <jdbc.url>jdbc:hsqldb:hsql://127.0.0.1:1701</jdbc.url>
+                <!--
+                    Change driver for appropriate database
+                    For MySQL use: com.mysql.jdbc.Driver
+                    For Hypersonic use: org.hsqldb.jdbcDriver
+                    For Oracle9i use: oracle.jdbc.driver.OracleDriver
+                    For DB2 use: COM.ibm.db2.jdbc.app.DB2Driver
+                    For Informix use: com.informix.jdbc.IfxDriver
+                    For MSSQL use: com.microsoft.jdbc.sqlserver.SQLServerDriver
+                    For Pointbase use: com.pointbase.jdbc.jdbcUniversalDriver
+                    For Postgres use: org.postgresql.Driver
+                    For Sybase use: com.sybase.jdbc2.jdbc.SybDataSource
+                    For SapDB use: com.sap.dbtech.jdbc.DriverSapDB
+                    For Progress use: com.progress.sql.jdbc.JdbcProgressDriver
+                -->
+                <jdbc.driver>
+#if ($mysql)
+                    com.mysql.jdbc.Driver
+#elseif ($oracle)
+                    oracle.jdbc.driver.OracleDriver
+#elseif ($db2)
+                    COM.ibm.db2.jdbc.app.DB2Driver
+#elseif ($informix)
+                    com.informix.jdbc.IfxDriver
+#elseif ($mssql)
+                    com.microsoft.jdbc.sqlserver.SQLServerDriver
+#elseif ($pointbase)
+                    com.pointbase.jdbc.jdbcUniversalDriver
+#elseif ($postgres)
+                    org.postgresql.Driver
+#elseif ($sybase)
+                    com.sybase.jdbc2.jdbc.SybDataSource
+#elseif ($sapdb)
+                    com.sap.dbtech.jdbc.DriverSapDB
+#elseif ($progress)
+                    com.progress.sql.jdbc.JdbcProgressDriver
+#else
+                    org.hsqldb.jdbcDriver
+#end
+                </jdbc.driver>
+                <!--
+                    Change connection url for appropriate database
+                    For MySQL use: jdbc:mysql://localhost:3306/$applicationId
+                    For Hypersonic use: jdbc:hsqldb:hsql://127.0.0.1:1701
+                    For Oracle9i use: jdbc:oracle:thin:@localhost:1521:yoursid
+                    For DB2 use: jdbc:db2:$applicationId
+                    For Informix use: jdbc:informix-sqli://localhost:1557/${applicationId}:INFORMIXSERVER=myserver
+                    For MSSQL use: jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=$applicationId
+                    For Pointbase use: jdbc:pointbase:server://@pointbase.server@:@pointbase.port/pointbase.${applicationId}@,new
+                    For Postgres use: jdbc:postgresql://localhost/$applicationId
+                    For Sybase use: jdbc:sybase:Tds:localhost:5000/${applicationId}?JCONNECT_VERSION=6
+                    For SapDB use: jdbc:sapdb://127.0.0.1/$applicationId
+                    For Progress use: jdbc:JdbcProgress:T:localhost:3305:$applicationId
+                -->
+                <jdbc.url>
+#if ($mysql)
+                    jdbc:mysql://localhost:3306/$applicationId
+#elseif ($oracle)
+                    jdbc:oracle:thin:@localhost:1521:yoursid
+#elseif ($db2)
+                    jdbc:db2:$applicationId
+#elseif ($informix)
+                    jdbc:informix-sqli://localhost:1557/${applicationId}:INFORMIXSERVER=myserver
+#elseif ($mssql)
+                    jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=$applicationId
+#elseif ($pointbase)
+                    jdbc:pointbase:server://@pointbase.server@:@pointbase.port/pointbase.${applicationId}@,new
+#elseif ($postgres)
+                    jdbc:postgresql://localhost/$applicationId
+#elseif ($sybase)
+                    jdbc:sybase:Tds:localhost:5000/${applicationId}?JCONNECT_VERSION=6
+#elseif ($sapdb)
+                    jdbc:sapdb://127.0.0.1/$applicationId
+#elseif ($progress)
+                    jdbc:JdbcProgress:T:localhost:3305:$applicationId
+#else
+                    jdbc:hsqldb:hsql://127.0.0.1:1701
+#end
+                </jdbc.url>
                 <jdbc.username>sa</jdbc.username>
                 <jdbc.password></jdbc.password>
+                <!--
+                    Change exception sorder class name for appropriate database
+                    For MySQL use: org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter
+                    For Hypersonic use: org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter
+                    For Oracle9i use: org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter
+                    For DB2 use: org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter
+                    For Informix use: org.jboss.resource.adapter.jdbc.vendor.InformixExceptionSorter
+                    For MSSQL use: org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter
+                    For Pointbase use: org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter
+                    For Postgres use: org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter
+                    For Sybase use: org.jboss.resource.adapter.jdbc.vendor.SybaseExceptionSorter
+                    For SapDB use: org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter
+                    For Progress use: org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter
+                -->
+                <jdbc.exception.sorter>
+#if ($mysql)
+                    org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter
+#elseif ($oracle)
+                    org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter
+#elseif ($informix)
+                    org.jboss.resource.adapter.jdbc.vendor.InformixExceptionSorter
+#elseif ($sybase)
+                    org.jboss.resource.adapter.jdbc.vendor.SybaseExceptionSorter
+#else
+                    org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter
+#end
+                </jdbc.exception.sorter>
 #if ($webservice)
                 <!-- Change this to the host on which your webservice will be deployed -->
                 <webservice.host>localhost</webservice.host>
@@ -636,6 +1084,45 @@
                 <webservice.port>8080</webservice.port>
 #end
             </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>andromdapp-maven-plugin</artifactId>
+                            <version>3.2-RC1-SNAPSHOT</version>
+                            <!-- provides the injection of the script wrapper support into the class files (this should only
+                                 be done when developing locally), uncomment this executions element to enable
+                            <executions>
+                                <execution>
+                                    <id>instrument-scripts</id>
+                                    <goals>
+                                        <goal>instrument-scripts</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            -->
+                            <configuration>
+                                <scriptWrapper>org.andromda.scriptwrappers.GroovyScriptWrapper</scriptWrapper>
+                                <locations>
+                                    <location>
+                                        <rootPath>${pom.basedir}/src/main/java</rootPath>
+                                        <!-- adjust these to include or exclude specific files, by default
+                                             all files found in the rootPath are considered
+                                        <includes>
+                                            <include>relative/path/to/file/to/include/SomeClass.java</include>
+                                        </includes>
+                                        <excludes>
+                                            <exclude>relative/path/to/file/to/include/SomeClass.java</exclude>
+                                        </excludes>
+                                        -->
+                                    </location>
+                                </locations>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
         </profile>
         <profile>
             <id>development</id>
@@ -651,6 +1138,7 @@
                 <jdbc.url></jdbc.url>
                 <jdbc.username></jdbc.username>
                 <jdbc.password></jdbc.password>
+                <jdbc.exception.sorter></jdbc.exception.sorter>
 #if ($webservice)
                 <webservice.host></webservice.host>
                 <webservice.port></webservice.port>
@@ -671,6 +1159,7 @@
                 <jdbc.url></jdbc.url>
                 <jdbc.username></jdbc.username>
                 <jdbc.password></jdbc.password>
+                <jdbc.exception.sorter></jdbc.exception.sorter>
 #if ($webservice)
                 <webservice.host></webservice.host>
                 <webservice.port></webservice.port>
@@ -691,6 +1180,7 @@
                 <jdbc.url></jdbc.url>
                 <jdbc.username></jdbc.username>
                 <jdbc.password></jdbc.password>
+                <jdbc.exception.sorter></jdbc.exception.sorter>
 #if ($webservice)
                 <webservice.host></webservice.host>
                 <webservice.port></webservice.port>

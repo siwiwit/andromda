@@ -2,7 +2,7 @@ package org.andromda.metafacades.uml14;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -94,7 +94,7 @@ public class FrontEndFinalStateLogicImpl
     protected List handleGetInterUseCaseParameters()
     {
         // we don't want to list parameters with the same name to we use a hash map
-        final Map parameterMap = new HashMap();
+        final Map parameterMap = new LinkedHashMap();
 
         final Collection transitions = getIncoming();
         for (final Iterator transitionIterator = transitions.iterator(); transitionIterator.hasNext();)

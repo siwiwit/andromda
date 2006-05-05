@@ -13,13 +13,12 @@
 #else
     <packaging>jar</packaging>
 #end
-    <name>$applicationName Core Business Tier</name>
+    <name>${applicationName} Core Business Tier</name>
     <dependencies>
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-common</artifactId>
             <version>${pom.version}</version>
-            <scope>compile</scope>
         </dependency>
 #if ($workflow)
         <dependency>
@@ -76,6 +75,10 @@
             <groupId>net.sf.hibernate</groupId>
             <artifactId>hibernate</artifactId>
         </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
 #else
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -86,12 +89,10 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -100,17 +101,69 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <scope>compile</scope>
         </dependency>
+#if ($ejb3)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-j2ee</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3x</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-remoting</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-aop-jdk50</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-aspect-library-jdk50</artifactId>
+        </dependency>
+#if ($jsr181Webservice)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jbossws-client</artifactId>
+        </dependency>
+#end
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+        </dependency>
+#else
         <dependency>
             <groupId>jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
-#if ($webservice)
+#end
+        <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
+        </dependency>
+#if ($webservice && !$jsr181Webservice)
+#if ($axisVersion.equals("1"))
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-discovery</groupId>
@@ -120,7 +173,6 @@
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-jaxrpc</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
@@ -130,13 +182,91 @@
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-saaj</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-wsdl4j</artifactId>
-            <scope>compile</scope>
         </dependency>
+#else
+        <dependency>
+            <groupId>axis</groupId>
+            <artifactId>axis-wsdl4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>axis2</groupId>
+            <artifactId>axis2-adb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>axis2</groupId>
+            <artifactId>axis2-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>axis2</groupId>
+            <artifactId>axis2-codegen</artifactId>
+            <version>0.94</version>
+        </dependency>
+        <dependency>
+            <groupId>axis2</groupId>
+            <artifactId>axis2-doom</artifactId>
+            <version>0.94</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-activation_1.0.2_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-javamail_1.3.1_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>woodstox</groupId>
+            <artifactId>wstx-asl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>backport-util-concurrent</groupId>
+            <artifactId>backport-util-concurrent</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>annogen</groupId>
+            <artifactId>annogen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons</groupId>
+            <artifactId>policy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons</groupId>
+            <artifactId>XmlSchema</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons</groupId>
+            <artifactId>axiom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+#end
 #end
     </dependencies>
     <build>
@@ -147,6 +277,7 @@
             </plugin>
 #if ($spring || $hibernate)
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
                 <executions>
                     <execution>
@@ -207,6 +338,7 @@
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
+                    <generateClient>true</generateClient>
                 </configuration>
             </plugin>
 #end

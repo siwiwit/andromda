@@ -160,10 +160,14 @@ public class JSFViewLogicImpl
         final List variables = this.getVariables();
         for (int ctr = 0; ctr < variables.size(); ctr++)
         {
-            final JSFParameter variable = (JSFParameter)variables.get(ctr);
-            if (variable.isTable())
+            final Object object = variables.get(ctr);
+            if (object instanceof JSFParameter)
             {
-                tables.add(variable);
+                final JSFParameter variable = (JSFParameter)object;
+                if (variable.isTable())
+                {
+                    tables.add(variable);
+                }
             }
         }
         return tables;
@@ -292,11 +296,15 @@ public class JSFViewLogicImpl
         boolean present = false;
         for (final Iterator iterator = this.getVariables().iterator(); iterator.hasNext();)
         {
-            final FrontEndParameter variable = (FrontEndParameter)iterator.next();
-            if (!variable.isTable())
+            final Object object = iterator.next();
+            if (object instanceof FrontEndParameter)
             {
-                present = true;
-                break;
+                final FrontEndParameter variable = (FrontEndParameter)object;
+                if (!variable.isTable())
+                {
+                    present = true;
+                    break;
+                }
             }
         }
         return present;
@@ -325,31 +333,35 @@ public class JSFViewLogicImpl
         final Map variables = new LinkedHashMap();
         for (final Iterator iterator = this.getAllActionParameters().iterator(); iterator.hasNext();)
         {
-            final JSFParameter parameter = (JSFParameter)iterator.next();
-            final String parameterName = parameter.getName();
-            final Collection attributes = parameter.getAttributes();
-            if (attributes.isEmpty())
+            final Object object = iterator.next();
+            if (object instanceof JSFParameter)
             {
-                if (parameter.isBackingValueRequired() || parameter.isSelectable())
+                final JSFParameter parameter = (JSFParameter)object;
+                final String parameterName = parameter.getName();
+                final Collection attributes = parameter.getAttributes();
+                if (attributes.isEmpty())
                 {
-                    variables.put(parameterName, parameter);
-                }
-            }
-            else
-            {
-                boolean hasBackingValue = false;
-                for (final Iterator attributeIterator = attributes.iterator(); attributeIterator.hasNext();)
-                {
-                    final JSFAttribute attribute = (JSFAttribute)attributeIterator.next();
-                    if (attribute.isSelectable(parameter) || attribute.isBackingValueRequired(parameter))
+                    if (parameter.isBackingValueRequired() || parameter.isSelectable())
                     {
-                        hasBackingValue = true;
-                        break;
+                        variables.put(parameterName, parameter);
                     }
                 }
-                if (hasBackingValue)
+                else
                 {
-                    variables.put(parameterName, parameter);
+                    boolean hasBackingValue = false;
+                    for (final Iterator attributeIterator = attributes.iterator(); attributeIterator.hasNext();)
+                    {
+                        final JSFAttribute attribute = (JSFAttribute)attributeIterator.next();
+                        if (attribute.isSelectable(parameter) || attribute.isBackingValueRequired(parameter))
+                        {
+                            hasBackingValue = true;
+                            break;
+                        }
+                    }
+                    if (hasBackingValue)
+                    {
+                        variables.put(parameterName, parameter);
+                    }
                 }
             }
         }

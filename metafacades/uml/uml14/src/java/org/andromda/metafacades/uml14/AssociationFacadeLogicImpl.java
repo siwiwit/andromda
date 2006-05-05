@@ -1,12 +1,10 @@
 package org.andromda.metafacades.uml14;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
+import org.omg.uml.foundation.core.AssociationClass;
 
 
 /**
@@ -51,10 +49,8 @@ public class AssociationFacadeLogicImpl
      */
     public String handleGetRelationName()
     {
-        final Collection ends = this.getAssociationEnds();
-        final Iterator endIt = ends.iterator();
-        final AssociationEndFacade firstEnd = (AssociationEndFacade)endIt.next();
-        final AssociationEndFacade secondEnd = (AssociationEndFacade)endIt.next();
+        final AssociationEndFacade firstEnd = this.getAssociationEndA();
+        final AssociationEndFacade secondEnd = this.getAssociationEndB();
         return MetafacadeUtils.toRelationName(
             firstEnd.getName(),
             secondEnd.getName(),
@@ -67,5 +63,45 @@ public class AssociationFacadeLogicImpl
     protected boolean handleIsMany2Many()
     {
         return ((AssociationEndFacade)this.getAssociationEnds().iterator().next()).isMany2Many();
+    }
+
+	/**
+     * @see org.andromda.metafacades.uml.AssociationFacade#isAssociationClass()
+     */
+    protected boolean handleIsAssociationClass()
+    {
+        return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#getAssociationEndA()
+     */
+    protected Object handleGetAssociationEndA()
+    {
+        return this.getAssociationEnds().get(0);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#getAssociationEndB()
+     */
+    protected Object handleGetAssociationEndB()
+    {
+        return this.getAssociationEnds().get(1);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#isAbstract()
+     */
+    protected boolean handleIsAbstract()
+    {
+        return this.metaObject.isAbstract();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AssociationFacade#isLeaf
+     */
+    protected boolean handleIsLeaf()
+    {
+        return this.metaObject.isLeaf();
     }
 }

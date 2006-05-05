@@ -1,9 +1,9 @@
 package org.andromda.metafacades.emf.uml2;
 
 import org.andromda.metafacades.uml.TypeMappings;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
@@ -132,7 +132,7 @@ public class AssociationEndFacadeLogicImpl
 
             // set this association end's type as a template parameter if required
             if (BooleanUtils.toBoolean(
-                ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING))))
+                    ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING))))
             {
                 name = name + "<" + this.getType().getFullyQualifiedName() + ">";
             }
@@ -157,7 +157,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return false;
+        return (metaObject.getLower() > 0);
     }
 
     /**
@@ -198,5 +198,23 @@ public class AssociationEndFacadeLogicImpl
     public Object getValidationOwner()
     {
         return this.getType();
+    }
+    
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        return this.metaObject.getUpper();
+    }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        return this.metaObject.getLower();
     }
 }

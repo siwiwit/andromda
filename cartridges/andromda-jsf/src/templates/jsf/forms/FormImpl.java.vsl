@@ -7,7 +7,7 @@ $action.getDocumentation(" * ")
  */
 public class $action.formImplementationName
     implements java.io.Serializable#if ($stringUtils.isNotBlank($action.formImplementationInterfaceList)), $action.formImplementationInterfaceList#end
-    
+
 {
     public ${action.formImplementationName}()
     {
@@ -19,6 +19,10 @@ public class $action.formImplementationName
 #renderDateTimeFormatters($attribute $field)
 #end
 #end
+        // - setup the default java.util.Date.toString() formatter
+        java.text.DateFormat dateFormatter = new java.text.SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
+        dateFormatter.setLenient(true);
+        this.dateTimeFormatters.put(null, dateFormatter);
     }
 #foreach ($field in $action.formFields)
 
@@ -38,15 +42,20 @@ $field.getDocumentation("     * ")
     {
 #if ($field.type.collectionType || $field.type.arrayType)
 #set ($upperCaseFieldName = $stringUtils.capitalize($field.name))
-#if ($field.type.arrayType)
         if (this.$field.name != null)
         {
+#if ($field.type.arrayType)
             this.$field.name = ($field.type.fullyQualifiedName)${managedBeansPackage}.CollectionSorter.sort(
-                java.util.Arrays.asList(this.$field.name), 
-                this.get${stringUtils.capitalize($field.tableSortColumnProperty)}(), 
+                java.util.Arrays.asList(this.$field.name),
+                this.get${stringUtils.capitalize($field.tableSortColumnProperty)}(),
                 this.is${upperCaseFieldName}SortAscending()).toArray(new ${field.type.fullyQualifiedName}{});
-        }
+#else
+            this.$field.name = ${managedBeansPackage}.CollectionSorter.sort(
+                this.$field.name,
+                this.get${stringUtils.capitalize($field.tableSortColumnProperty)}(),
+                this.is${upperCaseFieldName}SortAscending());
 #end
+        }
         return this.$field.name;
 #else
 #if ($field.complex)
@@ -58,25 +67,23 @@ $field.getDocumentation("     * ")
         return this.${field.name};
 #end
     }
-    
+
     /**
      * Keeps track of whether or not the value of $field.name has
      * be populated at least once.
      */
     private boolean $field.formAttributeSetProperty = false;
-    
+
     /**
      * Indicates whether or not the value for $field.name has been set at least
      * once.
-     * 
+     *
      * @return true/false
      */
     public boolean is${stringUtils.capitalize($field.formAttributeSetProperty)}()
     {
         return this.$field.formAttributeSetProperty;
     }
-## - don't allow fields with default values to be set
-#if (!$field.defaultValuePresent)
 
     /**
 $field.getDocumentation("     * ")
@@ -86,8 +93,8 @@ $field.getDocumentation("     * ")
         this.$field.name = $field.name;
         this.$field.formAttributeSetProperty = true;
     }
-#end
 #if ($field.type.collectionType || $field.type.arrayType)
+
     /**
      * The name of the sort column for the {@link #${field.name}} collection.
      */
@@ -95,7 +102,7 @@ $field.getDocumentation("     * ")
 
     /**
      * Gets the name of the sort column for the {@link #${field.name}} collection.
-     * 
+     *
      * @return the name of the sort column.
      */
     public String get${stringUtils.capitalize($field.tableSortColumnProperty)}()
@@ -105,7 +112,7 @@ $field.getDocumentation("     * ")
 
     /**
      * Sets the name of the {@link #${field.name}} sort column.
-     * 
+     *
      * @param $field.tableSortColumnProperty the name of the column by which {@link #${field.name}}
      *        are sorted by.
      */
@@ -113,7 +120,7 @@ $field.getDocumentation("     * ")
     {
         this.$field.tableSortColumnProperty = $field.tableSortColumnProperty;
     }
-    
+
     /**
      * The flag indicating whether or not {@link #${field.name}} should be sorted
      * ascending.
@@ -123,7 +130,7 @@ $field.getDocumentation("     * ")
     /**
      * Indicates whether or not {@link #${field.name}} should be sorted ascending
      * or not.
-     * 
+     *
      * @return true/false
      */
     public boolean is${stringUtils.capitalize($field.tableSortAscendingProperty)}()
@@ -133,7 +140,7 @@ $field.getDocumentation("     * ")
 
     /**
      * Sets whether or not {@link #${field.name}} should be sorted ascending.
-     * 
+     *
      * @param $field.tableSortAscendingProperty true/false
      */
     public void set${stringUtils.capitalize($field.tableSortAscendingProperty)}(final boolean $field.tableSortAscendingProperty)
@@ -158,7 +165,7 @@ $field.getDocumentation("     * ")
     {
 #foreach($field in $action.parameters)
 #if ($field.reset)
-        this.$field.name = $field.type.javaNullString; 
+        this.$field.name = $field.type.javaNullString;
 #end
 #end
     }
@@ -179,9 +186,9 @@ $field.getDocumentation("     * ")
     {
         return this.dateTimeFormatters;
     }
-    
-    /** 
-     * The serial version UID of this class. Needed for serialization. 
+
+    /**
+     * The serial version UID of this class. Needed for serialization.
      */
     private static final long serialVersionUID = ${action.formSerialVersionUID}L;
 }

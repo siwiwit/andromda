@@ -1,10 +1,8 @@
 package org.andromda.metafacades.uml14;
 
-import java.util.Collection;
-
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
-import org.andromda.metafacades.uml.Entity;
+import org.andromda.metafacades.uml.ManageableEntity;
 
 
 /**
@@ -15,9 +13,7 @@ import org.andromda.metafacades.uml.Entity;
 public class ManageableEntityAssociationEndLogicImpl
     extends ManageableEntityAssociationEndLogic
 {
-    public ManageableEntityAssociationEndLogicImpl(
-        Object metaObject,
-        String context)
+    public ManageableEntityAssociationEndLogicImpl(Object metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -29,16 +25,11 @@ public class ManageableEntityAssociationEndLogicImpl
     {
         AttributeFacade manageableIdentifier = null;
 
-        final ClassifierFacade classifierFacade = getType();
-        if (classifierFacade instanceof Entity)
+        final ClassifierFacade classifierFacade = this.getType();
+        if (classifierFacade instanceof ManageableEntity)
         {
-            final Entity entity = (Entity)classifierFacade;
-            final Collection identifiers = entity.getIdentifiers();
-
-            if (!identifiers.isEmpty())
-            {
-                manageableIdentifier = (AttributeFacade)identifiers.iterator().next();
-            }
+            final ManageableEntity entity = (ManageableEntity)classifierFacade;
+            manageableIdentifier = entity.getManageableIdentifier();
         }
 
         return manageableIdentifier;

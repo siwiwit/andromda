@@ -174,7 +174,7 @@ public class TranslationTestProcessor
                         repositoriesContainer.loadModel(model);
                         final RepositoryFacade repositoryImplementation =
                             repositoriesContainer.getImplementation(repository.getName());
-                        this.model = repositoryImplementation.getModel(model.getAccessFacadeType());
+                        this.model = repositoryImplementation.getModel();
 
                         // - make sure the factory has access to the model
                         factory.setModel(this.model, model.getType());

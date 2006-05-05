@@ -1,5 +1,3 @@
-#parse("templates/spring/ejb/SpringSessionEJBGlobals.vm")
-#if ($ejbsEnabled)
 #set ($generatedFile = "${service.ejbPackageNamePath}/${service.name}.java")
 // license-header java merge-point
 //
@@ -36,4 +34,3 @@ $operation.getDocumentation("     * ")
 
 #end
 }
-#end

@@ -1,5 +1,3 @@
-#parse("templates/spring/ejb/SpringSessionEJBGlobals.vm")
-#if ($ejbsEnabled)
 #set ($generatedFile = "${service.ejbPackageNamePath}/${service.ejbImplementationName}.java")
 // license-header java merge-point
 //
@@ -11,7 +9,7 @@ package ${service.ejbPackageName};
 /**
  * @see $service.fullyQualifiedName
  */
-public class $service.ejbImplementationName
+public#if($service.abstract) abstract#end class $service.ejbImplementationName
 #if($service.generalization)
     extends $service.generalization.fullyQualifiedEjbImplementationName
 #else
@@ -34,9 +32,13 @@ public class $service.ejbImplementationName
 #end
     {
 #if ($ejbSecurityEnabled)
-#set ($principalStoreClassName = "${principalStoreName}")
+#if ($externalPrincipalStoreClass)
+#set ($principalStoreClassName = $externalPrincipalStoreClass)
+#else
+#set ($principalStoreClassName = $principalStoreName)
 #if($stringUtils.isNotEmpty($springTypesPackage))
 #set ($principalStoreClassName = "${springTypesPackage}.${principalStoreClassName}")
+#end
 #end
         ${principalStoreClassName}.set(super.getSessionContext().getCallerPrincipal());
 #end
@@ -48,6 +50,7 @@ public class $service.ejbImplementationName
     }
 
 #end
+#if (!$service.abstract)
     /**
      * Every Spring Session EJB needs to
      * call this to instantiate the Spring
@@ -57,7 +60,7 @@ public class $service.ejbImplementationName
      */
     protected void onEjbCreate()
     {
-#if($service.generalization)
+#if($service.generalization && !$service.generalization.abstract)
         super.onEjbCreate();
 #end
         this.${businessObject} = ($service.fullyQualifiedName)
@@ -78,6 +81,5 @@ public class $service.ejbImplementationName
             org.springframework.context.access.ContextSingletonBeanFactoryLocator.getInstance("$beanRefFactory"));
         super.setBeanFactoryLocatorKey("$beanRefFactoryId");
     }
-
-}
 #end
+}

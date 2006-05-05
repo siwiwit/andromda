@@ -504,7 +504,13 @@ public class ModelElementFacadeLogicImpl
                 // does this name match the argument tagged value name ?
                 if (name.equals(taggedValue.getName()))
                 {
-                    values.add(taggedValue.getValue());
+                    Object value = taggedValue.getValue();
+                    if (value instanceof Collection)
+                    {
+                        values.addAll((Collection)taggedValue.getValue());                        
+                    } else {
+                        values.add(taggedValue.getValue());
+                    }
                 }
             }
         }
@@ -636,8 +642,13 @@ public class ModelElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetSourceDependencies()
     {
-        // TODO: add your implementation here!
-        return null;
+    	Collection sourceDependencies = new ArrayList();
+    	if (this.metaObject instanceof NamedElement)
+    	{
+    		Collection clientDependencies = ((NamedElement)this.metaObject).getClientDependencies();
+    		sourceDependencies.addAll(this.shieldedElements(clientDependencies));
+    	}
+        return sourceDependencies;
     }
 
     /**

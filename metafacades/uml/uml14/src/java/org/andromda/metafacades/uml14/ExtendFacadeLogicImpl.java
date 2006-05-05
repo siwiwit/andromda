@@ -16,7 +16,7 @@ public class ExtendFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ExtendFacade#handleGetBase()
+     * @see org.andromda.metafacades.uml.ExtendFacade#getBase()
      */
     protected Object handleGetBase()
     {
@@ -32,7 +32,7 @@ public class ExtendFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ExtendFacade#handleGetExtension()
+     * @see org.andromda.metafacades.uml.ExtendFacade#getExtension()
      */
     protected Object handleGetExtension()
     {

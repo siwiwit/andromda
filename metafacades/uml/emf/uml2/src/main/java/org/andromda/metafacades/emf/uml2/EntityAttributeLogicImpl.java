@@ -195,4 +195,9 @@ public class EntityAttributeLogicImpl
         }
         return mappings;
     }
+
+    protected boolean handleIsTransient()
+    {
+        return this.hasStereotype(UMLProfile.STEREOTYPE_TRANSIENT);
+    }
 }

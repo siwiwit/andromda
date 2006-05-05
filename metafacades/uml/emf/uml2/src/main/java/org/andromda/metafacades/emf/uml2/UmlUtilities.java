@@ -26,6 +26,7 @@ import org.eclipse.uml2.Classifier;
 import org.eclipse.uml2.Comment;
 import org.eclipse.uml2.Element;
 import org.eclipse.uml2.Generalization;
+import org.eclipse.uml2.Interface;
 import org.eclipse.uml2.Model;
 import org.eclipse.uml2.MultiplicityElement;
 import org.eclipse.uml2.NamedElement;
@@ -130,7 +131,7 @@ public class UmlUtilities
     }
 
     /**
-     * Return the Superclass for this class. If more than one superclass is
+     * Return the Superclass for this class/interface. If more than one superclass is
      * defined an error will be logged to the console.
      *
      * @param classifier the classifier instance.
@@ -163,73 +164,88 @@ public class UmlUtilities
 
     /**
      * Gets a collection containing all of the properties (UML
-     * attributes/association ends) for this class. Superclass properties will
+     * attributes/association ends) for this class/interface. Superclass properties will
      * included if <code>follow</code> is true. Overridden properties will be
      * omitted.
      *
-     * @param umlClass the UML class instance from which to retrieve all
+     * @param umlClassiifer the UML class instance from which to retrieve all
      *        properties
      * @param follow whether or not the inheritance hierarchy should be followed
+     * @param excludeEnds whether or not to include association ends in the property list.
      * @return all retrieved properties.
      */
     public static Collection getProperties(
-        final Class umlClass,
+        final Classifier umlClassifier,
         final boolean follow,
         final boolean excludeEnds)
     {
         List classAttributes = new ArrayList();
-
-        //first add all the class properties
-        if (umlClass == null || umlClass.getAttributes() == null)
+        if (!(umlClassifier == null))
         {
-            return classAttributes;
-        }
-        for (final Iterator iterator = umlClass.getAttributes().iterator(); iterator.hasNext();)
-        {
-            Property property = (Property)iterator.next();
-            if (excludeEnds)
+            Iterator local = null;
+            Iterator other = null;
+            if (umlClassifier instanceof Class)
             {
-                if (!property.isNavigable())
+                Class ca = (Class)umlClassifier;
+                local = ca.getAttributes().iterator();
+                other = ca.getInheritedMembers().iterator();
+            }
+
+            if (umlClassifier instanceof Interface)
+            {
+                Interface intfc = (Interface)umlClassifier;
+                local = intfc.getAttributes().iterator();
+                other = intfc.getInheritedMembers().iterator();
+            }
+
+            //first add all the class properties
+            for (final Iterator iterator = local; iterator.hasNext();)
+            {
+                Property property = (Property)iterator.next();
+                if (excludeEnds)
+                {
+                    if (!property.isNavigable())
+                    {
+                        classAttributes.add(property);
+                    }
+                }
+                else
                 {
                     classAttributes.add(property);
                 }
             }
-            else
+            if (follow)
             {
-                classAttributes.add(property);
-            }
-        }
-        if (follow)
-        {
-            // then interate through all the inherited members adding those not already
-            // defined (ie overridden)
-            for (final Iterator iterator = umlClass.getInheritedMembers().iterator(); iterator.hasNext();)
-            {
-                NamedElement element = (NamedElement)iterator.next();
-                if (element instanceof Property)
+                // then interate through all the inherited members adding those not already
+                // defined (ie overridden)
+                for (final Iterator iterator = other; iterator.hasNext();)
                 {
-                    Iterator propIter = classAttributes.iterator();
-                    boolean defined = false;
-                    while (propIter.hasNext())
+                    NamedElement element = (NamedElement)iterator.next();
+                    if (element instanceof Property)
                     {
-                        Property testProp = (Property)propIter.next();
-                        if (testProp.getName().equalsIgnoreCase(element.getName()))
+                        Iterator propIter = classAttributes.iterator();
+                        boolean defined = false;
+                        while (propIter.hasNext())
                         {
-                            defined = true;
+                            Property testProp = (Property)propIter.next();
+                            if (testProp.getName().equalsIgnoreCase(element.getName()))
+                            {
+                                defined = true;
+                            }
                         }
-                    }
-                    if (!defined)
-                    {
-                        if (excludeEnds)
+                        if (!defined)
                         {
-                            if (!((Property)element).isNavigable())
+                            if (excludeEnds)
+                            {
+                                if (!((Property)element).isNavigable())
+                                {
+                                    classAttributes.add(element);
+                                }
+                            }
+                            else
                             {
                                 classAttributes.add(element);
                             }
-                        }
-                        else
-                        {
-                            classAttributes.add(element);
                         }
                     }
                 }
@@ -239,20 +255,20 @@ public class UmlUtilities
     }
 
     /**
-     * Attempts to retrieve the attribute for the given <code>umlClass</code>
+     * Attempts to retrieve the attribute for the given <code>umlClass/umlInterface</code>
      * having the given <code>name</code>.
      *
-     * @param umlClass the name of the UML class.
+     * @param umlClassifier the name of the UML class.
      * @param name the name of the attribute.
      * @return the attribute or null if not found.
      */
     public static Property getAttribute(
-        final Class umlClass,
+        final Classifier umlClassifier,
         final String name)
     {
         Property attribute = null;
         final Collection properties = getProperties(
-                umlClass,
+                umlClassifier,
                 true,
                 false);
         for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
@@ -269,53 +285,65 @@ public class UmlUtilities
 
     /**
      * Return a collection containing all of the methods (UML operations) for
-     * this class. Superclass properties will included if <code>follow</code>
+     * this class/interface. Superclass properties will included if <code>follow</code>
      * is true. Overridden methods will be omitted.
      *
-     * @param umlClass the UML class instance.
+     * @param umlClassifier the UML class instance.
      * @param follow whether or not to follow the inheritance hierarchy
      * @return the collection of operations.
      */
     public static Collection getOperations(
-        Class umlClass,
+        Classifier umlClassifier,
         boolean follow)
     {
-        Iterator iterator;
         ArrayList classOperations = new ArrayList();
 
         // - first add all the class properties
-        if (umlClass == null || umlClass.getOwnedOperations() == null)
+        if (!(umlClassifier == null))
         {
-            return classOperations;
-        }
-        iterator = umlClass.getOwnedOperations().iterator();
-        while (iterator.hasNext())
-        {
-            classOperations.add(iterator.next());
-        }
-        if (follow)
-        {
-            // then interate through all the inherited members adding those not already
-            // defined (ie overridden)
-            iterator = umlClass.getInheritedMembers().iterator();
-            while (iterator.hasNext())
+            Iterator local = null;
+            Iterator other = null;
+            if (umlClassifier instanceof Class)
             {
-                NamedElement el = (NamedElement)iterator.next();
-                if (el instanceof Operation)
+                Class ca = (Class)umlClassifier;
+                local = ca.getOwnedOperations().iterator();
+                other = ca.getInheritedMembers().iterator();
+            }
+
+            if (umlClassifier instanceof Interface)
+            {
+                Interface intfc = (Interface)umlClassifier;
+                local = intfc.getOwnedOperations().iterator();
+                other = intfc.getInheritedMembers().iterator();
+            }
+
+            while (local.hasNext())
+            {
+                classOperations.add(local.next());
+            }
+            if (follow)
+            {
+                // then interate through all the inherited members adding those not already
+                // defined (ie overridden)
+                while (other.hasNext())
                 {
-                    Iterator classIter = classOperations.iterator();
-                    boolean defined = false;
-                    while (classIter.hasNext())
+                    NamedElement el = (NamedElement)other.next();
+                    if (el instanceof Operation)
                     {
-                        Operation testMeth = (Operation)classIter.next();
-                        if (testMeth.getName().equalsIgnoreCase(el.getName()))
+                        Iterator classIter = classOperations.iterator();
+                        boolean defined = false;
+                        while (classIter.hasNext())
                         {
-                            defined = true;
+                            Operation testMeth = (Operation)classIter.next();
+                            if (testMeth.getName().equalsIgnoreCase(el.getName()))
+                            {
+                                defined = true;
+                            }
                         }
-                    }
-                    if (!defined)
-                    {
-                        classOperations.add(el);
+                        if (!defined)
+                        {
+                            classOperations.add(el);
+                        }
                     }
                 }
             }
@@ -332,7 +360,7 @@ public class UmlUtilities
      * @return the operation instance or null
      */
     public static Operation getOperation(
-        final Class umlClass,
+        final Classifier umlClass,
         final String name)
     {
         Operation foundOperation = null;
@@ -441,10 +469,14 @@ public class UmlUtilities
         }
         if (logger.isDebugEnabled())
         {
-        	if (element instanceof NamedElement)
-        		logger.debug(((NamedElement)element).getQualifiedName() + " has stereotype:" + name + " : " + result);
-        	else
-        		logger.debug(element.toString() + " has stereotype:" + name + " : " + result);
+            if (element instanceof NamedElement)
+            {
+                logger.debug(((NamedElement)element).getQualifiedName() + " has stereotype:" + name + " : " + result);
+            }
+            else
+            {
+                logger.debug(element.toString() + " has stereotype:" + name + " : " + result);
+            }
         }
         return result;
     }
@@ -455,7 +487,8 @@ public class UmlUtilities
     private static final String TAGGED_VALUES_STEREOTYPE = "AndroMDATags";
 
     /**
-     * Retrieges the TagDefinitions for the given element.
+     * Retrieves the TagDefinitions for the given element. Note that this is either the TagName/TagValues on the
+     *  TAGGED_VALUES_STEREOTYPE stereotype or the values for any Stereotypes that have the value property.
      *
      * @param element the element from which to retrieve the tagged values.
      * @return the collection of {@TagDefinition} instances.
@@ -463,7 +496,7 @@ public class UmlUtilities
     public static Collection getAndroMDATags(Element element)
     {
         final Collection tags = new ArrayList();
-        Stereotype tagStereotype = findAppliedStereotype(
+        final Stereotype tagStereotype = findAppliedStereotype(
                 element,
                 TAGGED_VALUES_STEREOTYPE);
         if (tagStereotype != null)
@@ -479,6 +512,27 @@ public class UmlUtilities
                 tags.add(new TagDefinitionImpl(
                         tagNames.get(ctr),
                         tagValues.get(ctr)));
+            }
+        }
+        for (final Iterator iterator = getStereotypeNames(element).iterator(); iterator.hasNext();)
+        {
+            final String name = (String)iterator.next();
+            if (!name.equalsIgnoreCase(TAGGED_VALUES_STEREOTYPE))
+            {
+                final Stereotype stereotype = findAppliedStereotype(
+                        element,
+                        name);
+                if (element.hasValue(
+                        stereotype,
+                        "value"))
+                {
+                    final Object value = element.getValue(
+                            stereotype,
+                            "value");
+                    tags.add(new TagDefinitionImpl(
+                            name,
+                            value));
+                }
             }
         }
         return tags;
@@ -577,8 +631,7 @@ public class UmlUtilities
         Object opposite = null;
         Association association = associationEnd.getAssociation();
 
-        // - for now we don't return association classes with associations (maybe we should?)
-        if (association != null && !(association instanceof AssociationClass))
+        if (association != null)
         {
             Collection ends = association.getMemberEnds();
             for (final Iterator endIterator = ends.iterator(); endIterator.hasNext();)

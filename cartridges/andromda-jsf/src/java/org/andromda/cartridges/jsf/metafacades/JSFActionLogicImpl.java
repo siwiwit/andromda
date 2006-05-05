@@ -219,12 +219,15 @@ public class JSFActionLogicImpl
     {
         String messageKey = null;
 
-        final JSFEvent actionTrigger = (JSFEvent)this.getTrigger();
-        if (actionTrigger != null)
+        final Object trigger = this.getTrigger();
+        if (trigger instanceof JSFEvent)
         {
-            messageKey = actionTrigger.getMessageKey();
+            final JSFEvent actionTrigger = (JSFEvent)trigger;
+            if (actionTrigger != null)
+            {
+                messageKey = actionTrigger.getMessageKey();
+            }
         }
-
         return messageKey;
     }
 
@@ -233,8 +236,13 @@ public class JSFActionLogicImpl
      */
     protected String handleGetDocumentationKey()
     {
-        final JSFEvent trigger = (JSFEvent)this.getTrigger();
-        return (trigger == null ? this.getMessageKey() + ".is.an.action.without.trigger" : trigger.getMessageKey()) +
+        final Object trigger = this.getTrigger();
+        JSFEvent event = null;
+        if (trigger instanceof JSFEvent)
+        {
+            event = (JSFEvent)trigger;
+        }
+        return (event == null ? this.getMessageKey() + ".is.an.action.without.trigger" : event.getMessageKey()) +
         '.' + JSFGlobals.DOCUMENTATION_MESSAGE_KEY_SUFFIX;
     }
 
@@ -322,10 +330,14 @@ public class JSFActionLogicImpl
                 final List tables = view.getTables();
                 for (int ctr = 0; ctr < tables.size() && tableLinkParameter == null; ctr++)
                 {
-                    final JSFParameter table = (JSFParameter)tables.get(ctr);
-                    if (tableLinkName.equals(table.getName()))
+                    final Object object = tables.get(ctr);
+                    if (object instanceof JSFParameter)
                     {
-                        tableLinkParameter = table;
+                        final JSFParameter table = (JSFParameter)object;
+                        if (tableLinkName.equals(table.getName()))
+                        {
+                            tableLinkParameter = table;
+                        }
                     }
                 }
             }
@@ -467,17 +479,20 @@ public class JSFActionLogicImpl
                 public boolean evaluate(final Object object)
                 {
                     boolean valid = false;
-                    final JSFParameter parameter = (JSFParameter)object;
-                    valid = parameter.isInputHidden();
-                    if (!valid)
+                    if (object instanceof JSFParameter)
                     {
-                        for (final Iterator iterator = parameter.getAttributes().iterator(); iterator.hasNext();)
+                        final JSFParameter parameter = (JSFParameter)object;
+                        valid = parameter.isInputHidden();
+                        if (!valid)
                         {
-                            JSFAttribute attribute = (JSFAttribute)iterator.next();
-                            valid = attribute.isInputHidden();
-                            if (valid)
+                            for (final Iterator iterator = parameter.getAttributes().iterator(); iterator.hasNext();)
                             {
-                                break;
+                                JSFAttribute attribute = (JSFAttribute)iterator.next();
+                                valid = attribute.isInputHidden();
+                                if (valid)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -496,11 +511,15 @@ public class JSFActionLogicImpl
         final Collection actionParameters = this.getParameters();
         for (final Iterator iterator = actionParameters.iterator(); iterator.hasNext();)
         {
-            final JSFParameter parameter = (JSFParameter)iterator.next();
-            if (parameter.isValidationRequired())
+            final Object object = iterator.next();
+            if (object instanceof JSFParameter)
             {
-                required = true;
-                break;
+                final JSFParameter parameter = (JSFParameter)object;
+                if (parameter.isValidationRequired())
+                {
+                    required = true;
+                    break;
+                }
             }
         }
         return required;
@@ -538,11 +557,15 @@ public class JSFActionLogicImpl
         {
             for (final Iterator iterator = this.getParameters().iterator(); iterator.hasNext();)
             {
-                final JSFParameter parameter = (JSFParameter)iterator.next();
-                resetRequired = parameter.isReset();
-                if (resetRequired)
+                final Object object = iterator.next();
+                if (object instanceof JSFParameter)
                 {
-                    break;
+                    final JSFParameter parameter = (JSFParameter)object;
+                    resetRequired = parameter.isReset();
+                    if (resetRequired)
+                    {
+                        break;
+                    }
                 }
             }
         }

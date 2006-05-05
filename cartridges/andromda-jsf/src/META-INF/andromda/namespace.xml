@@ -24,6 +24,12 @@
                     that typically appear in WEB-INF, such as validation-rules.xml and tiles-defs.xml.
                 </documentation>
             </property>
+            <property name="libraries" required="false">
+                <documentation>
+                    The location to which JSF libraries will be generated (these are the libraries required for JSF support, 
+                    myfaces libraries, etc).  If this isn't defined, its expected that the libraries will be provided by another means.
+                </documentation>
+            </property>
             <property name="controllers">
                 <documentation>
                     The location to which any controllers are generated (this outlet
@@ -48,10 +54,9 @@
                     The location to which message resource bundles are generated.
                 </documentation>
             </property>
-            <property name="jsps" required="false">
+            <property name="views">
                 <documentation>
-                    Application JSPs: login pages, stylesheets, etc (basically 
-                    anything in support of JSP view rendering).
+                    Where the application views (JSPs, Facelets, etc) are output.
                 </documentation>
             </property>
             <property name="forms">
@@ -69,6 +74,12 @@
                 <documentation>
                     The name of the JSF configuration file (this file stores the JSF managed bean
                     form information and navigation rules).
+                </documentation>
+            </property>
+            <property name="facesConfigFiles" required="false">
+                <documentation>
+                    Comma separated list of URIs of (additional) faces config files.
+                    (e.g. /WEB-INF/jsf-config.xml).  See JSF 1.0 PRD2, 10.3.2
                 </documentation>
             </property>
             <property name="formScope">
@@ -161,23 +172,30 @@
                 </documentation>
             </property>
         </propertyGroup>
-        <propertyGroup name="JSP pages">
+        <propertyGroup name="Views">
+            <documentation>
+                Properties that configure view information.
+            </documentation>
+            <property name="viewType">
+                <default>jsp</default>
+                <documentation>Defines the type of view to render, currently the options are: 'jsp' or 'facelets'.</documentation>
+            </property>
             <property name="welcomeFileName">
                 <default>index.jsp</default>
                 <documentation>
-                    The path of the JSP that is the welcome file.
+                    The path of the file that will be the welcome file (minus the extension).
                 </documentation>
             </property>   
             <property name="loginFileName">
-                <default>login.jsp</default>
+                <default>login</default>
                 <documentation>
-                    The path to the JSP that provides the login page.
+                    The path to the file that provides the login page (minus the extension).
                 </documentation>
-            </property> 
+            </property>
             <property name="logoutFileName">
-                <default>logout.jsp</default>
+                <default>logout</default>
                 <documentation>
-                    The path to the JSP that provides application logout.
+                    The path to the file that provides application logout (minus the extension)
                 </documentation>
             </property> 
             <property name="defaultMultiSelectSize">
@@ -186,11 +204,13 @@
                     The default size to use for multi select boxes.
                 </documentation>
             </property>
-        </propertyGroup>
-        <propertyGroup name="Views">
-            <documentation>
-                Properties that configure view information.
-            </documentation>
+            <property name="enableFaceletsDevelopmentSupport">
+                <default>false</default>
+                <documentation>
+                    Whether or not the Facelet development support should be enabled (in the generated web.xml), this is
+                    useful to enable when developing with Faclets, however should be disabled when going to production.
+                </documentation>
+            </property>
             <property name="defaultDateFormat">
                 <default>MM/dd/yyyy</default>
                 <documentation>
@@ -199,6 +219,16 @@
                     Take a look
                     <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html">here</a>
                     to see how to properly construct date formats.
+                </documentation>
+            </property>
+            <property name="strictDateTimeFormat">
+                <default>false</default>
+                <documentation>
+                    Specifies whether or not date and time formats are to be strictly matched.
+                    This property takes either true or false as values. If set to true all dates and times
+                    entered by the end-user will fail validation if they do not strictly adhere to their given format.
+                    Note that this strictness can always be overriden locally
+                    using the @andromda.struts.view.field.format tagged value.
                 </documentation>
             </property>
             <property name="defaultTimeFormat">
@@ -231,6 +261,11 @@
             <documentation>
                 Other various properties that couldn't be classified into another category.
             </documentation>
+            <property name="virtualHost" required="false">
+                <documentation>
+                    The name to use for the virtual host (if one is required).  For example application.myserver.com.
+                </documentation>
+            </property>
             <property name="maximumFormsInHistory">
                 <default>5</default>
                 <documentation>
@@ -395,7 +430,7 @@
             <property name="jspIncludes">
                 <default>includes.jspf</default>
                 <documentation>
-                    Defines the name of the default jsp includes file (this contains any 
+                    Defines the name of the default includes file (this contains any 
                     message resources as well as tag libs.
                 </documentation>
             </property>

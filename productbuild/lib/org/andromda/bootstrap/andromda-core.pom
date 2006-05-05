@@ -1,9 +1,9 @@
-<?xml version="1.0"?><project>
+<project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.andromda.bootstrap</groupId>
   <artifactId>andromda-core</artifactId>
   <name>AndroMDA Core</name>
-  <version>4.0-M1-SNAPSHOT</version>
+  <version>3.2-RC1-SNAPSHOT</version>
   <description>The Core refers to the "engine" of the framework. The core
         takes care of making all the components of AndroMDA work together. This
         includes plugin discovery (i.e. cartridges, translation-libraries),
@@ -18,7 +18,7 @@
     <notifiers>
       <notifier>
         <configuration>
-          <address>committers@andromda.org</address>
+          <address>chad@andromda.org</address>
         </configuration>
       </notifier>
     </notifiers>
@@ -58,11 +58,6 @@
       <id>andromda</id>
       <name>AndroMDA Repository</name>
       <url>http://team.andromda.org/maven2</url>
-    </repository>
-    <repository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
     </repository>
     <repository>
       <snapshots>

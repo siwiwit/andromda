@@ -86,7 +86,7 @@ public class ResourceUtils
                 BufferedReader resourceInput = new BufferedReader(resource);
                 for (String line = resourceInput.readLine(); line != null; line = resourceInput.readLine())
                 {
-                    contents.append(line + LINE_SEPARATOR);
+                    contents.append(line).append(LINE_SEPARATOR);
                 }
                 resourceInput.close();
                 resourceInput = null;
@@ -346,7 +346,7 @@ public class ResourceUtils
      * <code>resourceName</code> to the given <code>directory</code> will be made, otherwise an attempt to find the
      * <code>resourceName</code> directly on the classpath will be initiated. </p>
      *
-     * @param resource  the name of a resource
+     * @param resourceName the name of a resource
      * @param directory the directory location
      * @return the resource url
      */
@@ -399,7 +399,7 @@ public class ResourceUtils
      *        the last modified time.
      * @return the last modified time or 0 if it couldn't be retrieved.
      */
-    public static final long getLastModifiedTime(final URL resource)
+    public static long getLastModifiedTime(final URL resource)
     {
         long lastModified;
         try
@@ -436,7 +436,7 @@ public class ResourceUtils
      * <code>resourceName</code> to the given <code>directory</code> will be made, otherwise an attempt to find the
      * <code>resourceName</code> directly on the classpath will be initiated. </p>
      *
-     * @param resource  the name of a resource
+     * @param resourceName the name of a resource
      * @param directory the directory location
      * @return the resource url
      */
@@ -502,7 +502,7 @@ public class ResourceUtils
      */
     public static boolean isFile(final URL url)
     {
-        return url != null ? new File(url.getFile()).isFile() : false;
+        return url != null && new File(url.getFile()).isFile();
     }
 
     /**

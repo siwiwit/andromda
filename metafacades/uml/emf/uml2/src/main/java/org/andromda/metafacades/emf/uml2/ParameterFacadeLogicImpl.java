@@ -42,7 +42,7 @@ public class ParameterFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return false;
+        return (metaObject.getLower() > 0);
     }
 
     /**
@@ -145,5 +145,23 @@ public class ParameterFacadeLogicImpl
             owner = this.getEvent();
         }
         return owner;
+    }
+
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        return this.metaObject.getUpper();
+    }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        return this.metaObject.getLower();
     }
 }

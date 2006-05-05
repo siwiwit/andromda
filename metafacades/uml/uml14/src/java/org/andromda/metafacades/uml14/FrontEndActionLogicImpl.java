@@ -408,19 +408,27 @@ public class FrontEndActionLogicImpl
                 {
                     // - don't allow existing parameters that are tables be overwritten (since they take
                     //   precedence
-                    FrontEndParameter variable = (FrontEndParameter)actionParameterIterator.next();
-                    final String name = variable.getName();
-                    final FrontEndParameter existingVariable = (FrontEndParameter)formFieldMap.get(name);
-                    if (existingVariable != null)
+                    final Object parameter = actionParameterIterator.next();
+                    if (parameter instanceof FrontEndParameter)
                     {
-                        if (existingVariable.isTable())
+                        FrontEndParameter variable = (FrontEndParameter)parameter;
+                        final String name = variable.getName();
+                        final Object existingParameter = formFieldMap.get(name);
+                        if (existingParameter instanceof FrontEndParameter)
                         {
-                            variable = existingVariable;
+                            final FrontEndParameter existingVariable = (FrontEndParameter)existingParameter;
+                            if (existingVariable != null)
+                            {
+                                if (existingVariable.isTable())
+                                {
+                                    variable = existingVariable;
+                                }
+                            }
                         }
+                        formFieldMap.put(
+                            name,
+                            variable);
                     }
-                    formFieldMap.put(
-                        name,
-                        variable);
                 }
             }
             else if (target instanceof FrontEndFinalState)
@@ -444,10 +452,14 @@ public class FrontEndActionLogicImpl
         final Collection actionParameters = this.getParameters();
         for (final Iterator parameterIterator = actionParameters.iterator(); parameterIterator.hasNext();)
         {
-            FrontEndParameter variable = (FrontEndParameter)parameterIterator.next();
-            formFieldMap.put(
-                variable.getName(),
-                variable);
+            final Object parameter = parameterIterator.next();
+            if (parameter instanceof FrontEndParameter)
+            {
+                final FrontEndParameter variable = (FrontEndParameter)parameter;
+                formFieldMap.put(
+                    variable.getName(),
+                    variable);
+            }
         }
 
         // - if we don't have any fields defined on this action and there are no action forwards, 

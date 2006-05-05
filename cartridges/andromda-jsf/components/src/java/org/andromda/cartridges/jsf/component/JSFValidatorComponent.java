@@ -256,9 +256,24 @@ public class JSFValidatorComponent
     public static final String FUNCTION_NAME = "functionName";
 
     /**
-     * The key for the current validator id.
+     * Sets the function name.
+     *
+     * @param functionName The new value for the function name.
      */
-    public static final String VALIDATOR_ID = "validatorId";
+    public void setFunctionName(final String functionName)
+    {
+        this.getAttributes().put(FUNCTION_NAME, functionName);
+    }
+    
+    /**
+     * Gets the function name to reference.
+     * 
+     * @return the Javascript function name.
+     */
+    private String getFunctionName()
+    {
+        return (String)this.getAttributes().get(FUNCTION_NAME);
+    }
 
     /**
      * writes the javascript functions to the response.
@@ -274,7 +289,7 @@ public class JSFValidatorComponent
     {
         writer.write("var bCancel = false;\n");
         writer.write("function ");
-        writer.write(this.getAttributes().get(FUNCTION_NAME).toString());
+        writer.write(this.getFunctionName());
         writer.write("(form) { return bCancel || true\n");
 
         // - for each validator type, write "&& fun(form);
@@ -473,14 +488,13 @@ public class JSFValidatorComponent
                         JAVASCRIPT_UTILITIES,
                         "present");
                 }
-                final String validatorId = (String)this.getAttributes().get(VALIDATOR_ID);
-                final UIForm form = this.findForm(validatorId);
+                final UIForm form = this.findForm(this.getId());
                 if (form != null)
                 {
                     this.findValidators(
                         form,
                         context);
-                    final String functionName = (String)this.getAttributes().get(FUNCTION_NAME);
+                    final String functionName = this.getFunctionName();
                     if (functionName != null)
                     {
                         final ResponseWriter writer = context.getResponseWriter();

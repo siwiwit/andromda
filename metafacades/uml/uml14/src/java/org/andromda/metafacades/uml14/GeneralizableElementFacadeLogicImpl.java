@@ -144,7 +144,7 @@ public class GeneralizableElementFacadeLogicImpl
     }
     
     /**
-     * @see org.andromda.metafacades.uml.GeneralizableElementFacade#findTaggedValues(java.lang.String, boolean)
+     * @see org.andromda.metafacades.uml.GeneralizableElementFacade#findTaggedValue(java.lang.String, boolean)
      */
     protected Object handleFindTaggedValue(final String tagName, boolean follow)
     {
@@ -158,5 +158,12 @@ public class GeneralizableElementFacadeLogicImpl
            }
         }
         return value;
+    }
+
+    protected Object handleGetGeneralizationRoot()
+    {
+        return this.getGeneralization() == null
+            ? (GeneralizableElementFacade)THIS()
+            : this.getGeneralization().getGeneralizationRoot();
     }
 }

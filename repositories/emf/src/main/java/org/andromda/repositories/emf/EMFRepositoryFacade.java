@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.common.ResourceFinder;
 import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.repository.RepositoryFacade;
@@ -36,11 +35,13 @@ public abstract class EMFRepositoryFacade
      * Stores the resources (i.e. models) loaded into EMF.
      */
     protected final ResourceSet resourceSet = new ResourceSetImpl();
+    
+    protected ModelAccessFacade modelFacade = null;
 
     /**
      * Stores the actual loaded model.
      */
-    private Object model;
+    protected Object model;
 
     /**
      * The options for loading the model.
@@ -196,41 +197,6 @@ public abstract class EMFRepositoryFacade
         {
             throw new RepositoryFacadeException("Could not save model", exception);
         }
-    }
-
-    /**
-     * The model access facade instance.
-     */
-    private ModelAccessFacade modelFacade = null;
-
-    /**
-     * @see org.andromda.core.repository.RepositoryFacade#getModel(java.lang.Class)
-     */
-    public ModelAccessFacade getModel(Class type)
-    {
-        if (this.modelFacade == null)
-        {
-            try
-            {
-                this.modelFacade =
-                    (ModelAccessFacade)ComponentContainer.instance().newComponent(
-                        type,
-                        ModelAccessFacade.class);
-            }
-            catch (final Throwable throwable)
-            {
-                throw new RepositoryFacadeException(throwable);
-            }
-        }
-        if (this.model != null)
-        {
-            this.modelFacade.setModel(this.model);
-        }
-        else
-        {
-            this.modelFacade = null;
-        }
-        return this.modelFacade;
     }
 
     /**

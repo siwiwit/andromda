@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.andromda.cartridges.spring.SpringProfile;
+import org.andromda.cartridges.spring.SpringHibernateUtils;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
@@ -226,19 +227,6 @@ public class SpringEntityLogicImpl
     }
 
     /**
-     * The namespace property storing the hibernate default-cascade value for an entity.
-     */
-    private static final String HIBERNATE_DEFAULT_CASCADE = "hibernateDefaultCascade";
-
-    /**
-     * @see org.andromda.cartridges.spring.metafacades.SpringEntity#getHibernateDefaultCascade()
-     */
-    protected String handleGetHibernateDefaultCascade()
-    {
-        return StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty(HIBERNATE_DEFAULT_CASCADE)));
-    }
-
-    /**
      * @see org.andromda.cartridges.spring.metafacades.SpringEntity#isDaoBusinessOperationsPresent()
      */
     protected boolean handleIsDaoBusinessOperationsPresent()
@@ -429,16 +417,19 @@ public class SpringEntityLogicImpl
     }
 
     /**
-     * @see org.andromda.cartridges.hibernate.metafacades.SpringEntity#isRequiresHibernateMapping()
+     * @see org.andromda.cartridges.spring.metafacades.SpringEntity#isRequiresHibernateMapping()
      */
     protected boolean handleIsRequiresHibernateMapping()
     {
         final SpringEntity superEntity = this.getSuperEntity();
-        return this.isRoot() &&
-        (
-            !this.isHibernateInheritanceInterface() || this.getSpecializations().isEmpty() ||
-            (superEntity != null && superEntity.isHibernateInheritanceInterface())
-        );
+        return
+            SpringHibernateUtils.mapSubclassesInSeparateFile(
+                (String)this.getConfiguredProperty(SpringGlobals.HIBERNATE_MAPPING_STRATEGY)) ||
+            this.isRoot() &&
+            (
+                !this.isHibernateInheritanceInterface() || this.getSpecializations().isEmpty() ||
+                (superEntity != null && superEntity.isHibernateInheritanceInterface())
+            );
     }
 
     /**
@@ -477,7 +468,7 @@ public class SpringEntityLogicImpl
     protected String handleGetAttributeEmbeddedValueList()
     {
         final Collection embeddedValues = new ArrayList();
-        for (final Iterator iterator = this.getAttributes().iterator(); iterator.hasNext();)
+        for (final Iterator iterator = this.getAttributes(true).iterator(); iterator.hasNext();)
         {
             final AttributeFacade attribute = (AttributeFacade)iterator.next();
             final ClassifierFacade type = attribute.getType();

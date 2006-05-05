@@ -20,7 +20,7 @@ public class EnumerationLiteralFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
      */
     protected String handleGetName()
     {
@@ -28,7 +28,7 @@ public class EnumerationLiteralFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.EnumerationLiteralFacade#getDefinitionOne()
+     * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getValue()
      */
     protected String handleGetValue()
     {

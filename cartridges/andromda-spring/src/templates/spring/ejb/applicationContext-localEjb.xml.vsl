@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 #if ($ejbsEnabled && $springUtils.localEjbsPresent($services))
 <?xml version="1.0" encoding="$xmlEncoding"?>
 

@@ -58,6 +58,17 @@
             </property>
         </propertyGroup>
         <propertyGroup name="Other">
+            <property name="axisVersion">
+                <default>1</default>
+                <documentation>
+                    The version of Axis to use when generating.
+                    Allowable values are:
+                    <ul>
+                        <li>1 - Axis 1.x</li>
+                        <li>2 - Axis 2.x</li>
+                    </ul>
+                </documentation>
+            </property>
             <property name="webserviceTypesPackage">
                 <default>org.andromda.webservice</default>
                 <documentation>

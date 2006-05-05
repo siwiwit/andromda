@@ -2,7 +2,6 @@ package org.andromda.metafacades.uml14;
 
 import java.util.Collection;
 
-
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.AssociationClassFacade.
  *

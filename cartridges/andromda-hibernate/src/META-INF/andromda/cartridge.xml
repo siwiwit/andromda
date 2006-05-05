@@ -1,6 +1,6 @@
 <cartridge>
 
-    <templateEngine>
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine">
         <macrolibrary name="templates/hibernate/hibernate.java.vm"/>
         <macrolibrary name="templates/hibernate2/hibernate.hbm.xml.vm"/>
         <macrolibrary name="templates/hibernate3/hibernate.hbm.xml.vm"/>
@@ -11,6 +11,8 @@
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
     <templateObject name="hibernateUtils" className="org.andromda.cartridges.hibernate.HibernateUtils">
         <property reference="hibernateVersion"/>
+        <property reference="hibernateXMLPersistence"/>
+        <property reference="hibernateMappingStrategy"/>
     </templateObject>
     <!-- cartridge-templateObject merge-point-->
 
@@ -59,6 +61,9 @@
 
     <!-- cartridge-property merge-point-->
 
+    <condition name="mapSubclassesInSeparateFile">$hibernateUtils.mapSubclassesInSeparateFile</condition>
+    <!-- condition merge-point-->
+
     <!-- cartridge-resource merge-point -->
 
     <!-- hibernate 2 templates -->
@@ -96,12 +101,26 @@
     <template
         path="templates/hibernate2/hibernate.hbm.xml.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="entity-mappings"
         overwrite="true">
         <modelElements variable="entity">
             <modelElement>
                 <type name="org.andromda.cartridges.hibernate.metafacades.HibernateEntity">
                     <property name="requiresMapping"/>
+                    <property name="version">2</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/hibernate2/HibernateEnumeration.vsl"
+        outputPattern="$generatedFile"
+        outlet="user-types"
+        overwrite="true">
+        <modelElements variable="enumeration">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
                     <property name="version">2</property>
                 </type>
             </modelElement>
@@ -143,7 +162,7 @@
     <template
         path="templates/hibernate3/hibernate.hbm.xml.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="entity-mappings"
         overwrite="true">
         <modelElements variable="entity">
             <modelElement>
@@ -154,6 +173,21 @@
             </modelElement>
         </modelElements>
     </template>
+
+    <template
+        path="templates/hibernate3/HibernateEnumeration.vsl"
+        outputPattern="$generatedFile"
+        outlet="user-types"
+        overwrite="true">
+        <modelElements variable="enumeration">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
+                    <property name="version">3</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
 
     <!-- common templates -->
     <template
@@ -207,7 +241,7 @@
     </template>
 
     <template
-        path="templates/hibernate/HibernateEntityImplManual.vsl"
+        path="templates/hibernate/HibernateEntityImpl.vsl"
         outputPattern="$generatedFile"
         outlet="entity-impls"
         overwrite="false">
@@ -223,26 +257,14 @@
     <template
         path="templates/hibernate/usertypes/HibernateByteBlobType.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="user-types"
         overwrite="true"/>
 
     <template
         path="templates/hibernate/usertypes/HibernateStringClobType.vsl"
         outputPattern="$generatedFile"
-        outlet="entities"
+        outlet="user-types"
         overwrite="true"/>
-
-    <template
-        path="templates/hibernate/HibernateEnumeration.vsl"
-        outputPattern="$generatedFile"
-        outlet="entities"
-        overwrite="true">
-        <modelElements variable="enumeration">
-            <modelElement>
-                <type name="org.andromda.metafacades.uml.EnumerationFacade"/>
-            </modelElement>
-        </modelElements>
-    </template>
 
     <template
         path="templates/hibernate/ejb/ejb-jar.xml.vsl"

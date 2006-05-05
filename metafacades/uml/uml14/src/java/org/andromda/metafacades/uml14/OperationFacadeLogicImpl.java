@@ -453,7 +453,7 @@ public class OperationFacadeLogicImpl
      */
     protected String handleGetConcurrency()
     {
-        String concurrency = null;
+        String concurrency;
 
         final CallConcurrencyKind concurrencyKind = metaObject.getConcurrency();
         if (concurrencyKind == null || CallConcurrencyKindEnum.CCK_CONCURRENT.equals(concurrencyKind))
@@ -579,6 +579,24 @@ public class OperationFacadeLogicImpl
                     return StringUtils.trimToEmpty(parameter.getName()).equals(name);
                 }
             });
+    }
+
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        throw new java.lang.UnsupportedOperationException("'upper' is not a UML1.4 feature");
+     }
+
+    /**
+     * Get the UML lower multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        throw new java.lang.UnsupportedOperationException("'lower' is not a UML1.4 feature");
     }
 
 }

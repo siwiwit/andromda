@@ -114,6 +114,7 @@ public class JSFUseCaseLogicImpl
      */
     protected Map handleGetAllMessages()
     {
+
         final boolean normalize = this.isNormalizeMessages();
         final Map messages = (normalize) ? (Map)new TreeMap() : (Map)new LinkedHashMap();
 
@@ -149,58 +150,62 @@ public class JSFUseCaseLogicImpl
                     for (int ctr3 = 0; ctr3 < viewVariables.size(); ctr3++)
                     {
                         // - page variables
-                        final JSFParameter parameter = (JSFParameter)viewVariables.get(ctr3);
-
-                        final Collection attributes = parameter.getAttributes();
-                        if (!attributes.isEmpty())
+                        final Object object = viewVariables.get(ctr3);
+                        if (object instanceof JSFParameter)
                         {
-                            for (final Iterator iterator = attributes.iterator(); iterator.hasNext();)
+                            final JSFParameter parameter = (JSFParameter)object;
+    
+                            final Collection attributes = parameter.getAttributes();
+                            if (!attributes.isEmpty())
                             {
-                                final JSFAttribute attribute = (JSFAttribute)iterator.next();
-                                messages.put(
-                                    attribute.getMessageKey(),
-                                    attribute.getMessageValue());
-                            }
-                        }
-                        final Collection associationEnds = parameter.getNavigableAssociationEnds();
-                        if (!associationEnds.isEmpty())
-                        {
-                            for (final Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
-                            {
-                                final AssociationEndFacade end = (AssociationEndFacade)iterator.next();
-                                final ClassifierFacade type = end.getType();
-                                if (type != null)
+                                for (final Iterator iterator = attributes.iterator(); iterator.hasNext();)
                                 {
-                                    final Collection typeAttributes = type.getAttributes();
-                                    if (!attributes.isEmpty())
+                                    final JSFAttribute attribute = (JSFAttribute)iterator.next();
+                                    messages.put(
+                                        attribute.getMessageKey(),
+                                        attribute.getMessageValue());
+                                }
+                            }
+                            final Collection associationEnds = parameter.getNavigableAssociationEnds();
+                            if (!associationEnds.isEmpty())
+                            {
+                                for (final Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+                                {
+                                    final AssociationEndFacade end = (AssociationEndFacade)iterator.next();
+                                    final ClassifierFacade type = end.getType();
+                                    if (type != null)
                                     {
-                                        for (final Iterator attributeIterator = typeAttributes.iterator();
-                                            attributeIterator.hasNext();)
+                                        final Collection typeAttributes = type.getAttributes();
+                                        if (!attributes.isEmpty())
                                         {
-                                            final JSFAttribute attribute = (JSFAttribute)attributeIterator.next();
-                                            messages.put(
-                                                attribute.getMessageKey(),
-                                                attribute.getMessageValue());
+                                            for (final Iterator attributeIterator = typeAttributes.iterator();
+                                                attributeIterator.hasNext();)
+                                            {
+                                                final JSFAttribute attribute = (JSFAttribute)attributeIterator.next();
+                                                messages.put(
+                                                    attribute.getMessageKey(),
+                                                    attribute.getMessageValue());
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        messages.put(
-                            parameter.getMessageKey(),
-                            parameter.getMessageValue());
-
-                        // - table
-                        if (parameter.isTable())
-                        {
-                            final Collection columnNames = parameter.getTableColumnNames();
-                            for (final Iterator columnNameIterator = columnNames.iterator();
-                                columnNameIterator.hasNext();)
+                            messages.put(
+                                parameter.getMessageKey(),
+                                parameter.getMessageValue());
+    
+                            // - table
+                            if (parameter.isTable())
                             {
-                                final String columnName = (String)columnNameIterator.next();
-                                messages.put(
-                                    parameter.getTableColumnMessageKey(columnName),
-                                    parameter.getTableColumnMessageValue(columnName));
+                                final Collection columnNames = parameter.getTableColumnNames();
+                                for (final Iterator columnNameIterator = columnNames.iterator();
+                                    columnNameIterator.hasNext();)
+                                {
+                                    final String columnName = (String)columnNameIterator.next();
+                                    messages.put(
+                                        parameter.getTableColumnMessageKey(columnName),
+                                        parameter.getTableColumnMessageValue(columnName));
+                                }
                             }
                         }
                     }
@@ -212,32 +217,36 @@ public class JSFUseCaseLogicImpl
                         final JSFAction action = (JSFAction)actions.get(ctr3);
 
                         // - event/trigger
-                        final JSFEvent event = (JSFEvent)action.getTrigger();
-                        if (event != null)
+                        final Object trigger = action.getTrigger();
+                        if (trigger instanceof JSFEvent)
                         {
-                            // only add these when a trigger is present, otherwise it's no use having them
-                            messages.put(
-                                action.getDocumentationKey(),
-                                action.getDocumentationValue());
-
-                            // the regular trigger messages
-                            messages.put(
-                                event.getResetMessageKey(),
-                                event.getResetMessageValue());
-
-                            // this one is the same as doing: action.getMessageKey()
-                            messages.put(
-                                event.getMessageKey(),
-                                event.getMessageValue());
-
-                            // - IMAGE LINK
-
-                            /*if (action.isImageLink())
+                            final JSFEvent event = (JSFEvent)trigger;
+                            if (event != null)
                             {
+                                // only add these when a trigger is present, otherwise it's no use having them
                                 messages.put(
-                                    action.getImageMessageKey(),
-                                    action.getImagePath());
-                            }*/
+                                    action.getDocumentationKey(),
+                                    action.getDocumentationValue());
+    
+                                // the regular trigger messages
+                                messages.put(
+                                    event.getResetMessageKey(),
+                                    event.getResetMessageValue());
+    
+                                // this one is the same as doing: action.getMessageKey()
+                                messages.put(
+                                    event.getMessageKey(),
+                                    event.getMessageValue());
+    
+                                // - IMAGE LINK
+    
+                                /*if (action.isImageLink())
+                                {
+                                    messages.put(
+                                        action.getImageMessageKey(),
+                                        action.getImagePath());
+                                }*/
+                            }
                         }
 
                         // - forwards
@@ -254,53 +263,92 @@ public class JSFUseCaseLogicImpl
                         final List parameters = action.getParameters();
                         for (int l = 0; l < parameters.size(); l++)
                         {
-                            final JSFParameter parameter = (JSFParameter)parameters.get(l);
-                            messages.put(
-                                parameter.getMessageKey(),
-                                parameter.getMessageValue());
-                            messages.put(
-                                parameter.getDocumentationKey(),
-                                parameter.getDocumentationValue());
-
-                            // - submittable input table
-                            if (parameter.isInputTable())
+                            final Object object = parameters.get(l);
+                            if (object instanceof JSFParameter)
                             {
-                                final Collection columnNames = parameter.getTableColumnNames();
-                                for (final Iterator columnNameIterator = columnNames.iterator();
-                                    columnNameIterator.hasNext();)
+                                final JSFParameter parameter = (JSFParameter)object;
+                                final Collection attributes = parameter.getAttributes();
+                                if (!attributes.isEmpty())
                                 {
-                                    final String columnName = (String)columnNameIterator.next();
-                                    messages.put(
-                                        parameter.getTableColumnMessageKey(columnName),
-                                        parameter.getTableColumnMessageValue(columnName));
+                                    for (final Iterator iterator = attributes.iterator(); iterator.hasNext();)
+                                    {
+                                        final JSFAttribute attribute = (JSFAttribute)iterator.next();
+                                        messages.put(
+                                            attribute.getMessageKey(),
+                                            attribute.getMessageValue());
+                                    }
                                 }
-                            }
-                            /*if (parameter.getValidWhen() != null)
-                            {
-                                // this key needs to be fully qualified since the valid when value can be different
-                                final String completeKeyPrefix =
-                                    (normalize)
-                                    ? useCase.getTitleKey() + '.' + view.getMessageKey() + '.' +
-                                    action.getMessageKey() + '.' + parameter.getMessageKey() : parameter.getMessageKey();
+                                final Collection associationEnds = parameter.getNavigableAssociationEnds();
+                                if (!associationEnds.isEmpty())
+                                {
+                                    for (final Iterator iterator = associationEnds.iterator(); iterator.hasNext();)
+                                    {
+                                        final AssociationEndFacade end = (AssociationEndFacade)iterator.next();
+                                        final ClassifierFacade type = end.getType();
+                                        if (type != null)
+                                        {
+                                            final Collection typeAttributes = type.getAttributes();
+                                            if (!attributes.isEmpty())
+                                            {
+                                                for (final Iterator attributeIterator = typeAttributes.iterator();
+                                                    attributeIterator.hasNext();)
+                                                {
+                                                    final JSFAttribute attribute = (JSFAttribute)attributeIterator.next();
+                                                    messages.put(
+                                                        attribute.getMessageKey(),
+                                                        attribute.getMessageValue());
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                                 messages.put(
-                                    completeKeyPrefix + "_validwhen",
-                                    "{0} is only valid when " + parameter.getValidWhen());
-                            }*/
-                            /*if (parameter.getOptionCount() > 0)
-                            {
-                                final List optionKeys = parameter.getOptionKeys();
-                                final List optionValues = parameter.getOptionValues();
-
-                                for (int m = 0; m < optionKeys.size(); m++)
+                                    parameter.getMessageKey(),
+                                    parameter.getMessageValue());
+                                messages.put(
+                                    parameter.getDocumentationKey(),
+                                    parameter.getDocumentationValue());
+    
+                                // - submittable input table
+                                if (parameter.isInputTable())
                                 {
-                                    messages.put(
-                                        optionKeys.get(m),
-                                        optionValues.get(m));
-                                    messages.put(
-                                        optionKeys.get(m) + ".title",
-                                        optionValues.get(m));
+                                    final Collection columnNames = parameter.getTableColumnNames();
+                                    for (final Iterator columnNameIterator = columnNames.iterator();
+                                        columnNameIterator.hasNext();)
+                                    {
+                                        final String columnName = (String)columnNameIterator.next();
+                                        messages.put(
+                                            parameter.getTableColumnMessageKey(columnName),
+                                            parameter.getTableColumnMessageValue(columnName));
+                                    }
                                 }
-                            }*/
+                                /*if (parameter.getValidWhen() != null)
+                                {
+                                    // this key needs to be fully qualified since the valid when value can be different
+                                    final String completeKeyPrefix =
+                                        (normalize)
+                                        ? useCase.getTitleKey() + '.' + view.getMessageKey() + '.' +
+                                        action.getMessageKey() + '.' + parameter.getMessageKey() : parameter.getMessageKey();
+                                    messages.put(
+                                        completeKeyPrefix + "_validwhen",
+                                        "{0} is only valid when " + parameter.getValidWhen());
+                                }*/
+                                /*if (parameter.getOptionCount() > 0)
+                                {
+                                    final List optionKeys = parameter.getOptionKeys();
+                                    final List optionValues = parameter.getOptionValues();
+    
+                                    for (int m = 0; m < optionKeys.size(); m++)
+                                    {
+                                        messages.put(
+                                            optionKeys.get(m),
+                                            optionValues.get(m));
+                                        messages.put(
+                                            optionKeys.get(m) + ".title",
+                                            optionValues.get(m));
+                                    }
+                                }*/
+                            }
                         }
 
                         // - exception forwards
@@ -390,6 +438,25 @@ public class JSFUseCaseLogicImpl
             }
         }
         return new ArrayList(forwards.values());
+    }
+    
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFUseCase#getAllForwards()
+     */
+    protected List handleGetAllForwards()
+    {
+        final Map forwards = new LinkedHashMap();
+        for (final Iterator iterator = this.getActionForwards().iterator(); iterator.hasNext();)
+        {
+            final ModelElementFacade forward = (ModelElementFacade)iterator.next();
+            forwards.put(forward.getName(), forward);
+        }
+        for (final Iterator iterator = this.getForwards().iterator(); iterator.hasNext();)
+        {
+            final ModelElementFacade forward = (ModelElementFacade)iterator.next();
+            forwards.put(forward.getName(), forward);
+        }
+        return new ArrayList(forwards.values());        
     }
 
     /**

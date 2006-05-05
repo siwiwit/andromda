@@ -32,7 +32,7 @@ public class ResourceWriter
      *
      * @return the shared instance.
      */
-    public static final ResourceWriter instance()
+    public static ResourceWriter instance()
     {
         return instance;
     }
@@ -78,7 +78,7 @@ public class ResourceWriter
      * Writes the string to the file specified by the fileLocation argument.
      *
      * @param string the string to write to the file
-     * @param fileLocation the file which to write.
+     * @param file the file which to write.
      */
     public void writeStringToFile(
         final String string,
@@ -134,7 +134,7 @@ public class ResourceWriter
      *        recorded.
      * @throws IOException
      */
-    private final void writeStringToFile(
+    private void writeStringToFile(
         String string,
         final String fileLocation,
         final String namespace,
@@ -242,7 +242,7 @@ public class ResourceWriter
     /**
      * Resets the a history file, to write the history {@link #writeHistory()} must be called.
      *
-     * @param used to construct the file name from the modelUri where the history is stored
+     * @param modelUri used to construct the file name from the modelUri where the history is stored
      */
     public void resetHistory(final String modelUri)
     {
@@ -284,7 +284,7 @@ public class ResourceWriter
     /**
      * Stores the file history.
      */
-    private final String getHistoryStorage()
+    private String getHistoryStorage()
     {
         return HISTORY_LOCATION + this.modelFile;
     }
@@ -306,16 +306,13 @@ public class ResourceWriter
     /**
      * Writes the string to the file specified by the fileLocation argument.
      *
-     * @param string the string to write to the file
-     * @param fileLocation
-     * @param overwrite if true, replaces the file (if it exists, otherwise),
-     *        adds to the contents of the file.
+     * @param file the file to which to record the history to
      */
-    private final void recordHistory(File file)
+    private void recordHistory(File file)
     {
         if (this.history != null)
         {
-            this.history.append(file + ",");
+            this.history.append(file).append(',');
         }
         this.writtenCount++;
     }

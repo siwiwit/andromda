@@ -18,6 +18,18 @@
             <documentation>
                 Defines the locations to which output is generated.
             </documentation>
+            <property name="value-objects" required="false">
+                <documentation>
+                    When using the CRUD feature (manageable entities) this outlet will be used to emit
+                    the value objects to (returned by the services to the client).
+                </documentation>
+            </property>
+            <property name="criteria" required="false">
+                <documentation>
+                    The location to which search criteria classes are being generated. If you do not specify this
+                    outlet criteria classes will be generated to the <code>daos</code> outlet.
+                </documentation>
+            </property>
             <property name="services">
                 <documentation>
                     The location to which all service classes (including the service locator(s))
@@ -26,8 +38,13 @@
             </property>
             <property name="service-impls">
                 <documentation>
-                    The location to which all service implementation classes
-                    will be generated.
+                    The location to which all service implementation classes will be generated.
+                </documentation>
+            </property>
+            <property name="service-interfaces">
+                <documentation>
+                    The location to which all service interfaces and common API classes such
+                    as default service exceptions will be generated.
                 </documentation>
             </property>
             <property name="daos">
@@ -68,9 +85,8 @@
             </property>
             <property name="session-ejbs" required="false">
                 <documentation>
-                    Not really used from the template except to check if it has been defined
-                    or not, so that we can determine whether or not we'll use the session
-                    EJBs for transaction management (rather than Spring's transaction framework)
+                    The outlet to which EJB support is generated.  If undefined, EJB support will
+                    not be generated.
                 </documentation>
             </property>
             <property name="advice-impls" required="false">
@@ -127,6 +143,11 @@
                     (i.e. the richClient namespace entry is "true").
                 </documentation>
             </property>
+            <property name="merge-mappings" required="false">
+                <documentation>
+                    The location where AndroMDA merge mapping stub files should be generated.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Other">
             <property name="webServiceOutgoingAttachmentHandlerCallPattern" required="false">
@@ -150,6 +171,15 @@
                     </ul>
                     Attachments are good for sending large amounts of data over over the wire as it doesn't embed the data
                     directly in the XML.
+                </documentation>
+            </property>
+            <property name="daoInheritanceEnabled">
+                <default>true</default>
+                <documentation>
+                    Whether or not the DAOs should make up an inheritance tree in the same way as their respective
+                    entities. This is enabled by default but you might want to disable it if you prefer not to have
+                    top-level DAO operations visible in child DAO classes, this is usually the case when using JDK5
+                    generics, which can be enabled using the <code>enableTemplating</code> namespace property.
                 </documentation>
             </property>
             <property name="enableDaoPropertiesCreateMethod">
@@ -275,34 +305,24 @@
                     serviceTransactionInterceptor and hibernateInterceptor if present.
                 </documentation>
             </property>
-            <property name="serviceRemotingType">
-                <default>none</default>
+            <property name="externalPrincipalStoreClass" required="false">
                 <documentation>
-                    Determines the type of remoting to be used for Spring services. Can any one of
-                    <ul>
-                        <li>none</li>
-                        <li>rmi</li>
-                        <li>httpinvoker</li>
-                        <li>burlap</li>
-                        <li>hessian</li>
-                    </ul>
+                    If this is present, it will be assumed that an external principal store class will be used
+                    and non will be generated.
                 </documentation>
             </property>
-            <property name="serviceRemotePort">
-                <default>8080</default>
+            <property name="externalPrincipalStoreGetter" required="false">
+                <default>get()</default>
                 <documentation>
-                    The port the exported services get published on.
+                    If externalPrincipalStoreClass is defined, externalPrincipalStoreGetter defines the
+                    method call on that class that will retrieve the principal.
                 </documentation>
             </property>
-            <property name="serviceRemoteContext" required="false">
+            <property name="externalPrincipalStoreGetterType" required="false">
+                <default>java.security.Principal</default>
                 <documentation>
-                    The context the exported services get published on.
-                </documentation>
-            </property>
-            <property name="serviceRemoteServer">
-                <default>localhost</default>
-                <documentation>
-                    The remote server the Spring services get published on.
+                    If externalPrincipalStoreClass is defined, externalPrincipalStoreGetterType defines the
+                    type returned by the externalPrincipalStoreGetter method.
                 </documentation>
             </property>
             <property name="entityNamePattern">
@@ -425,15 +445,17 @@
                 </documentation>
             </property>
             <property name="applicationContextServer">
-                <default>serverContext.xml</default>
+                <default>applicationContext-export-remoteServices.xml</default>
                 <documentation>
-                    The name given to the Spring remote services application context xml file (server side)
+                    The name given to the server side Spring configuration file used to
+                    export services for remote invocation.
                 </documentation>
             </property>
             <property name="applicationContextClient">
-                <default>clientContext.xml</default>
+                <default>applicationContext-import-remoteServices.xml</default>
                 <documentation>
-                    The name given to the Spring remote services application context xml file (client side)
+                    The name given to the client side Spring configuration file used to
+                    import services invoked remotely.
                 </documentation>
             </property>
             <property name="applicationContextRemoteEjb">
@@ -518,6 +540,13 @@
                     The name to give the service locator class.
                 </documentation>
             </property>
+            <property name="serviceLocatorDefaultFactoryId" required="false">
+                <documentation>
+                    The default beanReafFactoryId to be used in the ServiceLocator. By default the beanRefFactoryId
+                    is used (if EJB is not activated). If EJB is activated the beanRefFactoryEjbId is used.
+                    With the serviceLocatorDefaultFactoryId this behaviour can be explicit overridden.
+                </documentation>
+            </property>
             <property name="manageableServiceLocatorName">
                 <default>ManageableServiceLocator</default>
                 <documentation>
@@ -525,9 +554,9 @@
                 </documentation>
             </property>
             <property name="clientServiceLocatorName">
-                <default>ClientServiceLocator</default>
+                <default>RemoteServiceLocator</default>
                 <documentation>
-                    The name to give the client service locator class.
+                    The name to give the service locator class used by remote clients.
                 </documentation>
             </property>
             <property name="clientServiceLocatorClassloaderSwitching">
@@ -597,6 +626,12 @@
                     The encoding for xml documents
                 </documentation>
             </property>
+            <property name="crudValueObjectSuffix">
+                <default>ValueObject</default>
+                <documentation>
+                    The suffix to append to the names of generated value objects used in CRUD (manageable entities).
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>
@@ -611,6 +646,27 @@
                         <li>2</li>
                         <li>3</li>
                     </ul>
+                </documentation>
+            </property>
+            <property name="hibernateMappingStrategy">
+                <default>hierarchy</default>
+                <documentation>
+                    Denotes whether or not subclasses should be mapped into the same <code>.hbm.xml</code> file or
+                    in a separate one.
+                    <ul>
+                        <li>Set this value to <code>subclass</code> when you want to have a mapping file per entity</li>
+                        <li>The default is <code>hierarchy</code> which will render a mapping file per subclass</li>
+                    </ul>
+                    This information is important for the Spring cartridge because it needs to know which entities
+                    require a mapping file and which don't.
+                </documentation>
+            </property>
+            <property name="hibernateXMLPersistence">
+                <default>false</default>
+                <documentation>
+                    Set to <i>TRUE</i> to enable Hibernate's 
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a> 
+                    using dom4J. "hibernateVersion" must be set to "3"
                 </documentation>
             </property>
             <property name="hibernateQueryUseNamedParameters">
@@ -781,6 +837,15 @@
                     </ul>
                 </documentation>
             </property>
+            <property name="javaTypeConversionIgnoreList" required="false">
+                <documentation>
+                   A list of one or more fully qualified java types that should be ignored whenever a type conversion
+                   needs to be done. Currently, there is an issue with ValueObjects generated with the Java Axis
+                   mappings that causes Spring cartidge to generate DAO "entity to value object" type conversions
+                   incorrectly for all date types.  By listing those date types here, the Spring cartridge will not
+                   attempt to auto-generate conversions for date/time related attributes.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Acegi Security">
             <documentation>
@@ -794,19 +859,19 @@
                 </documentation>
             </property>
             <property name="acegiServiceSecurityInterceptor">
-                <default>net.sf.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor</default>
+                <default>org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor</default>
                 <documentation>
                     The name of the class to use for the acegi security interception.
                 </documentation>
             </property>
             <property name="acegiServiceAccessDecisionManager">
-                <default>net.sf.acegisecurity.vote.AffirmativeBased</default>
+                <default>org.acegisecurity.vote.AffirmativeBased</default>
                 <documentation>
                     The name of the class to use for the acegi security access decision manager.
                 </documentation>
             </property>
             <property name="acegiServiceDecisionVoter">
-                <default>net.sf.acegisecurity.vote.RoleVoter</default>
+                <default>org.acegisecurity.vote.RoleVoter</default>
                 <documentation>
                     The name of the class to use for the acegi security access decision voter.
                 </documentation>
@@ -815,7 +880,7 @@
 				<default>ROLE_</default>
                 <documentation>
                     The prefix for all roles defined in the model. This configures the <code>acegiServiceDecisionVoter</code>s <code>rolePrefix</code>
-					attribute. As proposed by Acegi for our default voter <code>net.sf.acegisecurity.vote.RoleVoter</code>, the default value is <code>ROLE_</code>.
+					attribute. As proposed by Acegi for our default voter <code>org.acegisecurity.vote.RoleVoter</code>, the default value is <code>ROLE_</code>.
 					It can be overwritten with an empty string if no prefix is wanted/neccessary at all.
 					Please <strong>NOTE</strong> that AndroMDA will add this prefix to all role/actor names, 
                     which do not already have it defined in the model.
@@ -848,18 +913,191 @@
                     for this is the application ID plus the "." character.
                 </documentation>
             </property>
+            <property name="applicationContextServerAuthentication" required="false">
+                <default>applicationContext-server-authentication.xml</default>
+                <documentation>
+                    The name of the bean definition file used for server side
+                    declarations of user authentication beans when AcegiSecurity is
+                    being used (i.e. acegiServiceSecurity is true).
+                </documentation>
+            </property>
+            <property name="applicationContextClientAuthentication" required="false">
+                <default>applicationContext-client-authentication.xml</default>
+                <documentation>
+                    The name of the bean definition file used for client side
+                    declarations of user authentication beans when AcegiSecurity is
+                    being used (i.e. acegiServiceSecurity is true).
+                </documentation>
+            </property>
             <property name="serverTestBeanRefFactory">
                 <default>applicationContext-test.xml</default>
                 <documentation>
-                    The name/path of the bean ref factory resource file used for unit testing
-                    the server code (i.e. some/path/application-test.xml)
+                    The name of the bean ref factory resource file used for unit testing
+                    the server code (i.e. application-test.xml)
                 </documentation>
             </property>
             <property name="serverTestContextDataSource">
                 <default>applicationContext-test-dataSource.xml</default>
                 <documentation>
-                    The name/path of the configuration file for the data source of
-                    the server test code (i.e. some/path/application-test-dataSource.xml)
+                    The name of the configuration file for the data source of
+                    the server test code (i.e. application-test-dataSource.xml)
+                </documentation>
+            </property>
+            <property name="serverTestContextAuthentication" required="false">
+                <default>applicationContext-test-authentication.xml</default>
+                <documentation>
+                    The name of the bean definition file used for server side
+                    declarations of user authentication beans when AcegiSecurity is
+                    being used and unit tests are being performed.
+                </documentation>
+            </property>
+            <property name="clientHttpInvokerExecutor" required="false">
+                <documentation>
+                   The name of the class to use if a specialized HttpInvokerExecutor is
+                   desired on the client side when HttpInvoker is used as the remote
+                   service protocol.  One common use it to use org.acegisecurity.context.httpinvoker.AuthenticationSimpleHttpInvokerRequestExecutor
+                   when remote services are protected with Basic Authentication using Acegi security. Another use
+                   is to set this to org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor if
+                   you want to use Jakarta Commons HttpClient to execute requests.
+                </documentation>
+            </property>
+            <property name="acegiAuthenticationManagerImplClass" required="false">
+                <documentation>
+                    The class of the authentication manager bean named with the aceciAuthenticationManager
+                    namespace property.  If defined, an implementation definition will be added to the server side
+                    Spring configuration file named with the applicationContextServerAuthentication namespace
+                    property.
+                </documentation>
+            </property>
+            <property name="acegiDaoAuthenticationProviderBeanName" required="false">
+                <default>daoAuthenticationProvider</default>
+                <documentation>
+                    The bean name of the acegi authentication Dao Provider used by the server side
+                    authentication manager implemented with the acegiAuthenticationManagerImplClass namespace
+                    property.
+                </documentation>
+            </property>
+            <property name="acegiDaoAuthenticationProviderImplClass" required="false">
+                <documentation>
+                    The class of the Dao Authentication Provider bean named with the acegiDaoAuthenticationProviderBeanName
+                    namespace property.  If defined, an implementation definition will be added to the server side
+                    Spring configuration file named with the applicationContextServerAuthentication namespace
+                    property.
+                </documentation>
+            </property>
+            <property name="acegiAuthenticationDaoBeanName" required="false">
+                <documentation>
+                    The bean name of the acegi authentication Dao used by the default server side
+                    authentication implementation generated for rich client projects.
+                </documentation>
+            </property>
+            <property name="acegiAuthenticationDaoImplClass" required="false">
+                <documentation>
+                    The complete package name and class name of the class that
+                    implements user authentication. This property should be set
+                    if you want to manage user authentication yourself and
+                    you want AndroMDA to generate stub classes to get the
+                    process started.
+                </documentation>
+            </property>
+            <property name="acegiDaoUserCacheBeanName" required="false">
+                <documentation>
+                    The name of the bean that implements a cache for user information. If
+                    defined, it activate user caching in the Dao provider by setting
+                    the "userCache" property of the Dao provider defined with the 
+                    acegiDaoAuthenticationProviderClass namespace property.
+                </documentation>
+            </property>
+            <property name="acegiDaoUserCacheImplClass" required="false">
+                <documentation>
+                    The name of the class used to implement user caching in the Dao
+                    provider.  If defined, a user cache implementation will be added to the server side
+                    Spring configuration file named with the applicationContextServerAuthentication namespace
+                    property. If defined, you must also define the acegiUserCacheConfigLocation namespace
+                    property.
+                </documentation>
+            </property>
+            <property name="acegiUserCacheConfigLocation" required="false">
+                <documentation>
+                    The location of the EhCache configuration file used by
+                    the acegiDaoUserCacheImplClass. This name is used as the
+                    "configLocation" property in the configuration of the implementation
+                    of the acegiDaoUserCacheImplClass namespace property. You should
+                    also define the acegiUserCacheName namespace property so it
+                    matches the cache name of the cache to use that is defined in the 
+                    EhCache configuration file.  If "default" is used for
+                    this property, a "default implementation" will be generated in
+                    the server configuration outlet. The file will be named
+                    ehcache-server-authentication.xml.
+                </documentation>
+            </property>
+            <property name="acegiUserCacheName" required="false">
+                <documentation>
+                    The name of the cache configuration to use for caching user
+                    authentication information.  This cache configuration should be 
+                    found in the EhCache configuration file defined with
+                    the acegiUserCacheConfigLocation namespace property.
+                </documentation>
+            </property>
+            <property name="acegiPasswordEncoderBeanName" required="false">
+                <documentation>
+                    The name of the bean that implements a password encoder for
+                    user information. If defined, it activates user password encoding
+                    in the Dao provider by setting the "passwordEncoder" property 
+                    of the Dao provider defined with the acegiDaoAuthenticationProviderClass 
+                    namespace property.
+                </documentation>
+            </property>
+            <property name="acegiPasswordEncoderImplClass" required="false">
+                <documentation>
+                    The name of the class used to implement user password encoder in the Dao
+                    provider.  If defined, a password encoder implementation will be added to the server side
+                    Spring configuration file named with the applicationContextServerAuthentication namespace
+                    property.
+                </documentation>
+            </property>
+            <property name="acegiPasswordSaltSourceBeanName" required="false">
+                <documentation>
+                    The name of the bean that implements a password encoder salt source for
+                    user information. If defined, it enhances user password encoding
+                    in the Dao provider by setting the "saltSource" property 
+                    of the Dao provider defined with the acegiDaoAuthenticationProviderClass 
+                    namespace property.
+                </documentation>
+            </property>
+        </propertyGroup>
+        <propertyGroup name="Remoting">
+            <documentation>
+                Properties related to Spring remote services
+            </documentation>
+            <property name="serviceRemotingType">
+                <default>none</default>
+                <documentation>
+                    Determines the type of remoting to be used for Spring services. Can any one of
+                    <ul>
+                        <li>none</li>
+                        <li>rmi</li>
+                        <li>httpinvoker</li>
+                        <li>burlap</li>
+                        <li>hessian</li>
+                    </ul>
+                </documentation>
+            </property>
+            <property name="serviceRemotePort">
+                <default>8080</default>
+                <documentation>
+                    The port the exported services get published on.
+                </documentation>
+            </property>
+            <property name="serviceRemoteContext" required="false">
+                <documentation>
+                    The context the exported services get published on.
+                </documentation>
+            </property>
+            <property name="serviceRemoteServer">
+                <default>localhost</default>
+                <documentation>
+                    The remote server the Spring services get published on.
                 </documentation>
             </property>
         </propertyGroup>

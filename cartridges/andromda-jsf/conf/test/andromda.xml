@@ -10,6 +10,7 @@
                     <uri>${test.model.uri}</uri>
                     <moduleSearchLocations>
                         <location patterns="**/*.xml.zip">${basedir}/../../profiles</location>
+                        <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles</location>
                     </moduleSearchLocations>
                 </model>
             </models>            
@@ -22,7 +23,7 @@
                 <property name="wrapperMappingsUri">JavaWrapper</property>
                 <property name="applicationName">test-application</property>
                 <property name="forms">${test.output.dir}</property>
-                <property name="jsps">${test.output.dir}</property>
+                <property name="views">${test.output.dir}</property>
                 <property name="managed-beans">${test.output.dir}</property>
                 <property name="controllers">${test.output.dir}</property>
                 <property name="controller-impls">${test.output.dir}</property>

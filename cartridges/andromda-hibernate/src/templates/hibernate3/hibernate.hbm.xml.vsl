@@ -9,14 +9,17 @@
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-cascade="$entity.hibernateDefaultCascade">
-    <class name="$entity.fullyQualifiedEntityImplementationName" table="$entity.tableName"#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate"#if (!$entity.specializations.empty && $entity.hibernateInheritanceClass && !$entity.abstract) discriminator-value="$entity.entityImplementationName"#end>
+#if ($mapSubclassesInSeparateFile && $entity.generalization)
+#renderSubClass3($entity "    ")
+#else
+    <class name="$entity.fullyQualifiedEntityImplementationName" table="$entity.tableName"#if(!$entity.lazy) lazy="false"#end#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate"#if (!$entity.specializations.empty && $entity.hibernateInheritanceClass && !$entity.abstract) discriminator-value="$entity.entityImplementationName"#end#if ($entity.xmlTagName) node="$entity.xmlTagName"#end>
 #if($hibernateEnableCache.equalsIgnoreCase("true"))
         <cache usage="$entity.hibernateCacheType" />
 #end
 #if (!$entity.identifiers.empty)
 #set ($identifier = $entity.identifiers.iterator().next())
 #end
-        <id name="$identifier.name" type="$identifier.type.fullyQualifiedHibernateType" unsaved-value="$identifier.type.javaNullString">
+        <id name="$identifier.name" type="$identifier.type.fullyQualifiedHibernateType" unsaved-value="$identifier.type.javaNullString"#if ($identifier.xmlTagName) node="$identifier.xmlTagName"#end>
             <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
             <generator class="$entity.hibernateGeneratorClass">
 #if ($entity.sequenceHibernateGeneratorClass)
@@ -35,16 +38,17 @@
 ## If super inheritance is 'interface', render super properties etc
 #foreach ($generalization in $entity.allGeneralizations)
 #if($generalization.mappingRequiresSuperProperties)
-#renderPropertiesAndAssociations3($generalization "" )
+#renderPropertiesAndAssociations3($generalization "" "        ")
 #end
 #end
 ## render the properties and associations (if any)
-#renderPropertiesAndAssociations3($entity "" )
+#renderPropertiesAndAssociations3($entity "" "        ")
 ## render the subclass elements if class or subclass strategy.
 #if ($entity.requiresSpecializationMapping)
 #foreach ($entity in $entity.specializations)
-#renderSubClass3($entity)
+#renderSubClass3($entity "        ")
 #end## foreach
 #end## ($entity.requiresMappingSpecialization)
     </class>
+#end
 </hibernate-mapping>

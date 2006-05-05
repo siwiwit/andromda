@@ -88,6 +88,14 @@ public class Uml2ArchiverMojo
     protected String replacementExtensions;
 
     /**
+     * Whether or not to do replacement of embedded model HREF reference extensions.
+     *
+     * @parameter expression=false
+     * @required
+     */
+    protected boolean replaceExtensions;
+
+    /**
      * The pattern of the model file(s) that should be versioned.
      *
      * @parameter expression=".*(\\.uml2)"
@@ -111,6 +119,7 @@ public class Uml2ArchiverMojo
         getLog().debug("workDirectory[" + workDirectory + "]");
         getLog().debug("outputDirectory[" + outputDirectory + "]");
         getLog().debug("finalName[" + finalName + "]");
+        getLog().debug("replaceExtensions[" + replaceExtensions + "]");
 
         try
         {
@@ -148,15 +157,19 @@ public class Uml2ArchiverMojo
                                         this.finalName + '.' + FileUtils.getExtension(extractedFile.toString()));
                                 extractedFile.renameTo(newFile);
                                 String contents = IOUtils.toString(new FileReader(newFile));
-                                for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
+                                getLog().info("Not doing stuff: " + replaceExtensions);
+                                if (replaceExtensions)
                                 {
-                                    final String version = escapePattern(this.project.getVersion());
-                                    final String extension = escapePattern(replacementExtensions[ctr3]);
-                                    final String extensionPattern = "((\\-" + version + ")?)" + extension;
-                                    final String newExtension = "\\-" + version + extension;
-                                    contents = contents.replaceAll(
-                                            extensionPattern,
-                                            newExtension);
+                                    for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
+                                    {
+                                        final String version = escapePattern(this.project.getVersion());
+                                        final String extension = escapePattern(replacementExtensions[ctr3]);
+                                        final String extensionPattern = "((\\-" + version + ")?)" + extension;
+                                        final String newExtension = "\\-" + version + extension;
+                                        contents = contents.replaceAll(
+                                                extensionPattern,
+                                                newExtension);
+                                    }
                                 }
                                 final FileWriter fileWriter = new FileWriter(newFile);
                                 fileWriter.write(contents);

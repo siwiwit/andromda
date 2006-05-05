@@ -1,7 +1,9 @@
 package org.andromda.repositories.emf;
 
 import java.io.InputStream;
+
 import java.net.URL;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.Map;
 
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ResourceUtils;
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
 
@@ -26,12 +29,19 @@ public class EMFURIConverter
      * Creates a new instance of EMFURIConvert taking the <code>moduleSearchPaths</code>
      * as an argument. These are the paths used to attempt to normalize a given URI during
      * the call to {@link #normalize(URI)} provided that it couldn't be found in the normal manner.
-     * 
+     *
      * @param moduleSearchPaths the paths to search for modules.
      */
     public EMFURIConverter(final List moduleSearchPaths)
     {
         this.moduleSearchPaths = moduleSearchPaths;
+        if (logger.isDebugEnabled())
+        {
+            for (Iterator pathIterator = this.moduleSearchPaths.iterator(); pathIterator.hasNext();)
+            {
+                logger.debug("Model search path:" + pathIterator.next());
+            }
+        }
     }
 
     /**
@@ -45,8 +55,13 @@ public class EMFURIConverter
     private final Map normalizedUris = new HashMap();
 
     /**
+     * The logger instance.
+     */
+    private static Logger logger = Logger.getLogger(EMFURIConverter.class);
+
+    /**
      * Overwridden to provide the normalization of uris given the module search paths.
-     * 
+     *
      * @see org.eclipse.emf.ecore.resource.URIConverter#normalize(org.eclipse.emf.common.util.URI)
      */
     public URI normalize(final URI uri)
@@ -98,7 +113,9 @@ public class EMFURIConverter
                         }
                         catch (final Exception exception)
                         {
-                            // - ignore
+                            logger.debug(
+                                "Caught exception in EMFURIConverter",
+                                exception);
                         }
                     }
                 }
