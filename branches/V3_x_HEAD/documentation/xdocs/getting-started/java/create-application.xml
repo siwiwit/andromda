@@ -444,13 +444,13 @@ Starting the reactor...
 | Executing multiproject:install-callback TimeTracker MDA
 | Memory: 4M/5M
 +----------------------------------------
-Attempting to download andromda-profile-3.2-RC1-SNAPSHOT.xml.zip.
+Attempting to download andromda-profile-3.2-RC1.xml.zip.
 15K downloaded
-Attempting to download andromda-profile-datatype-3.2-RC1-SNAPSHOT.xml.zip.
+Attempting to download andromda-profile-datatype-3.2-RC1.xml.zip.
 18K downloaded
-Attempting to download andromda-profile-webservice-3.2-RC1-SNAPSHOT.xml.zip.
+Attempting to download andromda-profile-webservice-3.2-RC1.xml.zip.
 12K downloaded
-Attempting to download andromda-profile-service-3.2-RC1-SNAPSHOT.xml.zip.
+Attempting to download andromda-profile-service-3.2-RC1.xml.zip.
 13K downloaded
 ...
 INFO  [App] BUILD SUCCESSFUL

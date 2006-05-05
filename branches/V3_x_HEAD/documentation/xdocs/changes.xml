@@ -11,7 +11,7 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.2-RC1-SNAPSHOT" date="2006-01-28" description="First release candidate of version 3.2">
+        <release version="3.2-RC1" date="2006-05-05" description="First release candidate of version 3.2">
             <action dev="draftdog" type="fix" issue="HIB-170">
                 The hibernate cartridge did not properly support lists on many2many association ends, this has been
                 fixed thanks to a patch from Paul Pavlidis.
@@ -402,7 +402,7 @@
                 Property references are now defined in a namespace descriptor in which each namespace component
                 (cartridge, translation-library, and metafacades must be registered within).
                 Unfortunately this change is not backwards compatible with 3.0 cartridges, to upgrade 3.0 cartridges
-                to be 3.2-RC1-SNAPSHOT compatible, you will need to create a META-INF/andromda/namespace.xml descriptor per cartridge
+                to be 3.2-RC1 compatible, you will need to create a META-INF/andromda/namespace.xml descriptor per cartridge
                 and register the cartridge and metafacades (as well as any namespace properties and its defaults) in this file.
             </action>
             <action dev="cwbrandon" type="add">
