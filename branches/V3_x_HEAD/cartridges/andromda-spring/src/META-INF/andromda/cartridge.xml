@@ -63,6 +63,7 @@
     <property reference="transactionManagerName"/>
     <property reference="sessionFactory"/>
     <property reference="serviceLocatorName"/>
+    <property reference="serviceLocatorDefaultFactoryId"/>
     <property reference="springTypesPackage"/>
     <property reference="springPresentationTypesPackage"/>
     <property reference="manageableServiceLocatorName"/>
