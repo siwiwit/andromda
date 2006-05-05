@@ -1,0 +1,1 @@
+#set ($ejbSecurityEnabled = $stringUtils.isNotBlank($securityRealm))

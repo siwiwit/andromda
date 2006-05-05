@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk">
+      
+<ui:composition>
+<h:panelGrid id="header_group2" columns="#{${layoutOptionsBeanName}.menuColumns}" styleClass="pageMenuHeader" width="100%">
+    <t:jscookMenu layout="#{layoutOptions.menuLayout}" theme="#{layoutOptions.theme}" >
+#set ($sidebarLayoutCount = $useCases.size() + 1)
+#foreach ($useCase in $useCases)
+        <t:navigationMenuItem id="nav_${velocityCount}" itemLabel="#{messages['$useCase.titleKey']}" action="$useCase.forwardName" icon="/images/next-yellow.gif" />
+#end
+#if ($layoutOptionsMenuItem.equalsIgnoreCase("true"))
+        <t:navigationMenuItem id="nav_${sidebarLayoutCount}" itemLabel="#{messages['navigation.layout']}" split="true" action="layout-options" icon="/images/next-yellow.gif" />
+#end
+    </t:jscookMenu>
+#if ($stringUtils.isNotBlank($securityRealm))
+    <h:panelGrid columns="3" styleClass="logoutPanel" width="100%">
+        <c:set var="remoteUser" value="${facesContext.externalContext.request.remoteUser}" scope="request"/>
+        <c:if test="${!empty remoteUser}">
+            <h:panelGrid columns="1" style="text-align:right" width="100%">
+                <span class="logoutPanel"><em>#{remoteUser}</em></span>
+            </h:panelGrid>
+            <h:outputText value="~"/>
+            <h:panelGrid columns="1" style="text-align:left" width="100%">
+                <h:commandLink action="logout" styleClass="logout">
+                    <h:outputText value="#{messages['logout.action']}" style="text-align:left"/>            
+                </h:commandLink> 
+            </h:panelGrid>   
+        </c:if>
+    </h:panelGrid>
+#end
+</h:panelGrid>
+</ui:composition>
+
+</html>

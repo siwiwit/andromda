@@ -1,0 +1,9 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <ui:composition>
+        <h:panelGrid id="header_group1" columns="1" styleClass="pageHeader" width="100%" >
+            <h:outputText value="#{messages['application.name']}" styleClass="applicationTitle"/>
+        </h:panelGrid>
+    </ui:composition>
+</html>
