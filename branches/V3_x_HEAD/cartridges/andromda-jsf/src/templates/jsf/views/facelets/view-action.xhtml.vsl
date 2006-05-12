@@ -58,7 +58,7 @@
             </af:panelButtonBar>
         </f:facet>
     </af:panelForm>
-    <a:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
+    <a:validator#if($clientValidation) functionName="$formValidateName"#end/>
 </h:form>
 #end
 </ui:composition>
