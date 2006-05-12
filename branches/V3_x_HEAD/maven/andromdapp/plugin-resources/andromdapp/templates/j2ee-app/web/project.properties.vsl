@@ -14,6 +14,7 @@ maven.war.src.excludes=**/*.java
 maven.jar.override = on
 maven.jar.myfaces-api = ${maven.build.dir}/src/WEB-INF/lib/myfaces-api.jar
 maven.jar.tomahawk = ${maven.build.dir}/src/WEB-INF/lib/tomahawk.jar
+maven.jar.adf-faces-api = ${maven.build.dir}/src/WEB-INF/lib/adf-faces-api.jar
 
 #end
 #service.package=some.service.package

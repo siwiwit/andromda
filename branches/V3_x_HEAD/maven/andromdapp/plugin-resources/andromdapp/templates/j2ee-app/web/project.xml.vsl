@@ -122,7 +122,7 @@
 #if ($struts)
         <dependency>
             <groupId>struts</groupId>
-            <artifactId>struts</artifactId>
+            <artifactId>struts</artifactId> 
             <version>${struts.version}</version>
             <type>jar</type>
             <properties>
@@ -152,6 +152,13 @@
            <artifactId>tomahawk</artifactId>
            <version>unknown</version>
            <jar>tomahawk.jar</jar>
+        </dependency>
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>adf-faces-api</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <jar>adf-faces-api.jar</jar>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
