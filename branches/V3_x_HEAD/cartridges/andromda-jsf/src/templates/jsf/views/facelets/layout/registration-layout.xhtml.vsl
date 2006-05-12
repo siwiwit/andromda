@@ -17,13 +17,9 @@
         <ui:insert name="title"/>
         <af:panelPage title="#{title}">
             <f:facet name="brandingApp">
-                <f:verbatim>
-                    <div id="pageHeader">
-                        <ui:insert name="header">
-                            <ui:include src="header.xhtml"/>
-                        </ui:insert>
-                    </div>
-                </f:verbatim>
+                <ui:insert name="header">
+                    <ui:include src="header.xhtml"/>
+                </ui:insert>
             </f:facet>
             <f:facet name="menu2">
                 <af:menuBar>
