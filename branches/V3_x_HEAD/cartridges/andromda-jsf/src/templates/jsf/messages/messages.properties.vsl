@@ -127,21 +127,16 @@ errors.equal={0} must equal {1}.
 #
 # logged in/logout messages
 #
-navigation.layout=Layout
 logout.action=logout
 
 #
-# Messages for layout options
+# Messages for preferences
 # 
-layout.options.sidebar=Side Bar
-layout.options.sidebar.left=Left
-layout.options.sidebar.right=Right
-layout.options.navigation.theme=Navigation Theme
-layout.options.menu=Menu Placement
-layout.options.menu.top=Top
-layout.options.menu.side=Side
-layout.options.title=Layout Options
-layout.options.apply=Apply
+menu.preferences=Preferences
+preferences.menu.theme=Menu Theme
+preferences.title=Preferences
+preferences.apply=Apply
+preferences.skin=Skin
 
 select.value.text=Select an option
 

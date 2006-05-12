@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:t="http://myfaces.apache.org/tomahawk"
-      xmlns:c="http://java.sun.com/jstl/core">
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:af="http://xmlns.oracle.com/adf/faces">
 
 <ui:insert name="head">
     <ui:include src="/layout/head.xhtml"/>  
@@ -11,82 +12,72 @@
 
 <body>
 
-<f:view>
-
-    <t:panelLayout id="page" layout="#{layoutOptions.sidebarLayout}"
-            styleClass="pageLayout"
-            headerClass="pageHeader"
-            navigationClass="pageNavigation"
-            bodyClass="pageBody"
-            footerClass="pageFooter"
-            width="100%">
-
-        <f:facet name="header">
-            <f:subview id="header">
-                <ui:insert name="header">
-                    <ui:include src="/layout/header.xhtml"/>
-                </ui:insert>
-            </f:subview>
-        </f:facet>
-
-        <f:facet name="body">
-            <h:panelGroup id="body">
-                <h:outputText value="#{messages['login.title']}" styleClass="actionHeader"/>
-                <br/><br/>
-                <h:outputText value="#{messages['login.text']}" styleClass="loginText" escape="false"/>
-                <br/><br/>
-                <form id="login" name="login" action="j_security_check" method="post">
-                <h:panelGrid columns="2" styleClass="formTable"
-                             headerClass="formHeader"
-                             footerClass="formFooter"
-                             columnClasses="formLabels,formInputs"
-                             title="#{messages['login.title']}"> 
-                    <h:outputLabel for="j_username" value="#{messages['login.username']}: "/>
-                    <h:panelGroup>
-                        <h:inputText id="j_username" title="#{messages['login.username']}" tabindex="10"/>
-                    </h:panelGroup>
-                    <h:outputLabel for="j_password" value="#{messages['login.password']}: "/>
-                    <h:panelGroup>
-                        <h:inputSecret id="j_password" title="#{messages['login.password']}" tabindex="10"/>
-                    </h:panelGroup>
-#if (!$registrationUseCases.empty)
-                    <h:panelGroup/>
-                    <h:panelGroup/>
-                    <h:panelGrid columns="1" width="100%">
-                        <h:commandLink action="$registrationUseCases.iterator().next().forwardName" styleClass="registerAsNewUserLink" title="#{messages['login.register.as.new.user']}" tabindex="20">
-                            <h:outputText value="#{messages['login.register.as.new.user']}"/>            
-                        </h:commandLink> 
-                    </h:panelGrid> 
-#end
-                    <h:panelGroup/>
-                    <h:panelGroup>
-                        <input type="submit" value="#{messages['login.submit']}" class="actionButton" tabindex="10"/>
-                        <input type="reset" value="#{messages['login.reset']}" class="actionButton" tabindex="10"/>
-                    </h:panelGroup>
-                </h:panelGrid>
-                </form>
-#set ($actionParam = "param.action")
-                <c:if test="${${actionParam} == 'error'}">
-                    <h:outputText value="#{messages['login.error']}" styleClass="error"/>
-                    <br/><br/>
-                </c:if>  
-            </h:panelGroup>
-        </f:facet>
-
-        <f:facet name="footer">
-            <ui:insert name="footer">
-                <ui:include src="/layout/footer.xhtml"/>
+    <af:panelPage title="#{messages['login.title']}">
+        <f:facet name="brandingApp">
+            <ui:insert name="header">
+                <ui:include src="layout/header.xhtml"/>
             </ui:insert>
         </f:facet>
+        <f:facet name="menu2">
+            <af:menuBar>
+                <t:graphicImage url="/images/space.gif"/>
+            </af:menuBar>
+        </f:facet>
+        <f:facet name="appCopyright">
+            <ui:insert name="footer">
+                <ui:include src="layout/footer.xhtml"/>
+            </ui:insert>
+        </f:facet>
+        <h:outputText value="#{messages['login.text']}" styleClass="loginText" escape="false"/>
+        <br/>
+        <form id="login" name="login" action="j_security_check" method="post">
+            <table cellpadding="0" cellspacing="0" border="0" class="xu">
+#set ($actionParam = "param.action")
+                <c:if test="${${actionParam} == 'error'}">
+                    <tr>
+                        <td colspan="2"/>
+                        <td>
+                            <div id="error">#{messages['login.error']}</div>
+                        </td>
+                    </tr>
+                </c:if> 
+                <tr>
+                    <td class="xv" width="37%"><span class="xa"><label for="login:j_username">#{messages['login.username']}:</label></span></td>
+                    <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
+                    <td valign="top" width="63%"><input type="text" name="j_username" class="x6" size="30" tabindex="10"/></td>
+                </tr>
+                <tr>
+                    <td class="xv"><span class="xa"><label for="login:j_password">#{messages['login.password']}:</label></span></td>
+                    <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
+                    <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password" tabindex="10"/></td>
+                </tr>
+#if (!$registrationUseCases.empty)
+                <tr>
+                    <td colspan="2"/>
+                    <td>
+                        <a href="${facesContext.externalContext.request.contextPath}${registrationUseCases.iterator().next().path}.${facesServletExtension}" class="registerAsNewUserLink" tabindex="20">
+                            #{messages['login.register.as.new.user']}
+                        </a>
+                    </td>
+                </tr>
+#end
+                <tr>
+                    <td colspan="2"/>
+                    <td>
+                        <button class="xj" onclick="document.forms[0].submit();" type="button" tabindex="10">#{messages['login.submit']}</button>
+                        <button class="xj" onclick="document.forms[0].reset();" type="button">#{messages['login.reset']}</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </af:panelPage>
+   
+    <script type="text/javascript" language="Javascript1.1">
+        var field = document.forms["login"].elements["j_username"];
+        field.focus();
+        field.select();
+    </script>
 
-    </t:panelLayout>
-
-</f:view>
-<script type="text/javascript" language="Javascript1.1">
-    var field = document.forms["login"].elements["j_username"];
-    field.focus();
-    field.select();
-</script>
 </body>
 
 </html>

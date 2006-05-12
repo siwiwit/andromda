@@ -99,24 +99,24 @@
             <documentation>
                 Properties related to the configuration of the user interface layout.
             </documentation>
-            <property name="layoutOptionsMenuItem">
+            <property name="enablePreferences">
                 <default>true</default>
                 <documentation>
-                    Whether or not a layout options menu item should be included in the menu (this
-                    menu item allows you to control menu positioning, etc).
+                    Whether or not a preferences menu item should be included in the menu (this
+                    menu item allows you to control skinning, etc).
                 </documentation>
             </property>
-            <property name="layoutOptionsName">
-                <default>LayoutOptions</default>
+            <property name="preferencesClassName">
+                <default>Preferences</default>
                 <documentation>
-                    Defines the name of the layout options class (which allows dynamic control
-                    of the UI's view layout).
+                    Defines the name of the preferences class (which allows dynamic control
+                    of the UI's view preferences; skinning, etc).
                 </documentation>
             </property>
-            <property name="layoutOptionsBeanName">
-                <default>layoutOptions</default>
+            <property name="preferencesBeanName">
+                <default>preferences</default>
                 <documentation>
-                    Defines the bean name under which the layout options class will be stored.
+                    Defines the bean name under which the preferences class will be stored.
                 </documentation>
             </property>
             <property name="sidebarLayout">
@@ -140,7 +140,7 @@
                     </ul>
                 </documentation>
             </property>
-            <property name="navigationTheme">
+            <property name="menuTheme">
                 <default>ThemeOffice</default>
                 <documentation>
                     The navigation theme to use (the possible choices are:
@@ -278,6 +278,13 @@
                 <documentation>
                     The name of the managed bean that stores the form history.
                 </documentation>                
+            </property>
+            <property name="adfContextAttributeName">
+                <default>AndroMDAADFContext</default>
+                <documentation>
+                    The name of the temporary variable that stores the current ADF faces context (this 
+                    should typically not be changed).
+                </documentation>
             </property>
             <property name="sessionTimeout">
                 <default>45</default>

@@ -1,5 +1,5 @@
-<f:facet name="footer">
-    <h:panelGroup id="footer">
+<f:facet name="bottom">
+    <h:panelGrid id="pageFooter" cellspacing="0" cellpadding="0">
         <h:outputText value="#{messages['footer.message']}" escape="false"/>
-    </h:panelGroup>
+    </h:panelGrid>
 </f:facet>

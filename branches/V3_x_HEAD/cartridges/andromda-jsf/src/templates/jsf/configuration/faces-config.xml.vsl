@@ -8,12 +8,19 @@
 
 <faces-config>
 #if ($viewTypeIsFacelets)
+    <!--
     <application>
         <view-handler>
             com.sun.facelets.FaceletViewHandler
         </view-handler>    
     </application>
+    -->
 #end
+    <application>
+        <default-render-kit-id>
+            oracle.adf.core
+        </default-render-kit-id>
+    </application>
 #if(!$applicationUseCases.empty)
 #set($applicationUseCase = $applicationUseCases.iterator().next())
 #end
@@ -62,14 +69,16 @@
     </navigation-rule>
 #end
 #end
+#if ($enablePreferences)
 
     <navigation-rule>
         <navigation-case>
-            <from-outcome>layout-options</from-outcome>
-            <to-view-id>/layout/layout-options.${jsfUtils.viewExtension}</to-view-id>
+            <from-outcome>preferences</from-outcome>
+            <to-view-id>/preferences/preferences.${jsfUtils.viewExtension}</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>
+#end
 #if ($stringUtils.isNotBlank($securityRealm))
 
     <navigation-rule>
@@ -80,24 +89,22 @@
         </navigation-case>
     </navigation-rule>
 #end
+#if ($enablePreferences)
 
     <managed-bean>
-        <managed-bean-name>$layoutOptionsBeanName</managed-bean-name>
-        <managed-bean-class>${managedBeansPackage}.${layoutOptionsName}</managed-bean-class>
+        <managed-bean-name>$preferencesBeanName</managed-bean-name>
+        <managed-bean-class>${managedBeansPackage}.${preferencesClassName}</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
         <managed-property>
-            <property-name>sidebarLayout</property-name>
-            <value>$sidebarLayout</value>
+            <property-name>skin</property-name>
+            <value>minimal</value>
         </managed-property>
         <managed-property>
-            <property-name>menuLayout</property-name>
-            <value>$menuLayout</value>
-        </managed-property>
-        <managed-property>
-            <property-name>theme</property-name>
-            <value>$navigationTheme</value>
+            <property-name>menuTheme</property-name>
+            <value>$menuTheme</value>
         </managed-property>
     </managed-bean>
+#end
     
     <managed-bean>
         <managed-bean-name>$formHistoryBeanName</managed-bean-name>

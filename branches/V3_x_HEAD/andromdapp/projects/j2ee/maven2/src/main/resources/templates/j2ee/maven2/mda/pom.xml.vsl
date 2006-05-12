@@ -7,167 +7,226 @@
         <artifactId>$applicationId</artifactId>
         <version>$applicationVersion</version>
     </parent>
-    <artifactId>${applicationId}-mda</artifactId>
-    <packaging>pom</packaging>
-    <name>${applicationName} MDA</name>
+    <artifactId>${applicationId}-web</artifactId>
+    <packaging>war</packaging>
+    <name>${applicationName} Web</name>
     <dependencies>
         <dependency>
-            <groupId>org.andromda.profiles.uml14</groupId>
-            <artifactId>andromda-profile</artifactId>
-            <type>xml.zip</type>
-        </dependency>
-#if ($ejb)
-        <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-ejb-cartridge</artifactId>
-        </dependency>
-#elseif ($ejb3)
-        <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-ejb3-cartridge</artifactId>
-        </dependency>
-#elseif ($spring)
-        <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-spring-cartridge</artifactId>
-        </dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>${applicationId}-common</artifactId>
+            <version>${pom.version}</version>
+#if ($ear)
+            <scope>provided</scope>
 #end
-#if ($hibernate || $spring)
-        <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-hibernate-cartridge</artifactId>
         </dependency>
+#if (!$transactionPersistenceType.equals("none"))
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>${applicationId}-core</artifactId>
+            <version>${pom.version}</version>
+#if ($ear)
+            <type>ejb</type>
+            <scope>provided</scope>
 #end
-#if ($workflow)
-        <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-jbpm-cartridge</artifactId>
-        </dependency>
-#end
-#if ($webservice && !$jsr181Webservice)
-        <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-webservice-cartridge</artifactId>
-        </dependency>
+       </dependency>
 #end
         <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-java-cartridge</artifactId>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+#if ($ear)
+            <scope>provided</scope>
+#end
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+#if ($ear)
+            <scope>provided</scope>
+#end
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+#if ($ear)
+            <scope>provided</scope>
+#end
+        </dependency>
+#if ($web)
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
         </dependency>
 #if ($struts)
         <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-bpm4struts-cartridge</artifactId>
+            <groupId>struts</groupId>
+            <artifactId>struts</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
         </dependency>
 #elseif ($jsf)
         <dependency>
-            <groupId>org.andromda.cartridges</groupId>
-            <artifactId>andromda-jsf-cartridge</artifactId>
+            <groupId>org.apache.myfaces</groupId>
+            <artifactId>myfaces-api</artifactId>
+            <!-- 'unknown' because the version doesn't matter for system dependencies -->
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/myfaces-api.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces</groupId>
+            <artifactId>tomahawk</artifactId>
+            <!-- 'unknown' because the version doesn't matter for system dependencies -->
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/tomahawk.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>oracle.adf.view.faces</groupId>
+            <artifactId>adf-faces-api</artifactId>
+            <!-- 'unknown' because the version doesn't matter for system dependencies -->
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/adf-faces-api.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-utils</artifactId>
         </dependency>
 #end
-#if ($spring)
         <dependency>
-            <groupId>org.andromda.translationlibraries</groupId>
-            <artifactId>andromda-ocl-validation-library</artifactId>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>itext</groupId>
+            <artifactId>itext</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
         </dependency>
 #end
-#if (!$transactionPersistenceType.equals("none"))
         <dependency>
-            <groupId>org.andromda.translationlibraries</groupId>
-            <artifactId>andromda-ocl-query-library</artifactId>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+#if ($ejb3)
+            <groupId>org.jboss</groupId>
+#else
+            <groupId>jboss</groupId>
+#end
+            <artifactId>jboss-j2ee</artifactId>
+        </dependency>
+#if ($ejb3)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3x</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>ejb3-persistence</artifactId>
         </dependency>
 #end
     </dependencies>
     <build>
-        <sourceDirectory>${project.basedir}/src/main/uml</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>../${pom.artifactId}-${pom.version}</targetPath>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
-                <groupId>org.andromda.maven.plugins</groupId>
-                <artifactId>andromda-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                     </execution>
                 </executions>
-#if ($stringUtils.isNotBlank($configurationUri))
                 <configuration>
-                    <configurationUri>$configurationUri</configurationUri>
-                </configuration>
-#else
-                <configuration>
-                    <configurationUri>${pom.basedir}/src/main/config/andromda.xml</configurationUri>
-                </configuration>
+                    <tasks>
+                        <copy todir="${pom.basedir}/target/src" overwrite="true" failonerror="false">
+#set ($viewSrcType = "jsp")
+#if ($facelets)
+#set ($viewSrcType = "xhtml")
 #end
+                            <fileset dir="${pom.basedir}/src/main/$viewSrcType">
+                                <include name="**/*"/>
+                            </fileset>
+                            <fileset dir="${pom.basedir}/src/main">
+                                <include name="css/**"/>
+                                <include name="images/**"/>
+                            </fileset>
+                        </copy>
+                    </tasks>
+                </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromda-multi-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warSourceDirectory>target/src</warSourceDirectory>
+                    <excludes>**/*.java</excludes>
+                </configuration>
+            </plugin>
+#if (!$ear)
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>eclipse</goal>
+                            <goal>deploy</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <excludes>
-                        <exclude>app/pom.xml</exclude>
-                        <exclude>mda/pom.xml</exclude>
-                        <exclude>webservice/pom.xml</exclude>
-                    </excludes>
+                    <deployLocation>${tomcat.home}/webapps</deployLocation>
                 </configuration>
             </plugin>
+#else
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>andromdapp-maven-plugin</artifactId>
+            </plugin>
+#end
         </plugins>
     </build>
-    <properties>
-#if ($stringUtils.isNotEmpty($model))
-        <model.uri>$model</model.uri>
-#else
-        <model.uri>file:${project.build.sourceDirectory}/${applicationId}.xmi</model.uri>
-#end
-        <filter></filter>
-        <validation>true</validation>
-        <conf.dir>${pom.basedir}/src/main/config</conf.dir>
-        <!-- cartridge output locations -->
-        <core.generated.dir>${pom.basedir}/../core/target/src</core.generated.dir>
-        <core.manual.dir>${pom.basedir}/../core/src/main/java</core.manual.dir>
-        <web.generated.dir>${pom.basedir}/../web/target/src</web.generated.dir>
-        <web.manual.java.dir>${pom.basedir}/../web/src/main/java</web.manual.java.dir> 
-#if ($workflow)     
-        <workflow.generated.dir>${pom.basedir}/../workflow/target/src</workflow.generated.dir>
-        <workflow.manual.dir>${pom.basedir}/../workflow/src/main</workflow.manual.dir>    
-#end
-#if ($webservice && !$jsr181Webservice)
-#if ($war)
-        <webservice.generated.dir>${web.generated.dir}</webservice.generated.dir>
-#else
-        <webservice.generated.dir>${pom.basedir}/../webservice/target/src</webservice.generated.dir>
-#end
-#if ($axisVersion.equals("1"))
-        <webservice.generated.wsdl.dir>${webservice.generated.dir}/WEB-INF/classes</webservice.generated.wsdl.dir>
-#end
-#end
-        <common.generated.dir>${pom.basedir}/../common/target/src</common.generated.dir>      
-#if ($ejb3)
-        <application.config.dir>${pom.basedir}/../app/src/main/config</application.config.dir>
-        <application.metainf.dir>${pom.basedir}/../app/src/main/application/META-INF</application.metainf.dir>
-#end
-#if ($hibernate || $spring)
-        <!-- hibernate configuration -->
-#if ($hibernate)
-#if ($hibernateVersion == "2")
-        <hibernate.transaction.manager.lookup>net.sf.hibernate.transaction.JBossTransactionManagerLookup</hibernate.transaction.manager.lookup>
-#else
-        <hibernate.transaction.manager.lookup>org.hibernate.transaction.JBossTransactionManagerLookup</hibernate.transaction.manager.lookup>
-#end
-#end
-        <!-- default strategy to use when using inhertiance -->
-        <hibernate.inheritance.strategy>subclass</hibernate.inheritance.strategy>
-        <hibernate.db.showSql>true</hibernate.db.showSql>
-        <!-- hibernate generator class to use for identifiers -->
-        <hibernate.generatorClass>native</hibernate.generatorClass>
-#end
-    </properties>
 </project>

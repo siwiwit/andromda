@@ -26,11 +26,11 @@
     <property reference="welcomeFileName"/>
     <property reference="facesServletExtension"/>
     <property reference="managedBeansPackage"/>
-    <property reference="layoutOptionsName"/>
-    <property reference="layoutOptionsBeanName"/>
+    <property reference="preferencesClassName"/>
+    <property reference="preferencesBeanName"/>
     <property reference="sidebarLayout"/>
     <property reference="menuLayout"/>
-    <property reference="navigationTheme"/>
+    <property reference="menuTheme"/>
     <property reference="applicationName"/>
     <property reference="formPopulatorName"/>
     <property reference="exceptionHandlerPattern"/>
@@ -48,7 +48,7 @@
     <property reference="logoutFileName"/>
     <property reference="virtualHost"/>
     <property reference="defaultMultiSelectSize"/>
-    <property reference="layoutOptionsMenuItem"/>
+    <property reference="enablePreferences"/>
     <property reference="distributable"/>
     <property reference="stateSavingMethod"/>
     <property reference="sessionTimeout"/>
@@ -59,6 +59,7 @@
     <property reference="viewType"/>
     <property reference="strictDateTimeFormat"/>
     <property reference="libraries"/>
+    <property reference="adfContextAttributeName"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
@@ -67,6 +68,9 @@
         #if ($viewType.equalsIgnoreCase("facelets") &amp;&amp; $enableFaceletsDevelopmentSupport.equalsIgnoreCase("true"))true#end
     </condition>
     <condition name="outputLibraries">$stringUtils.isNotBlank($libraries)</condition>
+    <condition name="enablePreferences">$enablePreferences.equalsIgnoreCase("true")</condition>
+        
+        
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
@@ -101,6 +105,13 @@
         outlet="libraries"
         overwrite="true"
         outputCondition="viewTypeIsFacelets"
+        lastModifiedCheck="true"/>
+    
+    <resource
+        path="resources/lib/adf/*.jar"
+        outputPattern="WEB-INF/lib/{0}"
+        outlet="libraries"
+        overwrite="true"
         lastModifiedCheck="true"/>
     
     <resource
@@ -165,6 +176,13 @@
             </modelElement>
         </modelElements>    
     </template>
+    
+    <template
+        path="templates/jsf/configuration/adf-faces-config.xml.vsl"
+        outputPattern="WEB-INF/adf-faces-config.xml"
+        outlet="configuration"
+        overwrite="true"
+        outputToSingleFile="true"/>
     
     <template
         path="templates/jsf/configuration/validator-rules.xml.vsl"
@@ -360,7 +378,7 @@
     </template>
     
     <template
-        path="templates/jsf/views/rendering/LayoutOptions.java.vsl"
+        path="templates/jsf/views/preferences/Preferences.java.vsl"
         outputPattern="$generatedFile"
         outlet="managed-beans"
         overwrite="true"/>
@@ -428,6 +446,23 @@
         overwrite="true"     
         generateEmptyFiles="true"
         outputCondition="viewTypeIsFacelets"/>    
+    
+    <template
+        path="templates/jsf/views/facelets/layout/registration-layout.xhtml.vsl"
+        outputPattern="layout/registration-layout.xhtml"
+        outlet="views"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputCondition="viewTypeIsFacelets"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="registrationUseCase">true</property>
+                </type>
+            </modelElement>
+        </modelElements>        
+    </template>
     
     <template
         path="templates/jsf/views/facelets/layout/header.xhtml.vsl"
@@ -562,8 +597,8 @@
     </template>
     
     <template
-        path="templates/jsf/views/facelets/layout/layout-options.xhtml.vsl"
-        outputPattern="layout/layout-options.xhtml"
+        path="templates/jsf/views/facelets/preferences/preferences.xhtml.vsl"
+        outputPattern="preferences/preferences.xhtml"
         outlet="views"
         overwrite="true"
         outputCondition="viewTypeIsFacelets"/>
@@ -616,32 +651,8 @@
         outputCondition="viewTypeIsJsp"/>
     
     <template
-        path="templates/jsf/views/jsp/includes/registration-header.jsp.vsl"
-        outputPattern="includes/registration-header.jsp"
-        outlet="views"
-        overwrite="true"
-        outputToSingleFile="true"
-        outputOnEmptyElements="false"
-        outputCondition="viewTypeIsJsp">
-        <modelElements>
-            <modelElement variable="useCases">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="registrationUseCase"/>
-                </type>
-            </modelElement>
-        </modelElements>    
-    </template>
-    
-    <template
-        path="templates/jsf/views/jsp/includes/navigation.jsp.vsl"
-        outputPattern="includes/navigation.jsp"
-        outlet="views"
-        overwrite="true"
-        outputCondition="viewTypeIsJsp"/>
-    
-    <template
-        path="templates/jsf/views/jsp/layout-options.jsp.vsl"
-        outputPattern="layout/layout-options.jsp"
+        path="templates/jsf/views/jsp/preferences/preferences.jsp.vsl"
+        outputPattern="preferences/preferences.jsp"
         outlet="views"
         overwrite="true"
         outputCondition="viewTypeIsJsp"/>

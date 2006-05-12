@@ -20,68 +20,56 @@
 #end
 #set ($formValuePropertyName = "${formName}.${valuePropertyName}")
 #if (!$parameter.table && !($parameter.inputHidden || $ownerParameter.inputHidden))
-#if (!$parameter.inputTable)
-        <h:outputLabel for="${formName}:${propertyId}" value="#{messages['$parameter.messageKey']}: "/>
-#end
-        <h:panelGroup>
 #if ($parameter.type.dateType)
-#if ($parameter.readOnly)
-            <h:inputText id="$propertyId" value="#{${formValuePropertyName}}" readonly="true">
+#if ($parameter.readOnly) 
+        <af:inputText id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" readOnly="true"/>
 #else
-            <t:inputCalendar id="$propertyId" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" value="#{${formValuePropertyName}}"
-                             renderAsPopup="true" popupDateFormat="$parameter.format" required="$parameter.required">
+        <af:panelLabelAndMessage label="#{messages['$parameter.messageKey']}:" showRequired="$parameter.required">
+            <t:inputCalendar id="$propertyId" value="#{${formValuePropertyName}}" renderAsPopup="true" popupDateFormat="$parameter.format" required="$parameter.required">
                 <a:convertDateTime pattern="$parameter.format"/>
             </t:inputCalendar>
+        </af:panelLabelAndMessage>
 #end
 #elseif ($parameter.inputCheckbox)
-            <h:selectBooleanCheckbox id="$propertyId" value="#{${formValuePropertyName}}" required="$parameter.required" readonly="$parameter.readOnly"/>
+        <af:selectBooleanCheckbox id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" readOnly="$parameter.readOnly"/>
 #elseif ($parameter.inputSelect)
 #set ($multiSelect = $parameter.type.collectionType || $parameter.type.arrayType)
-#set ($selectBoxType = "selectOneMenu")
+#set ($selectBoxType = "selectOneChoice")
 #if ($multiSelect)
 #set ($selectBoxType = "selectManyListbox")
 #end
-            <h:$selectBoxType id="$propertyId" value="#{${formValuePropertyName}}" styleClass="selectOneMenu" required="$parameter.required" readonly="$parameter.readOnly"#if ($multiSelect) size="$defaultMultiSelectSize"#end>
-#if (!($parameter.type.collectionType || $parameter.type.arrayType))
-                <f:selectItem itemValue="" itemLabel="#{messages['select.value.text']}" />
-#end
-                <c:if test="${!empty ${backingListName}}">
-                    <f:selectItems value="#{${backingListName}}" />
-                </c:if>
-            </h:$selectBoxType>
-#elseif ($parameter.inputTextarea)
-            <h:inputTextarea id="$propertyId" rows="3" cols="30" value="#{${formValuePropertyName}}" required="$parameter.required" readonly="$parameter.readOnly"/>
-#elseif ($parameter.inputSecret)
-            <h:inputSecret id="$propertyId" value="#{${formValuePropertyName}}" required="$parameter.required" readonly="$parameter.readOnly"/>
+        <af:$selectBoxType id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" readOnly="$parameter.readOnly"#if ($multiSelect) size="$defaultMultiSelectSize"#end>
+            <c:if test="${!empty ${backingListName}}">
+                <f:selectItems value="#{${backingListName}}" />
+            </c:if>
+        </af:$selectBoxType>
 #elseif ($parameter.inputFile)
+        <af:panelLabelAndMessage label="#{messages['$parameter.messageKey']}:" showRequired="$parameter.required">
             <t:inputFileUpload id="$propertyId" value="#{${formValuePropertyName}}" storage="file" size="50" required="$parameter.required" readonly="$parameter.readOnly" styleClass="fileUploadInput"/>
+        </af:panelLabelAndMessage>
 #elseif ($parameter.inputMultibox)
-            <h:selectManyCheckbox id="$propertyId" value="#{${formValuePropertyName}}" layout="pageDirection" styleClass="selectManyCheckbox">
-                <c:if test="${!empty ${backingListName}}">
-                    <f:selectItems value="#{${backingListName}}" />
-                </c:if>
-            </h:selectManyCheckbox>
+        <af:selectManyCheckbox id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required">
+            <c:if test="${!empty ${backingListName}}">
+                <f:selectItems value="#{${backingListName}}" />
+            </c:if>
+        </af:selectManyCheckbox>
 #elseif ($parameter.inputRadio)
-            <h:selectOneRadio id="$propertyId" value="#{${formValuePropertyName}}" layout="pageDirection" styleClass="selectOneRadio">
-                <c:if test="${!empty ${backingListName}}">
-                    <f:selectItems value="#{${backingListName}}" />
-                </c:if>
-            </h:selectOneRadio>
+        <af:selectOneRadio id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required">
+            <c:if test="${!empty ${backingListName}}">
+                <f:selectItems value="#{${backingListName}}" />
+            </c:if>
+        </af:selectOneRadio>
 #elseif ($parameter.inputTable)
 #renderInputTable($parameter)
 #elseif ($parameter.plainText)
-            <h:outputText value="#{${formValuePropertyName}}"/>
+        <h:outputText value="#{${formValuePropertyName}}"/>
 #else
-            <h:inputText id="$propertyId" value="#{${formValuePropertyName}}" size="30" required="$parameter.required" readonly="$parameter.readOnly">
+        <af:inputText id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" readOnly="$parameter.readOnly" #if($parameter.inputTextarea) rows="3" cols="30"#end#if($parameter.inputSecret) secret="true"#end>
 #if ($parameter.type.timeType)
-                <a:convertDateTime pattern="$parameter.format"/>
+            <a:convertDateTime pattern="$parameter.format"/>
 #end
-            </h:inputText>
+        </af:inputText>
 #end
-#if (!$parameter.inputTable)
-            <t:message for="$propertyId" styleClass="error" showDetail="true" showSummary="false"/>
-#end
-        </h:panelGroup>
 #end
 #end
 ##

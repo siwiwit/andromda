@@ -1,10 +1,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jstl/core">
     
-<ui:composition template="/layout/layout.xhtml">
-    <ui:define name="title">#{messages['${view.titleKey}']}</ui:define>
+#if ($view.useCase.registrationUseCase)
+#set ($layout = "/layout/registration-layout.xhtml")
+#else
+#set ($layout = "/layout/layout.xhtml")
+#end
+<ui:composition template="$layout">
+    <ui:define name="title">
+        <c:set var="title" value="#{messages['${view.titleKey}']}"/>
+    </ui:define>
     <ui:define name="content">
 #if ($view.nonTableVariablesPresent)
         <ui:include src="${view.path}-vars.xhtml"/>

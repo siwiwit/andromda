@@ -14,6 +14,10 @@
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
         <param-value>.xhtml</param-value>
     </context-param>
+    <context-param>
+        <param-name>facelets.VIEW_MAPPINGS</param-name>
+        <param-value>*.xhtml</param-value>
+    </context-param> 
     
     <context-param>
         <param-name>facelets.LIBRARIES</param-name>
@@ -21,6 +25,29 @@
             /WEB-INF/tomahawk.taglib.xml;
             /WEB-INF/andromda.taglib.xml
         </param-value>
+    </context-param>
+    
+    <!-- ADF Faces has its own ViewHandler, which is a "decorating"
+         view handler - for example, it needs to wrap methods like renderView()
+         to perform some extra pre- and post-handling.  Facelets, on the other
+         hand, is more of a true ViewHandler - it actually implements
+         renderView() (yeah, it decorates too, but forget about that
+         for a second).  As a result, the world is a better place if
+         the ADF Faces ViewHandler runs around the Facelets ViewHandler.
+         But since Facelets is registered in WEB-INF/faces-config.xml,
+         and ADF's is registered from META-INF/faces-config.xml in its
+         JAR, exactly the opposite happens as per the JSF spec.
+
+         Hence, the following config parameter, which ADF Faces
+         exposes (as of EA19) to allow pushing a ViewHandler inside
+         of ours.  FWIW, you retain the entire delegation stack - 
+         just flipped around a bit - so that Facelets still decorates
+         the standard ViewHandler, and therefore you've still got
+         JSP support.
+      -->
+    <context-param>
+        <param-name>oracle.adf.view.faces.ALTERNATE_VIEW_HANDLER</param-name>
+        <param-value>com.sun.facelets.FaceletViewHandler</param-value>
     </context-param>
 
 #end
@@ -54,7 +81,9 @@
     <context-param>
         <description>
             State saving method: "client" or "server" (= default)
-            See JSF Specification 2.5.2
+            See JSF Specification 2.5.2. In ADF Faces, it is an
+            optimized, token-based mechanism that is almost always a
+            better choice than the standard JSF server-side state saving.
         </description>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>$stateSavingMethod</param-value>
@@ -103,10 +132,16 @@
     </context-param>
     <!-- context-param merge-point -->
     <!-- filter merge-point -->
+    
+    <!-- ADF Faces Filter -->
+    <filter>
+        <filter-name>ADF Faces Filter</filter-name>
+        <filter-class>oracle.adf.view.faces.webapp.AdfFacesFilter</filter-class>
+    </filter>
 
     <!-- Extensions Filter -->
     <filter>
-        <filter-name>extensionsFilter</filter-name>
+        <filter-name>MyFaces Extensions Filter</filter-name>
 #if ($outputLibraries)
         <filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>
 #else
@@ -158,8 +193,16 @@
 #end
     <!-- filter-mapping merge-point -->
     <filter-mapping>
-        <filter-name>extensionsFilter</filter-name>
+        <filter-name>ADF Faces Filter</filter-name>
         <url-pattern>*.${facesServletExtension}</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>MyFaces Extensions Filter</filter-name>
+        <url-pattern>*.${facesServletExtension}</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>MyFaces Extensions Filter</filter-name>
+        <url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
     </filter-mapping>
 #foreach ($useCase in $useCases)
 #foreach ($view in $useCase.views)
@@ -182,6 +225,11 @@
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!-- resource loader servlet -->
+    <servlet>
+        <servlet-name>ADF Resources Servlet</servlet-name>
+        <servlet-class>oracle.adf.view.faces.webapp.ResourceServlet</servlet-class>
     </servlet>
 #set ($securityEnabled = $stringUtils.isNotBlank($securityRealm))
 #if ($securityEnabled)
@@ -219,6 +267,10 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.${facesServletExtension}</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ADF Resources Servlet</servlet-name>
+        <url-pattern>/adf/*</url-pattern>
+    </servlet-mapping>
 #if ($securityEnabled)
     <servlet-mapping>
         <servlet-name>$logOutServlet</servlet-name>
@@ -237,10 +289,6 @@
     </servlet-mapping>
 #end
 #end
-    <filter-mapping>
-        <filter-name>extensionsFilter</filter-name>
-        <url-pattern>/faces/*</url-pattern>
-    </filter-mapping>
     <!-- servlet-mapping merge-point -->
     <session-config>
         <session-timeout>$sessionTimeout</session-timeout>

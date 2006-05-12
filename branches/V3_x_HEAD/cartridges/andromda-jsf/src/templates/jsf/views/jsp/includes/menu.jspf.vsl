@@ -1,15 +1,11 @@
-<h:panelGrid id="header_group2" columns="#{${layoutOptionsBeanName}.menuColumns}" styleClass="pageMenuHeader" width="100%">
-    <t:jscookMenu layout="#{layoutOptions.menuLayout}" theme="#{layoutOptions.theme}" >
-        <%/* Availaible jscookMenu themes: ThemeIE, ThemeMiniBlack, ThemeOffice, ThemePanel
-             Availaible jscookMenu layout: hbr, hbl, hur, hul, vbr, vbl, vur, vul
-             respect to Heng Yuan http://www.cs.ucla.edu/~heng/JSCookMenu
-        */%>
+<h:panelGrid columns="1" width="100%">
+    <t:jscookMenu layout="$menuLayout" theme="#{${preferencesBeanName}.menuTheme}">
 #set ($sidebarLayoutCount = $useCases.size() + 1)
 #foreach ($useCase in $useCases)
         <t:navigationMenuItem id="nav_${velocityCount}" itemLabel="#{messages['$useCase.titleKey']}" action="$useCase.forwardName" icon="/images/next-yellow.gif" />
 #end
-#if ($layoutOptionsMenuItem.equalsIgnoreCase("true"))
-        <t:navigationMenuItem id="nav_${sidebarLayoutCount}" itemLabel="#{messages['navigation.layout']}" split="true" action="layout-options" icon="/images/next-yellow.gif" />
+#if ($enablePreferences)
+        <t:navigationMenuItem id="nav_${sidebarLayoutCount}" itemLabel="#{messages['menu.preferences']}" split="true" action="preferences" icon="/images/next-yellow.gif" />
 #end
     </t:jscookMenu>
 #if ($stringUtils.isNotBlank($securityRealm))
@@ -21,9 +17,11 @@
             </h:panelGrid>
             <h:outputText value="~"/>
             <h:panelGrid columns="1" style="text-align:left" width="100%">
-                <h:commandLink action="logout" styleClass="logout">
-                    <h:outputText value="#{messages['logout.action']}" style="text-align:left"/>            
-                </h:commandLink> 
+                <h:form>
+                    <h:commandLink action="logout" styleClass="logout">
+                        <h:outputText value="#{messages['logout.action']}" style="text-align:left"/>            
+                    </h:commandLink>
+                </h:form>
             </h:panelGrid>   
         </c:if>
     </h:panelGrid>

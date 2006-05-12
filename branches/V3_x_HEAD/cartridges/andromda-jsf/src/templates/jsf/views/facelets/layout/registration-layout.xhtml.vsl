@@ -13,23 +13,22 @@
     </ui:insert>
 
     <body>
-    
+        
         <ui:insert name="title"/>
         <af:panelPage title="#{title}">
             <f:facet name="brandingApp">
-                <ui:insert name="header">
-                    <ui:include src="header.xhtml"/>
-                </ui:insert>
+                <f:verbatim>
+                    <div id="pageHeader">
+                        <ui:insert name="header">
+                            <ui:include src="header.xhtml"/>
+                        </ui:insert>
+                    </div>
+                </f:verbatim>
             </f:facet>
             <f:facet name="menu2">
                 <af:menuBar>
                     <t:graphicImage url="/images/space.gif"/>
                 </af:menuBar>
-            </f:facet>
-            <f:facet name="menu3">
-                <ui:insert name="menu">
-                    <ui:include src="menu.xhtml"/>
-                </ui:insert> 
             </f:facet>
             <f:facet name="appCopyright">
                 <ui:insert name="footer">

@@ -4,7 +4,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jstl/core"
       xmlns:t="http://myfaces.apache.org/tomahawk"
-      xmlns:a="http://www.andromda.org/cartridges/jsf">
+      xmlns:a="http://www.andromda.org/cartridges/jsf"
+      xmlns:af="http://xmlns.oracle.com/adf/faces">
 <ui:composition>
 <h:messages id="${action.triggerName}Messages" errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
@@ -38,10 +39,7 @@
 #if (!$action.hiddenParameters.empty)
     <ui:include src="${action.viewFragmentPath}-hidden-params.xhtml"/>
 #end
-    <h:panelGrid columns="2" styleClass="formTable"
-                 headerClass="formHeader"
-                 footerClass="formFooter"
-                 columnClasses="formLabels,formInputs">           
+    <af:panelForm>           
 #foreach ($parameter in $action.parameters)
 #if (!$parameter.complex)
 #renderActionInput($parameter "")
@@ -51,21 +49,15 @@
 #end
 #end
 #end
-        <h:panelGroup/>
-        <h:panelGroup>
-            <h:commandButton id="${action.triggerName}-submit"
-                             value="#{messages['$action.messageKey']}"
-                             action="#{${action.controller.beanName}.${action.triggerName}}"
-                             type="submit"
-                             styleClass="actionButton"/>
+        <f:facet name="footer">
+            <af:panelButtonBar>
+                <af:commandButton text="#{messages['$action.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}"/>
 #if ($action.resettable)
-            <h:commandButton id="${action.triggerName}-reset"
-                             value="#{messages['$action.trigger.resetMessageKey']}"
-                             type="reset"
-                             styleClass="actionButton"/>
+                <af:resetButton text="#{messages['$action.trigger.resetMessageKey']}""/>
 #end
-        </h:panelGroup>
-    </h:panelGrid>
+            </af:panelButtonBar>
+        </f:facet>
+    </af:panelForm>
     <a:validator id="${formName}Validator"#if($clientValidation) functionName="$formValidateName"#end/>
 </h:form>
 #end

@@ -66,17 +66,30 @@ public class $view.populator
                 request,
                 response,
                 lifecycle);
+        oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
         final javax.faces.el.VariableResolver variableResolver = facesContext.getApplication().getVariableResolver();
+        final javax.servlet.http.HttpSession session = ((javax.servlet.http.HttpServletRequest)request).getSession();
         if (form == null)
         {  
-            form = variableResolver.resolveVariable(facesContext, "$view.formKey");
+            // - first try getting the form from the ADF processScope
+            form = adfContext.getProcessScope().get("$view.formKey");
+            // - if the form is null, try getting the current adfContext from the session (and then remove it from the session)
+            if (form == null)
+            {
+                adfContext = (oracle.adf.view.faces.context.AdfFacesContext)session.getAttribute("$adfContextAttributeName");       
+                form = adfContext != null ? adfContext.getProcessScope().get("$view.formKey") : null;    
+                // - add the form to the current process scope since it wasn't in the current one to begin with
+                oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance().getProcessScope().put("$view.formKey", form);   
+            }
         }
         else
         {
-            // - since the form argument is not null, set it as the "$view.formKey" in the session 
+            // - since the form argument is not null, set it as the "$view.formKey" in the processScope 
             //   (to replace the existing "$view.formKey" attribute)
-            ((javax.servlet.http.HttpSession)facesContext.getExternalContext().getSession(true)).setAttribute("$view.formKey", form);
+            adfContext.getProcessScope().put("$view.formKey", form);
         }
+        // - remove the ADF context in the event that its present
+        session.removeAttribute("$adfContextAttributeName");
         try
         {
 #if (!$view.formActions.empty)
@@ -123,7 +136,8 @@ public class $view.populator
 #end
                 if (!allPropertiesReadable)
                 {
-                    ${managedBeansPackage}.FormHistory formHistory = (${managedBeansPackage}.FormHistory)variableResolver.resolveVariable(facesContext, "$formHistoryBeanName");
+                    // TODO: ${managedBeansPackage}.FormHistory formHistory = (${managedBeansPackage}.FormHistory)variableResolver.resolveVariable(facesContext, "$formHistoryBeanName");
+                    ${managedBeansPackage}.FormHistory formHistory = (${managedBeansPackage}.FormHistory)adfContext.getProcessScope().get("$formHistoryBeanName");
                     if (formHistory != null)
                     {
                         form = formHistory.getLastFormInHistory();

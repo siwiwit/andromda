@@ -73,7 +73,10 @@ $operation.getDocumentation("     * ")
             }
 #end
 #if (!$action.formFields.empty)
-            this.getSession(true).setAttribute("$action.formKey", form);
+            final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
+            adfContext.getProcessScope().put("$action.formKey", form);
+            // - add this temporary ADF context to the session so that we can retrieve from a view populator in required
+            this.getRequest().getSession().setAttribute("$adfContextAttributeName", adfContext);
 #end
         }
         catch (final Throwable throwable)
@@ -205,8 +208,14 @@ $decisionTransition.getDocumentation("     * ")
      */
     protected java.lang.Object resolveVariable(final String name)
     {
-        final javax.faces.context.FacesContext context = this.getContext();
-        return context != null ? context.getApplication().getVariableResolver().resolveVariable(context, name) : null;    
+        final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
+        Object variable = adfContext.getProcessScope().get(name);
+        if (variable == null)
+        {
+            final javax.faces.context.FacesContext context = this.getContext();
+            variable = context != null ? context.getApplication().getVariableResolver().resolveVariable(context, name) : null;
+        }
+        return variable;
     }
 
     /**
