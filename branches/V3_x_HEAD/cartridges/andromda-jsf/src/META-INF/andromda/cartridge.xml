@@ -69,6 +69,7 @@
     </condition>
     <condition name="outputLibraries">$stringUtils.isNotBlank($libraries)</condition>
     <condition name="enablePreferences">$enablePreferences.equalsIgnoreCase("true")</condition>
+    <condition name="clientValidation">$clientValidation.equalsIgnoreCase("true")</condition>
         
         
     <!-- condition merge-point-->

@@ -250,29 +250,30 @@ public class JSFValidatorComponent
     }
 
     /**
-     * The function name attribute storing the function name to render
-     * when using client side validation.
+     * The attribute storing whether or not client-side validation
+     * shall performed.
      */
-    public static final String FUNCTION_NAME = "functionName";
+    public static final String CLIENT = "client";
 
     /**
-     * Sets the function name.
+     * Sets whether or not client-side validation shall be performed.
      *
-     * @param functionName The new value for the function name.
+     * @param true/false
      */
-    public void setFunctionName(final String functionName)
+    public void setClient(final String functionName)
     {
-        this.getAttributes().put(FUNCTION_NAME, functionName);
+        this.getAttributes().put(CLIENT, functionName);
     }
     
     /**
-     * Gets the function name to reference.
+     * Gets whether or not client side validation shall be performed.
      * 
-     * @return the Javascript function name.
+     * @return true/false
      */
-    private String getFunctionName()
+    private boolean isClient()
     {
-        return (String)this.getAttributes().get(FUNCTION_NAME);
+        String client = (String)this.getAttributes().get(CLIENT);
+        return StringUtils.isBlank(client) ? true : Boolean.valueOf(client).booleanValue();
     }
 
     /**
@@ -289,7 +290,7 @@ public class JSFValidatorComponent
     {
         writer.write("var bCancel = false;\n");
         writer.write("function ");
-        writer.write(this.getFunctionName());
+        writer.write("validate" + StringUtils.capitalize(form.getId()));
         writer.write("(form) { return bCancel || true\n");
 
         // - for each validator type, write "&& fun(form);
@@ -494,8 +495,7 @@ public class JSFValidatorComponent
                     this.findValidators(
                         form,
                         context);
-                    final String functionName = this.getFunctionName();
-                    if (functionName != null)
+                    if (this.isClient())
                     {
                         final ResponseWriter writer = context.getResponseWriter();
                         this.writeScriptStart(writer);

@@ -30,14 +30,6 @@ public class BinaryFileTag
     }
 
     /**
-     * Sets the <code>functionName</code> property to null.
-     */
-    public void release()
-    {
-        super.release();
-    }
-
-    /**
      * @see javax.faces.webapp.UIComponentTag#getRendererType()
      */
     public String getRendererType()

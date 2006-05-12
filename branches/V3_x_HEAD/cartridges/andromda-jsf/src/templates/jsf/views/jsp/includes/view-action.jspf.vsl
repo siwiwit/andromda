@@ -48,6 +48,6 @@
             </af:panelButtonBar>
         </f:facet>
     </af:panelForm>
-    <a:validator#if($clientValidation) functionName="$formValidateName"#end/>
+    <a:validator#if(!$clientValidation) client="false"#end/>
 </h:form>
 #end
