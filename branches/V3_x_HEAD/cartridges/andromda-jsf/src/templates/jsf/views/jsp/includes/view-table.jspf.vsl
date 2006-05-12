@@ -28,14 +28,14 @@
 #set ($tableColumnActions = $table.getTableColumnActions($columnName))
 #if (!$tableColumnActions.empty)
 #set ($action = $tableColumnActions.iterator().next())
-            <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}" styleClass="columnLink">
+            <af:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
                 <h:outputText value="#{row.${columnName}}">
 #if ($column.type.dateType)
                     <a:convertDateTime pattern="$defaultDateFormat"/>
 #end
                 </h:outputText>
 #renderTableCommandLinkParameters()
-            </h:commandLink>
+            </af:commandLink>
 #else
             <h:outputText value="#{row.${columnName}}">
 #if ($column.type.dateType)
@@ -64,10 +64,9 @@
             <f:facet name="header">
                 <f:verbatim>&nbsp;</f:verbatim>
             </f:facet>
-            <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
-                <h:outputText value="#{messages['$action.trigger.messageKey']}"/>
+            <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
 #renderTableCommandLinkParameters()
-            </h:commandLink>
+            </af:commandLink>
         </af:column>
 #end
 #end
@@ -78,10 +77,9 @@
             <f:facet name="header">
                 <f:verbatim>&nbsp;</f:verbatim>
             </f:facet>
-            <h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}" styleClass="buttonLink">
-                <h:outputText value="#{messages['$action.trigger.messageKey']}" />
+            <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
 #renderTableCommandLinkParameters()
-            </h:commandLink>
+            </af:commandLink>
         </af:column>
 #end
 #end

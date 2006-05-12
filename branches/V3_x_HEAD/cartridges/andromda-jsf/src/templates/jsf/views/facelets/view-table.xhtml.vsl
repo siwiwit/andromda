@@ -37,10 +37,12 @@
 #set ($tableColumnActions = $table.getTableColumnActions($columnName))
 #if (!$tableColumnActions.empty)
 #set ($action = $tableColumnActions.iterator().next())
-            <af:commandLink text="#{row.${columnName}}" action="#{${action.controller.beanName}.${action.triggerName}}">
+            <af:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
+                <h:outputText value="#{row.${columnName}}">
 #if ($column.type.dateType)
                     <a:convertDateTime pattern="$defaultDateFormat"/>
 #end
+                </h:outputText>
 #renderTableCommandLinkParameters()
             </af:commandLink>
 #else
