@@ -144,6 +144,7 @@
                     <response>sybase</response>
                     <response>sabdb</response>
                     <response>progress</response>
+                    <response>derby</response>
                 </responses>
             </prompt>
             <prompt id="workflow">

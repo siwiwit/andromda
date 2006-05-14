@@ -782,6 +782,7 @@
             For Postgres use: PostgreSQL
             For Sybase use: Sybase
             For SapDB use: SapDB
+            For Derby use: Derby
         -->
         <sql.mappings>
 #if ($mysql)
@@ -804,6 +805,8 @@
             SapDB
 #elseif ($progress)
             PostgreSQL 7.2
+#elseif ($derby)
+            Derby
 #else
             HypersonicSql
 #end
@@ -824,6 +827,7 @@
             For Sybase Anywhere use: net.sf.hibernate.dialect.SybaseAnywhereDialect
             For SapDB use: net.sf.hibernate.dialect.SAPDBDialect
             For Progress use: net.sf.hibernate.dialect.ProgressDialect
+            For Derby use: net.sf.hibernate.dialect.DerbyDialect
         -->
         <hibernate.dialect>
 #if ($mysql)
@@ -846,6 +850,8 @@
             net.sf.hibernate.dialect.SAPDBDialect
 #elseif ($progress)
             net.sf.hibernate.dialect.ProgressDialect
+#elseif ($derby)
+            net.sf.hibernate.dialect.DerbyDialect
 #else
             net.sf.hibernate.dialect.HSQLDialect
 #end
@@ -868,6 +874,7 @@
             For Sybase Anywhere use: org.hibernate.dialect.SybaseAnywhereDialect
             For SapDB use: org.hibernate.dialect.SAPDBDialect
             For Progress use: org.hibernate.dialect.ProgressDialect
+            For Derby use: org.hibernate.dialect.DerbyDialect
         -->
         <hibernate.dialect>
 #if ($mysql)
@@ -890,6 +897,8 @@
             org.hibernate.dialect.SAPDBDialect
 #elseif ($progress)
             org.hibernate.dialect.ProgressDialect
+#elseif ($derby)
+            org.hibernate.dialect.DerbyDialect
 #else
             org.hibernate.dialect.HSQLDialect
 #end
@@ -909,7 +918,7 @@
             For Postgres use: PostgreSQL 7.2
             For Sybase use: Sybase
             For SapDB use: SapDB
-            For Progress use: PostgreSQL 7.2
+            For Derby use: Derby
         -->
         <jboss.typeMappings>
 #if ($mysql)
@@ -930,6 +939,8 @@
             Sybase
 #elseif ($sapdb)
             SapDB
+#elseif ($derby)
+            Derby
 #elseif ($progress)
             PostgreSQL 7.2
 #else
@@ -983,6 +994,7 @@
                     For Sybase use: com.sybase.jdbc2.jdbc.SybDataSource
                     For SapDB use: com.sap.dbtech.jdbc.DriverSapDB
                     For Progress use: com.progress.sql.jdbc.JdbcProgressDriver
+                    For Derby use: org.apache.derby.jdbc.EmbeddedDriver
                 -->
                 <jdbc.driver>
 #if ($mysql)
@@ -1005,6 +1017,8 @@
                     com.sap.dbtech.jdbc.DriverSapDB
 #elseif ($progress)
                     com.progress.sql.jdbc.JdbcProgressDriver
+#elseif ($derby)
+                    org.apache.derby.jdbc.EmbeddedDriver
 #else
                     org.hsqldb.jdbcDriver
 #end
@@ -1044,6 +1058,8 @@
                     jdbc:sapdb://127.0.0.1/$applicationId
 #elseif ($progress)
                     jdbc:JdbcProgress:T:localhost:3305:$applicationId
+#elseif ($derby)
+                    jdbc:derby:$applicationId
 #else
                     jdbc:hsqldb:hsql://127.0.0.1:1701
 #end

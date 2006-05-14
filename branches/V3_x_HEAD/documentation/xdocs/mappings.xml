@@ -88,6 +88,7 @@
                         <li><a href="mappings/Oracle9iMappings.xml">Oracle9iMappings.xml</a></li>
                         <li><a href="mappings/PostgreSQLMappings.xml">PostgreSQLMappings.xml</a></li>
                         <li><a href="mappings/SapDBMappings.xml">SapDBMappings.xml</a></li>
+                        <li><a href="mappings/DerbyMappings.xml">DerbyMappings.xml</a></li>
                     </ul>
                 </p>
             </subsection>
