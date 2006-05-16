@@ -3,6 +3,8 @@ package org.andromda.metafacades.emf.uml2;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.TreeIterator;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.ModelFacade.
@@ -143,12 +145,13 @@ public class ModelFacadeLogicImpl
     {
         ArrayList classes = new ArrayList();
 
-        for (Iterator iterator = metaObject.getOwnedMembers().iterator(); iterator.hasNext();)
+        for (TreeIterator iterator = metaObject.eAllContents(); iterator.hasNext();)
         {
             final Object object = iterator.next();
             if (object instanceof org.eclipse.uml2.Class)
             {
                 classes.add(object);
+                iterator.prune();
             }
         }
         return classes;
