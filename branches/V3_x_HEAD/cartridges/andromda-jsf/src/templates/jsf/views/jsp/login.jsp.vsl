@@ -31,50 +31,52 @@
                 <f:facet name="appCopyright">
                     <jsp:directive.include file="/includes/footer.jspf"/>
                 </f:facet>
-                <h:outputText value="#{messages['login.text']}" styleClass="loginText" escape="false"/>
-                <f:verbatim>
-                    <br/>
-                    <form id="login" name="login" action="j_security_check" method="post">
-                        <table cellpadding="0" cellspacing="0" border="0" class="xu">
+                <t:div id="pageContent">
+                    <h:outputText value="#{messages['login.text']}" styleClass="loginText" escape="false"/>
+                    <f:verbatim>
+                        <br/>
+                        <form id="login" name="login" action="j_security_check" method="post">
+                            <table cellpadding="0" cellspacing="0" border="0" class="xu">
 #set ($actionParam = "param.action")
-                            <c:if test="${${actionParam} == 'error'}">
+                                <c:if test="${${actionParam} == 'error'}">
+                                    <tr>
+                                        <td colspan="2"/>
+                                        <td>
+                                            <div id="error"><fmt:message key="login.error"/></div>
+                                        </td>
+                                    </tr>
+                                </c:if> 
+                                <tr>
+                                    <td class="xv" width="37%"><span class="xa"><label for="login:j_username"><fmt:message key="login.username"/>:</label></span></td>
+                                    <td width="12"><img src="${pageContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
+                                    <td valign="top" width="63%"><input type="text" name="j_username" class="x6" size="30" tabindex="10"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="xv"><span class="xa"><label for="login:j_password"><fmt:message key="login.password"/>:</label></span></td>
+                                    <td width="12"><img src="${pageContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
+                                    <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password" tabindex="10"/></td>
+                                </tr>
+#if (!$registrationUseCases.empty)
                                 <tr>
                                     <td colspan="2"/>
                                     <td>
-                                        <div id="error"><fmt:message key="login.error"/></div>
+                                        <a href="${pageContext.request.contextPath}${registrationUseCases.iterator().next().path}.${facesServletExtension}" class="registerAsNewUserLink" tabindex="20">
+                                            <fmt:message key="login.register.as.new.user"/>
+                                        </a>
                                     </td>
                                 </tr>
-                            </c:if> 
-                            <tr>
-                                <td class="xv" width="37%"><span class="xa"><label for="login:j_username"><fmt:message key="login.username"/>:</label></span></td>
-                                <td width="12"><img src="${pageContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
-                                <td valign="top" width="63%"><input type="text" name="j_username" class="x6" size="30" tabindex="10"/></td>
-                            </tr>
-                            <tr>
-                                <td class="xv"><span class="xa"><label for="login:j_password"><fmt:message key="login.password"/>:</label></span></td>
-                                <td width="12"><img src="${pageContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
-                                <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password" tabindex="10"/></td>
-                            </tr>
-#if (!$registrationUseCases.empty)
-                            <tr>
-                                <td colspan="2"/>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}${registrationUseCases.iterator().next().path}.${facesServletExtension}" class="registerAsNewUserLink" tabindex="20">
-                                        <fmt:message key="login.register.as.new.user"/>
-                                    </a>
-                                </td>
-                            </tr>
 #end
-                            <tr>
-                                <td colspan="2"/>
-                                <td>
-                                    <button class="xj" onclick="document.forms[0].submit();" type="button" tabindex="10"><fmt:message key="login.submit"/></button>
-                                    <button class="xj" onclick="document.forms[0].reset();" type="button"><fmt:message key="login.reset"/></button>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                </f:verbatim>        
+                                <tr>
+                                    <td colspan="2"/>
+                                    <td>
+                                        <button class="xj" onclick="document.forms[0].submit();" type="button" tabindex="10"><fmt:message key="login.submit"/></button>
+                                        <button class="xj" onclick="document.forms[0].reset();" type="button"><fmt:message key="login.reset"/></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </f:verbatim>   
+                </t:div>     
             </af:panelPage>
    
             <script type="text/javascript" language="Javascript1.1">

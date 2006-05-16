@@ -40,19 +40,21 @@
                 <f:facet name="appCopyright">
                     <jsp:directive.include file="/includes/footer.jspf"/>
                 </f:facet>
+                <t:div id="pageContent">
 #if ($view.nonTableVariablesPresent)
-                <jsp:directive.include file="${view.path}-vars.jspf"/>
+                    <jsp:directive.include file="${view.path}-vars.jspf"/>
 #end
 #foreach ($action in $view.actions)
 #if (!$action.tableLink)
-                <jsp:directive.include file="${action.viewFragmentPath}.jspf"/>
+                    <jsp:directive.include file="${action.viewFragmentPath}.jspf"/>
 #end
 #end
 #foreach ($variable in $view.variables)
 #if ($variable.table)
-                <jsp:directive.include file="${view.path}-${variable.name}.jspf"/>
+                    <jsp:directive.include file="${view.path}-${variable.name}.jspf"/>
 #end
 #end
+                </t:div>
             </af:panelPage>
     
         </body>

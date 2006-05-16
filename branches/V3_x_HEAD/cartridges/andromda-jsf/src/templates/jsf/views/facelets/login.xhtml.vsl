@@ -28,48 +28,50 @@
                 <ui:include src="layout/footer.xhtml"/>
             </ui:insert>
         </f:facet>
-        <h:outputText value="#{messages['login.text']}" styleClass="loginText" escape="false"/>
-        <br/>
-        <form id="login" name="login" action="j_security_check" method="post">
-            <table cellpadding="0" cellspacing="0" border="0" class="xu">
+        <div id="pageContent">
+            <h:outputText value="#{messages['login.text']}" styleClass="loginText" escape="false"/>
+            <br/>
+            <form id="login" name="login" action="j_security_check" method="post">
+                <table cellpadding="0" cellspacing="0" border="0" class="xu">
 #set ($actionParam = "param.action")
-                <c:if test="${${actionParam} == 'error'}">
+                    <c:if test="${${actionParam} == 'error'}">
+                        <tr>
+                            <td colspan="2"/>
+                            <td>
+                                <div id="error">#{messages['login.error']}</div>
+                            </td>
+                        </tr>
+                    </c:if> 
+                    <tr>
+                        <td class="xv" width="37%"><span class="xa"><label for="login:j_username">#{messages['login.username']}:</label></span></td>
+                        <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
+                        <td valign="top" width="63%"><input type="text" name="j_username" class="x6" size="30" tabindex="10"/></td>
+                    </tr>
+                    <tr>
+                        <td class="xv"><span class="xa"><label for="login:j_password">#{messages['login.password']}:</label></span></td>
+                        <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
+                        <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password" tabindex="10"/></td>
+                    </tr>
+#if (!$registrationUseCases.empty)
                     <tr>
                         <td colspan="2"/>
                         <td>
-                            <div id="error">#{messages['login.error']}</div>
+                            <a href="${facesContext.externalContext.request.contextPath}${registrationUseCases.iterator().next().path}.${facesServletExtension}" class="registerAsNewUserLink" tabindex="20">
+                                #{messages['login.register.as.new.user']}
+                            </a>
                         </td>
                     </tr>
-                </c:if> 
-                <tr>
-                    <td class="xv" width="37%"><span class="xa"><label for="login:j_username">#{messages['login.username']}:</label></span></td>
-                    <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
-                    <td valign="top" width="63%"><input type="text" name="j_username" class="x6" size="30" tabindex="10"/></td>
-                </tr>
-                <tr>
-                    <td class="xv"><span class="xa"><label for="login:j_password">#{messages['login.password']}:</label></span></td>
-                    <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
-                    <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password" tabindex="10"/></td>
-                </tr>
-#if (!$registrationUseCases.empty)
-                <tr>
-                    <td colspan="2"/>
-                    <td>
-                        <a href="${facesContext.externalContext.request.contextPath}${registrationUseCases.iterator().next().path}.${facesServletExtension}" class="registerAsNewUserLink" tabindex="20">
-                            #{messages['login.register.as.new.user']}
-                        </a>
-                    </td>
-                </tr>
 #end
-                <tr>
-                    <td colspan="2"/>
-                    <td>
-                        <button class="xj" onclick="document.forms[0].submit();" type="button" tabindex="10">#{messages['login.submit']}</button>
-                        <button class="xj" onclick="document.forms[0].reset();" type="button">#{messages['login.reset']}</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                    <tr>
+                        <td colspan="2"/>
+                        <td>
+                            <button class="xj" onclick="document.forms[0].submit();" type="button" tabindex="10">#{messages['login.submit']}</button>
+                            <button class="xj" onclick="document.forms[0].reset();" type="button">#{messages['login.reset']}</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </af:panelPage>
    
     <script type="text/javascript" language="Javascript1.1">

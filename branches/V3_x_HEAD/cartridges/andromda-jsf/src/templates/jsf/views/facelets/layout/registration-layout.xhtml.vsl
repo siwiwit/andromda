@@ -31,7 +31,9 @@
                     <ui:include src="footer.xhtml"/>
                 </ui:insert>
             </f:facet>
-            <ui:insert name="content"/>
+            <div id="pageContent">
+                <ui:insert name="content"/>
+            </div>
         </af:panelPage>
         
     </body>   
