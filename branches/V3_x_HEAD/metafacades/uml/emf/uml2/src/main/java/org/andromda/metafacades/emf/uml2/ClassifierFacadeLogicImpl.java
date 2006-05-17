@@ -684,7 +684,7 @@ public class ClassifierFacadeLogicImpl
                 if (associationEnd == null)
                 {
                     throw new MetafacadeException(
-                        "There is an error in the model or a cartiridge metafacade mapping file. " +
+                        "There is an error in the model or a cartridge metafacade mapping file. " +
                         "The opposite end of " + property + " is null." +
                         ", check your metafacades.xml and make sure things are mapped correctly");
                 }
