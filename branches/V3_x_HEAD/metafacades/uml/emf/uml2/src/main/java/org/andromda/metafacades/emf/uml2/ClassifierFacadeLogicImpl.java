@@ -2,6 +2,7 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.andromda.core.metafacade.MetafacadeException;
+import org.andromda.core.metafacade.MetafacadeImplsException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
@@ -34,7 +36,6 @@ import org.eclipse.uml2.Enumeration;
 import org.eclipse.uml2.Interface;
 import org.eclipse.uml2.PrimitiveType;
 import org.eclipse.uml2.Property;
-
 
 
 /**
@@ -126,7 +127,8 @@ public class ClassifierFacadeLogicImpl
             final Object parent = parents.next();
             if (parent instanceof ClassifierFacade)
             {
-                allRequiredConstructorParameters.addAll(((ClassifierFacade)parent).getAllRequiredConstructorParameters());
+                allRequiredConstructorParameters.addAll(
+                    ((ClassifierFacade)parent).getAllRequiredConstructorParameters());
             }
         }
 
@@ -505,7 +507,7 @@ public class ClassifierFacadeLogicImpl
             this,
             UMLProfile.CLOB_TYPE_NAME);
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#isBooleanType()
      */
@@ -541,14 +543,17 @@ public class ClassifierFacadeLogicImpl
                     public boolean evaluate(final Object object)
                     {
                         boolean valid = true;
-                        for (final Iterator iterator = attributes.iterator(); iterator.hasNext();)
+                        if (attributes != null)
                         {
-                            final AttributeFacade attribute = (AttributeFacade)iterator.next();
-                            final AttributeFacade superAttribute = (AttributeFacade)object;
-                            if (attribute.getName().equals(superAttribute.getName()))
+                            for (final Iterator iterator = attributes.iterator(); iterator.hasNext();)
                             {
-                                valid = false;
-                                break;
+                                final AttributeFacade attribute = (AttributeFacade)iterator.next();
+                                final AttributeFacade superAttribute = (AttributeFacade)object;
+                                if (attribute.getName().equals(superAttribute.getName()))
+                                {
+                                    valid = false;
+                                    break;
+                                }
                             }
                         }
                         return valid;
@@ -620,8 +625,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetOperations()
     {
-        if (this.metaObject instanceof org.eclipse.uml2.Class || 
-                this.metaObject instanceof org.eclipse.uml2.Interface)
+        if (this.metaObject instanceof org.eclipse.uml2.Class || this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             return UmlUtilities.getOperations(
                 metaObject,
@@ -636,8 +640,7 @@ public class ClassifierFacadeLogicImpl
     protected java.util.Collection handleGetAttributes()
     {
         final Collection attributes = new ArrayList();
-        if (this.metaObject instanceof org.eclipse.uml2.Class || 
-                this.metaObject instanceof org.eclipse.uml2.Interface)
+        if (this.metaObject instanceof org.eclipse.uml2.Class || this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             final Collection properties = UmlUtilities.getProperties(
                     metaObject,
@@ -664,8 +667,7 @@ public class ClassifierFacadeLogicImpl
     protected java.util.List handleGetAssociationEnds()
     {
         final List associationEnds = new ArrayList();
-        if (this.metaObject instanceof org.eclipse.uml2.Class ||
-                this.metaObject instanceof org.eclipse.uml2.Interface)
+        if (this.metaObject instanceof org.eclipse.uml2.Class || this.metaObject instanceof org.eclipse.uml2.Interface)
         {
             final Collection properties = UmlUtilities.getProperties(
                     metaObject,
@@ -675,13 +677,16 @@ public class ClassifierFacadeLogicImpl
             {
                 final Property property = (Property)iterator.next();
                 if (property.getAssociation() == null)
+                {
                     continue;
-                final Property associationEnd = (Property) UmlUtilities.getOppositeAssociationEnd(property);
+                }
+                final Property associationEnd = (Property)UmlUtilities.getOppositeAssociationEnd(property);
                 if (associationEnd == null)
                 {
-                    throw new MetafacadeException("There is an error in the model or a cartiridge metafacade mapping file. "+
-                            "The opposite end of "+ property +" is null."+
-                            ", check your metafacades.xml and make sure things are mapped correctly");
+                    throw new MetafacadeException(
+                        "There is an error in the model or a cartiridge metafacade mapping file. " +
+                        "The opposite end of " + property + " is null." +
+                        ", check your metafacades.xml and make sure things are mapped correctly");
                 }
                 associationEnds.add(associationEnd);
             }
@@ -802,12 +807,12 @@ public class ClassifierFacadeLogicImpl
     protected java.util.Collection handleGetAbstractions()
     {
         return new FilteredCollection(this.metaObject.getClientDependencies())
-        {
-            public boolean evaluate(Object object)
             {
-                return object instanceof Abstraction;
-            }
-        };
+                public boolean evaluate(Object object)
+                {
+                    return object instanceof Abstraction;
+                }
+            };
     }
 
     /**
@@ -845,7 +850,7 @@ public class ClassifierFacadeLogicImpl
         final Collection connectionEnds = new ArrayList(this.getNavigableConnectingEnds());
 
         for (ClassifierFacade superClass = (ClassifierFacade)getGeneralization(); superClass != null && follow;
-             superClass = (ClassifierFacade)superClass.getGeneralization())
+            superClass = (ClassifierFacade)superClass.getGeneralization())
         {
             for (final Iterator iterator = superClass.getNavigableConnectingEnds().iterator(); iterator.hasNext();)
             {
@@ -963,7 +968,7 @@ public class ClassifierFacadeLogicImpl
         return null;
     }
 
-	/**
+    /**
      * @see org.andromda.metafacades.emf.uml2.ClassifierFacadeLogic#handleIsAssociationClass()
      */
     protected boolean handleIsAssociationClass()
@@ -982,5 +987,4 @@ public class ClassifierFacadeLogicImpl
         // TODO Auto-generated method stub
         return null;
     }
-
 }
