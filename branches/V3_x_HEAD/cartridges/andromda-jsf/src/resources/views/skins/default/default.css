@@ -486,3 +486,12 @@ a:hover
     padding: 2px;
     border-style: none;
 }
+
+/** JsCookeMenu Theme styles **/
+.ThemePanelMenu,.ThemePanelSubMenuTable,
+.ThemeOfficeMenu,.ThemeOfficeSubMenuTable,
+.ThemeMiniBlackMenu,.ThemeMiniBlackSubMenuTable,
+.ThemeIEMenu,.ThemeIESubMenuTable
+{
+    width: 100%;
+}
