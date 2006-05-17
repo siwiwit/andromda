@@ -97,7 +97,7 @@
         <managed-bean-scope>session</managed-bean-scope>
         <managed-property>
             <property-name>skin</property-name>
-            <value>minimal</value>
+            <value>$skin</value>
         </managed-property>
         <managed-property>
             <property-name>menuTheme</property-name>

@@ -60,6 +60,7 @@
     <property reference="strictDateTimeFormat"/>
     <property reference="libraries"/>
     <property reference="adfContextAttributeName"/>
+    <property reference="skin"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
@@ -76,8 +77,14 @@
 
     <!-- cartridge-resource merge-point -->
     <resource
-        path="resources/views/css/*.*"
-        outputPattern="css/{0}"
+        path="resources/views/skins/default/*"
+        outputPattern="skins/default/{0}"
+        outlet="views"
+        overwrite="true"/>
+   
+    <resource
+        path="resources/views/skins/default/images/*"
+        outputPattern="skins/default/images/{0}"
         outlet="views"
         overwrite="true"/>
     
@@ -128,6 +135,13 @@
         outlet="configuration"
         overwrite="true"
         outputCondition="viewTypeIsFacelets"
+        lastModifiedCheck="true"/>
+    
+    <resource
+        path="resources/configuration/adf/*.xml"
+        outputPattern="WEB-INF/{0}"
+        outlet="configuration"
+        overwrite="true"
         lastModifiedCheck="true"/>
 
     <!-- process templates on model elements -->
@@ -398,6 +412,12 @@
     
     <template
         path="templates/jsf/utils/CollectionSorter.java.vsl"
+        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
+        outlet="managed-beans"
+        overwrite="true"/>
+    
+    <template
+        path="templates/jsf/utils/AdfFacesContextWrapper.java.vsl"
         outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
         outlet="managed-beans"
         overwrite="true"/>

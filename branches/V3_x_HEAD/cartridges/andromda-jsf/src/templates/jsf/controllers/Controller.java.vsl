@@ -73,10 +73,10 @@ $operation.getDocumentation("     * ")
             }
 #end
 #if (!$action.formFields.empty)
-            final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
-            adfContext.getProcessScope().put("$action.formKey", form);
+            final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = new ${managedBeansPackage}.AdfFacesContextWrapper();
+            contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", form);
             // - add this temporary ADF context to the session so that we can retrieve from a view populator in required
-            this.getRequest().getSession().setAttribute("$adfContextAttributeName", adfContext);
+            this.getSession(false).setAttribute("$adfContextAttributeName", contextWrapper);
 #end
         }
         catch (final Throwable throwable)

@@ -11,7 +11,7 @@
 #set($formName = $action.formBeanName)
 #if ($action.hyperlink || $action.popup)
 #if ($action.hyperlink)
-<h:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
+<af:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
 #else
 <h:form styleClass="noSpace">
     <a:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
@@ -26,7 +26,7 @@
 #end
 #end
 #if ($action.hyperlink)
-</h:commandLink>
+</af:commandLink>
 #else
     </a:popup> 
 </h:form>

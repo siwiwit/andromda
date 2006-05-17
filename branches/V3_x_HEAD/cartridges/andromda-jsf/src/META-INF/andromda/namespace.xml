@@ -113,6 +113,12 @@
                     of the UI's view preferences; skinning, etc).
                 </documentation>
             </property>
+            <property name="skin">
+                <default>default</default>
+                <documentation>
+                    The default skin to be applied (i.e look and feel of the application).
+                </documentation>
+            </property>
             <property name="preferencesBeanName">
                 <default>preferences</default>
                 <documentation>

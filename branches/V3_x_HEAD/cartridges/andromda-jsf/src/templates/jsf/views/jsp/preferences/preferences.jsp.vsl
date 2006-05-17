@@ -47,6 +47,7 @@
                         <af:selectOneChoice id="skin" value="#{${preferencesBeanName}.skin}" label="#{messages['preferences.skin']}:">
                             <f:selectItem itemLabel="Simple" itemValue="simple"/>
                             <f:selectItem itemLabel="Minimal" itemValue="minimal"/>
+                            <f:selectItem itemLabel="Default" itemValue="default"/>
                         </af:selectOneChoice>
                         <f:facet name="footer">
                             <af:panelButtonBar>

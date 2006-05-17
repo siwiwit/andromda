@@ -66,6 +66,7 @@ public class $view.populator
                 request,
                 response,
                 lifecycle);
+                
         oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
         final javax.faces.el.VariableResolver variableResolver = facesContext.getApplication().getVariableResolver();
         final javax.servlet.http.HttpSession session = ((javax.servlet.http.HttpServletRequest)request).getSession();
@@ -76,7 +77,9 @@ public class $view.populator
             // - if the form is null, try getting the current adfContext from the session (and then remove it from the session)
             if (form == null)
             {
-                adfContext = (oracle.adf.view.faces.context.AdfFacesContext)session.getAttribute("$adfContextAttributeName");       
+                final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
+                    (${managedBeansPackage}.AdfFacesContextWrapper)session.getAttribute("$adfContextAttributeName");
+                adfContext = contextWrapper != null ? contextWrapper.getCurrentInstance() : null;    
                 form = adfContext != null ? adfContext.getProcessScope().get("$view.formKey") : null;    
                 // - add the form to the current process scope since it wasn't in the current one to begin with
                 oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance().getProcessScope().put("$view.formKey", form);   
