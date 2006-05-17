@@ -147,7 +147,7 @@
                 </documentation>
             </property>
             <property name="menuTheme">
-                <default>ThemeOffice</default>
+                <default>ThemePanel</default>
                 <documentation>
                     The navigation theme to use (the possible choices are:
                     ThemeOffice, ThemeMiniBlack, ThemeIE, ThemePanel).
