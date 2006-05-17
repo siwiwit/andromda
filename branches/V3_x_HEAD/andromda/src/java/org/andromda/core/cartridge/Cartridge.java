@@ -479,9 +479,13 @@ public class Cartridge
                             resourceUrl = ResourceUtils.getResource(
                                     content,
                                     this.getMergeLocation());
-                            this.writeResource(
-                                resource,
-                                resourceUrl);
+                            // - don't attempt to write the directories within the resource
+                            if (!resourceUrl.toString().endsWith(FORWARD_SLASH))
+                            {
+                                this.writeResource(
+                                    resource,
+                                    resourceUrl);                                
+                            }
                         }
                     }
                 }
