@@ -444,6 +444,19 @@ af|column::sort-descend-icon
   content: url(/skins/default/images/sort_des_n.png); 
 }
 
+af|column::header-text
+{
+   border: none;
+   font-weight: normal;
+}
+
+af|column::sortable-header-text
+{
+    border: none;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
 /** These are the styles on the actual navigation bar for a table **/
 af|selectRangeChoiceBar::prev-icon
 {
