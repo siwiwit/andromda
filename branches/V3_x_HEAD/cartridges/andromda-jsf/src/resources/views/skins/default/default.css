@@ -433,6 +433,38 @@ af|messages::header
   margin: 0px;
 }
 
+/** Column Settings - adding an icon to the sortable column**/
+af|column::sort-ascend-icon
+{
+  content: url(/skins/default/images/sort_asc_n.png);
+}
+
+af|column::sort-descend-icon
+{
+  content: url(/skins/default/images/sort_des_n.png); 
+}
+
+/** These are the styles on the actual navigation bar for a table **/
+af|selectRangeChoiceBar::prev-icon
+{
+  content: url(/skins/default/images/tablePrev.png);
+}
+
+af|selectRangeChoiceBar::next-icon
+{
+  content: url(/skins/default/images/tableNext.png);
+}
+
+af|selectRangeChoiceBar::prev-disabled-icon
+{
+  content: url(/skins/default/images/tablePrev.png);
+}
+
+af|selectRangeChoiceBar::next-disabled-icon
+{
+  content: url(/skins/default/images/tableNext.png);
+}
+
 /** custom styles (that aren't par of standard ADF components */
 
 a:hover
