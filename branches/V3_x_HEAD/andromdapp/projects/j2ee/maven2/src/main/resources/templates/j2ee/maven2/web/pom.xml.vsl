@@ -186,10 +186,16 @@
                             <fileset dir="${pom.basedir}/src/main/$viewSrcType">
                                 <include name="**/*"/>
                             </fileset>
+#if ($jsf)
+                            <fileset dir="${pom.basedir}/src/main">
+                                <include name="skins/**"/>
+                            </fileset>	
+#else
                             <fileset dir="${pom.basedir}/src/main">
                                 <include name="css/**"/>
                                 <include name="images/**"/>
                             </fileset>
+#end
                         </copy>
                     </tasks>
                 </configuration>
