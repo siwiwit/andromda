@@ -536,7 +536,7 @@ public class ClassifierFacadeLogicImpl
             superClass = (ClassifierFacade)superClass.getGeneralization())
         {
             attributes.addAll(
-                new FilteredCollection(superClass.getAttributes(follow))
+                new FilteredCollection(superClass.getAttributes(false))
                 {
                     public boolean evaluate(final Object object)
                     {
