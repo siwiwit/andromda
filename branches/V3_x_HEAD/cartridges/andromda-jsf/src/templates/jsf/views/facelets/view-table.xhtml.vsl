@@ -57,7 +57,7 @@
 #else
         <af:column>
             <f:facet name="header">
-                &amp;nbsp;
+                <t:graphicImage url="/images/space.gif"/>
             </f:facet>
             <h:outputText value="#{row}">
 #if ($column.type.dateType)
@@ -71,7 +71,7 @@
 #if (!$action.tableLinkColumnName)
         <af:column>
             <f:facet name="header">
-                &amp;nbsp;
+                <t:graphicImage url="/images/space.gif"/>
             </f:facet>
             <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
 #renderTableCommandLinkParameters()
@@ -84,7 +84,7 @@
 #if (!$action.tableLinkColumnName)
         <af:column>
             <f:facet name="header">
-                &amp;nbsp;
+                <t:graphicImage url="/images/space.gif"/>
             </f:facet>
             <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
 #renderTableCommandLinkParameters()
