@@ -478,6 +478,17 @@ af|selectRangeChoiceBar::next-disabled-icon
   content: url(/skins/default/images/tableNext.png);
 }
 
+/** These are the styles on the table header **/
+.OraTableBorder0001,.x5m 
+{
+    border: none;
+}
+
+.OraSortableHeaderBorder,.x66 
+{
+    border: none;
+}
+
 /** custom styles (that aren't par of standard ADF components */
 
 a:hover
