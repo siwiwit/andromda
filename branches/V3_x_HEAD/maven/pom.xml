@@ -36,5 +36,6 @@
         <module>2/configuration</module>
         <module>2/multi-source</module>
         <module>2/distribution</module>
+        <module>2/site</module>
     </modules>
 </project>
