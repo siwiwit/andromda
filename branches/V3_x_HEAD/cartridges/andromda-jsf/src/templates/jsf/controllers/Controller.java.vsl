@@ -75,7 +75,7 @@ $operation.getDocumentation("     * ")
 #if (!$action.formFields.empty)
             final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = new ${managedBeansPackage}.AdfFacesContextWrapper();
             contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", form);
-            // - add this temporary ADF context to the session so that we can retrieve from a view populator in required
+            // - add this temporary ADF context to the session so that we can retrieve from a view populator if required
             this.getSession(false).setAttribute("$adfContextAttributeName", contextWrapper);
 #end
         }
@@ -208,8 +208,18 @@ $decisionTransition.getDocumentation("     * ")
      */
     protected java.lang.Object resolveVariable(final String name)
     {
-        final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
+        oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
         Object variable = adfContext.getProcessScope().get(name);
+        // - if we couldn't get the variable from the regular ADF context, see if
+        //   the session contains an ADF context with the variablee
+        if (variable == null)
+        {
+            final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
+                (${managedBeansPackage}.AdfFacesContextWrapper)this.getSession(false).getAttribute("$adfContextAttributeName");
+            adfContext = contextWrapper != null ? contextWrapper.getCurrentInstance() : null;
+            variable = adfContext != null ? adfContext.getProcessScope().get(name) : null;
+        }
+        // - finally try resolving it in the standard JSF manner
         if (variable == null)
         {
             final javax.faces.context.FacesContext context = this.getContext();

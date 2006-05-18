@@ -9,5 +9,5 @@
 #set ($propertyId = $parameter.getFormPropertyId($ownerParameter))
 #set ($valuePropertyName = ${parameter.getFormPropertyName($ownerParameter)})
 #end
-    <f:param name="$valuePropertyName" value="#{${formName}.${valuePropertyName}}"/>
+        <f:param name="$valuePropertyName" value="#{${formName}.${valuePropertyName}}"/>
 #end

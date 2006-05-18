@@ -84,6 +84,11 @@ public class $view.populator
                 // - add the form to the current process scope since it wasn't in the current one to begin with
                 oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance().getProcessScope().put("$view.formKey", form);   
             }
+            else
+            {
+                // - remove the ADF context in the event that its present
+                session.removeAttribute("AndroMDAADFContext");
+            }
         }
         else
         {
@@ -91,8 +96,6 @@ public class $view.populator
             //   (to replace the existing "$view.formKey" attribute)
             adfContext.getProcessScope().put("$view.formKey", form);
         }
-        // - remove the ADF context in the event that its present
-        session.removeAttribute("$adfContextAttributeName");
         try
         {
 #if (!$view.formActions.empty)

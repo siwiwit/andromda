@@ -10,10 +10,10 @@
 <h:messages id="${action.triggerName}Messages" errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
 #if ($action.hyperlink || $action.popup)
+<af:form>
 #if ($action.hyperlink)
-<af:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
+    <af:commandLink action="#{${action.controller.beanName}.${action.triggerName}}">
 #else
-<h:form styleClass="noSpace">
     <a:popup scrolling="yes" height="350px" width="550px" actionOpen="#{${action.controller.beanName}.${action.triggerName}}" center="false">
 #end
     <h:outputText value="#{messages['$action.messageKey']}"/>
@@ -26,11 +26,11 @@
 #end
 #end
 #if ($action.hyperlink)
-</af:commandLink>
+    </af:commandLink>
 #else
     </a:popup> 
-</h:form>
 #end
+</af:form>
 <br/><br/>
 #else
 #set ($clientValidation = $clientValidation.equalsIgnoreCase("true"))
