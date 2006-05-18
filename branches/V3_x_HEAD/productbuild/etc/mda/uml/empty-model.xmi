@@ -53,34 +53,46 @@
 						<propertyID>MODULES_DIRS</propertyID>
 						<propertyDescriptionID>MODULES_DIRS_DESCRIPTION</propertyDescriptionID>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;install.root&gt;\profiles</value>
-							<selectionMode xmi.value='0'/>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>C:\Documents and Settings\Administrator\.maven\repository\andromda\xml.zips</value>
-							<selectionMode xmi.value='0'/>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile-datatype\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>C:\Documents and Settings\Administrator\.maven\repository\andromda\xml.zips</value>
-							<selectionMode xmi.value='0'/>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile-meta\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>C:\Documents and Settings\Administrator\.maven\repository\andromda\xml.zips\</value>
-							<selectionMode xmi.value='0'/>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile-persistence\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>C:\Documents and Settings\cbrandon\.maven\repository\andromda\xml.zips\</value>
-							<selectionMode xmi.value='0'/>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile-presentation\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>C:\Documents and Settings\ZOO\.maven\repository\andromda\xml.zips\</value>
-							<selectionMode xmi.value='0'/>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile-process\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>C:\Documents and Settings\cwbrandon\.maven\repository\andromda\xml.zips\</value>
-							<selectionMode xmi.value='0'/>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile-service\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
 						</mdElement>
-						<value xmi.value='false'/>
+						<mdElement elementClass='FileProperty'>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profiles-uml14\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
+						</mdElement>
+						<mdElement elementClass='FileProperty'>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile-webservice\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
+						</mdElement>
+						<mdElement elementClass='FileProperty'>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml14\andromda-profile-xml\3.2-SNAPSHOT\</value>
+							<selectionMode xmi.value='2'/>
+						</mdElement>
+						<value xmi.value='true'/>
 					</mdElement>
 				</mdElement>
 				<mdElement elementClass='PropertyManager'>
