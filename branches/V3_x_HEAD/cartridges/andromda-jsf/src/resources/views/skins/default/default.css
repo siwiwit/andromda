@@ -544,10 +544,8 @@ a:hover
 }
 
 /** JsCookeMenu Theme styles **/
-.ThemePanelMenu,.ThemePanelSubMenuTable,
-.ThemeOfficeMenu,.ThemeOfficeSubMenuTable,
-.ThemeMiniBlackMenu,.ThemeMiniBlackSubMenuTable,
-.ThemeIEMenu,.ThemeIESubMenuTable
+.ThemePanelMenu, .ThemeOfficeMenu,
+.ThemeMiniBlackMenu, .ThemeIEMenu,
 {
     width: 100%;
 }
