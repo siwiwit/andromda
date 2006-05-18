@@ -36,6 +36,7 @@
                 <property name="stateSavingMethod">client</property>
                 <property name="sessionTimeout">-1</property>
                 <property name="distributable">true</property>
+                <property name="custom-resources">${test.output.dir}</property>
             </properties>
         </namespace>
     </namespaces>

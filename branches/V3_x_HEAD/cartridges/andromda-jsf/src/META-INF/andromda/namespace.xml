@@ -20,8 +20,13 @@
             </documentation>
             <property name="configuration">
                 <documentation>
-                    The location to which Struts configuration files are generated. These are the files
-                    that typically appear in WEB-INF, such as validation-rules.xml and tiles-defs.xml.
+                    The location to which configuration files are generated. These are the files
+                    that typically appear in WEB-INF, such as faces-config.xml and validation-rules.xml, etc.
+                </documentation>
+            </property>
+            <property name="custom-resources" required="false">
+                <documentation>
+                    The location to which any customizable resources will be generated.
                 </documentation>
             </property>
             <property name="libraries" required="false">

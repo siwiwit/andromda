@@ -134,7 +134,8 @@
         <core.generated.dir>${pom.basedir}/../core/target/src</core.generated.dir>
         <core.manual.dir>${pom.basedir}/../core/src/main/java</core.manual.dir>
         <web.generated.dir>${pom.basedir}/../web/target/src</web.generated.dir>
-        <web.manual.java.dir>${pom.basedir}/../web/src/main/java</web.manual.java.dir> 
+        <web.manual.dir>${pom.basedir}/../web/src/main</web.manual.dir>
+        <web.manual.java.dir>${web.manual.dir}/java</web.manual.java.dir> 
 #if ($workflow)     
         <workflow.generated.dir>${pom.basedir}/../workflow/target/src</workflow.generated.dir>
         <workflow.manual.dir>${pom.basedir}/../workflow/src/main</workflow.manual.dir>    

@@ -61,10 +61,12 @@
     <property reference="libraries"/>
     <property reference="adfContextAttributeName"/>
     <property reference="skin"/>
+    <property reference="custom-resources"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
     <condition name="viewTypeIsFacelets">$viewType.equalsIgnoreCase("facelets")</condition>
+    <condition name="outputCustomResources">$stringUtils.isNotBlank($custom-resources)</condition>
     <condition name="faceletsDevelopmentSupportEnabled">
         #if ($viewType.equalsIgnoreCase("facelets") &amp;&amp; $enableFaceletsDevelopmentSupport.equalsIgnoreCase("true"))true#end
     </condition>
@@ -143,6 +145,12 @@
         outlet="configuration"
         overwrite="true"
         lastModifiedCheck="true"/>
+    
+    <resource
+        path="resources/views/css/*"
+        outputPattern="css/{0}"
+        outlet="custom-resources"
+        overwrite="false"/>
 
     <!-- process templates on model elements -->
     <template
