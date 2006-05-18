@@ -669,4 +669,32 @@ public class JSFUseCaseLogicImpl
     {
         return StringUtilsHelper.upperCamelCaseName(this.getName()) + FORWARDS_CLASS_NAME_SUFFIX ;
     }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFUseCase#getNavigationRules()
+     */
+    protected Collection handleGetNavigationRules()
+    {
+        final Map rules = new LinkedHashMap();
+        final Collection views = this.getViews();
+        for (final Iterator iterator = views.iterator(); iterator.hasNext();)
+        {
+            final JSFView view = (JSFView)iterator.next();
+            for (final Iterator forwardIterator = view.getForwards().iterator(); forwardIterator.hasNext();)
+            {
+                final Object forward = forwardIterator.next();
+                String name;
+                if (forward instanceof FrontEndForward)
+                {
+                    name = ((FrontEndForward)forward).getName();
+                }
+                else
+                {
+                    name = ((FrontEndAction)forward).getName();
+                }
+                rules.put(name, forward);
+            }
+        }
+        return rules.values();
+    }
 }

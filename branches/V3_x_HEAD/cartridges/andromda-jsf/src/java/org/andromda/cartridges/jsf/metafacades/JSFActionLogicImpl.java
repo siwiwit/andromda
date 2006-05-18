@@ -67,7 +67,7 @@ public class JSFActionLogicImpl
      */
     public String getName()
     {
-        return JSFUtils.toWebResourceName(super.getName());
+        return JSFUtils.toWebResourceName(this.getUseCase().getName() + "-" + super.getName());
     }
 
     /**

@@ -30,6 +30,10 @@ public class JSFForwardLogicImpl
         {
             name.append(JSFGlobals.USECASE_FORWARD_NAME_SUFFIX);
         }
+        else
+        {
+            name.insert(0, this.getUseCase().getName() + "-");
+        }
         return JSFUtils.toWebResourceName(name.toString());
     }
     

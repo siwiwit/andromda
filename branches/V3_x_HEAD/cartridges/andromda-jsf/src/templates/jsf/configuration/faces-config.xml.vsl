@@ -55,17 +55,28 @@
         </navigation-case>
     </navigation-rule>
 #end
+##foreach ($useCase in $useCases)
+##foreach ($view in $useCase.views)
+##    <navigation-rule>
+##        <from-view-id>${view.path}.${jsfUtils.viewExtension}</from-view-id>
+##foreach ($forward in $view.forwards)
+##        <navigation-case>
+##            <from-outcome>$forward.name</from-outcome>
+##            <to-view-id>${forward.path}.${jsfUtils.viewExtension}</to-view-id>
+##            <redirect/>
+##        </navigation-case>
+###end
+##    </navigation-rule>
+##end
+##end
 #foreach ($useCase in $useCases)
-#foreach ($view in $useCase.views)
+#foreach ($rule in $useCase.navigationRules)
     <navigation-rule>
-        <from-view-id>${view.path}.${jsfUtils.viewExtension}</from-view-id>
-#foreach ($forward in $view.forwards)
         <navigation-case>
-            <from-outcome>$forward.name</from-outcome>
-            <to-view-id>${forward.path}.${jsfUtils.viewExtension}</to-view-id>
+            <from-outcome>$rule.name</from-outcome>
+            <to-view-id>${rule.path}.${jsfUtils.viewExtension}</to-view-id>
             <redirect/>
         </navigation-case>
-#end
     </navigation-rule>
 #end
 #end

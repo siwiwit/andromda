@@ -9,7 +9,7 @@
     <t:jscookMenu layout="${menuLayout}" theme="#{${preferencesBeanName}.menuTheme}" >
 #set ($sidebarLayoutCount = $useCases.size() + 1)
 #foreach ($useCase in $useCases)
-        <t:navigationMenuItem id="nav_${velocityCount}" itemLabel="#{messages['$useCase.titleKey']}" action="$useCase.forwardName" icon="/images/next-yellow.gif" />
+        <t:navigationMenuItem id="nav_${velocityCount}" itemLabel="#{messages['$useCase.titleKey']}" action="#{${useCase.controller.beanName}.${useCase.controllerAction}}" icon="/images/next-yellow.gif" />
 #end
 #if ($enablePreferences)
         <t:navigationMenuItem id="nav_${sidebarLayoutCount}" itemLabel="#{messages['menu.preferences']}" split="true" action="preferences" icon="/images/next-yellow.gif" />
