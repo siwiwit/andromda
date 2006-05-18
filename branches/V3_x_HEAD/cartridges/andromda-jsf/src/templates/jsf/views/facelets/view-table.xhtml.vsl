@@ -6,9 +6,9 @@
 #if ($table.tableColumnNames.contains($parameter.name) || $table.tableAttributeNames.contains($parameter.name))
 #set ($parameterValue = "row.${parameter.name}")
 #else
-#set ($parameterValue = "${actionFormKey}.${parameter.name}")       
+#set ($parameterValue = "${actionFormKey}.${parameter.name}")
 #end
-            <f:param name="$parameter.name" value="#{${parameterValue}}"/>  
+                <f:param name="$parameter.name" value="#{${parameterValue}}"/>
 #end
 #end
 <html xmlns="http://www.w3.org/1999/xhtml"
