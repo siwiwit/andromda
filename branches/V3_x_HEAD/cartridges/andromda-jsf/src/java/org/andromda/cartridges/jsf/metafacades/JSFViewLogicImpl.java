@@ -367,4 +367,12 @@ public class JSFViewLogicImpl
         }
         return new ArrayList(variables.values());
     }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFView#getFromOutcome()
+     */
+    protected String handleGetFromOutcome()
+    {
+        return JSFUtils.toWebResourceName(this.getUseCase().getName() + "-" + this.getName());
+    }
 }

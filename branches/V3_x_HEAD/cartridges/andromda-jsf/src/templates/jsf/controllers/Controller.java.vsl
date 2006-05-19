@@ -35,11 +35,18 @@ $operation.getDocumentation("     * ")
 #end
     public java.lang.String ${action.triggerName}()
     {
+#set ($formPopulationOperationRequired = !$action.formFields.empty)
+#if ($action.finalStateTarget)
+#set ($targetUseCase = $action.target.targetUseCase)
+        $targetUseCase.controller.fullyQualifiedName controller =
+            ($targetUseCase.controller.fullyQualifiedName)this.resolveVariable(
+                "$targetUseCase.controller.beanName");
+        return controller.${targetUseCase.controllerAction}();
+#else
         String forward = null;
         try
         {
-#if (!$action.formFields.empty)
-#set ($formPopulationOperationRequired = true)
+#if ($formPopulationOperationRequired)
             final $action.fullyQualifiedFormImplementationName form =
                 this.$action.formImplementationGetter;
 
@@ -86,6 +93,7 @@ $operation.getDocumentation("     * ")
             forward = null;
         }
         return forward;
+#end
     }
 
 #foreach ($actionState in $action.actionStates)

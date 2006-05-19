@@ -660,4 +660,20 @@ public class JSFActionLogicImpl
     {
         return "get" + StringUtils.capitalize(this.getFormBeanName(false)) + "()";
     }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFAction#isFinalStateTarget()
+     */
+    protected boolean handleIsFinalStateTarget()
+    {
+        return this.getTarget() instanceof JSFFinalState;
+    }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFAction#getFromOutcome()
+     */
+    protected String handleGetFromOutcome()
+    {
+        return this.getName();
+    }
 }

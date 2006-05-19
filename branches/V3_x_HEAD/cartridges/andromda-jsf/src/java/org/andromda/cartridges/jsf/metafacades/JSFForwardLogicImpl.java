@@ -55,4 +55,20 @@ public class JSFForwardLogicImpl
 
         return forwardPath;        
     }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFForward#isFinalStateTarget()
+     */
+    protected boolean handleIsFinalStateTarget()
+    {
+        return this.getTarget() instanceof JSFFinalState;
+    }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFForward#getFromOutcome()
+     */
+    protected String handleGetFromOutcome()
+    {
+        return this.getName();
+    }
 }

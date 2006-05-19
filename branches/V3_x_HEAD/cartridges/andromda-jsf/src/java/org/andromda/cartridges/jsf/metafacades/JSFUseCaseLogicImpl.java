@@ -680,17 +680,18 @@ public class JSFUseCaseLogicImpl
         for (final Iterator iterator = views.iterator(); iterator.hasNext();)
         {
             final JSFView view = (JSFView)iterator.next();
+            rules.put(view.getFromOutcome(), view);
             for (final Iterator forwardIterator = view.getForwards().iterator(); forwardIterator.hasNext();)
             {
                 final Object forward = forwardIterator.next();
                 String name;
-                if (forward instanceof FrontEndForward)
+                if (forward instanceof JSFForward)
                 {
-                    name = ((FrontEndForward)forward).getName();
+                    name = ((JSFForward)forward).getFromOutcome();
                 }
                 else
                 {
-                    name = ((FrontEndAction)forward).getName();
+                    name = ((JSFAction)forward).getFromOutcome();
                 }
                 rules.put(name, forward);
             }

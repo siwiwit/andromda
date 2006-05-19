@@ -8,12 +8,12 @@
 #else
 #set ($parameterValue = "${actionFormKey}.${parameter.name}")       
 #end
-                <f:param name="$parameter.name" value="#{${parameterValue}}"/>  
+                    <f:param name="$parameter.name" value="#{${parameterValue}}"/>  
 #end
 #end
 <h:form>
 #set ($targetColumns = $table.targettedTableColumnNames)
-    <af:table allDetailsEnabled="true" var="row" bandingInterval="1" banding="row" value="#{${table.name}}" rows="10">
+    <af:table allDetailsEnabled="true" var="row" bandingInterval="1" banding="row" value="#{${table.name}}" rows="10" width="90%">
 #if (!$table.tableColumns.empty)
 #foreach ($column in $table.tableColumns)
 #if($column.name)
@@ -62,11 +62,13 @@
 #if (!$action.tableLinkColumnName)
         <af:column>
             <f:facet name="header">
-                <t:graphicImage url="/images/space.gif"/>
+                <h:panelGroup styleClass="actionColumn"><t:graphicImage url="/images/space.gif"/></h:panelGroup>
             </f:facet>
-            <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
+            <h:panelGroup styleClass="actionColumn">
+                <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
 #renderTableCommandLinkParameters()
-            </af:commandLink>
+                </af:commandLink>
+            </h:panelGroup>
         </af:column>
 #end
 #end
@@ -75,11 +77,13 @@
 #if (!$action.tableLinkColumnName)
         <af:column>
             <f:facet name="header">
-                <t:graphicImage url="/images/space.gif"/>
+                <h:panelGroup styleClass="actionColumn"><t:graphicImage url="/images/space.gif"/></h:panelGroup>
             </f:facet>
-            <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
+            <h:panelGroup styleClass="actionColumn">
+                <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
 #renderTableCommandLinkParameters()
-            </af:commandLink>
+                </af:commandLink>
+            </h:panelGroup>
         </af:column>
 #end
 #end

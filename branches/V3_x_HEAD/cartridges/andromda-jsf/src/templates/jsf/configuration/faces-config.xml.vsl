@@ -73,7 +73,7 @@
 #foreach ($rule in $useCase.navigationRules)
     <navigation-rule>
         <navigation-case>
-            <from-outcome>$rule.name</from-outcome>
+            <from-outcome>$rule.fromOutcome</from-outcome>
             <to-view-id>${rule.path}.${jsfUtils.viewExtension}</to-view-id>
             <redirect/>
         </navigation-case>
