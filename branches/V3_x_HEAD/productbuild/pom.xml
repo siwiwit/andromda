@@ -168,23 +168,54 @@
     <build>
         <defaultGoal>install</defaultGoal>
         <sourceDirectory>src/java</sourceDirectory>
-        <plugins>
-            <!-- This antrun configuration is a hack until the issue with plugins that create archives is fixed
-                 (i.e a plugin that has '<extensions>true</extensions>' set).  Before this project can be built,
-                 the command "mvn -N antrun:run' must be executed in order to install these plugins here below (since these
-                 plugins must exist before the build even starts) -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <configuration>
-                    <tasks>
-                        <copy file="${basedir}/lib/org/andromda/maven/plugins/andromda-cartridge-plugin/andromda-cartridge-plugin.jar"
-                              tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-cartridge-plugin/${pom.version}/andromda-cartridge-plugin-${pom.version}.jar"/>
-                        <copy file="${basedir}/lib/org/andromda/maven/plugins/andromda-model-archiver-plugin/andromda-model-archiver-plugin.jar"
-                              tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-model-archiver-plugin/${pom.version}/andromda-model-archiver-plugin-${pom.version}.jar"/>
-                    </tasks>
-                </configuration>
-            </plugin>
-        </plugins>
+		<plugins>
+			<!-- This antrun configuration is a hack until the issue with plugins that create archives is fixed
+			(i.e a plugin that has '<extensions>true</extensions>' set).  Before this project can be built,
+			the command "mvn -N antrun:run' must be executed in order to install these plugins here below (since these
+			plugins must exist before the build even starts) -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks>
+						<copy
+							file="${project.basedir}/lib/org/andromda/maven/plugins/andromda-cartridge-plugin/andromda-cartridge-plugin.jar"
+							tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-cartridge-plugin/${pom.version}/andromda-cartridge-plugin-${pom.version}.jar"/>
+						<copy
+							file="${project.basedir}/lib/org/andromda/maven/plugins/andromda-model-archiver-plugin/andromda-model-archiver-plugin.jar"
+							tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-model-archiver-plugin/${pom.version}/andromda-model-archiver-plugin-${pom.version}.jar"/>
+					</tasks>
+				</configuration>
+				<executions>
+					<execution>
+<!-- set property, do something like this in ~/.m2/settings.xml
+  <activeProfiles>
+      <activeProfile>andromda</activeProfile>
+  </activeProfiles>
+  <profiles>
+    <profile>
+      <id>andromda</id>
+     <properties>
+        <maven1Repository>/var/maven/repository</maven1Repository>
+     <properties>
+    </profile>
+  <profiles>
+-->
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<ant dir="src/antrun" antfile="copy-m2-m1.xml">
+									<property name="maven1_repo" value="${maven1Repository}"/>
+									<property name="maven2_repo" value="${settings.localRepository}"/>
+								</ant>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
         <!-- required for deploying to remote repository using the maven-deploy-plugin -->
         <extensions>
             <extension>
