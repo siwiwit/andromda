@@ -318,7 +318,7 @@
                 </documentation>
             </property>
             <property name="fileTypeName">
-                <default>org.apache.myfaces.custom.fileupload.UploadedFile</default>
+                <default>oracle.adf.view.faces.model.UploadedFile</default>
                 <documentation>
                     The fully qualified type name to use when file types are modeled for parameters (used for
                     for file uploads).
