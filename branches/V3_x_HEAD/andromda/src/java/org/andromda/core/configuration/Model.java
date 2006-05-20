@@ -149,7 +149,7 @@ public class Model
             this.urisAsStrings = new String[uriNumber];
             for (int ctr = 0; ctr < uriNumber; ctr++)
             {
-                urisAsStrings[ctr] = ((URL)uris.get(ctr)).toString();
+                urisAsStrings[ctr] = (uris.get(ctr)).toString();
             }
         }
         return this.urisAsStrings;
