@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.IOException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,6 +19,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -27,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ResourceUtils
 {
+    private final static Logger logger = Logger.getLogger(ResourceUtils.class);
     /**
      * All archive files start with this prefix.
      */
@@ -456,7 +460,9 @@ public class ResourceUtils
 
     /**
      * Attempts to construct the given <code>path</code>
-     * to a URL instance.
+     * to a URL instance. If the argument cannot be resolved as a resource
+     * on the file system this method will attempt to locate it on the
+     * classpath.
      *
      * @param path the path from which to construct the URL.
      * @return the constructed URL or null if one couldn't be constructed.
@@ -467,30 +473,99 @@ public class ResourceUtils
         if (path != null)
         {
             path = ResourceUtils.normalizePath(path);
-            final File file = new File(path);
-            if (file.exists())
+
+            try
             {
-                try
-                {
-                    url = file.toURL();
-                }
-                catch (MalformedURLException exception)
-                {
-                    // ignore
-                }
+                final File file = new File(path);
+                url = file.exists() ? file.toURL() : new URL(path);
             }
-            else
+            catch (MalformedURLException exception)
             {
-                try
-                {
-                    url = new URL(path);
-                }
-                catch (MalformedURLException exception)
-                {
-                    // ignore
-                }
+                // this means no protocol was specified
+                // in that case we'll assume the path is pointing to a resource on the classpath
+                url = resolveClasspathResource(path);
             }
         }
+        return url;
+    }
+
+    /**
+     * Resolves a URL to a classpath resource, this method will treat occurrences of the exclamation mark
+     * similar to what {@link URL} does with the <code>jar:file</code> protocol.
+     * <p/>
+     * Example: <code>my/path/to/some.zip!/file.xml</code> represents a resource <code>file.xml</code>
+     * that is located in a ZIP file on the classpath called <code>my/path/to/some.zip</code>
+     * <p/>
+     * It is possible to have nested ZIP files, example:
+     * <code>my/path/to/first.zip!/subdir/second.zip!/file.xml</code>.
+     * <p/>
+     * <i>Please note that the extension of the ZIP file can be anything,
+     * but in the case the extension is <code>.jar</code> the JVM will automatically unpack resources
+     * one level deep and put them all on the classpath</i>
+     *
+     * @param path the name of the resource to resolve to a URL, potentially nested in ZIP archives
+     * @return a URL pointing the resource resolved from the argument path
+     *      or <code>null</code> if the argument is <code>null</code> or impossible to resolve
+     */
+    public static URL resolveClasspathResource(String path)
+    {
+        // the value of the following constant is -1 of no nested resources were specified,
+        // otherwise it points to the location of the first occurrence
+        final int nestedPathOffset = path.indexOf("!/");
+
+        // take the part of the path that is not nested (may be all of it)
+        final String resourcePath = nestedPathOffset == -1 ? path : path.substring(0, nestedPathOffset);
+        final String nestingPath = nestedPathOffset == -1 ? "" : path.substring(nestedPathOffset);
+
+        // use the new path to load a URL from the classpath using the context class loader for this thread
+        URL url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
+
+        // at this point the URL might be null in case the resource was not found
+        if (url == null)
+        {
+            logger.warn("Resource could not be located on the classpath: " + resourcePath);
+        }
+        else
+        {
+            try
+            {
+                // extract the filename from the entire resource path
+                final int fileNameOffset = resourcePath.lastIndexOf('/');
+                final String resourceFileName =
+                    fileNameOffset == -1 ? resourcePath : resourcePath.substring(fileNameOffset + 1);
+
+                logger.debug("Creating temporary copy on the file system of the classpath resource");
+                final File fileSystemResource = File.createTempFile(resourceFileName, null);
+                logger.debug("Temporary file will be deleted on VM exit: " + fileSystemResource.getAbsolutePath());
+                fileSystemResource.deleteOnExit();
+                logger.debug("Copying classpath resource contents into temporary file");
+                FileUtils.copyURLToFile(url, fileSystemResource);
+
+                // count the times the actual resource to resolve has been nested
+                final int nestingCount = StringUtils.countMatches(path, "!/");
+                // this buffer is used to construct the URL spec to that specific resource
+                final StringBuffer buffer = new StringBuffer();
+                for (int i=0; i<nestingCount; i++)
+                {
+                    buffer.append("jar:");
+                }
+                buffer.append("file:").append(fileSystemResource.getAbsolutePath()).append(nestingPath);
+                if (logger.isDebugEnabled())
+                {
+                    logger.debug("Constructing URL to " +
+                        (nestingCount > 0 ? "nested" : "") + " resource in temporary file");
+                }
+
+                url = new URL(buffer.toString());
+            }
+            catch (IOException e)
+            {
+                logger.warn("Unable to resolve classpath resource", e);
+                // impossible to properly resolve the path into a URL
+                url = null;
+            }
+        }
+
         return url;
     }
 
