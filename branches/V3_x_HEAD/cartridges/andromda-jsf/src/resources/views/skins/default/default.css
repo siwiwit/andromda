@@ -29,33 +29,8 @@ component. **/
 /** BUTTON STYLES. Notice the right to left icons are specified with the
 :rtl pseudo-class. If :rtl icons are not specified, we default to non-:rtl icons. **/
 
-/** use this to color the button background and text **/
-.AFButtonServerText:alias {background-color:#CECFCE; color:#25009E}
-/* antialias the text for our disabled buttons */
-.AFButtonServerTextDisabled:alias {background-color:#F0F0F0; color:gray;-ora-text-antialias:true}
-
-
-.AFButtonStartIcon:alias {content:url(/skins/default/images/btns.gif); width:7px; height:18px}
-
-.AFButtonStartIcon:alias:rtl {content:url(/skins/default/images/btne.gif); width:7px; height:18px}
-
-.AFButtonEndIcon:alias {content:url(/skins/default/images/btne.gif); width:7px; height:18px}
-.AFButtonEndIcon:alias:rtl {content:url(/skins/default/images/btns.gif); width:7px; height:18px}
-
-.AFButtonTopBackgroundIcon:alias {content:url(/skins/default/images/btntb.gif); width:1px; height:2px}
-.AFButtonTopBackgroundIcon:alias:rtl {content:url(/skins/default/images/btntb.gif); width:1px; height:2px}
-
-.AFButtonBottomBackgroundIcon:alias {content:url(/skins/default/images/btnbb.gif); width:1px; height:2px}
-.AFButtonBottomBackgroundIcon:alias:rtl {content:url(/skins/default/images/btnbb.gif); width:1px; height:2px}
-
-.AFButtonDisabledStartIcon:alias {content:url(/skins/default/images/btnds.gif); width:7px; height:18px}
-.AFButtonDisabledStartIcon:alias:rtl {content:url(/skins/default/images/btnde.gif); width:7px; height:18px}
-.AFButtonDisabledEndIcon:alias {content:url(/skins/default/images/btnde.gif); width:7px; height:18px}
-.AFButtonDisabledEndIcon:alias:rtl {content:url(/skins/default/images/btnds.gif); width:7px; height:18px}
-
-.AFButtonDisabledTopBackgroundIcon:alias {content:url(/skins/default/images/btndtb.gif); width:1px; height:2px}
-
-.AFButtonDisabledBottomBackgroundIcon:alias {content:url(/skins/default/images/btndbb.gif); width:1px; height:2px}
+/** use this to button look/feel **/
+button {font-family:Arial,Helvetica,Geneva,sans-serif;font-weight:normal;font-size:small;background-color:#e9e8e8;padding:0px;margin:1px}
 
 /** generic background for light panelBox's or shuttles **/
 .AFBoxBackground:alias {background-color:#E3E1E1;}
@@ -516,9 +491,11 @@ a:hover
 .userPanel
 {
     text-align: center;
+    vertical-align: bottom;
     font-weight: none;
     font-size: 9px;
     font-family: verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-style: italic;
 }
 
 .variableLabel
