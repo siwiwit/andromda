@@ -196,6 +196,12 @@
                             </fileset>	
 #end
                         </copy>
+#if ($facelets)
+                        <!-- place any facelet tag files in ${pom.basedir}/src/main/xml/tags -->
+                        <copy todir="${pom.basedir}/target/src/WEB-INF" overwrite="true" failonerror="false">
+                            <fileset dir="${pom.basedir}/src/main/xml/tags"/>
+                        </copy>
+#end
                     </tasks>
                 </configuration>
             </plugin>
