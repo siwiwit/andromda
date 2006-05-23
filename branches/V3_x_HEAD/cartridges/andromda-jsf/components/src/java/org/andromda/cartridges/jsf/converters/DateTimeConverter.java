@@ -1,7 +1,10 @@
 package org.andromda.cartridges.jsf.converters;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -39,10 +42,13 @@ public class DateTimeConverter
         {
             value = ((Calendar)value).getTime();
         }
-        final String result = super.getAsString(
-                context,
-                component,
-                value);
+        final String pattern = this.getPattern();
+        String result = null;
+        if (value != null && pattern != null && pattern.trim().length() > 0)
+        {
+            DateFormat format = new SimpleDateFormat(pattern);
+            result = format.format((Date)value);    
+        }
         return result;
     }
 
