@@ -30,7 +30,7 @@ component. **/
 :rtl pseudo-class. If :rtl icons are not specified, we default to non-:rtl icons. **/
 
 /** use this to button look/feel **/
-button {font-family:Arial,Helvetica,Geneva,sans-serif;font-weight:normal;font-size:small;background-color:#e9e8e8;padding:0px;margin:1px}
+button {font-family:Arial,Helvetica,Geneva,sans-serif;font-weight:normal;font-size:12px;background-color:#e9e8e8;padding:0px;margin:1px}
 
 /** generic background for light panelBox's or shuttles **/
 .AFBoxBackground:alias {background-color:#E3E1E1;}
