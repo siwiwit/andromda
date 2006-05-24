@@ -45,18 +45,18 @@
                     <tr>
                         <td class="xv" width="37%"><span class="xa"><label for="login:j_username">#{messages['login.username']}:</label></span></td>
                         <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
-                        <td valign="top" width="63%"><input type="text" name="j_username" class="x6" size="30" tabindex="10"/></td>
+                        <td valign="top" width="63%"><input type="text" name="j_username" class="x6" size="30"/></td>
                     </tr>
                     <tr>
                         <td class="xv"><span class="xa"><label for="login:j_password">#{messages['login.password']}:</label></span></td>
                         <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
-                        <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password" tabindex="10"/></td>
+                        <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password"/></td>
                     </tr>
 #if (!$registrationUseCases.empty)
                     <tr>
                         <td colspan="2"/>
                         <td>
-                            <a href="${facesContext.externalContext.request.contextPath}${registrationUseCases.iterator().next().path}.${facesServletExtension}" class="registerAsNewUserLink" tabindex="20">
+                            <a href="${facesContext.externalContext.request.contextPath}${registrationUseCases.iterator().next().path}.${facesServletExtension}" class="registerAsNewUserLink">
                                 #{messages['login.register.as.new.user']}
                             </a>
                         </td>
@@ -66,7 +66,7 @@
                         <td colspan="2"/>
                         <td>
                             <af:panelButtonBar>
-                                <af:commandButton text="#{messages['login.submit']}" onclick="document.forms[0].submit();" tabindex="10"/>
+                                <af:commandButton text="#{messages['login.submit']}" onclick="document.forms[0].submit();"/>
                                 <af:commandButton text="#{messages['login.reset']}" onclick="document.forms[0].reset();"/>
                             </af:panelButtonBar>
                         </td>
