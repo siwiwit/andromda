@@ -65,8 +65,10 @@
                     <tr>
                         <td colspan="2"/>
                         <td>
-                            <button class="xj" onclick="document.forms[0].submit();" type="button" tabindex="10">#{messages['login.submit']}</button>
-                            <button class="xj" onclick="document.forms[0].reset();" type="button">#{messages['login.reset']}</button>
+                            <af:panelButtonBar>
+                                <af:commandButton text="#{messages['login.submit']}" onclick="document.forms[0].submit();" tabindex="10"/>
+                                <af:commandButton text="#{messages['login.reset']}" onclick="document.forms[0].reset();"/>
+                            </af:panelButtonBar>
                         </td>
                     </tr>
                 </table>
