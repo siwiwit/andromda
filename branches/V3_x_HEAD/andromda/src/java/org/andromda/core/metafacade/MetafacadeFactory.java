@@ -318,7 +318,7 @@ public class MetafacadeFactory
         if (metafacade == null)
         {
             MultiKey key = new MultiKey(mappingObject, metafacadeClass);
-            if (this.metafacadesInCreation.containsKey(key))
+            if (!this.metafacadesInCreation.containsKey(key))
             {
                 this.metafacadesInCreation.put(
                     key,
