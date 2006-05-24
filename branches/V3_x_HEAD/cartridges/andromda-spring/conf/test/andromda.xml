@@ -52,6 +52,7 @@
                 <property name="serviceRemoteServer">1.2.3.4</property>
                 <property name="serviceRemotePort">1234</property>
                 <property name="serviceRemoteContext">spring-test</property>
+                <property name="configPropertyPrefix">server1.</property>
             </properties>
         </namespace>
     </namespaces>
