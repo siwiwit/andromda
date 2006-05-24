@@ -11,16 +11,18 @@ import java.util.Map;
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.profile.Profile;
+import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.log4j.Logger;
 
 
 /**
- * The factory in charge of constucting Metafacade instances. In order for a
+ * The factory in charge of constructing Metafacade instances. In order for a
  * metafacade (i.e. a facade around a meta model element) to be constructed, it
  * must be constructed through this factory.
  *
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen </a>
  * @author Chad Brandon
+ * @author Peter Friese
  */
 public class MetafacadeFactory
 {
@@ -315,17 +317,17 @@ public class MetafacadeFactory
                 metafacadeClass);
         if (metafacade == null)
         {
-            final Object value = this.metafacadesInCreation.get(mappingObject);
-            if (value == null || !value.equals(metafacadeClass))
+            MultiKey key = new MultiKey(mappingObject, metafacadeClass);
+            if (this.metafacadesInCreation.containsKey(key))
             {
                 this.metafacadesInCreation.put(
-                    mappingObject,
+                    key,
                     metafacadeClass);
                 metafacade = MetafacadeUtils.constructMetafacade(
                         metafacadeClass,
                         mappingObject,
                         context);
-                this.metafacadesInCreation.remove(mappingObject);
+                this.metafacadesInCreation.remove(key);
                 if (mapping != null)
                 {
                     // set whether or not this metafacade is a context root

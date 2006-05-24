@@ -150,7 +150,10 @@ public class MetafacadeBase
             //   If so, it can have an arbitrary context (because it's cached).
             //   We now need to set the context once again, so that all
             //   other metafacade mappings based on the context work as expected.
-            metafacade.resetMetafacadeContext(context);
+            if(metafacade != null) 
+            {
+                metafacade.resetMetafacadeContext(context);
+            }
         }
         return metafacade;
     }
