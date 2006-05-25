@@ -52,8 +52,6 @@
     <property reference="distributable"/>
     <property reference="stateSavingMethod"/>
     <property reference="sessionTimeout"/>
-    <property reference="maximumFormsInHistory"/>
-    <property reference="formHistoryBeanName"/>
     <property reference="toDoTag"/>
     <property reference="enableFaceletsDevelopmentSupport"/>
     <property reference="viewType"/>
@@ -62,6 +60,7 @@
     <property reference="adfContextAttributeName"/>
     <property reference="skin"/>
     <property reference="custom-resources"/>
+    <property reference="formSerialization"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
@@ -73,6 +72,7 @@
     <condition name="outputLibraries">$stringUtils.isNotBlank($libraries)</condition>
     <condition name="enablePreferences">$enablePreferences.equalsIgnoreCase("true")</condition>
     <condition name="clientValidation">$clientValidation.equalsIgnoreCase("true")</condition>
+    <condition name="formSerialization">$formSerialization.equalsIgnoreCase("true")</condition>
         
         
     <!-- condition merge-point-->
@@ -431,25 +431,17 @@
         overwrite="true"/>
     
     <template
+        path="templates/jsf/utils/Constants.java.vsl"
+        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
+        outlet="managed-beans"
+        outputCondition="formSerialization"
+        overwrite="true"/>
+    
+    <template
         path="templates/jsf/exception/PatternMatchingExceptionHandler.java.vsl"
         outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${patternMatchingExceptionHandler}.java"
         outlet="managed-beans"
         overwrite="true"/>
-    
-    <template
-        path="templates/jsf/utils/FormHistory.java.vsl"
-        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
-        outlet="managed-beans"
-        overwrite="true"
-        outputToSingleFile="true">
-        <modelElements>
-            <modelElement variable="useCases">
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="controller.operations"/>
-                </type>
-            </modelElement>
-        </modelElements>      
-    </template>
     
     <template
         path="templates/jsf/views/jsp/index.jsp.vsl"

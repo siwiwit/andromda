@@ -277,18 +277,13 @@
                     The name to use for the virtual host (if one is required).  For example application.myserver.com.
                 </documentation>
             </property>
-            <property name="maximumFormsInHistory">
-                <default>5</default>
+            <property name="formSerialization">
+                <default>true</default>
                 <documentation>
-                    The maximum number of forms kept in history, this usually means how many times
-                    you can hit the back button and get a guaranteed result.
+                    Whether or not forms should be serialized to disk (and therefore stored for later retrieval
+                    for example when the user's session is lost). This just provides simple perisistence for the application
+                    state.
                 </documentation>
-            </property>
-            <property name="formHistoryBeanName">
-                <default>formHistory</default>
-                <documentation>
-                    The name of the managed bean that stores the form history.
-                </documentation>                
             </property>
             <property name="adfContextAttributeName">
                 <default>AndroMDAADFContext</default>

@@ -56,6 +56,13 @@
                                     <td width="12"><img src="${pageContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
                                     <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password" tabindex="10"/></td>
                                 </tr>
+                                <tr>
+                                    <td colspan="2"/>
+                                    <td>
+                                        <button class="xj" onclick="document.forms[0].submit();" type="button" tabindex="10"><fmt:message key="login.submit"/></button>
+                                        <button class="xj" onclick="document.forms[0].reset();" type="button"><fmt:message key="login.reset"/></button>
+                                    </td>
+                                </tr>
 #if (!$registrationUseCases.empty)
                                 <tr>
                                     <td colspan="2"/>
@@ -66,13 +73,6 @@
                                     </td>
                                 </tr>
 #end
-                                <tr>
-                                    <td colspan="2"/>
-                                    <td>
-                                        <button class="xj" onclick="document.forms[0].submit();" type="button" tabindex="10"><fmt:message key="login.submit"/></button>
-                                        <button class="xj" onclick="document.forms[0].reset();" type="button"><fmt:message key="login.reset"/></button>
-                                    </td>
-                                </tr>
                             </table>
                         </form>
                     </f:verbatim>   

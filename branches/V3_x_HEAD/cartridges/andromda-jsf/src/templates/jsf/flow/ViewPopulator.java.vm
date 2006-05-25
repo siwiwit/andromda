@@ -21,8 +21,4 @@
                 {
                     request.setAttribute("$variableName", org.apache.commons.beanutils.PropertyUtils.getProperty(form, "$variableName"));
                 }
-                else
-                {
-                    allPropertiesReadable = false;
-                }
 #end

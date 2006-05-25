@@ -80,9 +80,19 @@ public class $view.populator
                 final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
                     (${managedBeansPackage}.AdfFacesContextWrapper)session.getAttribute("$adfContextAttributeName");
                 adfContext = contextWrapper != null ? contextWrapper.getCurrentInstance() : null;    
-                form = adfContext != null ? adfContext.getProcessScope().get("$view.formKey") : null;    
-                // - add the form to the current process scope since it wasn't in the current one to begin with
-                oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance().getProcessScope().put("$view.formKey", form);   
+                form = adfContext != null ? adfContext.getProcessScope().get("$view.formKey") : null;   
+#if ($formSerialization) 
+                // - if the form is still null, see if we can get it from a serialized state
+                if (form == null)
+                {
+                    form = this.getSerializedForm(session);
+                }
+#end
+                if (form != null)
+                {
+                    // - add the form to the current process scope since it wasn't in the current one to begin with
+                    oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance().getProcessScope().put("$view.formKey", form);   
+                }
             }
             else
             {
@@ -113,21 +123,23 @@ public class $view.populator
 #end
             }
 #end
+#if ($formSerialization)
+            // - serialize the form
+            if (form != null)
+            {
+                this.serializeForm(session, form);
+            }
+#end
 #if (!$view.variables.empty || !$view.backingValueVariables.empty)
             // - populate the view variables
             if (form != null)
             {    
-                boolean allPropertiesReadable = true;
 #foreach ($variable in $view.variables)
 #set ($readableVariable = "${variable.name}Readable")
                 final boolean $readableVariable = org.apache.commons.beanutils.PropertyUtils.isReadable(form, "$variable.name");
                 if ($readableVariable)
                 {
                     request.setAttribute("$variable.name", org.apache.commons.beanutils.PropertyUtils.getProperty(form, "$variable.name"));
-                }
-                else
-                {
-                    allPropertiesReadable = false;
                 }
 #end
 #foreach ($variable in $view.backingValueVariables)
@@ -140,21 +152,7 @@ public class $view.populator
 #end
 #end
 #end
-                if (!allPropertiesReadable)
-                {
-                    // TODO: ${managedBeansPackage}.FormHistory formHistory = (${managedBeansPackage}.FormHistory)variableResolver.resolveVariable(facesContext, "$formHistoryBeanName");
-                    ${managedBeansPackage}.FormHistory formHistory = (${managedBeansPackage}.FormHistory)adfContext.getProcessScope().get("$formHistoryBeanName");
-                    if (formHistory != null)
-                    {
-                        form = formHistory.getLastFormInHistory();
-                        if (form != null)
-                        {
-                            this.populateFormAndViewVariables(request, response, form);
-                            formHistory.addFormToHistory(form);
-                        }
-                    }                
-                }
-            } 
+            }
 #end
         }
         catch (final Throwable throwable)
@@ -162,7 +160,77 @@ public class $view.populator
             throw new ServletException(throwable);
         }
     }
+#if ($formSerialization)
 
+    /**
+     * Attempts to serialize the given <code>form</code> to disk so that it
+     * can later be retrieved when the user's session times out.
+     * @param session the session from which to create the serialization path.
+     * @param form the form to serialize.
+     */
+    private void serializeForm(final javax.servlet.http.HttpSession session, final Object form)
+    {
+        try
+        {
+            final java.io.File serializationFile = new java.io.File(this.getFormSerializationPath(session));
+            final java.io.File parent = serializationFile.getParentFile();
+            if (parent != null)
+            {
+                parent.mkdirs();
+            }
+            final java.io.FileOutputStream fileStream = new java.io.FileOutputStream(serializationFile.toString());
+            final java.io.ObjectOutputStream objectStream = new java.io.ObjectOutputStream(fileStream);
+            objectStream.writeObject(form);
+            objectStream.close();
+        }
+        catch (final Exception exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+    
+    /**
+     * Retrieves the current serialized form for the given session.
+     * @param session the session.
+     * @return the serialized form.
+     * @throws Exception
+     */
+    private Object getSerializedForm(final javax.servlet.http.HttpSession session)
+    {
+        Object form = null;
+        try
+        {
+            java.io.FileInputStream fileStream = new java.io.FileInputStream(this.getFormSerializationPath(session));
+            java.io.ObjectInputStream objectStream = new java.io.ObjectInputStream(fileStream);
+            form = objectStream.readObject();
+            objectStream.close();
+        }
+        catch (java.io.FileNotFoundException exception)
+        {
+            // - ignore, just means the serialized form isn't present
+        }
+        catch (final Exception exception)
+        {
+            exception.printStackTrace();
+        }
+        return form;
+    }
+    
+    /**
+     * The name of the file storing the serialized form.
+     */
+    private static final String SERIALIZED_FORM_FILE_NAME = "/form.ser";
+
+    /**
+     * Retrieves the path in which the serialized form will be stored.
+     * @param session the session containing the unique id in which to create the path.
+     * @return the path to which serialization occurs.
+     */
+    private String getFormSerializationPath(final javax.servlet.http.HttpSession session)
+    {
+        return ${managedBeansPackage}.Constants.TEMPORARY_DIRECTORY + session.getId() + SERIALIZED_FORM_FILE_NAME;
+    }
+#end
 
     /**
      * @see javax.servlet.Filter#destroy()

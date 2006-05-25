@@ -52,6 +52,17 @@
                         <td width="12"><img src="${facesContext.externalContext.request.contextPath}/adf/images/t.gif" width="12"/></td>
                         <td valign="top"><input id="j_password" name="j_password" class="x6" size="30" type="password"/></td>
                     </tr>
+                    <tr>
+                        <td colspan="2"/>
+                        <td>
+                            <h:form>
+                                <af:panelButtonBar>
+                                    <af:commandButton text="#{messages['login.submit']}" onclick="document.forms[0].submit();"/>
+                                    <af:commandButton text="#{messages['login.reset']}" onclick="document.forms[0].reset();"/>
+                                </af:panelButtonBar>
+                            </h:form>
+                        </td>
+                    </tr>
 #if (!$registrationUseCases.empty)
                     <tr>
                         <td colspan="2"/>
@@ -61,16 +72,7 @@
                             </a>
                         </td>
                     </tr>
-#end
-                    <tr>
-                        <td colspan="2"/>
-                        <td>
-                            <af:panelButtonBar>
-                                <af:commandButton text="#{messages['login.submit']}" onclick="document.forms[0].submit();"/>
-                                <af:commandButton text="#{messages['login.reset']}" onclick="document.forms[0].reset();"/>
-                            </af:panelButtonBar>
-                        </td>
-                    </tr>
+#end                    
                 </table>
             </form>
         </div>
