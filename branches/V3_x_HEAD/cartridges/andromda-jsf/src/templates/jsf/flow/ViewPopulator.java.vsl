@@ -185,7 +185,7 @@ public class $view.populator
         }
         catch (final Exception exception)
         {
-            exception.printStackTrace();
+            // - ignore if we couldn't serialize the form.
         }
     }
     
@@ -205,13 +205,9 @@ public class $view.populator
             form = objectStream.readObject();
             objectStream.close();
         }
-        catch (java.io.FileNotFoundException exception)
-        {
-            // - ignore, just means the serialized form isn't present
-        }
         catch (final Exception exception)
         {
-            exception.printStackTrace();
+            // - just ignore if we couldn't retrieve the serialized form
         }
         return form;
     }
