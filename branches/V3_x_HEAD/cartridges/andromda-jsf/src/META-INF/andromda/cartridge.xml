@@ -431,7 +431,7 @@
         overwrite="true"/>
     
     <template
-        path="templates/jsf/utils/Constants.java.vsl"
+        path="templates/jsf/utils/JsfUtils.java.vsl"
         outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
         outlet="managed-beans"
         outputCondition="formSerialization"

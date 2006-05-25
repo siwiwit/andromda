@@ -23,7 +23,6 @@ import javax.servlet.ServletResponse;
 public class $view.populator
     implements Filter
 {
-
     private FilterConfig config;
 
     /**
@@ -85,7 +84,7 @@ public class $view.populator
                 // - if the form is still null, see if we can get it from a serialized state
                 if (form == null)
                 {
-                    form = this.getSerializedForm(session);
+                    form = ${managedBeansPackage}.JsfUtils.getSerializedForm(session);
                 }
 #end
                 if (form != null)
@@ -127,7 +126,7 @@ public class $view.populator
             // - serialize the form
             if (form != null)
             {
-                this.serializeForm(session, form);
+                ${managedBeansPackage}.JsfUtils.serializeForm(session, form);
             }
 #end
 #if (!$view.variables.empty || !$view.backingValueVariables.empty)
@@ -160,73 +159,6 @@ public class $view.populator
             throw new ServletException(throwable);
         }
     }
-#if ($formSerialization)
-
-    /**
-     * Attempts to serialize the given <code>form</code> to disk so that it
-     * can later be retrieved when the user's session times out.
-     * @param session the session from which to create the serialization path.
-     * @param form the form to serialize.
-     */
-    private void serializeForm(final javax.servlet.http.HttpSession session, final Object form)
-    {
-        try
-        {
-            final java.io.File serializationFile = new java.io.File(this.getFormSerializationPath(session));
-            final java.io.File parent = serializationFile.getParentFile();
-            if (parent != null)
-            {
-                parent.mkdirs();
-            }
-            final java.io.FileOutputStream fileStream = new java.io.FileOutputStream(serializationFile.toString());
-            final java.io.ObjectOutputStream objectStream = new java.io.ObjectOutputStream(fileStream);
-            objectStream.writeObject(form);
-            objectStream.close();
-        }
-        catch (final Exception exception)
-        {
-            // - ignore if we couldn't serialize the form.
-        }
-    }
-    
-    /**
-     * Retrieves the current serialized form for the given session.
-     * @param session the session.
-     * @return the serialized form.
-     * @throws Exception
-     */
-    private Object getSerializedForm(final javax.servlet.http.HttpSession session)
-    {
-        Object form = null;
-        try
-        {
-            java.io.FileInputStream fileStream = new java.io.FileInputStream(this.getFormSerializationPath(session));
-            java.io.ObjectInputStream objectStream = new java.io.ObjectInputStream(fileStream);
-            form = objectStream.readObject();
-            objectStream.close();
-        }
-        catch (final Exception exception)
-        {
-            // - just ignore if we couldn't retrieve the serialized form
-        }
-        return form;
-    }
-    
-    /**
-     * The name of the file storing the serialized form.
-     */
-    private static final String SERIALIZED_FORM_FILE_NAME = "/form.ser";
-
-    /**
-     * Retrieves the path in which the serialized form will be stored.
-     * @param session the session containing the unique id in which to create the path.
-     * @return the path to which serialization occurs.
-     */
-    private String getFormSerializationPath(final javax.servlet.http.HttpSession session)
-    {
-        return ${managedBeansPackage}.Constants.TEMPORARY_DIRECTORY + session.getId() + SERIALIZED_FORM_FILE_NAME;
-    }
-#end
 
     /**
      * @see javax.servlet.Filter#destroy()
