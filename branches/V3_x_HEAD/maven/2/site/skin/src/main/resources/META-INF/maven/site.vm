@@ -306,6 +306,7 @@
   </head>
   <body class="composite">
     <div id="banner">
+      <a id="serverLink" href="${project.organization.url}" title="Documentation for stable releases (updated per release)">Release Site</a>
       #banner( $decoration.bannerLeft "bannerLeft" )
       #banner( $decoration.bannerRight "bannerRight" )
       <div class="clear">
