@@ -39,29 +39,31 @@
                         <xsl:for-each select="property">
                             <xsl:sort select="@name"/>
                             <li>
-                                <xsl:element name="a">
-                                    <xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute>
-                                    <xsl:attribute name="title">
-                                        <xsl:choose>
-                                            <!-- when a default value is present the property is considered not to be required
-                                                 to have a value specified by the user, when a default value is missing the property
-                                                 is considered to be required when the 'required' attribute is not set to 'false' -->
-                                            <xsl:when test="default or @required = 'false'">
-                                                <xsl:choose>
-                                                    <xsl:when test="default">
-                                                        <xsl:choose>
-                                                            <xsl:when test="normalize-space(default)">Optional, defaults to '<xsl:value-of select="default"/>'</xsl:when>
-                                                            <xsl:otherwise>Optional, defaults to the empty string</xsl:otherwise>
-                                                        </xsl:choose>
-                                                    </xsl:when>
-                                                    <xsl:otherwise>Optional, no default value available</xsl:otherwise>
-                                                </xsl:choose>
-                                            </xsl:when>
-                                            <xsl:otherwise>Required</xsl:otherwise>
-                                        </xsl:choose>
-                                    </xsl:attribute>
-                                    <xsl:value-of select="@name"/>
-                                </xsl:element>
+                                <p>
+	                                <xsl:element name="a">
+	                                    <xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute>
+	                                    <xsl:attribute name="title">
+	                                        <xsl:choose>
+	                                            <!-- when a default value is present the property is considered not to be required
+	                                                 to have a value specified by the user, when a default value is missing the property
+	                                                 is considered to be required when the 'required' attribute is not set to 'false' -->
+	                                            <xsl:when test="default or @required = 'false'">
+	                                                <xsl:choose>
+	                                                    <xsl:when test="default">
+	                                                        <xsl:choose>
+	                                                            <xsl:when test="normalize-space(default)">Optional, defaults to '<xsl:value-of select="default"/>'</xsl:when>
+	                                                            <xsl:otherwise>Optional, defaults to the empty string</xsl:otherwise>
+	                                                        </xsl:choose>
+	                                                    </xsl:when>
+	                                                    <xsl:otherwise>Optional, no default value available</xsl:otherwise>
+	                                                </xsl:choose>
+	                                            </xsl:when>
+	                                            <xsl:otherwise>Required</xsl:otherwise>
+	                                        </xsl:choose>
+	                                    </xsl:attribute>
+	                                    <xsl:value-of select="@name"/>
+	                                </xsl:element>
+	                            </p>
                             </li>
                         </xsl:for-each>
                     </ul>
@@ -144,7 +146,7 @@
     </xsl:template>
 
     <xsl:template match="component">
-        <li><xsl:value-of select="@name"/></li>
+        <li><p><xsl:value-of select="@name"/></p></li>
     </xsl:template>
 
 </xsl:stylesheet>
