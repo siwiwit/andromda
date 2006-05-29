@@ -18,9 +18,9 @@
         <url>http://jira.andromda.org/</url>
     </issueManagement>
     <scm>
-      <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all</connection>
-      <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
-      <url>http://cvs.sourceforge.net/viewcvs.py/andromda/</url>
+      <connection>scm:cvs:pserver:anonymous:@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</connection>
+      <developerConnection>scm:cvs:ext:${maven.username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
+      <url>http://andromda.cvs.sourceforge.net/</url>
     </scm>
     <organization>
       <name>AndroMDA.org</name>
@@ -198,7 +198,6 @@
                     </profile>
                   <profiles>
                 -->
-                <!--
 				<executions>
 					<execution>
 						<phase>install</phase>
@@ -215,7 +214,6 @@
 						</goals>
 					</execution>
 				</executions>
-                -->
 			</plugin>
 		</plugins>
         <!-- required for deploying to remote repository using the maven-deploy-plugin -->
