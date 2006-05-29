@@ -7,20 +7,14 @@
 <!-- =========== FULL CONFIGURATION FILE ================================== -->
 
 <faces-config>
-#if ($viewTypeIsFacelets)
-    <!--
-    <application>
-        <view-handler>
-            com.sun.facelets.FaceletViewHandler
-        </view-handler>    
-    </application>
-    -->
-#end
     <application>
         <default-render-kit-id>
             oracle.adf.core
         </default-render-kit-id>
     </application>
+    <lifecycle>
+        <phase-listener>${managedBeansPackage}.MessagePhaseListener</phase-listener>
+    </lifecycle>
 #if(!$applicationUseCases.empty)
 #set($applicationUseCase = $applicationUseCases.iterator().next())
 #end

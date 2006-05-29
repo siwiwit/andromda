@@ -59,6 +59,12 @@ $operation.getDocumentation("     * ")
             try
             {
 #end
+#if (!$action.formFields.empty)
+                final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = new ${managedBeansPackage}.AdfFacesContextWrapper();
+                contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", form);
+                // - add this temporary ADF context to the session so that we can retrieve from a view populator if required
+                this.getSession(false).setAttribute("$adfContextAttributeName", contextWrapper);
+#end
                 forward = #processTransition($action)
 #if (!$action.formFields.empty && $action.formResetRequired)
                 form.reset();
@@ -71,12 +77,6 @@ $operation.getDocumentation("     * ")
                     ${managedBeansPackage}.${patternMatchingExceptionHandler}.instance().handleException(throwable), null);
                 this.addErrorMessage(message);
             }
-#end
-#if (!$action.formFields.empty)
-            final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = new ${managedBeansPackage}.AdfFacesContextWrapper();
-            contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", form);
-            // - add this temporary ADF context to the session so that we can retrieve from a view populator if required
-            this.getSession(false).setAttribute("$adfContextAttributeName", contextWrapper);
 #end
         }
         catch (final Throwable throwable)
@@ -212,7 +212,7 @@ $decisionTransition.getDocumentation("     * ")
         oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
         Object variable = adfContext.getProcessScope().get(name);
         // - if we couldn't get the variable from the regular ADF context, see if
-        //   the session contains an ADF context with the variablee
+        //   the session contains an ADF context with the variable
         if (variable == null)
         {
             final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
@@ -301,9 +301,22 @@ $decisionTransition.getDocumentation("     * ")
     protected void addMessage(final javax.faces.application.FacesMessage.Severity severity, final String message)
     {
         final javax.faces.application.FacesMessage facesMessage = new javax.faces.application.FacesMessage(severity, message, message);
-        javax.faces.context.FacesContext.getCurrentInstance().addMessage(
-            null,
-            facesMessage);
+        final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
+        final Object form = adfContext.getProcessScope().get("form");
+        if (form != null)
+        {
+            try
+            {
+                final java.lang.reflect.Method method = form.getClass().getMethod(
+                    "add${stringUtils.capitalize($formMessagesProperty)}", 
+                    new Class[]{javax.faces.application.FacesMessage.class});
+                method.invoke(form, new Object[]{facesMessage});  
+            }
+            catch (final Exception exception)
+            {
+                throw new RuntimeException(exception);
+            }
+        }
     }
     
     /**

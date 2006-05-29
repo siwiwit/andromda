@@ -61,6 +61,7 @@
     <property reference="skin"/>
     <property reference="custom-resources"/>
     <property reference="formSerialization"/>
+    <property reference="formMessagesProperty"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
@@ -413,6 +414,12 @@
         overwrite="true"/>
     
     <template
+        path="templates/jsf/utils/MessagePhaseListener.java.vsl"
+        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
+        outlet="managed-beans"
+        overwrite="true"/>
+    
+    <template
         path="templates/jsf/utils/FormPopulator.java.vsl"
         outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${formPopulatorName}.java"
         outlet="managed-beans"
@@ -420,6 +427,12 @@
     
     <template
         path="templates/jsf/utils/CollectionSorter.java.vsl"
+        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
+        outlet="managed-beans"
+        overwrite="true"/>
+    
+    <template
+        path="templates/jsf/utils/AdfFacesContextWrapper.java.vsl"
         outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
         outlet="managed-beans"
         overwrite="true"/>

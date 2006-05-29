@@ -44,7 +44,7 @@
             </c:if>
         </af:$selectBoxType>
 #elseif ($parameter.inputFile)
-        <af:inputFile id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" readOnly="$parameter.readOnly" columns="50"/>
+        <af:inputFile id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" columns="50"/>
 #elseif ($parameter.inputMultibox)
         <af:selectManyCheckbox id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required">
             <c:if test="${!empty ${backingListName}}">

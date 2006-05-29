@@ -186,6 +186,33 @@ $field.getDocumentation("     * ")
     {
         return this.dateTimeFormatters;
     }
+    
+    /**
+     * The current collection of messages stored within this form.
+     */
+    private java.util.Collection $formMessagesProperty = new java.util.ArrayList();;
+    
+    /**
+     * Adds a {@link javax.faces.application.FacesMessage} message to the current messages
+     * stored within this form.
+     * 
+     * @param jsfMessage the faces message to add.
+     */
+    public void add${stringUtils.capitalize($formMessagesProperty)}(javax.faces.application.FacesMessage jsfMessage)
+    {
+        this.${formMessagesProperty}.add(jsfMessage);
+    }
+    
+    /**
+     * Gets the current {@link javax.faces.application.FacesMessage} message 
+     * instances stored within this form.
+     * 
+     * @return the current Faces messages.
+     */
+    public java.util.Collection get${stringUtils.capitalize($formMessagesProperty)}()
+    {
+        return this.${formMessagesProperty};
+    }
 
     /**
      * The serial version UID of this class. Needed for serialization.
