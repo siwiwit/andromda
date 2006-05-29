@@ -18,6 +18,7 @@
         <url>http://jira.andromda.org/</url>
     </issueManagement>
     <scm>
+		<!-- Dummy change -->
       <connection>scm:cvs:pserver:anonymous:@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</connection>
       <developerConnection>scm:cvs:ext:${maven.username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
       <tag>V3_x_HEAD</tag>
