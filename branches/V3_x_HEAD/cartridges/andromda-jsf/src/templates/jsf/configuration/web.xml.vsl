@@ -23,7 +23,8 @@
         <param-name>facelets.LIBRARIES</param-name>
         <param-value>
             /WEB-INF/tomahawk.taglib.xml;
-            /WEB-INF/andromda.taglib.xml
+            /WEB-INF/andromda.taglib.xml;
+            <!-- facelets tag-lib merge-point -->
         </param-value>
     </context-param>
     
