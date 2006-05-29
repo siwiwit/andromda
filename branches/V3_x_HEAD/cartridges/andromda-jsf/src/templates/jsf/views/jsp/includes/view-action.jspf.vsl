@@ -1,4 +1,4 @@
-<h:messages id="${action.triggerName}Messages" errorClass="error" globalOnly="true"/>
+<h:messages errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
 #if ($action.hyperlink || $action.popup)
 <af:form>
