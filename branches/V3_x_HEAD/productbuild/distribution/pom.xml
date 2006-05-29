@@ -93,6 +93,40 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromda-distribution-plugin</artifactId>
+                <version>${pom.version}</version>
+                <!-- set property, do something like this in ~/.m2/settings.xml
+                  <activeProfiles>
+                      <activeProfile>andromda</activeProfile>
+                  </activeProfiles>
+                  <profiles>
+                    <profile>
+                      <id>andromda</id>
+                     <properties>
+                        <maven1Repository>/var/maven/repository</maven1Repository>
+                     <properties>
+                    </profile>
+                  <profiles>
+                -->
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<ant dir="${pom.basedir}/src/antrun" antfile="copy-m2-m1.xml">
+									<property name="maven1.repo" value="${maven1Repository}"/>
+									<property name="maven2.repo" value="${settings.localRepository}"/>
+								</ant>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
         </plugins>
     </build>
 </project>
