@@ -488,6 +488,21 @@ a:hover
     color: #FF0000;
 }
 
+.warn
+{
+    color: #FF9900;
+}
+
+.fatal
+{
+    color: DD0000;
+}
+
+.info
+{
+    color: #00EE00;
+}
+
 .userPanel
 {
     text-align: center;
