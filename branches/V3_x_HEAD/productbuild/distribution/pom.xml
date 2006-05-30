@@ -97,6 +97,9 @@
                 <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromda-distribution-plugin</artifactId>
                 <version>${pom.version}</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
                 <!-- set property, do something like this in ~/.m2/settings.xml
                   <activeProfiles>
                       <activeProfile>andromda</activeProfile>
