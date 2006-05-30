@@ -2,13 +2,13 @@
 <!-- <!DOCTYPE XMI SYSTEM "uml14xmi12.dtd"> -->
 
 <XMI xmi.version='1.2' timestamp='Mon Aug 29 07:45:39 MDT 2005' xmlns:UML='omg.org/UML/1.4'>
-	<XMI.header>
-		<XMI.documentation>
-			<XMI.exporter>MagicDraw UML</XMI.exporter>
-			<XMI.exporterVersion>9.0</XMI.exporterVersion>
-		</XMI.documentation>
-		<XMI.metamodel xmi.name='UML' xmi.version='1.4'/>
-	</XMI.header>
+    <XMI.header>
+        <XMI.documentation>
+            <XMI.exporter>MagicDraw UML</XMI.exporter>
+            <XMI.exporterVersion>9.0</XMI.exporterVersion>
+        </XMI.documentation>
+        <XMI.metamodel xmi.name='UML' xmi.version='1.4'/>
+    </XMI.header>
 	<XMI.content>
 		<UML:Model xmi.id='eee_1045467100313_135436_1' name='Data' isRoot='false' isLeaf='false' isAbstract='false'>
 			<UML:ModelElement.comment>
