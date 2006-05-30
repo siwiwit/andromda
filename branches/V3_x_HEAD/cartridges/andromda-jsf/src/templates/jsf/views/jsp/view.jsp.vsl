@@ -41,6 +41,7 @@
                     <jsp:directive.include file="/includes/footer.jspf"/>
                 </f:facet>
                 <t:div id="pageContent">
+                    <jsp:directive.include file="/includes/messages.jspf"/>
 #if ($view.nonTableVariablesPresent)
                     <jsp:directive.include file="${view.path}-vars.jspf"/>
 #end

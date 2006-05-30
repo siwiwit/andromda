@@ -7,7 +7,6 @@
       xmlns:a="http://www.andromda.org/cartridges/jsf"
       xmlns:af="http://xmlns.oracle.com/adf/faces">
 <ui:composition>
-<h:messages errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
 #if ($action.hyperlink || $action.popup)
 <af:form>

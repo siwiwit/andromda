@@ -507,6 +507,14 @@
         outputCondition="viewTypeIsFacelets"/>  
     
     <template
+        path="templates/jsf/views/facelets/layout/messages.xhtml.vsl"
+        outputPattern="layout/messages.xhtml"
+        outlet="views"
+        overwrite="true"     
+        generateEmptyFiles="true"
+        outputCondition="viewTypeIsFacelets"/> 
+    
+    <template
         path="templates/jsf/views/facelets/layout/head.xhtml.vsl"
         outputPattern="layout/head.xhtml"
         outlet="views"
@@ -665,6 +673,13 @@
     <template
         path="templates/jsf/views/jsp/includes/head.jspf.vsl"
         outputPattern="includes/head.jspf"
+        outlet="views"
+        overwrite="true"
+        outputCondition="viewTypeIsJsp"/>
+    
+    <template
+        path="templates/jsf/views/jsp/includes/messages.jspf.vsl"
+        outputPattern="includes/messages.jspf"
         outlet="views"
         overwrite="true"
         outputCondition="viewTypeIsJsp"/>

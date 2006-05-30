@@ -38,7 +38,7 @@
                         <tr>
                             <td colspan="2"/>
                             <td>
-                                <div id="error">#{messages['login.error']}</div>
+                                <div class="error">#{messages['login.error']}</div>
                             </td>
                         </tr>
                     </c:if> 

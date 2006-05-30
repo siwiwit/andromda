@@ -1,4 +1,3 @@
-<h:messages errorClass="error" globalOnly="true"/>
 #set($formName = $action.formBeanName)
 #if ($action.hyperlink || $action.popup)
 <af:form>

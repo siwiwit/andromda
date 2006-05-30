@@ -483,7 +483,7 @@ a:hover
     margin: 25px;
 }
 
-#error
+.error
 {
     color: #FF0000;
 }
