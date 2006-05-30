@@ -523,7 +523,10 @@ public class ResourceUtils
         // at this point the URL might be null in case the resource was not found
         if (url == null)
         {
-            logger.warn("Resource could not be located on the classpath: " + resourcePath);
+            if (logger.isDebugEnabled())
+            {
+                logger.debug("Resource could not be located on the classpath: " + resourcePath);
+            }
         }
         else
         {
@@ -534,18 +537,27 @@ public class ResourceUtils
                 final String resourceFileName =
                     fileNameOffset == -1 ? resourcePath : resourcePath.substring(fileNameOffset + 1);
 
-                logger.debug("Creating temporary copy on the file system of the classpath resource");
+                if (logger.isDebugEnabled())
+                {
+                    logger.debug("Creating temporary copy on the file system of the classpath resource");
+                }
                 final File fileSystemResource = File.createTempFile(resourceFileName, null);
-                logger.debug("Temporary file will be deleted on VM exit: " + fileSystemResource.getAbsolutePath());
+                if (logger.isDebugEnabled())
+                {
+                    logger.debug("Temporary file will be deleted on VM exit: " + fileSystemResource.getAbsolutePath());
+                }
                 fileSystemResource.deleteOnExit();
-                logger.debug("Copying classpath resource contents into temporary file");
+                if (logger.isDebugEnabled())
+                {
+                    logger.debug("Copying classpath resource contents into temporary file");
+                }
                 FileUtils.copyURLToFile(url, fileSystemResource);
 
-                // count the times the actual resource to resolve has been nested
+                // - count the times the actual resource to resolve has been nested
                 final int nestingCount = StringUtils.countMatches(path, "!/");
-                // this buffer is used to construct the URL spec to that specific resource
+                // - this buffer is used to construct the URL spec to that specific resource
                 final StringBuffer buffer = new StringBuffer();
-                for (int i=0; i<nestingCount; i++)
+                for (int i = 0; i < nestingCount; i++)
                 {
                     buffer.append("jar:");
                 }
@@ -558,9 +570,9 @@ public class ResourceUtils
 
                 url = new URL(buffer.toString());
             }
-            catch (IOException e)
+            catch (IOException exception)
             {
-                logger.warn("Unable to resolve classpath resource", e);
+                logger.warn("Unable to resolve classpath resource", exception);
                 // impossible to properly resolve the path into a URL
                 url = null;
             }
