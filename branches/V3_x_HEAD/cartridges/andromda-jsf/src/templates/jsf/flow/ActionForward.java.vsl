@@ -56,20 +56,7 @@ public class $action.actionClassName
 #set ($useCase = $action)
 #end
 #if (!$useCase.allForwards.empty)
-        String forwardPath = ${useCase.forwardsClassName}.getPath(controller.${action.controllerAction}());
-        if (forwardPath == null)
-        {
-#if ($action.target)
-#set ($forwardPath  = "${action.target.path}.${facesServletExtension}")
-#else
-#if ($action.initialTargetView)
-#set ($forwardPath = "${action.initialTargetPath}.${facesServletExtension}")
-#else
-#set ($forwardPath = "$action.initialTargetPath")
-#end
-#end
-            forwardPath = "$forwardPath";        
-        }
+        String forwardPath = ${managedBeansPackage}.UseCaseForwards.getPath(controller.${action.controllerAction}());
         response.sendRedirect(request.getContextPath() + forwardPath);
 #else
         controller.${action.controllerAction}();

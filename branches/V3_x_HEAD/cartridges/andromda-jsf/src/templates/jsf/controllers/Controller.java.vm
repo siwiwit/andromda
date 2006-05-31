@@ -4,8 +4,11 @@
 #macro (processTransition $transition)
 #if (!$transition)
 null;
-#elseif ($transition.enteringFinalState || $transition.enteringView)
-"$transition.name";
+#elseif ($transition.enteringFinalState)
+#set ($targetUseCase = $transition.target.targetUseCase)
+(($targetUseCase.controller.fullyQualifiedName)this.resolveVariable("$targetUseCase.controller.beanName")).${targetUseCase.controllerAction}();
+#elseif ($transition.enteringView)
+"$transition.target.fromOutcome";
 #elseif ($transition.enteringDecisionPoint)
 __${transition.operationCall.name}(#if (!$action.formFields.empty)form#end);
 #else

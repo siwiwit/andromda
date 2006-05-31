@@ -245,12 +245,6 @@
         <servlet-name>$useCase.fullyQualifiedActionClassName</servlet-name>
         <servlet-class>$useCase.fullyQualifiedActionClassName</servlet-class>
     </servlet>
-#foreach ($action in $useCase.actionForwards)
-    <servlet>
-        <servlet-name>$action.fullyQualifiedActionClassName</servlet-name>
-        <servlet-class>$action.fullyQualifiedActionClassName</servlet-class>
-    </servlet>
-#end
 #end
     <servlet>
         <servlet-name>AndroMDA JSF Servlet</servlet-name>
@@ -283,12 +277,6 @@
         <servlet-name>$useCase.fullyQualifiedActionClassName</servlet-name>
         <url-pattern>${useCase.path}.${facesServletExtension}</url-pattern>
     </servlet-mapping>
-#foreach ($action in $useCase.actionForwards)
-    <servlet-mapping>
-        <servlet-name>$action.fullyQualifiedActionClassName</servlet-name>
-        <url-pattern>${action.path}.${facesServletExtension}</url-pattern>
-    </servlet-mapping>
-#end
 #end
     <!-- servlet-mapping merge-point -->
     <session-config>
@@ -307,8 +295,8 @@
     <!-- taglib merge-point -->
     <!-- resource-ref merge-point -->
     <!-- security-constraint merge-point -->
-#if(!$applicationUseCases.empty)
-
+   
+#if (!$applicationUseCases.empty)
 #set($applicationUseCase = $applicationUseCases.iterator().next())
 #end
 #set ($useCases = $applicationUseCase.allUseCases)

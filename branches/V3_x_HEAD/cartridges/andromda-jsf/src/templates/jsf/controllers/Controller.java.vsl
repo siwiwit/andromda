@@ -302,7 +302,7 @@ $decisionTransition.getDocumentation("     * ")
     {
         final javax.faces.application.FacesMessage facesMessage = new javax.faces.application.FacesMessage(severity, message, message);
         final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
-        final Object form = adfContext.getProcessScope().get("form");
+        final Object form = adfContext.getProcessScope().get("$actionFormKey");
         if (form != null)
         {
             try

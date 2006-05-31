@@ -62,6 +62,7 @@
     <property reference="custom-resources"/>
     <property reference="formSerialization"/>
     <property reference="formMessagesProperty"/>
+    <property reference="useCaseForwardsClassName"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
@@ -337,24 +338,18 @@
             <modelElement variable="action">
                 <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
             </modelElement>
-            <modelElement>
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="actionForwards" variable="action"/>
-                </type>
-            </modelElement>
         </modelElements>
     </template>
     
     <template
         path="templates/jsf/flow/UseCaseForwards.java.vsl"
-        outputPattern="${useCase.packagePath}/${useCase.forwardsClassName}.java"
-        outlet="controllers"
-        overwrite="true">
-        <modelElements variable="useCase">
+        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${useCaseForwardsClassName}.java"
+        outlet="managed-beans"
+        overwrite="true"
+        outputToSingleFile="true">
+        <modelElements variable="useCases">
             <modelElement>
-                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
-                    <property name="allForwards"/>
-                </type>
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
             </modelElement>
         </modelElements>
     </template>

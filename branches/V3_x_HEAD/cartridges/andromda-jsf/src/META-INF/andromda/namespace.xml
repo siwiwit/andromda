@@ -292,6 +292,12 @@
                     should typically not be changed).
                 </documentation>
             </property>
+            <property name="useCaseForwardsClassName">
+                <default>UseCaseForwards</default>
+                <documentation>
+                    The name of the class containing all use case forwards.
+                </documentation>
+            </property>
             <property name="sessionTimeout">
                 <default>45</default>
                 <documentation>
