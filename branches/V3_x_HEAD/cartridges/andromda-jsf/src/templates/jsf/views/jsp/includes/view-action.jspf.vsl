@@ -42,7 +42,7 @@
             <af:panelButtonBar>
                 <af:commandButton text="#{messages['$action.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}"/>
 #if ($action.resettable)
-                <af:resetButton text="#{messages['$action.trigger.resetMessageKey']}""/>
+                <af:resetButton text="#{messages['$action.trigger.resetMessageKey']}"/>
 #end
             </af:panelButtonBar>
         </f:facet>
