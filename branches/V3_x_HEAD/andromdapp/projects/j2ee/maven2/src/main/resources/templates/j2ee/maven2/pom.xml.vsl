@@ -733,6 +733,11 @@
                     <artifactId>andromdapp-maven-plugin</artifactId>
                     <version>$andromdaVersion</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
 #if ($ejb3)
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
