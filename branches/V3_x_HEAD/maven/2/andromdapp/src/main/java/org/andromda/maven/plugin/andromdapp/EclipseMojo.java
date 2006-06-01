@@ -8,6 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 import org.andromda.core.common.ResourceUtils;
 import org.andromda.maven.plugin.andromdapp.eclipse.ClasspathWriter;
@@ -148,7 +150,9 @@ public class EclipseMojo
             final ProjectWriter projectWriter = new ProjectWriter(rootProject,
                     this.getLog());
             projectWriter.write();
+            final Map originalCompileSourceRoots = this.collectProjectCompileSourceRoots();
             final List projects = this.collectProjects();
+            this.processCompileSourceRoots(projects);
             final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
                     this.getLog());
             classpathWriter.write(
@@ -162,60 +166,104 @@ public class EclipseMojo
                 this.project.getRemoteArtifactRepositories(),
                 this.resolveTransitiveDependencies,
                 this.classpathMerge);
+            // - reset to the original source roots
+            for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
+            {
+                final MavenProject project = (MavenProject)iterator.next();
+                project.getCompileSourceRoots().clear();
+                project.getCompileSourceRoots().addAll((List)originalCompileSourceRoots.get(project));
+            }
         }
         catch (Throwable throwable)
         {
             throw new MojoExecutionException("Error creating eclipse configuration", throwable);
         }
     }
-
+    
+    /**
+     * Collects all existing project compile source roots.
+     * 
+     * @return a collection of collections
+     */
+    private Map collectProjectCompileSourceRoots()
+        throws Exception
+    {
+        final Map sourceRoots = new LinkedHashMap();
+        for (final Iterator iterator = this.collectProjects().iterator(); iterator.hasNext();)
+        {
+            final MavenProject project = (MavenProject)iterator.next();
+            sourceRoots.put(project, new ArrayList(project.getCompileSourceRoots()));
+        }
+        return sourceRoots;
+    }
+    
+    private List projects = new ArrayList();
+    
     /**
      * Collects all projects from all POMs within the current project.
      *
-     * @return all collection Maven project instances.
+     * @return all applicable Maven project instances.
      *
      * @throws MojoExecutionException
      */
-    private List collectProjects()
+    private List collectProjects() 
         throws Exception
     {
-        final List projects = new ArrayList();
-
-        final List poms = this.getPoms();
-        for (ListIterator iterator = poms.listIterator(); iterator.hasNext();)
+        if (projects.isEmpty())
         {
-            final File pom = (File)iterator.next();
-            try
+            final List poms = this.getPoms();
+            for (ListIterator iterator = poms.listIterator(); iterator.hasNext();)
             {
-                // - first attempt to get the existing project from the session
-                MavenProject project = ProjectUtils.getProject(this.projectBuilder, this.session, pom);
-                if (project == null)
+                final File pom = (File)iterator.next();
+                try
                 {
-                    // - if we didn't find it in the session, create it
-                    project =
-                        this.projectBuilder.build(
-                            pom,
-                            this.session.getLocalRepository(),
-                            new DefaultProfileManager(this.session.getContainer()));                
+                    // - first attempt to get the existing project from the session
+                    MavenProject project = ProjectUtils.getProject(this.projectBuilder, this.session, pom);
+                    if (project == null)
+                    {
+                        // - if we didn't find it in the session, create it
+                        project =
+                            this.projectBuilder.build(
+                                pom,
+                                this.session.getLocalRepository(),
+                                new DefaultProfileManager(this.session.getContainer()));                
+                    }
+                    this.getLog().info("found project " + project.getId());
+                    projects.add(project);
                 }
-                final Set compileSourceRoots = new LinkedHashSet(project.getCompileSourceRoots());
-                compileSourceRoots.addAll(this.getExtraSourceDirectories(project));
-                final String testSourceDirectory = project.getBuild().getTestSourceDirectory();
-                if (testSourceDirectory != null && testSourceDirectory.trim().length() > 0)
+                catch (ProjectBuildingException exception)
                 {
-                    compileSourceRoots.add(testSourceDirectory);
+                    throw new MojoExecutionException("Error loading " + pom, exception);
                 }
-                project.getCompileSourceRoots().clear();
-                project.getCompileSourceRoots().addAll(compileSourceRoots);
-                this.getLog().info("Processing project " + project.getId());
-                projects.add(project);
-            }
-            catch (ProjectBuildingException exception)
-            {
-                throw new MojoExecutionException("Error loading " + pom, exception);
             }
         }
         return projects;
+    }
+
+    /**
+     * Processes the project compile source roots (adds all appropriate ones to the projects)
+     * so that they're avialable to the eclipse mojos.
+     * 
+     * @param projects the projects to process.
+     * @return the source roots.
+     * @throws Exception
+     */
+    private void processCompileSourceRoots(final List projects)
+        throws Exception
+    {
+        for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
+        {
+            final MavenProject project = (MavenProject)iterator.next();
+            final Set compileSourceRoots = new LinkedHashSet(project.getCompileSourceRoots());
+            compileSourceRoots.addAll(this.getExtraSourceDirectories(project));
+            final String testSourceDirectory = project.getBuild().getTestSourceDirectory();
+            if (testSourceDirectory != null && testSourceDirectory.trim().length() > 0)
+            {
+                compileSourceRoots.add(testSourceDirectory);
+            }
+            project.getCompileSourceRoots().clear();
+            project.getCompileSourceRoots().addAll(compileSourceRoots);
+        }
     }
 
     /**
