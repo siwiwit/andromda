@@ -118,9 +118,23 @@
 						<phase>install</phase>
 						<configuration>
 							<tasks>
-								<ant dir="${pom.basedir}/src/antrun" antfile="copy-m2-m1.xml">
-									<property name="maven1.repo" value="${maven1Repository}"/>
-									<property name="maven2.repo" value="${settings.localRepository}"/>
+								<!-- Default values, for stockholm -->
+								<property name="maven1Repository"
+									value="/andromda/maven/repository"/>
+								<property name="website_dir"
+									value="/var/www/andromda"/>
+								<ant dir="src/antrun" antfile="copy-m2-m1.xml">
+									<property name="maven1_repo"
+										value="${maven1Repository}"/>
+									<property name="maven2_repo"
+										value="${settings.localRepository}"/>
+								</ant>
+								<ant dir="src/antrun"
+									antfile="copy-2-website.xml">
+									<property name="maven1_repo"
+										value="${maven1Repository}"/>
+									<property name="maven2_repo"
+										value="${settings.localRepository}"/>
 								</ant>
 							</tasks>
 						</configuration>
