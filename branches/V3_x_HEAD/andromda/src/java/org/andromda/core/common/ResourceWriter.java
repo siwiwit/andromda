@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +54,9 @@ public class ResourceWriter
         final String namespace)
         throws IOException
     {
-        ExceptionUtils.checkNull("file", file);
+        ExceptionUtils.checkNull(
+            "file",
+            file);
         this.writeStringToFile(
             string,
             file.toString(),
@@ -74,7 +75,10 @@ public class ResourceWriter
         final String fileLocation)
         throws IOException
     {
-        this.writeStringToFile(string, fileLocation, true);
+        this.writeStringToFile(
+            string,
+            fileLocation,
+            true);
     }
 
     /**
@@ -88,7 +92,10 @@ public class ResourceWriter
         final File file)
         throws IOException
     {
-        this.writeStringToFile(string, file != null ? file.toString() : null, true);
+        this.writeStringToFile(
+            string,
+            file != null ? file.toString() : null,
+            true);
     }
 
     /**
@@ -105,7 +112,11 @@ public class ResourceWriter
         final boolean recordHistory)
         throws IOException
     {
-        this.writeStringToFile(string, fileLocation, null, recordHistory);
+        this.writeStringToFile(
+            string,
+            fileLocation,
+            null,
+            recordHistory);
     }
 
     /**
@@ -123,35 +134,11 @@ public class ResourceWriter
         final String namespace)
         throws IOException
     {
-        this.writeStringToFile(string, fileLocation, namespace, true);
-    }
-    
-    private static final int BUFF_SIZE = 100000;
-    private static final byte[] buffer = new byte[BUFF_SIZE];
-
-    public static void copy(String from, String to) throws IOException{
-       InputStream in = null;
-       OutputStream out = null; 
-       try {
-          in = new FileInputStream(from);
-          out = new FileOutputStream(to);
-          while (true) {
-             synchronized (buffer) {
-                int amountRead = in.read(buffer);
-                if (amountRead == -1) {
-                   break;
-                }
-                out.write(buffer, 0, amountRead); 
-             }
-          } 
-       } finally {
-          if (in != null) {
-             in.close();
-          }
-          if (out != null) {
-             out.close();
-          }
-       }
+        this.writeStringToFile(
+            string,
+            fileLocation,
+            namespace,
+            true);
     }
 
     /**
@@ -176,13 +163,17 @@ public class ResourceWriter
         {
             string = "";
         }
-        ExceptionUtils.checkEmpty("fileLocation", fileLocation);
+        ExceptionUtils.checkEmpty(
+            "fileLocation",
+            fileLocation);
         final File file = new File(fileLocation);
         ResourceUtils.makeDirectories(fileLocation);
         final Merger merger = Merger.instance();
         if (merger.requiresMerge(namespace))
         {
-            string = Merger.instance().getMergedString(string, namespace);
+            string = Merger.instance().getMergedString(
+                    string,
+                    namespace);
         }
         OutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
         byte[] output;
@@ -203,6 +194,11 @@ public class ResourceWriter
             this.recordHistory(file);
         }
     }
+    
+    /**
+     * The static buffer used for writing URLs (static so it doesn't need to be re-allocated each time).
+     */
+    private static final byte[] URL_BUFFER = new byte[100000];
 
     /**
      * Writes the URL contents to a file specified by the fileLocation argument.
@@ -215,8 +211,12 @@ public class ResourceWriter
         final String fileLocation)
         throws IOException
     {
-        ExceptionUtils.checkNull("url", url);
-        ExceptionUtils.checkEmpty("fileLocation", fileLocation);
+        ExceptionUtils.checkNull(
+            "url",
+            url);
+        ExceptionUtils.checkEmpty(
+            "fileLocation",
+            fileLocation);
         final File file = new File(fileLocation);
         final File parent = file.getParentFile();
         if (parent != null)
@@ -239,9 +239,15 @@ public class ResourceWriter
         else
         {
             InputStream inputStream = new BufferedInputStream(url.openStream());
-            for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read())
+            for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read(URL_BUFFER))
             {
-                stream.write(ctr);
+                synchronized (URL_BUFFER)
+                {
+                    stream.write(
+                        URL_BUFFER,
+                        0,
+                        ctr);
+                }
             }
             inputStream.close();
             inputStream = null;
@@ -277,7 +283,9 @@ public class ResourceWriter
      */
     public void resetHistory(final String modelUri)
     {
-        String modelFile = modelUri.replace('\\', '/');
+        String modelFile = modelUri.replace(
+                '\\',
+                '/');
         int lastSlash = modelFile.lastIndexOf('/');
         if (lastSlash != -1)
         {
