@@ -56,6 +56,7 @@ public class BinaryFileRenderer
             }
             
             final Object value = fileComponent.getValue();
+            final String contentType = fileComponent.getContentType();
             if (value instanceof byte[])
             {
                 byte[] file = (byte[])value;
@@ -63,7 +64,6 @@ public class BinaryFileRenderer
                 // - for IE we need to set the content type, content length and buffer size and 
                 //   then the flush the response right away because it seems as if there is any lag time
                 //   IE just displays a blank page. With mozilla based clients reports display correctly regardless.
-                final String contentType = fileComponent.getContentType();
                 if (contentType != null && contentType.length() > 0)
                 {
                     response.setContentType(contentType);
@@ -80,6 +80,10 @@ public class BinaryFileRenderer
             {
                 final InputStream report = (InputStream)value;
                 final byte[] buffer = new byte[BUFFER_SIZE];
+                if (contentType != null && contentType.length() > 0)
+                {
+                    response.setContentType(contentType);
+                }                
                 response.setBufferSize(BUFFER_SIZE);
                 response.flushBuffer();
                 for (int ctr = 0; (ctr = report.read(buffer)) > 0;) 
