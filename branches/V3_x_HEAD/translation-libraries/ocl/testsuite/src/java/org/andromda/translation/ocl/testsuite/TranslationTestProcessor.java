@@ -93,7 +93,6 @@ public class TranslationTestProcessor
      * The location of the directory that contains the test source.
      */
     private String testSourceDirectory;
-    ;
 
     /**
      * Sets the location of the directory that contains the test souce.
