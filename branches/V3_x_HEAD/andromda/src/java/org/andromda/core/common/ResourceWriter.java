@@ -239,15 +239,9 @@ public class ResourceWriter
         else
         {
             InputStream inputStream = new BufferedInputStream(url.openStream());
-            for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read(URL_BUFFER))
+            for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read())
             {
-                synchronized (URL_BUFFER)
-                {
-                    stream.write(
-                        URL_BUFFER,
-                        0,
-                        ctr);
-                }
+                stream.write(ctr);
             }
             inputStream.close();
             inputStream = null;
