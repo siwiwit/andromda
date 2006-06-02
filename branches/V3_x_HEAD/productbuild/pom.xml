@@ -187,26 +187,6 @@
 					</tasks>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>validation</phase>
-						<configuration>
-							<tasks>
-								<!-- Default values, for stockholm -->
-								<ant dir="src/antrun" antfile="cvs-update.xml">
-								<property name="workdir"
-									value="/andromda/builds/v3/andromda-all"/>
-								</ant>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
         <!-- required for deploying to remote repository using the maven-deploy-plugin -->
         <extensions>
