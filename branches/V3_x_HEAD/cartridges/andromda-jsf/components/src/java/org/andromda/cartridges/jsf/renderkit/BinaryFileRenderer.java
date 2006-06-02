@@ -13,7 +13,9 @@ import org.andromda.cartridges.jsf.component.BinaryFile;
 
 
 /**
- * A custom renderer for rendering a popup frame.
+ * A custom renderer for rendering a binary file.
+ * 
+ * @author Chad Brandon
  */
 public class BinaryFileRenderer
     extends Renderer
