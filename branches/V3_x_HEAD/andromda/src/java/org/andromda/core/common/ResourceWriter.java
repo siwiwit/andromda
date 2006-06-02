@@ -1,12 +1,15 @@
 package org.andromda.core.common;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+import java.io.OutputStream;
 import java.net.URL;
 
 import org.apache.commons.lang.StringUtils;
@@ -122,6 +125,34 @@ public class ResourceWriter
     {
         this.writeStringToFile(string, fileLocation, namespace, true);
     }
+    
+    private static final int BUFF_SIZE = 100000;
+    private static final byte[] buffer = new byte[BUFF_SIZE];
+
+    public static void copy(String from, String to) throws IOException{
+       InputStream in = null;
+       OutputStream out = null; 
+       try {
+          in = new FileInputStream(from);
+          out = new FileOutputStream(to);
+          while (true) {
+             synchronized (buffer) {
+                int amountRead = in.read(buffer);
+                if (amountRead == -1) {
+                   break;
+                }
+                out.write(buffer, 0, amountRead); 
+             }
+          } 
+       } finally {
+          if (in != null) {
+             in.close();
+          }
+          if (out != null) {
+             out.close();
+          }
+       }
+    }
 
     /**
      * Writes the string to the file specified by the fileLocation argument.
@@ -153,7 +184,7 @@ public class ResourceWriter
         {
             string = Merger.instance().getMergedString(string, namespace);
         }
-        FileOutputStream stream = new FileOutputStream(file);
+        OutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
         byte[] output;
         if (StringUtils.isNotBlank(this.encoding))
         {
@@ -192,7 +223,7 @@ public class ResourceWriter
         {
             parent.mkdirs();
         }
-        FileOutputStream stream = new FileOutputStream(file);
+        OutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
         if (StringUtils.isNotBlank(this.encoding))
         {
             BufferedReader inputReader = new BufferedReader(new InputStreamReader(
@@ -207,7 +238,7 @@ public class ResourceWriter
         }
         else
         {
-            InputStream inputStream = url.openStream();
+            InputStream inputStream = new BufferedInputStream(url.openStream());
             for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read())
             {
                 stream.write(ctr);
