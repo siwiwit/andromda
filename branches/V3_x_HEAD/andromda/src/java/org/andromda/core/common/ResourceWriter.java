@@ -194,11 +194,6 @@ public class ResourceWriter
             this.recordHistory(file);
         }
     }
-    
-    /**
-     * The static buffer used for writing URLs (static so it doesn't need to be re-allocated each time).
-     */
-    private static final byte[] URL_BUFFER = new byte[100000];
 
     /**
      * Writes the URL contents to a file specified by the fileLocation argument.
