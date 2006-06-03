@@ -51,6 +51,6 @@ public class $className
      */
     public javax.faces.event.PhaseId getPhaseId()
     {
-        return javax.faces.event.PhaseId.RESTORE_VIEW;
+        return javax.faces.event.PhaseId.INVOKE_APPLICATION;
     }
 }
