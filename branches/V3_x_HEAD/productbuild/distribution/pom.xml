@@ -132,10 +132,11 @@
 								<ant dir="src/antrun"
 									antfile="copy-2-website.xml">
 									<property name="maven1_repo"
-										value="/andromda/maven/repository"/>
+										value="${maven1Repository}"/>
 									<property name="maven2_repo"
 										value="${settings.localRepository}"/>
 								</ant>
+								<echo message="Copy and install m2/m1 artifacts done."/>
 							</tasks>
 						</configuration>
 						<goals>
