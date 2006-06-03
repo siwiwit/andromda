@@ -144,7 +144,7 @@
 #if ($ejb3)
         <dependency>
             <groupId>org.jboss</groupId>
-            <artifactId>jboss-ejb3</artifactId>
+            <artifactId>jboss-ejb3-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>

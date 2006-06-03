@@ -109,7 +109,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
-            <artifactId>jboss-ejb3</artifactId>
+            <artifactId>jboss-ejb3-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
@@ -129,11 +129,11 @@
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
-            <artifactId>jboss-aop-jdk50</artifactId>
+            <artifactId>jboss-aop-jdk50-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
-            <artifactId>jboss-aspect-library-jdk50</artifactId>
+            <artifactId>jboss-aspect-jdk50-client</artifactId>
         </dependency>
 #if ($jsr181Webservice)
         <dependency>
@@ -143,7 +143,7 @@
 #end
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate</artifactId>
+            <artifactId>hibernate-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
