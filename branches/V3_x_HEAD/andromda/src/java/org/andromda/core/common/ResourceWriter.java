@@ -3,6 +3,7 @@ package org.andromda.core.common;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -175,7 +176,7 @@ public class ResourceWriter
                     string,
                     namespace);
         }
-        OutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+        final OutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
         byte[] output;
         if (StringUtils.isNotBlank(this.encoding))
         {
@@ -185,10 +186,14 @@ public class ResourceWriter
         {
             output = string.getBytes();
         }
-        stream.write(output);
+        final InputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(output));
+        for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read())
+        {
+            stream.write(ctr);
+        }
+        inputStream.close();
         stream.flush();
         stream.close();
-        stream = null;
         if (recordHistory)
         {
             this.recordHistory(file);
