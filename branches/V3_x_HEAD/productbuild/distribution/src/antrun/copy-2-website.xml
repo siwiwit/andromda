@@ -31,7 +31,7 @@
 	<target name="copy" >
 		<echo>
   Copying M1 artifacts 
-			from ${maven1_repo}		
+			from ${maven1_repo}/andromda	
 			to ${website_dir}/maven
 		</echo>
 		<copy todir="${website_dir}/maven" preservelastmodified="true">
