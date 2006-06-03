@@ -132,7 +132,7 @@
 								<ant dir="src/antrun"
 									antfile="copy-2-website.xml">
 									<property name="maven1_repo"
-										value="${maven1Repository}"/>
+										value="/andromda/maven/repository"/>
 									<property name="maven2_repo"
 										value="${settings.localRepository}"/>
 								</ant>
