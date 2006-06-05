@@ -9,7 +9,6 @@
   <available property="website_present" file="${website_dir}" type="dir"/>
 	
 	<target name="copy-2-website" depends="fail1,fail2,copy">
-		<echo message="Copy."/>		
 	</target>
 	
 	<target name="fail1" unless="repositories_present">
