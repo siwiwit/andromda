@@ -13,10 +13,11 @@
 	
 	<target name="fail" unless="repositories_present">
 		<echo>
-  maven1_repo (${maven1_repo} and/or 
-  maven2_repo (${maven2_repo}) not set or does not exist.">			
+********* copy-m2-m1 ********************************************************
+**  maven1_repo (${maven1_repo} and/or 
+**  maven2_repo (${maven2_repo}) not set or does not exist.">			
+*****************************************************************************
 		</echo>
-		<fail/>
 	</target>
 	
 	<!-- Copy maven 2 artifacts to maven 1 repository-->

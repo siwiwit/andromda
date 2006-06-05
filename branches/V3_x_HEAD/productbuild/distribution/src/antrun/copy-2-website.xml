@@ -13,17 +13,19 @@
 	
 	<target name="fail1" unless="repositories_present">
 		<echo>
-  maven1_repo (${maven1_repo} and/or 
-  maven2_repo (${maven2_repo}) not set or does not exist.">			
+****** copy-2-website *******************************************************
+**  maven1_repo (${maven1_repo} and/or 
+**  maven2_repo (${maven2_repo}) not set or does not exist.">			
+*****************************************************************************
 		</echo>
-		<fail/>
 	</target>
 
 	<target name="fail2" unless="website_present">
 		<echo>
-  webiste dir (${website_dir} not set or does not exist.">			
+****** copy-2-website *******************************************************
+**  website dir (${website_dir} not set or does not exist.">			
+*****************************************************************************
 		</echo>
-		<fail/>
 	</target>
 	
 	<!-- Copy maven 2 and maven1 artifacts to website -->
