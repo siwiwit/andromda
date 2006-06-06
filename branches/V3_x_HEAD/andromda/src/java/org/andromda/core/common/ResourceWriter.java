@@ -211,45 +211,8 @@ public class ResourceWriter
         final String fileLocation)
         throws IOException
     {
-        ExceptionUtils.checkNull(
-            "url",
-            url);
-        ExceptionUtils.checkEmpty(
-            "fileLocation",
-            fileLocation);
-        final File file = new File(fileLocation);
-        final File parent = file.getParentFile();
-        if (parent != null)
-        {
-            parent.mkdirs();
-        }
-        OutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
-        if (StringUtils.isNotBlank(this.encoding))
-        {
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(
-                        url.openStream(),
-                        this.encoding));
-            for (int ctr = inputReader.read(); ctr != -1; ctr = inputReader.read())
-            {
-                stream.write(ctr);
-            }
-            inputReader.close();
-            inputReader = null;
-        }
-        else
-        {
-            InputStream inputStream = new BufferedInputStream(url.openStream());
-            for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read())
-            {
-                stream.write(ctr);
-            }
-            inputStream.close();
-            inputStream = null;
-        }
-        stream.flush();
-        stream.close();
-        stream = null;
-        this.recordHistory(file);
+        ResourceUtils.writeUrlToFile(url, fileLocation, this.encoding);
+        this.recordHistory(new File(fileLocation));
     }
 
     /**

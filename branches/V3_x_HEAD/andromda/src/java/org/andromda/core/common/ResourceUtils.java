@@ -1,8 +1,13 @@
 package org.andromda.core.common;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.io.IOException;
 
@@ -19,7 +24,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 
@@ -551,13 +555,13 @@ public class ResourceUtils
                 {
                     logger.debug("Copying classpath resource contents into temporary file");
                 }
-                FileUtils.copyURLToFile(url, fileSystemResource);
+                writeUrlToFile(url, fileSystemResource.toString(), null);
 
                 // - count the times the actual resource to resolve has been nested
                 final int nestingCount = StringUtils.countMatches(path, "!/");
                 // - this buffer is used to construct the URL spec to that specific resource
                 final StringBuffer buffer = new StringBuffer();
-                for (int i = 0; i < nestingCount; i++)
+                for (int ctr = 0; ctr < nestingCount; ctr++)
                 {
                     buffer.append("jar:");
                 }
@@ -580,6 +584,60 @@ public class ResourceUtils
 
         return url;
     }
+    
+    /**
+     * Writes the URL contents to a file specified by the fileLocation argument.
+     *
+     * @param url the URL to read
+     * @param fileLocation the location which to write.
+     * @param encoding the optional encoding
+     */
+    public static void writeUrlToFile(
+        final URL url,
+        final String fileLocation,
+        final String encoding)
+        throws IOException
+    {
+        ExceptionUtils.checkNull(
+            "url",
+            url);
+        ExceptionUtils.checkEmpty(
+            "fileLocation",
+            fileLocation);
+        final File file = new File(fileLocation);
+        final File parent = file.getParentFile();
+        if (parent != null)
+        {
+            parent.mkdirs();
+        }
+        OutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+        if (StringUtils.isNotBlank(encoding))
+        {
+            BufferedReader inputReader = new BufferedReader(new InputStreamReader(
+                        url.openStream(),
+                        encoding));
+            for (int ctr = inputReader.read(); ctr != -1; ctr = inputReader.read())
+            {
+                stream.write(ctr);
+            }
+            inputReader.close();
+            inputReader = null;
+        }
+        else
+        {
+            InputStream inputStream = new BufferedInputStream(url.openStream());
+            for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read())
+            {
+                stream.write(ctr);
+            }
+            inputStream.close();
+            inputStream = null;
+        }
+        stream.flush();
+        stream.close();
+        stream = null;
+    }
+
 
     /**
      * Indicates whether or not the given <code>url</code> is a file.
