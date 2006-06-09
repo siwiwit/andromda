@@ -1107,7 +1107,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>andromdapp-maven-plugin</artifactId>
-                            <version>3.2-RC1-SNAPSHOT</version>
+                            <version>$andromdaVersion</version>
                             <!-- provides the injection of the script wrapper support into the class files (this should only
                                  be done when developing locally), uncomment this executions element to enable
                             <executions>
