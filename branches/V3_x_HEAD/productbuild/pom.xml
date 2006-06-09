@@ -18,6 +18,7 @@
         <url>http://jira.andromda.org/</url>
     </issueManagement>
     <scm>
+      <!-- test update for m2 build -->
       <connection>scm:cvs:ext:${cvs_username}:@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</connection>
       <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
       <tag>V3_x_HEAD</tag>
