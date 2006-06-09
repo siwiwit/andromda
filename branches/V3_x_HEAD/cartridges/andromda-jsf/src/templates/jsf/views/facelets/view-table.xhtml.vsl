@@ -22,7 +22,7 @@
 <ui:composition>
 <h:form>
 #set ($targetColumns = $table.targettedTableColumnNames)
-    <af:table allDetailsEnabled="true" var="row" bandingInterval="1" banding="row" value="#{${table.name}}" rows="10" width="90%">
+    <af:table allDetailsEnabled="true" var="row" bandingInterval="1" banding="row" value="#{${table.name}}" rows="#{${preferencesBeanName}.maxTableRows}" width="90%">
 #if (!$table.tableColumns.empty)
 #foreach ($column in $table.tableColumns)
 #if($column.name)

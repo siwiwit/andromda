@@ -130,13 +130,6 @@
                     Defines the bean name under which the preferences class will be stored.
                 </documentation>
             </property>
-            <property name="sidebarLayout">
-                <default>classic</default>
-                <documentation>
-                    The default layout to use for the navigation layout (this is only applicable
-                    when the <a href="#menuLayout">menuLayout</a> is <em>side</em>.
-                </documentation>
-            </property>
             <property name="menuLayout">
                 <default>vbr</default>
                 <documentation>
@@ -151,6 +144,12 @@
                     </ul>
                 </documentation>
             </property>
+            <property name="maxTableRows">
+                <default>10</default>
+                <documentation>
+                    The dfault value to set for the maximum rows displayed in a table.
+                </documentation>
+            </property>            
             <property name="menuTheme">
                 <default>ThemePanel</default>
                 <documentation>

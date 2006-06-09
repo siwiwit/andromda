@@ -39,4 +39,19 @@ public class $preferencesClassName
     {
         this.skin = skin;
     }
+    
+    /**
+     * The maximum rows displayed in a table.
+     */
+    private String maxTableRows;
+    
+    public void setMaxTableRows(final String maxTableRows)
+    {
+        this.maxTableRows = maxTableRows;
+    }
+    
+    public String getMaxTableRows()
+    {
+        return this.maxTableRows;
+    }
 }

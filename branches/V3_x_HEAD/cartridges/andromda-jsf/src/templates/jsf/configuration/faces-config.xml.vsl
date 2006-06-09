@@ -94,6 +94,10 @@
             <property-name>menuTheme</property-name>
             <value>$menuTheme</value>
         </managed-property>
+        <managed-property>
+            <property-name>maxTableRows</property-name>
+            <value>$maxTableRows</value>
+        </managed-property>
     </managed-bean>
 #end
     

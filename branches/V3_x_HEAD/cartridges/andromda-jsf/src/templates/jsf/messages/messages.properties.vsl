@@ -137,6 +137,7 @@ preferences.menu.theme=Menu Theme
 preferences.title=Preferences
 preferences.apply=Apply
 preferences.skin=Skin
+preferences.max.table.rows=Max Table Rows
 
 select.value.text=Select an option
 

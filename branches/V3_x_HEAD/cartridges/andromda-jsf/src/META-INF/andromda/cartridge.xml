@@ -28,7 +28,6 @@
     <property reference="managedBeansPackage"/>
     <property reference="preferencesClassName"/>
     <property reference="preferencesBeanName"/>
-    <property reference="sidebarLayout"/>
     <property reference="menuLayout"/>
     <property reference="menuTheme"/>
     <property reference="applicationName"/>
@@ -63,6 +62,7 @@
     <property reference="formSerialization"/>
     <property reference="formMessagesProperty"/>
     <property reference="useCaseForwardsClassName"/>
+    <property reference="maxTableRows"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
