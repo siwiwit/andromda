@@ -1,7 +1,7 @@
 #set ($generatedFile = "$stringUtils.replace($managedBeansPackage, '.', '/')/${preferencesClassName}.java")
 #if ($stringUtils.isNotEmpty($managedBeansPackage))
 package $managedBeansPackage;
-#end;
+#end
 
 /**
  * Provides dynamically changeable preferences for changing the application 
