@@ -94,10 +94,12 @@
             <property-name>menuTheme</property-name>
             <value>$menuTheme</value>
         </managed-property>
+#if ($stringUtils.isNotBlank($maxTableRows))
         <managed-property>
             <property-name>maxTableRows</property-name>
             <value>$maxTableRows</value>
         </managed-property>
+#end
     </managed-bean>
 #end
     
