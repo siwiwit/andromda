@@ -62,7 +62,7 @@
 #elseif ($parameter.plainText)
         <h:outputText value="#{${formValuePropertyName}}"/>
 #else
-        <af:inputText id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" readOnly="$parameter.readOnly" #if($parameter.inputTextarea) rows="3" cols="30"#end#if($parameter.inputSecret) secret="true"#end>
+        <af:inputText id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" readOnly="$parameter.readOnly" #if($parameter.inputTextarea) rows="3" columns="40"#end#if($parameter.inputSecret) secret="true"#end>
 #if ($parameter.type.timeType)
             <a:convertDateTime pattern="$parameter.format"/>
 #end
