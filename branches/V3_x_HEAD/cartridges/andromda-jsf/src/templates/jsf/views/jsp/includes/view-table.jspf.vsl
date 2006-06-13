@@ -80,9 +80,9 @@
                 <h:panelGroup styleClass="actionColumn"><t:graphicImage url="/images/space.gif"/></h:panelGroup>
             </f:facet>
             <h:panelGroup styleClass="actionColumn">
-                <af:commandLink text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
+                <af:commandButton text="#{messages['$action.trigger.messageKey']}" action="#{${action.controller.beanName}.${action.triggerName}}">
 #renderTableCommandLinkParameters()
-                </af:commandLink>
+                </af:commandButton>
             </h:panelGroup>
         </af:column>
 #end
