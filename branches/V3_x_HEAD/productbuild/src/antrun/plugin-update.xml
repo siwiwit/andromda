@@ -1,12 +1,10 @@
 <project name="plugin-update" default="update">
 	
-  <available property="lib_present" file="${basedir}/lib" type="dir"/>
+  <available property="lib.present" file="${basedir}/lib" type="dir"/>
 	
-  <target name="update" depends="fail,do-update">
-		
-  </target>
+  <target name="update" depends="fail,do-update"/>
 	
-  <target name="fail" unless="lib_present">
+  <target name="fail" unless="lib.present">
 		<echo>
 ************************************************
 ** plugin-update
@@ -16,7 +14,7 @@
 		
   </target>
 	
-  <target name="do-update" if="lib_present">
+  <target name="do-update" if="lib.present">
 		<copy file="${basedir}/lib/org/andromda/maven/plugins/andromda-cartridge-plugin/andromda-cartridge-plugin.jar"
 			tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-cartridge-plugin/${pom.version}/andromda-cartridge-plugin-${pom.version}.jar"/>
     	<copy file="${basedir}/lib/org/andromda/maven/plugins/andromda-model-archiver-plugin/andromda-model-archiver-plugin.jar"
