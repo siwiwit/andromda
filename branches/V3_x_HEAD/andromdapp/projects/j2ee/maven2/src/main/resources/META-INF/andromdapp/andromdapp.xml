@@ -84,24 +84,31 @@
             </documentation>
             <prompt id="applicationParentDirectory">
                 <text>Please enter the location in which your new application will be created (i.e. f:/java/development)</text>
+                <shortText>Application location</shortText>
             </prompt>
             <prompt id="author">
                 <text>Please enter your first and last name (i.e. Chad Brandon)</text>
+                <shortText>Author</shortText>
             </prompt>
             <prompt id="applicationName">
                 <text>Please enter the name of your J2EE project (i.e. Animal Quiz)</text>
+                <shortText>Application name</shortText>
             </prompt>
             <prompt id="applicationId">
                 <text>Please enter an id for your J2EE project (i.e. animalquiz)</text>
+                <shortText>Application ID</shortText>
             </prompt>
             <prompt id="applicationVersion">
                 <text>Please enter a version for your project (i.e. 1.0-SNAPSHOT)</text>
+                <shortText>Version</shortText>
             </prompt>
             <prompt id="applicationPackage">
                 <text>Please enter the root package name for your J2EE project (i.e. org.andromda.samples.animalquiz)</text>
+                <shortText>Root package</shortText>
             </prompt>
             <prompt id="applicationType" setResponseAsTrue="true">
                 <text>Would you like an EAR or standalone WAR?</text>
+                <shortText>Application type</shortText>
                 <responses>
                     <response>ear</response>
                     <response>war</response>
@@ -119,6 +126,7 @@
             </documentation>        
             <prompt id="transactionPersistenceType" setResponseAsTrue="true">
                 <text>Please enter the type of transactional/persistence cartridge to use</text>
+                <shortText>Persistence cartridge</shortText>
                 <responses>
                     <response>hibernate</response>
                     <response>ejb</response>
@@ -129,6 +137,7 @@
             </prompt>
             <prompt id="databaseType" setResponseAsTrue="true">
                 <text>Please enter the database backend for the persistence layer</text>
+                <shortText>Database backend</shortText>
                 <preconditions>
                     <condition id="transactionPersistenceType" notEqual="none"/>
                 </preconditions>
@@ -149,6 +158,7 @@
             </prompt>
             <prompt id="workflow">
                 <text>Will your project need workflow engine capabilities? (it uses jBPM and Hibernate3)?</text>
+                <shortText>Enable workflow capabilities</shortText>
                 <responses type="java.lang.Boolean">
                     <response>yes</response>
                     <response>no</response>
@@ -161,6 +171,7 @@
             </prompt>
             <prompt id="hibernateVersion">
                 <text>Please enter the hibernate version number (enter '2' for 2.1.x or '3' for 3.0.x)</text>
+                <shortText>Hibernate version</shortText>
                 <preconditions type="or">
                     <condition id="transactionPersistenceType" equal="spring"/>
                     <condition id="transactionPersistenceType" equal="hibernate"/>
@@ -172,6 +183,7 @@
             </prompt>
             <prompt id="web">
                 <text>Will your project have a web user interface?</text>
+                <shortText>Web interface</shortText>
                 <responses type="java.lang.Boolean">
                     <response>yes</response>
                     <response>no</response>
@@ -179,6 +191,7 @@
             </prompt>
             <prompt id="webType" setResponseAsTrue="true">
                 <text>Would you like your web user interface to use JSF or Struts?</text>
+                <shortText>Web interface technology</shortText>
                 <preconditions>
                     <condition id="web" equal="true"/>
                 </preconditions>
@@ -189,6 +202,7 @@
             </prompt>
             <prompt id="viewType" setResponseAsTrue="true">
                 <text>Would you like to use Facelets or JSP as your view type for JSF?</text>
+                <shortText>JSF view type</shortText>
                 <preconditions>
                     <condition id="jsf" equal="true"/>
                 </preconditions>
@@ -199,6 +213,7 @@
             </prompt>
             <prompt id="webservice">
                 <text>Would you like to be able to expose your services as web services?</text>
+                <shortText>Enable web services</shortText>
                 <responses type="java.lang.Boolean">
                     <response>yes</response>
                     <response>no</response>
@@ -206,6 +221,7 @@
             </prompt>
             <prompt id="jsr181Webservice" setResponseAsTrue="false">
                 <text>Would you like to use the JSR181 (webservice defined by annotations) cartridge specific implementation?</text>
+                <shortText>JSR181 compliant webservices</shortText>
                 <preconditions>
                     <condition id="webservice" equal="true"/>
                     <condition id="transactionPersistenceType" equal="ejb3"/>
@@ -217,6 +233,7 @@
             </prompt>
             <prompt id="axisVersion">
                 <text>Would you like to use Axis 1.x or Axis 2.x (enter '1' for 1.x or '2' for 2.x)?</text>
+                <shortText>Axis version</shortText>
                 <preconditions>
                     <condition id="webservice" equal="true"/>
                     <condition id="jsr181Webservice" notEqual="true"/>

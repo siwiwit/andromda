@@ -1,6 +1,6 @@
 <andromdapp type="richclient" root="${applicationParentDirectory}/${applicationId}">
     <resourceLocations>
-        <location>templates/richclient/ant</location>      
+        <location>templates/richclient/ant</location>
     </resourceLocations>
     <directories>
        <directory>client/src/generated/config</directory>
@@ -39,29 +39,36 @@
             </documentation>
             <prompt id="author">
                 <text>Your first and last last name [e.g. Arthur Dent]</text>
+                <shortText>Author</shortText>
             </prompt>
             <prompt id="applicationParentDirectory">
                 <text>Parent dir of project directory [e.g. /myWorkspace]</text>
+                <shortText>Application location</shortText>
             </prompt>
             <prompt id="applicationName">
                 <text>Application name [e.g. My Test Project]</text>
+                <shortText>Application name</shortText>
             </prompt>
             <prompt id="applicationId">
                 <text>Application id [e.g. testProject]</text>
+                <shortText>Application ID</shortText>
             </prompt>
             <prompt id="applicationVersion">
                 <text>Application version [e.g. 1.0]</text>
+                <shortText>Version</shortText>
             </prompt>
             <prompt id="applicationPackage">
                 <text>Base package for generated code [e.g. com.mycompany]</text>
+                <shortText>Root package</shortText>
             </prompt>
         </promptGroup>
         <promptGroup name="Security">
             <documentation>
                 Provides the choice of components with the application.
-            </documentation>        
+            </documentation>
             <prompt id="enableAcegi">
                 <text>Do you want to enable Acegi Security [yes/no]?</text>
+                <shortText>Enable Acegi Security</shortText>
                 <responses>
                     <response>yes</response>
                     <response>no</response>
@@ -69,6 +76,7 @@
             </prompt>
             <prompt id="acegiImplementAuth">
                 <text>Will this application manage its own user list [yes/no]?</text>
+                <shortText>Add authentication support</shortText>
                 <preconditions>
                     <condition id="enableAcegi" equal="yes"/>
                 </preconditions>

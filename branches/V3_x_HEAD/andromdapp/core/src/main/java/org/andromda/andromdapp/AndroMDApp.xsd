@@ -232,6 +232,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="text" minOccurs="0"/>
+                <xs:element ref="shortText" minOccurs="0"/>
                 <xs:element ref="preconditions" minOccurs="0"/>
                 <xs:element ref="responses" minOccurs="0"/>
                 <xs:element ref="conditions" minOccurs="0"/>
@@ -386,5 +387,6 @@
         </xs:complexType>
     </xs:element>
     <xs:element name="text" type="xs:string"/>
+    <xs:element name="shortText" type="xs:string"/>
     <xs:element name="to" type="xs:string"/>
 </xs:schema>
