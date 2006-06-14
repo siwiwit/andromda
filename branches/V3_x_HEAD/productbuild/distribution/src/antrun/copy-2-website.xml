@@ -48,6 +48,7 @@
 		<copy todir="${website_dir}/maven2" preservelastmodified="true">
 			<fileset dir="${maven2_repo}">
 				<include name="org/andromda/**/*"/>
+                <include name="org/apache/maven/plugins/andromdapp-maven-plugin/**/*"/>
 			</fileset>
 		</copy>
 		<echo message="Copy Done."/>
