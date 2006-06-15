@@ -177,9 +177,13 @@
 			plugins must exist before the build even starts) -->
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
+                <inherited>false</inherited>
 				<configuration>
 					<tasks>
-						<ant dir="src/antrun" antfile="plugin-update.xml"/>
+                        <copy file="${basedir}/lib/org/andromda/maven/plugins/andromda-cartridge-plugin/andromda-cartridge-plugin.jar"
+                            tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-cartridge-plugin/${pom.version}/andromda-cartridge-plugin-${pom.version}.jar"/>
+                        <copy file="${basedir}/lib/org/andromda/maven/plugins/andromda-model-archiver-plugin/andromda-model-archiver-plugin.jar"
+                            tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-model-archiver-plugin/${pom.version}/andromda-model-archiver-plugin-${pom.version}.jar"/>
 					</tasks>
 				</configuration>
 			</plugin>
