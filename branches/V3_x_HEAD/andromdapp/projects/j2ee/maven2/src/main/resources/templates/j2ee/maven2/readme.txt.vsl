@@ -27,9 +27,7 @@
          |-- pom.xml
          |        contains information about this project, you may add more information
          |        as long as you do not violate the Maven POM schema, see
-         |        http://maven.apache.org/reference/project-descriptor.html
-         |-- project.properties
-         |        common properties that might be changed to configure the project
+         |        http://maven.apache.org/reference/project-descriptor.htmlt
          |
          +-- /mda
          |     |
@@ -38,10 +36,7 @@
          |     |    assemble the application
          |     |
          |     +-- pom.xml
-         |     |        contains the AndroMDA dependencies (cartridges, translation-libraries, etc)
-         |     +-- mda.properties
-         |     |        specific AndroMDA properties, can be configured here,
-         |     |        such as toggling the validation errors on/off
+         |     |        contains the AndroMDA dependencies and configuration (cartridges, translation-libraries, etc)
          |     +-- /src
          |     |        additional sources such as merge-mappings can be
          |     |        placed here, check out the /main/uml directory, it contains
