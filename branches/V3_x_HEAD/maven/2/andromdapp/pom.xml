@@ -93,18 +93,21 @@
                         <goals>
                             <goal>run</goal> 
                         </goals>
-                        <phase>package</phase>
+                        <phase>install</phase>
                     </execution>
                 </executions>
 				<configuration>
 					<tasks>
                         <property name="build.directory" value="${basedir}/target"/>
                         <property name="plugin.install.directory" value="${build.directory}/plugin-install"/>
+                        <property name="groupId.directory" value="org/andromda/maven/plugins"/>
                         <copy file="${build.directory}/${project.artifactId}-${project.version}.jar"
-                              tofile="${plugin.install.directory}/org/andromda/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar"/>
+                              tofile="${plugin.install.directory}/${groupId.directory}/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar"/>
                         <copy file="${build.directory}/exported-pom.xml"
-                              tofile="${plugin.install.directory}/org/andromda/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.pom"/>   
-                        <zip basedir="${plugin.install.directory}" destfile="${build.directory}/${project.artifactId}-install-${project.version}.zip"/>                     
+                              tofile="${plugin.install.directory}/${groupId.directory}/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.pom"/>   
+                        <zip basedir="${plugin.install.directory}" destfile="${build.directory}/${project.artifactId}-install-${project.version}.zip"/>         
+                        <copy file="${build.directory}/${project.artifactId}-install-${project.version}.zip"
+                              tofile="${settings.localRepository}/${groupId.directory}/${project.artifactId}/${project.version}/${project.artifactId}-install-${project.version}.zip"/>        
 					</tasks>
 				</configuration>
 			</plugin>
