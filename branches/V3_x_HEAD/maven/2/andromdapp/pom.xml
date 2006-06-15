@@ -7,7 +7,6 @@
         <groupId>org.andromda.maven.plugins</groupId>
         <version>3.2-SNAPSHOT</version>
     </parent>
-    <groupId>org.apache.maven.plugins</groupId>
     <artifactId>andromdapp-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <name>AndroMDA Application Generator Maven Plugin</name>
@@ -77,6 +76,38 @@
                     <exclude>**/*.java</exclude>
                 </excludes>              
             </resource>
+            <resource>
+                <directory>src/main/resources/xml</directory>
+                <targetPath>../plugin-install/org/andromda/maven/plugins/${project.artifactId}</targetPath>
+                <filtering>true</filtering>
+            </resource>
         </resources>
+		<plugins>
+			<!-- This snippet here creates a zip which can be unzipped into your local repository in order
+                 to install the andromdapp plugin (this is necessary because currently maven2 will not search 
+                 any other repo other than central when trying to install a plugin without a pom.xml, i.e. command line) -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal> 
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+				<configuration>
+					<tasks>
+                        <property name="build.directory" value="${basedir}/target"/>
+                        <property name="plugin.install.directory" value="${build.directory}/plugin-install"/>
+                        <copy file="${build.directory}/${project.artifactId}-${project.version}.jar"
+                              tofile="${plugin.install.directory}/org/andromda/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar"/>
+                        <copy file="${build.directory}/exported-pom.xml"
+                              tofile="${plugin.install.directory}/org/andromda/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.pom"/>   
+                        <zip basedir="${plugin.install.directory}" destfile="${build.directory}/${project.artifactId}-install-${project.version}.zip"/>                     
+					</tasks>
+				</configuration>
+			</plugin>
+		</plugins>
     </build>
 </project>
