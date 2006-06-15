@@ -22,7 +22,7 @@
     /$applicationId J2EE project
          |
          |    The root of the project contains a few files that control the overall
-         |    build process and common properties
+         |    build process and common properties (in the pom.xml).
          |
          |-- pom.xml
          |        contains information about this project, you may add more information
