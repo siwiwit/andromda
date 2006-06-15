@@ -129,6 +129,7 @@
 								<ant dir="src/antrun" antfile="copy-2-website.xml">
 									<property name="maven1.repository" value="${maven1Repository}"/>
 									<property name="maven2.repository" value="${settings.localRepository}"/>
+                                    <property name="distribution.output.directory" value="${project.build.directory}"/>
 								</ant>
 								<echo message="Copy and install of m2 to m1 artifacts done."/>
 							</tasks>

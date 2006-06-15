@@ -50,6 +50,11 @@
 				<include name="org/andromda/**/*"/>
 			</fileset>
 		</copy>
+		<copy todir="${website.dir}/maven2/org/andromda/distributions" preservelastmodified="true">
+			<fileset dir="${distribution.output.directory}">
+				<include name="*.zip"/>
+			</fileset>
+		</copy>
 		<echo message="Copy Done."/>
 	</target>
 </project>
