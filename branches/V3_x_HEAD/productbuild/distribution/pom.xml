@@ -93,11 +93,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.andromda.maven.plugins</groupId>
-                <artifactId>andromda-distribution-plugin</artifactId>
-                <version>${pom.version}</version>
-			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
                 <!-- set property, do something like this in ~/.m2/settings.xml
@@ -118,7 +113,6 @@
 						<phase>install</phase>
 						<configuration>
 							<tasks>
-								<!-- Default values, for stockholm server -->
 								<property name="maven1Repository" value="/andromda/maven/repository"/>
 								<property name="website.dir" value="/var/www/andromda"/>
 								<ant dir="src/antrun" antfile="copy-m2-m1.xml">
