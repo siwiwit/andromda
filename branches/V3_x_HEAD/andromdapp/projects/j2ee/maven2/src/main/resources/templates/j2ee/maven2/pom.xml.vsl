@@ -750,6 +750,12 @@
 #end
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromdapp-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
     <modules>
         <module>mda</module>
