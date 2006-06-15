@@ -217,10 +217,10 @@
                     <excludes>**/*.java</excludes>
                 </configuration>
             </plugin>
-#if (!$ear)
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+                <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
+#if (!$ear)
                 <executions>
                     <execution>
                         <goals>
@@ -231,13 +231,8 @@
                 <configuration>
                     <deployLocation>${tomcat.home}/webapps</deployLocation>
                 </configuration>
-            </plugin>
-#else
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>andromdapp-maven-plugin</artifactId>
-            </plugin>
 #end
+            </plugin>
         </plugins>
     </build>
 </project>

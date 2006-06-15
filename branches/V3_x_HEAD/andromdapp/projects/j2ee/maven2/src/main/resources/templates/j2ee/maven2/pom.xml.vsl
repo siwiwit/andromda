@@ -729,7 +729,7 @@
                     <version>$andromdaVersion</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.andromda.maven.plugins</groupId>
                     <artifactId>andromdapp-maven-plugin</artifactId>
                     <version>$andromdaVersion</version>
                 </plugin>
@@ -1105,7 +1105,7 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
+                            <groupId>org.andromda.maven.plugins</groupId>
                             <artifactId>andromdapp-maven-plugin</artifactId>
                             <version>$andromdaVersion</version>
                             <!-- provides the injection of the script wrapper support into the class files (this should only
