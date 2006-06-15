@@ -1,8 +1,0 @@
-<project name="CVSupdate" default="cvs-update">
-	
-	<target name="cvs-update" >
-	    <property name="workdir" value="/andromda/builds/v3/andromda-all"/>
-		<cvs command="update -dP" dest="${workdir}" />
-	</target>
-	
-</project>
