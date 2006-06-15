@@ -118,25 +118,18 @@
 						<phase>install</phase>
 						<configuration>
 							<tasks>
-								<!-- Default values, for stockholm -->
-								<property name="maven1Repository"
-									value="/andromda/maven/repository"/>
-								<property name="website_dir"
-									value="/var/www/andromda"/>
+								<!-- Default values, for stockholm server -->
+								<property name="maven1Repository" value="/andromda/maven/repository"/>
+								<property name="website.dir" value="/var/www/andromda"/>
 								<ant dir="src/antrun" antfile="copy-m2-m1.xml">
-									<property name="maven1_repo"
-										value="${maven1Repository}"/>
-									<property name="maven2_repo"
-										value="${settings.localRepository}"/>
+									<property name="maven1.repository" value="${maven1Repository}"/>
+									<property name="maven2.repository" value="${settings.localRepository}"/>
 								</ant>
-								<ant dir="src/antrun"
-									antfile="copy-2-website.xml">
-									<property name="maven1_repo"
-										value="${maven1Repository}"/>
-									<property name="maven2_repo"
-										value="${settings.localRepository}"/>
+								<ant dir="src/antrun" antfile="copy-2-website.xml">
+									<property name="maven1.repository" value="${maven1Repository}"/>
+									<property name="maven2.repository" value="${settings.localRepository}"/>
 								</ant>
-								<echo message="Copy and install m2/m1 artifacts done."/>
+								<echo message="Copy and install of m2 to m1 artifacts done."/>
 							</tasks>
 						</configuration>
 						<goals>
