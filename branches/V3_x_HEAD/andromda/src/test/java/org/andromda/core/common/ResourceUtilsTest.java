@@ -45,7 +45,7 @@ public class ResourceUtilsTest
         throws Exception
     {
         URL resource = ResourceUtils.resolveClasspathResource(
-            ResourceUtilsTest.class.getPackage().getName().replace('.', '/') + '/' +
+            "classpath:" + ResourceUtilsTest.class.getPackage().getName().replace('.', '/') + '/' +
             "ResourceUtilsTestDir/one.zip!/two.zip!/three.zip!/file.txt" );
         assertNotNull(resource);
     }

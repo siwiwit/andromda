@@ -35,10 +35,21 @@ import org.apache.log4j.Logger;
 public class ResourceUtils
 {
     private final static Logger logger = Logger.getLogger(ResourceUtils.class);
+    
     /**
      * All archive files start with this prefix.
      */
     private static final String ARCHIVE_PREFIX = "jar:";
+    
+    /**
+     * The prefix for URL file resources.
+     */
+    private static final String FILE_PREFIX = "file:";
+    
+    /**
+     * The prefix to use for searching the classpath for a resource.
+     */
+    private static final String CLASSPATH_PREFIX = "classpath:";
 
     /**
      * Retrieves a resource from the current classpath.
@@ -480,14 +491,19 @@ public class ResourceUtils
 
             try
             {
-                final File file = new File(path);
-                url = file.exists() ? file.toURL() : new URL(path);
+                if (path.startsWith(CLASSPATH_PREFIX))
+                {
+                    url = ResourceUtils.resolveClasspathResource(path);
+                }
+                else
+                {
+                    final File file = new File(path);
+                    url = file.exists() ? file.toURL() : new URL(path);
+                }
             }
             catch (MalformedURLException exception)
             {
-                // this means no protocol was specified
-                // in that case we'll assume the path is pointing to a resource on the classpath
-                url = resolveClasspathResource(path);
+                // ignore means no protocol was specified
             }
         }
         return url;
@@ -513,76 +529,81 @@ public class ResourceUtils
      */
     public static URL resolveClasspathResource(String path)
     {
-        // the value of the following constant is -1 of no nested resources were specified,
-        // otherwise it points to the location of the first occurrence
-        final int nestedPathOffset = path.indexOf("!/");
-
-        // take the part of the path that is not nested (may be all of it)
-        final String resourcePath = nestedPathOffset == -1 ? path : path.substring(0, nestedPathOffset);
-        final String nestingPath = nestedPathOffset == -1 ? "" : path.substring(nestedPathOffset);
-
-        // use the new path to load a URL from the classpath using the context class loader for this thread
-        URL url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
-
-        // at this point the URL might be null in case the resource was not found
-        if (url == null)
-        {
-            if (logger.isDebugEnabled())
+        URL urlResource = null;
+        if (path.startsWith(CLASSPATH_PREFIX))
+        {        
+            path = path.substring(CLASSPATH_PREFIX.length(), path.length());
+            
+            // - the value of the following constant is -1 of no nested resources were specified,
+            //   otherwise it points to the location of the first occurrence
+            final int nestedPathOffset = path.indexOf("!/");
+    
+            // - take the part of the path that is not nested (may be all of it)
+            final String resourcePath = nestedPathOffset == -1 ? path : path.substring(0, nestedPathOffset);
+            final String nestingPath = nestedPathOffset == -1 ? "" : path.substring(nestedPathOffset);
+    
+            // - use the new path to load a URL from the classpath using the context class loader for this thread
+            urlResource = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
+    
+            // - at this point the URL might be null in case the resource was not found
+            if (urlResource == null)
             {
-                logger.debug("Resource could not be located on the classpath: " + resourcePath);
+                if (logger.isDebugEnabled())
+                {
+                    logger.debug("Resource could not be located on the classpath: " + resourcePath);
+                }
+            }
+            else
+            {
+                try
+                {
+                    // - extract the filename from the entire resource path
+                    final int fileNameOffset = resourcePath.lastIndexOf('/');
+                    final String resourceFileName =
+                        fileNameOffset == -1 ? resourcePath : resourcePath.substring(fileNameOffset + 1);
+    
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Creating temporary copy on the file system of the classpath resource");
+                    }
+                    final File fileSystemResource = File.createTempFile(resourceFileName, null);
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Temporary file will be deleted on VM exit: " + fileSystemResource.getAbsolutePath());
+                    }
+                    fileSystemResource.deleteOnExit();
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Copying classpath resource contents into temporary file");
+                    }
+                    writeUrlToFile(urlResource, fileSystemResource.toString(), null);
+    
+                    // - count the times the actual resource to resolve has been nested
+                    final int nestingCount = StringUtils.countMatches(path, "!/");
+                    // - this buffer is used to construct the URL spec to that specific resource
+                    final StringBuffer buffer = new StringBuffer();
+                    for (int ctr = 0; ctr < nestingCount; ctr++)
+                    {
+                        buffer.append(ARCHIVE_PREFIX);
+                    }
+                    buffer.append(FILE_PREFIX).append(fileSystemResource.getAbsolutePath()).append(nestingPath);
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Constructing URL to " +
+                            (nestingCount > 0 ? "nested" : "") + " resource in temporary file");
+                    }
+    
+                    urlResource = new URL(buffer.toString());
+                }
+                catch (final IOException exception)
+                {
+                    logger.warn("Unable to resolve classpath resource", exception);
+                    // - impossible to properly resolve the path into a URL
+                    urlResource = null;
+                }
             }
         }
-        else
-        {
-            try
-            {
-                // extract the filename from the entire resource path
-                final int fileNameOffset = resourcePath.lastIndexOf('/');
-                final String resourceFileName =
-                    fileNameOffset == -1 ? resourcePath : resourcePath.substring(fileNameOffset + 1);
-
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("Creating temporary copy on the file system of the classpath resource");
-                }
-                final File fileSystemResource = File.createTempFile(resourceFileName, null);
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("Temporary file will be deleted on VM exit: " + fileSystemResource.getAbsolutePath());
-                }
-                fileSystemResource.deleteOnExit();
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("Copying classpath resource contents into temporary file");
-                }
-                writeUrlToFile(url, fileSystemResource.toString(), null);
-
-                // - count the times the actual resource to resolve has been nested
-                final int nestingCount = StringUtils.countMatches(path, "!/");
-                // - this buffer is used to construct the URL spec to that specific resource
-                final StringBuffer buffer = new StringBuffer();
-                for (int ctr = 0; ctr < nestingCount; ctr++)
-                {
-                    buffer.append("jar:");
-                }
-                buffer.append("file:").append(fileSystemResource.getAbsolutePath()).append(nestingPath);
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("Constructing URL to " +
-                        (nestingCount > 0 ? "nested" : "") + " resource in temporary file");
-                }
-
-                url = new URL(buffer.toString());
-            }
-            catch (IOException exception)
-            {
-                logger.warn("Unable to resolve classpath resource", exception);
-                // impossible to properly resolve the path into a URL
-                url = null;
-            }
-        }
-
-        return url;
+        return urlResource;
     }
     
     /**
