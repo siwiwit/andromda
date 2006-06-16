@@ -120,7 +120,7 @@
 						<phase>install</phase>
 						<configuration>
 							<tasks>
-								<property name="maven1Repository" value="D:/java/.m1/repository"/>
+								<property name="maven1Repository" value="/andromda/maven/repository"/>
 								<property name="website.dir" value="/var/www/andromda"/>
 								<ant dir="src/antrun" antfile="copy-m2-m1.xml">
 									<property name="maven1.repository" value="${maven1Repository}"/>
