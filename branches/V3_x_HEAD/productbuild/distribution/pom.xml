@@ -110,8 +110,8 @@
                     <profile>
                       <id>andromda</id>
                      <properties>
-                        <maven1Repository>/var/maven/repository</maven1Repository>
-                     <properties>
+                         <maven1Repository>/var/maven/repository</maven1Repository>
+                     </properties>
                     </profile>
                   <profiles>
                 -->
