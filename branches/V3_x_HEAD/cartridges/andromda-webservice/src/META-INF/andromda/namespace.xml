@@ -28,10 +28,10 @@
                     The directory to which any non implementation Java files will be generated.
                 </documentation>
             </property>
-            <property name="axis-configuration">
+            <property name="configuration">
                 <documentation>
-                    The directory to which any AXIS specific configuration files
-                    are generated (such as the WSDD files, etc).
+                    The directory to which any configuration files
+                    are generated (such as the web.xml, etc).
                 </documentation>
             </property>
             <property name="axis-tests" required="false">
@@ -58,14 +58,24 @@
             </property>
         </propertyGroup>
         <propertyGroup name="Other">
-            <property name="axisVersion">
+            <property name="axisVersion" required="false">
                 <default>1</default>
                 <documentation>
-                    The version of Axis to use when generating.
+                    The version of Axis to use when generating (if using axis).
                     Allowable values are:
                     <ul>
                         <li>1 - Axis 1.x</li>
                         <li>2 - Axis 2.x</li>
+                    </ul>
+                </documentation>
+            </property>
+            <property name="soapStack">
+                <default>axis</default>
+                <documentation>
+                    The soap stack to use for your webservices, valid values are:
+                    <ul>
+                        <li>axis</li>
+                        <li>xfire</li>
                     </ul>
                 </documentation>
             </property>

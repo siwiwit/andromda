@@ -1,0 +1,10 @@
+<beans xmlns="http://xfire.codehaus.org/config/1.0">
+#foreach ($service in $services)
+    <service>
+        <name>$service.qName</name>
+        <namespace>$service.namespace</namespace>
+        <serviceClass>$service.rpcClassName</serviceClass>
+        <wsdlURL>$service.wsdlFile</wsdlURL>
+    </service>
+#end
+</beans>

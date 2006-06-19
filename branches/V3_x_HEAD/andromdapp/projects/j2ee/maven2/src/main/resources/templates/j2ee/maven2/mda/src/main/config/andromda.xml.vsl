@@ -259,7 +259,7 @@
 #else
                 <property name="wsdls">${webservice.generated.dir}</property>
 #end
-                <property name="axis-configuration">${webservice.generated.dir}</property>
+                <property name="configuration">${webservice.generated.dir}</property>
                 <property name="webservice-types">${core.generated.dir}</property>
             </properties>
         </namespace>
