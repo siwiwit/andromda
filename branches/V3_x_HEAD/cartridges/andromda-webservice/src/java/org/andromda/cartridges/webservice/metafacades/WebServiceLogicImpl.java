@@ -438,8 +438,7 @@ public class WebServiceLogicImpl
      */
     protected java.lang.String handleGetWsdlFile()
     {
-        return '/' +
-        StringUtils.replace(
+        return StringUtils.replace(
             this.getFullyQualifiedName(),
             String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.NAMESPACE_SEPARATOR)),
             "/") + ".wsdl";

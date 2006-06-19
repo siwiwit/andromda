@@ -40,7 +40,7 @@
 #end
 ## For now only define the static wsdl with wrapped
 #if ($service.wrappedStyle)
-        <wsdlFile>$service.wsdlFile</wsdlFile>
+        <wsdlFile>/$service.wsdlFile</wsdlFile>
 #end
         <documentation>
 $service.getDocumentation("            ", 64, false)
