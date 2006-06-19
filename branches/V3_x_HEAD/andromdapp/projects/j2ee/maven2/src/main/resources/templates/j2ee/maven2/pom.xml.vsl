@@ -338,80 +338,47 @@
 #if ($spring)
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>1.2.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>1.2.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>1.2.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-dao</artifactId>
-                <version>1.2.7</version>
-                <exclusions>
-                     <exclusion>
-                         <groupId>javax.transaction</groupId>
-                         <artifactId>jta</artifactId>
-                     </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                 <groupId>org.springframework</groupId>
-                 <artifactId>spring-hibernate</artifactId>
-                 <version>1.2.7</version>
-#if ($hibernateVersion.equals("2"))
-                 <exclusions>
-                     <exclusion>
-                         <groupId>org.hibernate</groupId>
-                         <artifactId>hibernate</artifactId>
-                     </exclusion>
-                 </exclusions>
-#end
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>1.2.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-remoting</artifactId>
-                <version>1.2.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>1.2.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-support</artifactId>
+                <artifactId>spring</artifactId>
                 <version>1.2.7</version>
                 <exclusions>
                     <exclusion>
-                        <groupId>javax.resource</groupId>
+                        <artifactId>servlet-api</artifactId>
+                        <groupId>javax.servlet</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>jta</artifactId>
+                        <groupId>javax.transaction</groupId>
+                    </exclusion>
+                    <exclusion>
                         <artifactId>connector</artifactId>
+                        <groupId>javax.resource</groupId>
                     </exclusion>
                     <exclusion>
-                        <groupId>javax.mail</groupId>
-                        <artifactId>mail</artifactId>
-                    </exclusion>
+                        <artifactId>xjavadoc</artifactId>
+                        <groupId>xdoclet</groupId>
+                    </exclusion>            
                     <exclusion>
-                        <groupId>quartz</groupId>
-                        <artifactId>quartz</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.servlets</groupId>
                         <artifactId>cos</artifactId>
+                        <groupId>com.servlets</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>jstl</artifactId>
+                        <groupId>javax.servlet</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>standard</artifactId>
+                        <groupId>taglibs</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>quartz</artifactId>
+                        <groupId>quartz</groupId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>aopalliance</groupId>
+                <artifactId>aopalliance</artifactId>
+                <version>1.0</version>
             </dependency>
 #end
 #if ($workflow)
