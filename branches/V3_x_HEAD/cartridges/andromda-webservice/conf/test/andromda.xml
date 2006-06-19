@@ -27,7 +27,7 @@
                 <property name="ejbInterfacePattern">{0}.ejb.{1}</property>
                 <property name="ejbHomeInterfacePattern">{0}.ejb.{1}Home</property>
                 <property name="wsdls">${test.output.dir}</property>
-                <property name="axis-configuration">${test.output.dir}</property>
+                <property name="configuration">${test.output.dir}</property>
                 <property name="webservice-types">${test.output.dir}</property>
                 <property name="java-types">${test.output.dir}</property>
                 <property name="axis-tests">${test.output.dir}</property>
