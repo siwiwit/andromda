@@ -757,6 +757,10 @@
         <plugins>
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromda-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
             </plugin>
         </plugins>
