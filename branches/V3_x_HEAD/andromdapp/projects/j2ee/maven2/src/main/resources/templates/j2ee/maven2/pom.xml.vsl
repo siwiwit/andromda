@@ -356,7 +356,7 @@
                     <exclusion>
                         <artifactId>xjavadoc</artifactId>
                         <groupId>xdoclet</groupId>
-                    </exclusion>            
+                    </exclusion>
                     <exclusion>
                         <artifactId>cos</artifactId>
                         <groupId>com.servlets</groupId>
