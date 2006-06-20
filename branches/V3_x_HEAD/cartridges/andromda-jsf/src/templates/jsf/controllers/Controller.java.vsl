@@ -44,14 +44,16 @@ $operation.getDocumentation("     * ")
         return controller.${targetUseCase.controllerAction}();
 #else
         String forward = null;
+        final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = new ${managedBeansPackage}.AdfFacesContextWrapper();
+        final Object currentForm = this.resolveVariable("$action.formKey");
         try
         {
 #if ($formPopulationOperationRequired)
             final $action.fullyQualifiedFormImplementationName form =
                 this.$action.formImplementationGetter;
 
-            // - pass any parameters from the previous form along
-            ${managedBeansPackage}.${formPopulatorName}.populateForm(this.resolveVariable("$action.formKey"), form);
+            // - pass any parameters from the previous form along 
+            ${managedBeansPackage}.${formPopulatorName}.populateForm(currentForm, form);
             // - populate the form with any request parameters that may match
             this.populateFormFromRequestParameters(form, form.getDateTimeFormatters());
 #end
@@ -60,7 +62,6 @@ $operation.getDocumentation("     * ")
             {
 #end
 #if (!$action.formFields.empty)
-                final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = new ${managedBeansPackage}.AdfFacesContextWrapper();
                 contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", form);
                 // - add this temporary ADF context to the session so that we can retrieve from a view populator if required
                 this.getSession(false).setAttribute("$adfContextAttributeName", contextWrapper);
@@ -73,6 +74,7 @@ $operation.getDocumentation("     * ")
             }
             catch (final Throwable throwable)
             {
+                contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", currentForm);
                 final String message = ${managedBeansPackage}.Messages.get(
                     ${managedBeansPackage}.${patternMatchingExceptionHandler}.instance().handleException(throwable), null);
                 this.addErrorMessage(message);
@@ -81,6 +83,7 @@ $operation.getDocumentation("     * ")
         }
         catch (final Throwable throwable)
         {
+            contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", currentForm);
             this.addExceptionMessage(throwable);
             // - set the forward to null so that we stay on the current view
             forward = null;

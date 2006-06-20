@@ -190,7 +190,7 @@ $field.getDocumentation("     * ")
     /**
      * The current collection of messages stored within this form.
      */
-    private java.util.Collection $formMessagesProperty = new java.util.ArrayList();;
+    private java.util.Map $formMessagesProperty = new java.util.LinkedHashMap();
     
     /**
      * Adds a {@link javax.faces.application.FacesMessage} message to the current messages
@@ -200,7 +200,10 @@ $field.getDocumentation("     * ")
      */
     public void add${stringUtils.capitalize($formMessagesProperty)}(javax.faces.application.FacesMessage jsfMessage)
     {
-        this.${formMessagesProperty}.add(jsfMessage);
+        if (jsfMessage != null)
+        {
+            this.${formMessagesProperty}.put(jsfMessage.getDetail(), jsfMessage);
+        }
     }
     
     /**
@@ -211,7 +214,7 @@ $field.getDocumentation("     * ")
      */
     public java.util.Collection get${stringUtils.capitalize($formMessagesProperty)}()
     {
-        return this.${formMessagesProperty};
+        return this.${formMessagesProperty}.values();
     }
 
     /**
