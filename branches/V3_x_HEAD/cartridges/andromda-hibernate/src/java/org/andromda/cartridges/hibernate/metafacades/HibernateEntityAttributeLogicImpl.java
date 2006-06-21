@@ -1,11 +1,12 @@
 package org.andromda.cartridges.hibernate.metafacades;
 
 import org.andromda.cartridges.hibernate.HibernateProfile;
+import org.andromda.cartridges.hibernate.HibernateUtils;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EntityMetafacadeUtils;
+import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
-import org.andromda.cartridges.hibernate.HibernateUtils;
 
 
 /**
@@ -63,6 +64,11 @@ public class HibernateEntityAttributeLogicImpl
             else if (fullyQualifiedName.startsWith("java.lang"))
             {
                 defaultValue = fullyQualifiedName + ".valueOf(" + defaultValue + ")";
+            }
+            else if (type.isEnumeration())
+            {
+                final String mask = (String)this.getConfiguredProperty(UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK);
+                defaultValue = type.getFullyQualifiedName() + '.' + NameMasker.mask(defaultValue, mask);
             }
         }
         return defaultValue;

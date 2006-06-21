@@ -196,17 +196,17 @@ public class HibernateEntityLogicImpl
     /**
      * Return the inheritance tagged value for for given <code>entity</code>.
      *
-     * @param the HibernateEntity from which to retrieve the inheritance tagged
+     * @param entity the HibernateEntity from which to retrieve the inheritance tagged
      *        value.
      * @return String inheritance tagged value.
      */
-    private String getInheritance(HibernateEntity entity)
+    private static String getInheritance(HibernateEntity entity)
     {
         String inheritance = null;
 
         if (entity != null)
         {
-            Object value = entity.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_INHERITANCE);
+            final Object value = entity.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_INHERITANCE);
 
             if (value != null)
             {

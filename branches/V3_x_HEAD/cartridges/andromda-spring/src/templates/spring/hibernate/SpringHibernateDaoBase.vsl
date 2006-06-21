@@ -63,7 +63,7 @@ public abstract class $entity.daoBaseName
     /**
      * @see ${entity.fullyQualifiedDaoName}#load(int, $identifier.type.fullyQualifiedName)
      */
-    public Object load(final int transform, final $identifier.type.fullyQualifiedName $identifier.name)
+    public java.lang.Object load(final int transform, final $identifier.type.fullyQualifiedName $identifier.name)
     {
 #set ($argument = $identifier.name)
 #if($identifier.type.primitive)
@@ -79,10 +79,10 @@ public abstract class $entity.daoBaseName
 #set ($xmlIndent = "    ")
         if (transform == TRANSFORM_XML)
         {
-            final Object entity = this.getHibernateTemplate().execute(
+            final java.lang.Object entity = this.getHibernateTemplate().execute(
                     new org.springframework.orm.hibernate3.HibernateCallback()
                     {
-                        public Object doInHibernate(org.hibernate.Session hibernateSession)
+                        public java.lang.Object doInHibernate(org.hibernate.Session hibernateSession)
                             throws org.hibernate.HibernateException
                         {
                             org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
@@ -97,7 +97,7 @@ public abstract class $entity.daoBaseName
 #else
 #set ($xmlIndent = "")
 #end
-$xmlIndent        final Object entity = this.getHibernateTemplate().get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
+$xmlIndent        final java.lang.Object entity = this.getHibernateTemplate().get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
 $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)entity);
 #if ($hibernateUtils.xmlPersistenceActive)
         }
@@ -157,17 +157,17 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#create(int transform, org.dom4j.Element)
      */
-    public Object create(int transform, final org.dom4j.Element $argumentName)
+    public java.lang.Object create(int transform, final org.dom4j.Element $argumentName)
     {
         if ($argumentName == null)
         {
             throw new IllegalArgumentException(
                 "${entity.name}.create - '$argumentName' can not be null");
         }
-        Object newID = this.getHibernateTemplate().execute(
+        java.lang.Object newID = this.getHibernateTemplate().execute(
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
-                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                    public java.lang.Object doInHibernate(org.hibernate.Session hibernateSession)
                         throws org.hibernate.HibernateException
                     {
                         org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
@@ -184,7 +184,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#create(int transform, $entity.fullyQualifiedEntityName)
      */
-    public Object create(final int transform, final $entity.fullyQualifiedName $argumentName)
+    public java.lang.Object create(final int transform, final $entity.fullyQualifiedName $argumentName)
     {
         if ($argumentName == null)
         {
@@ -198,7 +198,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #else
 #set ($identifierProperty = "($identifier.type.fullyQualifiedName)$identifierProperty")
 #end
-        Object identifier = this.getHibernateTemplate().save($argumentName);
+        java.lang.Object identifier = this.getHibernateTemplate().save($argumentName);
         if (transform == TRANSFORM_XML)
           return this.load(TRANSFORM_XML, (($identifierProperty)));
         else
@@ -233,7 +233,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
             new ${hibernateUtils.springHibernatePackage}.HibernateCallback()
             {
-                public Object doInHibernate(${hibernateUtils.basePackage}.Session session)
+                public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session session)
                     throws ${hibernateUtils.basePackage}.HibernateException
                 {
                     for (java.util.Iterator entityIterator = entities.iterator(); entityIterator.hasNext();)
@@ -265,7 +265,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${rootDaoType}#create(int, ${entity.getAttributeTypeList(true, false)})
      */
-    public Object create(
+    public java.lang.Object create(
         final int transform,
 #foreach($attribute in $attributes)
         $attribute.type.fullyQualifiedName $attribute.name#if($velocityCount != $attributes.size()),#else)#end
@@ -297,7 +297,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#create(int, ${entity.getRequiredPropertyTypeList(true, false)})
      */
-    public Object create(
+    public java.lang.Object create(
         final int transform,
 #foreach($property in $requiredProperties)
         $property.getterSetterTypeName $property.name#if($velocityCount != $requiredProperties.size()),#else)#end
@@ -341,7 +341,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
-                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                    public java.lang.Object doInHibernate(org.hibernate.Session hibernateSession)
                         throws org.hibernate.HibernateException
                     {
                         org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
@@ -366,7 +366,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
             new ${hibernateUtils.springHibernatePackage}.HibernateCallback()
             {
-                public Object doInHibernate(${hibernateUtils.basePackage}.Session session)
+                public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session session)
                     throws ${hibernateUtils.basePackage}.HibernateException
                 {
                     for (java.util.Iterator entityIterator = entities.iterator(); entityIterator.hasNext();)
@@ -406,7 +406,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
-                    public Object doInHibernate(org.hibernate.Session hibernateSession)
+                    public java.lang.Object doInHibernate(org.hibernate.Session hibernateSession)
                         throws org.hibernate.HibernateException
                     {
                         org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
@@ -500,7 +500,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
 
 #if (!$finder.returnType.collectionType)
-#set ($returnType = "Object")
+#set ($returnType = "java.lang.Object")
 #end
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
@@ -551,7 +551,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             java.util.List results = queryObject.list();
 #end
 #if (!$finder.returnType.collectionType)
-            Object result = null;
+            java.lang.Object result = null;
             if (results != null)
             {
                 if (results.size() > 1)
@@ -715,9 +715,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @return the transformed entity (i.e. new value object, etc)
      * @see #transformEntities(int,java.util.Collection)
      */
-    protected Object transformEntity(final int transform, final $entity.fullyQualifiedName entity)
+    protected java.lang.Object transformEntity(final int transform, final $entity.fullyQualifiedName entity)
     {
-        Object target = null;
+        java.lang.Object target = null;
         if (entity != null)
         {
             switch (transform)
@@ -752,7 +752,6 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      *
      * @param transform one of the constants declared in <code>$entity.fullyQualifiedDaoName</code>
      * @param entities the collection of entities to transform
-     * @return the same collection as the argument, but this time containing the transformed entities
      * @see #transformEntity(int,$entity.fullyQualifiedName)
      */
     protected void transformEntities(final int transform, final java.util.Collection entities)
@@ -805,7 +804,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * {@link $entity.daoImplementationName} class if you intend to use reporting queries.
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedName)
      */
-    protected $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(Object[] row)
+    protected $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(java.lang.Object[] row)
     {
         $valueObjectRef.targetElement.fullyQualifiedName target = null;
         if (row != null)
@@ -813,7 +812,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             final int numberOfObjects = row.length;
             for (int ctr = 0; ctr < numberOfObjects; ctr++)
             {
-                final Object object = row[ctr];
+                final java.lang.Object object = row[ctr];
                 if (object instanceof $entity.fullyQualifiedEntityName)
                 {
                     target = this.${valueObjectRef.transformationMethodName}(($entity.fullyQualifiedEntityName)object);
@@ -832,16 +831,16 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     private org.apache.commons.collections.Transformer $valueObjectRef.transformationAnonymousName =
         new org.apache.commons.collections.Transformer()
         {
-            public Object transform(Object input)
+            public java.lang.Object transform(java.lang.Object input)
             {
-                Object result = null;
+                java.lang.Object result = null;
                 if (input instanceof $entity.fullyQualifiedEntityName)
                 {
                     result = ${valueObjectRef.transformationMethodName}(($entity.fullyQualifiedEntityName)input);
                 }
-                else if (input instanceof Object[])
+                else if (input instanceof java.lang.Object[])
                 {
-                    result = ${valueObjectRef.transformationMethodName}((Object[])input);
+                    result = ${valueObjectRef.transformationMethodName}((java.lang.Object[])input);
                 }
                 return result;
             }
@@ -869,7 +868,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     private final org.apache.commons.collections.Transformer $valueObjectRef.valueObjectToEntityTransformerName =
         new org.apache.commons.collections.Transformer()
         {
-            public Object transform(Object input)
+            public java.lang.Object transform(java.lang.Object input)
             {
                 return ${valueObjectRef.transformationToEntityMethodName}(($valueObjectRef.targetElement.fullyQualifiedName)input);
             }
