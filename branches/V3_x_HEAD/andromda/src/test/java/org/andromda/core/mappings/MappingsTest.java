@@ -12,7 +12,7 @@ import org.andromda.core.mapping.Mappings;
 
 
 /**
- * Tests {@link org.andromda.core.mappings.Mappings)
+ * Tests {@link org.andromda.core.mapping.Mappings)
  *
  * @author Chad Brandon
  */
@@ -38,6 +38,8 @@ public class MappingsTest
     private static final String FROM_5 = "datatype.String";
     private static final String NOT_MAPPED_1 = "datatype.byte";
     private static final String NOT_MAPPED_2 = "datatype.String[]";
+    private static final String TO_3 = "Class<? extends ToType>";
+    private static final String FROM_6 = "Class<? extends FromType>";
 
     public void testGetTo()
     {
@@ -78,6 +80,16 @@ public class MappingsTest
         assertEquals(
             TO_2,
             mappings2.getTo(FROM_5));
+
+        Mappings mappings3 = new Mappings();
+        Mapping mapping3 = new Mapping();
+        mapping3.setTo(TO_3);
+        mapping3.addFrom(FROM_6);
+        mappings3.addMapping(mapping3);
+        // make sure whitespace isn't deleted, only trimmed (Java generics would fail compilation otherwise for example)
+        assertEquals(
+            TO_3,
+            mappings3.getTo(FROM_6));
     }
 
     public void testMappingsInheritance()

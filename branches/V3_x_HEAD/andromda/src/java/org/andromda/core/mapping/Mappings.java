@@ -326,11 +326,11 @@ public class Mappings
      * @param from the <code>from</code> mapping, this is the type/identifier
      *        that is in the model.
      * @return String to the <code>to</code> mapping (this is the mapping that
-     *         can be retrieved if a corresponding 'from' is found.
+     *         can be retrieved if a corresponding 'from' is found).
      */
     public String getTo(String from)
     {
-        from = StringUtils.deleteWhitespace(StringUtils.trimToEmpty(from));
+        from = StringUtils.trimToEmpty(from);
         final String initialFrom = from;
         String to = null;
 

@@ -3,10 +3,6 @@ package org.andromda.metafacades.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.naming.OperationNotSupportedException;
-
-import org.andromda.core.common.ExceptionUtils;
-import org.andromda.core.metafacade.MetafacadeImplsException;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EnumerationFacade;
 import org.andromda.metafacades.uml.NameMasker;
@@ -278,20 +274,12 @@ public class AttributeFacadeLogicImpl
      */
     protected String handleGetName()
     {
-        final String nameMask =
-            String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK));
-        String name = NameMasker.mask(
-                super.handleGetName(),
-                nameMask);
-        if (this.getOwner() instanceof EnumerationFacade)
-        {
-            final String mask =
-                String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK));
-            name = NameMasker.mask(
-                    super.handleGetName(),
-                    mask);
-        }
-        return name;
+        final String mask = String.valueOf(this.getConfiguredProperty(
+            this.getOwner() instanceof EnumerationFacade
+                ? UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK
+                : UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK ));
+
+        return NameMasker.mask(super.handleGetName(), mask);
     }
 
     /**
