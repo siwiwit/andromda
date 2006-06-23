@@ -512,7 +512,7 @@
                 <scope>runtime</scope>
             </dependency>
 #end
-#if ($webservice && !$jsr181Webservice)
+#if ($axis)
 #if ($axisVersion.equals("1"))
             <dependency>
                 <groupId>axis</groupId>
@@ -662,6 +662,12 @@
                 </exclusions>
             </dependency>
 #end
+#elseif ($xfire)
+            <dependency>
+                <groupId>org.codehaus.xfire</groupId>
+                <artifactId>xfire-all</artifactId>
+                <version>1.1.1</version>
+            </dependency>
 #end
         </dependencies>
     </dependencyManagement>

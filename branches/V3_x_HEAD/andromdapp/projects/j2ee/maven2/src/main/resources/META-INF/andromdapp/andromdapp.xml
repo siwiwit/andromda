@@ -220,7 +220,7 @@
                 </responses>
             </prompt>
             <prompt id="jsr181Webservice" setResponseAsTrue="false">
-                <text>Would you like to use the JSR181 (webservice defined by annotations) cartridge specific implementation?</text>
+                <text>Would you like to use the JSR181 (webservice defined by annotations) EJB3 cartridge specific implementation?</text>
                 <shortText>JSR181 compliant webservices</shortText>
                 <preconditions>
                     <condition id="webservice" equal="true"/>
@@ -231,12 +231,22 @@
                     <response>no</response>
                 </responses>
             </prompt>
+            <prompt id="soapStack"  setResponseAsTrue="true">
+                <text>Would you like to use Axis or XFire as your SOAP Stack?</text>
+                <preconditions>
+                    <condition id="webservice" equal="true"/>
+                    <condition id="jsr181Webservice" notEqual="true"/>
+                </preconditions>
+                <responses>
+                    <response>axis</response>
+                    <response>xfire</response>
+                </responses>
+            </prompt>
             <prompt id="axisVersion">
                 <text>Would you like to use Axis 1.x or Axis 2.x (enter '1' for 1.x or '2' for 2.x)?</text>
                 <shortText>Axis version</shortText>
                 <preconditions>
-                    <condition id="webservice" equal="true"/>
-                    <condition id="jsr181Webservice" notEqual="true"/>
+                    <condition id="soapStack" equal="axis"/>
                 </preconditions>
                 <responses>
                     <response>1</response>

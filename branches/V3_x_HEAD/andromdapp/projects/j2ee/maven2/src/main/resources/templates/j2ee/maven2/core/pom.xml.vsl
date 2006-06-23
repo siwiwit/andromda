@@ -139,7 +139,7 @@
             <groupId>org.andromda</groupId>
             <artifactId>andromda-script-wrappers</artifactId>
         </dependency>
-#if ($webservice && !$jsr181Webservice)
+#if ($axis)
 #if ($axisVersion.equals("1"))
         <dependency>
             <groupId>axis</groupId>
@@ -245,6 +245,11 @@
             <artifactId>commons-codec</artifactId>
         </dependency>
 #end
+#elseif ($xfire)
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-all</artifactId>
+        </dependency>
 #end
     </dependencies>
     <build>
