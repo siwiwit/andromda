@@ -60,6 +60,13 @@
         overwrite="true"
         outputCondition="axis2"/>
     
+    <resource
+        path="resources/webservice/xfire/views/*.jsp"
+        outputPattern="{0}"
+        outlet="configuration"
+        overwrite="true"
+        outputCondition="xfire"/>
+    
     <template
         path="templates/webservice/configuration/web.xml.vsl"
         outputPattern="WEB-INF/web.xml"
