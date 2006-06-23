@@ -103,17 +103,18 @@
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
                 <!-- set property, do something like this in ~/.m2/settings.xml
-                  <activeProfiles>
-                      <activeProfile>andromda</activeProfile>
-                  </activeProfiles>
                   <profiles>
                     <profile>
                       <id>andromda</id>
                      <properties>
                          <maven1Repository>/var/maven/repository</maven1Repository>
+                         <websiteDir>/var/www/andromda</websiteDir>
                      </properties>
                     </profile>
-                  <profiles>
+                  </profiles>
+                  <activeProfiles>
+                      <activeProfile>andromda</activeProfile>
+                  </activeProfiles>
                 -->
 				<executions>
 					<execution>
@@ -121,12 +122,13 @@
 						<configuration>
 							<tasks>
 								<property name="maven1Repository" value="/andromda/maven/repository"/>
-								<property name="website.dir" value="/var/www/andromda"/>
+								<property name="websiteDir" value="/var/www/andromda"/>
 								<ant dir="src/antrun" antfile="copy-m2-m1.xml">
 									<property name="maven1.repository" value="${maven1Repository}"/>
 									<property name="maven2.repository" value="${settings.localRepository}"/>
 								</ant>
 								<ant dir="src/antrun" antfile="copy-2-website.xml">
+									<property name="website.dir" value="${websiteDir}"/>
 									<property name="maven1.repository" value="${maven1Repository}"/>
 									<property name="maven2.repository" value="${settings.localRepository}"/>
                                     <property name="distribution.output.directory" value="${project.build.directory}"/>
