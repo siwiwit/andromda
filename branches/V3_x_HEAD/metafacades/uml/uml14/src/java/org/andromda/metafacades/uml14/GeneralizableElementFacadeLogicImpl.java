@@ -114,8 +114,7 @@ public class GeneralizableElementFacadeLogicImpl
         {
             for (final Iterator iterator = this.getGeneralizations().iterator(); iterator.hasNext();)
             {
-                final ModelElementFacade element = (ModelElementFacade)iterator.next();
-                list.append(element.getFullyQualifiedName());
+                list.append(((ModelElementFacade)iterator.next()).getFullyQualifiedName());
                 if (iterator.hasNext())
                 {
                     list.append(", ");
