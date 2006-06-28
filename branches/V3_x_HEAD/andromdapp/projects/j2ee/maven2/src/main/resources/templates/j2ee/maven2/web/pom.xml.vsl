@@ -110,6 +110,12 @@
             <groupId>org.andromda</groupId>
             <artifactId>andromda-utils</artifactId>
         </dependency>
+#if ($jbossSeam)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-seam</artifactId>
+        </dependency>
+#end
 #end
         <dependency>
           <groupId>javax.servlet</groupId>
@@ -153,6 +159,10 @@
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>ejb3-persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
         </dependency>
 #end
     </dependencies>

@@ -108,6 +108,13 @@
                     <excludes>**/jboss-app.xml</excludes>
                     <version>1.4</version>
                     <modules>
+#if ($jbossSeam)
+                        <javaModule>
+                            <groupId>org.jboss</groupId>
+                            <artifactId>jboss-seam</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </javaModule>
+#end
                         <javaModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-common</artifactId>

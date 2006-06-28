@@ -211,6 +211,19 @@
                     <response>jsp</response>
                 </responses>
             </prompt>
+            <prompt id="jbossSeam" setResponseAsTrue="false">
+                <text>Would you like to use the JBoss Seam application framework?</text>
+                <shortText>Enable JBoss Seam</shortText>
+                <preconditions>
+                    <condition id="transactionPersistenceType" equal="ejb3"/>
+                    <condition id="web" equal="true"/>
+                    <condition id="webType" equal="jsf"/>
+                </preconditions>
+                <responses type="java.lang.Boolean">
+                    <response>yes</response>
+                    <response>no</response>
+                </responses>
+            </prompt>
             <prompt id="webservice">
                 <text>Would you like to be able to expose your services as web services?</text>
                 <shortText>Enable web services</shortText>

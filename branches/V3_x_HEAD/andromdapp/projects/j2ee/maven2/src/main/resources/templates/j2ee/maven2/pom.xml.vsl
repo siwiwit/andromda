@@ -48,6 +48,16 @@
                 <type>xml.zip</type>
                 <scope>runtime</scope>
             </dependency>
+#if ($jbossSeam)
+
+            <dependency>
+                <groupId>org.andromda.profiles.uml14</groupId>
+                <artifactId>andromda-profile-seam</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <type>xml.zip</type>
+                <scope>runtime</scope>
+            </dependency>
+#end
 #if ($ejb)
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
@@ -511,6 +521,13 @@
                 <version>1.3</version>
                 <scope>runtime</scope>
             </dependency>
+#if ($jbossSeam)
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-seam</artifactId>
+                <version>1.0.0-CR3</version>
+            </dependency>
+#end
 #end
 #if ($axis)
 #if ($axisVersion.equals("1"))

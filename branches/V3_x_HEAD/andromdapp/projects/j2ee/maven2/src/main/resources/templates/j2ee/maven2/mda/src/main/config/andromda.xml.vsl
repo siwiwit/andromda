@@ -110,6 +110,13 @@
 #end
                 <property name="webServiceContextRoot">/${application.id}-ws</property>
                 <property name="webServiceUrlPattern">/services</property>
+#if ($jbossSeam)
+                <property name="seamEnabled">true</property>
+#else
+                <!-- uncomment to enable JBoss Seam
+                <property name="seamEnabled">true</property>
+                -->
+#end
             </properties>
         </namespace>
 #elseif ($hibernate)

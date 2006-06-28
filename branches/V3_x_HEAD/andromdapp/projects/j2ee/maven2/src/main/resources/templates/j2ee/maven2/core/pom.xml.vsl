@@ -135,6 +135,12 @@
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
 #end
+#if ($jbossSeam)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-seam</artifactId>
+        </dependency>
+#end
         <dependency>
             <groupId>org.andromda</groupId>
             <artifactId>andromda-script-wrappers</artifactId>

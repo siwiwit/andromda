@@ -16,6 +16,13 @@
             <artifactId>andromda-profile</artifactId>
             <type>xml.zip</type>
         </dependency>
+#if ($jbossSeam)
+        <dependency>
+            <groupId>org.andromda.profiles.uml14</groupId>
+            <artifactId>andromda-profile-seam</artifactId>
+            <type>xml.zip</type>
+        </dependency>
+#end
 #if ($ejb)
         <dependency>
             <groupId>org.andromda.cartridges</groupId>
