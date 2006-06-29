@@ -1,8 +1,5 @@
 package org.andromda.metafacades.uml2;
 
-import org.andromda.metafacades.uml.UMLMetafacadeProperties;
-import org.andromda.metafacades.uml.UMLProfile;
-import org.apache.commons.lang.ObjectUtils;
 
 
 /**

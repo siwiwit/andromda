@@ -1,5 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
+import java.util.Collection;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.UseCaseFacade.
@@ -50,4 +52,13 @@ public class UseCaseFacadeLogicImpl
     {
         return getPackage();
     }
+
+    /**
+     * @see org.andromda.metafacades.uml.UseCaseFacade#getIncludes()
+     */
+    protected Collection handleGetIncludes() 
+    {
+    		// TODO Auto-generated method stub
+    		return null;
+    	}
 }

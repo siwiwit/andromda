@@ -2,7 +2,6 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.andromda.core.metafacade.MetafacadeException;
-import org.andromda.core.metafacade.MetafacadeImplsException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;

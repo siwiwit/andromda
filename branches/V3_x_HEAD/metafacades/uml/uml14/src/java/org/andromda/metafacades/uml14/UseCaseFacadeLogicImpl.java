@@ -3,9 +3,9 @@ package org.andromda.metafacades.uml14;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.andromda.utils.StringUtilsHelper;
 import org.omg.uml.behavioralelements.activitygraphs.ActivityGraph;
 import org.omg.uml.foundation.core.ModelElement;
-import org.andromda.utils.StringUtilsHelper;
 
 
 /**
@@ -36,8 +36,7 @@ public class UseCaseFacadeLogicImpl
     {
         ActivityGraph activityGraph = null;
 
-        for (
-            final Iterator iterator = metaObject.getOwnedElement().iterator();
+        for (final Iterator iterator = metaObject.getOwnedElement().iterator();
             iterator.hasNext() && activityGraph == null;)
         {
             final ModelElement modelElement = (ModelElement)iterator.next();
@@ -72,5 +71,13 @@ public class UseCaseFacadeLogicImpl
     protected Collection handleGetExtends()
     {
         return metaObject.getExtend();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.UseCaseFacade#getIncludes()
+     */
+    protected Collection handleGetIncludes()
+    {
+        return metaObject.getInclude();
     }
 }

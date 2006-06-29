@@ -1,7 +1,6 @@
 package org.andromda.metafacades.emf.uml2;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.util.TreeIterator;
 

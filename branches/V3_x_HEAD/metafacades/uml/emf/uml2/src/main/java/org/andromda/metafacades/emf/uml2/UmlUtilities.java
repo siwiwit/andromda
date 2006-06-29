@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.Association;
-import org.eclipse.uml2.AssociationClass;
 import org.eclipse.uml2.Class;
 import org.eclipse.uml2.Classifier;
 import org.eclipse.uml2.Comment;
