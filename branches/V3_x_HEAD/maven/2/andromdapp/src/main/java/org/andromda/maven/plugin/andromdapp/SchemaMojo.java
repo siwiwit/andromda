@@ -101,6 +101,14 @@ public class SchemaMojo
      * @readonly
      */
     private ArtifactFactory factory;
+    
+    /**
+     * Whether or not scripts should be executed (if this is set to false, they will
+     * only be generated, but not executed).
+     * 
+     * @parameter expression="${executeScripts}"
+     */
+    private boolean executeScripts = true;
 
     /**
      * @parameter expression="${plugin.artifacts}"
@@ -183,7 +191,6 @@ public class SchemaMojo
             AndroMDALogger.initialize();
             this.initializeClassLoaderWithJdbcDriver();
 
-            connection = this.getConnection();
             final List tasks = this.getTasks();
             if (tasks != null && !tasks.isEmpty())
             {
@@ -242,6 +249,8 @@ public class SchemaMojo
                     }
 
                     final SchemaManagement schemaManagement = (SchemaManagement)ClassUtils.newInstance(type);
+                    System.out.println("Execute scripts!!!!!!!! " + executeScripts);
+                    connection = executeScripts ? this.getConnection() : null;
                     this.executeSql(
                         connection,
                         schemaManagement.execute(
@@ -484,7 +493,11 @@ public class SchemaMojo
             {
                 this.successes = 0;
                 this.failures = 0;
-                final Statement statement = connection.createStatement();
+                Statement statement = null;
+                if (connection != null)
+                {
+                    statement = connection.createStatement();
+                }
                 final InputStream stream = sqlUrl.openStream();
                 final BufferedReader resourceInput = new BufferedReader(new InputStreamReader(stream));
                 StringBuffer sql = new StringBuffer();
@@ -501,11 +514,14 @@ public class SchemaMojo
                     sql.append(line);
                     if (line.endsWith(STATEMENT_END))
                     {
-                        this.executeSql(
-                            statement,
-                            sql.toString().replaceAll(
-                                STATEMENT_END,
-                                ""));
+                        if (statement != null)
+                        {
+                            this.executeSql(
+                                statement,
+                                sql.toString().replaceAll(
+                                    STATEMENT_END,
+                                    ""));
+                        }
                         sql = new StringBuffer();
                     }
                     sql.append("\n");
