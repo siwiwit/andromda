@@ -57,10 +57,8 @@ $operation.getDocumentation("     * ")
             // - populate the form with any request parameters that may match
             this.populateFormFromRequestParameters(form, form.getDateTimeFormatters());
 #end
-#if (!$deferredOperations.empty)
             try
             {
-#end
 #if (!$action.formFields.empty)
                 contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", form);
                 // - add this temporary ADF context to the session so that we can retrieve from a view populator if required
@@ -70,7 +68,6 @@ $operation.getDocumentation("     * ")
 #if (!$action.formFields.empty && $action.formResetRequired)
                 form.reset();
 #end
-#if (!$deferredOperations.empty)
             }
             catch (final Throwable throwable)
             {
@@ -79,7 +76,6 @@ $operation.getDocumentation("     * ")
                     ${managedBeansPackage}.${patternMatchingExceptionHandler}.instance().handleException(throwable), null);
                 this.addErrorMessage(message);
             }
-#end
         }
         catch (final Throwable throwable)
         {
