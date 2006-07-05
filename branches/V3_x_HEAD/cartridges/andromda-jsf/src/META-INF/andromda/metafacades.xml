@@ -67,13 +67,21 @@
             <property name="containedInFrontEndUseCase"/>
         </mapping>
     </metafacade>
+    <!-- mapping rule for uml14 support -->
     <metafacade class="org.andromda.cartridges.jsf.metafacades.JSFEventLogicImpl">
         <mapping class="org.omg.uml.behavioralelements.statemachines.SignalEvent$Impl">
             <property name="containedInFrontEndUseCase"/>
         </mapping>
     </metafacade>
+    <!-- mapping rule for uml14 support -->
     <metafacade class="org.andromda.cartridges.jsf.metafacades.JSFEventLogicImpl">
         <mapping class="org.omg.uml.behavioralelements.statemachines.CallEvent$Impl">
+            <property name="containedInFrontEndUseCase"/>
+        </mapping>
+    </metafacade>
+    <!-- mapping rule for uml2-emf support -->
+    <metafacade class="org.andromda.cartridges.jsf.metafacades.JSFEventLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.ActivityImpl">
             <property name="containedInFrontEndUseCase"/>
         </mapping>
     </metafacade>

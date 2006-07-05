@@ -1,8 +1,19 @@
 package org.andromda.metafacades.emf.uml2;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 
-import org.eclipse.emf.common.util.TreeIterator;
+import org.andromda.metafacades.uml.ActionStateFacade;
+import org.andromda.metafacades.uml.ActivityGraphFacade;
+import org.andromda.metafacades.uml.UseCaseFacade;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.eclipse.uml2.Actor;
+import org.eclipse.uml2.FinalState;
+import org.eclipse.uml2.State;
+import org.eclipse.uml2.StateMachine;
+import org.eclipse.uml2.UseCase;
 
 
 /**
@@ -14,87 +25,151 @@ public class ModelFacadeLogicImpl
     extends ModelFacadeLogic
 {
     public ModelFacadeLogicImpl(
-        org.eclipse.uml2.Package metaObject,
-        String context)
+        final org.eclipse.uml2.util.UML2Resource metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelFacade#findUseCaseWithTaggedValueOrHyperlink(java.lang.String, java.lang.String)
+     * @see org.andromda.metafacades.uml.ModelFacade#findUseCaseWithTaggedValueOrHyperlink(java.lang.String,
+     *      java.lang.String)
      */
     protected org.andromda.metafacades.uml.UseCaseFacade handleFindUseCaseWithTaggedValueOrHyperlink(
-        java.lang.String tag,
-        java.lang.String value)
+        final java.lang.String tag,
+        final java.lang.String value)
     {
-        return null;
+        // TODO
+        throw new UnsupportedOperationException();
     }
 
     /**
      *
-     * @see org.andromda.metafacades.uml.ModelFacade#findClassWithTaggedValueOrHyperlink(java.lang.String, java.lang.String)
+     * @see org.andromda.metafacades.uml.ModelFacade#findClassWithTaggedValueOrHyperlink(java.lang.String,
+     *      java.lang.String)
      */
     protected org.andromda.metafacades.uml.ClassifierFacade handleFindClassWithTaggedValueOrHyperlink(
-        java.lang.String tag,
-        java.lang.String value)
+        final java.lang.String tag,
+        final java.lang.String value)
     {
-        // TODO: put your implementation here.
-        return null;
+        // TODO
+        throw new UnsupportedOperationException();
     }
 
     /**
      * @see org.andromda.metafacades.uml.ModelFacade#findActivityGraphByName(java.lang.String)
      */
-    protected org.andromda.metafacades.uml.ActivityGraphFacade handleFindActivityGraphByName(java.lang.String name)
+    protected org.andromda.metafacades.uml.ActivityGraphFacade handleFindActivityGraphByName(
+        final java.lang.String name)
     {
-        return null;
+        return this.findActivityGraphByNameAndStereotype(
+            name,
+            "");
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelFacade#findActivityGraphByNameAndStereotype(java.lang.String, java.lang.String)
+     * @see org.andromda.metafacades.uml.ModelFacade#findActivityGraphByNameAndStereotype(java.lang.String,
+     *      java.lang.String)
      */
     protected org.andromda.metafacades.uml.ActivityGraphFacade handleFindActivityGraphByNameAndStereotype(
-        java.lang.String name,
-        java.lang.String stereotypeName)
+        final java.lang.String name,
+        final java.lang.String stereotypeName)
     {
-        return null;
+        ActivityGraphFacade agfFound = null;
+
+        Collection agfCollection =
+            UmlUtilities.getAllMetaObjectsInstanceOf(
+                StateMachine.class,
+                UmlUtilities.findModel(this.metaObject));
+
+        for (Iterator it = agfCollection.iterator(); it.hasNext() && agfFound == null;)
+        {
+            ActivityGraphFacade agf = (ActivityGraphFacade)this.shieldedElement(it.next());
+            if (agf.getName().equals(name) && agf.hasStereotype(stereotypeName))
+            {
+                agfFound = agf;
+            }
+        }
+        return agfFound;
     }
 
     /**
      * @see org.andromda.metafacades.uml.ModelFacade#findUseCaseByName(java.lang.String)
      */
-    protected org.andromda.metafacades.uml.UseCaseFacade handleFindUseCaseByName(java.lang.String name)
+    protected org.andromda.metafacades.uml.UseCaseFacade handleFindUseCaseByName(final java.lang.String name)
     {
-        return null;
+        return this.findUseCaseWithNameAndStereotype(
+            name,
+            "");
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelFacade#findUseCaseWithNameAndStereotype(java.lang.String, java.lang.String)
+     * @see org.andromda.metafacades.uml.ModelFacade#findUseCaseWithNameAndStereotype(java.lang.String,
+     *      java.lang.String)
      */
     protected org.andromda.metafacades.uml.UseCaseFacade handleFindUseCaseWithNameAndStereotype(
-        java.lang.String name,
-        java.lang.String stereotypeName)
+        final java.lang.String name,
+        final java.lang.String stereotypeName)
     {
-        return null;
+        UseCaseFacade ucfFound = null;
+        Collection ucCollections = this.getAllUseCases();
+        for (Iterator it = ucCollections.iterator(); it.hasNext() && ucfFound == null;)
+        {
+            UseCaseFacade ucf = (UseCaseFacade)it.next();
+            if (ucf.getName().equals(name) && ucf.hasStereotype(stereotypeName))
+            {
+                ucfFound = ucf;
+            }
+        }
+        return ucfFound;
     }
 
     /**
      * @see org.andromda.metafacades.uml.ModelFacade#findFinalStatesWithNameOrHyperlink(org.andromda.metafacades.uml.UseCaseFacade)
      */
     protected java.util.Collection handleFindFinalStatesWithNameOrHyperlink(
-        org.andromda.metafacades.uml.UseCaseFacade useCase)
+        final org.andromda.metafacades.uml.UseCaseFacade useCase)
     {
-        return null;
+        Collection fsCollection =
+            UmlUtilities.getAllMetaObjectsInstanceOf(
+                FinalState.class,
+                UmlUtilities.findModel(this.metaObject));
+        CollectionUtils.filter(
+            fsCollection,
+            new Predicate()
+            {
+                public boolean evaluate(final Object candidate)
+                {
+                    FinalState fs = (FinalState)candidate;
+                    return fs.getName().equals(useCase.getName());
+                }
+            });
+
+        return fsCollection;
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelFacade#getAllActionStatesWithStereotype(org.andromda.metafacades.uml.ActivityGraphFacade, java.lang.String)
+     * @see org.andromda.metafacades.uml.ModelFacade#getAllActionStatesWithStereotype(org.andromda.metafacades.uml.ActivityGraphFacade,
+     *      java.lang.String)
      */
     protected java.util.Collection handleGetAllActionStatesWithStereotype(
-        org.andromda.metafacades.uml.ActivityGraphFacade activityGraph,
-        java.lang.String stereotypeName)
+        final org.andromda.metafacades.uml.ActivityGraphFacade activityGraph,
+        final java.lang.String stereotypeName)
     {
-        return null;
+        Collection asCollection = this.getAllActionStates();
+        CollectionUtils.filter(
+            asCollection,
+            new Predicate()
+            {
+                public boolean evaluate(final Object candidate)
+                {
+                    ActionStateFacade asf = (ActionStateFacade)candidate;
+                    return asf.hasStereotype(stereotypeName) &&
+                    asf.getPartition().getActivityGraph().equals(activityGraph);
+                }
+            });
+
+        return asCollection;
     }
 
     /**
@@ -102,7 +177,12 @@ public class ModelFacadeLogicImpl
      */
     protected java.lang.Object handleGetRootPackage()
     {
-        return metaObject.getModel();
+        Object model = UmlUtilities.findModel(this.metaObject);
+        if (this.logger.isDebugEnabled())
+        {
+            this.logger.debug("Root package " + model);
+        }
+        return model;
     }
 
     /**
@@ -110,7 +190,9 @@ public class ModelFacadeLogicImpl
      */
     protected java.util.Collection handleGetAllActors()
     {
-        return null;
+        return UmlUtilities.getAllMetaObjectsInstanceOf(
+            Actor.class,
+            UmlUtilities.findModel(this.metaObject));
     }
 
     /**
@@ -118,7 +200,9 @@ public class ModelFacadeLogicImpl
      */
     protected java.util.Collection handleGetAllUseCases()
     {
-        return null;
+        return UmlUtilities.getAllMetaObjectsInstanceOf(
+            UseCase.class,
+            UmlUtilities.findModel(this.metaObject));
     }
 
     /**
@@ -126,7 +210,21 @@ public class ModelFacadeLogicImpl
      */
     protected java.util.Collection handleGetAllActionStates()
     {
-        return null;
+        // cf documentation, action states are mapped to uml2 normal state
+        Collection allActionStates =
+            UmlUtilities.getAllMetaObjectsInstanceOf(
+                State.class,
+                UmlUtilities.findModel(this.metaObject));
+        CollectionUtils.filter(
+            allActionStates,
+            new Predicate()
+            {
+                public boolean evaluate(final Object candidate)
+                {
+                    return (!(candidate instanceof FinalState));
+                }
+            });
+        return allActionStates;
     }
 
     /**
@@ -134,7 +232,8 @@ public class ModelFacadeLogicImpl
      */
     protected java.util.Collection handleGetAllObjectFlowStates()
     {
-        return null;
+        // TODO: Not implemented
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -142,17 +241,8 @@ public class ModelFacadeLogicImpl
      */
     protected java.util.Collection handleGetAllClasses()
     {
-        ArrayList classes = new ArrayList();
-
-        for (TreeIterator iterator = metaObject.eAllContents(); iterator.hasNext();)
-        {
-            final Object object = iterator.next();
-            if (object instanceof org.eclipse.uml2.Class)
-            {
-                classes.add(object);
-                iterator.prune();
-            }
-        }
-        return classes;
+        return UmlUtilities.getAllMetaObjectsInstanceOf(
+            org.eclipse.uml2.Class.class,
+            UmlUtilities.findModel(this.metaObject));
     }
 }

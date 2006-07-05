@@ -16,7 +16,8 @@ import org.apache.commons.lang.StringUtils;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.EntityAssociationEnd.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.EntityAssociationEnd.
  *
  * @see org.andromda.metafacades.uml.EntityAssociationEnd
  */
@@ -24,8 +25,8 @@ public class EntityAssociationEndLogicImpl
     extends EntityAssociationEndLogic
 {
     public EntityAssociationEndLogicImpl(
-        Object metaObject,
-        String context)
+        final Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -39,7 +40,9 @@ public class EntityAssociationEndLogicImpl
     {
         final String nameMask =
             String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENTITY_PROPERTY_NAME_MASK));
-        return NameMasker.mask(super.handleGetName(), nameMask);
+        return NameMasker.mask(
+            super.handleGetName(),
+            nameMask);
     }
 
     /**
@@ -92,13 +95,13 @@ public class EntityAssociationEndLogicImpl
         String constraintName;
 
         final Object taggedValueObject =
-            findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_FOREIGN_KEY_CONSTRAINT_NAME);
+            this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_FOREIGN_KEY_CONSTRAINT_NAME);
         if (taggedValueObject == null)
         {
             // we construct our own foreign key constraint name here
             final StringBuffer buffer = new StringBuffer();
 
-            final ClassifierFacade type = getOtherEnd().getType();
+            final ClassifierFacade type = this.getOtherEnd().getType();
             if (type instanceof Entity)
             {
                 Entity entity = (Entity)type;
@@ -110,9 +113,9 @@ public class EntityAssociationEndLogicImpl
                 buffer.append(type.getName().toUpperCase());
             }
 
-            buffer.append(getConfiguredProperty(UMLMetafacadeProperties.SQL_NAME_SEPARATOR));
+            buffer.append(this.getConfiguredProperty(UMLMetafacadeProperties.SQL_NAME_SEPARATOR));
             buffer.append(this.getColumnName());
-            buffer.append(getConfiguredProperty(UMLMetafacadeProperties.CONSTRAINT_SUFFIX));
+            buffer.append(this.getConfiguredProperty(UMLMetafacadeProperties.CONSTRAINT_SUFFIX));
 
             constraintName = buffer.toString();
         }
@@ -123,7 +126,7 @@ public class EntityAssociationEndLogicImpl
         }
 
         // we take into consideration the maximum length allowed
-        final String maxLengthString = (String)getConfiguredProperty(UMLMetafacadeProperties.MAX_SQL_NAME_LENGTH);
+        final String maxLengthString = (String)this.getConfiguredProperty(UMLMetafacadeProperties.MAX_SQL_NAME_LENGTH);
         final Short maxLength = Short.valueOf(maxLengthString);
         return EntityMetafacadeUtils.ensureMaximumNameLength(
             constraintName,
@@ -149,8 +152,10 @@ public class EntityAssociationEndLogicImpl
         {
             EntityAttribute identifier = null;
 
-            // we retrieve the column length from the first identifier of the primary key 
-            // on the other side (since that should correspond to the foreign key).         
+            // we retrieve the column length from the first identifier of the
+            // primary key
+            // on the other side (since that should correspond to the foreign
+            // key).
             if (this.getType() instanceof Entity)
             {
                 final Entity type = (Entity)this.getType();
@@ -204,7 +209,7 @@ public class EntityAssociationEndLogicImpl
             catch (Throwable throwable)
             {
                 String errMsg = "Error getting '" + propertyName + "' --> '" + uri + "'";
-                logger.error(
+                this.logger.error(
                     errMsg,
                     throwable);
 
@@ -222,7 +227,4 @@ public class EntityAssociationEndLogicImpl
     {
         return this.hasStereotype(UMLProfile.STEREOTYPE_TRANSIENT);
     }
-
-
-
 }

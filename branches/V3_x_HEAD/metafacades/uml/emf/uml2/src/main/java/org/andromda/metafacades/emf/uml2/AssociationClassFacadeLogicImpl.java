@@ -2,7 +2,8 @@ package org.andromda.metafacades.emf.uml2;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.AssociationClassFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.AssociationClassFacade.
  *
  * @see org.andromda.metafacades.uml.AssociationClassFacade
  */
@@ -10,8 +11,8 @@ public class AssociationClassFacadeLogicImpl
     extends AssociationClassFacadeLogic
 {
     public AssociationClassFacadeLogicImpl(
-        org.eclipse.uml2.AssociationClass metaObject,
-        String context)
+        final org.eclipse.uml2.AssociationClass metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -21,6 +22,8 @@ public class AssociationClassFacadeLogicImpl
      */
     protected java.util.Collection handleGetConnectionAssociationEnds()
     {
-        return metaObject.getMemberEnds();
+        // TODO: This has to be tested.
+        // TODO: It may need to be transformed like other properties.
+        return this.metaObject.getMemberEnds();
     }
 }

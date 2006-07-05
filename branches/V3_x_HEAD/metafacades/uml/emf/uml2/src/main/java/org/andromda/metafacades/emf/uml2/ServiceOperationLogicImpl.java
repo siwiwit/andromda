@@ -1,10 +1,20 @@
 package org.andromda.metafacades.emf.uml2;
 
+import java.util.Collection;
+import java.util.LinkedHashSet;
+
+import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.Role;
 import org.andromda.metafacades.uml.Service;
+import org.apache.commons.collections.Closure;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.Transformer;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.ServiceOperation.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.ServiceOperation.
  *
  * @see org.andromda.metafacades.uml.ServiceOperation
  */
@@ -12,8 +22,8 @@ public class ServiceOperationLogicImpl
     extends ServiceOperationLogic
 {
     public ServiceOperationLogicImpl(
-        Object metaObject,
-        String context)
+        final Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -23,8 +33,50 @@ public class ServiceOperationLogicImpl
      */
     protected java.util.Collection handleGetRoles()
     {
-        // TODO: add your implementation here!
-        return null;
+        // Taken from UML 1.4 Facade
+        final Collection roles = new LinkedHashSet();
+        if (this.getOwner() instanceof Service)
+        {
+            roles.addAll(((Service)this.getOwner()).getRoles());
+        }
+        Collection operationRoles = this.getTargetDependencies();
+        CollectionUtils.filter(
+            operationRoles,
+            new Predicate()
+            {
+                public boolean evaluate(final Object object)
+                {
+                    DependencyFacade dependency = (DependencyFacade)object;
+                    return dependency != null && dependency.getSourceElement() != null &&
+                    Role.class.isAssignableFrom(dependency.getSourceElement().getClass());
+                }
+            });
+        CollectionUtils.transform(
+            operationRoles,
+            new Transformer()
+            {
+                public Object transform(final Object object)
+                {
+                    return ((DependencyFacade)object).getSourceElement();
+                }
+            });
+        roles.addAll(operationRoles);
+        final Collection allRoles = new LinkedHashSet(roles);
+
+        // add all roles which are specializations of this one
+        CollectionUtils.forAllDo(
+            roles,
+            new Closure()
+            {
+                public void execute(final Object object)
+                {
+                    if (object instanceof Role)
+                    {
+                        allRoles.addAll(((Role)object).getAllSpecializations());
+                    }
+                }
+            });
+        return allRoles;
     }
 
     /**

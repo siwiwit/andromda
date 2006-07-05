@@ -14,8 +14,6 @@ import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.repository.RepositoryFacade;
 import org.andromda.core.repository.RepositoryFacadeException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -41,7 +39,7 @@ public abstract class EMFRepositoryFacade
     /**
      * Stores the actual loaded model.
      */
-    protected Object model;
+    protected Resource model;
 
     /**
      * The options for loading the model.
@@ -65,28 +63,22 @@ public abstract class EMFRepositoryFacade
      * @param uri the URI to the model
      * @return the model element instance.
      */
-    protected EObject readModel(final String uri)
+    protected void readModel(final String uri)
     {
-        EObject modelPackage = null;
         try
         {
-            final Resource resource = resourceSet.createResource(EMFRepositoryFacadeUtils.createUri(uri));
-            if (resource == null)
+           model = resourceSet.createResource(EMFRepositoryFacadeUtils.createUri(uri));
+            if (model == null)
             {
                 throw new RepositoryFacadeException("'" + uri + "' is an invalid model");
             }
-            resource.load(this.getLoadOptions());
-            EcoreUtil.resolveAll(resource);
-            modelPackage =
-                (EObject)EcoreUtil.getObjectByType(
-                    resource.getContents(),
-                    EcorePackage.eINSTANCE.getEObject());
+            model.load(this.getLoadOptions());
+            EcoreUtil.resolveAll(model);
         }
         catch (final Exception exception)
         {
             throw new RepositoryFacadeException(exception);
         }
-        return modelPackage;
     }
 
     /**
@@ -144,7 +136,7 @@ public abstract class EMFRepositoryFacade
             final int numberOfModelUris = modelUris.length;
             for (int ctr = 0; ctr < numberOfModelUris; ctr++)
             {
-                model = this.readModel(modelUris[ctr]);
+                this.readModel(modelUris[ctr]);
             }
         }
     }

@@ -17,7 +17,8 @@ import org.eclipse.uml2.UML2Factory;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.EnumerationFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.EnumerationFacade.
  *
  * @see org.andromda.metafacades.uml.EnumerationFacade
  */
@@ -25,8 +26,8 @@ public class EnumerationFacadeLogicImpl
     extends EnumerationFacadeLogic
 {
     public EnumerationFacadeLogicImpl(
-        Object metaObject,
-        String context)
+        final Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -50,9 +51,9 @@ public class EnumerationFacadeLogicImpl
      */
     protected java.util.Collection handleGetLiterals()
     {
-        if (metaObject instanceof Enumeration)
+        if (this.metaObject instanceof Enumeration)
         {
-            return this.shieldedElements(((Enumeration)metaObject).getOwnedLiterals());
+            return this.shieldedElements(((Enumeration)this.metaObject).getOwnedLiterals());
         }
         return this.getAttributes();
     }
@@ -103,10 +104,14 @@ public class EnumerationFacadeLogicImpl
             }
             else
             {
-                NamedElement enumeration = (NamedElement)metaObject;
+                NamedElement enumeration = (NamedElement)this.metaObject;
 
-                // fake a primitive type called string to return. This should work...
-                // if not we will need to pass in a type qName as a parameter and search for it
+                // fake a primitive type called string to return. This should
+                // work...
+                // if not we will need to pass in a type qName as a parameter
+                // and search for it
+                // TODO: Why ? Why not use datatype::String, like we do for new
+                // identifier ?
                 Type syntheticType = UML2Factory.eINSTANCE.createPrimitiveType();
                 syntheticType.setName("string");
 

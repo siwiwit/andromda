@@ -10,9 +10,12 @@ import junit.framework.TestCase;
 
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.metafacade.ModelAccessFacade;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.Model;
 import org.eclipse.uml2.NamedElement;
 import org.eclipse.uml2.Stereotype;
+import org.eclipse.uml2.util.UML2Resource;
 import org.eclipse.uml2.util.UML2Util;
 
 
@@ -96,8 +99,10 @@ public class EMFUML2RepositoryFacadeTest
         final ModelAccessFacade modelFacade = repository.getModel();
         assertNotNull(modelFacade);
         assertNotNull(modelFacade.getModel());
-        assertTrue(modelFacade.getModel() instanceof Model);
-        Model model = (Model)modelFacade.getModel();
+        assertTrue(modelFacade.getModel() instanceof UML2Resource);
+        Model model = (Model)EcoreUtil.getObjectByType(
+            ((UML2Resource)repository.getModel().getModel()).getContents(),
+            EcorePackage.eINSTANCE.getEObject());
         assertEquals(
             "Test Model",
             model.getName());

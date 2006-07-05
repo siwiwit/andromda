@@ -2,8 +2,8 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.andromda.metafacades.uml.GeneralizableElementFacade;
@@ -13,7 +13,8 @@ import org.eclipse.uml2.Generalization;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.GeneralizableElementFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.GeneralizableElementFacade.
  *
  * @see org.andromda.metafacades.uml.GeneralizableElementFacade
  */
@@ -21,8 +22,8 @@ public class GeneralizableElementFacadeLogicImpl
     extends GeneralizableElementFacadeLogic
 {
     public GeneralizableElementFacadeLogicImpl(
-        Object metaObject,
-        String context)
+        final Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -54,7 +55,7 @@ public class GeneralizableElementFacadeLogicImpl
     protected java.lang.Object handleGetGeneralization()
     {
         Object parent = null;
-        Collection generalizations = ((Classifier)metaObject).getGeneralizations();
+        Collection generalizations = ((Classifier)this.metaObject).getGeneralizations();
         if (generalizations != null)
         {
             Iterator iterator = generalizations.iterator();
@@ -71,7 +72,7 @@ public class GeneralizableElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetSpecializations()
     {
-        Collection specializations = UmlUtilities.getSpecializations((Classifier)metaObject);
+        Collection specializations = UmlUtilities.getSpecializations((Classifier)this.metaObject);
         return specializations;
     }
 
@@ -81,7 +82,7 @@ public class GeneralizableElementFacadeLogicImpl
     protected java.util.Collection handleGetGeneralizations()
     {
         Collection parents = new LinkedHashSet();
-        Collection generalizations = ((Classifier)metaObject).getGeneralizations();
+        Collection generalizations = ((Classifier)this.metaObject).getGeneralizations();
         if (generalizations != null && !generalizations.isEmpty())
         {
             Iterator iterator = generalizations.iterator();
@@ -98,7 +99,7 @@ public class GeneralizableElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetGeneralizationLinks()
     {
-        return ((Classifier)metaObject).getGeneralizations();
+        return ((Classifier)this.metaObject).getGeneralizations();
     }
 
     /**
@@ -133,10 +134,22 @@ public class GeneralizableElementFacadeLogicImpl
         return generalizations;
     }
 
-    protected Object handleFindTaggedValue(String tagName, boolean follow)
+    protected Object handleFindTaggedValue(
+        final String tagName,
+        final boolean follow)
     {
-        // TODO Auto-generated method stub
-        return null;
+        Object value = this.findTaggedValue(tagName);
+        if (value == null) //TODO: If follow ?
+        {
+            for (GeneralizableElementFacade element = this.getGeneralization(); value == null && element != null;
+                element = element.getGeneralization())
+            {
+                value = element.findTaggedValue(
+                        tagName,
+                        follow);
+            }
+        }
+        return value;
     }
 
     protected Object handleGetGeneralizationRoot()

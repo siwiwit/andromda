@@ -2,15 +2,18 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
+import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.uml2.AssociationClass;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.AssociationFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.AssociationFacade.
  *
  * @see org.andromda.metafacades.uml.AssociationFacade
  */
@@ -18,8 +21,8 @@ public class AssociationFacadeLogicImpl
     extends AssociationFacadeLogic
 {
     public AssociationFacadeLogicImpl(
-        org.eclipse.uml2.Association metaObject,
-        String context)
+        final org.eclipse.uml2.Association metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -52,7 +55,9 @@ public class AssociationFacadeLogicImpl
      */
     protected java.util.List handleGetAssociationEnds()
     {
-        return this.metaObject.getMemberEnds();
+        return (List)CollectionUtils.collect(
+            this.metaObject.getMemberEnds(),
+            UmlUtilities.PropertyTransformer);
     }
 
     /**
@@ -60,6 +65,7 @@ public class AssociationFacadeLogicImpl
      */
     protected boolean handleIsAssociationClass()
     {
+        // TODO: Test this if it works.
         return AssociationClass.class.isAssignableFrom(this.metaObject.getClass());
     }
 

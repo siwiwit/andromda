@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
@@ -45,15 +46,15 @@ public class EntityLogicImpl
     extends EntityLogic
 {
     public EntityLogicImpl(
-        Object metaObject,
-        String context)
+        final Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
 
     /**
-     * A collection of MOF ids for entities that have dynamic
-     * identifiers present.
+     * A collection of MOF ids for entities that have dynamic identifiers
+     * present.
      */
     private static final Collection dynamicIdentifiersPresent = new ArrayList();
 
@@ -104,7 +105,7 @@ public class EntityLogicImpl
         MetafacadeUtils.filterByType(
             queryOperations,
             EntityQueryOperation.class);
-        for (ClassifierFacade superClass = (ClassifierFacade)getGeneralization(); superClass != null && follow;
+        for (ClassifierFacade superClass = (ClassifierFacade)this.getGeneralization(); superClass != null && follow;
             superClass = (ClassifierFacade)superClass.getGeneralization())
         {
             if (Entity.class.isAssignableFrom(superClass.getClass()))
@@ -135,7 +136,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * Creates an identifier from the default identifier properties specified within a namespace.
+     * Creates an identifier from the default identifier properties specified
+     * within a namespace.
      */
     private void createIdentifier()
     {
@@ -154,24 +156,30 @@ public class EntityLogicImpl
      * Creates a new identifier and adds it to the underlying meta model
      * classifier instance.
      *
-     * @param name the name to give the identifier
-     * @param type the type to give the identifier
-     * @param visibility the visibility to give the identifier
+     * @param name
+     *            the name to give the identifier
+     * @param type
+     *            the type to give the identifier
+     * @param visibility
+     *            the visibility to give the identifier
      */
     private void createIdentifier(
         final String name,
         final String type,
         final String visibility)
     {
-        org.eclipse.uml2.Class umlClass = (org.eclipse.uml2.Class)metaObject;
+        org.eclipse.uml2.Class umlClass = (org.eclipse.uml2.Class)this.metaObject;
 
         if (umlClass.getAttribute(name) == null)
         {
-            ((org.eclipse.uml2.Classifier)metaObject).getModel();
+            // ((org.eclipse.uml2.Classifier)metaObject).getModel();
             final String actualType = type;
-            final Object modelElement = UmlUtilities.findByName(
+            final Object modelElement =
+                UmlUtilities.findByFullyQualifiedName(
                     umlClass.eResource().getResourceSet(),
-                    actualType);
+                    actualType,
+                    MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
+                    true);
             if (modelElement instanceof Type)
             {
                 Type element = (Type)modelElement;
@@ -253,7 +261,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getOperationCallFromAttributes(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getOperationCallFromAttributes(boolean,
+     *      boolean)
      */
     protected String handleGetOperationCallFromAttributes(
         final boolean withIdentifiers,
@@ -265,7 +274,7 @@ public class EntityLogicImpl
 
         final Set attributes = new LinkedHashSet(this.getAttributes());
 
-        for (ClassifierFacade superClass = (ClassifierFacade)getGeneralization(); superClass != null && follow;
+        for (ClassifierFacade superClass = (ClassifierFacade)this.getGeneralization(); superClass != null && follow;
             superClass = (ClassifierFacade)superClass.getGeneralization())
         {
             if (superClass instanceof Entity)
@@ -298,7 +307,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.EntityLogic#getAttributeTypeList(boolean, boolean)
+     * @see org.andromda.metafacades.uml.EntityLogic#getAttributeTypeList(boolean,
+     *      boolean)
      */
     protected String handleGetAttributeTypeList(
         final boolean follow,
@@ -310,7 +320,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getAttributeNameList(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getAttributeNameList(boolean,
+     *      boolean)
      */
     protected String handleGetAttributeNameList(
         final boolean follow,
@@ -322,7 +333,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getRequiredAttributeTypeList(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getRequiredAttributeTypeList(boolean,
+     *      boolean)
      */
     protected String handleGetRequiredAttributeTypeList(
         final boolean follow,
@@ -334,7 +346,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getRequiredAttributeNameList(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getRequiredAttributeNameList(boolean,
+     *      boolean)
      */
     protected String handleGetRequiredAttributeNameList(
         final boolean follow,
@@ -346,7 +359,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getRequiredPropertyTypeList(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getRequiredPropertyTypeList(boolean,
+     *      boolean)
      */
     protected String handleGetRequiredPropertyTypeList(
         final boolean follow,
@@ -358,7 +372,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getRequiredPropertyNameList(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getRequiredPropertyNameList(boolean,
+     *      boolean)
      */
     protected String handleGetRequiredPropertyNameList(
         final boolean follow,
@@ -370,10 +385,11 @@ public class EntityLogicImpl
     }
 
     /**
-     * Constructs a comma seperated list of attribute type names from the passed in collection of
-     * <code>attributes</code>.
+     * Constructs a comma seperated list of attribute type names from the passed
+     * in collection of <code>attributes</code>.
      *
-     * @param attributes the attributes to construct the list from.
+     * @param attributes
+     *            the attributes to construct the list from.
      * @return the comma seperated list of attribute types.
      */
     private final String getTypeList(final Collection attributes)
@@ -416,9 +432,11 @@ public class EntityLogicImpl
     }
 
     /**
-     * Constructs a comma seperated list of attribute names from the passed in collection of <code>attributes</code>.
+     * Constructs a comma seperated list of attribute names from the passed in
+     * collection of <code>attributes</code>.
      *
-     * @param attributes the attributes to construct the list from.
+     * @param attributes
+     *            the attributes to construct the list from.
      * @return the comma seperated list of attribute names.
      */
     private String getNameList(final Collection properties)
@@ -429,7 +447,7 @@ public class EntityLogicImpl
             properties,
             new Closure()
             {
-                public void execute(Object object)
+                public void execute(final Object object)
                 {
                     if (object instanceof EntityAttribute)
                     {
@@ -461,7 +479,7 @@ public class EntityLogicImpl
             this.getAssociationEnds(),
             new Predicate()
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     return ((AssociationEndFacade)object).getOtherEnd().isComposition();
                 }
@@ -508,7 +526,7 @@ public class EntityLogicImpl
             childEnds,
             new Transformer()
             {
-                public Object transform(Object object)
+                public Object transform(final Object object)
                 {
                     return ((AssociationEndFacade)object).getOtherEnd();
                 }
@@ -535,7 +553,7 @@ public class EntityLogicImpl
     {
         return new FilteredCollection(this.getSourceDependencies())
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     ModelElementFacade targetElement = ((DependencyFacade)object).getTargetElement();
                     return targetElement instanceof Entity;
@@ -547,7 +565,7 @@ public class EntityLogicImpl
      * @see org.andromda.metafacades.uml.Entity#getAttributes(boolean, boolean)
      */
     protected Collection handleGetAttributes(
-        boolean follow,
+        final boolean follow,
         final boolean withIdentifiers)
     {
         final Collection attributes = this.getAttributes(follow);
@@ -555,7 +573,7 @@ public class EntityLogicImpl
             attributes,
             new Predicate()
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     boolean valid = true;
                     if (!withIdentifiers && object instanceof EntityAttribute)
@@ -572,7 +590,7 @@ public class EntityLogicImpl
      * @see org.andromda.metafacades.uml.Entity#getProperties(boolean, boolean)
      */
     protected Collection handleGetProperties(
-        boolean follow,
+        final boolean follow,
         final boolean withIdentifiers)
     {
         final Collection properties = this.getProperties(follow);
@@ -580,7 +598,7 @@ public class EntityLogicImpl
             properties,
             new Predicate()
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     boolean valid = true;
                     if (!withIdentifiers && object instanceof EntityAttribute)
@@ -594,10 +612,11 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getRequiredAttributes(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getRequiredAttributes(boolean,
+     *      boolean)
      */
     protected Collection handleGetRequiredAttributes(
-        boolean follow,
+        final boolean follow,
         final boolean withIdentifiers)
     {
         final Collection attributes = this.getAttributes(
@@ -607,7 +626,7 @@ public class EntityLogicImpl
             attributes,
             new Predicate()
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     boolean valid = false;
                     valid = ((AttributeFacade)object).isRequired();
@@ -622,7 +641,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getRequiredProperties(boolean, boolean)
+     * @see org.andromda.metafacades.uml.Entity#getRequiredProperties(boolean,
+     *      boolean)
      */
     protected Collection handleGetRequiredProperties(
         final boolean follow,
@@ -704,8 +724,9 @@ public class EntityLogicImpl
     }
 
     /**
-     * Checks to see if this entity has any associations where the foreign identifier flag may be set, and if so creates
-     * and adds identifiers just like the foreign entity to this entity.
+     * Checks to see if this entity has any associations where the foreign
+     * identifier flag may be set, and if so creates and adds identifiers just
+     * like the foreign entity to this entity.
      *
      * @return true if any identifiers were added, false otherwise
      */
@@ -733,7 +754,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * Override to filter out any association ends that point to model elements other than other entities.
+     * Override to filter out any association ends that point to model elements
+     * other than other entities.
      *
      * @see org.andromda.metafacades.uml.ClassifierFacade#getAssociationEnds()
      */
@@ -744,7 +766,7 @@ public class EntityLogicImpl
             associationEnds,
             new Predicate()
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     return ((AssociationEndFacade)object).getOtherEnd().getType() instanceof Entity;
                 }
@@ -753,7 +775,7 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.EntityLogic#handleIsUsingForeignIdentifier()
+     * @see org.andromda.metafacades.emf.uml2.EntityLogic#handleIsUsingForeignIdentifier()
      */
     protected boolean handleIsUsingForeignIdentifier()
     {
@@ -761,7 +783,8 @@ public class EntityLogicImpl
     }
 
     /**
-     * Gets the association end that is flagged as having the foreign identifier set (or null if none is).
+     * Gets the association end that is flagged as having the foreign identifier
+     * set (or null if none is).
      */
     private EntityAssociationEnd getForeignIdentifierEnd()
     {
@@ -769,7 +792,7 @@ public class EntityLogicImpl
             this.getAssociationEnds(),
             new Predicate()
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     boolean valid = false;
                     if (object != null && EntityAssociationEnd.class.isAssignableFrom(object.getClass()))

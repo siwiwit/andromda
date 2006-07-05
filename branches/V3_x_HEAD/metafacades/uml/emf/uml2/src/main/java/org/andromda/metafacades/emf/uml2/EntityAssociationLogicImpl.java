@@ -18,7 +18,8 @@ import org.eclipse.uml2.Type;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.EntityAssociation.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.EntityAssociation.
  *
  * @see org.andromda.metafacades.uml.EntityAssociation
  */
@@ -26,8 +27,8 @@ public class EntityAssociationLogicImpl
     extends EntityAssociationLogic
 {
     public EntityAssociationLogicImpl(
-        Object metaObject,
-        String context)
+        final Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -45,7 +46,8 @@ public class EntityAssociationLogicImpl
             final ClassifierFacade type = end.getType();
             if (type != null && end.isMany2Many())
             {
-                // - prevent ClassCastException if the association isn't an Entity
+                // - prevent ClassCastException if the association isn't an
+                // Entity
                 if (type instanceof Entity)
                 {
                     final String prefixProperty = UMLMetafacadeProperties.TABLE_NAME_PREFIX;
@@ -79,10 +81,15 @@ public class EntityAssociationLogicImpl
     }
 
     /**
-     * It is an entity association if both ends are entities (have the entity stereotype
+     * It is an entity association if both ends are entities (have the entity
+     * stereotype
      */
     protected boolean handleIsEntityAssociation()
     {
+        // TODO: There may be a better implementation
+        // But it has to be tested (it may cause a stack overflow.
+        // return (getAssociationEndA().getType() instanceof Entity) &&
+        // (getAssociationEndB().getType() instanceof Entity);
         if (this.metaObject == null || !(this.metaObject instanceof Association))
         {
             throw new MetafacadeImplsException("Incorrect metafacade mapping for " + this.toString());

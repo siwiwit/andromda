@@ -4,7 +4,8 @@ import org.apache.commons.lang.StringUtils;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.DependencyFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.DependencyFacade.
  *
  * @see org.andromda.metafacades.uml.DependencyFacade
  */
@@ -12,16 +13,19 @@ public class DependencyFacadeLogicImpl
     extends DependencyFacadeLogic
 {
     public DependencyFacadeLogicImpl(
-        org.eclipse.uml2.Dependency metaObject,
-        String context)
+        final org.eclipse.uml2.Dependency metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
 
     /**
-     * Gets the name in the following manner. <ol> <li>If the dependency has a name return it.</li> <li>If the
-     * dependency does <strong>NOT </strong> have a name, get the target element's and return its name
-     * uncapitalized.</li> </ol>
+     * Gets the name in the following manner.
+     * <ol>
+     * <li>If the dependency has a name return it.</li>
+     * <li>If the dependency does <strong>NOT </strong> have a name, get the
+     * target element's and return its name uncapitalized.</li>
+     * </ol>
      *
      * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
      */

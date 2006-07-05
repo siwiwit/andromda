@@ -1,5 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.eclipse.uml2.Include;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.IncludeFacade.
@@ -9,18 +11,19 @@ package org.andromda.metafacades.emf.uml2;
 public class IncludeFacadeLogicImpl
     extends IncludeFacadeLogic
 {
-
-    public IncludeFacadeLogicImpl (Object metaObject, String context)
+    public IncludeFacadeLogicImpl(
+        Include metaObject,
+        String context)
     {
-        super (metaObject, context);
+        super(metaObject, context);
     }
+
     /**
      * @see org.andromda.metafacades.uml.IncludeFacade#getBase()
      */
     protected java.lang.Object handleGetBase()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getIncludingCase();
     }
 
     /**
@@ -28,8 +31,6 @@ public class IncludeFacadeLogicImpl
      */
     protected java.lang.Object handleGetAddition()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getAddition();
     }
-
 }

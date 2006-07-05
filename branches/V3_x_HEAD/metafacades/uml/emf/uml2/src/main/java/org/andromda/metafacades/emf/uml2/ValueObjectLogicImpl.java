@@ -10,8 +10,8 @@ public class ValueObjectLogicImpl
     extends ValueObjectLogic
 {
     public ValueObjectLogicImpl(
-        Object metaObject,
-        String context)
+        final Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }

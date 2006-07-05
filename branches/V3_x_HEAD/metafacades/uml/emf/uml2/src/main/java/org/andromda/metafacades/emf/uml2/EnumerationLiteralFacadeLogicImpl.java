@@ -5,7 +5,8 @@ import org.apache.commons.lang.StringUtils;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.EnumerationLiteralFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.EnumerationLiteralFacade.
  *
  * @see org.andromda.metafacades.uml.EnumerationLiteralFacade
  */
@@ -13,14 +14,14 @@ public class EnumerationLiteralFacadeLogicImpl
     extends EnumerationLiteralFacadeLogic
 {
     public EnumerationLiteralFacadeLogicImpl(
-        org.eclipse.uml2.EnumerationLiteral metaObject,
-        String context)
+        final org.eclipse.uml2.EnumerationLiteral metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
+     * @see org.andromda.metafacades.emf.uml2.ModelElementFacadeLogic#handleGetName()
      */
     protected String handleGetName()
     {
@@ -30,7 +31,7 @@ public class EnumerationLiteralFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.EnumerationLiteralFacade#getDefinitionOne()
+     * @see org.andromda.metafacades.emf.uml2.EnumerationLiteralFacade#getDefinitionOne()
      */
     protected String handleGetValue()
     {

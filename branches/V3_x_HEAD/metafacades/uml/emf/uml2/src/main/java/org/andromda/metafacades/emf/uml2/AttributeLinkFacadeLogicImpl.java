@@ -2,7 +2,9 @@ package org.andromda.metafacades.emf.uml2;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.AttributeLinkFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.AttributeLinkFacade. TODO: It has not been
+ * implemented
  *
  * @see org.andromda.metafacades.uml.AttributeLinkFacade
  */
@@ -10,8 +12,8 @@ public class AttributeLinkFacadeLogicImpl
     extends AttributeLinkFacadeLogic
 {
     public AttributeLinkFacadeLogicImpl(
-        Object metaObject,
-        String context)
+        final Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }

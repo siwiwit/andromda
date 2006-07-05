@@ -1,13 +1,16 @@
 package org.andromda.metafacades.emf.uml2;
 
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
-import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.uml2.Activity;
+import org.eclipse.uml2.Element;
+import org.eclipse.uml2.Operation;
 import org.eclipse.uml2.ParameterDirectionKind;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.ParameterFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.ParameterFacade.
  *
  * @see org.andromda.metafacades.uml.ParameterFacade
  */
@@ -15,8 +18,8 @@ public class ParameterFacadeLogicImpl
     extends ParameterFacadeLogic
 {
     public ParameterFacadeLogicImpl(
-        org.eclipse.uml2.Parameter metaObject,
-        String context)
+        final org.eclipse.uml2.Parameter metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -26,7 +29,7 @@ public class ParameterFacadeLogicImpl
      */
     protected java.lang.String handleGetDefaultValue()
     {
-        return metaObject.getDefault();
+        return this.metaObject.getDefault();
     }
 
     /**
@@ -34,7 +37,7 @@ public class ParameterFacadeLogicImpl
      */
     protected boolean handleIsReturn()
     {
-        return metaObject.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL);
+        return this.metaObject.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL);
     }
 
     /**
@@ -42,7 +45,7 @@ public class ParameterFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return (metaObject.getLower() > 0);
+        return (this.getLower() > 0);
     }
 
     /**
@@ -50,7 +53,7 @@ public class ParameterFacadeLogicImpl
      */
     protected java.lang.String handleGetGetterName()
     {
-        return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtilsHelper.capitalize(this.getName());
+        return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -58,7 +61,7 @@ public class ParameterFacadeLogicImpl
      */
     protected java.lang.String handleGetSetterName()
     {
-        return "set" + StringUtilsHelper.capitalize(this.getName());
+        return "set" + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -90,7 +93,7 @@ public class ParameterFacadeLogicImpl
      */
     protected boolean handleIsInParameter()
     {
-        return metaObject.getDirection().equals(ParameterDirectionKind.IN_LITERAL);
+        return this.metaObject.getDirection().equals(ParameterDirectionKind.IN_LITERAL);
     }
 
     /**
@@ -98,7 +101,7 @@ public class ParameterFacadeLogicImpl
      */
     protected boolean handleIsOutParameter()
     {
-        return metaObject.getDirection().equals(ParameterDirectionKind.OUT_LITERAL);
+        return this.metaObject.getDirection().equals(ParameterDirectionKind.OUT_LITERAL);
     }
 
     /**
@@ -106,7 +109,7 @@ public class ParameterFacadeLogicImpl
      */
     protected boolean handleIsInoutParameter()
     {
-        return metaObject.getDirection().equals(ParameterDirectionKind.INOUT_LITERAL);
+        return this.metaObject.getDirection().equals(ParameterDirectionKind.INOUT_LITERAL);
     }
 
     /**
@@ -114,7 +117,12 @@ public class ParameterFacadeLogicImpl
      */
     protected java.lang.Object handleGetOperation()
     {
-        return metaObject.getOwner();
+        Object owner = this.metaObject.getOwner();
+        if (owner instanceof Operation)
+        {
+            return owner;
+        }
+        return null;
     }
 
     /**
@@ -122,7 +130,11 @@ public class ParameterFacadeLogicImpl
      */
     protected java.lang.Object handleGetEvent()
     {
-        // TODO: add your implementation here!
+        Element owner = this.metaObject.getOwner();
+        if (owner instanceof Activity)
+        {
+            return owner;
+        }
         return null;
     }
 
@@ -148,20 +160,18 @@ public class ParameterFacadeLogicImpl
     }
 
     /**
-     * Get the UML upper multiplicity
-     * Not implemented for UML1.4
+     * Get the UML upper multiplicity Not implemented for UML1.4
      */
     protected int handleGetUpper()
     {
-        return this.metaObject.getUpper();
+        return UmlUtilities.parseMultiplicity(this.metaObject.getUpperValue());
     }
 
     /**
-     * Get the UML lower multiplicity
-     * Not implemented for UML1.4
+     * Get the UML lower multiplicity Not implemented for UML1.4
      */
     protected int handleGetLower()
     {
-        return this.metaObject.getLower();
+        return UmlUtilities.parseMultiplicity(this.metaObject.getLowerValue());
     }
 }

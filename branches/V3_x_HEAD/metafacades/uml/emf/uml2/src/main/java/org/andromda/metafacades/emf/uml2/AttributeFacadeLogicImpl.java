@@ -1,21 +1,19 @@
 package org.andromda.metafacades.emf.uml2;
 
-import java.util.Collection;
-
 import org.andromda.metafacades.uml.ClassifierFacade;
-import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.uml2.MultiplicityElement;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.AttributeFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.AttributeFacade.
  *
  * @see org.andromda.metafacades.uml.AttributeFacade
  */
@@ -23,10 +21,16 @@ public class AttributeFacadeLogicImpl
     extends AttributeFacadeLogic
 {
     public AttributeFacadeLogicImpl(
-        org.eclipse.uml2.Property metaObject,
-        String context)
+        final org.eclipse.uml2.Property metaObject,
+        final String context)
     {
-        super(metaObject, context);
+        super((Attribute)metaObject, context);
+        if (!(metaObject instanceof Attribute))
+        {
+            // This case occurs when a method return property instead of an
+            // "Attribute"
+            throw new RuntimeException("AttributeFacade created with a " + metaObject);
+        }
     }
 
     /**
@@ -34,7 +38,7 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.String handleGetGetterName()
     {
-        return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtilsHelper.capitalize(this.getName());
+        return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -42,7 +46,7 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.String handleGetSetterName()
     {
-        return "set" + StringUtils.capitalize(metaObject.getName());
+        return "set" + StringUtils.capitalize(this.metaObject.getName());
     }
 
     /**
@@ -50,7 +54,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsReadOnly()
     {
-        return metaObject.isReadOnly();
+        return this.metaObject.isReadOnly();
     }
 
     /**
@@ -58,7 +62,8 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.String handleGetDefaultValue()
     {
-        return metaObject.getDefault();
+        String defaultValue = this.metaObject.getDefault();
+        return defaultValue.equals("") ? null : defaultValue;
     }
 
     /**
@@ -66,23 +71,25 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsStatic()
     {
-        return metaObject.isStatic();
+        return this.metaObject.isStatic();
     }
 
     /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#isRequired()
-     */
-    protected boolean handleIsRequired()
-    {
-        return (metaObject.getLower() > 0);
-    }
-
-    /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#isMany()
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany()
      */
     protected boolean handleIsMany()
     {
-        return metaObject.isMultivalued();
+        // Because of MD11.5 (their multiplicity are String), we cannot use
+        // isMultiValued()
+        return this.getUpper() > 1 || this.getUpper() == MultiplicityElement.UNLIMITED_UPPER_BOUND;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isRequired()
+     */
+    protected boolean handleIsRequired()
+    {
+        return (this.getLower() > 0);
     }
 
     /**
@@ -90,7 +97,8 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsChangeable()
     {
-        return metaObject.isReadOnly();
+        // TODO: Check this is correct. I would tell the inverse
+        return this.metaObject.isReadOnly();
     }
 
     /**
@@ -98,6 +106,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsAddOnly()
     {
+        // TODO: really nothing to do here ?
         return false;
     }
 
@@ -119,7 +128,7 @@ public class AttributeFacadeLogicImpl
         if (this.isEnumerationLiteral())
         {
             value = this.getDefaultValue();
-            value = (value == null) ? getName() : String.valueOf(value);
+            value = (value == null) ? this.getName() : String.valueOf(value);
         }
         if (this.getType().isStringType())
         {
@@ -138,8 +147,8 @@ public class AttributeFacadeLogicImpl
         {
             final TypeMappings mappings = this.getLanguageMappings();
             name =
-                isOrdered() ? mappings.getTo(UMLProfile.LIST_TYPE_NAME) : mappings.getTo(
-                    UMLProfile.COLLECTION_TYPE_NAME);
+                this.isOrdered() ? mappings.getTo(UMLProfile.LIST_TYPE_NAME)
+                                 : mappings.getTo(UMLProfile.COLLECTION_TYPE_NAME);
 
             // set this attribute's type as a template parameter if required
             if (BooleanUtils.toBoolean(
@@ -160,7 +169,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsOrdered()
     {
-        return metaObject.isOrdered();
+        return this.metaObject.isOrdered();
     }
 
     /**
@@ -168,7 +177,8 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.Object handleGetOwner()
     {
-        return metaObject.getClass_();
+        // This is sure for attribute
+        return this.metaObject.getClass_();
     }
 
     /**
@@ -184,7 +194,7 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.Object handleGetType()
     {
-        return metaObject.getType();
+        return this.metaObject.getType();
     }
 
     /**
@@ -200,59 +210,60 @@ public class AttributeFacadeLogicImpl
         return !(this.getDefaultValue() == null || this.getDefaultValue().equals(""));
     }
 
-    protected boolean handleIsBindingDependenciesPresent()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    /*  protected boolean handleIsBindingDependenciesPresent()
+      {
+          // TODO: Implement this with Templates.
+          // IT seems that this methode has been overriden. Why ?
+          return false;
+      }
 
-    protected boolean handleIsTemplateParametersPresent()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
+      protected boolean handleIsTemplateParametersPresent()
+      {
+          // TODO: This methode has been overriden. Why ?
+          return false;
+      }
 
-    protected void handleCopyTaggedValues(ModelElementFacade element)
-    {
-        // TODO Auto-generated method stub
-    }
+      protected void handleCopyTaggedValues(final ModelElementFacade element)
+      {
+          // TODO: This methode has been overriden. Why ?
+      }
 
-    protected Object handleGetTemplateParameter(String parameterName)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+      protected Object handleGetTemplateParameter(final String parameterName)
+      {
+          // TODO: This methode has been overriden. Why ?
+          return null;
+      }
 
-    protected Collection handleGetTemplateParameters()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+      protected Collection handleGetTemplateParameters()
+      {
+          // TODO: This methode has been overriden. Why ?
+          return null;
+      } */
 
     /**
-     * Get the UML upper multiplicity
-     * Not implemented for UML1.4
+     * Get the UML upper multiplicity Not implemented for UML1.4
      */
     protected int handleGetUpper()
     {
-        return this.metaObject.getUpper();
+        // MD11.5 Exports multiplicity as String
+        return UmlUtilities.parseMultiplicity(this.metaObject.getUpperValue());
     }
 
     /**
-     * Get the UML lower multiplicity
-     * Not implemented for UML1.4
+     * Get the UML lower multiplicity Not implemented for UML1.4
      */
     protected int handleGetLower()
     {
-        return this.metaObject.getLower();
+        // MD11.5 Exports multiplicity as String
+        return UmlUtilities.parseMultiplicity(this.metaObject.getLowerValue());
     }
 
     protected Object handleFindTaggedValue(
         String name,
-        boolean follow)
+        final boolean follow)
     {
         name = StringUtils.trimToEmpty(name);
-        Object value = findTaggedValue(name);
+        Object value = this.findTaggedValue(name);
         if (follow)
         {
             ClassifierFacade type = this.getType();

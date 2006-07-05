@@ -10,8 +10,8 @@ public class LinkFacadeLogicImpl
     extends LinkFacadeLogic
 {
     public LinkFacadeLogicImpl(
-        org.eclipse.uml2.Element metaObject,
-        String context)
+        final org.eclipse.uml2.Element metaObject,
+        final String context)
     {
         super(metaObject, context);
     }

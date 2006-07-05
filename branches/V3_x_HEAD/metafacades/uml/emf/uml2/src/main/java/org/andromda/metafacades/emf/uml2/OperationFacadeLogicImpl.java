@@ -23,7 +23,8 @@ import org.eclipse.uml2.ParameterDirectionKind;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.OperationFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.OperationFacade.
  *
  * @see org.andromda.metafacades.uml.OperationFacade
  */
@@ -31,8 +32,8 @@ public class OperationFacadeLogicImpl
     extends OperationFacadeLogic
 {
     public OperationFacadeLogicImpl(
-        org.eclipse.uml2.Operation metaObject,
-        String context)
+        final org.eclipse.uml2.Operation metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -69,10 +70,11 @@ public class OperationFacadeLogicImpl
     /**
      * Constructs the operation call with the given <code>name</code>
      *
-     * @param name the name form which to construct the operation call.
+     * @param name
+     *            the name form which to construct the operation call.
      * @return the operation call.
      */
-    private String getCall(String name)
+    private String getCall(final String name)
     {
         StringBuffer buffer = new StringBuffer();
         buffer.append(name);
@@ -90,7 +92,7 @@ public class OperationFacadeLogicImpl
         return this.getTypedArgumentList(true);
     }
 
-    private String getTypedArgumentList(boolean withArgumentNames)
+    private String getTypedArgumentList(final boolean withArgumentNames)
     {
         return this.getTypedArgumentList(
             withArgumentNames,
@@ -102,7 +104,7 @@ public class OperationFacadeLogicImpl
      */
     protected boolean handleIsStatic()
     {
-        return metaObject.isStatic();
+        return this.metaObject.isStatic();
     }
 
     /**
@@ -110,7 +112,7 @@ public class OperationFacadeLogicImpl
      */
     protected boolean handleIsAbstract()
     {
-        return metaObject.isAbstract();
+        return this.metaObject.isAbstract();
     }
 
     /**
@@ -132,7 +134,7 @@ public class OperationFacadeLogicImpl
         final class ExceptionFilter
             implements Predicate
         {
-            public boolean evaluate(Object object)
+            public boolean evaluate(final Object object)
             {
                 boolean hasException = object instanceof DependencyFacade;
                 if (hasException)
@@ -181,32 +183,33 @@ public class OperationFacadeLogicImpl
             exceptions,
             new Transformer()
             {
-                public Object transform(Object object)
+                public Object transform(final Object object)
                 {
                     return ((DependencyFacade)object).getTargetElement();
                 }
             });
+
         Collection t = this.metaObject.getRaisedExceptions();
         exceptions.addAll(this.shieldedElements(t));
-        final Collection params = new ArrayList(metaObject.getOwnedParameters());
+        final Collection params = new ArrayList(this.metaObject.getOwnedParameters());
         CollectionUtils.filter(
-                params,
-                new Predicate()
+            params,
+            new Predicate()
+            {
+                public boolean evaluate(final Object object)
                 {
-                    public boolean evaluate(Object object)
-                    {
-                        return ((Parameter)object).isException();
-                    }
-                });
+                    return ((Parameter)object).isException();
+                }
+            });
         CollectionUtils.transform(
-                params,
-                new Transformer()
+            params,
+            new Transformer()
+            {
+                public Object transform(final Object object)
                 {
-                    public Object transform(Object object)
-                    {
-                        return ((Parameter)object).getType();
-                    }
-                });
+                    return ((Parameter)object).getType();
+                }
+            });
         exceptions.addAll(this.shieldedElements(params));
         return exceptions;
     }
@@ -239,7 +242,7 @@ public class OperationFacadeLogicImpl
     {
         StringBuffer buffer = new StringBuffer();
 
-        Iterator iterator = metaObject.getOwnedParameters().iterator();
+        Iterator iterator = this.metaObject.getOwnedParameters().iterator();
 
         boolean commaNeeded = false;
         while (iterator.hasNext())
@@ -266,7 +269,7 @@ public class OperationFacadeLogicImpl
     {
         StringBuffer buffer = new StringBuffer();
 
-        Iterator iterator = metaObject.getOwnedParameters().iterator();
+        Iterator iterator = this.metaObject.getOwnedParameters().iterator();
 
         boolean commaNeeded = false;
         while (iterator.hasNext())
@@ -279,7 +282,7 @@ public class OperationFacadeLogicImpl
                 {
                     buffer.append(", ");
                 }
-                ParameterFacade facade = (ParameterFacade)shieldedElement(parameter);
+                ParameterFacade facade = (ParameterFacade)this.shieldedElement(parameter);
                 buffer.append(facade.getType().getFullyQualifiedName());
                 commaNeeded = true;
             }
@@ -292,7 +295,7 @@ public class OperationFacadeLogicImpl
      */
     protected boolean handleIsQuery()
     {
-        return metaObject.isQuery();
+        return this.metaObject.isQuery();
     }
 
     /**
@@ -302,7 +305,7 @@ public class OperationFacadeLogicImpl
     {
         String concurrency = null;
 
-        final CallConcurrencyKind concurrencyKind = metaObject.getConcurrency();
+        final CallConcurrencyKind concurrencyKind = this.metaObject.getConcurrency();
         if (concurrencyKind == null || concurrencyKind.equals(CallConcurrencyKind.CONCURRENT_LITERAL))
         {
             concurrency = "concurrent";
@@ -311,7 +314,7 @@ public class OperationFacadeLogicImpl
         {
             concurrency = "guarded";
         }
-        else // CallConcurrencyKindEnum.CCK_SEQUENTIAL
+        else// CallConcurrencyKindEnum.CCK_SEQUENTIAL
         {
             concurrency = "sequential";
         }
@@ -403,14 +406,25 @@ public class OperationFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.OperationFacade#findTaggedValue(java.lang.String, boolean)
+     * @see org.andromda.metafacades.uml.OperationFacade#findTaggedValue(java.lang.String,
+     *      boolean)
      */
     protected java.lang.Object handleFindTaggedValue(
         java.lang.String name,
-        boolean follow)
+        final boolean follow)
     {
-        // TODO: put your implementation here.
-        return null;
+        name = StringUtils.trimToEmpty(name);
+        Object value = this.findTaggedValue(name);
+        if (follow)
+        {
+            ClassifierFacade type = this.getReturnType();
+            while (value == null && type != null)
+            {
+                value = type.findTaggedValue(name);
+                type = (ClassifierFacade)type.getGeneralization();
+            }
+        }
+        return value;
     }
 
     /**
@@ -445,7 +459,7 @@ public class OperationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.OperationFacade#getSignature(boolean)
      */
-    protected java.lang.String handleGetSignature(boolean withArgumentNames)
+    protected java.lang.String handleGetSignature(final boolean withArgumentNames)
     {
         return this.getSignature(
             this.getName(),
@@ -454,7 +468,8 @@ public class OperationFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.OperationFacade#getSignature(String, boolean, String)
+     * @see org.andromda.metafacades.uml.OperationFacade#getSignature(String,
+     *      boolean, String)
      */
     private String getSignature(
         final String name,
@@ -471,14 +486,15 @@ public class OperationFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.OperationFacade#getTypedArgumentList(boolean, String)
+     * @see org.andromda.metafacades.uml.OperationFacade#getTypedArgumentList(boolean,
+     *      String)
      */
     private String getTypedArgumentList(
-        boolean withArgumentNames,
-        String modifier)
+        final boolean withArgumentNames,
+        final String modifier)
     {
         StringBuffer buffer = new StringBuffer();
-        Iterator parameterIterator = metaObject.getOwnedParameters().iterator();
+        Iterator parameterIterator = this.metaObject.getOwnedParameters().iterator();
 
         boolean commaNeeded = false;
         while (parameterIterator.hasNext())
@@ -486,8 +502,10 @@ public class OperationFacadeLogicImpl
             Parameter paramter = (Parameter)parameterIterator.next();
 
             if (paramter.isException())
+            {
                 continue;
-            
+            }
+
             if (!paramter.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL))
             {
                 String type = null;
@@ -501,9 +519,13 @@ public class OperationFacadeLogicImpl
                 {
                     ClassifierFacade theType = (ClassifierFacade)this.shieldedElement(paramter.getType());
                     if (paramter.isMultivalued())
-                        type = theType.getFullyQualifiedName()+"[]";
+                    {
+                        type = theType.getFullyQualifiedName() + "[]";
+                    }
                     else
+                    {
                         type = theType.getFullyQualifiedName();
+                    }
                 }
 
                 if (commaNeeded)
@@ -526,11 +548,11 @@ public class OperationFacadeLogicImpl
         }
         return buffer.toString();
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.OperationFacade#getTypedArgumentList(java.lang.String)
      */
-    protected java.lang.String handleGetTypedArgumentList(java.lang.String modifier)
+    protected java.lang.String handleGetTypedArgumentList(final java.lang.String modifier)
     {
         return this.getTypedArgumentList(
             true,
@@ -540,7 +562,7 @@ public class OperationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.OperationFacade#getSignature(java.lang.String)
      */
-    protected java.lang.String handleGetSignature(java.lang.String argumentModifier)
+    protected java.lang.String handleGetSignature(final java.lang.String argumentModifier)
     {
         return this.getSignature(
             this.getName(),
@@ -561,12 +583,12 @@ public class OperationFacadeLogicImpl
      */
     protected java.util.Collection handleGetParameters()
     {
-        final Collection params = new ArrayList(metaObject.getOwnedParameters());
+        final Collection params = new ArrayList(this.metaObject.getOwnedParameters());
         CollectionUtils.filter(
             params,
             new Predicate()
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     return !((Parameter)object).isException();
                 }
@@ -579,7 +601,7 @@ public class OperationFacadeLogicImpl
      */
     protected java.lang.Object handleGetReturnType()
     {
-        return metaObject.getType();
+        return this.metaObject.getType();
     }
 
     /**
@@ -587,12 +609,12 @@ public class OperationFacadeLogicImpl
      */
     protected java.util.Collection handleGetArguments()
     {
-        final Collection arguments = new ArrayList(metaObject.getOwnedParameters());
+        final Collection arguments = new ArrayList(this.metaObject.getOwnedParameters());
         CollectionUtils.filter(
             arguments,
             new Predicate()
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     Parameter p = (Parameter)object;
                     return !p.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL) && !p.isException();
@@ -628,26 +650,26 @@ public class OperationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.emf.uml2.OperationFacade#findParameter(java.lang.String)
      */
-    protected ParameterFacade handleFindParameter(String name)
+    protected ParameterFacade handleFindParameter(final String name)
     {
-        return (ParameterFacade) this.shieldedElement(this.metaObject.getOwnedParameter(name));
-    }
-    
-    /**
-     * Get the UML upper multiplicity
-     * Not implemented for UML1.4
-     */
-    protected int handleGetUpper()
-    {
-        return this.metaObject.getUpper();
+        return (ParameterFacade)this.shieldedElement(this.metaObject.getOwnedParameter(name));
     }
 
     /**
-     * Get the UML lower multiplicity
-     * Not implemented for UML1.4
+     * Get the UML upper multiplicity Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        // MD11.5 Exports multiplicity as String
+        return UmlUtilities.parseMultiplicity(this.metaObject.getUpperValue());
+    }
+
+    /**
+     * Get the UML lower multiplicity Not implemented for UML1.4
      */
     protected int handleGetLower()
     {
-        return this.metaObject.getLower();
+        // MD11.5 Exports multiplicity as String
+        return UmlUtilities.parseMultiplicity(this.metaObject.getLowerValue());
     }
 }

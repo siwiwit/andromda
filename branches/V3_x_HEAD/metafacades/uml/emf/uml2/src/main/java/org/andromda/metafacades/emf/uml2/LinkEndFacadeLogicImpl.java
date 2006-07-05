@@ -2,7 +2,8 @@ package org.andromda.metafacades.emf.uml2;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.LinkEndFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.LinkEndFacade. TODO: It has to be implemented
  *
  * @see org.andromda.metafacades.uml.LinkEndFacade
  */
@@ -10,8 +11,8 @@ public class LinkEndFacadeLogicImpl
     extends LinkEndFacadeLogic
 {
     public LinkEndFacadeLogicImpl(
-        org.eclipse.uml2.Element metaObject,
-        String context)
+        final org.eclipse.uml2.Element metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
