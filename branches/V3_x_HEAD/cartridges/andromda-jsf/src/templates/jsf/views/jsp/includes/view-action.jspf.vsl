@@ -22,7 +22,7 @@
 </af:form>
 <f:verbatim><br/><br/></f:verbatim>
 #else
-#set ($clientValidation = $clientValidation.equalsIgnoreCase("true"))
+#set ($clientValidation = $clientValidation && $action.validationRequired)
 #set ($formValidateName = "validate$stringUtils.capitalize($formName)")
 <h:form id="$formName"#if($clientValidation) onsubmit="return $formValidateName(this);"#end enctype="multipart/form-data">
 #if (!$action.hiddenParameters.empty)
