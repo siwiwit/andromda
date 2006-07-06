@@ -442,16 +442,6 @@
         </dependency>
         <dependency>
             <groupId>axis</groupId>
-            <artifactId>axis-schema</artifactId>
-            <version>${axis.version}</version>
-#if ($war)
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-#end
-        </dependency>
-        <dependency>
-            <groupId>axis</groupId>
             <artifactId>axis-saaj</artifactId>
             <version>${axis.version}</version>
             <type>jar</type>
@@ -462,9 +452,9 @@
 #end
         </dependency>
         <dependency>
-            <groupId>axis</groupId>
-            <artifactId>axis-wsdl4j</artifactId>
-            <version>${axis.version}</version>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>${wsdl4j.version}</version>
             <type>jar</type>
 #if ($war)
             <properties>

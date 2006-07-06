@@ -530,32 +530,26 @@
 #end
 #end
 #if ($axis)
+            <dependency>
+                <groupId>wsdl4j</groupId>
+                <artifactId>wsdl4j</artifactId>
+                <version>1.5.1</version>
+            </dependency>
 #if ($axisVersion.equals("1"))
             <dependency>
                 <groupId>axis</groupId>
                 <artifactId>axis</artifactId>
-                <version>1.3</version>
+                <version>1.4</version>
             </dependency>
             <dependency>
                 <groupId>axis</groupId>
                 <artifactId>axis-jaxrpc</artifactId>
-                <version>1.3</version>
+                <version>1.4</version>
             </dependency>
             <dependency>
                 <groupId>axis</groupId>
                 <artifactId>axis-saaj</artifactId>
-                <version>1.3</version>
-            </dependency>
-            <dependency>
-                <groupId>axis</groupId>
-                <artifactId>axis-wsdl4j</artifactId>
-                <version>1.3</version>
-            </dependency>
-            <dependency>
-                <groupId>axis</groupId>
-                <artifactId>axis-schema</artifactId>
-                <version>1.3</version>
-                <scope>runtime</scope>
+                <version>1.4</version>
             </dependency>
             <dependency>
                 <groupId>commons-discovery</groupId>
@@ -565,11 +559,6 @@
             </dependency>
 #else
             <!-- Axis2 Dependencies -->
-            <dependency>
-                <groupId>axis</groupId>
-                <artifactId>axis-wsdl4j</artifactId>
-                <version>1.3</version>
-            </dependency>
             <dependency>
                 <groupId>axis2</groupId>
                 <artifactId>axis2-adb</artifactId>

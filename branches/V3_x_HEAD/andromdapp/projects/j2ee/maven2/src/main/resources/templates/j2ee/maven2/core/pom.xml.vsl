@@ -146,6 +146,10 @@
             <artifactId>andromda-script-wrappers</artifactId>
         </dependency>
 #if ($axis)
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
 #if ($axisVersion.equals("1"))
         <dependency>
             <groupId>axis</groupId>
@@ -162,22 +166,9 @@
         </dependency>
         <dependency>
             <groupId>axis</groupId>
-            <artifactId>axis-schema</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>axis</groupId>
             <artifactId>axis-saaj</artifactId>
         </dependency>
-        <dependency>
-            <groupId>axis</groupId>
-            <artifactId>axis-wsdl4j</artifactId>
-        </dependency>
 #else
-        <dependency>
-            <groupId>axis</groupId>
-            <artifactId>axis-wsdl4j</artifactId>
-        </dependency>
         <dependency>
             <groupId>axis2</groupId>
             <artifactId>axis2-adb</artifactId>

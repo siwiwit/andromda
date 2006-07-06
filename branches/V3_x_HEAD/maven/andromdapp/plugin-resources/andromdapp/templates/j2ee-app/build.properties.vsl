@@ -82,6 +82,6 @@ ant.version=1.6.2
 #if ($webservice)
 # webservice dependency versions
 commons.discovery.version=0.2
-axis.version=1.3
-
+axis.version=1.4
+wsdl4j.version-1.5.1
 #end

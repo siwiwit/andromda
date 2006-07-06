@@ -225,14 +225,6 @@
         </dependency>
         <dependency>
             <groupId>axis</groupId>
-            <artifactId>axis-schema</artifactId>
-            <version>${axis.version}</version>
-            <properties>
-                <ejb.manifest.classpath>true</ejb.manifest.classpath>
-            </properties>
-        </dependency>
-        <dependency>
-            <groupId>axis</groupId>
             <artifactId>axis-saaj</artifactId>
             <version>${axis.version}</version>
             <type>jar</type>
@@ -241,9 +233,9 @@
             </properties>
         </dependency>
         <dependency>
-            <groupId>axis</groupId>
-            <artifactId>axis-wsdl4j</artifactId>
-            <version>${axis.version}</version>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>${wsdl4j.version}</version>
             <type>jar</type>
             <properties>
                 <ejb.manifest.classpath>true</ejb.manifest.classpath>
