@@ -62,17 +62,18 @@ $argument.getDocumentation("                                    ", 64, false)
 #set ($type = $typeMapping.type)
 #end
 ## Handle any type mappings that happen to be associationEnds
+#set ($arrayItemName = $stringUtils.uncapitalize($type.getSchemaType(false, false)))
 #if ($typeMapping.many)
             <xsd:complexType name="$type.wsdlArrayName">
                 <xsd:sequence>
-                    <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" form="qualified" type="${type.namespacePrefix}:${type.qName}" />
+                    <xsd:element name="$arrayItemName" minOccurs="0" maxOccurs="unbounded" form="qualified" type="${type.namespacePrefix}:${type.qName}" />
                 </xsd:sequence>
             </xsd:complexType>
 #end
 #if ($type.arrayType)
             <xsd:complexType name="$type.getSchemaType(false, true)">
                 <xsd:sequence>
-                    <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" form="qualified" type="$type.getSchemaType(true, false)" />
+                    <xsd:element name="$arrayItemName" minOccurs="0" maxOccurs="unbounded" form="qualified" type="$type.getSchemaType(true, false)" />
                 </xsd:sequence>
             </xsd:complexType>
 #else

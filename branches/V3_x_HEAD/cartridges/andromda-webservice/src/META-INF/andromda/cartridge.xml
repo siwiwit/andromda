@@ -277,6 +277,20 @@
         outlet="webservice-types"
         overwrite="true"
         outputCondition="axis1"/>
+    
+    <template
+        path="templates/webservice/axis1/ArraySerializer.java.vsl"
+        outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
+        outlet="webservice-types"
+        overwrite="true"
+        outputCondition="axis1"/>
+    
+    <template
+        path="templates/webservice/axis1/ArraySerializerFactory.java.vsl"
+        outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
+        outlet="webservice-types"
+        overwrite="true"
+        outputCondition="axis1"/>
 
     <!-- cartridge-template merge-point -->
 

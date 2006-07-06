@@ -10,7 +10,7 @@ package $webserviceTypesPackage;
  *
  * @author Chad Brandon
  */
-public class AxisAttachmentHandler
+public class $className
 {
     /**
      * Sends the given <code>contents</code> using the appropriate current message

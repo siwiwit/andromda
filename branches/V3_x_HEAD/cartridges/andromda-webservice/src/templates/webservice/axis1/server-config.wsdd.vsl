@@ -18,6 +18,10 @@
     <handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
     <handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
     <handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+#set ($arraySerializerName = "ArraySerializerFactory")
+#if ($stringUtils.isNotBlank($webserviceTypesPackage))
+#set ($arraySerializerName = "$webserviceTypesPackage.$arraySerializerName")
+#end
 #foreach ($service in $services)
 #parse("templates/webservice/Globals.vm")
     <service name="$service.qName" provider="java:${service.provider}" style="$service.style" use="$service.use">
@@ -76,7 +80,11 @@ $service.getDocumentation("            ", 64, false)
 #set ($serialPrefix = "Enum")
 #end
 #end
+#if ($type.arrayType)
+            serializer="$arraySerializerName"
+#else
             serializer="org.apache.axis.encoding.ser.${serialPrefix}SerializerFactory"
+#end
             deserializer="org.apache.axis.encoding.ser.${serialPrefix}DeserializerFactory"
             encodingStyle="${encodingStyle}">
             <documentation>
@@ -89,7 +97,7 @@ $type.getDocumentation("            ", 64, false)
             type="java:${type.fullyQualifiedName}[]"
             xmlns:ns${velocityCount}="$type.namespace"
             qname="ns${velocityCount}:${type.wsdlArrayName}"
-            serializer="org.apache.axis.encoding.ser.ArraySerializerFactory"
+            serializer="$arraySerializerName"
             deserializer="org.apache.axis.encoding.ser.ArrayDeserializerFactory"
             encodingStyle="${encodingStyle}">
             <documentation>
