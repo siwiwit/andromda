@@ -33,7 +33,7 @@
         <tag-name>binaryFile</tag-name>
         <component>
             <component-type>org.andromda.cartridges.jsf.component.BinaryFile</component-type>
-            <renderer-type>org.andromda.cartridges.jsf.component.BinaryFile</renderer-type>
+            <renderer-type>org.andromda.cartridges.jsf.BinaryFile</renderer-type>
         </component>
     </tag>
     
