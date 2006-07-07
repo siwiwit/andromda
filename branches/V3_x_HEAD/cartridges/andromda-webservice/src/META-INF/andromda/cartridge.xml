@@ -61,6 +61,13 @@
         outputCondition="axis2"/>
     
     <resource
+        path="resources/webservice/axis1/views/*.jsp"
+        outputPattern="{0}"
+        outlet="configuration"
+        overwrite="true"
+        outputCondition="axis1"/>
+    
+    <resource
         path="resources/webservice/xfire/views/*.jsp"
         outputPattern="{0}"
         outlet="configuration"
