@@ -798,7 +798,7 @@ public class ModelProcessor
     {
         private final Collator collator = Collator.getInstance();
 
-        private ValidationMessageTypeComparator()
+        ValidationMessageTypeComparator()
         {
             collator.setStrength(Collator.PRIMARY);
         }
@@ -823,7 +823,7 @@ public class ModelProcessor
     {
         private final Collator collator = Collator.getInstance();
 
-        private ValidationMessageNameComparator()
+        ValidationMessageNameComparator()
         {
             collator.setStrength(Collator.PRIMARY);
         }

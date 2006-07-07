@@ -520,7 +520,7 @@ public class ManageableEntityLogicImpl
         return new ArrayList(allManageableEntities);
     }
 
-    private final class ManageableComparator
+    final static class ManageableComparator
         implements Comparator
     {
         public int compare(

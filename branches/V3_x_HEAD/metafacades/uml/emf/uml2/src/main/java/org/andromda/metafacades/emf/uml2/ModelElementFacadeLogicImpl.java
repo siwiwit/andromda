@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.andromda.core.metafacade.MetafacadeConstants;
+import org.andromda.metafacades.uml.BindingFacade;
 import org.andromda.metafacades.uml.ConstraintFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.ParameterFacade;
@@ -23,14 +24,25 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.eclipse.emf.ecore.xmi.impl.XMIHelperImpl;
+import org.eclipse.uml2.Abstraction;
 import org.eclipse.uml2.Comment;
 import org.eclipse.uml2.Dependency;
+import org.eclipse.uml2.Deployment;
+import org.eclipse.uml2.DirectedRelationship;
+import org.eclipse.uml2.Element;
+import org.eclipse.uml2.Implementation;
+import org.eclipse.uml2.Manifestation;
 import org.eclipse.uml2.Model;
 import org.eclipse.uml2.NamedElement;
 import org.eclipse.uml2.Namespace;
+import org.eclipse.uml2.Permission;
+import org.eclipse.uml2.Realization;
 import org.eclipse.uml2.StateMachine;
+import org.eclipse.uml2.Substitution;
+import org.eclipse.uml2.TemplateBinding;
 import org.eclipse.uml2.TemplateSignature;
 import org.eclipse.uml2.TemplateableElement;
+import org.eclipse.uml2.Usage;
 import org.eclipse.uml2.UseCase;
 import org.eclipse.uml2.VisibilityKind;
 
@@ -134,9 +146,7 @@ public class ModelElementFacadeLogicImpl
             if (!(namespace instanceof UseCase || namespace instanceof StateMachine))
             {
                 // What about spaces inside a package name ?
-                // String nameSpaceName =
-                // StringUtils.deleteWhitespace(namespace.getName());
-                // Camel Case ?
+                // String nameSpaceName = StringUtils.deleteWhitespace(namespace.getName()); Camel Case ?
                 String nameSpaceName = namespace.getName();
                 packageName = packageName.equals("") ? nameSpaceName : nameSpaceName + separator + packageName;
             }
@@ -653,7 +663,7 @@ public class ModelElementFacadeLogicImpl
     {
         ArrayList dependencies = new ArrayList();
         dependencies.addAll(UmlUtilities.getAllMetaObjectsInstanceOf(
-                Dependency.class,
+                DirectedRelationship.class,
                 this.metaObject.getModel()));
         CollectionUtils.filter(
             dependencies,
@@ -661,8 +671,13 @@ public class ModelElementFacadeLogicImpl
             {
                 public boolean evaluate(final Object object)
                 {
-                    Dependency dependency = (Dependency)object;
-                    return dependency.getSuppliers().contains(ModelElementFacadeLogicImpl.this.metaObject);
+                	DirectedRelationship relation = (DirectedRelationship) object;
+                	if(isAUml14Dependency(relation))
+                	{
+                		// we only check first, see dependency facade for more detail.
+                		return ModelElementFacadeLogicImpl.this.metaObject.equals(relation.getTargets().get(0));
+                	}
+                	return false;
                 }
             });
         return dependencies;
@@ -698,15 +713,53 @@ public class ModelElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetSourceDependencies()
     {
-        Collection sourceDependencies = new ArrayList();
-        if (this.metaObject instanceof NamedElement)
-        {
-            Collection clientDependencies = ((NamedElement)this.metaObject).getClientDependencies();
-            sourceDependencies.addAll(clientDependencies);
-        }
-        return sourceDependencies;
-
-        // TODO: Do we return all deps ? Should we filter out abstraction, binding,etc...
+        // A more efficient implmentation of this would have been to use getClientDependencies() and getTemplateBindings()
+    	// But it would have required the same filtering
+    	// This way, the code is the "same" as getTargettingDependencies
+    	
+        ArrayList dependencies = new ArrayList();
+        dependencies.addAll(UmlUtilities.getAllMetaObjectsInstanceOf(
+                DirectedRelationship.class,
+                this.metaObject.getModel()));
+        CollectionUtils.filter(
+            dependencies,
+            new Predicate()
+            {
+                public boolean evaluate(final Object object)
+                {
+                	DirectedRelationship relation = (DirectedRelationship) object;
+                	if(isAUml14Dependency(relation))
+                	{
+                		// we only check first, see dependency facade for more detail.
+                		return ModelElementFacadeLogicImpl.this.metaObject.equals(relation.getSources().get(0));
+                	}
+                	return false;
+                }
+            });
+        return dependencies;
+    }
+    
+    /**
+     * This function test if the given relation is a dependency in UML1.4 sense of term.
+     * @param relation: The relation to test
+     * @return
+     */
+    static boolean isAUml14Dependency(DirectedRelationship relation)
+    {
+    	// this ensure that this relation is either a dependency or a template binding
+    	boolean isAUml14Dependency = (relation instanceof Dependency) || (relation instanceof TemplateBinding);
+    	
+    	// but we don't want subclass of dependency
+    	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Abstraction); // present in uml 1.4 (but filter in uml14 facade)
+    	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Deployment);
+    	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Implementation);
+    	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Manifestation);
+    	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Permission); // present in uml 1.4
+    	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Realization);
+    	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Substitution);
+    	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Usage);// present in uml 1.4
+    	
+    	return isAUml14Dependency;
     }
 
     /**
@@ -715,7 +768,15 @@ public class ModelElementFacadeLogicImpl
     protected java.lang.Object handleGetStateMachineContext()
     {
         // TODO: What should this method return ?
-        return null;
+    	// As I've seen in uml1.4 impl, it should return the statemachine which this element is the context for.
+    	// Let's say for UML2: Return the owner if the latter is a StateMachine
+    	StateMachine stateMachine = null;
+        Element owner = this.metaObject.getOwner();
+        if(owner instanceof StateMachine)
+        {
+        	stateMachine = (StateMachine) owner;
+        }
+        return stateMachine;
     }
 
     /**
@@ -759,14 +820,17 @@ public class ModelElementFacadeLogicImpl
 
     protected boolean handleIsBindingDependenciesPresent()
     {
-        // TODO: Be sure it works with RSM / MD11.5
-        Collection templateBindings = null;
-        if (this.metaObject instanceof TemplateableElement)
-        {
-            TemplateableElement templateableElement = (TemplateableElement)this.metaObject;
-            templateBindings = templateableElement.getTemplateBindings();
-        }
-        return templateBindings != null && (!templateBindings.isEmpty());
+        Collection dependencies = this.getSourceDependencies();
+        CollectionUtils.filter(
+            dependencies,
+            new Predicate()
+            {
+                public boolean evaluate(Object object)
+                {
+                    return object instanceof BindingFacade;
+                }
+            });
+        return !dependencies.isEmpty();
     }
 
     protected boolean handleIsTemplateParametersPresent()

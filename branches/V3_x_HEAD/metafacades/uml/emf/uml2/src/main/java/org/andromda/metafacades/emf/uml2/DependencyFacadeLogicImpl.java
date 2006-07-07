@@ -13,7 +13,7 @@ public class DependencyFacadeLogicImpl
     extends DependencyFacadeLogic
 {
     public DependencyFacadeLogicImpl(
-        final org.eclipse.uml2.Dependency metaObject,
+        final org.eclipse.uml2.DirectedRelationship metaObject,
         final String context)
     {
         super(metaObject, context);
@@ -68,6 +68,6 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.Object handleGetSourceElement()
     {
-        return this.metaObject.getClients().toArray()[0];
+        return this.metaObject.getSources().toArray()[0];
     }
 }

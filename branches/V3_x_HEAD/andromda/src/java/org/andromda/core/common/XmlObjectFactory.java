@@ -321,7 +321,7 @@ public class XmlObjectFactory
     /**
      * Handles the validation errors.
      */
-    private static final class XmlObjectValidator
+    static final class XmlObjectValidator
         implements org.xml.sax.ErrorHandler
     {
         /**
