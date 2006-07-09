@@ -42,11 +42,18 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
 #end
         ${principalStoreClassName}.set(super.getSessionContext().getCallerPrincipal());
 #end
+        try
+        {
 #if ($operation.returnTypePresent)
-        return this.${businessObject}.${operation.call};
+            return this.${businessObject}.${operation.call};
 #else
-        this.${businessObject}.${operation.call};
+            this.${businessObject}.${operation.call};
 #end
+        }
+        catch (Exception exception)
+        {
+            throw new javax.ejb.EJBException(exception);
+        }
     }
 
 #end
