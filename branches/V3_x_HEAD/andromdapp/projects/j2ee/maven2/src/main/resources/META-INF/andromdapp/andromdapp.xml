@@ -1,30 +1,30 @@
 <andromdapp type="j2ee" root="$applicationParentDirectory/$applicationId">
     <resourceLocations>
-        <location>templates/j2ee/maven2</location>      
+        <location>templates/j2ee/maven2</location>
     </resourceLocations>
     <conditionalOutput>
         <conditions>
-            <condition id="ear" equal="true"/>           
-            <output patterns="**/*">app/</output>  
+            <condition id="ear" equal="true"/>
+            <output patterns="**/*">app/</output>
         </conditions>
         <conditions>
-            <condition id="workflow" equal="true"/>           
-            <output patterns="**/*">workflow/</output>  
+            <condition id="workflow" equal="true"/>
+            <output patterns="**/*">workflow/</output>
         </conditions>
         <conditions>
-            <condition id="webservice" equal="true"/>  
+            <condition id="webservice" equal="true"/>
             <condition id="jsr181Webservice" notEqual="true"/>
-            <condition id="ear" equal="true"/>         
-            <output patterns="**/*">webservice/</output>  
+            <condition id="ear" equal="true"/>
+            <output patterns="**/*">webservice/</output>
         </conditions>
         <conditions>
-            <condition id="war" equal="true"/>      
-            <output>web/src/main/resources/META-INF/context.xml.vsl</output>  
+            <condition id="war" equal="true"/>
+            <output>web/src/main/resources/META-INF/context.xml.vsl</output>
         </conditions>
         <conditions type="or">
-            <condition id="web" equal="true"/> 
-            <condition id="war" equal="true"/>      
-            <output patterns="**/*">web/</output>  
+            <condition id="web" equal="true"/>
+            <condition id="war" equal="true"/>
+            <output patterns="**/*">web/</output>
         </conditions>
         <conditions>
             <condition id="web" equal="true"/>
@@ -36,16 +36,16 @@
             <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
         </conditions>
         <conditions>
-            <condition id="model" present="false"/>        
-            <output>mda/src/main/uml/${applicationId}.xmi.vsl</output>  
+            <condition id="model" present="false"/>
+            <output>mda/src/main/uml/${applicationId}.xmi.vsl</output>
         </conditions>
         <conditions>
-            <condition id="configurationUri" present="false"/>        
-            <output>mda/src/main/config/andromda.xml</output>  
+            <condition id="configurationUri" present="false"/>
+            <output>mda/src/main/config/andromda.xml</output>
         </conditions>
         <conditions>
-            <condition id="transactionPersistenceType" notEqual="none"/>        
-            <output patterns="**/*">core</output>    
+            <condition id="transactionPersistenceType" notEqual="none"/>
+            <output patterns="**/*">core</output>
         </conditions>
     </conditionalOutput>
     <mappings>
@@ -123,7 +123,7 @@
         <promptGroup name="Component Types">
             <documentation>
                 Provides the choice of components with the application.
-            </documentation>        
+            </documentation>
             <prompt id="transactionPersistenceType" setResponseAsTrue="true">
                 <text>Please enter the type of transactional/persistence cartridge to use</text>
                 <shortText>Persistence cartridge</shortText>
@@ -246,6 +246,7 @@
             </prompt>
             <prompt id="soapStack"  setResponseAsTrue="true">
                 <text>Would you like to use Axis or XFire as your SOAP Stack?</text>
+                <shortText>SOAP stack</shortText>
                 <preconditions>
                     <condition id="webservice" equal="true"/>
                     <condition id="jsr181Webservice" notEqual="true"/>
