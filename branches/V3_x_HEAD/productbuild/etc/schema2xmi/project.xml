@@ -12,8 +12,8 @@
 	</description>
     <shortDescription>Schema to XMI transformation engine</shortDescription>
     <repository>
-        <connection>scm:cvs:${repository.connection.mode}:${repository.connection.user}@cvs.sourceforge.net:/cvsroot/andromda:andromda/andromda/etc/schema2xmi</connection>
-        <url>http://cvs.sourceforge.net/viewcvs.py/andromda/productbuild/etc/schema2xmi/</url>
+        <connection>scm:cvs:${repository.connection.mode}:${repository.connection.user}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda/andromda/etc/schema2xmi</connection>
+        <url>http://andromda.cvs.sourceforge.net/andromda/productbuild/etc/schema2xmi/</url>
     </repository>
     <developers>
         <developer>

@@ -13,8 +13,8 @@
     </description>
     <issueTrackingUrl>${issue.tracking.location}/BrowseProject.jspa?id=10004&amp;decorator=none</issueTrackingUrl>
     <repository>
-        <connection>scm:cvs:${repository.connection.mode}:${repository.connection.user}@cvs.sourceforge.net:/cvsroot/andromda:andromda/metafacades</connection>
-        <url>http://cvs.sourceforge.net/viewcvs.py/andromda/metafacades/</url>
+        <connection>scm:cvs:${repository.connection.mode}:${repository.connection.user}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda/metafacades</connection>
+        <url>http://andromda.cvs.sourceforge.net/andromda/metafacades/</url>
     </repository>
     <dependencies>
         <dependency>

@@ -9,7 +9,7 @@
         This tag-library is used to more easily handle Collections in JSPs
     </description>
     <repository>
-        <connection>scm:cvs:${repository.connection.mode}:${repository.connection.user}@cvs.sourceforge.net:/cvsroot/andromda:andromda/etc/web/taglibs/collections</connection>
-        <url>http://cvs.sourceforge.net/viewcvs.py/andromda/etc/web/taglibs/collections/</url>
+        <connection>scm:cvs:${repository.connection.mode}:${repository.connection.user}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda/etc/web/taglibs/collections</connection>
+        <url>http://andromda.cvs.sourceforge.net/andromda/etc/web/taglibs/collections/</url>
     </repository>
 </project>
