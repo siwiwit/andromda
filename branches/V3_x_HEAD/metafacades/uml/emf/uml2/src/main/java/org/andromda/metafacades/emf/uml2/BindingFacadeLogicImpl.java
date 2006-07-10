@@ -24,6 +24,6 @@ public class BindingFacadeLogicImpl
      */
     protected java.util.Collection handleGetArguments()
     {
-        return ((TemplateBinding)this.metaObject).getParameterSubstitutions();
+        return this.metaObject.getParameterSubstitutions();
     }
 }
