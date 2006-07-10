@@ -93,21 +93,11 @@ public class FrontEndActionStateLogicImpl extends FrontEndActionStateLogic
             final EventFacade event = (EventFacade)iterator.next();
             if (event instanceof CallEventFacade)
             {
-                final Object operationObject = ((CallEventFacade)event)
-                        .getOperation();
-                if (operationObject != null)
-                {
-                    controllerCallsList.add(operationObject);
-                }
+                controllerCallsList.addAll(((CallEventFacade)event).getOperations());
             }
             else if (event instanceof FrontEndEvent)
             {
-                final Object callObject = ((FrontEndEvent)event)
-                        .getControllerCall();
-                if (callObject != null)
-                {
-                    controllerCallsList.add(callObject);
-                }
+                controllerCallsList.addAll(((FrontEndEvent)event).getControllerCalls());
             }
         }
         return controllerCallsList;

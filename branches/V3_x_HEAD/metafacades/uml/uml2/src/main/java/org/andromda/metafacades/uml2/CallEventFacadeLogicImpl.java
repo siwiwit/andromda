@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml2;
 
+import java.util.List;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.CallEventFacade.
@@ -20,6 +22,11 @@ public class CallEventFacadeLogicImpl
     protected java.lang.Object handleGetOperation()
     {
         // TODO: add your implementation here!
+        return null;
+    }
+    protected List handleGetOperations()
+    {
+        // TODO Auto-generated method stub
         return null;
     }
 

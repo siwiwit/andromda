@@ -1,6 +1,8 @@
 package org.andromda.metafacades.uml14;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 
 import org.andromda.metafacades.uml.FrontEndAction;
 import org.andromda.metafacades.uml.FrontEndForward;
@@ -58,6 +60,15 @@ public class FrontEndEventLogicImpl
             action = (FrontEndAction)transition;
         }
         return action;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml14.FrontEndEvent#getControllerCalls()
+     */
+    protected List handleGetControllerCalls()
+    {
+        Object controllerCall = this.getControllerCall();
+        return controllerCall == null ? Collections.EMPTY_LIST : Collections.singletonList(controllerCall);
     }
 
 }

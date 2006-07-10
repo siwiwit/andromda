@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml2;
 
+import java.util.List;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.FrontEndEvent.
@@ -39,6 +41,12 @@ public class FrontEndEventLogicImpl
     protected java.lang.Object handleGetAction()
     {
         // TODO: add your implementation here!
+        return null;
+    }
+
+    public List handleGetControllerCalls()
+    {
+        // TODO Auto-generated method stub
         return null;
     }
 

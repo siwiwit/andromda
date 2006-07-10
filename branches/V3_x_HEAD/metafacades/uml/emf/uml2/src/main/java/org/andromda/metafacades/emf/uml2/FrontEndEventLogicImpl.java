@@ -1,7 +1,9 @@
 package org.andromda.metafacades.emf.uml2;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.andromda.metafacades.uml.FrontEndAction;
 import org.andromda.metafacades.uml.FrontEndUseCase;
@@ -9,7 +11,6 @@ import org.andromda.metafacades.uml.TransitionFacade;
 import org.eclipse.uml2.Activity;
 import org.eclipse.uml2.CallOperationAction;
 import org.eclipse.uml2.Element;
-import org.eclipse.uml2.Operation;
 import org.eclipse.uml2.Transition;
 import org.eclipse.uml2.UseCase;
 
@@ -63,22 +64,29 @@ public class FrontEndEventLogicImpl
      */
     protected Object handleGetControllerCall()
     {
-        // To find the called operation of this activity
-        // We return the operation of the first CallOperationAction node in it.
-        // Note: It's the same implementation than CallEvent.getOperationCall()
-        Activity activity = (Activity)this.metaObject;
+        final List operations = this.getControllerCalls();
+        return operations.isEmpty() ? null : operations.iterator().next();
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.FrontEndEvent#getControllerCalls()
+     */
+    public List handleGetControllerCalls()
+    {
+        // - get every operation from each CallOperationAction instance.
+        // - Note: this is the same implementation as CallEvent.getOperationCall()
+        final Activity activity = (Activity)this.metaObject;
+        final List operations = new ArrayList();
         Collection nodes = activity.getNodes();
-        Operation calledOperation = null;
-        for (Iterator nodesIt = nodes.iterator(); nodesIt.hasNext() && calledOperation == null;)
+        for (final Iterator iterator = nodes.iterator(); iterator.hasNext();)
         {
-            Object nextNode = nodesIt.next();
+            final Object nextNode = iterator.next();
             if (nextNode instanceof CallOperationAction)
             {
-                CallOperationAction callOperationAction = (CallOperationAction)nextNode;
-                calledOperation = callOperationAction.getOperation();
+                operations.add(((CallOperationAction)nextNode).getOperation());
             }
         }
-        return calledOperation;
+        return operations;
     }
 
     /**

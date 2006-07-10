@@ -1,9 +1,11 @@
 package org.andromda.metafacades.emf.uml2;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.uml2.CallOperationAction;
-import org.eclipse.uml2.Operation;
 
 /**
  * MetafacadeLogic implementation for
@@ -26,22 +28,27 @@ public class CallEventFacadeLogicImpl extends CallEventFacadeLogic
      */
     protected java.lang.Object handleGetOperation()
     {
-        // To find the called operation of this activity
-        // We return the operation of the first CallOperationAction node in it.
+        final List operations = this.getOperations();
+        return operations.isEmpty() ? null : operations.iterator().next();
+    }
 
+    /**
+     * @see org.andromda.metafacades.uml.CallEventFacade#getOperations()
+     */
+    public List handleGetOperations()
+    {
+        // We get every operation from each CallOperationAction instance.
+        final List operations = new ArrayList();
         Collection nodes = this.metaObject.getNodes();
-        Operation calledOperation = null;
-        for (Iterator nodesIt = nodes.iterator(); nodesIt.hasNext()
-                && calledOperation == null;)
+        for (final Iterator iterator = nodes.iterator(); iterator.hasNext();)
         {
-            Object nextNode = nodesIt.next();
+            final Object nextNode = iterator.next();
             if (nextNode instanceof CallOperationAction)
             {
-                CallOperationAction callOperationAction = (CallOperationAction)nextNode;
-                calledOperation = callOperationAction.getOperation();
+                operations.add(((CallOperationAction)nextNode).getOperation());
             }
         }
-        return calledOperation;
+        return operations;
     }
 
 }
