@@ -15,4 +15,11 @@ public class LinkFacadeLogicImpl
     {
         super(metaObject, context);
     }
+
+    protected java.util.Collection handleGetLinkEnds()
+    {
+        // Wouter: I have no idea on which feature this maps in UML2
+        // the notion of a link-end exists but apparently the 'link' has a different name
+        return null;
+    }
 }

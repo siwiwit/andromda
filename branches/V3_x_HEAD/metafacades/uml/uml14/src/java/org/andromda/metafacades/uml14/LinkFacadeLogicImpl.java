@@ -13,4 +13,9 @@ public class LinkFacadeLogicImpl
     {
         super (metaObject, context);
     }
+
+    protected java.util.Collection handleGetLinkEnds()
+    {
+        return this.metaObject.getConnection();
+    }
 }
