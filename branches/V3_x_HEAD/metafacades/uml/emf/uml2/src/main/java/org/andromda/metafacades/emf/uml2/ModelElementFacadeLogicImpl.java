@@ -121,47 +121,6 @@ public class ModelElementFacadeLogicImpl
     }
 
     /**
-     * Constructs the package name for the given <code>metaObject</code>,
-     * seperating the package name by the given <code>separator</code>.
-     *
-     * @param metaObject
-     *            the Model Element
-     * @param separator
-     *            the PSM namespace separator
-     * @param modelName
-     *            true/false on whether or not to get the model package name
-     *            instead of the PSM package name.
-     * @return the package name.
-     */
-    private String getPackageName(
-        final NamedElement metaObject,
-        final String separator,
-        final boolean modelName)
-    {
-        String packageName = "";
-        for (NamedElement namespace = (NamedElement)metaObject.getOwner(); !(namespace instanceof Model);
-            namespace = (NamedElement)namespace.getOwner())
-        {
-            // TODO: Should be handled in FrontEndController instead
-            if (!(namespace instanceof UseCase || namespace instanceof StateMachine))
-            {
-                // What about spaces inside a package name ?
-                // String nameSpaceName = StringUtils.deleteWhitespace(namespace.getName()); Camel Case ?
-                String nameSpaceName = namespace.getName();
-                packageName = packageName.equals("") ? nameSpaceName : nameSpaceName + separator + packageName;
-            }
-        }
-        if (modelName && StringUtils.isNotBlank(packageName))
-        {
-            packageName = StringUtils.replace(
-                    packageName,
-                    separator,
-                    MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR);
-        }
-        return packageName;
-    }
-
-    /**
      * Gets the appropriate namespace property for retrieve the namespace scope
      * operation (dependng on the given <code>modelName</code> flag.
      *
@@ -172,13 +131,9 @@ public class ModelElementFacadeLogicImpl
      */
     private String getNamespaceScope(boolean modelName)
     {
-        String namespaceScope = MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR;
-        if (!modelName)
-        {
-            namespaceScope =
-                ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.NAMESPACE_SEPARATOR));
-        }
-        return namespaceScope;
+        return modelName
+            ? MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR
+            : ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.NAMESPACE_SEPARATOR));
     }
 
     /**
@@ -186,13 +141,7 @@ public class ModelElementFacadeLogicImpl
      */
     protected java.lang.String handleGetPackageName()
     {
-        final boolean modelName = false;
-        final String packageName =
-            this.getPackageName(
-                (NamedElement)this.metaObject,
-                this.getNamespaceScope(modelName),
-                modelName);
-        return packageName;
+        return UmlUtilities.getPackageName(this.metaObject, this.getNamespaceScope(false), false);
     }
 
     /**

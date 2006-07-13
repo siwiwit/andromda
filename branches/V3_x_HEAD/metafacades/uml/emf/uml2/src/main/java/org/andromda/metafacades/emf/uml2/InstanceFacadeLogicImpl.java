@@ -1,22 +1,23 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.eclipse.uml2.Association;
+
+import java.util.List;
+
 
 /**
- * MetafacadeLogic implementation for
- * org.andromda.metafacades.uml.InstanceFacade. TODO: It has to be implemented
+ * MetafacadeLogic implementation for org.andromda.metafacades.uml.InstanceFacade.
  *
  * @see org.andromda.metafacades.uml.InstanceFacade
  */
 public class InstanceFacadeLogicImpl
     extends InstanceFacadeLogic
 {
-    public InstanceFacadeLogicImpl(
-        final Object metaObject,
-        final String context)
-    {
-        super(metaObject, context);
-    }
 
+    public InstanceFacadeLogicImpl (org.eclipse.uml2.InstanceSpecification metaObject, String context)
+    {
+        super (metaObject, context);
+    }
     /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getClassifiers()
      */
@@ -60,5 +61,21 @@ public class InstanceFacadeLogicImpl
     {
         // TODO: add your implementation here!
         return null;
+    }
+
+    /**
+     * This method has been written to provide exception support to the mapping declarations since both
+     * UML2 instances and links share the same meta-class
+     * <p/>
+     * You can safely ignore this feature, in fact, it's best never to use it at all except if you really know
+     * what you're doing.
+     * <p/>
+     * This method checks whether the first classifier is an association and returns <code>true</code> only in that
+     * case.
+     */
+    public boolean isShouldMapToLinkFacade()
+    {
+        final List classifiers = this.metaObject.getClassifiers();
+        return classifiers != null && !classifiers.isEmpty() && classifiers.get(0) instanceof Association;
     }
 }

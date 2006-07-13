@@ -55,6 +55,7 @@ import org.eclipse.uml2.util.UML2Resource;
  *
  * @author Steve Jerman
  * @author Chad Brandon
+ * @author Wouter Zoons
  */
 public class UmlUtilities
 {
@@ -941,7 +942,7 @@ public class UmlUtilities
      * @param metaObject
      *            the Model Element
      * @param separator
-     *            the PSM namespace separator
+     *            the PSM namespace separator, ignored if <code>modelName</code> is <code>true</code>
      * @param modelName
      *            true/false on whether or not to get the model package name
      *            instead of the PSM package name.
@@ -952,19 +953,53 @@ public class UmlUtilities
         final String separator,
         final boolean modelName)
     {
-        String packageName = "";
+        final StringBuffer buffer = new StringBuffer();
+
+        final String usedSeparator = modelName ? MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR : separator;
+
         for (Namespace namespace = metaObject.getNamespace();
             (namespace instanceof Package) && !(namespace instanceof Model); namespace = namespace.getNamespace())
         {
-            packageName = packageName.equals("") ? namespace.getName() : namespace.getName() + separator + packageName;
+            if (buffer.length() != 0)
+            {
+                buffer.insert(0, usedSeparator);
+            }
+
+            buffer.insert(0, namespace.getName());
         }
-        if (modelName && StringUtils.isNotBlank(packageName))
+
+        return buffer.toString();
+    }
+
+    /**
+     * Returns the package name of the closest ancestor that is an instance of <code>NamedElement</code>. If no such
+     * ancestor exists the empty String is returned.
+     * <p/>
+     * If the argument would be an instance of <code>NamedElement</code> then this method returns that object's
+     * package name.
+     *
+     * @see #getPackageName(org.eclipse.uml2.NamedElement, String, boolean)
+     */
+    static String getPackageName(
+        final Element metaObject,
+        final String separator,
+        final boolean modelName)
+    {
+        final String packageName;
+
+        if (metaObject instanceof NamedElement)
         {
-            packageName = StringUtils.replace(
-                    packageName,
-                    separator,
-                    MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR);
+            packageName = getPackageName((NamedElement)metaObject, separator, modelName);
         }
+        else if (metaObject.getOwner() == null)
+        {
+            packageName = "";
+        }
+        else
+        {
+            packageName = getPackageName(metaObject.getOwner(), separator, modelName);
+        }
+
         return packageName;
     }
 

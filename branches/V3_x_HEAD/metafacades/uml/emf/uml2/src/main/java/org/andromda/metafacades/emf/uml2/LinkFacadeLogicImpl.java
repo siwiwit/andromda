@@ -9,17 +9,18 @@ package org.andromda.metafacades.emf.uml2;
 public class LinkFacadeLogicImpl
     extends LinkFacadeLogic
 {
-    public LinkFacadeLogicImpl(
-        final org.eclipse.uml2.Element metaObject,
-        final String context)
-    {
-        super(metaObject, context);
-    }
 
+    public LinkFacadeLogicImpl (org.eclipse.uml2.InstanceSpecification metaObject, String context)
+    {
+        super (metaObject, context);
+    }
+    /**
+     * @see org.andromda.metafacades.uml.LinkFacade#getLinkEnds()
+     */
     protected java.util.Collection handleGetLinkEnds()
     {
-        // Wouter: I have no idea on which feature this maps in UML2
-        // the notion of a link-end exists but apparently the 'link' has a different name
+        // TODO: add your implementation here!
         return null;
     }
+
 }
