@@ -167,8 +167,8 @@ public class UMLModelAccessFacade
      */
     public Collection getModelElements()
     {
-        Collection metafacades = Collections.EMPTY_LIST;
         final ArrayList elements = new ArrayList();
+
         for (final TreeIterator iterator = UmlUtilities.findModel(this.model).eAllContents(); iterator.hasNext();)
         {
             final EObject object = (EObject)iterator.next();
@@ -178,15 +178,21 @@ public class UMLModelAccessFacade
             }
         }
 
-        // DOn't forget to transform properties
-        CollectionUtils.transform(
-            elements,
-            UmlUtilities.PropertyTransformer);
-        if (elements != null)
+        // Don't forget to transform properties
+        CollectionUtils.transform(elements, UmlUtilities.PropertyTransformer);
+
+        final Collection metafacades;
+
+        if (elements.isEmpty())
+        {
+            metafacades = Collections.EMPTY_LIST;
+        }
+        else
         {
             metafacades = MetafacadeFactory.getInstance().createMetafacades(elements);
             this.filterMetafacades(metafacades);
         }
+
         return metafacades;
     }
 
@@ -194,10 +200,9 @@ public class UMLModelAccessFacade
      * Filters out those metafacades which <strong>should </strong> be
      * processed.
      *
-     * @param modelElements
-     *            the Collection of modelElements.
+     * @param metafacades the Collection of metafacades.
      */
-    private final void filterMetafacades(final Collection metafacades)
+    private void filterMetafacades(final Collection metafacades)
     {
         if (this.modelPackages != null && !this.modelPackages.isEmpty())
         {

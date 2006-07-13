@@ -1,15 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.metafacade.MetafacadeConstants;
-import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.collections.CollectionUtils;
@@ -29,7 +21,6 @@ import org.eclipse.uml2.Class;
 import org.eclipse.uml2.Classifier;
 import org.eclipse.uml2.Comment;
 import org.eclipse.uml2.Element;
-import org.eclipse.uml2.Feature;
 import org.eclipse.uml2.Generalization;
 import org.eclipse.uml2.Interface;
 import org.eclipse.uml2.LiteralInteger;
@@ -48,6 +39,15 @@ import org.eclipse.uml2.TypedElement;
 import org.eclipse.uml2.UML2Package;
 import org.eclipse.uml2.ValueSpecification;
 import org.eclipse.uml2.util.UML2Resource;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -73,22 +73,31 @@ public class UmlUtilities
         {
             public Object transform(Object element)
             {
+                final Object transformedObject;
+
                 if (element instanceof Property)
                 {
-                    Property property = (Property)element;
+                    final Property property = (Property)element;
+
                     if (property instanceof AssociationEnd || property instanceof Attribute)
                     {
-                        return property;
+                        transformedObject = property;
                     }
-                    if (property.getAssociation() != null)
+                    else if (property.getAssociation() != null)
                     {
-                        return new AssociationEndImpl(property);
+                        transformedObject = new AssociationEndImpl(property);
                     }
-
-                    return new AttributeImpl(property);
+                    else
+                    {
+                        transformedObject = new AttributeImpl(property);
+                    }
+                }
+                else
+                {
+                    transformedObject = element;
                 }
 
-                return element;
+                return transformedObject;
             }
         };
 
@@ -97,10 +106,8 @@ public class UmlUtilities
      * achieve refAllOfType method in a JMI implementation. Please take care of the
      * fact that properties are not transformed here.
      *
-     * @param metaClass
-     *            The meta class we're looking for its instances
-     * @param model
-     *            The model where we're searching
+     * @param metaClass The meta class we're looking for its instances
+     * @param model     The model where we're searching
      * @return a list of objects owned by model, instance of metaClass
      */
     public static List getAllMetaObjectsInstanceOf(
@@ -148,20 +155,19 @@ public class UmlUtilities
     }
 
     /**
-     * Gets read of all excess whitespace.
+     * Gets rid of all excess whitespace.
      *
-     * @param text
-     *            the text from which to remove the white space.
+     * @param text the text from which to remove the white space.
      * @return the cleaned text.
      */
     public static String cleanText(String text)
     {
         text = text.replaceAll(
-                "[\\t\\n]*",
-                "");
+            "[\\t\\n]*",
+            "");
         text = text.replaceAll(
-                "\\s+",
-                " ");
+            "\\s+",
+            " ");
 
         return text;
     }
@@ -169,10 +175,9 @@ public class UmlUtilities
     /**
      * Retrieves the name of the type for the given <code>element</code>.
      *
-     * @deprecated - it is not used. Do we need to keep it ?
-     * @param element
-     *            the element for which to retrieve the type.
+     * @param element the element for which to retrieve the type.
      * @return the type name.
+     * @deprecated - it is not used. Do we need to keep it ?
      */
     public static String getType(final TypedElement element)
     {
@@ -205,180 +210,119 @@ public class UmlUtilities
     }
 
     /**
-     * Return the Superclass for this class/interface. If more than one
-     * superclass is defined an error will be logged to the console.
-     *
-     * @param classifier
-     *            the classifier instance.
-     * @return the super class or null if it could not be found.
-     */
-    public static Classifier getSuperclass(final Classifier classifier)
-    {
-        final List superClasses = classifier.getGenerals();
-        if (superClasses.size() > 1)
-        {
-            throw new MetafacadeException("Error: found " + superClasses.size() + " generalizations for " +
-                classifier.getQualifiedName());
-        }
-        Classifier superClass = null;
-        if (superClasses.size() == 1)
-        {
-            final Object generalization = superClasses.get(0);
-            if (generalization instanceof Classifier)
-            {
-                superClass = (Classifier)generalization;
-            }
-            else
-            {
-                throw new MetafacadeException("Error: generalization for " + classifier.getQualifiedName() + " is a " +
-                    superClass.getClass().getName());
-            }
-        }
-        return superClass;
-    }
-
-    /**
      * Gets a collection containing all of the attributes for this
      * class/interface. Superclass properties will included if
      * <code>follow</code> is true. Overridden properties will be omitted.
      *
-     * @param umlClassifer
-     *            the UML class instance from which to retrieve all properties
-     * @param follow
-     *            whether or not the inheritance hierarchy should be followed
+     * @param umlClassifier the UML class instance from which to retrieve all properties
+     * @param follow        whether or not the inheritance hierarchy should be followed
      * @return all retrieved attributes.
      */
     public static List getAttributes(
         final Classifier umlClassifier,
         final boolean follow)
     {
-        List attributes = new ArrayList();
-        List candidates = new ArrayList();
-        candidates.addAll(umlClassifier.getOwnedMembers());
+        final Map attributeMap = new LinkedHashMap();  // preserve ordering
+        final List members = new ArrayList(umlClassifier.getOwnedMembers());
+
         if (follow)
         {
-            candidates.addAll(umlClassifier.getInheritedMembers());
+            members.addAll(umlClassifier.getInheritedMembers());
         }
-        for (Iterator it = candidates.iterator(); it.hasNext();)
+
+        for (final Iterator memberIterator = members.iterator(); memberIterator.hasNext();)
         {
-            Object nextCandidate = it.next();
+            final Object nextCandidate = memberIterator.next();
             if (nextCandidate instanceof Property)
             {
-                Property property = (Property)nextCandidate;
+                final Property property = (Property)nextCandidate;
 
                 if (property.getAssociation() == null)
                 {
-                    // property is valid. Add it.
-                    if (isRedefinitionContainedIn(
-                            property,
-                            attributes))
+                    if (logger.isDebugEnabled())
                     {
-                        attributes.add(property);
-                        if (logger.isDebugEnabled())
+                        logger.debug("Attribute found for " + umlClassifier.getName() + ": " + property.getName());
+                        if (attributeMap.containsKey(property.getName()))
                         {
-                            logger.debug("Attribute found for " + umlClassifier.getName() + ": " + property.getName());
+                            logger.warn("An attribute with this name has already been registered, overriding: " + property.getName());
                         }
+                    }
+
+                    // property represents an association end
+                    attributeMap.put(property.getName(), property);
+                }
+            }
+        }
+
+        final List attributeList = new ArrayList(attributeMap.values());
+        CollectionUtils.transform(attributeList, PropertyTransformer);
+        return attributeList;
+    }
+
+    /**
+     * Returns <code>true</code> if the given association end's type is an ancestor of the classifier, or just the
+     * argument classifier if follow is <code>false</code>.
+     *
+     * @param property this method returns false if this argument is not an association end
+     */
+    public static boolean isAssociationEndAttachedToType(
+        final Classifier classifier,
+        final Property property,
+        final boolean follow)
+    {
+        boolean attachedToType = false;
+
+        if (property.getAssociation() != null)
+        {
+            attachedToType = classifier.equals(property.getType());
+
+            if (follow && !attachedToType)
+            {
+                final List parents = classifier.getGenerals();
+                for (int i = 0; i < parents.size() && !attachedToType; i++)
+                {
+                    if (parents.get(i) instanceof Classifier)
+                    {
+                        final Classifier parent = (Classifier)parents.get(i);
+                        attachedToType = isAssociationEndAttachedToType(parent, property, follow);
                     }
                 }
             }
         }
 
-        CollectionUtils.transform(
-            attributes,
-            PropertyTransformer);
-        return attributes;
-    }
-
-    /**
-     * UML 2 has its own way to describe redefinition and inheritance But for
-     * Java code generation, names must be "unique"
-     *
-     * @param feature
-     * @param collection
-     * @return
-     */
-    private static boolean isRedefinitionContainedIn(
-        final Feature feature,
-        final List collection)
-    {
-        boolean valid = true;
-        for (Iterator it = collection.iterator(); it.hasNext() && valid;)
-        {
-            Property concurrent = (Property)it.next();
-            if (concurrent.getName().equals(feature.getName()))
-            {
-                valid = false;
-            }
-        }
-        return valid;
+        return attachedToType;
     }
 
     /**
      * Gets a collection containing all of the associationEnds for this
-     * class/interface. Superclass properties will included if
+     * class/interface. Superclass properties will be included if
      * <code>follow</code> is true. Overridden properties will be omitted.
-     *
+     * <p/>
      * cejeanne: Changed the way association end are found.
      *
-     * @param umlClassiifer
-     *            the UML class instance from which to retrieve all properties
-     * @param follow
-     *            whether or not the inheritance hierarchy should be followed
+     * @param classifier the UML class instance from which to retrieve all properties
+     * @param follow     whether or not the inheritance hierarchy should be followed
      * @return all retrieved attributes.
      */
     public static List getAssociationEnds(
-        final Classifier umlClassifier,
+        final Classifier classifier,
         final boolean follow)
     {
-        List associationEnds = new ArrayList();
-        List allProperties = getAllMetaObjectsInstanceOf(
-                Property.class,
-                umlClassifier.getModel());
-        for (Iterator it = allProperties.iterator(); it.hasNext();)
-        {
-            Property property = (Property)it.next();
-            if (property.getAssociation() != null)
-            {
-                boolean concernUmlClassifier = false;
+        final List associationEnds = new ArrayList();
+        final List allProperties = getAllMetaObjectsInstanceOf(Property.class, classifier.getModel());
 
-                // okay, it's an association end
-                if (property.getType().equals(umlClassifier))
-                {
-                    concernUmlClassifier = true;
-                }
-                else if (follow)
-                {
-                    // check about superclasses
-                    for (Classifier superClass = getSuperclass(umlClassifier);
-                        superClass != null && (!concernUmlClassifier); superClass = getSuperclass(superClass))
-                    {
-                        if (property.getType().equals(superClass))
-                        {
-                            concernUmlClassifier = true;
-                        }
-                    }
-                }
-                if (concernUmlClassifier)
-                {
-                    // property is valid. Add it.
-                    if (isRedefinitionContainedIn(
-                            property,
-                            associationEnds))
-                    {
-                        associationEnds.add(property);
-                        if (logger.isDebugEnabled())
-                        {
-                            logger.debug(
-                                "AssociationEnd found for " + umlClassifier.getName() + ": " + property.getName());
-                        }
-                    }
-                }
+        for (final Iterator propertyIterator = allProperties.iterator(); propertyIterator.hasNext();)
+        {
+            final Property property = (Property)propertyIterator.next();
+
+            // only treat association ends, ignore attributes
+            if (property.getAssociation() != null && isAssociationEndAttachedToType(classifier, property, follow))
+            {
+                associationEnds.add(property);
             }
         }
 
-        CollectionUtils.transform(
-            associationEnds,
-            PropertyTransformer);
+        CollectionUtils.transform(associationEnds, PropertyTransformer);
         return associationEnds;
     }
 
@@ -386,12 +330,10 @@ public class UmlUtilities
      * Attempts to retrieve the attribute for the given
      * <code>umlClass/umlInterface</code> having the given <code>name</code>.
      *
-     * @deprecated - it's not used any more. Do we need to keep it ?
-     * @param umlClassifier
-     *            the name of the UML class.
-     * @param name
-     *            the name of the attribute.
+     * @param umlClassifier the name of the UML class.
+     * @param name          the name of the attribute.
      * @return the attribute or null if not found.
+     * @deprecated - it's not used any more. Do we need to keep it ?
      */
     public static Property getAttribute(
         final Classifier umlClassifier,
@@ -399,8 +341,8 @@ public class UmlUtilities
     {
         Property attribute = null;
         final Collection properties = getAttributes(
-                umlClassifier,
-                true);
+            umlClassifier,
+            true);
         for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
         {
             final Property property = (Property)iterator.next();
@@ -418,11 +360,8 @@ public class UmlUtilities
      * this class/interface. Superclass properties will included if
      * <code>follow</code> is true. Overridden methods will be omitted.
      *
-     *
-     * @param umlClassifier
-     *            the UML class instance.
-     * @param follow
-     *            whether or not to follow the inheritance hierarchy
+     * @param umlClassifier the UML class instance.
+     * @param follow        whether or not to follow the inheritance hierarchy
      * @return the collection of operations.
      */
     public static Collection getOperations(
@@ -489,12 +428,10 @@ public class UmlUtilities
      * Gets the operation with the given <code>name</code> for the given
      * <code>umlClass</code>.
      *
-     * @deprecated - It's not used any more.
-     * @param umlClass
-     *            the UML class instance.
-     * @param name
-     *            the name of the operation.
+     * @param umlClass the UML class instance.
+     * @param name     the name of the operation.
      * @return the operation instance or null
+     * @deprecated - It's not used any more.
      */
     public static Operation getOperation(
         final Classifier umlClass,
@@ -502,8 +439,8 @@ public class UmlUtilities
     {
         Operation foundOperation = null;
         final Collection operations = getOperations(
-                umlClass,
-                true);
+            umlClass,
+            true);
         for (final Iterator iterator = operations.iterator(); iterator.hasNext();)
         {
             final Operation operation = (Operation)iterator.next();
@@ -520,8 +457,7 @@ public class UmlUtilities
      * Retrieves all specializations of the given <code>classifier</code>
      * instance.
      *
-     * @param classifier
-     *            the classifier from which to retrieve the specializations.
+     * @param classifier the classifier from which to retrieve the specializations.
      * @return all specializations.
      */
     public static List getSpecializations(final Classifier classifier)
@@ -546,8 +482,7 @@ public class UmlUtilities
     /**
      * Retrieves the names of the stereotypes for the given <code>element</code>
      *
-     * @param element
-     *            the element for which to retrieve the stereotypes.
+     * @param element the element for which to retrieve the stereotypes.
      * @return all stereotype names
      */
     public static List getStereotypeNames(final Element element)
@@ -569,10 +504,8 @@ public class UmlUtilities
      * Indicates whether or not the given <code>element</code> contains a
      * stereotype with the given <code>name</code>.
      *
-     * @param element
-     *            the element instance.
-     * @param name
-     *            the name of the element
+     * @param element the element instance.
+     * @param name    the name of the element
      * @return true/false
      */
     public static boolean containsStereotype(
@@ -609,37 +542,38 @@ public class UmlUtilities
 
     /**
      * @deprecated old way to handle tag values
-     * Note: The uml profile define it as "AndroMdaTags" and not "AndroMDATags"
-     * Stores the tagged values that may be applied to an element.
+     *             Note: The uml profile define it as "AndroMdaTags" and not "AndroMDATags"
+     *             Stores the tagged values that may be applied to an element.
      */
     private static final String TAGGED_VALUES_STEREOTYPE = "AndroMdaTags";
 
     /**
      * Retrieves the TagDefinitions for the given element. Note that this is either the TagName/TagValues on the
-     *  TAGGED_VALUES_STEREOTYPE stereotype or the values for any Stereotypes that have the value property.
-     * @deprecated old way to handle tag values
+     * TAGGED_VALUES_STEREOTYPE stereotype or the values for any Stereotypes that have the value property.
+     *
      * @param element the element from which to retrieve the tagged values.
      * @return the collection of {@TagDefinition} instances.
+     * @deprecated old way to handle tag values
      */
     public static Collection getAndroMDATags(Element element)
     {
         final Collection tags = new ArrayList();
         final Stereotype tagStereotype = findAppliedStereotype(
-                element,
-                TAGGED_VALUES_STEREOTYPE);
+            element,
+            TAGGED_VALUES_STEREOTYPE);
         if (tagStereotype != null)
         {
             List tagNames = (List)element.getValue(
-                    tagStereotype,
-                    "TagName");
+                tagStereotype,
+                "TagName");
             List tagValues = (List)element.getValue(
-                    tagStereotype,
-                    "TagValue");
+                tagStereotype,
+                "TagValue");
             for (int ctr = 0; ctr < tagValues.size(); ctr++)
             {
                 tags.add(new TagDefinitionImpl(
-                        tagNames.get(ctr).toString(),
-                        tagValues.get(ctr)));
+                    tagNames.get(ctr).toString(),
+                    tagValues.get(ctr)));
             }
         }
         for (final Iterator iterator = getStereotypeNames(element).iterator(); iterator.hasNext();)
@@ -648,18 +582,18 @@ public class UmlUtilities
             if (!name.equalsIgnoreCase(TAGGED_VALUES_STEREOTYPE))
             {
                 final Stereotype stereotype = findAppliedStereotype(
-                        element,
-                        name);
+                    element,
+                    name);
                 if (element.hasValue(
-                        stereotype,
-                        "value"))
+                    stereotype,
+                    "value"))
                 {
                     final Object value = element.getValue(
-                            stereotype,
-                            "value");
+                        stereotype,
+                        "value");
                     tags.add(new TagDefinitionImpl(
-                            name,
-                            value));
+                        name,
+                        value));
                 }
             }
         }
@@ -669,8 +603,7 @@ public class UmlUtilities
     /**
      * Retrieves the TagDefinitions for the given element.
      *
-     * @param element
-     *            the element from which to retrieve the tagged values.
+     * @param element the element from which to retrieve the tagged values.
      * @return the collection of {@TagDefinition} instances.
      */
     public static Collection getTaggedValue(final NamedElement element)
@@ -693,8 +626,8 @@ public class UmlUtilities
                 logger.debug("Proceeding stereotype: " + stereo.getName());
             }
             for (Iterator tvIt = getAttributes(
-                        stereo,
-                        true).iterator(); tvIt.hasNext();)
+                stereo,
+                true).iterator(); tvIt.hasNext();)
             {
                 String tagName = ((Property)tvIt.next()).getName();
                 if (!tagName.startsWith("base$"))
@@ -702,22 +635,22 @@ public class UmlUtilities
                     if (logger.isDebugEnabled())
                     {
                         logger.debug("Checking presence of: " + tagName + ": " + element.hasValue(
-                                stereo,
-                                tagName));
+                            stereo,
+                            tagName));
                     }
                     if (element.hasValue(
-                            stereo,
-                            tagName))
+                        stereo,
+                        tagName))
                     {
                         // Restore tag name
                         String androMDATagName = "@" + tagName.replace(
-                                '_',
-                                '.');
+                            '_',
+                            '.');
 
                         // Obtain its value
                         Object tagValue = element.getValue(
-                                stereo,
-                                tagName);
+                            stereo,
+                            tagName);
                         if (tagValue instanceof Collection)
                         {
                             Collection tagValues = (Collection)tagValue;
@@ -744,7 +677,7 @@ public class UmlUtilities
                         else
                         {
                             TagDefinition tagDefinition = new TagDefinitionImpl(androMDATagName,
-                                    tagValue.toString());
+                                tagValue.toString());
                             if (logger.isDebugEnabled())
                             {
                                 logger.debug("Tagged Value found: " + tagDefinition);
@@ -769,8 +702,7 @@ public class UmlUtilities
      * <code>element</code>. First tries to find it with the fully qualified
      * name, and then tries it with just the name.
      *
-     * @param name
-     *            the name of the stereotype
+     * @param name the name of the stereotype
      * @return the found stereotype or null if not found.
      */
     public static Stereotype findAppliedStereotype(
@@ -802,8 +734,7 @@ public class UmlUtilities
      * given <code>element</code>. First tries to find it with the fully
      * qualified name, and then tries it with just the name.
      *
-     * @param name
-     *            the name of the stereotype
+     * @param name the name of the stereotype
      * @return the found stereotype or null if not found.
      */
     public static Stereotype findApplicableStereotype(
@@ -835,12 +766,11 @@ public class UmlUtilities
      * {@link UMLProfile#TAGGEDVALUE_SERIALVERSION_UID} of the
      * <code>classifier</code>.
      *
-     * @param classifier
-     *            the classifier to be inspected.
+     * @param classifier the classifier to be inspected.
      * @return the serial version UID of the classifier. Returns
      *         <code>null</code> if the tagged value cannot be found.
      */
-    final static String getSerialVersionUID(final ClassifierFacade classifier)
+    static String getSerialVersionUID(final ClassifierFacade classifier)
     {
         ExceptionUtils.checkNull(
             "classifer",
@@ -853,11 +783,10 @@ public class UmlUtilities
      * Gets the opposite end of the given <code>associationEnd</code> if the
      * property is indeed an association end, otherwise returns null.
      *
-     * @param associationEnd
-     *            the association end from which to retrieve the opposite end.
+     * @param associationEnd the association end from which to retrieve the opposite end.
      * @return the opposite association end or null.
      */
-    final static AssociationEnd getOppositeAssociationEnd(final Property associationEnd)
+    static AssociationEnd getOppositeAssociationEnd(final Property associationEnd)
     {
         Object opposite = null;
         Association association = associationEnd.getAssociation();
@@ -884,10 +813,6 @@ public class UmlUtilities
      * <code>name</code> in the <code>modelPackage</code>, returns
      * <code>null</code> if not found.
      *
-     * @param model
-     *            The model to search.
-     * @param name
-     *            the name of the model element to find.
      * @return the found model element.
      */
     static Object findByPredicate(
@@ -896,7 +821,7 @@ public class UmlUtilities
     {
         Object modelElement = null;
         for (final Iterator iterator = resourceSet.getResources().iterator();
-            iterator.hasNext() && modelElement == null;)
+             iterator.hasNext() && modelElement == null;)
         {
             final Resource resource = (Resource)iterator.next();
             final Package model =
@@ -906,7 +831,7 @@ public class UmlUtilities
             if (model != null)
             {
                 for (final TreeIterator elementIterator = model.eAllContents();
-                    elementIterator.hasNext() && modelElement == null;)
+                     elementIterator.hasNext() && modelElement == null;)
                 {
                     final Object object = elementIterator.next();
                     if (pred.evaluate(object))
@@ -926,8 +851,8 @@ public class UmlUtilities
     public static Model findModel(final UML2Resource resource)
     {
         Model model = (Model)EcoreUtil.getObjectByType(
-                resource.getContents(),
-                EcorePackage.eINSTANCE.getEObject());
+            resource.getContents(),
+            EcorePackage.eINSTANCE.getEObject());
         if (logger.isDebugEnabled())
         {
             logger.debug("Model found: " + model);
@@ -939,13 +864,10 @@ public class UmlUtilities
      * Constructs the package name for the given <code>metaObject</code>,
      * seperating the package name by the given <code>separator</code>.
      *
-     * @param metaObject
-     *            the Model Element
-     * @param separator
-     *            the PSM namespace separator, ignored if <code>modelName</code> is <code>true</code>
-     * @param modelName
-     *            true/false on whether or not to get the model package name
-     *            instead of the PSM package name.
+     * @param metaObject the Model Element
+     * @param separator  the PSM namespace separator, ignored if <code>modelName</code> is <code>true</code>
+     * @param modelName  true/false on whether or not to get the model package name
+     *                   instead of the PSM package name.
      * @return the package name.
      */
     static String getPackageName(
@@ -958,7 +880,7 @@ public class UmlUtilities
         final String usedSeparator = modelName ? MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR : separator;
 
         for (Namespace namespace = metaObject.getNamespace();
-            (namespace instanceof Package) && !(namespace instanceof Model); namespace = namespace.getNamespace())
+             (namespace instanceof Package) && !(namespace instanceof Model); namespace = namespace.getNamespace())
         {
             if (buffer.length() != 0)
             {
@@ -1008,10 +930,8 @@ public class UmlUtilities
      * <code>name</code> in the <code>modelPackage</code>, returns
      * <code>null</code> if not found.
      *
-     * @param rs
-     *            the resource set to search in
-     * @param name
-     *            the name to find.
+     * @param rs   the resource set to search in
+     * @param name the name to find.
      * @return the found model element.
      */
     static Object findByName(
@@ -1044,16 +964,12 @@ public class UmlUtilities
      * <code>fullyQualifiedName</code>. If the model element can <strong>NOT
      * </strong> be found, <code>null</code> will be returned instead.
      *
-     * @param rs
-     *            the resource set to search in
-     * @param fullyQualifiedName
-     *            the fully qualified name of the element to search for.
-     * @param separator
-     *            the PSM separator used for qualifying the name (example ".").
-     * @param modelName
-     *            a flag indicating whether or not a search shall be performed
-     *            using the fully qualified model name or fully qualified PSM
-     *            name.
+     * @param rs                 the resource set to search in
+     * @param fullyQualifiedName the fully qualified name of the element to search for.
+     * @param separator          the PSM separator used for qualifying the name (example ".").
+     * @param modelName          a flag indicating whether or not a search shall be performed
+     *                           using the fully qualified model name or fully qualified PSM
+     *                           name.
      * @return the found model element
      */
     static Object findByFullyQualifiedName(
@@ -1074,9 +990,9 @@ public class UmlUtilities
                         {
                             NamedElement element = (NamedElement)object;
                             StringBuffer fullName = new StringBuffer(getPackageName(
-                                        element,
-                                        separator,
-                                        modelName));
+                                element,
+                                separator,
+                                modelName));
                             String name = element.getName();
                             if (StringUtils.isNotBlank(name))
                             {

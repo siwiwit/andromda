@@ -95,13 +95,8 @@ public class AssociationEndFacadeLogicImpl
      */
     private boolean isPluralizeAssociationEndNames()
     {
-        boolean pluralize = false;
         final Object value = this.getConfiguredProperty(UMLMetafacadeProperties.PLURALIZE_ASSOCIATION_END_NAMES);
-        if (value != null)
-        {
-            pluralize = Boolean.valueOf(String.valueOf(value)).booleanValue();
-        }
-        return pluralize;
+        return value != null && Boolean.valueOf(String.valueOf(value)).booleanValue();
     }
 
     /**

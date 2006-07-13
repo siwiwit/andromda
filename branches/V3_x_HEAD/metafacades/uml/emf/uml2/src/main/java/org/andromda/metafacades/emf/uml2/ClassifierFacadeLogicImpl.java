@@ -367,7 +367,7 @@ public class ClassifierFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.emf.uml2.ClassifierFacade#getFullyQualifiedArrayName()
+     * @see org.andromda.metafacades.uml.ClassifierFacade#getFullyQualifiedArrayName()
      */
     protected String handleGetFullyQualifiedArrayName()
     {
@@ -539,7 +539,6 @@ public class ClassifierFacadeLogicImpl
      */
     protected org.andromda.metafacades.uml.AttributeFacade handleFindAttribute(final java.lang.String name)
     {
-        final String aName = name;
         return (AttributeFacade)CollectionUtils.find(
             this.getAttributes(),
             new Predicate()
@@ -547,7 +546,7 @@ public class ClassifierFacadeLogicImpl
                 public boolean evaluate(final Object object)
                 {
                     final AttributeFacade attribute = (AttributeFacade)object;
-                    return StringUtils.trimToEmpty(attribute.getName()).equals(aName);
+                    return StringUtils.trimToEmpty(attribute.getName()).equals(name);
                 }
             });
     }
@@ -585,9 +584,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetAttributes()
     {
-        return this.shieldedElements(UmlUtilities.getAttributes(
-                this.metaObject,
-                false));
+        return UmlUtilities.getAttributes(this.metaObject, false);
     }
 
     /**
@@ -595,9 +592,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.List handleGetAssociationEnds()
     {
-        return UmlUtilities.getAssociationEnds(
-            this.metaObject,
-            false);
+        return UmlUtilities.getAssociationEnds(this.metaObject, false);
     }
 
     /**

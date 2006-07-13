@@ -173,11 +173,10 @@ public class EntityLogicImpl
         if (umlClass.getAttribute(name) == null)
         {
             // ((org.eclipse.uml2.Classifier)metaObject).getModel();
-            final String actualType = type;
             final Object modelElement =
                 UmlUtilities.findByFullyQualifiedName(
                     umlClass.eResource().getResourceSet(),
-                    actualType,
+                    type,
                     MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
                     true);
             if (modelElement instanceof Type)
@@ -284,7 +283,7 @@ public class EntityLogicImpl
             }
         }
 
-        if (attributes != null && !attributes.isEmpty())
+        if (!attributes.isEmpty())
         {
             for (final Iterator iterator = attributes.iterator(); iterator.hasNext();)
             {
@@ -307,7 +306,7 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.EntityLogic#getAttributeTypeList(boolean,
+     * @see org.andromda.metafacades.uml.Entity#getAttributeTypeList(boolean,
      *      boolean)
      */
     protected String handleGetAttributeTypeList(
@@ -392,7 +391,7 @@ public class EntityLogicImpl
      *            the attributes to construct the list from.
      * @return the comma seperated list of attribute types.
      */
-    private final String getTypeList(final Collection attributes)
+    private String getTypeList(final Collection attributes)
     {
         final StringBuffer list = new StringBuffer();
         final String comma = ", ";
@@ -435,7 +434,7 @@ public class EntityLogicImpl
      * Constructs a comma seperated list of attribute names from the passed in
      * collection of <code>attributes</code>.
      *
-     * @param attributes
+     * @param properties
      *            the attributes to construct the list from.
      * @return the comma seperated list of attribute names.
      */
@@ -510,7 +509,7 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getChildren()
+     * @see org.andromda.metafacades.uml.Entity#getChildEnds()
      */
     protected Collection handleGetChildEnds()
     {
@@ -628,7 +627,7 @@ public class EntityLogicImpl
             {
                 public boolean evaluate(final Object object)
                 {
-                    boolean valid = false;
+                    boolean valid;
                     valid = ((AttributeFacade)object).isRequired();
                     if (valid && !withIdentifiers && object instanceof EntityAttribute)
                     {
@@ -730,7 +729,7 @@ public class EntityLogicImpl
      *
      * @return true if any identifiers were added, false otherwise
      */
-    private final boolean checkForAndAddForeignIdentifiers()
+    private boolean checkForAndAddForeignIdentifiers()
     {
         boolean identifiersAdded = false;
         final EntityAssociationEnd end = this.getForeignIdentifierEnd();

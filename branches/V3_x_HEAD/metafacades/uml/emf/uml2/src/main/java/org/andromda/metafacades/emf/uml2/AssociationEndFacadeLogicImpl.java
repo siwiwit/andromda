@@ -1,9 +1,12 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -103,6 +106,44 @@ public class AssociationEndFacadeLogicImpl
     protected boolean handleIsNavigable()
     {
         return this.metaObject.isNavigable();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
+     */
+    protected String handleGetName()
+    {
+        String name = super.handleGetName();
+
+        // if name is empty, then get the name from the type
+        if (StringUtils.isEmpty(name))
+        {
+            final ClassifierFacade type = this.getType();
+            if (type != null)
+            {
+                name = StringUtils.uncapitalize(StringUtils.trimToEmpty(type.getName()));
+            }
+            if (this.isMany() && this.isPluralizeAssociationEndNames())
+            {
+                name = StringUtilsHelper.pluralize(name);
+            }
+        }
+        final String nameMask =
+            String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK));
+        return NameMasker.mask(
+            name,
+            nameMask);
+    }
+
+    /**
+     * Indicates whether or not we should pluralize association end names.
+     *
+     * @return true/false
+     */
+    private boolean isPluralizeAssociationEndNames()
+    {
+        final Object value = this.getConfiguredProperty(UMLMetafacadeProperties.PLURALIZE_ASSOCIATION_END_NAMES);
+        return value != null && Boolean.valueOf(String.valueOf(value)).booleanValue();
     }
 
     /**
