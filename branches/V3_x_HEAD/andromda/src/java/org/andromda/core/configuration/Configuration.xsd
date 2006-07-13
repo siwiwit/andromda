@@ -5,8 +5,6 @@
      ========================================================================= -->
 <xs:schema 
     xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    xmlns="http://www.andromda.org/configuration"
-    targetNamespace="http://www.andromda.org/configuration"
     elementFormDefault="qualified">
     <xs:element name="andromda">
         <xs:complexType>
