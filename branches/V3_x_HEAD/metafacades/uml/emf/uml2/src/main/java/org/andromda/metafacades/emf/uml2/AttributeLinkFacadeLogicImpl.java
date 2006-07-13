@@ -1,5 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
+import java.util.List;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.AttributeLinkFacade.
@@ -10,17 +12,17 @@ public class AttributeLinkFacadeLogicImpl
     extends AttributeLinkFacadeLogic
 {
 
-    public AttributeLinkFacadeLogicImpl (org.eclipse.uml2.Slot metaObject, String context)
+    public AttributeLinkFacadeLogicImpl(org.eclipse.uml2.Slot metaObject, String context)
     {
-        super (metaObject, context);
+        super(metaObject, context);
     }
+
     /**
      * @see org.andromda.metafacades.uml.AttributeLinkFacade#getAttribute()
      */
     protected java.lang.Object handleGetAttribute()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getDefiningFeature();
     }
 
     /**
@@ -28,8 +30,7 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetLinkEnd()
     {
-        // TODO: add your implementation here!
-        return null;
+        return null; // todo ?
     }
 
     /**
@@ -37,8 +38,7 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetInstance()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getOwningInstance();
     }
 
     /**
@@ -46,8 +46,8 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetValue()
     {
-        // TODO: add your implementation here!
-        return null;
+        final List values = this.metaObject.getValues();
+        return values == null || values.isEmpty() ? null : values.get(0);
     }
 
 }

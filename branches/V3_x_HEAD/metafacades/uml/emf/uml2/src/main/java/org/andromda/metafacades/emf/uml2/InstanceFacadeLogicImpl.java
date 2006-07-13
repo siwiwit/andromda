@@ -1,7 +1,13 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.eclipse.uml2.Association;
+import org.eclipse.uml2.InstanceSpecification;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -14,26 +20,27 @@ public class InstanceFacadeLogicImpl
     extends InstanceFacadeLogic
 {
 
-    public InstanceFacadeLogicImpl (org.eclipse.uml2.InstanceSpecification metaObject, String context)
+    public InstanceFacadeLogicImpl(org.eclipse.uml2.InstanceSpecification metaObject, String context)
     {
-        super (metaObject, context);
+        super(metaObject, context);
     }
+
     /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getClassifiers()
      */
     protected java.util.Collection handleGetClassifiers()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getClassifiers();
     }
 
     /**
+     * Since UML2 does not have the notion of LinkEnds as UML1.4+ does this method always returns an empty collection.
+     *
      * @see org.andromda.metafacades.uml.InstanceFacade#getLinkEnds()
      */
     protected java.util.Collection handleGetLinkEnds()
     {
-        // TODO: add your implementation here!
-        return null;
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -41,17 +48,25 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetOwnedInstances()
     {
-        // TODO: add your implementation here!
-        return null;
+        final Collection ownedElements = new ArrayList(this.metaObject.getOwnedElements());
+        CollectionUtils.filter(ownedElements, new Predicate()
+        {
+            public boolean evaluate(Object object)
+            {
+                return object instanceof InstanceSpecification;
+            }
+        });
+        return ownedElements;
     }
 
     /**
+     * Instances do not own Links in UML2 (unlike UML1.4+), this method always returns an empty collection.
+     *
      * @see org.andromda.metafacades.uml.InstanceFacade#getOwnedLinks()
      */
     protected java.util.Collection handleGetOwnedLinks()
     {
-        // TODO: add your implementation here!
-        return null;
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -59,8 +74,7 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetSlots()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getSlots();
     }
 
     /**
