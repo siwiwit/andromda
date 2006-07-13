@@ -1,4 +1,7 @@
-<andromda>
+<andromda
+    xmlns="http://www.andromda.org/configuration"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.andromda.org/configuration http://andromda.cvs.sourceforge.net/*checkout*/andromda/andromda/src/java/org/andromda/core/configuration/Configuration.xsd">
     <properties>
         <property name="modelValidation">${validation}</property>
         <property name="cartridgeFilter">${filter}</property>
