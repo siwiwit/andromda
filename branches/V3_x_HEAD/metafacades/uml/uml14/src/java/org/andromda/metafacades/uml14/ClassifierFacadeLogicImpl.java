@@ -77,9 +77,9 @@ public class ClassifierFacadeLogicImpl
 
         // add all operations from realized interfaces
         final Collection interfaces = this.getInterfaceAbstractions();
-        for (Iterator iterator = interfaces.iterator(); iterator.hasNext();)
+        for (Iterator interfaceIterator = interfaces.iterator(); interfaceIterator.hasNext();)
         {
-            final ClassifierFacade interfaceElement = (ClassifierFacade)iterator.next();
+            final ClassifierFacade interfaceElement = (ClassifierFacade)interfaceIterator.next();
             operations.addAll(interfaceElement.getOperations());
         }
 

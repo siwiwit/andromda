@@ -556,27 +556,37 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetProperties(final boolean follow)
     {
-        final Collection attributes = this.getAttributes(follow);
-        final Collection associations = this.getNavigableConnectingEnds(follow);
-        ArrayList allProperties = new ArrayList();
-        allProperties.addAll(attributes);
-        allProperties.addAll(associations);
+        final List allProperties = new ArrayList();
+        allProperties.addAll(this.getAttributes(follow));
+        allProperties.addAll(this.getNavigableConnectingEnds(follow));
         return allProperties;
     }
 
     /**
-     *
      * @see org.andromda.metafacades.uml.ClassifierFacade#getOperations()
      */
     protected java.util.Collection handleGetOperations()
     {
-        if (this.metaObject instanceof org.eclipse.uml2.Class || this.metaObject instanceof org.eclipse.uml2.Interface)
+        final Collection operations = new LinkedHashSet();
+
+        if (this.metaObject instanceof org.eclipse.uml2.Class)
         {
-            return UmlUtilities.getOperations(
-                this.metaObject,
-                false);
+            operations.addAll(((org.eclipse.uml2.Class)this.metaObject).getOwnedOperations());
         }
-        return null;
+        else if (this.metaObject instanceof org.eclipse.uml2.Interface)
+        {
+            operations.addAll(((org.eclipse.uml2.Interface)this.metaObject).getOwnedOperations());
+        }
+
+        // add all operations from realized interfaces
+        final Collection interfaces = this.getInterfaceAbstractions();
+        for (Iterator interfaceIterator = interfaces.iterator(); interfaceIterator.hasNext();)
+        {
+            final ClassifierFacade interfaceElement = (ClassifierFacade)interfaceIterator.next();
+            operations.addAll(interfaceElement.getOperations());
+        }
+
+        return operations;
     }
 
     /**

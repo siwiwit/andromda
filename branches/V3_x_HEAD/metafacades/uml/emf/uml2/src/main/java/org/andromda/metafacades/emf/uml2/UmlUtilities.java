@@ -38,6 +38,7 @@ import org.eclipse.uml2.Type;
 import org.eclipse.uml2.TypedElement;
 import org.eclipse.uml2.UML2Package;
 import org.eclipse.uml2.ValueSpecification;
+import org.eclipse.uml2.Parameter;
 import org.eclipse.uml2.util.UML2Resource;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 
 
 /**
@@ -356,101 +358,75 @@ public class UmlUtilities
     }
 
     /**
-     * Return a collection containing all of the methods (UML operations) for
-     * this class/interface. Superclass properties will included if
-     * <code>follow</code> is true. Overridden methods will be omitted.
-     *
-     * @param umlClassifier the UML class instance.
-     * @param follow        whether or not to follow the inheritance hierarchy
-     * @return the collection of operations.
+     * Returns <code>true</code> if and only if the given operation would have an identical signature.
+     * This means:
+     * <ul>
+     *  <li>the same name</li>
+     *  <li>the same number of parameters</li>
+     *  <li>matching parameter types (in that very same order)</li>
+     * </ul>
      */
-    public static Collection getOperations(
-        final Classifier umlClassifier,
-        final boolean follow)
+    public static boolean isSameSignature(final Operation first, final Operation second)
     {
-        ArrayList classOperations = new ArrayList();
+        boolean sameSignature = true;
 
-        // - first add all the class properties
-        if (!(umlClassifier == null))
+        // test name
+        if (isEqual(first.getName(), second.getName()))
         {
-            Iterator local = null;
-            Iterator other = null;
-            if (umlClassifier instanceof Class)
-            {
-                Class ca = (Class)umlClassifier;
-                local = ca.getOwnedOperations().iterator();
-                other = ca.getInheritedMembers().iterator();
-            }
+            final List firstParameters = first.getOwnedParameters();
+            final List secondParameters = second.getOwnedParameters();
 
-            if (umlClassifier instanceof Interface)
+            // test number of parameters
+            if (firstParameters.size() == secondParameters.size())
             {
-                Interface intfc = (Interface)umlClassifier;
-                local = intfc.getOwnedOperations().iterator();
-                other = intfc.getInheritedMembers().iterator();
-            }
-
-            while (local.hasNext())
-            {
-                classOperations.add(local.next());
-            }
-            if (follow)
-            {
-                // then interate through all the inherited members adding those
-                // not already
-                // defined (ie overridden)
-                while (other.hasNext())
+                for (int i = 0; i < firstParameters.size() && sameSignature; i++)
                 {
-                    NamedElement el = (NamedElement)other.next();
-                    if (el instanceof Operation)
-                    {
-                        Iterator classIter = classOperations.iterator();
-                        boolean defined = false;
-                        while (classIter.hasNext())
-                        {
-                            Operation testMeth = (Operation)classIter.next();
-                            if (testMeth.getName().equalsIgnoreCase(el.getName()))
-                            {
-                                defined = true;
-                            }
-                        }
-                        if (!defined)
-                        {
-                            classOperations.add(el);
-                        }
-                    }
+                    final Parameter firstParameter = (Parameter)firstParameters.get(i);
+                    final Parameter secondParameter = (Parameter)secondParameters.get(i);
+
+                    // test each parameter's type
+                    sameSignature = isEqual(firstParameter.getType(), secondParameter.getType());
                 }
             }
+            else
+            {
+                sameSignature = false;
+            }
         }
-        return classOperations;
+        else
+        {
+            sameSignature = false;
+        }
+
+        return sameSignature;
     }
 
     /**
-     * Gets the operation with the given <code>name</code> for the given
-     * <code>umlClass</code>.
-     *
-     * @param umlClass the UML class instance.
-     * @param name     the name of the operation.
-     * @return the operation instance or null
-     * @deprecated - It's not used any more.
+     * Returns <code>true</code> if and only if both arguments are equal, this method handles potential
+     * incoming <code>null</code> values.
      */
-    public static Operation getOperation(
-        final Classifier umlClass,
-        final String name)
+    private static boolean isEqual(Object first, Object second)
     {
-        Operation foundOperation = null;
-        final Collection operations = getOperations(
-            umlClass,
-            true);
-        for (final Iterator iterator = operations.iterator(); iterator.hasNext();)
+        return first == null ? second == null : first.equals(second);
+    }
+
+    /**
+     * Constructs a <em>signature</em> to identify this operation with using a String instance.
+     * Note that this signature will be useless in any programming environment so keep it internal.
+     */
+    private static String produceInternalSignature(Operation operation)
+    {
+        final StringBuffer buffer = new StringBuffer();
+
+        buffer.append(operation.getName()).append(',');
+        final List parameters = operation.getOwnedParameters();
+        for (int i = 0; i < parameters.size(); i++)
         {
-            final Operation operation = (Operation)iterator.next();
-            if (operation.getName().equalsIgnoreCase(name))
-            {
-                foundOperation = operation;
-                break;
-            }
+            final Parameter parameter = (Parameter)parameters.get(i);
+            buffer.append(parameter.getType().getQualifiedName()).append(',');
         }
-        return foundOperation;
+
+        return buffer.toString();
     }
 
     /**

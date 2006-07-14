@@ -22,12 +22,9 @@ import org.apache.commons.collections.Transformer;
  *
  * @see org.andromda.metafacades.uml.Service
  */
-public class ServiceLogicImpl
-    extends ServiceLogic
+public class ServiceLogicImpl extends ServiceLogic
 {
-    public ServiceLogicImpl(
-        final Object metaObject,
-        final String context)
+    public ServiceLogicImpl(final Object metaObject, final String context)
     {
         super(metaObject, context);
     }
