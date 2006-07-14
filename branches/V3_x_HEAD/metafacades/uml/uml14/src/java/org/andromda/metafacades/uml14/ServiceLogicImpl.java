@@ -60,7 +60,7 @@ public class ServiceLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Service.getAllServiceReferences()
+     * @see org.andromda.metafacades.uml.Service#getAllServiceReferences()
      */
     public Collection handleGetAllServiceReferences()
     {

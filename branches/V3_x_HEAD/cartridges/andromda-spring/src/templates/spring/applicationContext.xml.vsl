@@ -155,7 +155,7 @@
         <property name="transactionAttributeSource">
             <value>
 #foreach ($service in $services)
-#foreach ($operation in $springUtils.filterUniqueByName($service.operations))
+#foreach ($operation in $springUtils.filterUniqueByName($service.implementationOperations))
                 ${service.fullyQualifiedName}.${operation.name}=${operation.transactionType}
 #end
 #end

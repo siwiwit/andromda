@@ -538,7 +538,7 @@ public class EntityLogicImpl
      */
     protected Collection handleGetBusinessOperations()
     {
-        final Collection businessOperations = this.getOperations();
+        final Collection businessOperations = this.getImplementationOperations();
         MetafacadeUtils.filterByNotType(
             businessOperations,
             EntityQueryOperation.class);

@@ -17,12 +17,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.Association;
-import org.eclipse.uml2.Class;
 import org.eclipse.uml2.Classifier;
 import org.eclipse.uml2.Comment;
 import org.eclipse.uml2.Element;
 import org.eclipse.uml2.Generalization;
-import org.eclipse.uml2.Interface;
 import org.eclipse.uml2.LiteralInteger;
 import org.eclipse.uml2.LiteralString;
 import org.eclipse.uml2.LiteralUnlimitedNatural;
@@ -32,13 +30,13 @@ import org.eclipse.uml2.NamedElement;
 import org.eclipse.uml2.Namespace;
 import org.eclipse.uml2.Operation;
 import org.eclipse.uml2.Package;
+import org.eclipse.uml2.Parameter;
 import org.eclipse.uml2.Property;
 import org.eclipse.uml2.Stereotype;
 import org.eclipse.uml2.Type;
 import org.eclipse.uml2.TypedElement;
 import org.eclipse.uml2.UML2Package;
 import org.eclipse.uml2.ValueSpecification;
-import org.eclipse.uml2.Parameter;
 import org.eclipse.uml2.util.UML2Resource;
 
 import java.util.ArrayList;
@@ -49,7 +47,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Collections;
 
 
 /**
@@ -411,25 +408,6 @@ public class UmlUtilities
     }
 
     /**
-     * Constructs a <em>signature</em> to identify this operation with using a String instance.
-     * Note that this signature will be useless in any programming environment so keep it internal.
-     */
-    private static String produceInternalSignature(Operation operation)
-    {
-        final StringBuffer buffer = new StringBuffer();
-
-        buffer.append(operation.getName()).append(',');
-        final List parameters = operation.getOwnedParameters();
-        for (int i = 0; i < parameters.size(); i++)
-        {
-            final Parameter parameter = (Parameter)parameters.get(i);
-            buffer.append(parameter.getType().getQualifiedName()).append(',');
-        }
-
-        return buffer.toString();
-    }
-
-    /**
      * Retrieves all specializations of the given <code>classifier</code>
      * instance.
      *
@@ -528,7 +506,7 @@ public class UmlUtilities
      * TAGGED_VALUES_STEREOTYPE stereotype or the values for any Stereotypes that have the value property.
      *
      * @param element the element from which to retrieve the tagged values.
-     * @return the collection of {@TagDefinition} instances.
+     * @return the collection of {@link TagDefinition} instances.
      * @deprecated old way to handle tag values
      */
     public static Collection getAndroMDATags(Element element)
@@ -580,7 +558,7 @@ public class UmlUtilities
      * Retrieves the TagDefinitions for the given element.
      *
      * @param element the element from which to retrieve the tagged values.
-     * @return the collection of {@TagDefinition} instances.
+     * @return the collection of {@link TagDefinition} instances.
      */
     public static Collection getTaggedValue(final NamedElement element)
     {

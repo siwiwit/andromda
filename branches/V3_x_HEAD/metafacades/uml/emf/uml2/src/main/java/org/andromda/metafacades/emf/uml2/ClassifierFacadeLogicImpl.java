@@ -1,15 +1,5 @@
 package org.andromda.metafacades.emf.uml2;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
@@ -22,6 +12,7 @@ import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.metafacades.uml.FilteredCollection;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
@@ -32,6 +23,16 @@ import org.eclipse.uml2.DataType;
 import org.eclipse.uml2.Enumeration;
 import org.eclipse.uml2.Interface;
 import org.eclipse.uml2.PrimitiveType;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -562,28 +563,87 @@ public class ClassifierFacadeLogicImpl
         return allProperties;
     }
 
-    /**
-     * @see org.andromda.metafacades.uml.ClassifierFacade#getOperations()
-     */
-    protected java.util.Collection handleGetOperations()
+    protected Collection handleGetOperations()
     {
-        final Collection operations = new LinkedHashSet();
+        final Collection operations;
 
         if (this.metaObject instanceof org.eclipse.uml2.Class)
         {
-            operations.addAll(((org.eclipse.uml2.Class)this.metaObject).getOwnedOperations());
+            operations = ((org.eclipse.uml2.Class)this.metaObject).getOwnedOperations();
         }
         else if (this.metaObject instanceof org.eclipse.uml2.Interface)
         {
-            operations.addAll(((org.eclipse.uml2.Interface)this.metaObject).getOwnedOperations());
+            operations = new LinkedHashSet(((org.eclipse.uml2.Interface)this.metaObject).getOwnedOperations());
+        }
+        else
+        {
+            operations = Collections.EMPTY_LIST;
         }
 
-        // add all operations from realized interfaces
-        final Collection interfaces = this.getInterfaceAbstractions();
-        for (Iterator interfaceIterator = interfaces.iterator(); interfaceIterator.hasNext();)
+        return operations;
+    }
+
+    /**
+     * Note: if this instance represents an actual class we resolve any realized interfaces recursively, in case this
+     * instance represents an interface we return only the owned operations.
+     *
+     * @see org.andromda.metafacades.uml.ClassifierFacade#getOperations()
+     */
+    protected java.util.Collection handleGetImplementationOperations()
+    {
+        final Collection operations;
+
+        if (this.metaObject instanceof org.eclipse.uml2.Class)
         {
-            final ClassifierFacade interfaceElement = (ClassifierFacade)interfaceIterator.next();
-            operations.addAll(interfaceElement.getOperations());
+            operations = new LinkedHashSet(((org.eclipse.uml2.Class)this.metaObject).getOwnedOperations());
+
+            final Collection dependencies = new FilteredCollection(this.metaObject.getClientDependencies())
+            {
+                public boolean evaluate(Object object)
+                {
+                    return object instanceof Abstraction;
+                }
+            };
+
+            for (Iterator abstractionIterator = dependencies.iterator(); abstractionIterator.hasNext();)
+            {
+                final Abstraction abstraction = (Abstraction)abstractionIterator.next();
+                final List suppliers = abstraction.getSuppliers();
+                for (int i = 0; i < suppliers.size(); i++)
+                {
+                    final Object supplierObject = suppliers.get(i);
+                    if (supplierObject instanceof Interface)
+                    {
+                        operations.addAll(resolveInterfaceOperationsRecursively((Interface)supplierObject));
+                    }
+                }
+            }
+        }
+        else if (this.metaObject instanceof org.eclipse.uml2.Interface)
+        {
+            operations = new LinkedHashSet(((org.eclipse.uml2.Interface)this.metaObject).getOwnedOperations());
+        }
+        else
+        {
+            operations = Collections.EMPTY_LIST;
+        }
+
+        return operations;
+    }
+
+
+    private static Collection resolveInterfaceOperationsRecursively(Interface classifier)
+    {
+        final Collection operations = new LinkedHashSet(classifier.getOwnedOperations());   // preserve ordering
+
+        final List generals = classifier.getGenerals();
+        for (int i = 0; i < generals.size(); i++)
+        {
+            final Object generalObject = generals.get(i);
+            if (generalObject instanceof Interface)
+            {
+                operations.addAll(resolveInterfaceOperationsRecursively((Interface)generalObject));
+            }
         }
 
         return operations;
@@ -739,9 +799,9 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetAbstractions()
     {
-        Collection deps = new ArrayList(this.metaObject.getClientDependencies());
+        final Collection dependencies = new ArrayList(this.metaObject.getClientDependencies());
         CollectionUtils.filter(
-            deps,
+            dependencies,
             new Predicate()
             {
                 public boolean evaluate(final Object object)
@@ -749,7 +809,7 @@ public class ClassifierFacadeLogicImpl
                     return object instanceof Abstraction;
                 }
             });
-        return deps;
+        return dependencies;
     }
 
     /**

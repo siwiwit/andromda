@@ -59,10 +59,24 @@ public class ClassifierFacadeLogicImpl
         return NameMasker.mask(super.handleGetName(), nameMask);
     }
 
+    protected Collection handleGetOperations()
+    {
+        return new FilteredCollection(this.metaObject.getFeature())
+        {
+            public boolean evaluate(Object object)
+            {
+                return object instanceof org.omg.uml.foundation.core.Operation;
+            }
+        };
+    }
+
     /**
+     * Note: if this instance represents an actual class we resolve any realized interfaces recursively, in case this
+     * instance represents an interface we return only the owned operations.
+     *
      * @see org.andromda.metafacades.uml.ClassifierFacade#getOperations()
      */
-    protected java.util.Collection handleGetOperations()
+    protected java.util.Collection handleGetImplementationOperations()
     {
         final Collection operations = new LinkedHashSet();
 
@@ -75,12 +89,31 @@ public class ClassifierFacadeLogicImpl
                 }
             });
 
-        // add all operations from realized interfaces
-        final Collection interfaces = this.getInterfaceAbstractions();
-        for (Iterator interfaceIterator = interfaces.iterator(); interfaceIterator.hasNext();)
+        if (!this.isInterface())
         {
-            final ClassifierFacade interfaceElement = (ClassifierFacade)interfaceIterator.next();
-            operations.addAll(interfaceElement.getOperations());
+            final Collection interfaces = this.getInterfaceAbstractions();
+            for (Iterator interfaceIterator = interfaces.iterator(); interfaceIterator.hasNext();)
+            {
+                final ClassifierFacade interfaceElement = (ClassifierFacade)interfaceIterator.next();
+                operations.addAll(resolveInterfaceOperationsRecursively(interfaceElement));
+            }
+        }
+
+        return operations;
+    }
+
+    private static Collection resolveInterfaceOperationsRecursively(ClassifierFacade interfaceClassifier)
+    {
+        final Collection operations = new LinkedHashSet(interfaceClassifier.getOperations()); // preserve ordering
+
+        final Collection generalizations = interfaceClassifier.getGeneralizations();
+        for (Iterator generalizationIterator = generalizations.iterator(); generalizationIterator.hasNext();)
+        {
+            final ClassifierFacade parent = (ClassifierFacade)generalizationIterator.next();
+            if (parent.isInterface())
+            {
+                operations.addAll(resolveInterfaceOperationsRecursively(parent));
+            }
         }
 
         return operations;
@@ -263,7 +296,7 @@ public class ClassifierFacadeLogicImpl
     {
         return UMLMetafacadeUtils.isType(this, UMLProfile.CLOB_TYPE_NAME);
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#isMapType()
      */

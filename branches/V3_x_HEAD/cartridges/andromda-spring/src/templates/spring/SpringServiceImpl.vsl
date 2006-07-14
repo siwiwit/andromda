@@ -15,7 +15,7 @@ public#if($service.abstract) abstract#end class $service.implementationName
     extends $service.fullyQualifiedBaseName
 {
 
-#foreach ($operation in $service.operations)
+#foreach ($operation in $service.implementationOperations)
     /**
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}
      */

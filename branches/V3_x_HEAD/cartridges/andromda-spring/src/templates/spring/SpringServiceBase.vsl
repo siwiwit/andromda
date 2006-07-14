@@ -64,7 +64,7 @@ public abstract class $service.baseName
     }
 
 #end
-#foreach ($operation in $service.operations)
+#foreach ($operation in $service.implementationOperations)
     /**
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}
      */

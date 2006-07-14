@@ -324,6 +324,15 @@ public class ClassifierFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.ClassifierFacade#getImplementationOperations()
+     */
+    protected java.util.Collection handleGetImplementationOperations()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#getAttributes()
      */
     protected java.util.Collection handleGetAttributes()

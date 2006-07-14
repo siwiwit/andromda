@@ -20,7 +20,7 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
 #set ($businessObject = $stringUtils.uncapitalize($service.name))
     private $service.fullyQualifiedName $businessObject;
 
-#foreach ( $operation in $service.operations )
+#foreach ( $operation in $service.implementationOperations )
 #set ($returnType = $operation.returnType)
 #set ($signature = $operation.signature)
     /**

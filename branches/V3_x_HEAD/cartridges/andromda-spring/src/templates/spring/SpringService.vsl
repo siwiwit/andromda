@@ -18,7 +18,7 @@ public interface $service.name
 #end
 #else
 #if (!$service.interfaceAbstractions.empty)
-    extends $service.implementedInterfaceList
+    extends ${service.implementedInterfaceList}
 #end
 #end
 {

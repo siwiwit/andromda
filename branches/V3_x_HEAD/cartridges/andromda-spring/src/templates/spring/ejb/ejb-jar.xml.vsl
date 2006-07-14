@@ -75,7 +75,7 @@
             </method>
         </method-permission>
 
-#foreach ($operation in $service.operations)
+#foreach ($operation in $service.implementationOperations)
         <method-permission>
             <description><![CDATA[$operation.signature security constraint]]></description>
 #if (!$ejbSecurityEnabled || $operation.roles.empty)
@@ -108,7 +108,7 @@
 #end
 #if ($ejbTransactionsEnabled.equalsIgnoreCase("true"))
 #foreach ($service in $services)
-#foreach ($operation in $service.operations)
+#foreach ($operation in $service.implementationOperations)
         <container-transaction>
             <method>
                 <ejb-name>$service.name</ejb-name>
