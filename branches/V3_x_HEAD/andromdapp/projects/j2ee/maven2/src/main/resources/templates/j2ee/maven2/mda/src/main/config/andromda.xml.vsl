@@ -67,6 +67,7 @@
                 <property name="daos">${core.generated.dir}</property>
                 <property name="dao-impls">${core.manual.dir}</property>
                 <property name="commons">${common.generated.dir}</property>
+                <property name="user-types">${core.generated.dir}</property>
                 <property name="services">${core.generated.dir}</property>
                 <property name="application-config">${application.config.dir}</property>
                 <property name="application-metainf">${application.metainf.dir}</property>
