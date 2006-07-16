@@ -11,8 +11,7 @@ import java.util.List;
 public class AttributeLinkFacadeLogicImpl
     extends AttributeLinkFacadeLogic
 {
-
-    public AttributeLinkFacadeLogicImpl(org.eclipse.uml2.Slot metaObject, String context)
+    public AttributeLinkFacadeLogicImpl(AttributeLink metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -30,7 +29,7 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetLinkEnd()
     {
-        return null; // todo ?
+        return null; // todo ? (wouter: I think having this feature is a mistake, does it make sense?)
     }
 
     /**

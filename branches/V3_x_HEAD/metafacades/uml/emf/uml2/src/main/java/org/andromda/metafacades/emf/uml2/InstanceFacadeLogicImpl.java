@@ -20,7 +20,7 @@ public class InstanceFacadeLogicImpl
     extends InstanceFacadeLogic
 {
 
-    public InstanceFacadeLogicImpl(org.eclipse.uml2.InstanceSpecification metaObject, String context)
+    public InstanceFacadeLogicImpl(ObjectInstance metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -40,7 +40,7 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetLinkEnds()
     {
-        return Collections.EMPTY_LIST;
+        return Collections.EMPTY_LIST; // todo figure out how to handle this
     }
 
     /**
@@ -66,7 +66,7 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetOwnedLinks()
     {
-        return Collections.EMPTY_LIST;
+        return Collections.EMPTY_LIST; // todo figure out how to handle this
     }
 
     /**

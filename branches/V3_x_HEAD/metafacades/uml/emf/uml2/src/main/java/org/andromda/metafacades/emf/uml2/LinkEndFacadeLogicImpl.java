@@ -9,8 +9,7 @@ package org.andromda.metafacades.emf.uml2;
 public class LinkEndFacadeLogicImpl
     extends LinkEndFacadeLogic
 {
-
-    public LinkEndFacadeLogicImpl(org.eclipse.uml2.InstanceValue metaObject, String context)
+    public LinkEndFacadeLogicImpl(LinkEnd metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -20,7 +19,7 @@ public class LinkEndFacadeLogicImpl
      */
     protected java.lang.Object handleGetInstance()
     {
-        return this.metaObject.getInstance();
+        return this.metaObject.getOwningInstance();
     }
 
     /**
@@ -28,8 +27,7 @@ public class LinkEndFacadeLogicImpl
      */
     protected java.lang.Object handleGetAssociationEnd()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getDefiningFeature();
     }
 
     /**

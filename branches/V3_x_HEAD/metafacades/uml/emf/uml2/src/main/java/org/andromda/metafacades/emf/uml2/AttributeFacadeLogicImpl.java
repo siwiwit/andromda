@@ -21,16 +21,10 @@ public class AttributeFacadeLogicImpl
     extends AttributeFacadeLogic
 {
     public AttributeFacadeLogicImpl(
-        final org.eclipse.uml2.Property metaObject,
+        final Attribute metaObject,
         final String context)
     {
-        super((Attribute)metaObject, context);
-        if (!(metaObject instanceof Attribute))
-        {
-            // This case occurs when a method return property instead of an
-            // "Attribute"
-            throw new RuntimeException("AttributeFacade created with a " + metaObject);
-        }
+        super(metaObject, context);
     }
 
     /**
@@ -89,7 +83,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return (this.getLower() > 0);
+        return this.getLower() > 0;
     }
 
     /**
@@ -213,30 +207,30 @@ public class AttributeFacadeLogicImpl
     /*  protected boolean handleIsBindingDependenciesPresent()
       {
           // TODO: Implement this with Templates.
-          // IT seems that this methode has been overriden. Why ?
+          // This method has been overriden. Why ?
           return false;
       }
 
       protected boolean handleIsTemplateParametersPresent()
       {
-          // TODO: This methode has been overriden. Why ?
+          // TODO: This method has been overriden. Why ?
           return false;
       }
 
       protected void handleCopyTaggedValues(final ModelElementFacade element)
       {
-          // TODO: This methode has been overriden. Why ?
+          // TODO: This method has been overriden. Why ?
       }
 
       protected Object handleGetTemplateParameter(final String parameterName)
       {
-          // TODO: This methode has been overriden. Why ?
+          // TODO: This method has been overriden. Why ?
           return null;
       }
 
       protected Collection handleGetTemplateParameters()
       {
-          // TODO: This methode has been overriden. Why ?
+          // TODO: This method has been overriden. Why ?
           return null;
       } */
 

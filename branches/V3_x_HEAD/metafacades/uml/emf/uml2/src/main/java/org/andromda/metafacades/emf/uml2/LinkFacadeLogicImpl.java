@@ -12,7 +12,7 @@ public class LinkFacadeLogicImpl
     extends LinkFacadeLogic
 {
 
-    public LinkFacadeLogicImpl(org.eclipse.uml2.InstanceSpecification metaObject, String context)
+    public LinkFacadeLogicImpl(LinkInstance metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -25,7 +25,7 @@ public class LinkFacadeLogicImpl
      */
     protected java.util.Collection handleGetLinkEnds()
     {
-        return Collections.EMPTY_LIST;
+        return Collections.EMPTY_LIST; // todo figure out how to handle this
     }
 
 }

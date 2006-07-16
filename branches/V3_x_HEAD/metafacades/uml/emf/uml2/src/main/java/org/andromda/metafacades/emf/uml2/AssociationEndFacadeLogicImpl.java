@@ -24,16 +24,10 @@ public class AssociationEndFacadeLogicImpl
     extends AssociationEndFacadeLogic
 {
     public AssociationEndFacadeLogicImpl(
-        final org.eclipse.uml2.Property metaObject,
+        final AssociationEnd metaObject,
         final String context)
     {
-        super((AssociationEnd)metaObject, context);
-        if (!(metaObject instanceof AssociationEnd))
-        {
-            // This case occurs when a method return property instead of an
-            // "AssociationEnd"
-            throw new RuntimeException("AssociationEndFacade created with a " + metaObject);
-        }
+        super(metaObject, context);
     }
 
     /**

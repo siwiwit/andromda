@@ -109,22 +109,17 @@
    <mapping class="org.eclipse.uml2.impl.behavioralelements.activitygraphs.SubactivityStateImpl"/>
    </metafacade> -->
     <metafacade class="org.andromda.metafacades.emf.uml2.InstanceFacadeLogicImpl">
-        <mapping class="org.eclipse.uml2.impl.InstanceSpecificationImpl">
-            <property name="shouldMapToLinkFacade">false</property>
-        </mapping>
+        <mapping class="org.andromda.metafacades.emf.uml2.ObjectInstanceImpl"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.LinkFacadeLogicImpl">
-        <mapping class="org.eclipse.uml2.impl.InstanceSpecificationImpl">
-            <property name="shouldMapToLinkFacade"/>
-        </mapping>
+        <mapping class="org.andromda.metafacades.emf.uml2.LinkInstanceImpl"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.LinkEndFacadeLogicImpl">
-        <mapping class="org.eclipse.uml2.impl.InstanceValueImpl"/>
+        <mapping class="org.andromda.metafacades.emf.uml2.LinkEndImpl"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.AttributeLinkFacadeLogicImpl">
-        <mapping class="org.eclipse.uml2.impl.SlotImpl"/>
+        <mapping class="org.andromda.metafacades.emf.uml2.AttributeLinkImpl"/>
     </metafacade>
-
     <metafacade class="org.andromda.metafacades.emf.uml2.ActionFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.ActionImpl"/>
     </metafacade>
@@ -135,11 +130,12 @@
     <metafacade class="org.andromda.metafacades.emf.uml2.ActivityGraphFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.StateMachineImpl"/>
     </metafacade>
-    <!-- Adapted, becausse ActivityGraph are mapped to StateMachine -->
+    <!-- Adapted, because ActivityGraph is mapped to StateMachine -->
     <metafacade class="org.andromda.metafacades.emf.uml2.PartitionFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.RegionImpl"/>
     </metafacade>
-    <!-- Event are mapped to Activities (Un UML2.0, the semantics of event doesn't allow to add parameters --><!-- A call Event is an activity which contain an CallOperationAction -->
+    <!-- Event are mapped to Activities (Un UML2.0, the semantics of event doesn't allow to add parameters -->
+    <!-- A call Event is an activity which contain an CallOperationAction -->
     <metafacade class="org.andromda.metafacades.emf.uml2.CallEventFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.ActivityImpl">
             <property name="operation"/>
