@@ -57,7 +57,7 @@ public class AssociationFacadeLogicImpl
     {
         return (List)CollectionUtils.collect(
             this.metaObject.getMemberEnds(),
-            UmlUtilities.PropertyTransformer);
+            UmlUtilities.ELEMENT_TRANSFORMER);
     }
 
     /**

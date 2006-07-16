@@ -179,7 +179,7 @@ public class UMLModelAccessFacade
         }
 
         // Don't forget to transform properties
-        CollectionUtils.transform(elements, UmlUtilities.PropertyTransformer);
+        CollectionUtils.transform(elements, UmlUtilities.ELEMENT_TRANSFORMER);
 
         final Collection metafacades;
 

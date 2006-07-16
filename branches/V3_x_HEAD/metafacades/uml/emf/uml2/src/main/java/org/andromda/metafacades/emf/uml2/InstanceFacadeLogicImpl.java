@@ -2,13 +2,11 @@ package org.andromda.metafacades.emf.uml2;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.eclipse.uml2.Association;
 import org.eclipse.uml2.InstanceSpecification;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 
 /**
@@ -40,7 +38,7 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetLinkEnds()
     {
-        return Collections.EMPTY_LIST; // todo figure out how to handle this
+        return Collections.EMPTY_LIST; // todo figure out how to handle this (figure out all links and collect their ends ?)
     }
 
     /**
@@ -56,7 +54,7 @@ public class InstanceFacadeLogicImpl
                 return object instanceof InstanceSpecification;
             }
         });
-        return ownedElements;
+        return CollectionUtils.transformedCollection(ownedElements, UmlUtilities.ELEMENT_TRANSFORMER);
     }
 
     /**
@@ -66,7 +64,7 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetOwnedLinks()
     {
-        return Collections.EMPTY_LIST; // todo figure out how to handle this
+        return Collections.EMPTY_LIST; // todo figure out how to handle this (don't forget to transform)
     }
 
     /**
@@ -74,22 +72,6 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetSlots()
     {
-        return this.metaObject.getSlots();
-    }
-
-    /**
-     * This method has been written to provide exception support to the mapping declarations since both
-     * UML2 instances and links share the same meta-class
-     * <p/>
-     * You can safely ignore this feature, in fact, it's best never to use it at all except if you really know
-     * what you're doing.
-     * <p/>
-     * This method checks whether the first classifier is an association and returns <code>true</code> only in that
-     * case.
-     */
-    public boolean isShouldMapToLinkFacade()
-    {
-        final List classifiers = this.metaObject.getClassifiers();
-        return classifiers != null && !classifiers.isEmpty() && classifiers.get(0) instanceof Association;
+        return CollectionUtils.transformedCollection(this.metaObject.getSlots(), UmlUtilities.ELEMENT_TRANSFORMER);
     }
 }

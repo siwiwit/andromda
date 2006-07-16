@@ -42,7 +42,7 @@ import org.eclipse.uml2.VisibilityKind;
 
 /**
  * Implementation of AssociationEnd. We extends Property We keep a reference to
- * original property and we defer almost all method call to it.
+ * the original property and we defer almost all method calls to it.
  *
  * @author Cédric Jeanneret
  */

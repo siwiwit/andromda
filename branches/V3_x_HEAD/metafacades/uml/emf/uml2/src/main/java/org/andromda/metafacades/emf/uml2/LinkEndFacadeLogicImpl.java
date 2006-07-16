@@ -19,7 +19,7 @@ public class LinkEndFacadeLogicImpl
      */
     protected java.lang.Object handleGetInstance()
     {
-        return this.metaObject.getOwningInstance();
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getOwningInstance());
     }
 
     /**
@@ -27,17 +27,15 @@ public class LinkEndFacadeLogicImpl
      */
     protected java.lang.Object handleGetAssociationEnd()
     {
-        return this.metaObject.getDefiningFeature();
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getDefiningFeature());
     }
 
     /**
-     * Although UML2 does not have the concept of a LinkEnd (unlike UML1.4+) this method returns the owner.
-     *
      * @see org.andromda.metafacades.uml.LinkEndFacade#getLink()
      */
     protected java.lang.Object handleGetLink()
     {
-        return this.metaObject.getOwner();
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getOwner());
     }
 
 }

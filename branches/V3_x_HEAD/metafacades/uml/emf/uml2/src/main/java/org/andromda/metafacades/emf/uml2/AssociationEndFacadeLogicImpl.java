@@ -167,14 +167,12 @@ public class AssociationEndFacadeLogicImpl
             final TypeMappings mappings = this.getLanguageMappings();
             if (mappings != null)
             {
-                name =
-                    this.isOrdered() ? mappings.getTo(UMLProfile.LIST_TYPE_NAME)
-                                     : mappings.getTo(UMLProfile.COLLECTION_TYPE_NAME);
+                name = mappings.getTo(this.isOrdered() ? UMLProfile.LIST_TYPE_NAME : UMLProfile.COLLECTION_TYPE_NAME);
             }
 
             // set this association end's type as a template parameter if
             // required
-            if (BooleanUtils.toBoolean(
+            if (this.getType() != null && BooleanUtils.toBoolean(
                     ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING))))
             {
                 name = name + "<" + this.getType().getFullyQualifiedName() + ">";

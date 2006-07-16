@@ -75,7 +75,7 @@ public class PackageFacadeLogicImpl
     {
         return CollectionUtils.transformedCollection(
             this.metaObject.getModel().getOwnedMembers(),
-            UmlUtilities.PropertyTransformer);
+            UmlUtilities.ELEMENT_TRANSFORMER);
     }
 
     /**
@@ -85,6 +85,6 @@ public class PackageFacadeLogicImpl
     {
         return CollectionUtils.transformedCollection(
             this.metaObject.getOwnedMembers(),
-            UmlUtilities.PropertyTransformer);
+            UmlUtilities.ELEMENT_TRANSFORMER);
     }
 }

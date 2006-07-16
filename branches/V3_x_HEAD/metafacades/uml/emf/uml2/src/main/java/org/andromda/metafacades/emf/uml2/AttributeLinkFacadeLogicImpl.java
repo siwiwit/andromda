@@ -21,7 +21,7 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetAttribute()
     {
-        return this.metaObject.getDefiningFeature();
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getDefiningFeature());
     }
 
     /**
@@ -29,7 +29,7 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetLinkEnd()
     {
-        return null; // todo ? (wouter: I think having this feature is a mistake, does it make sense?)
+        return null; // todo ? (wouter: I think having this feature is a mistake, does it make sense? if it doesn't we should remove it .. it's not used yet by any of our cartridges)
     }
 
     /**
@@ -37,7 +37,7 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetInstance()
     {
-        return this.metaObject.getOwningInstance();
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getOwningInstance());
     }
 
     /**

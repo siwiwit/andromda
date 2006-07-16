@@ -37,6 +37,8 @@ import org.eclipse.uml2.Type;
 import org.eclipse.uml2.TypedElement;
 import org.eclipse.uml2.UML2Package;
 import org.eclipse.uml2.ValueSpecification;
+import org.eclipse.uml2.Slot;
+import org.eclipse.uml2.InstanceSpecification;
 import org.eclipse.uml2.util.UML2Resource;
 
 import java.util.ArrayList;
@@ -64,10 +66,16 @@ public class UmlUtilities
     private static Logger logger = Logger.getLogger(UmlUtilities.class);
 
     /**
-     * A transformer which transforms each uml2 properties in a attribute or an
-     * association end.
+     * A transformer which transforms:
+     * <ul>
+     *   <li>each property in an attribute or an association end</li>
+     *   <li>each slot in an attribute link or a link end</li>
+     *   <li>each instance specification in an object instance or a link instance</li>
+     * </ul>
+     * This is needed because EMF-UML2 frankly is a crappy API in which there is no conceptual difference between
+     * fundamentally different elements (see list above).
      */
-    protected static final Transformer PropertyTransformer =
+    protected static final Transformer ELEMENT_TRANSFORMER =
         new Transformer()
         {
             public Object transform(Object element)
@@ -89,6 +97,40 @@ public class UmlUtilities
                     else
                     {
                         transformedObject = new AttributeImpl(property);
+                    }
+                }
+                else if (element instanceof Slot)
+                {
+                    final Slot slot = (Slot)element;
+
+                    if (slot instanceof LinkEnd || slot instanceof AttributeLink)
+                    {
+                        transformedObject = slot;
+                    }
+                    else if (slot.getDefiningFeature() instanceof Attribute)
+                    {
+                        transformedObject = new AttributeLinkImpl(slot);
+                    }
+                    else
+                    {
+                        transformedObject = new LinkEndImpl(slot);
+                    }
+                }
+                else if (element instanceof InstanceSpecification)
+                {
+                    final InstanceSpecification instanceSpecification = (InstanceSpecification)element;
+
+                    if (instanceSpecification instanceof LinkInstance || instanceSpecification instanceof ObjectInstance)
+                    {
+                        transformedObject = instanceSpecification;
+                    }
+                    else if (!instanceSpecification.getClassifiers().isEmpty() && instanceSpecification.getClassifiers().iterator().next() instanceof org.eclipse.uml2.Class)
+                    {
+                        transformedObject = new ObjectInstanceImpl(instanceSpecification);
+                    }
+                    else
+                    {
+                        transformedObject = new LinkInstanceImpl(instanceSpecification);
                     }
                 }
                 else
@@ -254,7 +296,7 @@ public class UmlUtilities
         }
 
         final List attributeList = new ArrayList(attributeMap.values());
-        CollectionUtils.transform(attributeList, PropertyTransformer);
+        CollectionUtils.transform(attributeList, ELEMENT_TRANSFORMER);
         return attributeList;
     }
 
@@ -321,7 +363,7 @@ public class UmlUtilities
             }
         }
 
-        CollectionUtils.transform(associationEnds, PropertyTransformer);
+        CollectionUtils.transform(associationEnds, ELEMENT_TRANSFORMER);
         return associationEnds;
     }
 
