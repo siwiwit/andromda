@@ -3,10 +3,10 @@ package org.andromda.metafacades.emf.uml2;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.eclipse.uml2.InstanceSpecification;
-import org.eclipse.uml2.ValueSpecification;
-import org.eclipse.uml2.LiteralString;
-import org.eclipse.uml2.LiteralInteger;
 import org.eclipse.uml2.LiteralBoolean;
+import org.eclipse.uml2.LiteralInteger;
+import org.eclipse.uml2.LiteralString;
+import org.eclipse.uml2.ValueSpecification;
 import org.andromda.metafacades.uml.InstanceFacade;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class InstanceFacadeLogicImpl extends InstanceFacadeLogic
         }
         else if (valueSpecification instanceof LiteralInteger)
         {
-            instance.value = Integer.valueOf(((LiteralInteger)valueSpecification).getValue());
+            instance.value = new Integer(((LiteralInteger)valueSpecification).getValue());
         }
         else if (valueSpecification instanceof LiteralBoolean)
         {
