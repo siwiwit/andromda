@@ -21,6 +21,7 @@ import org.eclipse.uml2.Classifier;
 import org.eclipse.uml2.Comment;
 import org.eclipse.uml2.Element;
 import org.eclipse.uml2.Generalization;
+import org.eclipse.uml2.InstanceSpecification;
 import org.eclipse.uml2.LiteralInteger;
 import org.eclipse.uml2.LiteralString;
 import org.eclipse.uml2.LiteralUnlimitedNatural;
@@ -32,13 +33,12 @@ import org.eclipse.uml2.Operation;
 import org.eclipse.uml2.Package;
 import org.eclipse.uml2.Parameter;
 import org.eclipse.uml2.Property;
+import org.eclipse.uml2.Slot;
 import org.eclipse.uml2.Stereotype;
 import org.eclipse.uml2.Type;
 import org.eclipse.uml2.TypedElement;
 import org.eclipse.uml2.UML2Package;
 import org.eclipse.uml2.ValueSpecification;
-import org.eclipse.uml2.Slot;
-import org.eclipse.uml2.InstanceSpecification;
 import org.eclipse.uml2.util.UML2Resource;
 
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class UmlUtilities
                     {
                         transformedObject = slot;
                     }
-                    else if (slot.getDefiningFeature() instanceof Attribute)
+                    else if (this.transform(slot.getDefiningFeature()) instanceof Attribute)
                     {
                         transformedObject = new AttributeLinkImpl(slot);
                     }

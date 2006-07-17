@@ -1,5 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.eclipse.uml2.ValueSpecification;
+
 import java.util.List;
 
 
@@ -45,8 +47,23 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetValue()
     {
-        final List values = this.metaObject.getValues();
-        return values == null || values.isEmpty() ? null : values.get(0);
-    }
+        final Object value;
 
+        final List values = this.metaObject.getValues();
+
+        if (values == null || values.isEmpty())
+        {
+            value = null;
+        }
+        else if (values.get(0) instanceof ValueSpecification)
+        {
+            value = InstanceFacadeLogicImpl.createInstanceFor((ValueSpecification)values.get(0));
+        }
+        else
+        {
+            value = values.get(0);
+        }
+
+        return value;
+    }
 }

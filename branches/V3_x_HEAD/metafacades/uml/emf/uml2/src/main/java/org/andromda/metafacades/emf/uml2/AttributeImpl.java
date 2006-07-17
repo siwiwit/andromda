@@ -80,7 +80,7 @@ public class AttributeImpl
 
     public String toString()
     {
-        return this.property.toString();
+        return this.getClass().getName() + '[' + this.property.toString() + ']';
     }
 
     public void addKeyword(final String arg0)

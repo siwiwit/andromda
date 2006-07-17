@@ -62,7 +62,7 @@ public class LinkInstanceImpl implements LinkInstance
 
     public String toString()
     {
-        return this.instanceSpecification.toString();
+        return this.getClass().getName() + '[' + this.instanceSpecification.toString() + ']';
     }
 
     public EList getDeployments()

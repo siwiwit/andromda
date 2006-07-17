@@ -59,7 +59,7 @@ public class AttributeLinkImpl implements AttributeLink
 
     public String toString()
     {
-        return this.slot.toString();
+        return this.getClass().getName() + '[' + this.slot.toString() + ']';
     }
 
     public InstanceSpecification getOwningInstance()

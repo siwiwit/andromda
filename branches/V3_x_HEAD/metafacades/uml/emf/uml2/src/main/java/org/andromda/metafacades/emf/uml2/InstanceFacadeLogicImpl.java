@@ -3,6 +3,11 @@ package org.andromda.metafacades.emf.uml2;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.eclipse.uml2.InstanceSpecification;
+import org.eclipse.uml2.ValueSpecification;
+import org.eclipse.uml2.LiteralString;
+import org.eclipse.uml2.LiteralInteger;
+import org.eclipse.uml2.LiteralBoolean;
+import org.andromda.metafacades.uml.InstanceFacade;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,13 +19,55 @@ import java.util.Collections;
  *
  * @see org.andromda.metafacades.uml.InstanceFacade
  */
-public class InstanceFacadeLogicImpl
-    extends InstanceFacadeLogic
+public class InstanceFacadeLogicImpl extends InstanceFacadeLogic
 {
+    /**
+     * Internal value reference in case this instance is supposed to wrap a ValueSpecificstion metaclass
+     */
+    private Object value = null;
+    private boolean valueSet = false;
 
     public InstanceFacadeLogicImpl(ObjectInstance metaObject, String context)
     {
         super(metaObject, context);
+    }
+
+    public static InstanceFacade createInstanceFor(ValueSpecification valueSpecification)
+    {
+        final InstanceFacadeLogicImpl instance = new InstanceFacadeLogicImpl(null, null);
+
+        if (valueSpecification instanceof LiteralString)
+        {
+            instance.value = ((LiteralString)valueSpecification).getValue();
+        }
+        else if (valueSpecification instanceof LiteralInteger)
+        {
+            instance.value = Integer.valueOf(((LiteralInteger)valueSpecification).getValue());
+        }
+        else if (valueSpecification instanceof LiteralBoolean)
+        {
+            instance.value = Boolean.valueOf(((LiteralBoolean)valueSpecification).isValue());
+        }
+        else
+        {
+            instance.value = valueSpecification;
+        }
+
+        instance.valueSet = true;
+        return instance;
+    }
+
+    protected String handleGetName()
+    {
+        return this.valueSet ? (this.value == null ? null : value.toString()) : super.handleGetName();
+    }
+
+    /**
+     * In case we wrap a value specification we just want to be able to print out that value when calling toString()
+     */
+    public String toString()
+    {
+        return this.valueSet ? this.getName() : super.toString();
     }
 
     /**
@@ -54,7 +101,7 @@ public class InstanceFacadeLogicImpl
                 return object instanceof InstanceSpecification;
             }
         });
-        return CollectionUtils.transformedCollection(ownedElements, UmlUtilities.ELEMENT_TRANSFORMER);
+        return CollectionUtils.collect(ownedElements, UmlUtilities.ELEMENT_TRANSFORMER);
     }
 
     /**
@@ -72,6 +119,6 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetSlots()
     {
-        return CollectionUtils.transformedCollection(this.metaObject.getSlots(), UmlUtilities.ELEMENT_TRANSFORMER);
+        return CollectionUtils.collect(this.metaObject.getSlots(), UmlUtilities.ELEMENT_TRANSFORMER);
     }
 }

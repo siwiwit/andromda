@@ -3,6 +3,7 @@ package org.andromda.metafacades.emf.uml2;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.configuration.Filters;
@@ -169,7 +170,7 @@ public class UMLModelAccessFacade
     {
         final ArrayList elements = new ArrayList();
 
-        for (final TreeIterator iterator = UmlUtilities.findModel(this.model).eAllContents(); iterator.hasNext();)
+        for (final Iterator iterator = UmlUtilities.findModel(this.model).eAllContents(); iterator.hasNext();)
         {
             final EObject object = (EObject)iterator.next();
             if (object instanceof NamedElement)

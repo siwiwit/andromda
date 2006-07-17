@@ -19,6 +19,6 @@ public class LinkFacadeLogicImpl extends LinkFacadeLogic
      */
     protected java.util.Collection handleGetLinkEnds()
     {
-        return CollectionUtils.transformedCollection(this.metaObject.getSlots(), UmlUtilities.ELEMENT_TRANSFORMER);
+        return CollectionUtils.collect(this.metaObject.getSlots(), UmlUtilities.ELEMENT_TRANSFORMER);
     }
 }
