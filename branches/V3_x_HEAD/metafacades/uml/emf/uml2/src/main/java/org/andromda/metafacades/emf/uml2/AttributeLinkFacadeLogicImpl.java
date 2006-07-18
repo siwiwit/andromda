@@ -27,14 +27,6 @@ public class AttributeLinkFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.AttributeLinkFacade#getLinkEnd()
-     */
-    protected java.lang.Object handleGetLinkEnd()
-    {
-        return null; // todo ? (wouter: I think having this feature is a mistake, does it make sense? if it doesn't we should remove it .. it's not used yet by any of our cartridges)
-    }
-
-    /**
      * @see org.andromda.metafacades.uml.AttributeLinkFacade#getInstance()
      */
     protected java.lang.Object handleGetInstance()

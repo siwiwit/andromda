@@ -1,13 +1,15 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.eclipse.uml2.InstanceValue;
+
+import java.util.List;
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.LinkEndFacade.
  *
  * @see org.andromda.metafacades.uml.LinkEndFacade
  */
-public class LinkEndFacadeLogicImpl
-    extends LinkEndFacadeLogic
+public class LinkEndFacadeLogicImpl extends LinkEndFacadeLogic
 {
     public LinkEndFacadeLogicImpl(LinkEnd metaObject, String context)
     {
@@ -19,7 +21,19 @@ public class LinkEndFacadeLogicImpl
      */
     protected java.lang.Object handleGetInstance()
     {
-        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getOwningInstance());
+        final Object instance;
+
+        final List values = this.metaObject.getValues();
+        if (values != null && !values.isEmpty() && values.get(0) instanceof InstanceValue)
+        {
+            instance = UmlUtilities.ELEMENT_TRANSFORMER.transform(((InstanceValue)values.get(0)).getInstance());
+        }
+        else
+        {
+            instance = null;
+        }
+
+        return instance;
     }
 
     /**
@@ -37,5 +51,4 @@ public class LinkEndFacadeLogicImpl
     {
         return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getOwner());
     }
-
 }

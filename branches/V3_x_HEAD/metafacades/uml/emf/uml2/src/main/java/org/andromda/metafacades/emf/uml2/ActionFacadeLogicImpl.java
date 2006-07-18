@@ -25,12 +25,8 @@ public class ActionFacadeLogicImpl
      */
     protected java.lang.Object handleGetTransition()
     {
-        Element element = this.metaObject.getActivity().getOwner();
-        if (element instanceof Transition)
-        {
-            return element;
-        }
-        return null;
+        final Element owner = this.metaObject.getActivity().getOwner();
+        return owner instanceof Transition ? owner : null;
     }
 
     /**
@@ -38,12 +34,8 @@ public class ActionFacadeLogicImpl
      */
     protected java.lang.Object handleGetActionState()
     {
-        Element element = this.metaObject.getActivity().getOwner();
-        if (element instanceof State)
-        {
-            return element;
-        }
-        return null;
+        final Element owner = this.metaObject.getActivity().getOwner();
+        return owner instanceof State ? owner : null;
     }
 
     public Object getValidationOwner()

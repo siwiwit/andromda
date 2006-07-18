@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import java.util.Map;
 import java.util.Set;
 
-public class LinkEndImpl
+public class LinkEndImpl implements LinkEnd
 {
     final Slot slot;
 

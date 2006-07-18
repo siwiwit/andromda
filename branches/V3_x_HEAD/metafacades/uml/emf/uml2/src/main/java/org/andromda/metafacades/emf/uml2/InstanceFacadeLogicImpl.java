@@ -1,17 +1,19 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.andromda.metafacades.uml.InstanceFacade;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.eclipse.uml2.InstanceSpecification;
 import org.eclipse.uml2.LiteralBoolean;
 import org.eclipse.uml2.LiteralInteger;
 import org.eclipse.uml2.LiteralString;
+import org.eclipse.uml2.Slot;
 import org.eclipse.uml2.ValueSpecification;
-import org.andromda.metafacades.uml.InstanceFacade;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -42,7 +44,7 @@ public class InstanceFacadeLogicImpl extends InstanceFacadeLogic
         }
         else if (valueSpecification instanceof LiteralInteger)
         {
-            instance.value = new Integer(((LiteralInteger)valueSpecification).getValue());
+            instance.value = Integer.valueOf(((LiteralInteger)valueSpecification).getValue());
         }
         else if (valueSpecification instanceof LiteralBoolean)
         {
@@ -79,16 +81,6 @@ public class InstanceFacadeLogicImpl extends InstanceFacadeLogic
     }
 
     /**
-     * Since UML2 does not have the notion of LinkEnds as UML1.4+ does this method always returns an empty collection.
-     *
-     * @see org.andromda.metafacades.uml.InstanceFacade#getLinkEnds()
-     */
-    protected java.util.Collection handleGetLinkEnds()
-    {
-        return Collections.EMPTY_LIST; // todo figure out how to handle this (figure out all links and collect their ends ?)
-    }
-
-    /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getOwnedInstances()
      */
     protected java.util.Collection handleGetOwnedInstances()
@@ -111,7 +103,7 @@ public class InstanceFacadeLogicImpl extends InstanceFacadeLogic
      */
     protected java.util.Collection handleGetOwnedLinks()
     {
-        return Collections.EMPTY_LIST; // todo figure out how to handle this (don't forget to transform)
+        return Collections.EMPTY_LIST;
     }
 
     /**
@@ -120,5 +112,43 @@ public class InstanceFacadeLogicImpl extends InstanceFacadeLogic
     protected java.util.Collection handleGetSlots()
     {
         return CollectionUtils.collect(this.metaObject.getSlots(), UmlUtilities.ELEMENT_TRANSFORMER);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.InstanceFacade#getAttributeLinks()
+     */
+    protected Collection handleGetAttributeLinks()
+    {
+        // collect the slots
+        final List slots = new ArrayList(this.metaObject.getSlots());
+        // only retain the slots mapping onto attributes
+        CollectionUtils.filter(slots, new Predicate()
+        {
+            public boolean evaluate(Object object)
+            {
+                return UmlUtilities.ELEMENT_TRANSFORMER.transform(((Slot)object).getDefiningFeature()) instanceof Attribute;
+            }
+        });
+
+        return CollectionUtils.collect(slots, UmlUtilities.ELEMENT_TRANSFORMER);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.InstanceFacade#getLinkEnds()
+     */
+    protected java.util.Collection handleGetLinkEnds()
+    {
+        // collect the slots
+        final List slots = new ArrayList(this.metaObject.getSlots());
+        // only retain the slots mapping onto association ends
+        CollectionUtils.filter(slots, new Predicate()
+        {
+            public boolean evaluate(Object object)
+            {
+                return UmlUtilities.ELEMENT_TRANSFORMER.transform(((Slot)object).getDefiningFeature()) instanceof AssociationEnd;
+            }
+        });
+
+        return CollectionUtils.collect(slots, UmlUtilities.ELEMENT_TRANSFORMER);
     }
 }

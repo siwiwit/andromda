@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml2;
 
+import java.util.Collection;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.InstanceFacade.
@@ -59,4 +61,12 @@ public class InstanceFacadeLogicImpl
         return null;
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.InstanceFacade#getAttributeLinks()
+     */
+    protected Collection handleGetAttributeLinks()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
 }

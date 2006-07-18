@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.Collection;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.InstanceFacade.
@@ -51,6 +53,15 @@ public class InstanceFacadeLogicImpl
      */
     protected java.util.Collection handleGetSlots()
     {
+        return metaObject.getSlot();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.InstanceFacade#getAttributeLinks()
+     */
+    protected Collection handleGetAttributeLinks()
+    {
+        // wouter: in UML1.4 the slots only convey the attribute links (unless I'm mistaken this is different in UML2)
         return metaObject.getSlot();
     }
 }

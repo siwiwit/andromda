@@ -24,15 +24,6 @@ public class AttributeLinkFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.AttributeLinkFacade#getLinkEnd()
-     */
-    protected java.lang.Object handleGetLinkEnd()
-    {
-        // TODO: add your implementation here!
-        return null;
-    }
-
-    /**
      * @see org.andromda.metafacades.uml.AttributeLinkFacade#getInstance()
      */
     protected java.lang.Object handleGetInstance()
