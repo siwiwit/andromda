@@ -32,7 +32,6 @@ import org.eclipse.uml2.DirectedRelationship;
 import org.eclipse.uml2.Element;
 import org.eclipse.uml2.Implementation;
 import org.eclipse.uml2.Manifestation;
-import org.eclipse.uml2.Model;
 import org.eclipse.uml2.NamedElement;
 import org.eclipse.uml2.Namespace;
 import org.eclipse.uml2.Permission;
@@ -43,7 +42,6 @@ import org.eclipse.uml2.TemplateBinding;
 import org.eclipse.uml2.TemplateSignature;
 import org.eclipse.uml2.TemplateableElement;
 import org.eclipse.uml2.Usage;
-import org.eclipse.uml2.UseCase;
 import org.eclipse.uml2.VisibilityKind;
 
 
