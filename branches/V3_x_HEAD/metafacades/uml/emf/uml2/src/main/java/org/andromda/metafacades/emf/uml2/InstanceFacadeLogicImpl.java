@@ -44,7 +44,7 @@ public class InstanceFacadeLogicImpl extends InstanceFacadeLogic
         }
         else if (valueSpecification instanceof LiteralInteger)
         {
-            instance.value = Integer.valueOf(((LiteralInteger)valueSpecification).getValue());
+            instance.value = new Integer(((LiteralInteger)valueSpecification).getValue());
         }
         else if (valueSpecification instanceof LiteralBoolean)
         {
