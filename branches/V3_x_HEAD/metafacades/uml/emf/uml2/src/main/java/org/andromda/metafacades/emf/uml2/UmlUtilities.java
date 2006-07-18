@@ -368,35 +368,6 @@ public class UmlUtilities
     }
 
     /**
-     * Attempts to retrieve the attribute for the given
-     * <code>umlClass/umlInterface</code> having the given <code>name</code>.
-     *
-     * @param umlClassifier the name of the UML class.
-     * @param name          the name of the attribute.
-     * @return the attribute or null if not found.
-     * @deprecated - it's not used any more. Do we need to keep it ?
-     */
-    public static Property getAttribute(
-        final Classifier umlClassifier,
-        final String name)
-    {
-        Property attribute = null;
-        final Collection properties = getAttributes(
-            umlClassifier,
-            true);
-        for (final Iterator iterator = properties.iterator(); iterator.hasNext();)
-        {
-            final Property property = (Property)iterator.next();
-            if (property.getAssociation() == null && property.getName().equalsIgnoreCase(name))
-            {
-                attribute = property;
-                break;
-            }
-        }
-        return attribute;
-    }
-
-    /**
      * Returns <code>true</code> if and only if the given operation would have an identical signature.
      * This means:
      * <ul>
