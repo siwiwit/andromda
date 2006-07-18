@@ -21,7 +21,7 @@ public interface TagDefinition
 
     /**
      * If the value is a collection return it as a collection rather than an
-     * object/
+     * object.
      *
      * @return a collection of values.
      */
