@@ -54,8 +54,7 @@ public class TagDefinitionImpl
      * Constructor
      *
      * @param name
-     * @param value
-     *            a single String value
+     * @param value a single String value
      */
     public TagDefinitionImpl(
         final String name,
