@@ -249,7 +249,6 @@ public class SchemaMojo
                     }
 
                     final SchemaManagement schemaManagement = (SchemaManagement)ClassUtils.newInstance(type);
-                    System.out.println("Execute scripts!!!!!!!! " + executeScripts);
                     connection = executeScripts ? this.getConnection() : null;
                     this.executeSql(
                         connection,
