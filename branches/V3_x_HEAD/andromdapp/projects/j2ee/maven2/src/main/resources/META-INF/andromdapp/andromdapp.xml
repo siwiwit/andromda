@@ -170,7 +170,7 @@
                 </conditions>
             </prompt>
             <prompt id="hibernateVersion">
-                <text>Please enter the hibernate version number (enter '2' for 2.1.x or '3' for 3.0.x)</text>
+                <text>Please enter the hibernate version number (enter '2' for 2.x or '3' for 3.x)</text>
                 <shortText>Hibernate version</shortText>
                 <preconditions type="or">
                     <condition id="transactionPersistenceType" equal="spring"/>
