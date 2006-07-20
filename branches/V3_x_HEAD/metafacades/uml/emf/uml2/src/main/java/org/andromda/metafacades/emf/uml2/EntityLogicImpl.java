@@ -185,7 +185,7 @@ public class EntityLogicImpl
                 final Property property = umlClass.createOwnedAttribute(
                         name,
                         element,
-                        0,
+                        1,
                         1);
                 VisibilityKind kind = VisibilityKind.PUBLIC_LITERAL;
                 if (visibility.equalsIgnoreCase("package"))
