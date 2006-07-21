@@ -2,7 +2,7 @@ package org.andromda.maven.plugin.andromdapp.script;
 
 /**
  * An exception thrown when an unexpected exception occurs during
- * excutino of the ScriptClassGenerator.
+ * execution of the ScriptClassGenerator.
  * 
  * @author Chad Brandon
  */
