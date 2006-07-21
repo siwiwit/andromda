@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.faces.component.UIInput;
+import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -994,7 +994,7 @@ public class ParameterChecks
         if (StringUtils.isNotBlank(value))
         {
             final String equalFieldName = field.getVarValue("fieldName");
-            final UIInput equalField = (UIInput)context.getViewRoot().findComponent(equalFieldName);
+            final ValueHolder equalField = (ValueHolder)context.getViewRoot().findComponent(equalFieldName);
             final Object equalFieldValue = equalField.getValue();
             if (equalFieldValue == null || !equalFieldValue.equals(object))
             {
