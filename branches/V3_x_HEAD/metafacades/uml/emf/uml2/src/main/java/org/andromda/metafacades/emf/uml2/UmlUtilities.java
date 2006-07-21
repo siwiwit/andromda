@@ -72,8 +72,9 @@ public class UmlUtilities
      *   <li>each slot in an attribute link or a link end</li>
      *   <li>each instance specification in an object instance or a link instance</li>
      * </ul>
-     * This is needed because EMF-UML2 frankly is a crappy API in which there is no conceptual difference between
-     * fundamentally different elements (see list above).
+     * This is needed because UML2 is an API in which there is no conceptual difference between
+     * fundamentally different elements (see list above); which makes it harder to map to metafacades
+     * geared towards UML 1.4
      */
     protected static final Transformer ELEMENT_TRANSFORMER =
         new Transformer()
