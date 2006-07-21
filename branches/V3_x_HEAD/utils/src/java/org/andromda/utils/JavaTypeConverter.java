@@ -179,7 +179,20 @@ public class JavaTypeConverter
             new ConversionEntry("long", "java.sql.Date", "new java.sql.Date({0})"),
             new ConversionEntry("long", "java.sql.Time", "new java.sql.Time({0})"),
             new ConversionEntry("long", "java.sql.Timestamp", "new java.sql.Timestamp({0})"),
-            new ConversionEntry("long", "java.util.Date", "new java.util.Date({0})")
+            new ConversionEntry("long", "java.util.Date", "new java.util.Date({0})"),
+            
+            new ConversionEntry("java.lang.Object", "java.lang.String", "{0} == null ? null : {0}.toString()"),
+            new ConversionEntry("java.lang.Object", "java.lang.Integer", "{0} == null ? null : {0}.toString()"),
+            new ConversionEntry("java.lang.Object", "java.lang.Long", "{0} == null ? null : {0}.toString()"),
+            new ConversionEntry("java.lang.Object", "java.lang.Float", "{0} == null ? null : {0}.toString()"),
+            new ConversionEntry("java.lang.Object", "java.lang.Double", "{0} == null ? null : {0}.toString()"),
+            new ConversionEntry("java.lang.Object", "java.lang.Character", "{0} == null ? null : {0}.toString()"),
+            new ConversionEntry("java.lang.String", "java.lang.Object", "{0}"),
+            new ConversionEntry("java.lang.Integer", "java.lang.Object", "{0}"),
+            new ConversionEntry("java.lang.Long", "java.lang.Object", "{0}"),
+            new ConversionEntry("java.lang.Float", "java.lang.Object", "{0}"),
+            new ConversionEntry("java.lang.Double", "java.lang.Object", "{0}"),
+            new ConversionEntry("java.lang.Character", "java.lang.Object", "{0}"),
         };
 
     /**

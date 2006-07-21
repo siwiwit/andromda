@@ -1087,7 +1087,19 @@ public class JavaTypeConverterTest
         new ExpectedResult("java.math.BigDecimal[]", "java.math.BigInteger", null),
         new ExpectedResult("java.math.BigDecimal[]", "java.math.BigInteger[]", null),
         new ExpectedResult("java.math.BigDecimal[]", "java.math.BigDecimal", null),
-        new ExpectedResult("java.math.BigDecimal[]", "java.math.BigDecimal[]", "sourceVal")
+        new ExpectedResult("java.math.BigDecimal[]", "java.math.BigDecimal[]", "sourceVal"),
+        new ExpectedResult("java.lang.Object", "java.lang.String", "sourceVal == null ? null : sourceVal.toString()"),
+        new ExpectedResult("java.lang.Object", "java.lang.Integer", "sourceVal == null ? null : sourceVal.toString()"),
+        new ExpectedResult("java.lang.Object", "java.lang.Long", "sourceVal == null ? null : sourceVal.toString()"),
+        new ExpectedResult("java.lang.Object", "java.lang.Float", "sourceVal == null ? null : sourceVal.toString()"),
+        new ExpectedResult("java.lang.Object", "java.lang.Double", "sourceVal == null ? null : sourceVal.toString()"),
+        new ExpectedResult("java.lang.Object", "java.lang.Character", "sourceVal == null ? null : sourceVal.toString()"),
+        new ExpectedResult("java.lang.String", "java.lang.Object", "sourceVal"),
+        new ExpectedResult("java.lang.Integer", "java.lang.Object", "sourceVal"),
+        new ExpectedResult("java.lang.Long", "java.lang.Object", "sourceVal"),
+        new ExpectedResult("java.lang.Float", "java.lang.Object", "sourceVal"),
+        new ExpectedResult("java.lang.Double", "java.lang.Object", "sourceVal"),
+        new ExpectedResult("java.lang.Character", "java.lang.Object", "sourceVal"),
     };
     
     public void testTypeConversion()
