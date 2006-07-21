@@ -38,7 +38,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${maven1.repository}/andromda/xml.zips" flatten="true" preservelastmodified="true">
-			<fileset dir="${maven2.repository}/org/andromda">
+			<fileset dir="${maven2.repository}/org/andromda/profiles/uml14">
 				<include name="**/*.xml.zip"/>
 			</fileset>
 		</copy>
