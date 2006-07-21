@@ -41,4 +41,12 @@ public class LinkEndFacadeLogicImpl
         return null;
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.LinkEndFacade#getInstances()
+     */
+    protected java.util.Collection handleGetInstances()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
 }

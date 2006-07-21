@@ -1,8 +1,11 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.eclipse.uml2.ValueSpecification;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -39,23 +42,25 @@ public class AttributeLinkFacadeLogicImpl
      */
     protected java.lang.Object handleGetValue()
     {
-        final Object value;
+        final Collection values = this.getValues();
+        return values.isEmpty() ? null : values.iterator().next();
+    }
 
-        final List values = this.metaObject.getValues();
+    /**
+     * @see org.andromda.metafacades.uml.AttributeLinkFacade#getValues()
+     */
+    protected Collection handleGetValues()
+    {
+        final Collection values = new ArrayList(this.metaObject.getValues());
 
-        if (values == null || values.isEmpty())
+        CollectionUtils.transform(values, new Transformer()
         {
-            value = null;
-        }
-        else if (values.get(0) instanceof ValueSpecification)
-        {
-            value = InstanceFacadeLogicImpl.createInstanceFor((ValueSpecification)values.get(0));
-        }
-        else
-        {
-            value = values.get(0);
-        }
+            public Object transform(Object object)
+            {
+                return InstanceFacadeLogicImpl.createInstanceFor((ValueSpecification)object);
+            }
+        });
 
-        return value;
+        return values;
     }
 }

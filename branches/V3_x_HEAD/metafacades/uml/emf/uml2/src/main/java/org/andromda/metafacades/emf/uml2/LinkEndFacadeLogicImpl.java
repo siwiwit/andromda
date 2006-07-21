@@ -1,8 +1,11 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.eclipse.uml2.InstanceValue;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.LinkEndFacade.
@@ -21,19 +24,26 @@ public class LinkEndFacadeLogicImpl extends LinkEndFacadeLogic
      */
     protected java.lang.Object handleGetInstance()
     {
-        final Object instance;
+        final Collection values = this.getInstances();
+        return values.isEmpty() ? null : values.iterator().next();
+    }
 
-        final List values = this.metaObject.getValues();
-        if (values != null && !values.isEmpty() && values.get(0) instanceof InstanceValue)
-        {
-            instance = UmlUtilities.ELEMENT_TRANSFORMER.transform(((InstanceValue)values.get(0)).getInstance());
-        }
-        else
-        {
-            instance = null;
-        }
+    /**
+     * @see org.andromda.metafacades.uml.LinkEndFacade#getInstances()
+     */
+    protected java.util.Collection handleGetInstances()
+    {
+        final Collection values = new ArrayList(this.metaObject.getValues());
 
-        return instance;
+        CollectionUtils.transform(values, new Transformer()
+        {
+            public Object transform(Object object)
+            {
+                return UmlUtilities.ELEMENT_TRANSFORMER.transform(((InstanceValue)object).getInstance());
+            }
+        });
+
+        return values;
     }
 
     /**

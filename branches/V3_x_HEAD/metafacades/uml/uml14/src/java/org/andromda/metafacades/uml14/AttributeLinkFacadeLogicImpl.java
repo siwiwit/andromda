@@ -1,5 +1,8 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.Collection;
+import java.util.Collections;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.AttributeLinkFacade.
@@ -38,5 +41,13 @@ public class AttributeLinkFacadeLogicImpl
     protected java.lang.Object handleGetValue()
     {
         return metaObject.getValue();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeLinkFacade#getValues()
+     */
+    protected Collection handleGetValues()
+    {
+        return Collections.singleton(this.getValue());
     }
 }
