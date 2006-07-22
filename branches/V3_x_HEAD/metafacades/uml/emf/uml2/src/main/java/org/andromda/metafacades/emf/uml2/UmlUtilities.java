@@ -20,6 +20,7 @@ import org.eclipse.uml2.Association;
 import org.eclipse.uml2.Classifier;
 import org.eclipse.uml2.Comment;
 import org.eclipse.uml2.Element;
+import org.eclipse.uml2.EnumerationLiteral;
 import org.eclipse.uml2.Generalization;
 import org.eclipse.uml2.InstanceSpecification;
 import org.eclipse.uml2.LiteralInteger;
@@ -121,7 +122,7 @@ public class UmlUtilities
                 {
                     final InstanceSpecification instanceSpecification = (InstanceSpecification)element;
 
-                    if (instanceSpecification instanceof LinkInstance || instanceSpecification instanceof ObjectInstance)
+                    if (instanceSpecification instanceof LinkInstance || instanceSpecification instanceof ObjectInstance || instanceSpecification instanceof EnumerationLiteral)
                     {
                         transformedObject = instanceSpecification;
                     }
