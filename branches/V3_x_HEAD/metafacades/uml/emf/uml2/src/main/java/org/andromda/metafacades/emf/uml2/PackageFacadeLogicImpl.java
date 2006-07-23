@@ -73,7 +73,7 @@ public class PackageFacadeLogicImpl
      */
     protected java.util.Collection handleGetModelElements()
     {
-        return CollectionUtils.transformedCollection(
+        return CollectionUtils.collect(
             this.metaObject.getModel().getOwnedMembers(),
             UmlUtilities.ELEMENT_TRANSFORMER);
     }
@@ -83,7 +83,7 @@ public class PackageFacadeLogicImpl
      */
     protected java.util.Collection handleGetOwnedElements()
     {
-        return CollectionUtils.transformedCollection(
+        return CollectionUtils.collect(
             this.metaObject.getOwnedMembers(),
             UmlUtilities.ELEMENT_TRANSFORMER);
     }
