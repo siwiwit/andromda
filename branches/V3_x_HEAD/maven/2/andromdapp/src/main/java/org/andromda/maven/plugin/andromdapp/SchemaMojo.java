@@ -377,7 +377,6 @@ public class SchemaMojo
      * Initializes the context class loader with the given
      * <code>jdbcDriverJar</code>
      *
-     * @throws DependencyResolutionRequiredException
      * @throws MalformedURLException
      */
     protected void initializeClassLoaderWithJdbcDriver()
