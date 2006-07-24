@@ -60,7 +60,7 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.Object handleGetTargetElement()
     {
-        return this.metaObject.getTargets().toArray()[0];
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getTargets().toArray()[0]);
     }
 
     /**
@@ -68,6 +68,6 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.Object handleGetSourceElement()
     {
-        return this.metaObject.getSources().toArray()[0];
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getSources().toArray()[0]);
     }
 }
