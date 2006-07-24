@@ -775,7 +775,7 @@
     ...
     <constraints enforceAll="true">
         <constraint enforce="false">some::package::to::ignore::constraints::SomeClass::some constraint name</location>
-    </modelPackages>
+    </constraints>
     ...
 </model>]]>
                         </source>
