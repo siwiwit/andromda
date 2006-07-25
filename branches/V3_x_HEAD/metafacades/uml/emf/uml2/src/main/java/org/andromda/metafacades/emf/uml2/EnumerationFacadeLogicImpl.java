@@ -1,19 +1,17 @@
 package org.andromda.metafacades.emf.uml2;
 
-import java.util.Collection;
-
-import org.andromda.core.metafacade.MetafacadeException;
+import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.Enumeration;
 import org.eclipse.uml2.NamedElement;
-import org.eclipse.uml2.Type;
-import org.eclipse.uml2.UML2Factory;
+
+import java.util.Collection;
 
 
 /**
@@ -51,11 +49,9 @@ public class EnumerationFacadeLogicImpl
      */
     protected java.util.Collection handleGetLiterals()
     {
-        if (this.metaObject instanceof Enumeration)
-        {
-            return this.shieldedElements(((Enumeration)this.metaObject).getOwnedLiterals());
-        }
-        return this.getAttributes();
+        return this.metaObject instanceof Enumeration
+            ? ((Enumeration)this.metaObject).getOwnedLiterals()
+            : CollectionUtils.collect(this.getAttributes(), UmlUtilities.ELEMENT_TRANSFORMER);
     }
 
     /**
@@ -104,27 +100,11 @@ public class EnumerationFacadeLogicImpl
             }
             else
             {
-                NamedElement enumeration = (NamedElement)this.metaObject;
-
-                // fake a primitive type called string to return. This should
-                // work...
-                // if not we will need to pass in a type qName as a parameter
-                // and search for it
-                // TODO: Why ? Why not use datatype::String, like we do for new
-                // identifier ?
-                Type syntheticType = UML2Factory.eINSTANCE.createPrimitiveType();
-                syntheticType.setName("string");
-
-                if (syntheticType.eIsProxy())
-                {
-                    EcoreUtil.resolve(
-                        (Type)type,
-                        enumeration.eResource().getResourceSet());
-                }
-                else
-                {
-                    throw new MetafacadeException("Real Literals are not supported yet!");
-                }
+                type = UmlUtilities.findByFullyQualifiedName(
+                    ((NamedElement)this.metaObject).eResource().getResourceSet(),
+                    "datatype::String", // todo: use this (doesn't work for some reason): UMLMetafacadeProperties.DEFAULT_ENUMERATION_LITERAL_TYPE,
+                    MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
+                    true);
             }
         }
         return type;

@@ -40,6 +40,7 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.EnumerationLiteralFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.EnumerationLiteralImpl"/>
+        <property reference="enumerationLiteralNameMask"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.EnumerationFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.EnumerationImpl"/>

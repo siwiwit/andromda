@@ -136,6 +136,11 @@ public class UMLMetafacadeProperties
     public static final String DEFAULT_IDENTIFIER_VISIBILITY = "defaultIdentifierVisibility";
 
     /**
+     * The type to given default enumeration literals.
+     */
+    public static final String DEFAULT_ENUMERATION_LITERAL_TYPE = "defaultEnumerationLiteralType";
+
+    /**
      * Are manageable tables resolved by default when referenced ?
      */
     public static final String PROPERTY_DEFAULT_RESOLVEABLE = "defaultResolveable";

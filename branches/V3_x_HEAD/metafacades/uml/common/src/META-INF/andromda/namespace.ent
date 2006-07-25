@@ -305,6 +305,12 @@
                 The visibility to give default identifiers.
             </documentation>
         </property>
+        <property name="defaultEnumerationLiteralType">
+            <default>datatype::String</default>
+            <documentation>
+                The type to give default enumeration literals.
+            </documentation>
+        </property>
         <property name="relationNameSeparator">
             <default>2</default>
             <documentation>
