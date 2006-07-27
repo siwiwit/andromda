@@ -1,4 +1,14 @@
 <andromdapp type="j2ee" root="$applicationParentDirectory/$applicationId">
+    <documentation>
+        <![CDATA[
+        <p>This wizard creates an AndroMDA powered J2EE application. An empty model is provided for your convenience.</p>
+        <p>You can select amongst the following additional features:</p>
+        <li><b>Persistence</b>: You can select the transaction/persistence framework that best suites your needs (EJB, EJB3, Spring, Hibernate)</li>
+        <li><b>Workflow capabilities</b>: Add JBoss JBPM support to your application</li>
+        <li><b>Webservices</b>: Enable web services for your project and choose an appropriate web service framework</li>
+        <li><b>Web front-end</b>: If your project needs a web based user interface, you can choose between JSF and Struts</li>
+        ]]>
+    </documentation>
     <resourceLocations>
         <location>templates/j2ee/maven2</location>
     </resourceLocations>

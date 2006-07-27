@@ -1,4 +1,12 @@
 <andromdapp type="richclient" root="${applicationParentDirectory}/${applicationId}">
+    <documentation>
+        <![CDATA[
+        <p>This wizard creates an AndroMDA powered Spring application that can be accessed by a rich client. An empty model is provided for your convenience.</p>
+        <p>Please note that this wizard does <b>not</b> create a rich client - you'll have to do this yourself.</p>
+        <p>You can select amongst the following additional features:</p>
+        <li><b>Security</b>: If desired, you can enabled ACEGI support for your project.</li>
+        ]]>
+    </documentation>
     <resourceLocations>
         <location>templates/richclient/ant</location>
     </resourceLocations>
