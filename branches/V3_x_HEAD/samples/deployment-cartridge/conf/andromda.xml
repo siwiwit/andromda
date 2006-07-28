@@ -9,7 +9,7 @@
                 <model>
                     <uri>${model.uri}</uri>
                     <moduleSearchLocations>
-                        <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles</location>
+                        <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
                         <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/metafacades</location>
                     </moduleSearchLocations>
                     <modelPackages>
