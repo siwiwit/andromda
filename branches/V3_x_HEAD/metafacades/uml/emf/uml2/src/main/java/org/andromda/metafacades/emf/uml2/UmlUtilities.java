@@ -485,16 +485,7 @@ public class UmlUtilities
         {
             return true;
         }
-        boolean result = false;
-        Collection names = getStereotypeNames(element);
-        for (Iterator iterator = names.iterator(); iterator.hasNext();)
-        {
-            final String stereotypeName = (String)iterator.next();
-            if (stereotypeName.equals(name))
-            {
-                result = true;
-            }
-        }
+        final boolean result = getStereotypeNames(element).contains(name);
         if (logger.isDebugEnabled())
         {
             if (element instanceof NamedElement)
@@ -511,7 +502,7 @@ public class UmlUtilities
 
     /**
      * @deprecated old way to handle tag values
-     *             Note: The uml profile define it as "AndroMdaTags" and not "AndroMDATags"
+     *             Note: The uml profile defines it as "AndroMdaTags" and not "AndroMDATags"
      *             Stores the tagged values that may be applied to an element.
      */
     private static final String TAGGED_VALUES_STEREOTYPE = "AndroMdaTags";

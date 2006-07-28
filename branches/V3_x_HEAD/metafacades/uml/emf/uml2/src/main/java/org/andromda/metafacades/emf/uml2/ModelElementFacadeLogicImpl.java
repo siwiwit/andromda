@@ -279,7 +279,7 @@ public class ModelElementFacadeLogicImpl
         {
             if (this.getLanguageMappings() != null)
             {
-                fullName = StringUtils.deleteWhitespace(this.getLanguageMappings().getTo(fullName));
+                fullName = StringUtils.trimToEmpty(this.getLanguageMappings().getTo(fullName));
 
                 // now replace the metafacade scope operators
                 // with the mapped scope operators
