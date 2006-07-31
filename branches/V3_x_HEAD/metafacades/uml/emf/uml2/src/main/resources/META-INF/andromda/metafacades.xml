@@ -28,9 +28,6 @@
     <metafacade class="org.andromda.metafacades.emf.uml2.PackageFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.PackageImpl"/>
     </metafacade>
-    <metafacade class="org.andromda.metafacades.emf.uml2.PackageFacadeLogicImpl">
-        <mapping class="org.eclipse.uml2.impl.ModelImpl"/>
-    </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.ModelFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.internal.util.UML2ResourceImpl"/>
     </metafacade>
