@@ -166,7 +166,7 @@ public class ModelElementFacadeLogicImpl
      *
      * @return the array suffix.
      */
-    private final String getArraySuffix()
+    private String getArraySuffix()
     {
         return String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ARRAY_NAME_SUFFIX));
     }
@@ -179,7 +179,7 @@ public class ModelElementFacadeLogicImpl
         final String propertyName = UMLMetafacadeProperties.LANGUAGE_MAPPINGS_URI;
         Object property = this.getConfiguredProperty(propertyName);
         TypeMappings mappings = null;
-        String uri = null;
+        String uri;
         if (String.class.isAssignableFrom(property.getClass()))
         {
             uri = (String)property;
@@ -378,9 +378,8 @@ public class ModelElementFacadeLogicImpl
                 {
                     public boolean evaluate(Object object)
                     {
-                        String nameCopy = new String(name);
-                        ConstraintFacade constraint = (ConstraintFacade)object;
-                        return StringUtils.trimToEmpty(constraint.getName()).equals(StringUtils.trimToEmpty(nameCopy));
+                        final ConstraintFacade constraint = (ConstraintFacade)object;
+                        return StringUtils.trimToEmpty(constraint.getName()).equals(StringUtils.trimToEmpty(name));
                     }
                 });
 
@@ -462,26 +461,24 @@ public class ModelElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetConstraints(final java.lang.String kind)
     {
-        final Collection filteredConstraints =
-            CollectionUtils.select(
-                this.getConstraints(),
-                new Predicate()
+        return CollectionUtils.select(
+            this.getConstraints(),
+            new Predicate()
+            {
+                public boolean evaluate(Object object)
                 {
-                    public boolean evaluate(Object object)
+                    if (object instanceof ConstraintFacade)
                     {
-                        if (object instanceof ConstraintFacade)
-                        {
-                            ConstraintFacade constraint = (ConstraintFacade)object;
-                            return ((ExpressionKinds.BODY.equals(kind) && constraint.isBodyExpression()) ||
-                            (ExpressionKinds.DEF.equals(kind) && constraint.isDefinition()) ||
-                            (ExpressionKinds.INV.equals(kind) && constraint.isInvariant()) ||
-                            (ExpressionKinds.PRE.equals(kind) && constraint.isPreCondition()) ||
-                            (ExpressionKinds.POST.equals(kind) && constraint.isPostCondition()));
-                        }
-                        return false;
+                        ConstraintFacade constraint = (ConstraintFacade)object;
+                        return ((ExpressionKinds.BODY.equals(kind) && constraint.isBodyExpression()) ||
+                        (ExpressionKinds.DEF.equals(kind) && constraint.isDefinition()) ||
+                        (ExpressionKinds.INV.equals(kind) && constraint.isInvariant()) ||
+                        (ExpressionKinds.PRE.equals(kind) && constraint.isPreCondition()) ||
+                        (ExpressionKinds.POST.equals(kind) && constraint.isPostCondition()));
                     }
-                });
-        return filteredConstraints;
+                    return false;
+                }
+            });
     }
 
     /**
