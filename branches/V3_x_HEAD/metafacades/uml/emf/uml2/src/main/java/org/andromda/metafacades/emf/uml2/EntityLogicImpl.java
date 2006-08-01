@@ -593,20 +593,21 @@ public class EntityLogicImpl
         final boolean withIdentifiers)
     {
         final Collection properties = this.getProperties(follow);
-        CollectionUtils.filter(
-            properties,
-            new Predicate()
-            {
-                public boolean evaluate(final Object object)
+
+        // only filter when we don't want identifiers
+        if (!withIdentifiers)
+        {
+            CollectionUtils.filter(
+                properties,
+                new Predicate()
                 {
-                    boolean valid = true;
-                    if (!withIdentifiers && object instanceof EntityAttribute)
+                    public boolean evaluate(final Object object)
                     {
-                        valid = !((EntityAttribute)object).isIdentifier();
+                        return !(object instanceof EntityAttribute) || !((EntityAttribute)object).isIdentifier();
                     }
-                    return valid;
-                }
-            });
+                });
+        }
+
         return properties;
     }
 
@@ -621,21 +622,24 @@ public class EntityLogicImpl
         final Collection attributes = this.getAttributes(
                 follow,
                 withIdentifiers);
-        CollectionUtils.filter(
-            attributes,
-            new Predicate()
-            {
-                public boolean evaluate(final Object object)
+
+        // only filter when we don't want identifiers
+        if (!withIdentifiers)
+        {
+            CollectionUtils.filter(
+                attributes,
+                new Predicate()
                 {
-                    boolean valid;
-                    valid = ((AttributeFacade)object).isRequired();
-                    if (valid && !withIdentifiers && object instanceof EntityAttribute)
+                    public boolean evaluate(final Object object)
                     {
-                        valid = !((EntityAttribute)object).isIdentifier();
+                        final AttributeFacade attribute = (AttributeFacade)object;
+                        return
+                            attribute.isRequired() &&
+                            (!(object instanceof EntityAttribute) || !((EntityAttribute)object).isIdentifier());
                     }
-                    return valid;
-                }
-            });
+                });
+        }
+
         return attributes;
     }
 

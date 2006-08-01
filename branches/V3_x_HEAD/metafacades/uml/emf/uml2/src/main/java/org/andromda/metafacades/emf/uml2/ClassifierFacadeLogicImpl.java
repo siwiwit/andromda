@@ -846,7 +846,7 @@ public class ClassifierFacadeLogicImpl
     {
         final Collection connectingEnds = this.shieldedElements(UmlUtilities.getAssociationEnds(
                     this.metaObject,
-                    true));
+                    follow));
         CollectionUtils.transform(
             connectingEnds,
             new Transformer()
