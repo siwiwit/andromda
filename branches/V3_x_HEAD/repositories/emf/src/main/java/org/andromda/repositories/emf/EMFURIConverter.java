@@ -79,46 +79,58 @@ public class EMFURIConverter
                     for (final Iterator iterator = this.moduleSearchPaths.iterator(); iterator.hasNext();)
                     {
                         String searchPath = (String)iterator.next();
-                        final String completePath = ResourceUtils.normalizePath(searchPath + '/' + resourceName);
+                        URI fileURI = EMFRepositoryFacadeUtils.createUri(ResourceUtils.normalizePath(searchPath));
+                    	if(fileURI.lastSegment().equals(resourceName))
+                    	{
+                    		AndroMDALogger.info("referenced model --> '" + fileURI + "'");
+                    		normalizedUri = fileURI;
+                    		this.normalizedUris.put(uri,normalizedUri);
+                    		break;
+                    	}
+                    	else
+                        {
+                        	final String completePath = ResourceUtils.normalizePath(searchPath + '/' + resourceName);
 
-                        try
-                        {
-                            InputStream stream = null;
-                            URL url = ResourceUtils.toURL(completePath);
-                            if (url != null)
-                            {
-                                try
-                                {
-                                    stream = url.openStream();
-                                    stream.close();
-                                    AndroMDALogger.info("referenced model --> '" + url + "'");
-                                }
-                                catch (final Exception exception)
-                                {
-                                    url = null;
-                                }
-                                finally
-                                {
-                                    stream = null;
-                                }
-                                if (url != null)
-                                {
-                                    normalizedUri = EMFRepositoryFacadeUtils.createUri(url.toString());
-                                    this.normalizedUris.put(
-                                        uri,
-                                        normalizedUri);
-                                    break;
-                                }
-                            }
-                        }
-                        catch (final Exception exception)
-                        {
-                            logger.debug(
-                                "Caught exception in EMFURIConverter",
-                                exception);
-                        }
+	                        try
+	                        {
+	                            InputStream stream = null;
+	                            URL url = ResourceUtils.toURL(completePath);
+	                            if (url != null)
+	                            {
+	                                try
+	                                {
+	                                    stream = url.openStream();
+	                                    stream.close();
+	                                    AndroMDALogger.info("referenced model --> '" + url + "'");
+	                                }
+	                                catch (final Exception exception)
+	                                {
+	                                    url = null;
+	                                }
+	                                finally
+	                                {
+	                                    stream = null;
+	                                }
+	                                if (url != null)
+	                                {
+	                                    normalizedUri = EMFRepositoryFacadeUtils.createUri(url.toString());
+	                                    this.normalizedUris.put(
+	                                        uri,
+	                                        normalizedUri);
+	                                    break;
+	                                }
+	                            }
+	                        }
+	                        catch (final Exception exception)
+	                        {
+	                            logger.debug(
+	                                "Caught exception in EMFURIConverter",
+	                                exception);
+	                        }
+	                    }
                     }
                 }
+                    
                 else
                 {
                     normalizedUri = (URI)this.normalizedUris.get(uri);
