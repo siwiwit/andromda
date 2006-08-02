@@ -6,7 +6,7 @@
 <mappings name="MySQL">
     <mapping>
         <from>datatype::String</from>
-        <to>VARCHAR(255)</to>
+        <to>VARCHAR(255) BINARY</to>
     </mapping>
     <mapping>
         <from>datatype::Date</from>
