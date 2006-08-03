@@ -6,6 +6,6 @@
         <version>3.2-SNAPSHOT</version>
     </parent>
     <packaging>uml2</packaging>
-    <artifactId>andromda-profile-common</artifactId>
-    <name>AndroMDA EMF-UML2 Common Profile</name>
+    <artifactId>andromda-profile-process</artifactId>
+    <name>AndroMDA EMF-UML2 Process Profile</name>
 </project>

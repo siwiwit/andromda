@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xmi:id="_RgfPHCK2Edu07u_JJk0LDQ" name="AndroMDA Profile Common" metamodelReference="_RgfPNCK2Edu07u_JJk0LDQ">
+  <eAnnotations xmi:id="_RgfPHSK2Edu07u_JJk0LDQ" source="attributes">
+    <details xmi:id="_RgfPHiK2Edu07u_JJk0LDQ" key="version" value="1"/>
+  </eAnnotations>
+  <eAnnotations xmi:id="_RgfPHyK2Edu07u_JJk0LDQ" source="ePackages">
+    <contents xmi:type="ecore:EPackage" xmi:id="_7hMtlSK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon_1" nsURI="http:///AndroMDAProfileCommon_1_7hMtlCK5EdujMN-Mf6X4Bw.profile.uml2" nsPrefix="AndroMDAProfileCommon_1">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtliK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__EnvEntry">
+        <eAnnotations xmi:id="_7hMtlyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPNyK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtmCK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__Exception">
+        <eAnnotations xmi:id="_7hMtmSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPPSK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtmiK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__Enumeration">
+        <eAnnotations xmi:id="_7hMtmyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPRCK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtnCK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__andromda_role_name">
+        <eAnnotations xmi:id="_7hMtnSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPSyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_7hMtniK5EdujMN-Mf6X4Bw" name="andromda_role_name" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtnyK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__ValueObject">
+        <eAnnotations xmi:id="_7hMtoCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPUyK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtoSK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__UnexpectedException" eSuperTypes="_7hMtmCK5EdujMN-Mf6X4Bw">
+        <eAnnotations xmi:id="_7hMtoiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPWiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtoyK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__ExceptionRef">
+        <eAnnotations xmi:id="_7hMtpCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPYiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtpSK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__ApplicationException" eSuperTypes="_7hMtmCK5EdujMN-Mf6X4Bw">
+        <eAnnotations xmi:id="_7hMtpiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPaSK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_7hMtpyK5EdujMN-Mf6X4Bw" name="AndroMDAProfileCommon__Nullable">
+        <eAnnotations xmi:id="_7hMtqCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgfPcSK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_RgfPICK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon_0" nsURI="http:///AndroMDAProfileCommon_0_Rf5WUSK2Edu07u_JJk0LDQ.profile.uml2" nsPrefix="AndroMDAProfileCommon_0">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPISK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon__EnvEntry">
+        <eAnnotations xmi:id="_RgfPIiK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPNyK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPIyK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon__Exception">
+        <eAnnotations xmi:id="_RgfPJCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPPSK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPJSK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon__Enumeration">
+        <eAnnotations xmi:id="_RgfPJiK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPRCK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPJyK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon___andromdarolename">
+        <eAnnotations xmi:id="_RgfPKCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPSyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgfPKSK2Edu07u_JJk0LDQ" name="_andromdarolename" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPKiK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon__ValueObject">
+        <eAnnotations xmi:id="_RgfPKyK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPUyK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPLCK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon__UnexpectedException" eSuperTypes="_RgfPIyK2Edu07u_JJk0LDQ">
+        <eAnnotations xmi:id="_RgfPLSK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPWiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPLiK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon__ExceptionRef">
+        <eAnnotations xmi:id="_RgfPLyK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPYiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPMCK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon__ApplicationException" eSuperTypes="_RgfPIyK2Edu07u_JJk0LDQ">
+        <eAnnotations xmi:id="_RgfPMSK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPaSK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgfPMiK2Edu07u_JJk0LDQ" name="AndroMDAProfileCommon__Nullable">
+        <eAnnotations xmi:id="_RgfPMyK2Edu07u_JJk0LDQ" source="stereotype" references="_RgfPcSK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <packageImport xmi:id="_RgfPNCK2Edu07u_JJk0LDQ" visibility="private">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m8qbA686EdiEh75YJ_3n8g"/>
+  </packageImport>
+  <packageImport xmi:id="_RgfPNSK2Edu07u_JJk0LDQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_EfRZoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <packageImport xmi:id="_RgfPNiK2Edu07u_JJk0LDQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/JavaPrimitiveTypes.library.uml2#_RjmyoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPNyK2Edu07u_JJk0LDQ" name="EnvEntry">
+    <ownedAttribute xmi:id="_7MCV4yK5EdujMN-Mf6X4Bw" name="base$Property" association="_7MCV4CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPPSK2Edu07u_JJk0LDQ" name="Exception">
+    <ownedComment xmi:id="_RgfPPiK2Edu07u_JJk0LDQ">
+      <body>The base exception stereotype, all exception stereotypes extend from this stereotype.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_7Ot2cyK5EdujMN-Mf6X4Bw" name="base$Class" association="_7Ot2cCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPRCK2Edu07u_JJk0LDQ" name="Enumeration">
+    <ownedComment xmi:id="_RgfPRSK2Edu07u_JJk0LDQ">
+      <body>Allows the definition of an enumeration type.  Enumerations can only contain attributes with optional default values.  If the default value is not specified, the name of the attribute will be used for the enumeration value as well as the literal name.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_7RZ-EyK5EdujMN-Mf6X4Bw" name="base$Class" association="_7RZ-ECK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPSyK2Edu07u_JJk0LDQ" name="andromda_role_name">
+    <ownedAttribute xmi:id="_RgfPTCK2Edu07u_JJk0LDQ" name="andromda_role_name" visibility="private">
+      <ownedComment xmi:id="_RgfPTSK2Edu07u_JJk0LDQ">
+        <body>Defines the role name (if it should be different than the actual name of the actor that represents the role).</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_7T7toyK5EdujMN-Mf6X4Bw" name="base$Actor" association="_7T7toCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9ndca86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPUyK2Edu07u_JJk0LDQ" name="ValueObject">
+    <ownedComment xmi:id="_RgfPVCK2Edu07u_JJk0LDQ">
+      <body>Allows the object to be exposed as a value object.  Value objects are those objects that will be presented to the calling client.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_7WeEQyK5EdujMN-Mf6X4Bw" name="base$Class" association="_7WeEQCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPWiK2Edu07u_JJk0LDQ" name="UnexpectedException">
+    <ownedComment xmi:id="_RgfPWyK2Edu07u_JJk0LDQ">
+      <body>An exception thrown an unexpected exception occurs.</body>
+    </ownedComment>
+    <generalization xmi:id="_RgfPXCK2Edu07u_JJk0LDQ" general="_RgfPPSK2Edu07u_JJk0LDQ"/>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPYiK2Edu07u_JJk0LDQ" name="ExceptionRef">
+    <ownedComment xmi:id="_RgfPYyK2Edu07u_JJk0LDQ">
+      <body>A reference to exception, you would use this if you did NOT want to generate the exception but instead generate a reference to an exception that you woulid then implement.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_7b1FYyK5EdujMN-Mf6X4Bw" name="base$Dependency" association="_7b1FYCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2JK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPaSK2Edu07u_JJk0LDQ" name="ApplicationException">
+    <ownedComment xmi:id="_RgfPaiK2Edu07u_JJk0LDQ">
+      <body>Represents a exception that could occur during normal application flow.</body>
+    </ownedComment>
+    <generalization xmi:id="_RgfPayK2Edu07u_JJk0LDQ" general="_RgfPPSK2Edu07u_JJk0LDQ"/>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgfPcSK2Edu07u_JJk0LDQ" name="Nullable">
+    <ownedComment xmi:id="_RgfPciK2Edu07u_JJk0LDQ">
+      <body>Placed on a parameter to indicate whether or not a null parameter should be allowed.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_7hMtkyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_7hMtkCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_7MCV4CK5EdujMN-Mf6X4Bw" name="Property_EnvEntry" memberEnd="_7MCV4SK5EdujMN-Mf6X4Bw _7MCV4yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_7MCV4SK5EdujMN-Mf6X4Bw" name="extension$EnvEntry" type="_RgfPNyK2Edu07u_JJk0LDQ" association="_7MCV4CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7MCV4iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_7Ot2cCK5EdujMN-Mf6X4Bw" name="Class_Exception" memberEnd="_7Ot2cSK5EdujMN-Mf6X4Bw _7Ot2cyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_7Ot2cSK5EdujMN-Mf6X4Bw" name="extension$Exception" type="_RgfPPSK2Edu07u_JJk0LDQ" association="_7Ot2cCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7Ot2ciK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_7RZ-ECK5EdujMN-Mf6X4Bw" name="Class_Enumeration" memberEnd="_7RZ-ESK5EdujMN-Mf6X4Bw _7RZ-EyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_7RZ-ESK5EdujMN-Mf6X4Bw" name="extension$Enumeration" type="_RgfPRCK2Edu07u_JJk0LDQ" association="_7RZ-ECK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7RZ-EiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_7T7toCK5EdujMN-Mf6X4Bw" name="Actor_andromda_role_name" memberEnd="_7T7toSK5EdujMN-Mf6X4Bw _7T7toyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_7T7toSK5EdujMN-Mf6X4Bw" name="extension$andromda_role_name" type="_RgfPSyK2Edu07u_JJk0LDQ" association="_7T7toCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7T7toiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_7WeEQCK5EdujMN-Mf6X4Bw" name="Class_ValueObject" memberEnd="_7WeEQSK5EdujMN-Mf6X4Bw _7WeEQyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_7WeEQSK5EdujMN-Mf6X4Bw" name="extension$ValueObject" type="_RgfPUyK2Edu07u_JJk0LDQ" association="_7WeEQCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7WeEQiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_7b1FYCK5EdujMN-Mf6X4Bw" name="Dependency_ExceptionRef" memberEnd="_7b1FYSK5EdujMN-Mf6X4Bw _7b1FYyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_7b1FYSK5EdujMN-Mf6X4Bw" name="extension$ExceptionRef" type="_RgfPYiK2Edu07u_JJk0LDQ" association="_7b1FYCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7b1FYiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_7hMtkCK5EdujMN-Mf6X4Bw" name="Parameter_Nullable" memberEnd="_7hMtkSK5EdujMN-Mf6X4Bw _7hMtkyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_7hMtkSK5EdujMN-Mf6X4Bw" name="extension$Nullable" type="_RgfPcSK2Edu07u_JJk0LDQ" association="_7hMtkCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7hMtkiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+</uml:Profile>

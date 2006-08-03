@@ -1,0 +1,1585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xmi:id="_RgVcjiK2Edu07u_JJk0LDQ" name="AndroMDA Profile Presentation" metamodelReference="_RgVdOyK2Edu07u_JJk0LDQ">
+  <eAnnotations xmi:id="_RgVcjyK2Edu07u_JJk0LDQ" source="attributes">
+    <details xmi:id="_RgVckCK2Edu07u_JJk0LDQ" key="version" value="1"/>
+  </eAnnotations>
+  <eAnnotations xmi:id="_RgVckSK2Edu07u_JJk0LDQ" source="ePackages">
+    <contents xmi:type="ecore:EPackage" xmi:id="_4Um1wCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation_1" nsURI="http:///AndroMDAProfilePresentation_1_4UKJ0CK5EdujMN-Mf6X4Bw.profile.uml2" nsPrefix="AndroMDAProfilePresentation_1">
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_4Um1wSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__WebActionFormScope">
+        <eLiterals xmi:id="_4Um1wiK5EdujMN-Mf6X4Bw" name="none">
+          <eAnnotations xmi:id="_4Um1wyK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdQCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um1xCK5EdujMN-Mf6X4Bw" name="request" value="1">
+          <eAnnotations xmi:id="_4Um1xSK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdQiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um1xiK5EdujMN-Mf6X4Bw" name="session" value="2">
+          <eAnnotations xmi:id="_4Um1xyK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdRCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_4Um1yCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__WebFieldType">
+        <eLiterals xmi:id="_4Um1ySK5EdujMN-Mf6X4Bw" name="select">
+          <eAnnotations xmi:id="_4Um1yiK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdSCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um1yyK5EdujMN-Mf6X4Bw" name="hidden" value="1">
+          <eAnnotations xmi:id="_4Um1zCK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdSiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um1zSK5EdujMN-Mf6X4Bw" name="password" value="2">
+          <eAnnotations xmi:id="_4Um1ziK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdTCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um1zyK5EdujMN-Mf6X4Bw" name="link" value="3">
+          <eAnnotations xmi:id="_4Um10CK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdTiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um10SK5EdujMN-Mf6X4Bw" name="textarea" value="4">
+          <eAnnotations xmi:id="_4Um10iK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdUCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um10yK5EdujMN-Mf6X4Bw" name="text" value="5">
+          <eAnnotations xmi:id="_4Um11CK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdUiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um11SK5EdujMN-Mf6X4Bw" name="checkbox" value="6">
+          <eAnnotations xmi:id="_4Um11iK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdVCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um11yK5EdujMN-Mf6X4Bw" name="multibox" value="7">
+          <eAnnotations xmi:id="_4Um12CK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdViK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um12SK5EdujMN-Mf6X4Bw" name="radio" value="8">
+          <eAnnotations xmi:id="_4Um12iK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdWCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um12yK5EdujMN-Mf6X4Bw" name="plaintext" value="9">
+          <eAnnotations xmi:id="_4Um13CK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdWiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um13SK5EdujMN-Mf6X4Bw" name="table" value="10">
+          <eAnnotations xmi:id="_4Um13iK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdXCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_4Um13yK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__WebActionType">
+        <eLiterals xmi:id="_4Um14CK5EdujMN-Mf6X4Bw" name="hyperlink">
+          <eAnnotations xmi:id="_4Um14SK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdYCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um14iK5EdujMN-Mf6X4Bw" name="form" value="1">
+          <eAnnotations xmi:id="_4Um14yK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdYiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um15CK5EdujMN-Mf6X4Bw" name="image" value="2">
+          <eAnnotations xmi:id="_4Um15SK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdZCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um15iK5EdujMN-Mf6X4Bw" name="table" value="3">
+          <eAnnotations xmi:id="_4Um15yK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdZiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um16CK5EdujMN-Mf6X4Bw" name="popup" value="4">
+          <eAnnotations xmi:id="_4Um16SK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdaCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_4Um16iK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__WebExportType">
+        <eLiterals xmi:id="_4Um16yK5EdujMN-Mf6X4Bw" name="xml">
+          <eAnnotations xmi:id="_4Um17CK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdayK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um17SK5EdujMN-Mf6X4Bw" name="csv" value="1">
+          <eAnnotations xmi:id="_4Um17iK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdbCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um17yK5EdujMN-Mf6X4Bw" name="excel" value="2">
+          <eAnnotations xmi:id="_4Um18CK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdbSK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um18SK5EdujMN-Mf6X4Bw" name="pdf" value="3">
+          <eAnnotations xmi:id="_4Um18iK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdbiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um18yK5EdujMN-Mf6X4Bw" name="none" value="4">
+          <eAnnotations xmi:id="_4Um19CK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdbyK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_4Um19SK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__ViewType">
+        <eLiterals xmi:id="_4Um19iK5EdujMN-Mf6X4Bw" name="regular">
+          <eAnnotations xmi:id="_4Um19yK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVdciK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_4Um1-CK5EdujMN-Mf6X4Bw" name="popup" value="1">
+          <eAnnotations xmi:id="_4Um1-SK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVddCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um1-iK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_action_success_message">
+        <eAnnotations xmi:id="_4Um1-yK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVddiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um1_CK5EdujMN-Mf6X4Bw" name="andromda_presentation_action_success_message" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="Success">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um1_SK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_action_type">
+        <eAnnotations xmi:id="_4Um1_iK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVdgSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um1_yK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_action_type" ordered="false" lowerBound="1" eType="_4Um13yK5EdujMN-Mf6X4Bw" defaultValueLiteral="hyperlink"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2ACK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_field_size">
+        <eAnnotations xmi:id="_4Um2ASK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVdjCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2AiK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_field_size" ordered="false" lowerBound="1" defaultValueLiteral="15">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2AyK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_field_equal">
+        <eAnnotations xmi:id="_4Um2BCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVdnCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2BSK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_field_equal" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2BiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_action_warning_message">
+        <eAnnotations xmi:id="_4Um2ByK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVdqSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2CCK5EdujMN-Mf6X4Bw" name="andromda_presentation_action_warning_message" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="Warning">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2CSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_action_tablelink">
+        <eAnnotations xmi:id="_4Um2CiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVdtCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2CyK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_action_tablelink" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2DCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_table_export">
+        <eAnnotations xmi:id="_4Um2DSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVdviK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2DiK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_table_export" ordered="false" upperBound="-1" eType="_4Um16iK5EdujMN-Mf6X4Bw" defaultValueLiteral="excel"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2DyK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_table_sortable">
+        <eAnnotations xmi:id="_4Um2ECK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVd0yK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2ESK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_table_sortable" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2EiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_field_rows">
+        <eAnnotations xmi:id="_4Um2EyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVd6CK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2FCK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_field_rows" ordered="false" lowerBound="1" defaultValueLiteral="5">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2FSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_usecase_activity">
+        <eAnnotations xmi:id="_4Um2FiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVd-CK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2FyK5EdujMN-Mf6X4Bw" name="andromda_presentation_usecase_activity" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2GCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__FrontEndRegistration">
+        <eAnnotations xmi:id="_4Um2GSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeAiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2GiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__FrontEndException">
+        <eAnnotations xmi:id="_4Um2GyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeCSK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2HCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_table_columns">
+        <eAnnotations xmi:id="_4Um2HSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeECK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2HiK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_table_columns" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2HyK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_field_calendar">
+        <eAnnotations xmi:id="_4Um2ICK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeHyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2ISK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_field_calendar" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2IiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_field_validators">
+        <eAnnotations xmi:id="_4Um2IyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeLyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2JCK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_field_validators" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2JSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_action_form_reset">
+        <eAnnotations xmi:id="_4Um2JiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVePiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2JyK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_action_form_reset" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2KCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_struts_view_table_decorator">
+        <eAnnotations xmi:id="_4Um2KSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeRyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2KiK5EdujMN-Mf6X4Bw" name="andromda_struts_view_table_decorator" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2KyK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__FrontEndApplication">
+        <eAnnotations xmi:id="_4Um2LCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeUiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2LSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_controller_usecase">
+        <eAnnotations xmi:id="_4Um2LiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeWSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2LyK5EdujMN-Mf6X4Bw" name="andromda_presentation_controller_usecase" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2MCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__FrontEndUseCase">
+        <eAnnotations xmi:id="_4Um2MSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeYyK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2MiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_table_maxrows">
+        <eAnnotations xmi:id="_4Um2MyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeaiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2NCK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_table_maxrows" ordered="false" lowerBound="1" defaultValueLiteral="15">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2NSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_action_resettable">
+        <eAnnotations xmi:id="_4Um2NiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVefyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2NyK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_action_resettable" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2OCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_field_readonly">
+        <eAnnotations xmi:id="_4Um2OSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeiiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2OiK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_field_readonly" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2OyK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_action_form_key">
+        <eAnnotations xmi:id="_4Um2PCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVemiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2PSK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_action_form_key" ordered="false" lowerBound="1" defaultValueLiteral="form">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2PiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_field_reset">
+        <eAnnotations xmi:id="_4Um2PyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVeryK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2QCK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_field_reset" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2QSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__FrontEndView">
+        <eAnnotations xmi:id="_4Um2QiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVevyK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2QyK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_field_validwhen">
+        <eAnnotations xmi:id="_4Um2RCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVexiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2RSK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_field_validwhen" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2RiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_table">
+        <eAnnotations xmi:id="_4Um2RyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVe1SK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2SCK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_table" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2SSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_field_multibox">
+        <eAnnotations xmi:id="_4Um2SiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVe4yK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2SyK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_field_multibox" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2TCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_field_required">
+        <eAnnotations xmi:id="_4Um2TSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVe8iK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2TiK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_field_required" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2TyK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_action_redirect">
+        <eAnnotations xmi:id="_4Um2UCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVe_SK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2USK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_action_redirect" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2UiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_field_table_identifier_columns">
+        <eAnnotations xmi:id="_4Um2UyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVfCCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2VCK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_field_table_identifier_columns" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2VSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_field_type">
+        <eAnnotations xmi:id="_4Um2ViK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVfECK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2VyK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_field_type" ordered="false" lowerBound="1" eType="_4Um1yCK5EdujMN-Mf6X4Bw" defaultValueLiteral="select"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2WCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__FrontEndSessionObject">
+        <eAnnotations xmi:id="_4Um2WSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVfICK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2WiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_exception_type">
+        <eAnnotations xmi:id="_4Um2WyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVfJyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2XCK5EdujMN-Mf6X4Bw" name="andromda_presentation_exception_type" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2XSK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_field_radio">
+        <eAnnotations xmi:id="_4Um2XiK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVfMSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2XyK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_field_radio" ordered="false" lowerBound="1" defaultValueLiteral="3">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2YCK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_action_form_scope">
+        <eAnnotations xmi:id="_4Um2YSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVfPCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2YiK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_action_form_scope" ordered="false" lowerBound="1" eType="_4Um1wSK5EdujMN-Mf6X4Bw" defaultValueLiteral="none"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2YyK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_web_view_type">
+        <eAnnotations xmi:id="_4Um2ZCK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVfRSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2ZSK5EdujMN-Mf6X4Bw" name="andromda_presentation_web_view_type" ordered="false" lowerBound="1" eType="_4Um19SK5EdujMN-Mf6X4Bw" defaultValueLiteral="popup"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_4Um2ZiK5EdujMN-Mf6X4Bw" name="AndroMDAProfilePresentation__andromda_presentation_view_field_format">
+        <eAnnotations xmi:id="_4Um2ZyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVfTSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_4Um2aCK5EdujMN-Mf6X4Bw" name="andromda_presentation_view_field_format" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_RgVckiK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation_0" nsURI="http:///AndroMDAProfilePresentation_0_RfJIYSK2Edu07u_JJk0LDQ.profile.uml2" nsPrefix="AndroMDAProfilePresentation_0">
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_RgVckyK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__WebActionFormScope">
+        <eLiterals xmi:id="_RgVclCK2Edu07u_JJk0LDQ" name="none">
+          <eAnnotations xmi:id="_RgVclSK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdQCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcliK2Edu07u_JJk0LDQ" name="request" value="1">
+          <eAnnotations xmi:id="_RgVclyK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdQiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcmCK2Edu07u_JJk0LDQ" name="session" value="2">
+          <eAnnotations xmi:id="_RgVcmSK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdRCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_RgVcmiK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__WebFieldType">
+        <eLiterals xmi:id="_RgVcmyK2Edu07u_JJk0LDQ" name="select">
+          <eAnnotations xmi:id="_RgVcnCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdSCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcnSK2Edu07u_JJk0LDQ" name="hidden" value="1">
+          <eAnnotations xmi:id="_RgVcniK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdSiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcnyK2Edu07u_JJk0LDQ" name="password" value="2">
+          <eAnnotations xmi:id="_RgVcoCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdTCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcoSK2Edu07u_JJk0LDQ" name="link" value="3">
+          <eAnnotations xmi:id="_RgVcoiK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdTiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcoyK2Edu07u_JJk0LDQ" name="textarea" value="4">
+          <eAnnotations xmi:id="_RgVcpCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdUCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcpSK2Edu07u_JJk0LDQ" name="text" value="5">
+          <eAnnotations xmi:id="_RgVcpiK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdUiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcpyK2Edu07u_JJk0LDQ" name="checkbox" value="6">
+          <eAnnotations xmi:id="_RgVcqCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdVCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcqSK2Edu07u_JJk0LDQ" name="multibox" value="7">
+          <eAnnotations xmi:id="_RgVcqiK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdViK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcqyK2Edu07u_JJk0LDQ" name="radio" value="8">
+          <eAnnotations xmi:id="_RgVcrCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdWCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcrSK2Edu07u_JJk0LDQ" name="plaintext" value="9">
+          <eAnnotations xmi:id="_RgVcriK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdWiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcryK2Edu07u_JJk0LDQ" name="table" value="10">
+          <eAnnotations xmi:id="_RgVcsCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdXCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_RgVcsSK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__WebActionType">
+        <eLiterals xmi:id="_RgVcsiK2Edu07u_JJk0LDQ" name="hyperlink">
+          <eAnnotations xmi:id="_RgVcsyK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdYCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVctCK2Edu07u_JJk0LDQ" name="form" value="1">
+          <eAnnotations xmi:id="_RgVctSK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdYiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVctiK2Edu07u_JJk0LDQ" name="image" value="2">
+          <eAnnotations xmi:id="_RgVctyK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdZCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcuCK2Edu07u_JJk0LDQ" name="table" value="3">
+          <eAnnotations xmi:id="_RgVcuSK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdZiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcuiK2Edu07u_JJk0LDQ" name="popup" value="4">
+          <eAnnotations xmi:id="_RgVcuyK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdaCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_RgVcvCK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__WebExportType">
+        <eLiterals xmi:id="_RgVcvSK2Edu07u_JJk0LDQ" name="xml">
+          <eAnnotations xmi:id="_RgVcviK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdayK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcvyK2Edu07u_JJk0LDQ" name="csv" value="1">
+          <eAnnotations xmi:id="_RgVcwCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdbCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcwSK2Edu07u_JJk0LDQ" name="excel" value="2">
+          <eAnnotations xmi:id="_RgVcwiK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdbSK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcwyK2Edu07u_JJk0LDQ" name="pdf" value="3">
+          <eAnnotations xmi:id="_RgVcxCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdbiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcxSK2Edu07u_JJk0LDQ" name="none" value="4">
+          <eAnnotations xmi:id="_RgVcxiK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdbyK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_RgVcxyK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__ViewType">
+        <eLiterals xmi:id="_RgVcyCK2Edu07u_JJk0LDQ" name="regular">
+          <eAnnotations xmi:id="_RgVcySK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVdciK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVcyiK2Edu07u_JJk0LDQ" name="popup" value="1">
+          <eAnnotations xmi:id="_RgVcyyK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVddCK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVczCK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationactionsuccessmessage">
+        <eAnnotations xmi:id="_RgVczSK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVddiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVcziK2Edu07u_JJk0LDQ" name="_andromdapresentationactionsuccessmessage" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="Success">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVczyK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebactiontype">
+        <eAnnotations xmi:id="_RgVc0CK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVdgSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc0SK2Edu07u_JJk0LDQ" name="_andromdapresentationwebactiontype" ordered="false" lowerBound="1" eType="_RgVcsSK2Edu07u_JJk0LDQ" defaultValueLiteral="hyperlink"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc0iK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewfieldsize">
+        <eAnnotations xmi:id="_RgVc0yK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVdjCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc1CK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewfieldsize" ordered="false" lowerBound="1" defaultValueLiteral="15">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc1SK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewfieldequal">
+        <eAnnotations xmi:id="_RgVc1iK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVdnCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc1yK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewfieldequal" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc2CK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationactionwarningmessage">
+        <eAnnotations xmi:id="_RgVc2SK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVdqSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc2iK2Edu07u_JJk0LDQ" name="_andromdapresentationactionwarningmessage" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="Warning">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc2yK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebactiontablelink">
+        <eAnnotations xmi:id="_RgVc3CK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVdtCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc3SK2Edu07u_JJk0LDQ" name="_andromdapresentationwebactiontablelink" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc3iK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewtableexport">
+        <eAnnotations xmi:id="_RgVc3yK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVdviK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc4CK2Edu07u_JJk0LDQ" name="_andromdapresentationviewtableexport" ordered="false" upperBound="-1" eType="_RgVcvCK2Edu07u_JJk0LDQ" defaultValueLiteral="excel"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc4SK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewtablesortable">
+        <eAnnotations xmi:id="_RgVc4iK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVd0yK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc4yK2Edu07u_JJk0LDQ" name="_andromdapresentationviewtablesortable" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc5CK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewfieldrows">
+        <eAnnotations xmi:id="_RgVc5SK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVd6CK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc5iK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewfieldrows" ordered="false" lowerBound="1" defaultValueLiteral="5">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc5yK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationusecaseactivity">
+        <eAnnotations xmi:id="_RgVc6CK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVd-CK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc6SK2Edu07u_JJk0LDQ" name="_andromdapresentationusecaseactivity" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc6iK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__FrontEndRegistration">
+        <eAnnotations xmi:id="_RgVc6yK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeAiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc7CK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__FrontEndException">
+        <eAnnotations xmi:id="_RgVc7SK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeCSK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc7iK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewtablecolumns">
+        <eAnnotations xmi:id="_RgVc7yK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeECK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc8CK2Edu07u_JJk0LDQ" name="_andromdapresentationviewtablecolumns" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc8SK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewfieldcalendar">
+        <eAnnotations xmi:id="_RgVc8iK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeHyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc8yK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewfieldcalendar" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc9CK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewfieldvalidators">
+        <eAnnotations xmi:id="_RgVc9SK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeLyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc9iK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewfieldvalidators" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc9yK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebactionformreset">
+        <eAnnotations xmi:id="_RgVc-CK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVePiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc-SK2Edu07u_JJk0LDQ" name="_andromdapresentationwebactionformreset" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc-iK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdastrutsviewtabledecorator">
+        <eAnnotations xmi:id="_RgVc-yK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeRyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVc_CK2Edu07u_JJk0LDQ" name="_andromdastrutsviewtabledecorator" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc_SK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__FrontEndApplication">
+        <eAnnotations xmi:id="_RgVc_iK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeUiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVc_yK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationcontrollerusecase">
+        <eAnnotations xmi:id="_RgVdACK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeWSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdASK2Edu07u_JJk0LDQ" name="_andromdapresentationcontrollerusecase" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdAiK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__FrontEndUseCase">
+        <eAnnotations xmi:id="_RgVdAyK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeYyK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdBCK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewtablemaxrows">
+        <eAnnotations xmi:id="_RgVdBSK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeaiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdBiK2Edu07u_JJk0LDQ" name="_andromdapresentationviewtablemaxrows" ordered="false" lowerBound="1" defaultValueLiteral="15">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdByK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebactionresettable">
+        <eAnnotations xmi:id="_RgVdCCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVefyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdCSK2Edu07u_JJk0LDQ" name="_andromdapresentationwebactionresettable" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdCiK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewfieldreadonly">
+        <eAnnotations xmi:id="_RgVdCyK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeiiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdDCK2Edu07u_JJk0LDQ" name="_andromdapresentationviewfieldreadonly" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdDSK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebactionformkey">
+        <eAnnotations xmi:id="_RgVdDiK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVemiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdDyK2Edu07u_JJk0LDQ" name="_andromdapresentationwebactionformkey" ordered="false" lowerBound="1" defaultValueLiteral="form">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdECK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewfieldreset">
+        <eAnnotations xmi:id="_RgVdESK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVeryK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdEiK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewfieldreset" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdEyK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__FrontEndView">
+        <eAnnotations xmi:id="_RgVdFCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVevyK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdFSK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewfieldvalidwhen">
+        <eAnnotations xmi:id="_RgVdFiK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVexiK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdFyK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewfieldvalidwhen" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdGCK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewtable">
+        <eAnnotations xmi:id="_RgVdGSK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVe1SK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdGiK2Edu07u_JJk0LDQ" name="_andromdapresentationviewtable" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdGyK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewfieldmultibox">
+        <eAnnotations xmi:id="_RgVdHCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVe4yK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdHSK2Edu07u_JJk0LDQ" name="_andromdapresentationviewfieldmultibox" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdHiK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewfieldrequired">
+        <eAnnotations xmi:id="_RgVdHyK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVe8iK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdICK2Edu07u_JJk0LDQ" name="_andromdapresentationviewfieldrequired" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdISK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebactionredirect">
+        <eAnnotations xmi:id="_RgVdIiK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVe_SK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdIyK2Edu07u_JJk0LDQ" name="_andromdapresentationwebactionredirect" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdJCK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewfieldtableidentifiercolumns">
+        <eAnnotations xmi:id="_RgVdJSK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVfCCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdJiK2Edu07u_JJk0LDQ" name="_andromdapresentationviewfieldtableidentifiercolumns" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdJyK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewfieldtype">
+        <eAnnotations xmi:id="_RgVdKCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVfECK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdKSK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewfieldtype" ordered="false" lowerBound="1" eType="_RgVcmiK2Edu07u_JJk0LDQ" defaultValueLiteral="select"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdKiK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation__FrontEndSessionObject">
+        <eAnnotations xmi:id="_RgVdKyK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVfICK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdLCK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationexceptiontype">
+        <eAnnotations xmi:id="_RgVdLSK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVfJyK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdLiK2Edu07u_JJk0LDQ" name="_andromdapresentationexceptiontype" ordered="false" lowerBound="1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdLyK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewfieldradio">
+        <eAnnotations xmi:id="_RgVdMCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVfMSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdMSK2Edu07u_JJk0LDQ" name="_andromdapresentationviewfieldradio" ordered="false" lowerBound="1" defaultValueLiteral="3">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdMiK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebactionformscope">
+        <eAnnotations xmi:id="_RgVdMyK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVfPCK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdNCK2Edu07u_JJk0LDQ" name="_andromdapresentationwebactionformscope" ordered="false" lowerBound="1" eType="_RgVckyK2Edu07u_JJk0LDQ" defaultValueLiteral="none"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdNSK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationwebviewtype">
+        <eAnnotations xmi:id="_RgVdNiK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVfRSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdNyK2Edu07u_JJk0LDQ" name="_andromdapresentationwebviewtype" ordered="false" lowerBound="1" eType="_RgVcxyK2Edu07u_JJk0LDQ" defaultValueLiteral="popup"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVdOCK2Edu07u_JJk0LDQ" name="AndroMDAProfilePresentation___andromdapresentationviewfieldformat">
+        <eAnnotations xmi:id="_RgVdOSK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVfTSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVdOiK2Edu07u_JJk0LDQ" name="_andromdapresentationviewfieldformat" ordered="false" lowerBound="1" upperBound="-1" defaultValueLiteral="">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <packageImport xmi:id="_RgVdOyK2Edu07u_JJk0LDQ" visibility="private">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m8qbA686EdiEh75YJ_3n8g"/>
+  </packageImport>
+  <packageImport xmi:id="_RgVdPCK2Edu07u_JJk0LDQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_EfRZoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <packageImport xmi:id="_RgVdPSK2Edu07u_JJk0LDQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/JavaPrimitiveTypes.library.uml2#_RjmyoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <ownedMember xmi:type="uml:Enumeration" xmi:id="_RgVdPiK2Edu07u_JJk0LDQ" name="WebActionFormScope">
+    <ownedComment xmi:id="_RgVdPyK2Edu07u_JJk0LDQ">
+      <body>Denotes the scope given to the &quot;form&quot; attribute when executing an action.</body>
+    </ownedComment>
+    <ownedLiteral xmi:id="_RgVdQCK2Edu07u_JJk0LDQ" name="none">
+      <ownedComment xmi:id="_RgVdQSK2Edu07u_JJk0LDQ">
+        <body>Denotes that the &quot;form&quot; attribute will not be set within any scope.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdQiK2Edu07u_JJk0LDQ" name="request">
+      <ownedComment xmi:id="_RgVdQyK2Edu07u_JJk0LDQ">
+        <body>Denotes that the &quot;form&quot; attribute will be set within a request scope.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdRCK2Edu07u_JJk0LDQ" name="session">
+      <ownedComment xmi:id="_RgVdRSK2Edu07u_JJk0LDQ">
+        <body>Denotes that the &quot;form&quot; attribute will be set within a session scope.</body>
+      </ownedComment>
+    </ownedLiteral>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Enumeration" xmi:id="_RgVdRiK2Edu07u_JJk0LDQ" name="WebFieldType">
+    <ownedComment xmi:id="_RgVdRyK2Edu07u_JJk0LDQ">
+      <body>Denotes the type of the form field to use for an action parameter.</body>
+    </ownedComment>
+    <ownedLiteral xmi:id="_RgVdSCK2Edu07u_JJk0LDQ" name="select">
+      <ownedComment xmi:id="_RgVdSSK2Edu07u_JJk0LDQ">
+        <body>Use a combobox (also known as drop-down box) from which to select the value, only a single value can be selected unless the underlying type is a collection or array.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdSiK2Edu07u_JJk0LDQ" name="hidden">
+      <ownedComment xmi:id="_RgVdSyK2Edu07u_JJk0LDQ">
+        <body>Do not show the parameter on the screen.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdTCK2Edu07u_JJk0LDQ" name="password">
+      <ownedComment xmi:id="_RgVdTSK2Edu07u_JJk0LDQ">
+        <body>The field should be shown but it's content is to be masked using asterisks.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdTiK2Edu07u_JJk0LDQ" name="link">
+      <ownedComment xmi:id="_RgVdTyK2Edu07u_JJk0LDQ">
+        <body>This type can only be used when displaying the field in a table and you want to attach it to only of the possible page actions.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdUCK2Edu07u_JJk0LDQ" name="textarea">
+      <ownedComment xmi:id="_RgVdUSK2Edu07u_JJk0LDQ">
+        <body>Use a textarea with multiple rows.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdUiK2Edu07u_JJk0LDQ" name="text">
+      <ownedComment xmi:id="_RgVdUyK2Edu07u_JJk0LDQ">
+        <body>Use a simple text field.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdVCK2Edu07u_JJk0LDQ" name="checkbox">
+      <ownedComment xmi:id="_RgVdVSK2Edu07u_JJk0LDQ">
+        <body>Use a checkbox, ideal for boolean values.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdViK2Edu07u_JJk0LDQ" name="multibox">
+      <ownedComment xmi:id="_RgVdVyK2Edu07u_JJk0LDQ">
+        <body>Use this field type when you want to render several checkboxes that need to be initialized based on the property of a single array.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdWCK2Edu07u_JJk0LDQ" name="radio">
+      <ownedComment xmi:id="_RgVdWSK2Edu07u_JJk0LDQ">
+        <body>Generates a few options from which the value can be selected, only a single option can be selected at a time.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdWiK2Edu07u_JJk0LDQ" name="plaintext">
+      <ownedComment xmi:id="_RgVdWyK2Edu07u_JJk0LDQ">
+        <body>Display this property as a plain text string.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdXCK2Edu07u_JJk0LDQ" name="table">
+      <ownedComment xmi:id="_RgVdXSK2Edu07u_JJk0LDQ">
+        <body>Allows you to submit an entire table (only makes sense on an array or collection) type.  Arrays are preferrable as they allow us to know the type of element which makes up the collection.</body>
+      </ownedComment>
+    </ownedLiteral>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Enumeration" xmi:id="_RgVdXiK2Edu07u_JJk0LDQ" name="WebActionType">
+    <ownedComment xmi:id="_RgVdXyK2Edu07u_JJk0LDQ">
+      <body>Denotes the type of the generated struts action, as displayed on screen.</body>
+    </ownedComment>
+    <ownedLiteral xmi:id="_RgVdYCK2Edu07u_JJk0LDQ" name="hyperlink">
+      <ownedComment xmi:id="_RgVdYSK2Edu07u_JJk0LDQ">
+        <body>The action will be rendered as an hyperlink.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdYiK2Edu07u_JJk0LDQ" name="form">
+      <ownedComment xmi:id="_RgVdYyK2Edu07u_JJk0LDQ">
+        <body>The action will be rendered as a form.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdZCK2Edu07u_JJk0LDQ" name="image">
+      <ownedComment xmi:id="_RgVdZSK2Edu07u_JJk0LDQ">
+        <body>The action will be rendered as a clickable image.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdZiK2Edu07u_JJk0LDQ" name="table">
+      <ownedComment xmi:id="_RgVdZyK2Edu07u_JJk0LDQ">
+        <body>Denotes the action will work on all rows of a table.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVdaCK2Edu07u_JJk0LDQ" name="popup">
+      <ownedComment xmi:id="_RgVdaSK2Edu07u_JJk0LDQ">
+        <body>When this is selected the resulting view will be rendered as a popup.</body>
+      </ownedComment>
+    </ownedLiteral>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Enumeration" xmi:id="_RgVdaiK2Edu07u_JJk0LDQ" name="WebExportType">
+    <ownedLiteral xmi:id="_RgVdayK2Edu07u_JJk0LDQ" name="xml"/>
+    <ownedLiteral xmi:id="_RgVdbCK2Edu07u_JJk0LDQ" name="csv"/>
+    <ownedLiteral xmi:id="_RgVdbSK2Edu07u_JJk0LDQ" name="excel"/>
+    <ownedLiteral xmi:id="_RgVdbiK2Edu07u_JJk0LDQ" name="pdf"/>
+    <ownedLiteral xmi:id="_RgVdbyK2Edu07u_JJk0LDQ" name="none"/>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Enumeration" xmi:id="_RgVdcCK2Edu07u_JJk0LDQ" name="ViewType">
+    <ownedComment xmi:id="_RgVdcSK2Edu07u_JJk0LDQ">
+      <body>Represents the types of views.</body>
+    </ownedComment>
+    <ownedLiteral xmi:id="_RgVdciK2Edu07u_JJk0LDQ" name="regular">
+      <ownedComment xmi:id="_RgVdcyK2Edu07u_JJk0LDQ">
+        <body>A &quot;regular&quot; view.</body>
+      </ownedComment>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_RgVddCK2Edu07u_JJk0LDQ" name="popup">
+      <ownedComment xmi:id="_RgVddSK2Edu07u_JJk0LDQ">
+        <body>A &quot;popup&quot; view.</body>
+      </ownedComment>
+    </ownedLiteral>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVddiK2Edu07u_JJk0LDQ" name="andromda_presentation_action_success_message">
+    <ownedAttribute xmi:id="_RgVddyK2Edu07u_JJk0LDQ" name="andromda_presentation_action_success_message" visibility="private">
+      <ownedComment xmi:id="_RgVdeCK2Edu07u_JJk0LDQ">
+        <body>Place this tagged value on a transition if you want to have an automatic confirmation message rendered into the target jsp page, this message will indicate that the action has finished succesfully. The value assigned to this tagged value will be used as the success message in case it contains more than 5 characters, otherwise the value needs to be 'true' to be taken into account.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVdeSK2Edu07u_JJk0LDQ" value="-1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVdeiK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_RgVdeyK2Edu07u_JJk0LDQ" value="Success"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_11UI0yK5EdujMN-Mf6X4Bw" name="base$Transition" association="_11UI0CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVdgSK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_type">
+    <ownedAttribute xmi:id="_RgVdgiK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_type" visibility="private" type="_RgVdXiK2Edu07u_JJk0LDQ">
+      <ownedComment xmi:id="_RgVdgyK2Edu07u_JJk0LDQ">
+        <body>Denotes how the action is to be rendered.</body>
+      </ownedComment>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVdhCK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVdhSK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:InstanceValue" xmi:id="_RgVdhiK2Edu07u_JJk0LDQ" instance="_RgVdYCK2Edu07u_JJk0LDQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_14JaYyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_14JaYCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVdjCK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_size">
+    <ownedAttribute xmi:id="_RgVdjSK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_size" visibility="private">
+      <ownedComment xmi:id="_RgVdjiK2Edu07u_JJk0LDQ">
+        <body>Denotes the number of columns of an input field.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVdjyK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVdkCK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_RgVdkSK2Edu07u_JJk0LDQ" value="15"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_199HcyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_199HcCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_199HdyK5EdujMN-Mf6X4Bw" name="base$Property" association="_199HdCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVdnCK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_equal">
+    <ownedAttribute xmi:id="_RgVdnSK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_equal" visibility="private">
+      <ownedComment xmi:id="_RgVdniK2Edu07u_JJk0LDQ">
+        <body>Allows you to specify the name for the field that this field must be equal to.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2DUIkyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_2DUIkCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2DUIlyK5EdujMN-Mf6X4Bw" name="base$Property" association="_2DUIlCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVdqSK2Edu07u_JJk0LDQ" name="andromda_presentation_action_warning_message">
+    <ownedAttribute xmi:id="_RgVdqiK2Edu07u_JJk0LDQ" name="andromda_presentation_action_warning_message" visibility="private">
+      <ownedComment xmi:id="_RgVdqyK2Edu07u_JJk0LDQ">
+        <body>Place this tagged value on a transition if you want to have an automatic warning message rendered into the target jsp page, this message will indicate that the action has finished succesfully but the user's attention should go to a specific topic. The value assigned to this tagged value will be used as the warning message in case it contains more than 5 characters, otherwise the value needs to be 'true' to be taken into account.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVdrCK2Edu07u_JJk0LDQ" value="-1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVdrSK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_RgVdriK2Edu07u_JJk0LDQ" value="Warning"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2GJaIyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_2GJaICK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVdtCK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_tablelink">
+    <ownedAttribute xmi:id="_RgVdtSK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_tablelink" visibility="private">
+      <ownedComment xmi:id="_RgVdtiK2Edu07u_JJk0LDQ">
+        <body>Use this tagged value when you have an incoming transition with a Collection parameter that is to be represented as a table. The value of this tagged value will then be used to determine which table use when calling this action.
+
+The value should the name of an table page-variable entering the page on which this action has been modeled.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVdtyK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVduCK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2I1hwyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_2I1hwCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVdviK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table_export">
+    <ownedAttribute xmi:id="_RgVdvyK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table_export" visibility="private" type="_RgVdaiK2Edu07u_JJk0LDQ">
+      <ownedComment xmi:id="_RgVdwCK2Edu07u_JJk0LDQ">
+        <body>This tagged value specifies which types of export are supported. </body>
+      </ownedComment>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVdwSK2Edu07u_JJk0LDQ" value="-1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVdwiK2Edu07u_JJk0LDQ"/>
+      <defaultValue xmi:type="uml:InstanceValue" xmi:id="_RgVdwyK2Edu07u_JJk0LDQ" instance="_RgVdbSK2Edu07u_JJk0LDQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2Qu5gyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_2Qu5gCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2Qu5hyK5EdujMN-Mf6X4Bw" name="base$Class" association="_2Qu5hCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2Qu5iyK5EdujMN-Mf6X4Bw" name="base$Property" association="_2Qu5iCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVd0yK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table_sortable">
+    <ownedAttribute xmi:id="_RgVd1CK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table_sortable" visibility="private">
+      <ownedComment xmi:id="_RgVd1SK2Edu07u_JJk0LDQ">
+        <body>Denotes whether or not columns are supposed to be sortable, defaults to true in case of absence.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVd1iK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVd1yK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVd2CK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2Y7MMyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_2Y7MMCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2Y7MNyK5EdujMN-Mf6X4Bw" name="base$Class" association="_2Y7MNCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2Y7MOyK5EdujMN-Mf6X4Bw" name="base$Property" association="_2Y7MOCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVd6CK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_rows">
+    <ownedAttribute xmi:id="_RgVd6SK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_rows" visibility="private">
+      <ownedComment xmi:id="_RgVd6iK2Edu07u_JJk0LDQ">
+        <body>Denotes the number of rows of a textarea field.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVd6yK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVd7CK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_RgVd7SK2Edu07u_JJk0LDQ" value="5"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2eS0YyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_2eS0YCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2eS0ZyK5EdujMN-Mf6X4Bw" name="base$Property" association="_2eS0ZCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVd-CK2Edu07u_JJk0LDQ" name="andromda_presentation_usecase_activity">
+    <ownedAttribute xmi:id="_RgVd-SK2Edu07u_JJk0LDQ" name="andromda_presentation_usecase_activity" visibility="private">
+      <ownedComment xmi:id="_RgVd-iK2Edu07u_JJk0LDQ">
+        <body>This tagged value is used to reference activity graphs from a use-case. In doing so you will associate the graph with the usecase. Instead of using this tagged value you can simply assign a single graph in the namespace of the use-case.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVd-yK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVd_CK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2g-U8yK5EdujMN-Mf6X4Bw" name="base$UseCase" association="_2g-U8CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9bQtq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeAiK2Edu07u_JJk0LDQ" name="FrontEndRegistration">
+    <ownedComment xmi:id="_RgVeAyK2Edu07u_JJk0LDQ">
+      <body>Place this on a use case that represents a front-end registration process.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_2jp1gyK5EdujMN-Mf6X4Bw" name="base$UseCase" association="_2jp1gCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9bQtq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeCSK2Edu07u_JJk0LDQ" name="FrontEndException">
+    <ownedComment xmi:id="_RgVeCiK2Edu07u_JJk0LDQ">
+      <body>Have this transition point to a &lt;&lt;FrontEndView>> action state or a final state, it will have any exception directed to that page or use-case respectively. Using tagged values you can have control on the type of exception for each of such transitions.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_2mVWEyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_2mVWECK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeECK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table_columns">
+    <ownedAttribute xmi:id="_RgVeESK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table_columns" visibility="private">
+      <ownedComment xmi:id="_RgVeEiK2Edu07u_JJk0LDQ">
+        <body>Determines which properties of the value objects in a Collection are to be called in order to render the columns of the table. The order directly specifies the order of the columns. Multiple values are separated by commas or whitespace.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVeEyK2Edu07u_JJk0LDQ" value="-1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVeFCK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2r2IMyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_2r2IMCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2r2INyK5EdujMN-Mf6X4Bw" name="base$Property" association="_2r2INCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeHyK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_calendar">
+    <ownedAttribute xmi:id="_RgVeICK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_calendar" visibility="private">
+      <ownedComment xmi:id="_RgVeISK2Edu07u_JJk0LDQ">
+        <body>Put this tagged value on a parameter of type Date to denote that you want a calendar popup.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVeIiK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVeIyK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVeJCK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2xNwYyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_2xNwYCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2xNwZyK5EdujMN-Mf6X4Bw" name="base$Property" association="_2xNwZCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeLyK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_validators">
+    <ownedAttribute xmi:id="_RgVeMCK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_validators" visibility="private">
+      <ownedComment xmi:id="_RgVeMSK2Edu07u_JJk0LDQ">
+        <body>Allows users to specify custom validators for a field, when used the validation-rules.xml will need an update to include these validators.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVeMiK2Edu07u_JJk0LDQ" value="-1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVeMyK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_22kxgyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_22kxgCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_22kxhyK5EdujMN-Mf6X4Bw" name="base$Property" association="_22kxhCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVePiK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_form_reset">
+    <ownedAttribute xmi:id="_RgVePyK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_form_reset" visibility="private">
+      <ownedComment xmi:id="_RgVeQCK2Edu07u_JJk0LDQ">
+        <body>Allows one to reset the values on the corresponding action's (a transition coming out a of a front end view) form.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVeQSK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_25Q5IyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_25Q5ICK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeRyK2Edu07u_JJk0LDQ" name="andromda_struts_view_table_decorator">
+    <ownedAttribute xmi:id="_RgVeSCK2Edu07u_JJk0LDQ" name="andromda_struts_view_table_decorator" visibility="private">
+      <ownedComment xmi:id="_RgVeSSK2Edu07u_JJk0LDQ">
+        <body>Denotes whether or not to render a displaytag table decorator, will be ignored if this parameter does not represent a table.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVeSiK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVeSyK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVeTCK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_28GKsyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_28GKsCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeUiK2Edu07u_JJk0LDQ" name="FrontEndApplication">
+    <ownedComment xmi:id="_RgVeUyK2Edu07u_JJk0LDQ">
+      <body>This stereotype means that the use-case will be consider the first one when entering the application.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_2-xrQyK5EdujMN-Mf6X4Bw" name="base$UseCase" association="_2-xrQCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9bQtq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeWSK2Edu07u_JJk0LDQ" name="andromda_presentation_controller_usecase">
+    <ownedAttribute xmi:id="_RgVeWiK2Edu07u_JJk0LDQ" name="andromda_presentation_controller_usecase" visibility="private">
+      <ownedComment xmi:id="_RgVeWyK2Edu07u_JJk0LDQ">
+        <body>For those CASE tools with marginal UML support this tagged value allows the controller to reference the use-case. You should give the name of the use-case, nothing more and nothing less.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVeXCK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVeXSK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3Bm80yK5EdujMN-Mf6X4Bw" name="base$Class" association="_3Bm80CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeYyK2Edu07u_JJk0LDQ" name="FrontEndUseCase">
+    <ownedComment xmi:id="_RgVeZCK2Edu07u_JJk0LDQ">
+      <body>A use-case to be processed by AndroMDA.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_3ESdYyK5EdujMN-Mf6X4Bw" name="base$UseCase" association="_3ESdYCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9bQtq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeaiK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table_maxrows">
+    <ownedAttribute xmi:id="_RgVeayK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table_maxrows" visibility="private">
+      <ownedComment xmi:id="_RgVebCK2Edu07u_JJk0LDQ">
+        <body>Denotes the maximum number of rows per 'page'. Defaults to 15.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVebSK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVebiK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_RgVebyK2Edu07u_JJk0LDQ" value="15"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3ML1IyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_3ML1ICK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3ML1JyK5EdujMN-Mf6X4Bw" name="base$Class" association="_3ML1JCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3ML1KyK5EdujMN-Mf6X4Bw" name="base$Property" association="_3ML1KCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVefyK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_resettable">
+    <ownedAttribute xmi:id="_RgVegCK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_resettable" visibility="private">
+      <ownedComment xmi:id="_RgVegSK2Edu07u_JJk0LDQ">
+        <body>Denotes that the user should be able to reset the action form.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVegiK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVegyK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVehCK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3OuLwyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_3OuLwCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeiiK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_readonly">
+    <ownedAttribute xmi:id="_RgVeiyK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_readonly" visibility="private">
+      <ownedComment xmi:id="_RgVejCK2Edu07u_JJk0LDQ">
+        <body>Will make the parameter read-only.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVejSK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVejiK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVejyK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3UFM4yK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_3UFM4CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3UFM5yK5EdujMN-Mf6X4Bw" name="base$Property" association="_3UFM5CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVemiK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_form_key">
+    <ownedAttribute xmi:id="_RgVemyK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_form_key" visibility="private">
+      <ownedComment xmi:id="_RgVenCK2Edu07u_JJk0LDQ">
+        <body>Denotes the key used to store this action's form under. Depending on the setting of the @andromda.presentation.web.action.form.scope tagged value this key is used for either request or session scope. Will only be used when the form is not empty, it is ignored otherwise.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVenSK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVeniK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_RgVenyK2Edu07u_JJk0LDQ" value="form"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3cIVoyK5EdujMN-Mf6X4Bw" name="base$UseCase" association="_3cIVoCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9bQtq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3cIVpyK5EdujMN-Mf6X4Bw" name="base$State" association="_3cIVpCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9bP8q86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3cSGoyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_3cSGoCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVeryK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_reset">
+    <ownedAttribute xmi:id="_RgVesCK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_reset" visibility="private">
+      <ownedComment xmi:id="_RgVesSK2Edu07u_JJk0LDQ">
+        <body>Denotes whether this field should be reset to an empty value </body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVesiK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVesyK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVetCK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3hWM0yK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_3hWM0CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3hWM1yK5EdujMN-Mf6X4Bw" name="base$Property" association="_3hWM1CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVevyK2Edu07u_JJk0LDQ" name="FrontEndView">
+    <ownedComment xmi:id="_RgVewCK2Edu07u_JJk0LDQ">
+      <body>A presentation component interfacing with the end-user.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_3kBtYyK5EdujMN-Mf6X4Bw" name="base$State" association="_3kBtYCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9bP8q86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVexiK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_validwhen">
+    <ownedAttribute xmi:id="_RgVexyK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_validwhen" visibility="private">
+      <ownedComment xmi:id="_RgVeyCK2Edu07u_JJk0LDQ">
+        <body>Makes the validity of this parameter dependent on another parameter. This is useful for example for confirming passwords.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVeySK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVeyiK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3pPkkyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_3pPkkCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3pPklyK5EdujMN-Mf6X4Bw" name="base$Property" association="_3pPklCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVe1SK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table">
+    <ownedAttribute xmi:id="_RgVe1iK2Edu07u_JJk0LDQ" name="andromda_presentation_view_table" visibility="private">
+      <ownedComment xmi:id="_RgVe1yK2Edu07u_JJk0LDQ">
+        <body>A flag indicating whether or not a parameter should be considered a table.  This must be set to true when you wish to display a list of simple types (such as strings) within a table. If you specify the table's columns in @andromda.presentation.view.table.columns, then this tagged value is not required to indicate that the parameter is table (as it will be assumed).</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVe2CK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3umlsyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_3umlsCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3umltyK5EdujMN-Mf6X4Bw" name="base$Property" association="_3umltCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVe4yK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_multibox">
+    <ownedAttribute xmi:id="_RgVe5CK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_multibox" visibility="private">
+      <ownedComment xmi:id="_RgVe5SK2Edu07u_JJk0LDQ">
+        <body>When using the @andromda.struts.view.field.type=multibox tagged value (which is only allowed in tables) you must specify also this tagged value to specify the collection or array holding the actual values to match against.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVe5iK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVe5yK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3z-N4yK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_3z-N4CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3z-N5yK5EdujMN-Mf6X4Bw" name="base$Property" association="_3z-N5CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVe8iK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_required">
+    <ownedAttribute xmi:id="_RgVe8yK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_required" visibility="private">
+      <ownedComment xmi:id="_RgVe9CK2Edu07u_JJk0LDQ">
+        <body>The parameter is not allowed to represent a blank (null or whitespace).</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVe9SK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVe9iK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVe9yK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_32pucyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_32pucCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVe_SK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_redirect">
+    <ownedAttribute xmi:id="_RgVe_iK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_redirect" visibility="private">
+      <ownedComment xmi:id="_RgVe_yK2Edu07u_JJk0LDQ">
+        <body>Defines whether or not the struts action should be redirected when forwarding to the next action.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXfBUK86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVfACK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVfASK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RgVfAiK2Edu07u_JJk0LDQ" value="true"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_35MFEyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_35MFECK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVfCCK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_table_identifier_columns">
+    <ownedAttribute xmi:id="_RgVfCSK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_table_identifier_columns" visibility="private">
+      <ownedComment xmi:id="_RgVfCiK2Edu07u_JJk0LDQ">
+        <body>A comma seperated list; used with the table input type. Defines the columns that make up the identifier of the row (these are necessary in order to allow the merging of the value with the backing value when submitting and loading an input table).</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_38BWoyK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_38BWoCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVfECK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_type">
+    <ownedAttribute xmi:id="_RgVfESK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_field_type" visibility="private" type="_RgVdRiK2Edu07u_JJk0LDQ">
+      <ownedComment xmi:id="_RgVfEiK2Edu07u_JJk0LDQ">
+        <body>Use this tagged value if you wish to display input fields using a special widget.</body>
+      </ownedComment>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVfEyK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVfFCK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:InstanceValue" xmi:id="_RgVfFSK2Edu07u_JJk0LDQ" instance="_RgVdSCK2Edu07u_JJk0LDQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4BPN0yK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_4BPN0CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4BPN1yK5EdujMN-Mf6X4Bw" name="base$Property" association="_4BPN1CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVfICK2Edu07u_JJk0LDQ" name="FrontEndSessionObject">
+    <ownedComment xmi:id="_RgVfISK2Edu07u_JJk0LDQ">
+      <body>A session object needs to be associated with controllers, that way the controller will have some code to lookup the session object and can therefore expose it in your manual code.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_4Dw9YyK5EdujMN-Mf6X4Bw" name="base$Class" association="_4Dw9YCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVfJyK2Edu07u_JJk0LDQ" name="andromda_presentation_exception_type">
+    <ownedAttribute xmi:id="_RgVfKCK2Edu07u_JJk0LDQ" name="andromda_presentation_exception_type" visibility="private">
+      <ownedComment xmi:id="_RgVfKSK2Edu07u_JJk0LDQ">
+        <body>The type of exception that is to be handled by this transition.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVfKiK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVfKyK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4GTUAyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_4GTUACK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVfMSK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_radio">
+    <ownedAttribute xmi:id="_RgVfMiK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_radio" visibility="private">
+      <ownedComment xmi:id="_RgVfMyK2Edu07u_JJk0LDQ">
+        <body>This tagged value only makes sense when used in combination with @andromda.struts.field.type=radio, it denotes the number of options to render. Specify an integer value, or specify a comma-separated list of property values.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVfNCK2Edu07u_JJk0LDQ" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVfNSK2Edu07u_JJk0LDQ" value="1"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_RgVfNiK2Edu07u_JJk0LDQ" value="3"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4JIlkiK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_4I-0kCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVfPCK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_form_scope">
+    <ownedAttribute xmi:id="_RgVfPSK2Edu07u_JJk0LDQ" name="andromda_presentation_web_action_form_scope" visibility="private" type="_RgVdPiK2Edu07u_JJk0LDQ">
+      <ownedComment xmi:id="_RgVfPiK2Edu07u_JJk0LDQ">
+        <body>Denotes the scope in which the &quot;form&quot; attribute should be placed when executing the action.</body>
+      </ownedComment>
+      <defaultValue xmi:type="uml:InstanceValue" xmi:id="_RgVfPyK2Edu07u_JJk0LDQ" instance="_RgVdQCK2Edu07u_JJk0LDQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4LqVIyK5EdujMN-Mf6X4Bw" name="base$Transition" association="_4LqVICK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9VKGK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVfRSK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_type">
+    <ownedAttribute xmi:id="_RgVfRiK2Edu07u_JJk0LDQ" name="andromda_presentation_web_view_type" visibility="private" type="_RgVdcCK2Edu07u_JJk0LDQ">
+      <defaultValue xmi:type="uml:InstanceValue" xmi:id="_RgVfRyK2Edu07u_JJk0LDQ" instance="_RgVddCK2Edu07u_JJk0LDQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4OWcwyK5EdujMN-Mf6X4Bw" name="base$State" association="_4OWcwCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9bP8q86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVfTSK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_format">
+    <ownedAttribute xmi:id="_RgVfTiK2Edu07u_JJk0LDQ" name="andromda_presentation_view_field_format" visibility="private">
+      <ownedComment xmi:id="_RgVfTyK2Edu07u_JJk0LDQ">
+        <body>Denotes the format of the parameter value, this value will be check on the client as well as on the server. You may enter more than one value for this tag.</body>
+      </ownedComment>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RgVfUCK2Edu07u_JJk0LDQ" value="-1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RgVfUSK2Edu07u_JJk0LDQ" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4T3O4yK5EdujMN-Mf6X4Bw" name="base$Parameter" association="_4T3O4CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2dK86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4T3O5yK5EdujMN-Mf6X4Bw" name="base$Property" association="_4T3O5CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_11UI0CK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_action_success_message" memberEnd="_11UI0SK5EdujMN-Mf6X4Bw _11UI0yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_11UI0SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_action_success_message" type="_RgVddiK2Edu07u_JJk0LDQ" association="_11UI0CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_11UI0iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_14JaYCK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_web_action_type" memberEnd="_14JaYSK5EdujMN-Mf6X4Bw _14JaYyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_14JaYSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_type" type="_RgVdgSK2Edu07u_JJk0LDQ" association="_14JaYCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_14JaYiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_199HcCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_web_view_field_size" memberEnd="_199HcSK5EdujMN-Mf6X4Bw _199HcyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_199HcSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_size" type="_RgVdjCK2Edu07u_JJk0LDQ" association="_199HcCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_199HciK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_199HdCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_web_view_field_size" memberEnd="_199HdSK5EdujMN-Mf6X4Bw _199HdyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_199HdSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_size" type="_RgVdjCK2Edu07u_JJk0LDQ" association="_199HdCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_199HdiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2DUIkCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_web_view_field_equal" memberEnd="_2DUIkSK5EdujMN-Mf6X4Bw _2DUIkyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2DUIkSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_equal" type="_RgVdnCK2Edu07u_JJk0LDQ" association="_2DUIkCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2DUIkiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2DUIlCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_web_view_field_equal" memberEnd="_2DUIlSK5EdujMN-Mf6X4Bw _2DUIlyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2DUIlSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_equal" type="_RgVdnCK2Edu07u_JJk0LDQ" association="_2DUIlCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2DUIliK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2GJaICK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_action_warning_message" memberEnd="_2GJaISK5EdujMN-Mf6X4Bw _2GJaIyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2GJaISK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_action_warning_message" type="_RgVdqSK2Edu07u_JJk0LDQ" association="_2GJaICK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2GJaIiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2I1hwCK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_web_action_tablelink" memberEnd="_2I1hwSK5EdujMN-Mf6X4Bw _2I1hwyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2I1hwSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_tablelink" type="_RgVdtCK2Edu07u_JJk0LDQ" association="_2I1hwCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2I1hwiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2Qu5gCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_table_export" memberEnd="_2Qu5gSK5EdujMN-Mf6X4Bw _2Qu5gyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2Qu5gSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_export" type="_RgVdviK2Edu07u_JJk0LDQ" association="_2Qu5gCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2Qu5giK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2Qu5hCK5EdujMN-Mf6X4Bw" name="Class_andromda_presentation_view_table_export" memberEnd="_2Qu5hSK5EdujMN-Mf6X4Bw _2Qu5hyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2Qu5hSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_export" type="_RgVdviK2Edu07u_JJk0LDQ" association="_2Qu5hCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2Qu5hiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2Qu5iCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_view_table_export" memberEnd="_2Qu5iSK5EdujMN-Mf6X4Bw _2Qu5iyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2Qu5iSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_export" type="_RgVdviK2Edu07u_JJk0LDQ" association="_2Qu5iCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2Qu5iiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2Y7MMCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_table_sortable" memberEnd="_2Y7MMSK5EdujMN-Mf6X4Bw _2Y7MMyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2Y7MMSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_sortable" type="_RgVd0yK2Edu07u_JJk0LDQ" association="_2Y7MMCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2Y7MMiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2Y7MNCK5EdujMN-Mf6X4Bw" name="Class_andromda_presentation_view_table_sortable" memberEnd="_2Y7MNSK5EdujMN-Mf6X4Bw _2Y7MNyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2Y7MNSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_sortable" type="_RgVd0yK2Edu07u_JJk0LDQ" association="_2Y7MNCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2Y7MNiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2Y7MOCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_view_table_sortable" memberEnd="_2Y7MOSK5EdujMN-Mf6X4Bw _2Y7MOyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2Y7MOSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_sortable" type="_RgVd0yK2Edu07u_JJk0LDQ" association="_2Y7MOCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2Y7MOiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2eS0YCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_web_view_field_rows" memberEnd="_2eS0YSK5EdujMN-Mf6X4Bw _2eS0YyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2eS0YSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_rows" type="_RgVd6CK2Edu07u_JJk0LDQ" association="_2eS0YCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2eS0YiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2eS0ZCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_web_view_field_rows" memberEnd="_2eS0ZSK5EdujMN-Mf6X4Bw _2eS0ZyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2eS0ZSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_rows" type="_RgVd6CK2Edu07u_JJk0LDQ" association="_2eS0ZCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2eS0ZiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2g-U8CK5EdujMN-Mf6X4Bw" name="UseCase_andromda_presentation_usecase_activity" memberEnd="_2g-U8SK5EdujMN-Mf6X4Bw _2g-U8yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2g-U8SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_usecase_activity" type="_RgVd-CK2Edu07u_JJk0LDQ" association="_2g-U8CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2g-U8iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2jp1gCK5EdujMN-Mf6X4Bw" name="UseCase_FrontEndRegistration" memberEnd="_2jp1gSK5EdujMN-Mf6X4Bw _2jp1gyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2jp1gSK5EdujMN-Mf6X4Bw" name="extension$FrontEndRegistration" type="_RgVeAiK2Edu07u_JJk0LDQ" association="_2jp1gCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2jp1giK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2mVWECK5EdujMN-Mf6X4Bw" name="Transition_FrontEndException" memberEnd="_2mVWESK5EdujMN-Mf6X4Bw _2mVWEyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2mVWESK5EdujMN-Mf6X4Bw" name="extension$FrontEndException" type="_RgVeCSK2Edu07u_JJk0LDQ" association="_2mVWECK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2mVWEiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2r2IMCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_table_columns" memberEnd="_2r2IMSK5EdujMN-Mf6X4Bw _2r2IMyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2r2IMSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_columns" type="_RgVeECK2Edu07u_JJk0LDQ" association="_2r2IMCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2r2IMiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2r2INCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_view_table_columns" memberEnd="_2r2INSK5EdujMN-Mf6X4Bw _2r2INyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2r2INSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_columns" type="_RgVeECK2Edu07u_JJk0LDQ" association="_2r2INCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2r2INiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2xNwYCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_web_view_field_calendar" memberEnd="_2xNwYSK5EdujMN-Mf6X4Bw _2xNwYyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2xNwYSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_calendar" type="_RgVeHyK2Edu07u_JJk0LDQ" association="_2xNwYCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2xNwYiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2xNwZCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_web_view_field_calendar" memberEnd="_2xNwZSK5EdujMN-Mf6X4Bw _2xNwZyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2xNwZSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_calendar" type="_RgVeHyK2Edu07u_JJk0LDQ" association="_2xNwZCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2xNwZiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_22kxgCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_web_view_field_validators" memberEnd="_22kxgSK5EdujMN-Mf6X4Bw _22kxgyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_22kxgSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_validators" type="_RgVeLyK2Edu07u_JJk0LDQ" association="_22kxgCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_22kxgiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_22kxhCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_web_view_field_validators" memberEnd="_22kxhSK5EdujMN-Mf6X4Bw _22kxhyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_22kxhSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_validators" type="_RgVeLyK2Edu07u_JJk0LDQ" association="_22kxhCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_22kxhiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_25Q5ICK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_web_action_form_reset" memberEnd="_25Q5ISK5EdujMN-Mf6X4Bw _25Q5IyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_25Q5ISK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_form_reset" type="_RgVePiK2Edu07u_JJk0LDQ" association="_25Q5ICK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_25Q5IiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_28GKsCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_struts_view_table_decorator" memberEnd="_28GKsSK5EdujMN-Mf6X4Bw _28GKsyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_28GKsSK5EdujMN-Mf6X4Bw" name="extension$andromda_struts_view_table_decorator" type="_RgVeRyK2Edu07u_JJk0LDQ" association="_28GKsCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_28GKsiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_2-xrQCK5EdujMN-Mf6X4Bw" name="UseCase_FrontEndApplication" memberEnd="_2-xrQSK5EdujMN-Mf6X4Bw _2-xrQyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2-xrQSK5EdujMN-Mf6X4Bw" name="extension$FrontEndApplication" type="_RgVeUiK2Edu07u_JJk0LDQ" association="_2-xrQCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2-xrQiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3Bm80CK5EdujMN-Mf6X4Bw" name="Class_andromda_presentation_controller_usecase" memberEnd="_3Bm80SK5EdujMN-Mf6X4Bw _3Bm80yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3Bm80SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_controller_usecase" type="_RgVeWSK2Edu07u_JJk0LDQ" association="_3Bm80CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3Bm80iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3ESdYCK5EdujMN-Mf6X4Bw" name="UseCase_FrontEndUseCase" memberEnd="_3ESdYSK5EdujMN-Mf6X4Bw _3ESdYyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3ESdYSK5EdujMN-Mf6X4Bw" name="extension$FrontEndUseCase" type="_RgVeYyK2Edu07u_JJk0LDQ" association="_3ESdYCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3ESdYiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3ML1ICK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_table_maxrows" memberEnd="_3ML1ISK5EdujMN-Mf6X4Bw _3ML1IyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3ML1ISK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_maxrows" type="_RgVeaiK2Edu07u_JJk0LDQ" association="_3ML1ICK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3ML1IiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3ML1JCK5EdujMN-Mf6X4Bw" name="Class_andromda_presentation_view_table_maxrows" memberEnd="_3ML1JSK5EdujMN-Mf6X4Bw _3ML1JyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3ML1JSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_maxrows" type="_RgVeaiK2Edu07u_JJk0LDQ" association="_3ML1JCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3ML1JiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3ML1KCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_view_table_maxrows" memberEnd="_3ML1KSK5EdujMN-Mf6X4Bw _3ML1KyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3ML1KSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table_maxrows" type="_RgVeaiK2Edu07u_JJk0LDQ" association="_3ML1KCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3ML1KiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3OuLwCK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_web_action_resettable" memberEnd="_3OuLwSK5EdujMN-Mf6X4Bw _3OuLwyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3OuLwSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_resettable" type="_RgVefyK2Edu07u_JJk0LDQ" association="_3OuLwCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3OuLwiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3UFM4CK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_field_readonly" memberEnd="_3UFM4SK5EdujMN-Mf6X4Bw _3UFM4yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3UFM4SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_readonly" type="_RgVeiiK2Edu07u_JJk0LDQ" association="_3UFM4CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3UFM4iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3UFM5CK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_view_field_readonly" memberEnd="_3UFM5SK5EdujMN-Mf6X4Bw _3UFM5yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3UFM5SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_readonly" type="_RgVeiiK2Edu07u_JJk0LDQ" association="_3UFM5CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3UFM5iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3cIVoCK5EdujMN-Mf6X4Bw" name="UseCase_andromda_presentation_web_action_form_key" memberEnd="_3cIVoSK5EdujMN-Mf6X4Bw _3cIVoyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3cIVoSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_form_key" type="_RgVemiK2Edu07u_JJk0LDQ" association="_3cIVoCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3cIVoiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3cIVpCK5EdujMN-Mf6X4Bw" name="State_andromda_presentation_web_action_form_key" memberEnd="_3cIVpSK5EdujMN-Mf6X4Bw _3cIVpyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3cIVpSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_form_key" type="_RgVemiK2Edu07u_JJk0LDQ" association="_3cIVpCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3cIVpiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3cSGoCK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_web_action_form_key" memberEnd="_3cSGoSK5EdujMN-Mf6X4Bw _3cSGoyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3cSGoSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_form_key" type="_RgVemiK2Edu07u_JJk0LDQ" association="_3cSGoCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3cSGoiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3hWM0CK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_web_view_field_reset" memberEnd="_3hWM0SK5EdujMN-Mf6X4Bw _3hWM0yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3hWM0SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_reset" type="_RgVeryK2Edu07u_JJk0LDQ" association="_3hWM0CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3hWM0iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3hWM1CK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_web_view_field_reset" memberEnd="_3hWM1SK5EdujMN-Mf6X4Bw _3hWM1yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3hWM1SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_reset" type="_RgVeryK2Edu07u_JJk0LDQ" association="_3hWM1CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3hWM1iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3kBtYCK5EdujMN-Mf6X4Bw" name="State_FrontEndView" memberEnd="_3kBtYSK5EdujMN-Mf6X4Bw _3kBtYyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3kBtYSK5EdujMN-Mf6X4Bw" name="extension$FrontEndView" type="_RgVevyK2Edu07u_JJk0LDQ" association="_3kBtYCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3kBtYiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3pPkkCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_web_view_field_validwhen" memberEnd="_3pPkkSK5EdujMN-Mf6X4Bw _3pPkkyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3pPkkSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_validwhen" type="_RgVexiK2Edu07u_JJk0LDQ" association="_3pPkkCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3pPkkiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3pPklCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_web_view_field_validwhen" memberEnd="_3pPklSK5EdujMN-Mf6X4Bw _3pPklyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3pPklSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_validwhen" type="_RgVexiK2Edu07u_JJk0LDQ" association="_3pPklCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3pPkliK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3umlsCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_table" memberEnd="_3umlsSK5EdujMN-Mf6X4Bw _3umlsyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3umlsSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table" type="_RgVe1SK2Edu07u_JJk0LDQ" association="_3umlsCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3umlsiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3umltCK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_view_table" memberEnd="_3umltSK5EdujMN-Mf6X4Bw _3umltyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3umltSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_table" type="_RgVe1SK2Edu07u_JJk0LDQ" association="_3umltCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3umltiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3z-N4CK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_field_multibox" memberEnd="_3z-N4SK5EdujMN-Mf6X4Bw _3z-N4yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3z-N4SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_multibox" type="_RgVe4yK2Edu07u_JJk0LDQ" association="_3z-N4CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3z-N4iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_3z-N5CK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_view_field_multibox" memberEnd="_3z-N5SK5EdujMN-Mf6X4Bw _3z-N5yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_3z-N5SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_multibox" type="_RgVe4yK2Edu07u_JJk0LDQ" association="_3z-N5CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3z-N5iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_32pucCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_field_required" memberEnd="_32pucSK5EdujMN-Mf6X4Bw _32pucyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_32pucSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_required" type="_RgVe8iK2Edu07u_JJk0LDQ" association="_32pucCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_32puciK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_35MFECK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_web_action_redirect" memberEnd="_35MFESK5EdujMN-Mf6X4Bw _35MFEyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_35MFESK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_redirect" type="_RgVe_SK2Edu07u_JJk0LDQ" association="_35MFECK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_35MFEiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_38BWoCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_field_table_identifier_columns" memberEnd="_38BWoSK5EdujMN-Mf6X4Bw _38BWoyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_38BWoSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_table_identifier_columns" type="_RgVfCCK2Edu07u_JJk0LDQ" association="_38BWoCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_38BWoiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4BPN0CK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_web_view_field_type" memberEnd="_4BPN0SK5EdujMN-Mf6X4Bw _4BPN0yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4BPN0SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_type" type="_RgVfECK2Edu07u_JJk0LDQ" association="_4BPN0CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4BPN0iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4BPN1CK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_web_view_field_type" memberEnd="_4BPN1SK5EdujMN-Mf6X4Bw _4BPN1yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4BPN1SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_field_type" type="_RgVfECK2Edu07u_JJk0LDQ" association="_4BPN1CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4BPN1iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4Dw9YCK5EdujMN-Mf6X4Bw" name="Class_FrontEndSessionObject" memberEnd="_4Dw9YSK5EdujMN-Mf6X4Bw _4Dw9YyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4Dw9YSK5EdujMN-Mf6X4Bw" name="extension$FrontEndSessionObject" type="_RgVfICK2Edu07u_JJk0LDQ" association="_4Dw9YCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4Dw9YiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4GTUACK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_exception_type" memberEnd="_4GTUASK5EdujMN-Mf6X4Bw _4GTUAyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4GTUASK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_exception_type" type="_RgVfJyK2Edu07u_JJk0LDQ" association="_4GTUACK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4GTUAiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4I-0kCK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_field_radio" memberEnd="_4JIlkCK5EdujMN-Mf6X4Bw _4JIlkiK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4JIlkCK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_radio" type="_RgVfMSK2Edu07u_JJk0LDQ" association="_4I-0kCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4JIlkSK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4LqVICK5EdujMN-Mf6X4Bw" name="Transition_andromda_presentation_web_action_form_scope" memberEnd="_4LqVISK5EdujMN-Mf6X4Bw _4LqVIyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4LqVISK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_action_form_scope" type="_RgVfPCK2Edu07u_JJk0LDQ" association="_4LqVICK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4LqVIiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4OWcwCK5EdujMN-Mf6X4Bw" name="State_andromda_presentation_web_view_type" memberEnd="_4OWcwSK5EdujMN-Mf6X4Bw _4OWcwyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4OWcwSK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_web_view_type" type="_RgVfRSK2Edu07u_JJk0LDQ" association="_4OWcwCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4OWcwiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4T3O4CK5EdujMN-Mf6X4Bw" name="Parameter_andromda_presentation_view_field_format" memberEnd="_4T3O4SK5EdujMN-Mf6X4Bw _4T3O4yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4T3O4SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_format" type="_RgVfTSK2Edu07u_JJk0LDQ" association="_4T3O4CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4T3O4iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_4T3O5CK5EdujMN-Mf6X4Bw" name="Property_andromda_presentation_view_field_format" memberEnd="_4T3O5SK5EdujMN-Mf6X4Bw _4T3O5yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4T3O5SK5EdujMN-Mf6X4Bw" name="extension$andromda_presentation_view_field_format" type="_RgVfTSK2Edu07u_JJk0LDQ" association="_4T3O5CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4T3O5iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+</uml:Profile>

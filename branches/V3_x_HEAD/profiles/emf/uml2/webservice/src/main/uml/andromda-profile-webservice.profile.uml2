@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xmi:id="_RgVmWCK2Edu07u_JJk0LDQ" name="AndroMDA Profile Webservice" metamodelReference="_RgVmeyK2Edu07u_JJk0LDQ">
+  <eAnnotations xmi:id="_RgVmWSK2Edu07u_JJk0LDQ" source="attributes">
+    <details xmi:id="_RgVmWiK2Edu07u_JJk0LDQ" key="version" value="1"/>
+  </eAnnotations>
+  <eAnnotations xmi:id="_RgVmWyK2Edu07u_JJk0LDQ" source="ePackages">
+    <contents xmi:type="ecore:EPackage" xmi:id="_6jgWRSK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice_1" nsURI="http:///AndroMDAProfileWebservice_1_6jgWRCK5EdujMN-Mf6X4Bw.profile.uml2" nsPrefix="AndroMDAProfileWebservice_1">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_6jgWRiK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice__WebService">
+        <eAnnotations xmi:id="_6jgWRyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVmfiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_6jgWSCK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice__andromda_webservice_style">
+        <eAnnotations xmi:id="_6jgWSSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVmhSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_6jgWSiK5EdujMN-Mf6X4Bw" name="andromda_webservice_style" ordered="false" lowerBound="1" eType="_6jgWSyK5EdujMN-Mf6X4Bw" defaultValueLiteral="rpc"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_6jgWSyK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice__WebServiceStyle">
+        <eLiterals xmi:id="_6jgWTCK5EdujMN-Mf6X4Bw" name="wrapped">
+          <eAnnotations xmi:id="_6jgWTSK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVmqSK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_6jgWTiK5EdujMN-Mf6X4Bw" name="document" value="1">
+          <eAnnotations xmi:id="_6jgWTyK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVmqiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_6jgWUCK5EdujMN-Mf6X4Bw" name="rpc" value="2">
+          <eAnnotations xmi:id="_6jgWUSK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVmqyK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_6jgWUiK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice__WebServiceOperation">
+        <eAnnotations xmi:id="_6jgWUyK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVmjiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_6jgWVCK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice__andromda_webservice_use">
+        <eAnnotations xmi:id="_6jgWVSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVmlSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_6jgWViK5EdujMN-Mf6X4Bw" name="andromda_webservice_use" ordered="false" lowerBound="1" eType="_6jgWVyK5EdujMN-Mf6X4Bw" defaultValueLiteral="literal"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_6jgWVyK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice__WebServiceUse">
+        <eLiterals xmi:id="_6jgWWCK5EdujMN-Mf6X4Bw" name="literal">
+          <eAnnotations xmi:id="_6jgWWSK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVmsiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_6jgWWiK5EdujMN-Mf6X4Bw" name="encoded" value="1">
+          <eAnnotations xmi:id="_6jgWWyK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVmsyK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_6jgWXCK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice__andromda_webservice_provider">
+        <eAnnotations xmi:id="_6jgWXSK5EdujMN-Mf6X4Bw" source="stereotype" references="_RgVmniK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_6jgWXiK5EdujMN-Mf6X4Bw" name="andromda_webservice_provider" ordered="false" lowerBound="1" eType="_6jgWXyK5EdujMN-Mf6X4Bw" defaultValueLiteral="RPC"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_6jgWXyK5EdujMN-Mf6X4Bw" name="AndroMDAProfileWebservice__WebServiceProvider">
+        <eLiterals xmi:id="_6jgWYCK5EdujMN-Mf6X4Bw" name="RPC">
+          <eAnnotations xmi:id="_6jgWYSK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVmriK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_6jgWYiK5EdujMN-Mf6X4Bw" name="EJB" value="1">
+          <eAnnotations xmi:id="_6jgWYyK5EdujMN-Mf6X4Bw" source="enumerationLiteral" references="_RgVmryK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_RgVmXCK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice_0" nsURI="http:///AndroMDAProfileWebservice_0_RfvlUCK2Edu07u_JJk0LDQ.profile.uml2" nsPrefix="AndroMDAProfileWebservice_0">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVmXSK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice__WebService">
+        <eAnnotations xmi:id="_RgVmXiK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVmfiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVmXyK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice___andromdawebservicestyle">
+        <eAnnotations xmi:id="_RgVmYCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVmhSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVmYSK2Edu07u_JJk0LDQ" name="_andromdawebservicestyle" ordered="false" lowerBound="1" eType="_RgVmYiK2Edu07u_JJk0LDQ" defaultValueLiteral="rpc"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_RgVmYiK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice__WebServiceStyle">
+        <eLiterals xmi:id="_RgVmYyK2Edu07u_JJk0LDQ" name="wrapped">
+          <eAnnotations xmi:id="_RgVmZCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVmqSK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVmZSK2Edu07u_JJk0LDQ" name="document" value="1">
+          <eAnnotations xmi:id="_RgVmZiK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVmqiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVmZyK2Edu07u_JJk0LDQ" name="rpc" value="2">
+          <eAnnotations xmi:id="_RgVmaCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVmqyK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVmaSK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice__WebServiceOperation">
+        <eAnnotations xmi:id="_RgVmaiK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVmjiK2Edu07u_JJk0LDQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVmayK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice___andromdawebserviceuse">
+        <eAnnotations xmi:id="_RgVmbCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVmlSK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVmbSK2Edu07u_JJk0LDQ" name="_andromdawebserviceuse" ordered="false" lowerBound="1" eType="_RgVmbiK2Edu07u_JJk0LDQ" defaultValueLiteral="literal"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_RgVmbiK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice__WebServiceUse">
+        <eLiterals xmi:id="_RgVmbyK2Edu07u_JJk0LDQ" name="literal">
+          <eAnnotations xmi:id="_RgVmcCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVmsiK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVmcSK2Edu07u_JJk0LDQ" name="encoded" value="1">
+          <eAnnotations xmi:id="_RgVmciK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVmsyK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_RgVmcyK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice___andromdawebserviceprovider">
+        <eAnnotations xmi:id="_RgVmdCK2Edu07u_JJk0LDQ" source="stereotype" references="_RgVmniK2Edu07u_JJk0LDQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_RgVmdSK2Edu07u_JJk0LDQ" name="_andromdawebserviceprovider" ordered="false" lowerBound="1" eType="_RgVmdiK2Edu07u_JJk0LDQ" defaultValueLiteral="RPC"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_RgVmdiK2Edu07u_JJk0LDQ" name="AndroMDAProfileWebservice__WebServiceProvider">
+        <eLiterals xmi:id="_RgVmdyK2Edu07u_JJk0LDQ" name="RPC">
+          <eAnnotations xmi:id="_RgVmeCK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVmriK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+        <eLiterals xmi:id="_RgVmeSK2Edu07u_JJk0LDQ" name="EJB" value="1">
+          <eAnnotations xmi:id="_RgVmeiK2Edu07u_JJk0LDQ" source="enumerationLiteral" references="_RgVmryK2Edu07u_JJk0LDQ"/>
+        </eLiterals>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <packageImport xmi:id="_RgVmeyK2Edu07u_JJk0LDQ" visibility="private">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m8qbA686EdiEh75YJ_3n8g"/>
+  </packageImport>
+  <packageImport xmi:id="_RgVmfCK2Edu07u_JJk0LDQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_EfRZoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <packageImport xmi:id="_RgVmfSK2Edu07u_JJk0LDQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/JavaPrimitiveTypes.library.uml2#_RjmyoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVmfiK2Edu07u_JJk0LDQ" name="WebService">
+    <ownedComment xmi:id="_RgVmfyK2Edu07u_JJk0LDQ">
+      <body>Represents a web service, this is usually used in combination with the &lt;&lt;Service>> stereotype because of the fact the service stereotype indicates a service implementation (like Spring, or Session EJBs must be generated).</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_6Yxs8yK5EdujMN-Mf6X4Bw" name="base$Class" association="_6Yxs8CK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVmhSK2Edu07u_JJk0LDQ" name="andromda_webservice_style">
+    <ownedAttribute xmi:id="_RgVmhiK2Edu07u_JJk0LDQ" name="andromda_webservice_style" visibility="private" type="_RgVmpyK2Edu07u_JJk0LDQ">
+      <ownedComment xmi:id="_RgVmhyK2Edu07u_JJk0LDQ">
+        <body>The style of the web service, can be 'rpc', 'document', or 'wrapped''.</body>
+      </ownedComment>
+      <defaultValue xmi:type="uml:InstanceValue" xmi:id="_RgVmiCK2Edu07u_JJk0LDQ" instance="_RgVmqyK2Edu07u_JJk0LDQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_6bdNgyK5EdujMN-Mf6X4Bw" name="base$Class" association="_6bdNgCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVmjiK2Edu07u_JJk0LDQ" name="WebServiceOperation">
+    <ownedComment xmi:id="_RgVmjyK2Edu07u_JJk0LDQ">
+      <body>Indicates a web service operation: this allows us to expose only certain operations on a given &lt;&lt;Service>> whereas the &lt;&lt;WebService>> stereotype exposed service and all its operations as a webservice.  
+
+For example, a service sometimes may contain other operations that will not be exposed externally as a web service, if an operation is stereotyped with this, then only those operations will be exposed.</body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_6eJVIyK5EdujMN-Mf6X4Bw" name="base$Operation" association="_6eJVICK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C2ja86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVmlSK2Edu07u_JJk0LDQ" name="andromda_webservice_use">
+    <ownedAttribute xmi:id="_RgVmliK2Edu07u_JJk0LDQ" name="andromda_webservice_use" visibility="private" type="_RgVmsCK2Edu07u_JJk0LDQ">
+      <ownedComment xmi:id="_RgVmlyK2Edu07u_JJk0LDQ">
+        <body>Denotes the use of the web service: can be 'literal' or 'encoded'.</body>
+      </ownedComment>
+      <defaultValue xmi:type="uml:InstanceValue" xmi:id="_RgVmmCK2Edu07u_JJk0LDQ" instance="_RgVmsiK2Edu07u_JJk0LDQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_6g01syK5EdujMN-Mf6X4Bw" name="base$Class" association="_6g01sCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_RgVmniK2Edu07u_JJk0LDQ" name="andromda_webservice_provider">
+    <ownedAttribute xmi:id="_RgVmnyK2Edu07u_JJk0LDQ" name="andromda_webservice_provider" visibility="private" type="_RgVmrCK2Edu07u_JJk0LDQ">
+      <ownedComment xmi:id="_RgVmoCK2Edu07u_JJk0LDQ">
+        <body>Denotes the provider for the web service: can be 'EJB' or 'RPC'.</body>
+      </ownedComment>
+      <defaultValue xmi:type="uml:InstanceValue" xmi:id="_RgVmoSK2Edu07u_JJk0LDQ" instance="_RgVmriK2Edu07u_JJk0LDQ"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_6jgWQyK5EdujMN-Mf6X4Bw" name="base$Class" association="_6jgWQCK5EdujMN-Mf6X4Bw">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Enumeration" xmi:id="_RgVmpyK2Edu07u_JJk0LDQ" name="WebServiceStyle">
+    <ownedComment xmi:id="_RgVmqCK2Edu07u_JJk0LDQ">
+      <body>Represents the style of the web service.</body>
+    </ownedComment>
+    <ownedLiteral xmi:id="_RgVmqSK2Edu07u_JJk0LDQ" name="wrapped"/>
+    <ownedLiteral xmi:id="_RgVmqiK2Edu07u_JJk0LDQ" name="document"/>
+    <ownedLiteral xmi:id="_RgVmqyK2Edu07u_JJk0LDQ" name="rpc"/>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Enumeration" xmi:id="_RgVmrCK2Edu07u_JJk0LDQ" name="WebServiceProvider">
+    <ownedComment xmi:id="_RgVmrSK2Edu07u_JJk0LDQ">
+      <body>Represents the provider of the web service.</body>
+    </ownedComment>
+    <ownedLiteral xmi:id="_RgVmriK2Edu07u_JJk0LDQ" name="RPC"/>
+    <ownedLiteral xmi:id="_RgVmryK2Edu07u_JJk0LDQ" name="EJB"/>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Enumeration" xmi:id="_RgVmsCK2Edu07u_JJk0LDQ" name="WebServiceUse">
+    <ownedComment xmi:id="_RgVmsSK2Edu07u_JJk0LDQ">
+      <body>Represents the use of the web service.</body>
+    </ownedComment>
+    <ownedLiteral xmi:id="_RgVmsiK2Edu07u_JJk0LDQ" name="literal"/>
+    <ownedLiteral xmi:id="_RgVmsyK2Edu07u_JJk0LDQ" name="encoded"/>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_6Yxs8CK5EdujMN-Mf6X4Bw" name="Class_WebService" memberEnd="_6Yxs8SK5EdujMN-Mf6X4Bw _6Yxs8yK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_6Yxs8SK5EdujMN-Mf6X4Bw" name="extension$WebService" type="_RgVmfiK2Edu07u_JJk0LDQ" association="_6Yxs8CK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6Yxs8iK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_6bdNgCK5EdujMN-Mf6X4Bw" name="Class_andromda_webservice_style" memberEnd="_6bdNgSK5EdujMN-Mf6X4Bw _6bdNgyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_6bdNgSK5EdujMN-Mf6X4Bw" name="extension$andromda_webservice_style" type="_RgVmhSK2Edu07u_JJk0LDQ" association="_6bdNgCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6bdNgiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_6eJVICK5EdujMN-Mf6X4Bw" name="Operation_WebServiceOperation" memberEnd="_6eJVISK5EdujMN-Mf6X4Bw _6eJVIyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_6eJVISK5EdujMN-Mf6X4Bw" name="extension$WebServiceOperation" type="_RgVmjiK2Edu07u_JJk0LDQ" association="_6eJVICK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6eJVIiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_6g01sCK5EdujMN-Mf6X4Bw" name="Class_andromda_webservice_use" memberEnd="_6g01sSK5EdujMN-Mf6X4Bw _6g01syK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_6g01sSK5EdujMN-Mf6X4Bw" name="extension$andromda_webservice_use" type="_RgVmlSK2Edu07u_JJk0LDQ" association="_6g01sCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6g01siK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_6jgWQCK5EdujMN-Mf6X4Bw" name="Class_andromda_webservice_provider" memberEnd="_6jgWQSK5EdujMN-Mf6X4Bw _6jgWQyK5EdujMN-Mf6X4Bw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_6jgWQSK5EdujMN-Mf6X4Bw" name="extension$andromda_webservice_provider" type="_RgVmniK2Edu07u_JJk0LDQ" association="_6jgWQCK5EdujMN-Mf6X4Bw" aggregation="composite">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6jgWQiK5EdujMN-Mf6X4Bw"/>
+    </ownedEnd>
+  </ownedMember>
+</uml:Profile>
