@@ -41,6 +41,7 @@ import org.eclipse.uml2.TypedElement;
 import org.eclipse.uml2.UML2Package;
 import org.eclipse.uml2.ValueSpecification;
 import org.eclipse.uml2.util.UML2Resource;
+import org.eclipse.uml2.util.UML2Util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -507,58 +508,7 @@ public class UmlUtilities
      */
     private static final String TAGGED_VALUES_STEREOTYPE = "AndroMdaTags";
 
-    /**
-     * Retrieves the TagDefinitions for the given element. Note that this is either the TagName/TagValues on the
-     * TAGGED_VALUES_STEREOTYPE stereotype or the values for any Stereotypes that have the value property.
-     *
-     * @param element the element from which to retrieve the tagged values.
-     * @return the collection of {@link TagDefinition} instances.
-     * @deprecated old way to handle tag values
-     */
-    public static Collection getAndroMDATags(Element element)
-    {
-        final Collection tags = new ArrayList();
-        final Stereotype tagStereotype = findAppliedStereotype(
-            element,
-            TAGGED_VALUES_STEREOTYPE);
-        if (tagStereotype != null)
-        {
-            List tagNames = (List)element.getValue(
-                tagStereotype,
-                "TagName");
-            List tagValues = (List)element.getValue(
-                tagStereotype,
-                "TagValue");
-            for (int ctr = 0; ctr < tagValues.size(); ctr++)
-            {
-                tags.add(new TagDefinitionImpl(
-                    tagNames.get(ctr).toString(),
-                    tagValues.get(ctr)));
-            }
-        }
-        for (final Iterator iterator = getStereotypeNames(element).iterator(); iterator.hasNext();)
-        {
-            final String name = (String)iterator.next();
-            if (!name.equalsIgnoreCase(TAGGED_VALUES_STEREOTYPE))
-            {
-                final Stereotype stereotype = findAppliedStereotype(
-                    element,
-                    name);
-                if (element.hasValue(
-                    stereotype,
-                    "value"))
-                {
-                    final Object value = element.getValue(
-                        stereotype,
-                        "value");
-                    tags.add(new TagDefinitionImpl(
-                        name,
-                        value));
-                }
-            }
-        }
-        return tags;
-    }
+
 
     /**
      * Retrieves the TagDefinitions for the given element.
@@ -572,81 +522,72 @@ public class UmlUtilities
         {
             logger.debug("Searching Tagged Values for " + element.getName());
         }
-        final Collection tags = getAndroMDATags(element);
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("AndroMDATags found until here: " + tags.size());
-        }
+        final Collection tags = new ArrayList();
         final Collection stereotypes = element.getAppliedStereotypes();
         for (Iterator stereoIt = stereotypes.iterator(); stereoIt.hasNext();)
         {
             Stereotype stereo = (Stereotype)stereoIt.next();
-            if (logger.isDebugEnabled())
+            if(stereo.getName().equals(TAGGED_VALUES_STEREOTYPE))
             {
-                logger.debug("Proceeding stereotype: " + stereo.getName());
-            }
-            for (Iterator tvIt = getAttributes(
-                stereo,
-                true).iterator(); tvIt.hasNext();)
-            {
-                String tagName = ((Property)tvIt.next()).getName();
-                if (!tagName.startsWith("base$"))
+                List tagNames = (List)element.getValue(stereo, "TagName");
+                List tagValues = (List)element.getValue(stereo,"TagValue");
+                for (int ctr = 0; ctr < tagValues.size(); ctr++)
                 {
-                    if (logger.isDebugEnabled())
-                    {
-                        logger.debug("Checking presence of: " + tagName + ": " + element.hasValue(
-                            stereo,
-                            tagName));
-                    }
-                    if (element.hasValue(
-                        stereo,
-                        tagName))
-                    {
-                        // Restore tag name
-                        String androMDATagName = "@" + tagName.replace(
-                            '_',
-                            '.');
-
-                        // Obtain its value
-                        Object tagValue = element.getValue(
-                            stereo,
-                            tagName);
-                        if (tagValue instanceof Collection)
-                        {
-                            Collection tagValues = (Collection)tagValue;
-                            if (!tagValues.isEmpty())
-                            {
-                                Collection tagValuesInString =
-                                    CollectionUtils.collect(
-                                        tagValues,
-                                        new Transformer()
-                                        {
-                                            public Object transform(Object object)
-                                            {
-                                                return object.toString();
-                                            }
-                                        });
-                                TagDefinition tagDefinition = new TagDefinitionImpl(androMDATagName, tagValuesInString);
-                                if (logger.isDebugEnabled())
-                                {
-                                    logger.debug("Tagged Value found: " + tagDefinition);
-                                }
-                                tags.add(tagDefinition);
-                            }
-                        }
-                        else
-                        {
-                            TagDefinition tagDefinition = new TagDefinitionImpl(androMDATagName,
-                                tagValue.toString());
-                            if (logger.isDebugEnabled())
-                            {
-                                logger.debug("Tagged Value found: " + tagDefinition);
-                            }
-                            tags.add(tagDefinition);
-                        }
-                    }
+                	tags.add(new TagDefinitionImpl(
+                            tagNames.get(ctr).toString(),
+                            tagValues.get(ctr)));
                 }
             }
+            else if (element.hasValue(stereo,"value"))
+            {
+            	final Object value = element.getValue(stereo,"value");
+            	tags.add(new TagDefinitionImpl(
+            			stereo.getName(),
+            			value));
+            }
+            else
+            {
+                for (Iterator tvIt = getAttributes(stereo, true).iterator(); tvIt.hasNext();)
+                {
+                	Property tagProperty = (Property) tvIt.next();
+					String tagName = tagProperty.getName();
+					if (!tagName.startsWith("base$")) {
+						if (element.hasValue(stereo, tagName)) {
+							// Obtain its value
+							Object tagValue = element.getValue(stereo, tagName);
+							if (tagValue instanceof Collection) {
+								Collection tagValues = (Collection) tagValue;
+								if (!tagValues.isEmpty()) {
+									Collection tagValuesInString = CollectionUtils
+											.collect(tagValues,
+													new Transformer() {
+														public Object transform(Object object) {
+															return getTagValueAsString(object);
+														}
+													});
+									TagDefinition tagDefinition = new TagDefinitionImpl(
+											tagName, tagValuesInString);
+									tags.add(tagDefinition);
+								}
+							} else {
+								TagDefinition tagDefinition = new TagDefinitionImpl(
+										tagName, getTagValueAsString(tagValue));
+								tags.add(tagDefinition);
+							}
+						}
+						else // use default value, if it is usable (non empty)
+						{
+							String defaultValue = getTagValueAsString(tagProperty.getDefaultValue());
+							if(StringUtils.isEmpty(defaultValue))
+							{
+								TagDefinition tagDefinition = new TagDefinitionImpl(
+										tagName, defaultValue);
+								tags.add(tagDefinition);
+							}
+						}
+					}
+				}
+			}
         }
 
         if (logger.isDebugEnabled())
@@ -658,13 +599,34 @@ public class UmlUtilities
     }
 
     /**
-     * Attempts to find the applied stereotype with the given name on the given
-     * <code>element</code>. First tries to find it with the fully qualified
-     * name, and then tries it with just the name.
-     *
-     * @param name the name of the stereotype
-     * @return the found stereotype or null if not found.
+     * The .toString method isn't suitable to transform the values of tagValue as String.
+     * @param tagValue
+     * @return
      */
+    private static String getTagValueAsString(Object tagValue)
+    {
+    	String valueAsString = tagValue.toString();
+    	if(tagValue instanceof ValueSpecification)
+    	{
+    		ValueSpecification literal = (ValueSpecification) tagValue;
+    		valueAsString = literal.stringValue();
+    	}
+    	else if(tagValue instanceof InstanceSpecification)
+    	{
+    		InstanceSpecification instance = (InstanceSpecification) tagValue;
+    		valueAsString = instance.getName();
+    	}
+    	return valueAsString; 	
+    }
+    /**
+	 * Attempts to find the applied stereotype with the given name on the given
+	 * <code>element</code>. First tries to find it with the fully qualified
+	 * name, and then tries it with just the name.
+	 * 
+	 * @param name
+	 *            the name of the stereotype
+	 * @return the found stereotype or null if not found.
+	 */
     public static Stereotype findAppliedStereotype(
         final Element element,
         final String name)
@@ -1019,4 +981,45 @@ public class UmlUtilities
         }
         return value;
     }
+
+	/**
+	 * There is an issue with EMF / XMI about tag value name (there should not be any @ or . inside)
+	 * This method checks whether <code>tagValueName</code> can be seen as <code>requestedName</code>.
+	 * We compare them either:
+	 *	- without name transformation
+  	 *	- removing initial '@' and replacing '.' by '_' (rsm / emf-uml2 profile)
+  	 *	- EMF normalization (for MD11.5 export)
+  	 *
+	 * @param requestedName
+	 * @param tagValueName
+	 * @return
+	 */
+	public static boolean doesTagValueNameMatch(String requestedName, String tagValueName) {
+		boolean result = requestedName.equals(tagValueName);
+		if(!result && requestedName.startsWith("@"))
+		{
+			// let's try rsm guess
+			String rsmName = requestedName.substring(1);
+			rsmName = rsmName.replace('.', '_');
+			result = rsmName.equals(tagValueName);
+			if(!result)
+			{
+				// let's try emf normalization
+				String emfName = EMFNormalizer.getEMFName(requestedName);
+				result = emfName.equals(tagValueName);
+			}
+		}
+		return result;
+	}
+	
+	
+	// hack to use a protected method
+	private static class EMFNormalizer extends UML2Util
+	{
+			public static String getEMFName(String name)
+			{
+				return getValidIdentifier(name);
+			}
+	}
 }
+

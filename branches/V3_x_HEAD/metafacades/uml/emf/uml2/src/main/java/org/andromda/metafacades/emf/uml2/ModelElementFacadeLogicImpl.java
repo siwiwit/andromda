@@ -501,7 +501,7 @@ public class ModelElementFacadeLogicImpl
                 TaggedValueFacade taggedValue = (TaggedValueFacade)taggedValueIterator.next();
 
                 // does this name match the argument tagged value name ?
-                if (name.equals(taggedValue.getName()))
+                if (UmlUtilities.doesTagValueNameMatch(name,taggedValue.getName()))
                 {
                     values.addAll(taggedValue.getValues());
                 }
