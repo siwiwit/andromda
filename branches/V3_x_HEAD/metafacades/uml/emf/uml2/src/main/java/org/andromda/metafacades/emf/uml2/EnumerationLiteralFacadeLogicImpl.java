@@ -1,9 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
-import org.andromda.utils.StringUtilsHelper;
-import org.andromda.metafacades.uml.EnumerationFacade;
-import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.NameMasker;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
 
 
