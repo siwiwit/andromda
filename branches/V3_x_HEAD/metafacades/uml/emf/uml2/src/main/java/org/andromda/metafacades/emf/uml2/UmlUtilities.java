@@ -603,7 +603,7 @@ public class UmlUtilities
      * @param tagValue
      * @return
      */
-    private static String getTagValueAsString(Object tagValue)
+    static String getTagValueAsString(Object tagValue)
     {
     	String valueAsString = tagValue.toString();
     	if(tagValue instanceof ValueSpecification)
