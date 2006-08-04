@@ -86,7 +86,7 @@ public abstract class $entity.daoBaseName
                             throws org.hibernate.HibernateException
                         {
                             org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
-                            return xmlSession.get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
+                            return xmlSession.get(${entity.fullyQualifiedEntityImplementationName}.class, $argument);
                         }
                     },
                     true);
@@ -97,7 +97,7 @@ public abstract class $entity.daoBaseName
 #else
 #set ($xmlIndent = "")
 #end
-$xmlIndent        final java.lang.Object entity = this.getHibernateTemplate().get(${entity.fullyQualifiedEntityImplementationName}.class, $identifier.name);
+$xmlIndent        final java.lang.Object entity = this.getHibernateTemplate().get(${entity.fullyQualifiedEntityImplementationName}.class, $argument);
 $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)entity);
 #if ($hibernateUtils.xmlPersistenceActive)
         }
