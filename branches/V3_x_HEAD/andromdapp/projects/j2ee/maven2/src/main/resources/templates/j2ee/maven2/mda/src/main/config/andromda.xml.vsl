@@ -8,13 +8,26 @@
         <port>4447</port>
     </server>
     <repositories>
+#if ($repositoryType.equals("uml1.4"))
         <repository name="netBeansMDR">
             <models>
                 <model>
+#else
+        <repository name="emf-uml2">
+            <models>
+                <model type="emf-uml2">
+#end
                     <uri>${model.uri}</uri>
+#if ($modelType.equals("uml1.4"))
                     <moduleSearchLocations>
-                        <location patterns="**/*.xml.zip, **/*.uml2">${settings.localRepository}/org/andromda/profiles/uml14</location>
-                    </moduleSearchLocations>
+		 				<location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
+					</moduleSearchLocations>
+#end
+#if ($modelType.equals("emf-uml2"))
+                    <moduleSearchLocations>
+		 				<location patterns="**/*.uml2">${settings.localRepository}/org/andromda/profiles/emf/uml2</location>
+					</moduleSearchLocations>
+#end
                 </model>
             </models>
         </repository>

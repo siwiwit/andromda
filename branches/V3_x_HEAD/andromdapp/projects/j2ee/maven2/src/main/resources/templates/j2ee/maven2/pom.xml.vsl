@@ -41,13 +41,33 @@
     </developers>
     <dependencyManagement>
         <dependencies>
+#if ($modelType.equals("uml1.4"))
             <dependency>
                 <groupId>org.andromda.profiles.uml14</groupId>
-                <artifactId>andromda-profile</artifactId>
+    			<artifactId>andromda-profile</artifactId>
                 <version>$andromdaVersion</version>
                 <type>xml.zip</type>
                 <scope>runtime</scope>
             </dependency>
+#end
+#if ($modelType.equals("uml2"))
+            <dependency>
+                <groupId>org.andromda.profiles.uml2</groupId>
+    			<artifactId>andromda-profile</artifactId>
+                <version>$andromdaVersion</version>
+                <type>xml.zip</type>
+                <scope>runtime</scope>
+            </dependency>
+#end
+#if ($modelType.equals("emf-uml2"))
+            <dependency>
+                <groupId>org.andromda.profiles.emf.uml2</groupId>
+    			<artifactId>andromda-profile-common</artifactId>
+                <version>$andromdaVersion</version>
+                <type>uml2</type>
+                <scope>runtime</scope>
+            </dependency>
+#end
 #if ($jbossSeam)
 
             <dependency>

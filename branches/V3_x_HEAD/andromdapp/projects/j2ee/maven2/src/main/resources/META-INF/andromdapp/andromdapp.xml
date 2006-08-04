@@ -45,9 +45,20 @@
             <condition id="webservice" equal="true"/>
             <output>mda/src/main/config/mappings/WebMergeMappings.xml.vsl</output>
         </conditions>
-        <conditions>
+        <conditions type="and">
             <condition id="model" present="false"/>
+            <condition id="modelType" equal="uml1.4"/>
             <output>mda/src/main/uml/${applicationId}.xmi.vsl</output>
+        </conditions>
+        <conditions type="and">
+            <condition id="model" present="false"/>
+            <condition id="modelType" equal="uml2"/>
+            <output>mda/src/main/uml/${applicationId}.xml.vsl</output>
+        </conditions>
+        <conditions type="and">
+            <condition id="model" present="false"/>
+            <condition id="modelType" equal="emf-uml2"/>
+            <output>mda/src/main/uml/${applicationId}.uml2.vsl</output>
         </conditions>
         <conditions>
             <condition id="configurationUri" present="false"/>
@@ -60,8 +71,16 @@
     </conditionalOutput>
     <mappings>
         <mapping>
-            <from>empty-model.xmi</from>
+            <from>empty-model-uml14.xmi</from>
             <to>${applicationId}.xmi.vsl</to>
+        </mapping>
+        <mapping>
+            <from>empty-model-uml2.xml</from>
+            <to>${applicationId}.xml.vsl</to>
+        </mapping>
+        <mapping>
+            <from>empty-model.uml2</from>
+            <to>${applicationId}.uml2.vsl</to>
         </mapping>
         <mapping>
             <from>app/src/main/config/jboss-datasource.xml.vsl</from>
@@ -99,6 +118,26 @@
             <prompt id="author">
                 <text>Please enter your first and last name (i.e. Chad Brandon)</text>
                 <shortText>Author</shortText>
+            </prompt>
+            <prompt id="modelType" setResponseAsTrue="true">
+                <text>Which kind of modeling tool will you use?</text>
+                <shortText>Model type</shortText>
+                <responses>
+                    <response>uml1.4</response>
+                    <response>uml2</response>
+                    <response>emf-uml2</response>
+                </responses>
+                <conditions>
+                    <condition equal="uml2">
+                        <setProperty id="repositoryType">emf-uml2</setProperty>
+                    </condition>
+                    <condition equal="emf-uml2">
+                        <setProperty id="repositoryType">emf-uml2</setProperty>
+                    </condition>
+                    <condition equal="uml1.4">
+                        <setProperty id="repositoryType">uml1.4</setProperty>
+                    </condition>
+                </conditions>
             </prompt>
             <prompt id="applicationName">
                 <text>Please enter the name of your J2EE project (i.e. Animal Quiz)</text>

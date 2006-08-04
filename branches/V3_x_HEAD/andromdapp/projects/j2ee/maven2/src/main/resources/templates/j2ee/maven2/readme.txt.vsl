@@ -19,6 +19,14 @@
 
     Custom configuration can be done by updating the root pom.xml file.
 
+#if ($modelType.equals("uml2"))
+    Magic Draw 11.5 is supported via its 'Export to EMF-UML2' feature. You'll notice
+    that the andromda.xml is already configured to load these exported files. It expects
+    that a model called '$applicationId' has been created within your Magic Draw model.
+    
+    Important: before launching AndroMDA, be sure to have exported your model.
+
+#end
     /$applicationId J2EE project
          |
          |    The root of the project contains a few files that control the overall

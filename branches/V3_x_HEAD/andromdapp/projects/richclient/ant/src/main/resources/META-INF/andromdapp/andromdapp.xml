@@ -34,7 +34,7 @@
     </directories>
     <mappings>
         <mapping>
-            <from>empty-model.xmi</from>
+            <from>empty-model-uml14.xmi</from>
             <to>${applicationId}-model.xmi.vsl</to>
         </mapping>
     </mappings>

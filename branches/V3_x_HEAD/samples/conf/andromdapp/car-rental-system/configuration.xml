@@ -2,6 +2,7 @@
     <properties>
         <property name="andromdappType">j2ee</property>
         <property name="author">AndroMDA Team</property>
+        <property name="modelType">uml1.4</property>
         <property name="applicationParentDirectory">$${project.basedir}</property>
         <property name="applicationId">car-rental-system</property>
         <property name="applicationName">AndroMDA Car Rental Sample</property>

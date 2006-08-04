@@ -11,11 +11,27 @@
     <packaging>pom</packaging>
     <name>${applicationName} MDA</name>
     <dependencies>
+#if ($modelType.equals("uml1.4"))
         <dependency>
             <groupId>org.andromda.profiles.uml14</groupId>
             <artifactId>andromda-profile</artifactId>
             <type>xml.zip</type>
         </dependency>
+#end
+#if ($modelType.equals("uml2"))
+        <dependency>
+            <groupId>org.andromda.profiles.uml2</groupId>
+            <artifactId>andromda-profile</artifactId>
+            <type>xml.zip</type>
+        </dependency>
+#end
+#if ($modelType.equals("emf-uml2"))
+        <dependency>
+            <groupId>org.andromda.profiles.emf.uml2</groupId>
+            <artifactId>andromda-profile-common</artifactId>
+            <type>uml2</type>
+        </dependency>
+#end
 #if ($jbossSeam)
         <dependency>
             <groupId>org.andromda.profiles.uml14</groupId>
@@ -132,7 +148,11 @@
 #if ($stringUtils.isNotEmpty($model))
         <model.uri>$model</model.uri>
 #else
-        <model.uri>file:${project.build.sourceDirectory}/${applicationId}.xmi</model.uri>
+#if ($repositoryType.equals("uml1.4"))
+		<model.uri>file:${project.build.sourceDirectory}/${applicationId}.xmi</model.uri>
+#else
+		<model.uri>file:${project.build.sourceDirectory}/${applicationId}.uml2</model.uri>
+#end
 #end
         <filter></filter>
         <validation>true</validation>

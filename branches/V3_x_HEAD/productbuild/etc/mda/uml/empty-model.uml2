@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xmi:id="_rvtf4CK7EduP-_koka1FqA" name="model" appliedProfile="_rvtf4SK7EduP-_koka1FqA _rvtf5CK7EduP-_koka1FqA _rvtf5yK7EduP-_koka1FqA _rvtf6iK7EduP-_koka1FqA _rvtf7SK7EduP-_koka1FqA _rvtf8CK7EduP-_koka1FqA _rvtf8yK7EduP-_koka1FqA _rvtf9iK7EduP-_koka1FqA">
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_rvtf4SK7EduP-_koka1FqA">
+    <eAnnotations xmi:id="_rvtf4iK7EduP-_koka1FqA" source="attributes">
+      <details xmi:id="_rvtf4yK7EduP-_koka1FqA" key="version" value="1"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-presentation/3.2-SNAPSHOT/andromda-profile-presentation-3.2-SNAPSHOT.uml2#_RgVcjiK2Edu07u_JJk0LDQ"/>
+    <importedProfile href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-presentation/3.2-SNAPSHOT/andromda-profile-presentation-3.2-SNAPSHOT.uml2#_RgVcjiK2Edu07u_JJk0LDQ"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_rvtf5CK7EduP-_koka1FqA">
+    <eAnnotations xmi:id="_rvtf5SK7EduP-_koka1FqA" source="attributes">
+      <details xmi:id="_rvtf5iK7EduP-_koka1FqA" key="version" value="1"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-service/3.2-SNAPSHOT/andromda-profile-service-3.2-SNAPSHOT.uml2#_RgMRQCK2Edu07u_JJk0LDQ"/>
+    <importedProfile href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-service/3.2-SNAPSHOT/andromda-profile-service-3.2-SNAPSHOT.uml2#_RgMRQCK2Edu07u_JJk0LDQ"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_rvtf5yK7EduP-_koka1FqA">
+    <eAnnotations xmi:id="_rvtf6CK7EduP-_koka1FqA" source="attributes">
+      <details xmi:id="_rvtf6SK7EduP-_koka1FqA" key="version" value="1"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-webservice/3.2-SNAPSHOT/andromda-profile-webservice-3.2-SNAPSHOT.uml2#_RgVmWCK2Edu07u_JJk0LDQ"/>
+    <importedProfile href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-webservice/3.2-SNAPSHOT/andromda-profile-webservice-3.2-SNAPSHOT.uml2#_RgVmWCK2Edu07u_JJk0LDQ"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_rvtf6iK7EduP-_koka1FqA">
+    <eAnnotations xmi:id="_rvtf6yK7EduP-_koka1FqA" source="attributes">
+      <details xmi:id="_rvtf7CK7EduP-_koka1FqA" key="version" value="1"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-process/3.2-SNAPSHOT/andromda-profile-process-3.2-SNAPSHOT.uml2#_RgfOnSK2Edu07u_JJk0LDQ"/>
+    <importedProfile href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-process/3.2-SNAPSHOT/andromda-profile-process-3.2-SNAPSHOT.uml2#_RgfOnSK2Edu07u_JJk0LDQ"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_rvtf7SK7EduP-_koka1FqA">
+    <eAnnotations xmi:id="_rvtf7iK7EduP-_koka1FqA" source="attributes">
+      <details xmi:id="_rvtf7yK7EduP-_koka1FqA" key="version" value="1"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-xml/3.2-SNAPSHOT/andromda-profile-xml-3.2-SNAPSHOT.uml2#_RgVfXCK2Edu07u_JJk0LDQ"/>
+    <importedProfile href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-xml/3.2-SNAPSHOT/andromda-profile-xml-3.2-SNAPSHOT.uml2#_RgVfXCK2Edu07u_JJk0LDQ"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_rvtf8CK7EduP-_koka1FqA">
+    <eAnnotations xmi:id="_rvtf8SK7EduP-_koka1FqA" source="attributes">
+      <details xmi:id="_rvtf8iK7EduP-_koka1FqA" key="version" value="1"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-common/3.2-SNAPSHOT/andromda-profile-common-3.2-SNAPSHOT.uml2#_RgfPHCK2Edu07u_JJk0LDQ"/>
+    <importedProfile href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-common/3.2-SNAPSHOT/andromda-profile-common-3.2-SNAPSHOT.uml2#_RgfPHCK2Edu07u_JJk0LDQ"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_rvtf8yK7EduP-_koka1FqA">
+    <eAnnotations xmi:id="_rvtf9CK7EduP-_koka1FqA" source="attributes">
+      <details xmi:id="_rvtf9SK7EduP-_koka1FqA" key="version" value="1"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-meta/3.2-SNAPSHOT/andromda-profile-meta-3.2-SNAPSHOT.uml2#_RgVcYiK2Edu07u_JJk0LDQ"/>
+    <importedProfile href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-meta/3.2-SNAPSHOT/andromda-profile-meta-3.2-SNAPSHOT.uml2#_RgVcYiK2Edu07u_JJk0LDQ"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_rvtf9iK7EduP-_koka1FqA">
+    <eAnnotations xmi:id="_rvtf9yK7EduP-_koka1FqA" source="attributes">
+      <details xmi:id="_rvtf-CK7EduP-_koka1FqA" key="version" value="1"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-persistence/3.2-SNAPSHOT/andromda-profile-persistence-3.2-SNAPSHOT.uml2#_RgVfdiK2Edu07u_JJk0LDQ"/>
+    <importedProfile href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-persistence/3.2-SNAPSHOT/andromda-profile-persistence-3.2-SNAPSHOT.uml2#_RgVfdiK2Edu07u_JJk0LDQ"/>
+  </packageImport>
+  <packageImport xmi:id="_rvtf-SK7EduP-_koka1FqA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://m2repository/org/andromda/profiles/emf/uml2/andromda-profile-datatype/3.2-SNAPSHOT/andromda-profile-datatype-3.2-SNAPSHOT.uml2#_pg7wEBiHEduGO9US2WjLjg"/>
+  </packageImport>
+</uml:Model>
