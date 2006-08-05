@@ -9,6 +9,12 @@
     <body>
         <section name="Getting started with AndroMDA for Java">
             <p>
+                <strong>Note: This tutorial has been superseded by a new one with several
+                enhancements including Maven 2 support and front-end construction.
+                Click <a href="http://www.andromda.org/index.php?option=com_content&task=category&sectionid=11&id=42&Itemid=89">here</a> to follow the new tutorial.</strong>
+            </p>
+
+            <p>
                 Understanding new tools and technologies can be a daunting task. AndroMDA
                 is no exception. This tutorial serves as a gentle introduction to the power
                 of AndroMDA. We will show you step-by-step how to set up your development
