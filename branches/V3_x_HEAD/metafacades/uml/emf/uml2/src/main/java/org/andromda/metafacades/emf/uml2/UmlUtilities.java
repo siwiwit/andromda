@@ -599,23 +599,27 @@ public class UmlUtilities
     }
 
     /**
-     * The .toString method isn't suitable to transform the values of tagValue as String.
+     * The toString() method isn't suitable to transform the values of tagValue as String.
      * @param tagValue
-     * @return
+     * @return the tag value as a string.
      */
     static String getTagValueAsString(Object tagValue)
     {
-    	String valueAsString = tagValue.toString();
-    	if(tagValue instanceof ValueSpecification)
-    	{
-    		ValueSpecification literal = (ValueSpecification) tagValue;
-    		valueAsString = literal.stringValue();
-    	}
-    	else if(tagValue instanceof InstanceSpecification)
-    	{
-    		InstanceSpecification instance = (InstanceSpecification) tagValue;
-    		valueAsString = instance.getName();
-    	}
+        String valueAsString = null;
+        if (tagValue != null)
+        {
+        	valueAsString = tagValue.toString();
+        	if(tagValue instanceof ValueSpecification)
+        	{
+        		ValueSpecification literal = (ValueSpecification) tagValue;
+        		valueAsString = literal.stringValue();
+        	}
+        	else if(tagValue instanceof InstanceSpecification)
+        	{
+        		InstanceSpecification instance = (InstanceSpecification) tagValue;
+        		valueAsString = instance.getName();
+        	}
+        }
     	return valueAsString; 	
     }
     /**
