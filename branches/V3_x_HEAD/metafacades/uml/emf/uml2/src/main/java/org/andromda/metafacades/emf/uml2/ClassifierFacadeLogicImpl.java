@@ -4,6 +4,7 @@ import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.FilteredCollection;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.OperationFacade;
 import org.andromda.metafacades.uml.PackageFacade;
@@ -12,7 +13,6 @@ import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.metafacades.uml.FilteredCollection;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
@@ -557,10 +557,21 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetProperties(final boolean follow)
     {
-        final List allProperties = new ArrayList();
-        allProperties.addAll(this.getAttributes(follow));
-        allProperties.addAll(this.getNavigableConnectingEnds(follow));
-        return allProperties;
+        final List properties = new ArrayList();
+        if (follow && !this.getGeneralizations().isEmpty())
+        {
+            for (Iterator iterator = this.getGeneralizations().iterator(); iterator.hasNext();)
+            {
+                final Object generalization = iterator.next();
+                if (generalization instanceof ClassifierFacade)
+                {
+                    properties.addAll(((ClassifierFacade)generalization).getAllProperties());
+                }
+            }
+        }
+        properties.addAll(this.getAttributes(false));
+        properties.addAll(this.getNavigableConnectingEnds(false));
+        return properties;
     }
 
     protected Collection handleGetOperations()

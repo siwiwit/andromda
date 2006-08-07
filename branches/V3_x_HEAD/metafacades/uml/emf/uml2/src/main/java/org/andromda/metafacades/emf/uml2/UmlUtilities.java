@@ -620,13 +620,13 @@ public class UmlUtilities
         		valueAsString = instance.getName();
         	}
         }
-    	return valueAsString; 	
+    	return valueAsString;
     }
     /**
 	 * Attempts to find the applied stereotype with the given name on the given
 	 * <code>element</code>. First tries to find it with the fully qualified
 	 * name, and then tries it with just the name.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the stereotype
 	 * @return the found stereotype or null if not found.
@@ -996,7 +996,6 @@ public class UmlUtilities
   	 *
 	 * @param requestedName
 	 * @param tagValueName
-	 * @return
 	 */
 	public static boolean doesTagValueNameMatch(String requestedName, String tagValueName) {
 		boolean result = requestedName.equals(tagValueName);
@@ -1015,8 +1014,8 @@ public class UmlUtilities
 		}
 		return result;
 	}
-	
-	
+
+
 	// hack to use a protected method
 	private static class EMFNormalizer extends UML2Util
 	{
