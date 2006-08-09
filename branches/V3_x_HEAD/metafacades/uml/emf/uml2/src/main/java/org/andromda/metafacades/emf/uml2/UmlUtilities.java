@@ -33,6 +33,7 @@ import org.eclipse.uml2.Namespace;
 import org.eclipse.uml2.Operation;
 import org.eclipse.uml2.Package;
 import org.eclipse.uml2.Parameter;
+import org.eclipse.uml2.Profile;
 import org.eclipse.uml2.Property;
 import org.eclipse.uml2.Slot;
 import org.eclipse.uml2.Stereotype;
@@ -806,14 +807,17 @@ public class UmlUtilities
         final String usedSeparator = modelName ? MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR : separator;
 
         for (Namespace namespace = metaObject.getNamespace();
-             (namespace instanceof Package) && !(namespace instanceof Model); namespace = namespace.getNamespace())
+             namespace != null ; namespace = namespace.getNamespace())
         {
-            if (buffer.length() != 0)
-            {
-                buffer.insert(0, usedSeparator);
-            }
+        	if(namespace instanceof Package && !(namespace instanceof Model) && !(namespace instanceof Profile))
+        	{
+        		if (buffer.length() != 0)
+        		{
+        			buffer.insert(0, usedSeparator);
+        		}
 
-            buffer.insert(0, namespace.getName());
+        		buffer.insert(0, namespace.getName());
+        	}
         }
 
         return buffer.toString();
