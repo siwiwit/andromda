@@ -294,7 +294,7 @@
         another database, then you will have to change JBoss and Hibernate configurations
         accordingly. Follow the steps below to install MySQL.
     </p>
-    <ul>
+    <ol>
         <li>Click <a href="http://dev.mysql.com/downloads/mysql/5.0.html" target="_blank">here</a>
             to go to the MySQL download page.</li>
         <li>Download the full Windows installation, specified as "Windows (x86)" (not just the
@@ -312,7 +312,7 @@
             to the JBoss lib directory located at <code>C:\jboss-4.0.4\server\default\lib</code>.
             (Recheck the target directory - JBoss has multiple lib directories under its root
             directory.) This allows JBoss to access your database.</li>
-    </ul>
+    </ol>
     <h4>Install Eclipse (Optional)</h4>
     <p>
         Eclipse is a popular open source IDE useful for developing Java applications. AndroMDA
@@ -324,8 +324,18 @@
     <p>
         You can download Eclipse from <a href="http://www.eclipse.org/downloads/">here</a>.
         Double-click the downloaded file to start the installation. The recommended install
-        location for Eclipse is <code>C:\eclipse</code>.
+        location for Eclipse is <code>C:\eclipse</code>. Once installed, set up a classpath
+        variable in Eclipse called <code>M2_REPO</code> as follows:
     </p>
+    <ol>
+        <li>Start Eclipse.</li>
+        <li>Choose Preferences from the Window Menu.</li>
+        <li>In the left pane, select Java > Build Path > Classpath Variables.</li>
+        <li>Click New.</li>
+        <li>Add <code>M2_REPO</code> in the Name field and the path of your M2 repository in
+            the Path field (for example, <code>C:\Documents and Settings\<strong>your user name</strong>\.m2\repository</code>).</li>
+        <li>Click OK twice to close the dialog boxes.</li>
+    </ol>
     <h3>What's Next?</h3>
     <p>
         Now that the development environment is set up, we are ready to try out the TimeTracker
