@@ -76,11 +76,36 @@ public abstract class $service.baseName
 #if ($requiredCheckEnabled)
 #foreach ($argument in $operation.arguments)
 #if ($argument.required && !$argument.type.primitive)
+#if (!$argument.type.stringType)
         if ($argument.name == null)
         {
             throw new IllegalArgumentException(
                 "${service.fullyQualifiedName}.${operation.signature} - '${argument.name}' can not be null");
         }
+#else
+        if ($argument.name == null || ${argument.name}.trim().length() == 0)
+        {
+            throw new IllegalArgumentException(
+                "${service.fullyQualifiedName}.${operation.signature} - '${argument.name}' can not be null or empty");
+        }
+#end
+#end
+#foreach ($attribute in $argument.type.attributes)
+#if ($attribute.required && !$attribute.type.primitive)
+#if (!$attribute.type.stringType)
+        if (${argument.name}.get${stringUtils.capitalize($attribute.name)}() == null)
+        {
+            throw new IllegalArgumentException(
+                "${service.fullyQualifiedName}.${operation.signature} - '$argument.name.$attribute.name' can not be null");
+        }
+#else
+        if (${argument.name}.get${stringUtils.capitalize($attribute.name)}() == null || ${argument.name}.get${stringUtils.capitalize($attribute.name)}().trim().length() == 0)
+        {
+            throw new IllegalArgumentException(
+                "${service.fullyQualifiedName}.${operation.signature} - '$argument.name.$attribute.name' can not be null or empty");
+        }
+#end
+#end
 #end
 #end
 #end
