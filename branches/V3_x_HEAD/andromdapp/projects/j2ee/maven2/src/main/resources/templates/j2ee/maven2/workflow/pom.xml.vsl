@@ -29,5 +29,11 @@
                 </excludes>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromda-multi-source-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>
