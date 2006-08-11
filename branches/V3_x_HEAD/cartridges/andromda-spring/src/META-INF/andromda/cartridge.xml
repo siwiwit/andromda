@@ -143,6 +143,7 @@
     <property reference="serverTestBeanRefFactory"/>
     <property reference="serverTestContextDataSource"/>
     <property reference="enableTemplating"/>
+    <property reference="hibernateQueryUseNamedParameters"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
@@ -156,6 +157,7 @@
     <condition name="ejbSecurityEnabled">$stringUtils.isNotBlank($securityRealm)</condition>
     <condition name="remoteEjbsPresent">$springUtils.remoteEjbsPresent($services)</condition> 
     <condition name="localEjbsPresent">$springUtils.localEjbsPresent($services)</condition> 
+    <condition name="useNamedParametersInQueries">$hibernateQueryUseNamedParameters.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->

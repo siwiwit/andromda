@@ -536,7 +536,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #set ($argumentValue = "${argument.name}.getValue()")
 #end
 #set ($setParameterOperation = "setParameter")
-#if ($argument.type.collectionType || $argument.type.arrayType)
+#if ($useNamedParametersInQueries && ($argument.type.collectionType || $argument.type.arrayType))
 #set ($setParameterOperation = "${setParameterOperation}List")
 #end
 #if ($finder.useNamedParameters || $argument.type.collectionType || $argument.type.arrayType)
