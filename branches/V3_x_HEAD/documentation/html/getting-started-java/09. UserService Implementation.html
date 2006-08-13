@@ -208,13 +208,15 @@ public class UserServiceImpl
         of all this for you.
     </p>
     <p>
-        Well, we think that <code>UserService</code> is now completely implemented. Should
-        we test it? Why not? Let's execute <code>mvn install</code> again and see what happens:
+        Well, we think that <code>UserService</code> is now completely implemented. Let's
+        test it. Execute the command below to run <code>UserServiceTest</code>. Note that
+        this time we do not execute <code>mvn install</code> because this command regenerates
+        code and rebuilds the entire application. Since we have not made any model changes
+        after the last build, it makes sense to just run the <code>test</code> target in
+        the <code>core</code> project.
     </p>
     <pre>
-C:\timetracker>mvn install
-[INFO] Scanning for projects...
-[INFO] Reactor build order:
+C:\timetracker>mvn -f core/pom.xml test
 ...
 ...
 -------------------------------------------------------
@@ -242,7 +244,8 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
     </pre>
     <p>
         Aha, we forgot to create our the <code>user</code> table in the database. Follow
-        the steps below to create the table and populate it with test data.</p>
+        the steps below to create this table, populate it with test data and then run the
+        test again.</p>
     <ol>
         <li>Run the following command in the Command Prompt, asking AndroMDA to create our database
             schema:<br />
@@ -252,10 +255,8 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
             table in the <code>timetracker</code> schema.</li>
         <li>Select File > OpenScript and open the following script file: <code>C:\timetracker-completed\app\src\main\sql\static-data-insert.sql</code>.
             Delete the insert statements for the <code>task</code> table since we don't have
-            this table yet. Click the Execute button to on the top right.</li>
-        <li>Now rerun the test. This time we are not going to rebuild the entire application,
-            since it is built already. Just execute the following command to execute the tests
-            in the core package:<br />
+            this table yet. Click the Execute button on the top right.</li>
+        <li>Now rerun the test:<br />
             <code>mvn -f core/pom.xml test</code><br />
             You will see that the test runs successfully - yeah! </li>
         <li>Open <code>C:\timetracker\core\timetracker-test.log</code> to see results logged
