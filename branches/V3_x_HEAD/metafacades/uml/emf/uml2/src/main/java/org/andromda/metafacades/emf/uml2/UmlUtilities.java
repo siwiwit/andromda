@@ -579,7 +579,7 @@ public class UmlUtilities
 						else // use default value, if it is usable (non empty)
 						{
 							String defaultValue = getTagValueAsString(tagProperty.getDefaultValue());
-							if(StringUtils.isEmpty(defaultValue))
+							if(!StringUtils.isEmpty(defaultValue))
 							{
 								TagDefinition tagDefinition = new TagDefinitionImpl(
 										tagName, defaultValue);
