@@ -49,6 +49,22 @@ public class SpringServiceLogicImpl
         return jndiName.toString();
     }
 
+	protected String handleGetEjbLocalJndiName() {
+        StringBuffer jndiName = new StringBuffer();
+        String jndiNamePrefix = StringUtils.trimToEmpty(this.getEjbJndiNamePrefix());
+        if (StringUtils.isNotEmpty(jndiNamePrefix))
+        {
+            jndiName.append(jndiNamePrefix);
+            jndiName.append("/");
+        }
+        jndiName.append("ejb/");
+        jndiName.append(SpringMetafacadeUtils.getFullyQualifiedName(
+                this.getPackageName(),
+                this.getName(),
+                (this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW) ? "Local" : null)));
+        return jndiName.toString();
+	}
+	
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#getEjbImplementationName()
      */
@@ -86,6 +102,18 @@ public class SpringServiceLogicImpl
             this.getName(),
             null);
     }
+    
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringService#getFullyQualifiedLocalEjbName()
+     */
+	protected String handleGetFullyQualifiedLocalEjbName() {
+		//add "Local" to local ejb name when viewtype = "both",
+		//to prevent name clashing with remote interface naming 
+        return SpringMetafacadeUtils.getFullyQualifiedName(
+                this.getEjbPackageName(),
+                this.getName(),
+                (this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW) ? "Local" : null));
+	}
 
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#getFullyQualifiedImplementationName()
@@ -512,18 +540,30 @@ public class SpringServiceLogicImpl
     }
 
     /**
-     * The value when an EJB service has a remote view.
+     * The three EJB view type values.
      */
     private static final String EJB_REMOTE_VIEW = "remote";
+    private static final String EJB_LOCAL_VIEW = "local";
+    private static final String EJB_BOTH_VIEW = "both";
 
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#isEjbRemoteView()
      */
     protected boolean handleIsEjbRemoteView()
     {
-        return this.getEjbViewType().equalsIgnoreCase(EJB_REMOTE_VIEW);
+        return (this.getEjbViewType().equalsIgnoreCase(EJB_REMOTE_VIEW)
+        		|| this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW));
     }
 
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringService#isEjbLocalView()
+     */
+	protected boolean handleIsEjbLocalView()
+	{
+        return (this.getEjbViewType().equalsIgnoreCase(EJB_LOCAL_VIEW)
+        		|| this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW));
+	}
+    
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#getEjbTransactionType()
      */

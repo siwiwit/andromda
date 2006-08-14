@@ -507,7 +507,7 @@
     </template>
 
     <template
-        path="templates/spring/ejb/SpringSession.vsl"
+        path="templates/spring/ejb/SpringSessionRemote.vsl"
         outputPattern="$generatedFile"
         outlet="session-ejbs"
         overwrite="true"
@@ -516,13 +516,14 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="configonly">false</property>
+                    <property name="ejbRemoteView">true</property>
                 </type>
             </modelElement>
         </modelElements>
     </template>
 
     <template
-        path="templates/spring/ejb/SpringSessionHome.vsl"
+        path="templates/spring/ejb/SpringSessionRemoteHome.vsl"
         outputPattern="$generatedFile"
         outlet="session-ejbs"
         overwrite="true"
@@ -531,6 +532,39 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="configonly">false</property>
+                    <property name="ejbRemoteView">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/ejb/SpringSessionLocal.vsl"
+        outputPattern="$generatedFile"
+        outlet="session-ejbs"
+        overwrite="true"
+        outputCondition="ejbsEnabled">
+        <modelElements variable="service">
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="configonly">false</property>
+                    <property name="ejbLocalView">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/ejb/SpringSessionLocalHome.vsl"
+        outputPattern="$generatedFile"
+        outlet="session-ejbs"
+        overwrite="true"
+        outputCondition="ejbsEnabled">
+        <modelElements variable="service">
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="configonly">false</property>
+                    <property name="ejbLocalView">true</property>
                 </type>
             </modelElement>
         </modelElements>

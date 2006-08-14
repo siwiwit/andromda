@@ -35,11 +35,15 @@
          class="org.springframework.context.support.ClassPathXmlApplicationContext">
         <constructor-arg>
            <list>
+#if($ejbViewType.equalsIgnoreCase('both'))
+                <value>$stringUtils.replace($applicationContextLocalEjb, '/', '.')</value>
+#else
 #if ($remoteEjbsPresent)
                 <value>$stringUtils.replace($applicationContextRemoteEjb, '/', '.')</value>
 #end
 #if ($localEjbsPresent)
                 <value>$stringUtils.replace($applicationContextLocalEjb, '/', '.')</value>
+#end
 #end
                 <!-- beanRefFactoryEjb merge-point -->
            </list>

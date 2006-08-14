@@ -364,8 +364,8 @@
                 <default>local</default>
                 <documentation>
                     If EJBs are being used, this specifies the view type
-                    for the EJB interfaces.  Can be either <em>local</em>
-                    or <code>remote</code>.
+                    for the EJB interfaces.  Can be either <code>local</code>,
+                    <code>remote</code> or <code>both</code>.
                 </documentation>
             </property>
             <property name="ejbSessionBeanBaseInterfaceLocal">
@@ -463,7 +463,7 @@
                 <documentation>
                     The name/path of the application context resource
                     file that contains the bean proxy definitions for accessing the
-                    ejb service wrappers (if generated with ejbViewType=remote) via remote ejb interfaces
+                    ejb service wrappers (if generated with ejbViewType='remote' or 'both') via remote ejb interfaces
                     (i.e. some/path/applicationContext-remoteejb.xml).
                 </documentation>
             </property>
@@ -472,7 +472,7 @@
                 <documentation>
                     The name/path of the application context resource
                     file that contains the bean proxy definitions for accessing the
-                    ejb service wrappers (if generated with ejbViewType=local) via local ejb interfaces
+                    ejb service wrappers (if generated with ejbViewType='local' or 'both') via local ejb interfaces
                     (i.e. some/path/applicationContext-localejb.xml)
                 </documentation>
             </property>

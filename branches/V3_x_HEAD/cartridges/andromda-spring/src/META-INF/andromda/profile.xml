@@ -83,6 +83,7 @@
                 <allowedValues>
                     <value>local</value>
                     <value>remote</value>
+                    <value>both</value>
                 </allowedValues>
             </element>
             <element name="TRANSACTION_TYPE">

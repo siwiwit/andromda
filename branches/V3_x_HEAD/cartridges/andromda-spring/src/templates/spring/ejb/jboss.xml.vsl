@@ -15,8 +15,9 @@
             <ejb-name>$service.name</ejb-name>
 #if ($service.ejbRemoteView)
             <jndi-name>$service.ejbJndiName</jndi-name>
-#else
-            <local-jndi-name>$service.ejbJndiName</local-jndi-name>
+#end
+#if ($service.ejbLocalView)
+            <local-jndi-name>$service.ejbLocalJndiName</local-jndi-name>
 #end
         </session>
 

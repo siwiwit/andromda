@@ -103,7 +103,7 @@ public class SpringUtils
                             if (object instanceof SpringService)
                             {
                                 final SpringService service = (SpringService)object;
-                                valid = !service.isEjbRemoteView();
+                                valid = service.isEjbLocalView();
                             }
                             return valid;
                         }
