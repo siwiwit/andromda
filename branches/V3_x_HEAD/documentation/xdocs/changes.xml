@@ -14,6 +14,9 @@
         <release version="3.2" date="2006-05-05" description="Version 3.2 Final">
         </release>
         <release version="3.2-SNAPSHOT" date="2006-05-05" description="First release candidate of version 3.2">
+            <action dev="freter" type="add" issue="HIB-192">
+                The Hibernate cartridge now supports distributed entity caching with ehCache 1.2.
+            </action>
             <action dev="freter" type="add" issue="ANDROMDAPP-16">
                 The projct generator now supports a shortText property on prompt items to allow for better looking
                 graphical UIs. The J2EE and Spring RCP project cartridge have been adjusted accordingly.
