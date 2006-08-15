@@ -28,14 +28,14 @@ public class HibernateProfile
      */
     public static final String TAGGEDVALUE_HIBERNATE_XML_TAG_NAME = profile.get("HIBERNATE_XML_TAG_NAME");
 
-    
+
     /**
      * Tag attached to association ends to determine if the associated entity should be embed
      * in as XML when v3 XML Persistence is activated.
      */
     public static final String TAGGEDVALUE_HIBERNATE_XML_EMBED = profile.get("HIBERNATE_XML_EMBED");
 
-    
+
     /**
      * Stores the hibernate generator class.
      */
@@ -141,6 +141,12 @@ public class HibernateProfile
      */
     public static final String TAGGEDVALUE_HIBERNATE_EHCACHE_OVERFLOW_TO_DISK =
         profile.get("HIBERNATE_EHCACHE_OVERFLOW_TO_DISK");
+
+    /**
+     * Defines if the cache for this entity is to be distributed.
+     */
+    public static final String TAGGEDVALUE_HIBERNATE_ENTITYCACHE_DISTRIBUTED =
+        profile.get("HIBERNATE_ENTITYCACHE_DISTRIBUTED");
 
     /**
      * Defines the association collection type

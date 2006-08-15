@@ -11,6 +11,7 @@
     <property reference="hibernateCompositionCascade"/>
     <property reference="hibernateAggregationCascade"/>
     <property reference="hibernateEntityCache"/>
+    <property reference="hibernateEnableDistributedCache"/>
     <property reference="hibernateEntityDynamicInsert"/>
     <property reference="hibernateEntityDynamicUpdate"/>
     <property reference="hibernateProxy"/>
@@ -62,8 +63,8 @@
             <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
         </mapping>
     </metafacade>
-    <metafacade 
-        class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodLogicImpl" 
+    <metafacade
+        class="org.andromda.cartridges.hibernate.metafacades.HibernateFinderMethodLogicImpl"
         contextRoot="true">
         <mapping>
             <property name="owner.hibernateEntityMetaType"/>

@@ -73,6 +73,19 @@
                     Enable/disable hibernate's second level cache features for the cartridge.
                 </documentation>
             </property>
+            <property name="hibernateEnableDistributedCache">
+                <default>false</default>
+                <documentation>
+                    If this property is set to true, distributed caching will be enabled. To enable distributed caching
+                    for an entity, you must set this property to true AND tag the entity using the tagged value
+                    <a href="profile.html#@andromda.hibernate.entity.cache.distributed">@andromda.hibernate.entity.cache.distributed</a>
+                    tagged value.
+                    <ul>
+                       <li>true</li>
+                       <li>false</li>
+                    </ul>
+                </documentation>
+            </property>
             <property name="hibernateEntityCache">
                 <default>read-write</default>
                 <documentation>
@@ -162,12 +175,12 @@
             </property>
             <property name="hibernateConnectionReleaseMode" required="false">
                 <documentation>
-                    Specify when Hibernate should release JDBC connections. By default, a JDBC connection 
-                    is held until the session is explicitly closed or disconnected. For an application server JTA datasource, 
-                    you should use after_statement to aggressively release connections after every JDBC call. 
-                    For a non-JTA connection, it often makes sense to release the connection at the end of each 
-                    transaction, by using after_transaction. auto will choose after_statement for the JTA and 
-                    CMT transaction strategies and after_transaction for the JDBC transaction strategy. 
+                    Specify when Hibernate should release JDBC connections. By default, a JDBC connection
+                    is held until the session is explicitly closed or disconnected. For an application server JTA datasource,
+                    you should use after_statement to aggressively release connections after every JDBC call.
+                    For a non-JTA connection, it often makes sense to release the connection at the end of each
+                    transaction, by using after_transaction. auto will choose after_statement for the JTA and
+                    CMT transaction strategies and after_transaction for the JDBC transaction strategy.
                     <ul>
                         Valid values are:
                         <li>on_close</li> - default
@@ -405,7 +418,7 @@
                 <default>false</default>
                 <documentation>
                     Set to <code>true</code> to enable Hibernate's
-                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a> 
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a>
                     using dom4J. The <code>hibernateVersion</code> namespace property must be set to <code>3</code>.
                 </documentation>
             </property>
@@ -414,7 +427,7 @@
                 <documentation>
                     Set to <code>true</code> if the identifier for generated entities should be mapped
                     to an <i>attribute</i> of the entity's XML tag, or as a separate field when
-                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a> 
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a>
                     is enabled. The <code>hibernateXMLPersistence</code> namespace property must be set
                     to <code>true</code> for this option to have meaning.
                 </documentation>

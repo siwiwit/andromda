@@ -34,8 +34,8 @@ public class HibernateGlobals
      * or as a separate element.
      */
     static final String HIBERNATE_XML_PERSISTENCE_ID_AS_ATTRIBUTE = "hibernateXMLPersistIDAsAttribute";
-    
-    
+
+
     /**
      * Hibernate version to use.
      */
@@ -112,6 +112,11 @@ public class HibernateGlobals
      * The namespace property storing default ehCache eternal parameter
      */
     static final String HIBERNATE_EHCACHE_OVERFLOW_TO_DISK = "ehCacheOverflowToDisk";
+
+    /**
+     * The namespace property storing whether distributed caching is turned on at all.
+     */
+    static final String HIBERNATE_ENTITYCACHE_DISTRIBUTED = "hibernateEnableDistributedCache";
 
     /**
      * The namespace property storing default dynamic-insert parameter

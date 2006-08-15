@@ -166,7 +166,7 @@ public class HibernateEntityLogicImpl
      */
     protected String handleGetHibernateInheritanceStrategy()
     {
-        String inheritance = this.getInheritance(this);
+        String inheritance = HibernateEntityLogicImpl.getInheritance(this);
 
         for (
             HibernateEntity superEntity = this.getSuperEntity();
@@ -563,6 +563,24 @@ public class HibernateEntityLogicImpl
         return Boolean.valueOf(StringUtils.trimToEmpty(eternal)).booleanValue();
     }
 
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#isHibernateCacheDistributed()
+     */
+    protected boolean handleIsHibernateCacheDistributed()
+    {
+        String distributed = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_ENTITYCACHE_DISTRIBUTED);
+        boolean distributedCachingEnabled = Boolean.valueOf(StringUtils.trimToEmpty(distributed)).booleanValue();
+
+        if (distributedCachingEnabled) {
+            String entityCacheDistributed = (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_ENTITYCACHE_DISTRIBUTED);
+            return Boolean.valueOf(StringUtils.trimToEmpty(entityCacheDistributed)).booleanValue();
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#isTableRequired()
      */
@@ -738,18 +756,18 @@ public class HibernateEntityLogicImpl
         return Integer.parseInt((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION));
     }
 
-    
+
     private boolean isXmlPersistenceActive()
     {
        return HibernateUtils.isXmlPersistenceActive((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION),
                                                     (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_XML_PERSISTENCE));
     }
-    
-    
+
+
     protected String handleGetXmlTagName()
     {
         String tagName = null;
-        
+
         if (isXmlPersistenceActive())
         {
             tagName = (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_XML_TAG_NAME);
@@ -762,4 +780,5 @@ public class HibernateEntityLogicImpl
         }
         return (StringUtils.isBlank(tagName)) ? null : tagName;
     }
+
 }

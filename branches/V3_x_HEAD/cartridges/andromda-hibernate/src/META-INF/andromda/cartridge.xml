@@ -50,6 +50,7 @@
     <property reference="hibernateEnableCache"/>
     <property reference="hibernateEnableAssociationsCache"/>
     <property reference="hibernateEhCacheDiskStore"/>
+    <property reference="hibernateEnableDistributedCache"/>
     <property reference="hibernateCacheProvider"/>
     <property reference="hibernateQueryCacheFactory"/>
     <property reference="xmlEncoding"/>

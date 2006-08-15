@@ -411,8 +411,8 @@
             <element name="HIBERNATE_XML_TAG_NAME">
                 <documentation>
                     Defines the name of the XML element that is generated when
-                    an entity, attribute, or associated entity is represented in XML format. 
-                    Valid only when XML persistence has been enabled. Controls the <i>node</i> 
+                    an entity, attribute, or associated entity is represented in XML format.
+                    Valid only when XML persistence has been enabled. Controls the <i>node</i>
                     attribute in the Hibernate mapping file.
                     See also <a href="namespace.html#hibernateXMLPersistence">hibernateXMLPersistence</a>
                 </documentation>
@@ -463,6 +463,17 @@
                     <value>read-write</value>
                     <value>nonstrict-read-write</value>
                     <value>read-only</value>
+                </allowedValues>
+            </element>
+            <element name="HIBERNATE_ENTITYCACHE_DISTRIBUTED">
+                <documentation>
+                    Defines whether the cache for this entity is to be distributed.
+                </documentation>
+                <value>@andromda.hibernate.entity.cache.distributed</value>
+                <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement>
+                <allowedValues>
+                    <value>true</value>
+                    <value>false</value>
                 </allowedValues>
             </element>
             <element name="HIBERNATE_ASSOCIATION_CACHE">

@@ -38,6 +38,17 @@
         overflowToDisk="true" />
 
 #if($hibernateEnableCache == "true")
+#if($hibernateEnableDistributedCache == "true")
+    <cacheManagerPeerProviderFactory
+        class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+        properties="peerDiscovery=automatic,
+        multicastGroupAddress=230.0.0.1,
+        multicastGroupPort=4446"/>
+
+    <cacheManagerPeerListenerFactory
+        class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"/>
+#end
+
 #foreach($entity in $entities)
     <cache
         name="$entity.fullyQualifiedEntityImplementationName"
@@ -45,7 +56,14 @@
         eternal="$entity.ehCacheEternal"
         timeToIdleSeconds="$entity.ehCacheTimeToIdleSeconds"
         timeToLiveSeconds="$entity.ehCacheTimeToLiveSeconds"
-        overflowToDisk="$entity.ehCacheOverflowToDisk"/>
+        overflowToDisk="$entity.ehCacheOverflowToDisk"
+#if ($entity.hibernateCacheDistributed)
+    >
+        <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
+    </cache>
+#else
+    />
+#end
 
 #if($hibernateEnableAssociationsCache == "true")
 #foreach ($sourceEnd in $entity.associationEnds)
