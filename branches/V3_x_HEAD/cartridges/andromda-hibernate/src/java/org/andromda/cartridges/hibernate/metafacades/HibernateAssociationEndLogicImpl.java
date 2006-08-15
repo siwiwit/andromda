@@ -297,26 +297,32 @@ public class HibernateAssociationEndLogicImpl
             inverse = this.isMany2One();
 
             // for many-to-many we just put the flag on the side that
-            // has the lexically longer fully qualified name for
-            // it's type
+            // is aggregation or composition and on the lexically longer 
+            // fully qualified name for it's type on other types of relations
             if (this.isMany2Many() && !inverse)
             {
-                String endTypeName = StringUtils.trimToEmpty(this.getType().getFullyQualifiedName(true));
-                String otherEndTypeName =
-                    StringUtils.trimToEmpty(this.getOtherEnd().getType().getFullyQualifiedName(true));
-                int compareTo = endTypeName.compareTo(otherEndTypeName);
-
-                // if for some reason the fully qualified names are equal,
-                // compare the names.
-                if (compareTo == 0)
+                if (this.isAggregation() || this.isComposition())
                 {
-                    String endName = StringUtils.trimToEmpty(this.getName());
-                    String otherEndName = StringUtils.trimToEmpty(this.getOtherEnd().getName());
-                    compareTo = endName.compareTo(otherEndName);
+                    inverse = true;
                 }
+                else
+                {
+                    String endTypeName = StringUtils.trimToEmpty(this.getType().getFullyQualifiedName(true));
+                    String otherEndTypeName =
+                        StringUtils.trimToEmpty(this.getOtherEnd().getType().getFullyQualifiedName(true));
+                    int compareTo = endTypeName.compareTo(otherEndTypeName);
 
-                inverse = compareTo < 0;
+                    // if for some reason the fully qualified names are equal,
+                    // compare the names.
+                    if (compareTo == 0)
+                    {
+                        String endName = StringUtils.trimToEmpty(this.getName());
+                        String otherEndName = StringUtils.trimToEmpty(this.getOtherEnd().getName());
+                        compareTo = endName.compareTo(otherEndName);
+                    }
 
+                    inverse = compareTo < 0;
+                }
                 if (inverse && this.isBidirectionalOrderedListChild() && this.isVersion3())
                 { // A special case - when using ver 3 of hibernate for a bi-dir
                   // ordered list, "inverse" should be set to FALSE, rather than
@@ -658,16 +664,15 @@ public class HibernateAssociationEndLogicImpl
     {
         boolean isBidirectionalOrderedListParent = false;
         boolean biDirectional = this.isNavigable() && this.getOtherEnd().isNavigable();
-        
+
         if (biDirectional && this.isOne2Many() && (this.getOtherEnd() instanceof HibernateAssociationEnd))
         {
             HibernateAssociationEnd otherEnd = (HibernateAssociationEnd)this.getOtherEnd();
 
-            isBidirectionalOrderedListParent
-                =    otherEnd.getCollectionType().equals(COLLECTION_TYPE_LIST)
-                  && otherEnd.isIndexedCollection();
+            isBidirectionalOrderedListParent =
+                otherEnd.getCollectionType().equals(COLLECTION_TYPE_LIST) && otherEnd.isIndexedCollection();
         }
-        
+
         return isBidirectionalOrderedListParent;
     }
 
