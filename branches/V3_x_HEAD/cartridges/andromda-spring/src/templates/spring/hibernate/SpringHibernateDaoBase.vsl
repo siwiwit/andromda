@@ -120,7 +120,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
     public $entityCollectionType loadAll()
     {
-        return ($entityCollectionType)this.loadAll(TRANSFORM_NONE);
+        return this.loadAll(TRANSFORM_NONE);
     }
 
     /**
@@ -562,7 +562,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                 }
                 else if (results.size() == 1)
                 {
-                    result = ($entity.fullyQualifiedName)results.iterator().next();
+                    result = results.iterator().next();
                 }
             }
             result = transformEntity(transform, ($entity.fullyQualifiedName)result);
