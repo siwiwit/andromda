@@ -13,7 +13,7 @@
                 <value>$stringUtils.replace($applicationContext, '/', '.')</value>
 #if ($stringUtils.isNotBlank($dataSource))
                 <value>$stringUtils.replace($applicationContextDataSource, '/', '.')</value>
-#else
+#elseif($stringUtils.isNotBlank($driver))
                 <value>$stringUtils.replace($applicationContextLocalDataSource, '/', '.')</value>
 #end
 #if (!$manageables.empty)
