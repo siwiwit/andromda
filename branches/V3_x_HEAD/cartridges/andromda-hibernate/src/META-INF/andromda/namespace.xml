@@ -258,11 +258,6 @@
                     SQL dialect of the database.
                 </documentation>
             </property>
-            <property name="hibernateDefaultSchema" required="false">
-                <documentation>
-                    Qualify unqualified tablenames with the given schema/tablespace in generated SQL.
-                </documentation>
-            </property>
             <property name="hibernateMaxFetchDepth" required="false">
                 <documentation>
                     Sets a maximum "depth" for the outer join fetch tree. Recommended values between 0 and 3

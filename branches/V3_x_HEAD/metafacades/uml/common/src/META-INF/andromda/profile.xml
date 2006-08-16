@@ -178,6 +178,10 @@
                     The name of the persistence schema that contains the table.
                 </documentation>
                 <value>@andromda.persistence.schema</value>
+                <appliedOnElement>Any <![CDATA[<<Entity>>]]> stereotyped class</appliedOnElement>
+                <allowedValues>
+                     <value>A string representing the name of the database schema where the entity will be persisted</value>
+                </allowedValues>
             </element>
             <element name="PERSISTENCE_TABLE">
                 <documentation>

@@ -8,6 +8,7 @@
     <property reference="undefinedName"/>
     <property reference="arrayNameSuffix"/>
     <property reference="maxSqlNameLength"/>
+    <property reference="schemaName"/>
     <property reference="tableNamePrefix"/>
     <property reference="columnNamePrefix"/>
     <property reference="foreignKeySuffix"/>

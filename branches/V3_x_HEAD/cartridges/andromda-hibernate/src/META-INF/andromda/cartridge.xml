@@ -28,6 +28,7 @@
     <property reference="password"/>
     <property reference="connectionUrl"/>
     <property reference="dataSource"/>
+    <property reference="schemaName"/>
     <property reference="hibernateDefaultCascade"/>
     <property reference="hibernatePoolSize"/>
     <property reference="hibernateTransactionFactoryClass"/>
@@ -39,7 +40,6 @@
     <property reference="hibernateShowSql"/>
     <property reference="hibernateJndiName"/>
     <property reference="hibernateDialect"/>
-    <property reference="hibernateDefaultSchema"/>
     <property reference="hibernateMaxFetchDepth"/>
     <property reference="hibernateJdbcFetchSize"/>
     <property reference="hibernateJdbcBatchSize"/>

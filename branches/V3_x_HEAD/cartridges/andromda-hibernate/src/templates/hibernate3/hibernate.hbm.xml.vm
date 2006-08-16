@@ -102,7 +102,7 @@ ${indent}</$otherEnd.collectionType>
 ##
 #macro (renderSubClass3 $entity $indent)
 ## Should only get get invoked for inheritance class or subclass.
-${indent}<$entity.mappingClassName#if($mapSubclassesInSeparateFile) extends="$entity.generalization.fullyQualifiedEntityImplementationName"#end name="$entity.fullyQualifiedEntityImplementationName"#if($entity.tableRequired) table="$entity.tableName"#else discriminator-value="$entity.entityImplementationName"#end#if(!$entity.lazy) lazy="false"#end#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate" abstract="$entity.abstract">
+${indent}<$entity.mappingClassName#if($mapSubclassesInSeparateFile) extends="$entity.generalization.fullyQualifiedEntityImplementationName"#end name="$entity.fullyQualifiedEntityImplementationName"#if($entity.tableRequired) table="$entity.tableName"#else discriminator-value="$entity.entityImplementationName"#end#if(!$entity.lazy) lazy="false"#end#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate" abstract="$entity.abstract"#if ($stringUtils.isNotBlank($entity.schema)) schema="$entity.schema"#end>
 #if($entity.subclassKeyColumn)
 ${indent}    <key foreign-key="${entity.tableName}IFKC">
 ${indent}        <column name="$entity.subclassKeyColumn" sql-type="$identifier.sqlType"/>

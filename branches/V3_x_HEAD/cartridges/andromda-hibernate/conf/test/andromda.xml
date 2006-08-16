@@ -16,6 +16,11 @@
         </repository>
     </repositories>
     <namespaces>
+        <namespace name="default">
+            <properties>
+                <property name="schemaName">TestSchema</property>
+            </properties>
+        </namespace>
         <namespace name="hibernate">
             <properties>
                 <property name="overwrite">true</property>
