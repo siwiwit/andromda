@@ -86,7 +86,7 @@ public class $className
         try
         {
             //First we get the stream
-            InputStream inputStream = resultSet.getAsciiStream(names[0]);
+            InputStream inputStream = resultSet.getCharacterStream(names[0]);
             if (inputStream == null)
             {
                 return null;
@@ -127,7 +127,7 @@ public class $className
 
         ByteArrayInputStream bais = new ByteArrayInputStream(buf);
 
-        preparedStatement.setAsciiStream(
+        preparedStatement.getCharacterStream(
             index,
             bais,
             len);
