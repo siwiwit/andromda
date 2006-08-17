@@ -17,8 +17,8 @@
     <context-param>
         <param-name>facelets.VIEW_MAPPINGS</param-name>
         <param-value>*.xhtml</param-value>
-    </context-param> 
-    
+    </context-param>
+
     <context-param>
         <param-name>facelets.LIBRARIES</param-name>
         <param-value>
@@ -27,7 +27,7 @@
             <!-- facelets tag-lib merge-point -->
         </param-value>
     </context-param>
-    
+
     <!-- ADF Faces has its own ViewHandler, which is a "decorating"
          view handler - for example, it needs to wrap methods like renderView()
          to perform some extra pre- and post-handling.  Facelets, on the other
@@ -41,7 +41,7 @@
 
          Hence, the following config parameter, which ADF Faces
          exposes (as of EA19) to allow pushing a ViewHandler inside
-         of ours.  FWIW, you retain the entire delegation stack - 
+         of ours.  FWIW, you retain the entire delegation stack -
          just flipped around a bit - so that Facelets still decorates
          the standard ViewHandler, and therefore you've still got
          JSP support.
@@ -62,8 +62,8 @@
         <param-name>facelets.DEVELOPMENT</param-name>
         <param-value>true</param-value>
     </context-param>
-        
-#end    
+
+#end
 #if ($facesConfigFiles)
     <context-param>
         <description>
@@ -76,9 +76,9 @@
             $facesConfigFiles
         </param-value>
     </context-param>
-   
-#end 
-    
+
+#end
+
     <context-param>
         <description>
             State saving method: "client" or "server" (= default)
@@ -133,7 +133,7 @@
     </context-param>
     <!-- context-param merge-point -->
     <!-- filter merge-point -->
-    
+
     <!-- ADF Faces Filter -->
     <filter>
         <filter-name>ADF Faces Filter</filter-name>
@@ -291,11 +291,19 @@
         <welcome-file>$welcomeFileName</welcome-file>
     </welcome-file-list>
 
+    <error-page>
+        <error-code>408</error-code>
+        <location>/index.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/403.jsp</location>
+    </error-page>
     <!-- error-page merge-point -->
     <!-- taglib merge-point -->
     <!-- resource-ref merge-point -->
     <!-- security-constraint merge-point -->
-   
+
 #if (!$applicationUseCases.empty)
 #set($applicationUseCase = $applicationUseCases.iterator().next())
 #end
@@ -342,7 +350,7 @@
             <transport-guarantee>NONE</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    
+
 #end
     <login-config>
         <auth-method>FORM</auth-method>

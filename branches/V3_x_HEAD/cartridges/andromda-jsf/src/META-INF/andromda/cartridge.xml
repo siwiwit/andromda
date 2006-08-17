@@ -466,6 +466,22 @@
             </modelElement>
         </modelElements>
     </template>   
+    
+    <template
+        path="templates/jsf/views/jsp/403.jsp.vsl"
+        outputPattern="403.jsp"
+        outlet="views"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="applicationUseCases">
+                <type name="org.andromda.metafacades.uml.FrontEndUseCase">
+                    <property name="entryUseCase"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template> 
        
     <!-- Facelets specific view rendering -->   
     <template
