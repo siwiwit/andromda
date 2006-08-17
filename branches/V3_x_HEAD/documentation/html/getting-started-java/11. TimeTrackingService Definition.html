@@ -149,13 +149,13 @@ Test set: Services Test
 Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.661 sec <<< FAILURE!
 testFindAllTimecards  Time elapsed: 0.31 sec  <<< FAILURE!
 java.lang.NullPointerException
-	at org.andromda.timetracker.service.TimeTrackingServiceTest.logTimecards(TimeTrackingServiceTest.java:58)
-	at org.andromda.timetracker.service.TimeTrackingServiceTest.testFindAllTimecards(TimeTrackingServiceTest.java:41)
+	at ...(TimeTrackingServiceTest.java:58)
+	at ...(TimeTrackingServiceTest.java:41)
 
 testFindTimecardsForSubmitter  Time elapsed: 0.01 sec  <<< FAILURE!
 java.lang.NullPointerException
-	at org.andromda.timetracker.service.TimeTrackingServiceTest.logTimecards(TimeTrackingServiceTest.java:58)
-	at org.andromda.timetracker.service.TimeTrackingServiceTest.testFindTimecardsForSubmitter(TimeTrackingServiceTest.java:50)
+	at ...(TimeTrackingServiceTest.java:58)
+	at ...(TimeTrackingServiceTest.java:50)
             </pre>
             Obviously the service is currently returning null instead of <code>TimecardSummaryVO[]</code>.
             This problem will be fixed when we implement the service. </li>

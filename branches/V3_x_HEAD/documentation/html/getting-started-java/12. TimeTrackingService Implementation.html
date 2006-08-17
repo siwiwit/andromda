@@ -108,7 +108,7 @@
         is done).
     </p>
     <pre>
-      &lt;classpathentry kind="var" path="M2_REPO/org/testng/testng/4.7/testng-4.7-jdk15.jar"/&gt;
+&lt;classpathentry kind="var" path="M2_REPO/org/testng/testng/4.7/testng-4.7-jdk15.jar"/&gt;
     </pre>
     <p>
         Now let's start by implementing the <code>findByCriteria()</code> method. Add the
@@ -205,12 +205,14 @@ public class TimecardDaoImpl
 
         // Add startDateMin criteria
         if (criteria.getStartDateMin() != null) {
-        	timecardCriteria.add(Restrictions.ge("startDate", criteria.getStartDateMin()));
+        	timecardCriteria.add(
+        	    Restrictions.ge("startDate", criteria.getStartDateMin()));
         }
 
         // Add startDateMax criteria
         if (criteria.getStartDateMax() != null) {
-        	timecardCriteria.add(Restrictions.le("startDate", criteria.getStartDateMax()));
+        	timecardCriteria.add(
+        	    Restrictions.le("startDate", criteria.getStartDateMax()));
         }
 
         java.util.List timecards = timecardCriteria.list();
@@ -302,31 +304,31 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 21:05:51.858 INFO  - testFindAllTimecards:
 ...
 21:05:52.819 DEBUG - 16 timecards found
-21:05:52.859 INFO  - Submitter     Approver      Status     Start Date 
-21:05:52.869 INFO  - nbhatia       cmicali       Approved   05/15/06   
-21:05:52.869 INFO  - nbhatia       cmicali       Rejected   05/22/06   
-21:05:52.869 INFO  - nbhatia       cmicali       Submitted  05/29/06   
-21:05:52.869 INFO  - nbhatia       null          Draft      06/05/06   
-21:05:52.869 INFO  - lcoude        nbhatia       Approved   05/15/06   
-21:05:52.869 INFO  - lcoude        nbhatia       Rejected   05/22/06   
-21:05:52.869 INFO  - lcoude        nbhatia       Submitted  05/29/06   
-21:05:52.869 INFO  - lcoude        null          Draft      06/05/06   
-21:05:52.869 INFO  - ecrutchfield  lcoude        Approved   05/15/06   
-21:05:52.869 INFO  - ecrutchfield  lcoude        Rejected   05/22/06   
-21:05:52.869 INFO  - ecrutchfield  lcoude        Submitted  05/29/06   
-21:05:52.869 INFO  - ecrutchfield  null          Draft      06/05/06   
-21:05:52.869 INFO  - cmicali       ecrutchfield  Approved   05/15/06   
-21:05:52.869 INFO  - cmicali       ecrutchfield  Rejected   05/22/06   
-21:05:52.869 INFO  - cmicali       ecrutchfield  Submitted  05/29/06   
-21:05:52.869 INFO  - cmicali       null          Draft      06/05/06   
+21:05:52.859 INFO  - Submitter     Approver      Status     Start Date
+21:05:52.869 INFO  - nbhatia       cmicali       Approved   05/15/06
+21:05:52.869 INFO  - nbhatia       cmicali       Rejected   05/22/06
+21:05:52.869 INFO  - nbhatia       cmicali       Submitted  05/29/06
+21:05:52.869 INFO  - nbhatia       null          Draft      06/05/06
+21:05:52.869 INFO  - lcoude        nbhatia       Approved   05/15/06
+21:05:52.869 INFO  - lcoude        nbhatia       Rejected   05/22/06
+21:05:52.869 INFO  - lcoude        nbhatia       Submitted  05/29/06
+21:05:52.869 INFO  - lcoude        null          Draft      06/05/06
+21:05:52.869 INFO  - ecrutchfield  lcoude        Approved   05/15/06
+21:05:52.869 INFO  - ecrutchfield  lcoude        Rejected   05/22/06
+21:05:52.869 INFO  - ecrutchfield  lcoude        Submitted  05/29/06
+21:05:52.869 INFO  - ecrutchfield  null          Draft      06/05/06
+21:05:52.869 INFO  - cmicali       ecrutchfield  Approved   05/15/06
+21:05:52.869 INFO  - cmicali       ecrutchfield  Rejected   05/22/06
+21:05:52.869 INFO  - cmicali       ecrutchfield  Submitted  05/29/06
+21:05:52.869 INFO  - cmicali       null          Draft      06/05/06
 21:05:52.879 INFO  - testFindTimecardsForSubmitter:
 ...
 21:05:52.959 DEBUG - 4 timecards found
-21:05:52.959 INFO  - Submitter     Approver      Status     Start Date 
-21:05:52.969 INFO  - nbhatia       cmicali       Approved   05/15/06   
-21:05:52.969 INFO  - nbhatia       cmicali       Rejected   05/22/06   
-21:05:52.969 INFO  - nbhatia       cmicali       Submitted  05/29/06   
-21:05:52.969 INFO  - nbhatia       null          Draft      06/05/06   
+21:05:52.959 INFO  - Submitter     Approver      Status     Start Date
+21:05:52.969 INFO  - nbhatia       cmicali       Approved   05/15/06
+21:05:52.969 INFO  - nbhatia       cmicali       Rejected   05/22/06
+21:05:52.969 INFO  - nbhatia       cmicali       Submitted  05/29/06
+21:05:52.969 INFO  - nbhatia       null          Draft      06/05/06
 ...
     </pre>
     <h3>What's Next?</h3>
