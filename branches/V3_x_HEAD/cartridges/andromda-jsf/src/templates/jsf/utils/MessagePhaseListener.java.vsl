@@ -17,14 +17,6 @@ public class $className
      */
     public void beforePhase(javax.faces.event.PhaseEvent event)
     {
-        // - don't need this implemented
-    }
-    
-    /**
-     * @see javax.faces.event.PhaseListener#afterPhase(javax.faces.event.PhaseEvent)
-     */
-    public void afterPhase(javax.faces.event.PhaseEvent event)
-    {
         final Object form = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance().getProcessScope().get("$actionFormKey");
         if (form != null)
         {
@@ -45,12 +37,20 @@ public class $className
             }
         }
     }
+    
+    /**
+     * @see javax.faces.event.PhaseListener#afterPhase(javax.faces.event.PhaseEvent)
+     */
+    public void afterPhase(javax.faces.event.PhaseEvent event)
+    {
+        // - don't need this implemented
+    }
 
     /**
      * @see javax.faces.event.PhaseListener#getPhaseId()
      */
     public javax.faces.event.PhaseId getPhaseId()
     {
-        return javax.faces.event.PhaseId.INVOKE_APPLICATION;
+        return javax.faces.event.PhaseId.RENDER_RESPONSE;
     }
 }
