@@ -67,7 +67,7 @@
             <item name="Building AndroMDA" href="/building.html"/>
             <item name="Coding / Patching" href="/coding-conventions.html"/>
             <item name="JMI 1.4 API" href="/jmi-uml1.4/index.html"/>
-            <item name="EMF UML2 API" href="http://download3.eclipse.org/tools/uml2/1.1.1/javadoc"/>
+            <item name="EMF UML2 API" href="http://download.eclipse.org/tools/uml2/1.1.1/javadoc"/>
             <item name="CVS Repository" href="/cvs-usage.html"/>
             <item name="Debugging" href="/dev-debugging.html"/>
         </menu>
