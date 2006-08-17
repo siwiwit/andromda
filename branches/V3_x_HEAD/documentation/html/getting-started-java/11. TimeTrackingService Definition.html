@@ -14,7 +14,7 @@
     <table width="100%" border="0">
         <tbody>
             <tr>
-                <!-- img src="Images/SearchScreen.jpg" alt="Search Screen" / -->
+                <!-- img src="Images/SearchScreen_new.jpg" alt="Search Screen" / -->
                 <td align="center" style="width: 100%">
                     {mosimage}</td>
             </tr>
@@ -56,9 +56,13 @@ public interface TimeTrackingService
         needed by the <code>findTimecards()</code> service method. Create <code>TimecardSearchCriteriaVO</code>
         and <code>TimecardSummaryVO</code> under the <code>org.andromda.timetracker.vo</code>
         package as shown below. Create these value objects in the "Value Objects" diagram.
-        In addition, create a class called <code>TimecardSummaryVO[]</code> to represent
-        an array of timecard summaries. Make sure these three classes are created in the
-        <code>org.andromda.timetracker.vo</code> package by inspecting the containment tree.
+        Note that the multiplicity of each attribute in <code>TimecardSearchCriteriaVO</code>
+        is set to 0..1 - indicating that their value could be left as null. To specify the
+        multiplicity of an attribute, you must double-click on the attribute to open its
+        specification and then choose the right multiplicity. In addition to the two value
+        objects, create a class called <code>TimecardSummaryVO[]</code> to represent an
+        array of timecard summaries. Make sure these three classes are created in the <code>
+            org.andromda.timetracker.vo</code> package by inspecting the containment tree.
     </p>
     <p>
         {mosimage}

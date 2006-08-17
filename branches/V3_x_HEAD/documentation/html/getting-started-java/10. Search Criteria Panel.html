@@ -110,6 +110,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.andromda.timetracker.vo.UserVO;
+import org.andromda.timetracker.vo.UserVOComparator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionMapping;
@@ -132,6 +133,7 @@ public class SearchControllerImpl extends SearchController
 
     	// Get list of users and add the "All" option at the top
 		UserVO[] users = getUserService().getAllUsers();
+        Arrays.sort(users, new UserVOComparator());
         List userList = new ArrayList(Arrays.asList(users));
         userList.add(0, new UserVO(null, ALL_STRING, null, null));
 
@@ -142,7 +144,13 @@ public class SearchControllerImpl extends SearchController
 }
     </pre>
     <p>
-        Follow the steps below to build and deploy the application to JBoss and test it.
+        Note that we sort the <code>users</code> array so that names appear alphabetically
+        in the drop-downs. The sorting function uses <code>UserVOComparator</code>, which
+        is available under <code>C:\timetracker-completed\common\src\main\java\org\andromda\timetracker\vo</code>.
+        Copy it to your solution using the same directory structure.
+    </p>
+    <p>
+        Now follow the steps below to build and deploy the application to JBoss and test it.
     </p>
     <ol>
         <li>Build only the web project to make sure the code added above is compiled and packaged.

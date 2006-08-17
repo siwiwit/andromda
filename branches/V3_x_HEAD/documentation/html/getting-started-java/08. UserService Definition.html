@@ -14,7 +14,7 @@
     <table width="100%" border="0">
         <tbody>
             <tr>
-                <!-- img src="Images/SearchScreen.jpg" alt="Search Screen" / -->
+                <!-- img src="Images/SearchScreen_new.jpg" alt="Search Screen" / -->
                 <td align="center" style="width: 100%">
                     {mosimage}</td>
             </tr>
@@ -278,8 +278,13 @@ public interface UserService
     <p>
         That's all the plumbing we need for using TestNG. Now copy the entire <code>test</code>
         directory located under <code>C:\timetracker-completed\core\src</code> to the corresponding
-        location in your own TimeTracker directory. Explore the directory to get familiar
-        with its contents. Use the steps below to guide you along and to run the test:</p>
+        location in your own TimeTracker directory. After copying, delete the file <code>core\src\test\java\org\andromda\timetracker\service\TimeTrackingServiceTest.java</code>
+        in your TimeTracker directory - we are not yet ready to compile this file.
+    </p>
+    <p>
+        Explore the <code>core\src\test</code> directory to get familiar with its contents.
+        Use the steps below to guide you along and to run the test:
+    </p>
     <ol>
         <li><code>UserServiceTest</code> is located under <code>test\java\org\andromda\timetracker\service</code>.
             The test is pretty simple. It gets a reference to the <code>UserService</code>,
