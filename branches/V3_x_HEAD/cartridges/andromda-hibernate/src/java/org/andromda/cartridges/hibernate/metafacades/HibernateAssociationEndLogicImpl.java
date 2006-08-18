@@ -303,6 +303,9 @@ public class HibernateAssociationEndLogicImpl
             {
                 if (this.isAggregation() || this.isComposition())
                 {
+                    inverse = false;
+                } 
+                else if (this.getOtherEnd().isAggregation() || this.getOtherEnd().isComposition()) {
                     inverse = true;
                 }
                 else
