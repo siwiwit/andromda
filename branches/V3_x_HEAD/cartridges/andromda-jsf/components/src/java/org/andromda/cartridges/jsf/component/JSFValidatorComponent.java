@@ -292,7 +292,7 @@ public class JSFValidatorComponent
         writer.write("function ");
         writer.write("validate" + StringUtils.capitalize(form.getId()));
         writer.write("(form) { return bCancel || true\n");
-
+        
         // - for each validator type, write "&& fun(form);
         final Collection validatorTypes = new ArrayList(this.validators.keySet());
 
@@ -477,18 +477,11 @@ public class JSFValidatorComponent
             {
                 this.validators.clear();
                 this.forms.clear();
-
-                // - include the javascript utilities (only once per request)
-                if (this.getRequest().getAttribute(JAVASCRIPT_UTILITIES) == null)
-                {
-                    this.addValidator(
-                        JAVASCRIPT_UTILITIES,
-                        null,
-                        null);
-                    this.getRequest().setAttribute(
-                        JAVASCRIPT_UTILITIES,
-                        "present");
-                }
+                // - add the javascript utilities each time
+                this.addValidator(
+                    JAVASCRIPT_UTILITIES,
+                    null,
+                    null);
                 final UIForm form = this.findForm(this.getId());
                 if (form != null)
                 {
