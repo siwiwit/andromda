@@ -68,6 +68,10 @@
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
         </dependency>
+        <dependency>
+            <groupId>oro</groupId>
+            <artifactId>oro</artifactId>
+        </dependency>
 #if ($struts)
         <dependency>
             <groupId>struts</groupId>
