@@ -7,9 +7,9 @@
 #set ($generatedFile = "$stringUtils.replace($userTypesPackage, '.', '/')/${className}.java")
 package $userTypesPackage;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -86,12 +86,12 @@ public class $className
         try
         {
             //First we get the stream
-            InputStream inputStream = resultSet.getCharacterStream(names[0]);
+            Reader inputStream = resultSet.getCharacterStream(names[0]);
             if (inputStream == null)
             {
                 return null;
             }
-            byte[] buf = new byte[1024];
+            char[] buf = new char[1024];
             int read = -1;
 
             while ((read = inputStream.read(buf)) > 0)
@@ -119,18 +119,20 @@ public class $className
         int index)
         throws HibernateException, SQLException
     {
-        data = data == null ? new String() : data;
-        String in = (String)data;
-
-        byte[] buf = in.getBytes();
-        int len = buf.length;
-
-        ByteArrayInputStream bais = new ByteArrayInputStream(buf);
-
-        preparedStatement.getCharacterStream(
-            index,
-            bais,
-            len);
+        if (data != null)
+        {
+            StringReader r = new StringReader((String)data);
+            preparedStatement.setCharacterStream(
+                index,
+                r,
+                ((String)data).length());
+        }
+        else
+        {
+            preparedStatement.setNull(
+                index,
+                sqlTypes()[0]);
+        }
     }
 
     /**
