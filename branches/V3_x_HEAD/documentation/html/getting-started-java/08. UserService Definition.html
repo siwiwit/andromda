@@ -77,8 +77,14 @@ public interface UserService
     </p>
     <p>
         In addition to <code>UserVO</code>, we have modeled a type called <code>UserVO[]</code>.
-        This is the easiest way to define and array of <code>UserVO</code> objects in UML
-        and is required to represent the return value from our service method.
+        This type is required to represent the return value from our service method. Unfortunately,
+        in UML there is no standard way to define arrays of objects, so we adopt this technique
+        as a workaround. Note that some tools, such as MagicDraw, will accept <code>UserVO[]</code>
+        as a method parameter or return type and store it as the type <code>UserVO</code>
+        with a <em>type modifier</em> of '<code>[]</code>' - however this is non-standard
+        UML and therefore can not be retrieved using standard UML APIs. Be careful, not
+        to model your parameters and return types this way. Instead, model these elements
+        using the workaround described above.
     </p>
     <p>
         Now let us enter <code>UserVO</code> in the empty model that was created by the
