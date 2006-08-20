@@ -40,17 +40,17 @@ public class TimecardDaoImpl
 
         // Add status criteria
         if (criteria.getStatus() != null) {
-        	timecardCriteria.add(Restrictions.eq("status", criteria.getStatus()));
+            timecardCriteria.add(Restrictions.eq("status", criteria.getStatus()));
         }
 
         // Add startDateMin criteria
         if (criteria.getStartDateMin() != null) {
-        	timecardCriteria.add(Restrictions.ge("startDate", criteria.getStartDateMin()));
+            timecardCriteria.add(Restrictions.ge("startDate", criteria.getStartDateMin()));
         }
 
         // Add startDateMax criteria
         if (criteria.getStartDateMax() != null) {
-        	timecardCriteria.add(Restrictions.le("startDate", criteria.getStartDateMax()));
+            timecardCriteria.add(Restrictions.le("startDate", criteria.getStartDateMax()));
         }
 
         java.util.List timecards = timecardCriteria.list();

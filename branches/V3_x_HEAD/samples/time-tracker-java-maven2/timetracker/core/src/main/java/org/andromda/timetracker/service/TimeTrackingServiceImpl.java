@@ -21,8 +21,8 @@ public class TimeTrackingServiceImpl
     protected org.andromda.timetracker.vo.TimecardSummaryVO[] handleFindTimecards(org.andromda.timetracker.vo.TimecardSearchCriteriaVO criteria)
         throws java.lang.Exception
     {
-    	List timecards = getTimecardDao().findByCriteria(criteria);
-    	getTimecardDao().toTimecardSummaryVOCollection(timecards);
-    	return (TimecardSummaryVO[])timecards.toArray(new TimecardSummaryVO[0]);
+        List timecards = getTimecardDao().findByCriteria(criteria);
+        getTimecardDao().toTimecardSummaryVOCollection(timecards);
+        return (TimecardSummaryVO[])timecards.toArray(new TimecardSummaryVO[0]);
     }
 }

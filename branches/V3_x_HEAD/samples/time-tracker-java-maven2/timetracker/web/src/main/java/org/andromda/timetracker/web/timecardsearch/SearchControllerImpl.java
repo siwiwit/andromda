@@ -34,15 +34,15 @@ public class SearchControllerImpl extends SearchController
             logger.debug("form: " + form);
         }
 
-    	// Get list of users and add the "All" option at the top
-		UserVO[] users = getUserService().getAllUsers();
+        // Get list of users and add the "All" option at the top
+        UserVO[] users = getUserService().getAllUsers();
         Arrays.sort(users, new UserVOComparator());
         List userList = new ArrayList(Arrays.asList(users));
         userList.add(0, new UserVO(null, ALL_STRING, null, null));
 
         // Populate submitter and approver dropdowns
         form.setSubmitterBackingList(userList, "id", "userName");
-		form.setApproverBackingList(userList, "id", "userName");
+        form.setApproverBackingList(userList, "id", "userName");
 
         // Populate status dropdown
         List statusLabels = new ArrayList(TimecardStatus.literals());
@@ -55,14 +55,14 @@ public class SearchControllerImpl extends SearchController
         // Populate timecard summaries
         TimecardStatus status = null;
         if (form.getStatus() != null && form.getStatus().length() > 0) {
-        	status = TimecardStatus.fromString(form.getStatus());
+            status = TimecardStatus.fromString(form.getStatus());
         }
         TimecardSearchCriteriaVO criteria = new TimecardSearchCriteriaVO(
-        		form.getSubmitter(),
-        		form.getApprover(),
-        		status,
-        	    form.getStartDateMinimumAsDate(),
-        		form.getStartDateMaximumAsDate());
+                form.getSubmitter(),
+                form.getApprover(),
+                status,
+                form.getStartDateMinimumAsDate(),
+                form.getStartDateMaximumAsDate());
 
         TimecardSummaryVO[] timecards = getTimeTrackingService().findTimecards(criteria);
         form.setTimecardSummaries(timecards);

@@ -11,13 +11,13 @@ public class UserServiceTest {
     private Log logger = LogFactory.getLog(UserServiceTest.class);
 
     private UserService userService;
-    
+
     /**
      * Initialize test suite
      */
     @Configuration(beforeSuite=true)
     public void initializeTestSuite() {
-    	
+
         // Initialize ServiceLocator
         logger.info("Initializing ServiceLocator");
         ServiceLocator locator = ServiceLocator.instance();

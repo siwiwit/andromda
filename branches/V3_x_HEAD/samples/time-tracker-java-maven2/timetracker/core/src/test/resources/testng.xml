@@ -2,8 +2,8 @@
 
 <suite name="TimeTracker Test Suite" verbose="1">
   <test name="Services Test">
-	<classes>
-	   <!--
+    <classes>
+       <!--
        <class name="org.andromda.timetracker.service.UserServiceTest" />
        <class name="org.andromda.timetracker.service.TimeTrackingServiceTest" />
        -->

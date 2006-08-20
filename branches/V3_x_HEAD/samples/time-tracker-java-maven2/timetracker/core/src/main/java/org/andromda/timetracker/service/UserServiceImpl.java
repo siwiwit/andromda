@@ -22,7 +22,7 @@ public class UserServiceImpl
     protected org.andromda.timetracker.vo.UserVO[] handleGetAllUsers()
         throws java.lang.Exception
     {
-    	Collection userVOs = getUserDao().loadAll(UserDao.TRANSFORM_USERVO);
-    	return (UserVO[])userVOs.toArray(new UserVO[0]);
+        Collection userVOs = getUserDao().loadAll(UserDao.TRANSFORM_USERVO);
+        return (UserVO[])userVOs.toArray(new UserVO[0]);
     }
 }

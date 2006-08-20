@@ -11,10 +11,10 @@ import org.testng.annotations.Configuration;
 import org.testng.annotations.Test;
 
 public class TimeTrackingServiceTest {
-	private static String TimecardHdrFormat = "%-13s %-13s %-10s %-11s";
-	private static String TimecardRowFormat = "%-13s %-13s %-10s %-11tD";
-	
-	private Log logger = LogFactory.getLog(TimeTrackingServiceTest.class);
+    private static String TimecardHdrFormat = "%-13s %-13s %-10s %-11s";
+    private static String TimecardRowFormat = "%-13s %-13s %-10s %-11tD";
+
+    private Log logger = LogFactory.getLog(TimeTrackingServiceTest.class);
     private TimeTrackingService timeTrackingService;
 
     /**
@@ -40,7 +40,7 @@ public class TimeTrackingServiceTest {
         TimecardSummaryVO[] timecards = timeTrackingService.findTimecards(criteria);
         logTimecards(timecards);
     }
-    
+
     @Test
     public void testFindTimecardsForSubmitter() {
         logger.info("testFindTimecardsForSubmitter:");
@@ -49,21 +49,21 @@ public class TimeTrackingServiceTest {
         TimecardSummaryVO[] timecards = timeTrackingService.findTimecards(criteria);
         logTimecards(timecards);
     }
-    
+
     private void logTimecards(TimecardSummaryVO[] timecards) {
 
-    	Formatter formatter = new Formatter();
-		formatter.format(TimecardHdrFormat, "Submitter", "Approver", "Status",	"Start Date");
-		logger.info(formatter.toString());
-		for (int i = 0; i < timecards.length; i++) {
-			formatter = new Formatter();
-			formatter.format(
-					TimecardRowFormat,
-					timecards[i].getSubmitterName(),
-					timecards[i].getApproverName(),
-					timecards[i].getStatus(),
-					timecards[i].getStartDate());
-			logger.info(formatter.toString());
-		}
+        Formatter formatter = new Formatter();
+        formatter.format(TimecardHdrFormat, "Submitter", "Approver", "Status",    "Start Date");
+        logger.info(formatter.toString());
+        for (int i = 0; i < timecards.length; i++) {
+            formatter = new Formatter();
+            formatter.format(
+                    TimecardRowFormat,
+                    timecards[i].getSubmitterName(),
+                    timecards[i].getApproverName(),
+                    timecards[i].getStatus(),
+                    timecards[i].getStartDate());
+            logger.info(formatter.toString());
+        }
     }
 }
