@@ -287,27 +287,39 @@ public interface UserService
     </p>
     <ol>
         <li><code>UserServiceTest</code> is located under <code>test\java\org\andromda\timetracker\service</code>.
-            The test is pretty simple. It gets a reference to the <code>UserService</code>,
-            calls the <code>getAllUsers()</code> method, and finally logs the results. This
-            test is shown below for your convenience:
+            The test is pretty simple. The <code>initializeTestSuite()</code> method gets a
+            reference to the <code>UserService</code>. This reference is used by the <code>testGetAllUsers()</code>
+            method to get all users and log them. <code>UserServiceTest</code> is shown below
+            for your convenience:
             <pre>
-    @Test
-    public void testGetAllUsers() {
+public class UserServiceTest {
+    private Log logger = LogFactory.getLog(UserServiceTest.class);
+    private UserService userService;
 
-        // Initialize the service locator
+    @Configuration(beforeSuite=true)
+    public void initializeTestSuite() {
+
+        // Initialize ServiceLocator
+        logger.info("Initializing ServiceLocator");
         ServiceLocator locator = ServiceLocator.instance();
         locator.init("testBeanRefFactory.xml", "beanRefFactory");
 
-        // Test UserService.getPerson()
-        UserService userService = locator.getUserService();
+        // Initialize UserService
+        logger.info("Initializing UserService");
+        userService = locator.getUserService();
+    }
+
+    @Test
+    public void testGetAllUsers() {
+
+        logger.info("testGetAllUsers:");
         UserVO[] users = userService.getAllUsers();
 
         for (int i=0; i&lt;users.length; i++) {
-            if (logger.isInfoEnabled()) {
-                logger.info(users[i].getUserName());
-            }
+            logger.info(users[i].getUserName());
         }
     }
+}
             </pre>
         </li>
         <li>The directory <code>test\resources</code> contains configuration files needed for
