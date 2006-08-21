@@ -819,8 +819,13 @@ public class UmlUtilities
         		buffer.insert(0, namespace.getName());
         	}
         }
+        String packageName = buffer.toString();
+        if (modelName && StringUtils.isNotBlank(packageName))
+        {
+            packageName = StringUtils.replace(packageName, separator, MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR);
+        }
 
-        return buffer.toString();
+        return packageName;
     }
 
     /**

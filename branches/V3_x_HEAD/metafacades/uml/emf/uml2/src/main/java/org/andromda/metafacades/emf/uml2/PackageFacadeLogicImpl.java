@@ -3,7 +3,9 @@ package org.andromda.metafacades.emf.uml2;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.metafacades.uml.FilteredCollection;
 import org.andromda.metafacades.uml.ModelElementFacade;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ObjectUtils;
 
 
 /**
@@ -37,7 +39,7 @@ public class PackageFacadeLogicImpl
             UmlUtilities.findByFullyQualifiedName(
                 this.metaObject.eResource().getResourceSet(),
                 fullyQualifiedName,
-                MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
+                ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.NAMESPACE_SEPARATOR)),
                 true);
         if (this.logger.isDebugEnabled())
         {
