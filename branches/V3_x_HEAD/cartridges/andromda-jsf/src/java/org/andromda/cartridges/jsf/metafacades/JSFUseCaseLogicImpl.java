@@ -251,13 +251,24 @@ public class JSFUseCaseLogicImpl
 
                         // - forwards
 
-                        /*final List transitions = action.getTransitions();
-                        for (int l = 0; l < transitions.size(); l++)
+                        final List transitions = action.getTransitions();
+                        for (final Iterator iterator = transitions.iterator(); iterator.hasNext();)
                         {
-                            final FrontEndForward forward = (FrontEndForward)transitions.get(l);
-                            messages.putAll(forward.getSuccessMessages());
-                            messages.putAll(forward.getWarningMessages());
-                        }*/
+                            final Object transition = iterator.next();
+                            if (transition instanceof JSFForward)
+                            {
+                                final JSFForward forwardTransition = (JSFForward)transition;    
+                                messages.putAll(forwardTransition.getSuccessMessages());
+                                messages.putAll(forwardTransition.getWarningMessages());
+                            }
+                            else
+                            {
+                                final JSFAction actionTransition = (JSFAction)transition;    
+                                messages.putAll(actionTransition.getSuccessMessages());
+                                messages.putAll(actionTransition.getWarningMessages());                                
+                            }
+
+                        }
 
                         // - action parameters
                         final List parameters = action.getParameters();

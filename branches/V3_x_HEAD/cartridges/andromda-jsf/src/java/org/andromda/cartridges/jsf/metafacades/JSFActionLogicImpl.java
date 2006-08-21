@@ -4,8 +4,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.andromda.cartridges.jsf.JSFGlobals;
 import org.andromda.cartridges.jsf.JSFProfile;
@@ -675,5 +678,55 @@ public class JSFActionLogicImpl
     protected String handleGetFromOutcome()
     {
         return this.getName();
+    }
+    
+    protected boolean handleIsSuccessMessagesPresent()
+    {
+        return !this.getSuccessMessages().isEmpty();
+    }
+
+    protected boolean handleIsWarningMessagesPresent()
+    {
+        return !this.getWarningMessages().isEmpty();
+    }
+    
+    /**
+     * Collects specific messages in a map.
+     *
+     * @param taggedValue the tagged value from which to read the message
+     * @return maps message keys to message values, but only those that match the arguments
+     *         will have been recorded
+     */
+    private Map getMessages(String taggedValue)
+    {
+        Map messages;
+
+        final Collection taggedValues = this.findTaggedValues(taggedValue);
+        if (taggedValues.isEmpty())
+        {
+            messages = Collections.EMPTY_MAP;
+        }
+        else
+        {
+            messages = new LinkedHashMap(); // we want to keep the order
+
+            for (final Iterator iterator = taggedValues.iterator(); iterator.hasNext();)
+            {
+                final String value = (String)iterator.next();
+                messages.put(StringUtilsHelper.toResourceMessageKey(value), value);
+            }
+        }
+
+        return messages;
+    }
+
+    protected Map handleGetSuccessMessages()
+    {
+        return this.getMessages(JSFProfile.TAGGEDVALUE_ACTION_SUCCESS_MESSAGE);
+    }
+
+    protected Map handleGetWarningMessages()
+    {
+        return this.getMessages(JSFProfile.TAGGEDVALUE_ACTION_WARNING_MESSAGE);
     }
 }

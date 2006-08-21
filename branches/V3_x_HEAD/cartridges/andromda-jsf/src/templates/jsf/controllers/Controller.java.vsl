@@ -65,6 +65,7 @@ $operation.getDocumentation("     * ")
                 this.getSession(false).setAttribute("$adfContextAttributeName", contextWrapper);
 #end
                 forward = #processTransition($action)
+#saveMessages($action "                ")
 #if (!$action.formFields.empty && $action.formResetRequired)
                 form.reset();
 #end

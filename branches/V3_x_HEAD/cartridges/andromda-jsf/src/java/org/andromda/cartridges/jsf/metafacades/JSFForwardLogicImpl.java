@@ -1,8 +1,16 @@
 package org.andromda.cartridges.jsf.metafacades;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.andromda.cartridges.jsf.JSFGlobals;
+import org.andromda.cartridges.jsf.JSFProfile;
 import org.andromda.cartridges.jsf.JSFUtils;
 import org.andromda.metafacades.uml.StateVertexFacade;
+import org.andromda.utils.StringUtilsHelper;
 
 
 /**
@@ -54,6 +62,56 @@ public class JSFForwardLogicImpl
         }
 
         return forwardPath;        
+    }
+    
+    protected boolean handleIsSuccessMessagesPresent()
+    {
+        return !this.getSuccessMessages().isEmpty();
+    }
+
+    protected boolean handleIsWarningMessagesPresent()
+    {
+        return !this.getWarningMessages().isEmpty();
+    }
+    
+    /**
+     * Collects specific messages in a map.
+     *
+     * @param taggedValue the tagged value from which to read the message
+     * @return maps message keys to message values, but only those that match the arguments
+     *         will have been recorded
+     */
+    private Map getMessages(String taggedValue)
+    {
+        Map messages;
+
+        final Collection taggedValues = this.findTaggedValues(taggedValue);
+        if (taggedValues.isEmpty())
+        {
+            messages = Collections.EMPTY_MAP;
+        }
+        else
+        {
+            messages = new LinkedHashMap(); // we want to keep the order
+
+            for (final Iterator iterator = taggedValues.iterator(); iterator.hasNext();)
+            {
+                final String value = (String)iterator.next();
+                messages.put(StringUtilsHelper.toResourceMessageKey(value), value);
+            }
+        }
+
+        return messages;
+    }
+
+    protected Map handleGetSuccessMessages()
+    {
+        return this.getMessages(JSFProfile.TAGGEDVALUE_ACTION_SUCCESS_MESSAGE);
+    }
+
+    protected Map handleGetWarningMessages()
+    {
+        return this.getMessages(JSFProfile.TAGGEDVALUE_ACTION_WARNING_MESSAGE);
     }
 
     /**

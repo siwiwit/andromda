@@ -315,6 +315,32 @@
                     <value>true</value>
                 </allowedValues>
             </element>
+            <element name="ACTION_SUCCESS_MESSAGE">
+                <documentation>
+                    On action completion will have a success message rendered on screen
+                </documentation>
+                <value>@andromda.presentation.action.success.message</value>
+                <appliedOnElement>Transition</appliedOnElement>
+                <allowedValues>
+                    <value>
+                        Any message you would like to see displayed, it will be included in the resource bundle
+                        for internationalization
+                    </value>
+                </allowedValues>
+            </element>
+            <element name="ACTION_WARNING_MESSAGE">
+                <documentation>
+                    On action completion will have a warning message rendered on screen
+                </documentation>
+                <value>@andromda.presentation.action.warning.message</value>
+                <appliedOnElement>Transition</appliedOnElement>
+                <allowedValues>
+                    <value>
+                        Any message you would like to see displayed, it will be included in the resource bundle
+                        for internationalization
+                    </value>
+                </allowedValues>
+            </element>
             <element name="INPUT_FORMAT">
                 <documentation>
                     The format of this field's value.
