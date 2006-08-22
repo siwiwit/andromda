@@ -8,6 +8,7 @@ import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.uml2.AssociationClass;
 
 
@@ -41,10 +42,24 @@ public class AssociationFacadeLogicImpl
             secondEnd.getName(),
             String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.RELATION_NAME_SEPARATOR)));
     }
-
     /**
-     * @see org.andromda.metafacades.uml.AssociationFacade#isMany2Many()
+     * Overriden: A name may not have a name, which
+     * is problematic for getSqlName (for an EntityAssociation).
+     * We use the relation name as default
+     * @see org.andromda.metafacades.emf.uml2.ModelElementFacadeLogic#handleGetName()
      */
+    public String handleGetName() {
+		String name = super.handleGetName();
+
+		// if the name isn't defined, use the relation name
+		if (StringUtils.isEmpty(name)) {
+			name = this.getRelationName();
+		}
+		return name;
+	}
+    /**
+	 * @see org.andromda.metafacades.uml.AssociationFacade#isMany2Many()
+	 */
     protected boolean handleIsMany2Many()
     {
         return ((AssociationEndFacade)this.getAssociationEnds().iterator().next()).isMany2Many();
