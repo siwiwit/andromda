@@ -33,14 +33,14 @@ public class $className
         String resourceString;
         try
         {
-            Locale locale;
+            java.util.Locale locale;
             if (context != null && context.getViewRoot() != null)
             {
                 locale = context.getViewRoot().getLocale();
             }
             else
             {
-                locale = Locale.getDefault();
+                locale = java.util.Locale.getDefault();
             }
             final ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale);
             resourceString = bundle.getString(key);
