@@ -90,6 +90,7 @@ public abstract class $service.baseName
         }
 #end
 #end
+#if (!$argument.type.enumeration)
 #foreach ($attribute in $argument.type.attributes)
 #if ($attribute.required && !$attribute.type.primitive)
 #if (!$attribute.type.stringType)
@@ -104,6 +105,7 @@ public abstract class $service.baseName
             throw new IllegalArgumentException(
                 "${service.fullyQualifiedName}.${operation.signature} - '$argument.name.$attribute.name' can not be null or empty");
         }
+#end
 #end
 #end
 #end
