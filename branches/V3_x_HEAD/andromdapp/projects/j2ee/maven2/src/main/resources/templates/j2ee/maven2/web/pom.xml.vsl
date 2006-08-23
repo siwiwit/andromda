@@ -107,6 +107,14 @@
             <systemPath>${pom.basedir}/target/src/WEB-INF/lib/adf-faces-api.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-jsf-cartridge-components</artifactId>
+            <!-- 'unknown' because the version doesn't matter for system dependencies -->
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/andromda-jsf-cartridge-components.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
