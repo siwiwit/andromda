@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -47,6 +46,7 @@ public class DateTimeConverter
         if (value != null && pattern != null && pattern.trim().length() > 0)
         {
             DateFormat format = new SimpleDateFormat(pattern);
+            format.setTimeZone(this.getTimeZone());
             result = format.format((Date)value);    
         }
         return result;
@@ -74,6 +74,7 @@ public class DateTimeConverter
             if (Calendar.class.isAssignableFrom(componentType) && asObject instanceof Date)
             {
                 final Calendar calendar = Calendar.getInstance();
+                calendar.setTimeZone(this.getTimeZone());
                 calendar.setTime((Date)asObject);
                 asObject = calendar;
             }
