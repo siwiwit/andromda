@@ -9,3 +9,10 @@
     <tiles:put name="header" value="/layout/header.jsp" />
     <tiles:put name="menubar" value="/layout/menubar.jsp" />
 </tiles:definition>
+
+<tiles:definition
+  id="login_layout_definition"
+  page="/layout/login-layout.jsp"
+  scope="request">
+    <tiles:put name="header" value="/layout/header.jsp" />
+</tiles:definition>

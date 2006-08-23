@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+    This is used to map merge patterns in files generated
+    by Spring to new patterns. Just add content to the
+    CDATA sections of the <to/> elements in order to
+    use the following merge points.
+-->
+<mappings name="SpringMerge">
+    <mapping>
+        <from><![CDATA[<!-- beanRefFactory merge-point -->]]></from>
+        <to>
+            <![CDATA[
+                <value>applicationContext-acegi-security.xml</value>
+            ]]>
+        </to>
+    </mapping>
+</mappings>

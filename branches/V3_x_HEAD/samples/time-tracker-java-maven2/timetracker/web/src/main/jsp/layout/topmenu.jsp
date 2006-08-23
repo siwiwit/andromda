@@ -1,1 +1,3 @@
-<a class="menu" href="login.html">Log out [nbhatia]</a>
+<a class="menu" href="/timetracker/j_acegi_logout">
+    Log out [<authz:authentication operation="username"/>]
+</a>
