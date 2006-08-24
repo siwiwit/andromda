@@ -43,8 +43,7 @@ public class BinaryFileTag
     private static final String COMPONENT_TYPE = BinaryFile.COMPONENT_TYPE;
 
     /**
-     * Returns the component type, which is
-     * <code>org.andromda.cartridges.jsf.component.JSFValidatorScript</code>.
+     * Returns the component type.
      */
     public String getComponentType()
     {
