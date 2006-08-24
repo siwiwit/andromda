@@ -152,24 +152,24 @@ public class JSFValidatorComponent
                                         final Arg[] args = field.getArgs(dependency);
                                         if (args != null)
                                         {
-                                            if (!this.validatorPresent(valueHolder, validator))
+                                            for (final Iterator varIterator = field.getVars().keySet().iterator(); varIterator.hasNext();)
                                             {
-                                                for (final Iterator varIterator = field.getVars().keySet().iterator(); varIterator.hasNext();)
-                                                {
-                                                    final String name = (String)varIterator.next();
-                                                    validator.addParameter(
-                                                        name,
-                                                        field.getVarValue(name));
-                                                }
-                                                validator.setArgs(ValidatorMessages.getArgs(
-                                                        dependency,
-                                                        field));
-                                                valueHolder.addValidator(validator);
+                                                final String name = (String)varIterator.next();
+                                                validator.addParameter(
+                                                    name,
+                                                    field.getVarValue(name));
                                             }
+                                            validator.setArgs(ValidatorMessages.getArgs(
+                                                    dependency,
+                                                    field));
                                             this.addValidator(
                                                 dependency,
                                                 component.getClientId(context),
                                                 validator);
+                                            if (!this.validatorPresent(valueHolder, validator))
+                                            {
+                                                valueHolder.addValidator(validator);
+                                            }
                                         }
                                     }
                                     else
