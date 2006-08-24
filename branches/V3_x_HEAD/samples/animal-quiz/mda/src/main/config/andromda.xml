@@ -77,7 +77,7 @@
                 <property name="wsdlSoapAddress">${wsdl.soap.address}</property>
                 <property name="rpcClassNamePattern">{0}.{1}WSDelegator</property>
                 <property name="wsdls">${webservice.generated.wsdl.dir}</property>
-                <property name="axis-configuration">${webservice.generated.dir}</property>
+                <property name="configuration">${webservice.generated.dir}</property>
                 <property name="webservice-types">${core.generated.dir}</property>
             </properties>
         </namespace>
