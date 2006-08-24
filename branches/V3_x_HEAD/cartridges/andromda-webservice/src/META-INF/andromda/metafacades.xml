@@ -35,11 +35,7 @@
             <stereotype>ENUMERATION</stereotype>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeAssociationEndLogicImpl">
-        <mapping>
-            <property name="association"/>
-        </mapping>
-    </metafacade>
+    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeAssociationEndLogicImpl"/>
     <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeAttributeLogicImpl">
         <mapping>
             <property name="owner.wSDLTypeMetaType"/>
