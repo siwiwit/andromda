@@ -1004,7 +1004,7 @@ public class ParameterChecks
                 equalFieldValue = ((UIInput)equalField).getSubmittedValue();
             }
             // - we just ignore null values because it means it wasn't a UIInput instance
-            if (equalFieldValue != null || !equalFieldValue.equals(value))
+            if (equalFieldValue != null && !equalFieldValue.equals(value))
             {
                 errors.add(ValidatorMessages.getMessage(
                     action,
