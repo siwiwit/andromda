@@ -14,6 +14,7 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.validator.Validator;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,7 +48,8 @@ public class JSFValidatorComponent
      * validator type names. The values are maps from IDs to JSFValidator
      * objects.
      */
-    private final Map validators = new LinkedHashMap();
+    private Map validators = new LinkedHashMap();
+
 
     /**
      * The component renders itself; therefore, this method returns null.
@@ -150,18 +152,20 @@ public class JSFValidatorComponent
                                         final Arg[] args = field.getArgs(dependency);
                                         if (args != null)
                                         {
-                                            for (final Iterator varIterator = field.getVars().keySet().iterator();
-                                                varIterator.hasNext();)
+                                            if (!this.validatorPresent(valueHolder, validator))
                                             {
-                                                final String name = (String)varIterator.next();
-                                                validator.addParameter(
-                                                    name,
-                                                    field.getVarValue(name));
+                                                for (final Iterator varIterator = field.getVars().keySet().iterator(); varIterator.hasNext();)
+                                                {
+                                                    final String name = (String)varIterator.next();
+                                                    validator.addParameter(
+                                                        name,
+                                                        field.getVarValue(name));
+                                                }
+                                                validator.setArgs(ValidatorMessages.getArgs(
+                                                        dependency,
+                                                        field));
+                                                valueHolder.addValidator(validator);
                                             }
-                                            validator.setArgs(ValidatorMessages.getArgs(
-                                                    dependency,
-                                                    field));
-                                            valueHolder.addValidator(validator);
                                             this.addValidator(
                                                 dependency,
                                                 component.getClientId(context),
@@ -188,6 +192,37 @@ public class JSFValidatorComponent
                 childComponent,
                 context);
         }
+    }
+    
+    /**
+     * Indicates whether or not the JSFValidator instance is present and if so returns true.
+     * 
+     * @param valueHolder the value holder on which to check if its present.
+     * @return true/false
+     */
+    private boolean validatorPresent(EditableValueHolder valueHolder, final Validator validator)
+    {
+        boolean present = false;
+        if (validator != null)
+        {
+            final Validator[] validators = valueHolder.getValidators();
+            if (validators != null)
+            {
+                for (int ctr = 0; ctr < validators.length; ctr++)
+                {
+                    final Validator test = validators[ctr];
+                    if (test instanceof JSFValidator)
+                    {
+                        present = test.toString().equals(validator.toString());
+                        if (present)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return present;
     }
 
     private static final String JAVASCRIPT_UTILITIES = "javascriptUtilities";
