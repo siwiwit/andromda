@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.faces.component.UIInput;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 
@@ -995,8 +996,15 @@ public class ParameterChecks
         {
             final String equalFieldName = field.getVarValue("fieldName");
             final ValueHolder equalField = (ValueHolder)context.getViewRoot().findComponent(equalFieldName);
-            final Object equalFieldValue = equalField.getValue();
-            if (equalFieldValue == null || !equalFieldValue.equals(object))
+            Object equalFieldValue = null;
+            // - we check for whether or not its actually a UIInput because sometimes it isn't 
+            //   depending on the framework (even though it should be).
+            if (equalField instanceof UIInput)
+            {
+                equalFieldValue = ((UIInput)equalField).getSubmittedValue();
+            }
+            // - we just ignore null values because it means it wasn't a UIInput instance
+            if (equalFieldValue != null || !equalFieldValue.equals(value))
             {
                 errors.add(ValidatorMessages.getMessage(
                     action,
