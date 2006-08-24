@@ -24,7 +24,7 @@
 #if ($parameter.readOnly) 
         <af:inputText id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" readOnly="true"/>
 #else
-        <af:panelLabelAndMessage label="#{messages['$parameter.messageKey']}:" showRequired="$parameter.required">
+        <af:panelLabelAndMessage label="#{messages['$parameter.messageKey']}:" for="$propertyId" showRequired="$parameter.required">
             <t:inputCalendar id="$propertyId" value="#{${formValuePropertyName}}" renderAsPopup="true" popupDateFormat="$parameter.format" required="$parameter.required">
                 <a:convertDateTime pattern="$parameter.format"/>
             </t:inputCalendar>
@@ -62,7 +62,7 @@
 #elseif ($parameter.plainText)
         <h:outputText value="#{${formValuePropertyName}}"/>
 #elseif ($parameter.inputSecret)
-        <af:panelLabelAndMessage label="#{messages['$parameter.messageKey']}:" showRequired="$parameter.required">
+        <af:panelLabelAndMessage label="#{messages['$parameter.messageKey']}:" for="$propertyId" showRequired="$parameter.required">
             <h:inputSecret id="$propertyId" value="#{${formValuePropertyName}}" required="$parameter.required" readonly="$parameter.readOnly"/>
         </af:panelLabelAndMessage>  
 #else
