@@ -1,5 +1,9 @@
 package org.andromda.metafacades.emf.uml2;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+
 
 /**
  * MetafacadeLogic implementation for
@@ -22,8 +26,8 @@ public class AssociationClassFacadeLogicImpl
      */
     protected java.util.Collection handleGetConnectionAssociationEnds()
     {
-        // TODO: This has to be tested.
-        // TODO: It may need to be transformed like other properties.
-        return this.metaObject.getMemberEnds();
+        return (List)CollectionUtils.collect(
+                this.metaObject.getMemberEnds(),
+                UmlUtilities.ELEMENT_TRANSFORMER);
     }
 }
