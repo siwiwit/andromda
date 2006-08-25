@@ -58,7 +58,18 @@ ${indent}<$otherEnd.collectionType name="$otherEnd.name"#if($otherEnd.lazy) lazy
 ${indent}    <cache usage="$sourceEnd.association.hibernateCacheType" />
 #end
 ${indent}    <key foreign-key="$sourceEnd.foreignKeyConstraintName"#if ($otherEnd.list) not-null="$otherEnd.required"#end>
+#if (!$entity.compositeIdentifier)
 ${indent}        <column name="$sourceEnd.columnName" sql-type="$sourceEnd.sqlType"/>
+#else
+#foreach ($identifier in $entity.identifiers)
+${indent}        <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+#end
+#foreach ($sourceEnd in $entity.identifierAssociationEnds)
+#foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
+                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+#end
+#end
+#end
 ${indent}    </key>
 #if ($otherEnd.list)
 ${indent}    <list-index column="$otherEnd.collectionIndexName"/>
@@ -68,9 +79,20 @@ ${indent}    <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.col
 #end
 ${indent}    <one-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName"/>
 ${indent}</$otherEnd.collectionType>
-#elseif ($sourceEnd.many2One)
+#elseif ($sourceEnd.many2One && !$sourceEnd.identifiersPresent)
 ${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end#if ($sourceEnd.list) insert="false" update="false" not-null="$otherEnd.required"#end>
+#if (!$otherEnd.type.compositeIdentifier)
 ${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required" sql-type="$otherEnd.sqlType"/>
+#else
+#foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
+                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+#end
+#foreach ($identyAssociationEnd in ${otherEnd.type.identifierAssociationEnds})
+#foreach ($identifier in ${identyAssociationEnd.otherEnd.type.identifiers})
+                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+#end
+#end
+#end
 ${indent}</many-to-one>
 #elseif ($sourceEnd.many2Many)
 #if ($otherEnd.set || $otherEnd.map)
@@ -105,7 +127,18 @@ ${indent}</$otherEnd.collectionType>
 ${indent}<$entity.mappingClassName#if($mapSubclassesInSeparateFile) extends="$entity.generalization.fullyQualifiedEntityImplementationName"#end name="$entity.fullyQualifiedEntityImplementationName"#if($entity.tableRequired) table="$entity.tableName"#else discriminator-value="$entity.entityImplementationName"#end#if(!$entity.lazy) lazy="false"#end#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate" abstract="$entity.abstract"#if ($stringUtils.isNotBlank($entity.schema)) schema="$entity.schema"#end>
 #if($entity.subclassKeyColumn)
 ${indent}    <key foreign-key="${entity.tableName}IFKC">
+#if (!$entity.generalization.compositeIdentifier)
 ${indent}        <column name="$entity.subclassKeyColumn" sql-type="$identifier.sqlType"/>
+#else
+#foreach ($identifier in $entity.identifiers)
+${indent}        <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+#end
+#foreach ($sourceEnd in $entity.identifierAssociationEnds)
+#foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
+                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+#end
+#end
+#end
 ${indent}    </key>
 #end
 #renderPropertiesAndAssociations3($entity "" "${indent}    ")

@@ -1,5 +1,9 @@
 package org.andromda.metafacades.uml2;
 
+import java.util.Collection;
+
+import org.andromda.metafacades.uml.MetafacadeUtils;
+import org.andromda.metafacades.uml.UMLProfile;
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.Entity.
@@ -266,4 +270,30 @@ public class EntityLogicImpl
         // TODO: put your implementation here.
         return null;
     }
+
+    /**
+     * @see org.andromda.metafacades.uml.Entity#getIdentifierAssociationEnds()
+     */
+    protected Collection handleGetIdentifierAssociationEnds() {
+        Collection associationEnds = this.getAssociationEnds();
+        if (associationEnds != null)
+        {
+            MetafacadeUtils.filterByStereotype(
+                associationEnds,
+                UMLProfile.STEREOTYPE_IDENTIFIER);
+        }
+        return associationEnds;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Entity#isCompositeIdentifier()
+     */
+    protected boolean handleIsCompositeIdentifier() {
+        int identifiers = (!this.getIdentifiers().isEmpty()) ? this.getIdentifiers().size() : 0;
+        identifiers =
+            identifiers +
+            (!this.getIdentifierAssociationEnds().isEmpty() ? this.getIdentifierAssociationEnds().size() : 0);
+        return (identifiers < 2) ? false : true;
+    }
+
 }

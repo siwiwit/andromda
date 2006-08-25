@@ -840,4 +840,30 @@ public class EntityLogicImpl
         }
         return schemaName;
     }
+
+    /**
+     * @see org.andromda.metafacades.uml.Entity#getAssociationEndsIdentifiers()
+     */
+    protected Collection handleGetIdentifierAssociationEnds() {
+        Collection associationEnds = this.getAssociationEnds();
+        if (associationEnds != null)
+        {
+            MetafacadeUtils.filterByStereotype(
+                associationEnds,
+                UMLProfile.STEREOTYPE_IDENTIFIER);
+        }
+        return associationEnds;
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.Entity#isCompositeIdentifier()
+     */
+    protected boolean handleIsCompositeIdentifier() {
+        int identifiers = (!this.getIdentifiers().isEmpty()) ? this.getIdentifiers().size() : 0;
+        identifiers =
+            identifiers +
+            (!this.getIdentifierAssociationEnds().isEmpty() ? this.getIdentifierAssociationEnds().size() : 0);
+        return (identifiers < 2) ? false : true;
+    }
+
 }

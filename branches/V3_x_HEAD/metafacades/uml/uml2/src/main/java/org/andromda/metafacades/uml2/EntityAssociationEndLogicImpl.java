@@ -1,5 +1,6 @@
 package org.andromda.metafacades.uml2;
 
+import org.andromda.metafacades.uml.UMLProfile;
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.EntityAssociationEnd.
@@ -73,5 +74,12 @@ public class EntityAssociationEndLogicImpl
     {
         // TODO: put your implementation here.
         return false;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityAssociationEnd#isIdentifiersPresent()
+     */
+    protected boolean handleIsIdentifiersPresent() {
+        return this.hasStereotype(UMLProfile.STEREOTYPE_IDENTIFIER);
     }
 }

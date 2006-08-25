@@ -40,7 +40,9 @@ import org.omg.uml.foundation.core.Classifier;
 public class EntityLogicImpl
     extends EntityLogic
 {
-    public EntityLogicImpl(final java.lang.Object metaObject, final String context)
+    public EntityLogicImpl(
+        final java.lang.Object metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -75,7 +77,9 @@ public class EntityLogicImpl
     protected String handleGetName()
     {
         final String nameMask = String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENTITY_NAME_MASK));
-        return NameMasker.mask(super.handleGetName(), nameMask);
+        return NameMasker.mask(
+            super.handleGetName(),
+            nameMask);
     }
 
     /**
@@ -93,7 +97,9 @@ public class EntityLogicImpl
     {
         final Collection queryOperations = this.getOperations();
 
-        MetafacadeUtils.filterByType(queryOperations, EntityQueryOperation.class);
+        MetafacadeUtils.filterByType(
+            queryOperations,
+            EntityQueryOperation.class);
         for (ClassifierFacade superClass = (ClassifierFacade)getGeneralization(); superClass != null && follow;
             superClass = (ClassifierFacade)superClass.getGeneralization())
         {
@@ -119,7 +125,9 @@ public class EntityLogicImpl
      */
     protected java.util.Collection handleGetIdentifiers(final boolean follow)
     {
-        return EntityMetafacadeUtils.getIdentifiers(this, follow);
+        return EntityMetafacadeUtils.getIdentifiers(
+            this,
+            follow);
     }
 
     /**
@@ -153,7 +161,9 @@ public class EntityLogicImpl
     {
         // only create the identifier if an identifer with the name doesn't
         // already exist
-        if (!UML14MetafacadeUtils.attributeExists(this.metaObject, name))
+        if (!UML14MetafacadeUtils.attributeExists(
+                this.metaObject,
+                name))
         {
             final Attribute identifier =
                 UML14MetafacadeUtils.createAttribute(
@@ -301,7 +311,9 @@ public class EntityLogicImpl
         final boolean follow,
         final boolean withIdentifiers)
     {
-        return this.getNameList(this.getRequiredAttributes(follow, withIdentifiers));
+        return this.getNameList(this.getRequiredAttributes(
+                follow,
+                withIdentifiers));
     }
 
     /**
@@ -311,7 +323,9 @@ public class EntityLogicImpl
         final boolean follow,
         final boolean withIdentifiers)
     {
-        return this.getTypeList(this.getRequiredProperties(follow, withIdentifiers));
+        return this.getTypeList(this.getRequiredProperties(
+                follow,
+                withIdentifiers));
     }
 
     /**
@@ -321,7 +335,9 @@ public class EntityLogicImpl
         final boolean follow,
         final boolean withIdentifiers)
     {
-        return this.getNameList(this.getRequiredProperties(follow, withIdentifiers));
+        return this.getNameList(this.getRequiredProperties(
+                follow,
+                withIdentifiers));
     }
 
     /**
@@ -363,7 +379,9 @@ public class EntityLogicImpl
             });
         if (list.toString().endsWith(comma))
         {
-            list.delete(list.lastIndexOf(comma), list.length());
+            list.delete(
+                list.lastIndexOf(comma),
+                list.length());
         }
         return list.toString();
     }
@@ -398,7 +416,9 @@ public class EntityLogicImpl
             });
         if (list.toString().endsWith(comma))
         {
-            list.delete(list.lastIndexOf(comma), list.length());
+            list.delete(
+                list.lastIndexOf(comma),
+                list.length());
         }
         return list.toString();
     }
@@ -473,7 +493,9 @@ public class EntityLogicImpl
     protected Collection handleGetBusinessOperations()
     {
         final Collection businessOperations = this.getImplementationOperations();
-        MetafacadeUtils.filterByNotType(businessOperations, EntityQueryOperation.class);
+        MetafacadeUtils.filterByNotType(
+            businessOperations,
+            EntityQueryOperation.class);
         return businessOperations;
     }
 
@@ -549,7 +571,9 @@ public class EntityLogicImpl
         boolean follow,
         final boolean withIdentifiers)
     {
-        final Collection attributes = this.getAttributes(follow, withIdentifiers);
+        final Collection attributes = this.getAttributes(
+                follow,
+                withIdentifiers);
         CollectionUtils.filter(
             attributes,
             new Predicate()
@@ -575,7 +599,9 @@ public class EntityLogicImpl
         final boolean follow,
         final boolean withIdentifiers)
     {
-        final Set properties = new LinkedHashSet(this.getProperties(follow, withIdentifiers));
+        final Set properties = new LinkedHashSet(this.getProperties(
+                    follow,
+                    withIdentifiers));
         CollectionUtils.filter(
             properties,
             new Predicate()
@@ -617,8 +643,8 @@ public class EntityLogicImpl
      */
     private boolean isAllowDefaultIdentifiers()
     {
-        return Boolean.valueOf((String)this.getConfiguredProperty(
-            UMLMetafacadeProperties.ALLOW_DEFAULT_IDENTITIFIERS)).booleanValue();
+        return Boolean.valueOf((String)this.getConfiguredProperty(UMLMetafacadeProperties.ALLOW_DEFAULT_IDENTITIFIERS))
+                      .booleanValue();
     }
 
     /**
@@ -626,10 +652,10 @@ public class EntityLogicImpl
      */
     private String getDefaultIdentifier()
     {
-        return ObjectUtils.toString(
-            this.getConfiguredProperty(UMLMetafacadeProperties.DEFAULT_IDENTIFIER_PATTERN)).replaceAll(
-                "\\{0\\}",
-                StringUtilsHelper.lowerCamelCaseName(this.getName()));
+        return ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.DEFAULT_IDENTIFIER_PATTERN))
+                          .replaceAll(
+            "\\{0\\}",
+            StringUtilsHelper.lowerCamelCaseName(this.getName()));
     }
 
     /**
@@ -661,7 +687,9 @@ public class EntityLogicImpl
         if (end != null && end.getType() instanceof Entity)
         {
             final Entity foreignEntity = (Entity)end.getOtherEnd().getType();
-            final Collection identifiers = EntityMetafacadeUtils.getIdentifiers(foreignEntity, true);
+            final Collection identifiers = EntityMetafacadeUtils.getIdentifiers(
+                    foreignEntity,
+                    true);
             for (final Iterator iterator = identifiers.iterator(); iterator.hasNext();)
             {
                 final AttributeFacade identifier = (AttributeFacade)iterator.next();
@@ -755,5 +783,32 @@ public class EntityLogicImpl
             schemaName = ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.SCHEMA_NAME));
         }
         return schemaName;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Entity#identifierAssociationEnds()
+     */
+    protected Collection handleGetIdentifierAssociationEnds()
+    {
+        Collection associationEnds = this.getAssociationEnds();
+        if (associationEnds != null)
+        {
+            MetafacadeUtils.filterByStereotype(
+                associationEnds,
+                UMLProfile.STEREOTYPE_IDENTIFIER);
+        }
+        return associationEnds;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Entity#isCompositeIdentifier()
+     */
+    protected boolean handleIsCompositeIdentifier()
+    {
+        int identifiers = (!this.getIdentifiers().isEmpty()) ? this.getIdentifiers().size() : 0;
+        identifiers =
+            identifiers +
+            (!this.getIdentifierAssociationEnds().isEmpty() ? this.getIdentifierAssociationEnds().size() : 0);
+        return (identifiers < 2) ? false : true;
     }
 }

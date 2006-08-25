@@ -47,7 +47,22 @@ public abstract class $entity.entityName
 
 #end
 #end
+#if($entity.compositeIdentifier)
+#set($primaryKeyType="${entity.fullyQualifiedEntityName}PK")
+#set($primaryKeyName="$stringUtils.uncapitalize($entity.name)Pk")
+	private $primaryKeyType $primaryKeyName;
+	
+	public $primaryKeyType get${entity.name}Pk() {
+        return this.${primaryKeyName};
+    }
+
+    public void set${entity.name}Pk($primaryKeyType $primaryKeyName) {
+        this.$primaryKeyName = $primaryKeyName;
+    }
+
+#end
 #foreach ($attribute in $entity.attributes)
+#if (!$entity.compositeIdentifier || ($entity.compositeIdentifier && !$attribute.identifier))
 #set ($typeName = $attribute.type.fullyQualifiedName)
 #if ($attribute.containsEmbeddedObject)
 #set ($typeName = $attribute.type.fullyQualifiedEntityName)
@@ -67,6 +82,7 @@ $attribute.getDocumentation("     * ")
         this.${attribute.name} = $attribute.name;
     }
 
+#end
 #end
 ## Generate the associations
 #foreach ($associationEnd in $entity.associationEnds)
@@ -159,7 +175,7 @@ $operation.getDocumentation("     * ")
 #end
 #end
      */
-#renderHashCodeMethod($entity $identifiers)
+#renderHashCodeMethod($entity $entity.entityName $identifiers)
 
 #end
 #if (!$entity.abstract)

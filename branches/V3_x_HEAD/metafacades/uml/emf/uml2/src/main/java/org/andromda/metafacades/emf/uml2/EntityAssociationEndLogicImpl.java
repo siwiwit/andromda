@@ -227,4 +227,11 @@ public class EntityAssociationEndLogicImpl
     {
         return this.hasStereotype(UMLProfile.STEREOTYPE_TRANSIENT);
     }
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityAssociationEnd#isIdentifiersPresent()
+     */
+    protected boolean handleIsIdentifiersPresent() {
+        return this.hasStereotype(UMLProfile.STEREOTYPE_IDENTIFIER);
+    }
 }

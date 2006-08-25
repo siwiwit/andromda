@@ -192,6 +192,20 @@
 
     <!-- common templates -->
     <template
+        path="templates/hibernate/HibernateEntityPK.vsl"
+        outputPattern="$generatedFile"
+        outlet="entities"
+        overwrite="true">
+        <modelElements variable="entity">
+            <modelElement>
+                <type name="org.andromda.cartridges.hibernate.metafacades.HibernateEntity">
+                <property name="compositeIdentifier">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
         path="templates/hibernate/HibernateEmbeddedValue.vsl"
         outputPattern="$generatedFile"
         outlet="entities"
