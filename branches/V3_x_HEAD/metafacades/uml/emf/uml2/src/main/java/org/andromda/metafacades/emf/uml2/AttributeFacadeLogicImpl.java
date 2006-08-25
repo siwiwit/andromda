@@ -91,8 +91,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsChangeable()
     {
-        // TODO: Check this is correct. I would tell the inverse
-        return this.metaObject.isReadOnly();
+        return !this.metaObject.isReadOnly();
     }
 
     /**
