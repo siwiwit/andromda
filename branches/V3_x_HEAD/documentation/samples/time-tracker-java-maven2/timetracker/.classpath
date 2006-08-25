@@ -21,6 +21,7 @@
   <classpathentry kind="var" path="M2_REPO/hibernate/antlr/2.7.5H3/antlr-2.7.5H3.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar"/>
   <classpathentry kind="var" path="M2_REPO/jboss/jboss-j2ee/3.2.3/jboss-j2ee-3.2.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/acegisecurity/acegi-security/1.0.1/acegi-security-1.0.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/andromda/andromda-core/3.2-SNAPSHOT/andromda-core-3.2-SNAPSHOT.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/andromda/andromda-utils/3.2-SNAPSHOT/andromda-utils-3.2-SNAPSHOT.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/andromda/metafacades/andromda-metafacades-uml/3.2-SNAPSHOT/andromda-metafacades-uml-3.2-SNAPSHOT.jar"/>

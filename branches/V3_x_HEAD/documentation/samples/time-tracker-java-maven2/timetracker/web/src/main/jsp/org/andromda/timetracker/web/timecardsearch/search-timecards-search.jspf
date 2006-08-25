@@ -8,12 +8,12 @@
     <c:set var="value" value="${form.submitter}"/>
     <c:choose>
        <c:when test="${!empty form.submitterBackingList}">
-          <html:select name="form" property="submitter" onmouseover="hints.show('search.timecards.search.timecards.search.param.submitter.title')" onmouseout="hints.hide()"  styleId="searchSubmitter">
+          <html:select name="form" property="submitter" styleId="searchSubmitter">
               <html:optionsCollection name="form" property="submitterBackingList" label="label" value="value"/>
           </html:select>
        </c:when>
        <c:otherwise>
-           <html:select name="form" property="submitter" onmouseover="hints.show('search.timecards.search.timecards.search.param.submitter.title')" onmouseout="hints.hide()"  styleId="searchSubmitter"/>
+           <html:select name="form" property="submitter" styleId="searchSubmitter"/>
        </c:otherwise>
     </c:choose>
 
@@ -21,12 +21,12 @@
     <c:set var="value" value="${form.approver}"/>
     <c:choose>
        <c:when test="${!empty form.approverBackingList}">
-          <html:select name="form" property="approver" onmouseover="hints.show('search.timecards.search.timecards.search.param.approver.title')" onmouseout="hints.hide()"  styleId="searchApprover">
+          <html:select name="form" property="approver" styleId="searchApprover">
               <html:optionsCollection name="form" property="approverBackingList" label="label" value="value"/>
           </html:select>
        </c:when>
        <c:otherwise>
-           <html:select name="form" property="approver" onmouseover="hints.show('search.timecards.search.timecards.search.param.approver.title')" onmouseout="hints.hide()"  styleId="searchApprover"/>
+           <html:select name="form" property="approver" styleId="searchApprover"/>
        </c:otherwise>
     </c:choose>
 
@@ -34,19 +34,19 @@
     <c:set var="value" value="${form.status}"/>
     <c:choose>
        <c:when test="${!empty form.statusBackingList}">
-          <html:select name="form" property="status" onmouseover="hints.show('search.timecards.search.timecards.search.param.status.title')" onmouseout="hints.hide()"  styleId="searchStatus">
+          <html:select name="form" property="status" styleId="searchStatus">
               <html:optionsCollection name="form" property="statusBackingList" label="label" value="value"/>
           </html:select>
        </c:when>
        <c:otherwise>
-           <html:select name="form" property="status" onmouseover="hints.show('search.timecards.search.timecards.search.param.status.title')" onmouseout="hints.hide()"  styleId="searchStatus"/>
+           <html:select name="form" property="status" styleId="searchStatus"/>
        </c:otherwise>
     </c:choose>
 
     <h3><bean:message key="start.date.minimum"/></h3>
     <c:set var="value" value="${form.startDateMinimum}"/>
-    <input type="text" name="startDateMinimum" size="12" value="${value}" onmouseover="hints.show('search.timecards.search.timecards.search.param.start.date.minimum.title')" onmouseout="hints.hide()"  id="searchStartDateMinimum"/>
-    <html:img page="/layout/calendar/calendar.gif" styleId="search_startDateMinimum_trigger" styleClass="calendar" onmouseover="hints.show('calendar.popup')" onmouseout="hints.hide()"/>
+    <input type="text" name="startDateMinimum" size="12" value="${value}" id="searchStartDateMinimum"/>
+    <html:img page="/layout/calendar/calendar.gif" styleId="search_startDateMinimum_trigger" styleClass="calendar"/>
     <script type="text/javascript">
     //<!--
        Calendar.setup({
@@ -62,8 +62,8 @@
 
     <h3><bean:message key="start.date.maximum"/></h3>
     <c:set var="value" value="${form.startDateMaximum}"/>
-    <input type="text" name="startDateMaximum" size="12" value="${value}" onmouseover="hints.show('search.timecards.search.timecards.search.param.start.date.maximum.title')" onmouseout="hints.hide()"  id="searchStartDateMaximum"/>
-    <html:img page="/layout/calendar/calendar.gif" styleId="search_startDateMaximum_trigger" styleClass="calendar" onmouseover="hints.show('calendar.popup')" onmouseout="hints.hide()"/>
+    <input type="text" name="startDateMaximum" size="12" value="${value}" id="searchStartDateMaximum"/>
+    <html:img page="/layout/calendar/calendar.gif" styleId="search_startDateMaximum_trigger" styleClass="calendar"/>
     <script type="text/javascript">
     //<!--
        Calendar.setup({

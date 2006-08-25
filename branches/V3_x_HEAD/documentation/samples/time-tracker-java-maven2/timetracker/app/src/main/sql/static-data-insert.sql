@@ -1,12 +1,19 @@
-insert into USERS values (1, 'nbhatia',      'Naresh', 'Bhatia');
-insert into USERS values (2, 'lcoude',       'Louis',  'Coude');
-insert into USERS values (3, 'ecrutchfield', 'Eric',   'Crutchfield');
-insert into USERS values (4, 'cmicali',      'Chris',  'Micali');
+insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (1, 'nbhatia',      'cooldude', 'Naresh', 'Bhatia',      'nbhatia@northwind.com',      1, '2006/01/01 09:00', null);
+insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (2, 'lcoude',       'cooldude', 'Louis',  'Coude',       'lcoude@northwind.com',       1, '2006/01/01 09:00', null);
+insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (3, 'ecrutchfield', 'cooldude', 'Eric',   'Crutchfield', 'ecrutchfield@northwind.com', 1, '2006/01/01 09:00', null);
+insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (4, 'cmicali',      'cooldude', 'Chris',  'Micali',      'cmicali@northwind.com',      1, '2006/01/01 09:00', null);
 commit;
 
-insert into TASK values (1, 'Research');
-insert into TASK values (2, 'Development');
-insert into TASK values (3, 'Testing');
-insert into TASK values (4, 'Admin');
-insert into TASK values (5, 'Meeting');
+insert into USER_ROLE (ID, ROLE, USER_FK) values (1, 'StandardUser',  1);
+insert into USER_ROLE (ID, ROLE, USER_FK) values (2, 'Administrator', 1);
+insert into USER_ROLE (ID, ROLE, USER_FK) values (3, 'StandardUser',  2);
+insert into USER_ROLE (ID, ROLE, USER_FK) values (4, 'StandardUser',  3);
+insert into USER_ROLE (ID, ROLE, USER_FK) values (5, 'StandardUser',  4);
+commit;
+
+insert into TASK (ID, NAME) values (1, 'Research');
+insert into TASK (ID, NAME) values (2, 'Development');
+insert into TASK (ID, NAME) values (3, 'Testing');
+insert into TASK (ID, NAME) values (4, 'Admin');
+insert into TASK (ID, NAME) values (5, 'Meeting');
 commit;

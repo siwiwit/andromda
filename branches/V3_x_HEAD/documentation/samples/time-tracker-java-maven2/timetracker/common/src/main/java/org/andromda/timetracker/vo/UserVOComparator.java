@@ -9,8 +9,6 @@ public class UserVOComparator implements Comparator<UserVO> {
      * not available (or null), it compares on id. <p>
      *
      * The comparison is null safe and places null objects less than non-null objects.<p>
-     *
-     * @see com.sapient.highenergy.vo.CompanySummaryVO
      */
     public int compare(UserVO o1, UserVO o2) {
         int result = 0; // assume equal
@@ -21,9 +19,9 @@ public class UserVOComparator implements Comparator<UserVO> {
         else if (o2 == null) {
             result = 1;
         }
-        else if ((o1.getUserName() != null) && (o2.getUserName() != null)) {
+        else if ((o1.getUsername() != null) && (o2.getUsername() != null)) {
             // Both not-null, compare usernames
-            result = o1.getUserName().compareTo(o2.getUserName());
+            result = o1.getUsername().compareTo(o2.getUsername());
         }
         else if ((o1.getId() != null) && (o2.getId() != null)) {
             // Both not-null but no names, check id's

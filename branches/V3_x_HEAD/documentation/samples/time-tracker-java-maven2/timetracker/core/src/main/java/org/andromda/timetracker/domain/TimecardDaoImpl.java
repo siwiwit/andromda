@@ -68,9 +68,9 @@ public class TimecardDaoImpl
         org.andromda.timetracker.vo.TimecardSummaryVO targetVO)
     {
         super.toTimecardSummaryVO(sourceEntity, targetVO);
-        targetVO.setSubmitterName(sourceEntity.getSubmitter().getUserName());
+        targetVO.setSubmitterName(sourceEntity.getSubmitter().getUsername());
         if (sourceEntity.getApprover() != null) {
-            targetVO.setApproverName(sourceEntity.getApprover().getUserName());
+            targetVO.setApproverName(sourceEntity.getApprover().getUsername());
         }
     }
 

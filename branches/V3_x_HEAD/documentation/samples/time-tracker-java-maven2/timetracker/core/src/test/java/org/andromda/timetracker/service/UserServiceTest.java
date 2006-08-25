@@ -35,7 +35,7 @@ public class UserServiceTest {
         UserVO[] users = userService.getAllUsers();
 
         for (int i=0; i<users.length; i++) {
-            logger.info(users[i].getUserName());
+            logger.info(users[i].getUsername());
         }
     }
 }
