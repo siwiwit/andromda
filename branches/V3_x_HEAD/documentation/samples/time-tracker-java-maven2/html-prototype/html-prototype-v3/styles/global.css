@@ -42,7 +42,7 @@ a.menu:hover
 h1
 {
     color: Black;
-	font-size: 2em;
+    font-size: 2em;
     margin: 0px;
 }
 
@@ -145,7 +145,7 @@ th
 
 .content
 {
-	padding: 0 10px 1.75em 1em;
+    padding: 0 10px 1.75em 1em;
 }
 
 .fieldgroup
@@ -172,46 +172,46 @@ th
 {
     text-align: center;
     font-size: 0.85em;
-	padding:0 0 1.5em 0em;
-	margin-bottom: 1em;
+    padding:0 0 1.5em 0em;
+    margin-bottom: 1em;
 }
 
 .menubar ul
 {
-	position:relative;
-	float:left;
-	width:98%;
-	padding: 0 0 0 1em;
-	margin:0;
-	list-style:none;
-	line-height:1em;
-	border-bottom:1px solid #aaa;
+    position:relative;
+    float:left;
+    width:98%;
+    padding: 0 0 0 1em;
+    margin:0;
+    list-style:none;
+    line-height:1em;
+    border-bottom:1px solid #aaa;
 }
 
 .menubar ul li
 {
-	float:left;
-	margin:0;
-	padding:0;
+    float:left;
+    margin:0;
+    padding:0;
 }
 
 .menubar ul li.first
 {
-	border-left:1px solid #aaa;
+    border-left:1px solid #aaa;
 }
 
 .menubar ul li A
 {
-	display:block;
+    display:block;
     color: Black;
-	text-decoration:none;
-	background:#fff;
-	margin:0;
-	padding:0.25em 1em;
-	border-left:none;
-	border-bottom: none;
-	border-top:1px solid #aaa;
-	border-right:1px solid #aaa;
+    text-decoration:none;
+    background:#fff;
+    margin:0;
+    padding:0.25em 1em;
+    border-left:none;
+    border-bottom: none;
+    border-top:1px solid #aaa;
+    border-right:1px solid #aaa;
 }
 
 .menubar ul li A:visited
@@ -221,7 +221,7 @@ th
 
 .menubar ul li A.selected
 {
-	border-bottom: none;
+    border-bottom: none;
 }
 
 .menubar ul li A:hover,
@@ -229,14 +229,14 @@ th
 .menubar ul li A.selected:link,
 .menubar ul li A.selected:visited
 {
-	background:#eee;
-	color: Black;
+    background:#eee;
+    color: Black;
 }
 
 
 .menubar ul li A.here:link,
 .menubar ul li A.here:visited {
-	color: Black;
+    color: Black;
 }
 
 .sidebar
