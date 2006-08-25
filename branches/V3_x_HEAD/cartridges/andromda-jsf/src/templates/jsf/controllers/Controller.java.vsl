@@ -215,9 +215,13 @@ $decisionTransition.getDocumentation("     * ")
         //   the session contains an ADF context with the variable
         if (variable == null)
         {
-            final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
-                (${managedBeansPackage}.AdfFacesContextWrapper)this.getSession(false).getAttribute("$adfContextAttributeName");
-            adfContext = contextWrapper != null ? contextWrapper.getCurrentInstance() : null;
+            final javax.servlet.http.HttpSession session = this.getSession(false);
+            if (session != null)
+            {
+                final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
+                    (${managedBeansPackage}.AdfFacesContextWrapper)session.getAttribute("$adfContextAttributeName");
+                adfContext = contextWrapper != null ? contextWrapper.getCurrentInstance() : null;
+            }
             variable = adfContext != null ? adfContext.getProcessScope().get(name) : null;
         }
         // - finally try resolving it in the standard JSF manner
