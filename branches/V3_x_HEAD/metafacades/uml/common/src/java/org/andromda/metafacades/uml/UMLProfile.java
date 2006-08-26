@@ -273,6 +273,11 @@ public class UMLProfile
      */
     public static final String TAGGEDVALUE_MANAGEABLE_RESOLVEABLE = profile.get("MANAGEABLE_RESOLVEABLE");
 
+    /**
+     * Indicates whether or not the underlying entity keys should be resolved when referencing it.
+     */
+    public static final String TAGGEDVALUE_PERSISTENCE_COLUMN_UNIQUE_GROUP = profile.get("COLUMN_UNIQUE_GROUP");
+
     /* ----------------- Data Types -------------------- */
 
     /**

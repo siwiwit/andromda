@@ -1,5 +1,8 @@
 package org.andromda.metafacades.uml2;
 
+import org.andromda.metafacades.uml.UMLProfile;
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.EntityAttribute.
@@ -100,5 +103,13 @@ public class EntityAttributeLogicImpl
     {
         // TODO: put your implementation here.
         return false;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityAttribute#getUniqueGroup()
+     */
+    protected String handleGetUniqueGroup() {
+        final String group = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_COLUMN_UNIQUE_GROUP);
+        return group != null ? StringUtils.trimToEmpty(group) : null;
     }
 }

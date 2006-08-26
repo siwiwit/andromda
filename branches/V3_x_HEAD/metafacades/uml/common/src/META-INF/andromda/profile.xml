@@ -203,6 +203,10 @@
                 <documentation></documentation>
                 <value>@andromda.persistence.column.index</value>
             </element>
+            <element name="COLUMN_UNIQUE_GROUP">
+                <documentation>The name of the unique constrain group that this unique attribute belongs</documentation>
+                <value>@andromda.persistence.column.uniqueGroup</value>
+            </element>
             <element name="PERSISTENCE_FOREIGN_IDENTIFIER">
                 <documentation></documentation>
                 <value>@andromda.persistence.foreign.identifier</value>

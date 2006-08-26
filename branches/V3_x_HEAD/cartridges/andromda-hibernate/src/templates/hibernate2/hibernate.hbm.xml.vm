@@ -19,7 +19,7 @@ ${indent}</component>
 ${indent}<property name="$attribute.name" type="$fullyQualifiedPropertyType" formula="$attribute.formula" />
 #else
 ${indent}<property name="$attribute.name" type="$fullyQualifiedPropertyType"#if(!$attribute.insertEnabled) insert="false"#end#if(!$attribute.updateEnabled) update="false"#end>
-${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique" sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end/>
+${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end/>
 ${indent}</property>
 #end
 #end
