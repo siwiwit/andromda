@@ -36,6 +36,8 @@
             <stereotype>ENTITY</stereotype>
         </mapping>
         <property reference="hibernateMappingStrategy"/>
+        <property reference="defaultEntityDiscriminatorColumn"/>
+        <property reference="defaultEntityDiscriminatorType"/>
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEndLogicImpl">
         <mapping>

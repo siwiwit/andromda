@@ -35,7 +35,6 @@ public class HibernateGlobals
      */
     static final String HIBERNATE_XML_PERSISTENCE_ID_AS_ATTRIBUTE = "hibernateXMLPersistIDAsAttribute";
 
-
     /**
      * Hibernate version to use.
      */
@@ -196,4 +195,14 @@ public class HibernateGlobals
      * {@link #SPECIFIC_COLLECTION_INTERFACES} is true.
      */
     static final String DEFAULT_COLLECTION_INTERFACE = "defaultCollectionInterface";
+
+    /**
+    * The default Hibernate dicriminator columnname
+    */
+    static final String ENTITY_DISCRIMINATOR_COLUMN = "defaultEntityDiscriminatorColumn";
+
+    /**
+    * The default Hibernate dicriminator columntype
+    */
+    static final String ENTITY_DISCRIMINATOR_TYPE = "defaultEntityDiscriminatorType";
 }

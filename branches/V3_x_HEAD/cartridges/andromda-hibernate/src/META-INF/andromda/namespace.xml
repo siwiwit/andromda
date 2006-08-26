@@ -534,6 +534,18 @@
                     </ul>
                 </documentation>
             </property>
+            <property name="defaultEntityDiscriminatorColumn">
+                <default>class</default>
+                <documentation>
+                    The default name of the <code>discriminator-column</code> on the hibernate entity XML mapping.
+                </documentation>
+            </property>
+            <property name="defaultEntityDiscriminatorType">
+                <default>string</default>
+                <documentation>
+                    The default type of the <code>discriminator-column</code> of the hibernate entity XML mapping.
+                </documentation>
+            </property>
             <property name="compositionDefinesEagerLoading">
                 <default>true</default>
                 <documentation>

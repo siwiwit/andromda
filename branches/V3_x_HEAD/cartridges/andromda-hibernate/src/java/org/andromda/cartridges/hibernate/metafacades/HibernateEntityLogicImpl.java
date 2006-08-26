@@ -168,8 +168,7 @@ public class HibernateEntityLogicImpl
     {
         String inheritance = HibernateEntityLogicImpl.getInheritance(this);
 
-        for (
-            HibernateEntity superEntity = this.getSuperEntity();
+        for (HibernateEntity superEntity = this.getSuperEntity();
             (superEntity != null) && StringUtils.isBlank(inheritance);)
         {
             inheritance = superEntity.getHibernateInheritanceStrategy();
@@ -373,7 +372,9 @@ public class HibernateEntityLogicImpl
         else
         {
             hibernateGeneratorClass =
-                (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_GENERATOR_CLASS, false);
+                (String)this.findTaggedValue(
+                    HibernateProfile.TAGGEDVALUE_HIBERNATE_GENERATOR_CLASS,
+                    false);
 
             if (StringUtils.isBlank(hibernateGeneratorClass))
             {
@@ -432,7 +433,14 @@ public class HibernateEntityLogicImpl
      */
     protected String handleGetHibernateDiscriminatorColumn()
     {
-        return "class";
+        String column = (String)findTaggedValue(HibernateProfile.TAGGEDVALUE_ENTITY_DISCRIMINATOR_COLUMN);
+
+        if (column == null)
+        {
+            column = String.valueOf(this.getConfiguredProperty(HibernateGlobals.ENTITY_DISCRIMINATOR_COLUMN));
+        }
+
+        return column;
     }
 
     /**
@@ -440,7 +448,14 @@ public class HibernateEntityLogicImpl
      */
     protected String handleGetHibernateDiscriminatorType()
     {
-        return "string";
+        String type = (String)findTaggedValue(HibernateProfile.TAGGEDVALUE_ENTITY_DISCRIMINATOR_TYPE);
+
+        if (type == null)
+        {
+            type = String.valueOf(this.getConfiguredProperty(HibernateGlobals.ENTITY_DISCRIMINATOR_TYPE));
+        }
+
+        return type;
     }
 
     /**
@@ -563,7 +578,6 @@ public class HibernateEntityLogicImpl
         return Boolean.valueOf(StringUtils.trimToEmpty(eternal)).booleanValue();
     }
 
-
     /**
      * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#isHibernateCacheDistributed()
      */
@@ -572,11 +586,14 @@ public class HibernateEntityLogicImpl
         String distributed = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_ENTITYCACHE_DISTRIBUTED);
         boolean distributedCachingEnabled = Boolean.valueOf(StringUtils.trimToEmpty(distributed)).booleanValue();
 
-        if (distributedCachingEnabled) {
-            String entityCacheDistributed = (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_ENTITYCACHE_DISTRIBUTED);
+        if (distributedCachingEnabled)
+        {
+            String entityCacheDistributed =
+                (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_ENTITYCACHE_DISTRIBUTED);
             return Boolean.valueOf(StringUtils.trimToEmpty(entityCacheDistributed)).booleanValue();
         }
-        else {
+        else
+        {
             return false;
         }
     }
@@ -598,8 +615,7 @@ public class HibernateEntityLogicImpl
         String mappingClassName = CLASS_MAPPING_NAME;
         final HibernateEntity superEntity = this.getSuperEntity();
 
-        if (
-            (superEntity != null) && !superEntity.isHibernateInheritanceInterface() &&
+        if ((superEntity != null) && !superEntity.isHibernateInheritanceInterface() &&
             !superEntity.isHibernateInheritanceConcrete())
         {
             mappingClassName = JOINED_SUBCLASS_MAPPING_NAME;
@@ -658,14 +674,13 @@ public class HibernateEntityLogicImpl
     protected boolean handleIsRequiresMapping()
     {
         final HibernateEntity superEntity = this.getSuperEntity();
-        return
-            HibernateUtils.mapSubclassesInSeparateFile(
-                (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_MAPPING_STRATEGY)) ||
-            this.isRoot() &&
-            (
-                !this.isHibernateInheritanceInterface() || this.getSpecializations().isEmpty() ||
-                (superEntity != null && superEntity.isHibernateInheritanceInterface())
-            );
+        return HibernateUtils.mapSubclassesInSeparateFile(
+            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_MAPPING_STRATEGY)) ||
+        this.isRoot() &&
+        (
+            !this.isHibernateInheritanceInterface() || this.getSpecializations().isEmpty() ||
+            (superEntity != null && superEntity.isHibernateInheritanceInterface())
+        );
     }
 
     /**
@@ -678,9 +693,10 @@ public class HibernateEntityLogicImpl
         boolean abstractConcreteEntity =
             (this.isHibernateInheritanceConcrete() || this.isHibernateInheritanceInterface()) && this.isAbstract();
 
-        return (this.getSuperEntity() == null ||
-            (superEntity.isHibernateInheritanceInterface() || superEntity.isHibernateInheritanceConcrete()))
-            && !abstractConcreteEntity;
+        return (
+            this.getSuperEntity() == null ||
+            (superEntity.isHibernateInheritanceInterface() || superEntity.isHibernateInheritanceConcrete())
+        ) && !abstractConcreteEntity;
     }
 
     /**
@@ -689,10 +705,11 @@ public class HibernateEntityLogicImpl
     protected boolean handleIsRequiresSpecializationMapping()
     {
         return !HibernateUtils.mapSubclassesInSeparateFile(
-            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_MAPPING_STRATEGY)) &&
-            this.isRoot() && (this.isHibernateInheritanceSubclass()
-            || this.isHibernateInheritanceClass()
-            || this.isHibernateInheritanceUnionSubClass());
+            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_MAPPING_STRATEGY)) && this.isRoot() &&
+        (
+            this.isHibernateInheritanceSubclass() || this.isHibernateInheritanceClass() ||
+            this.isHibernateInheritanceUnionSubClass()
+        );
     }
 
     /**
@@ -756,13 +773,12 @@ public class HibernateEntityLogicImpl
         return Integer.parseInt((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION));
     }
 
-
     private boolean isXmlPersistenceActive()
     {
-       return HibernateUtils.isXmlPersistenceActive((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION),
-                                                    (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_XML_PERSISTENCE));
+        return HibernateUtils.isXmlPersistenceActive(
+            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION),
+            (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_XML_PERSISTENCE));
     }
-
 
     protected String handleGetXmlTagName()
     {
@@ -776,9 +792,22 @@ public class HibernateEntityLogicImpl
             {
                 tagName = this.getName();
             }
-
         }
         return (StringUtils.isBlank(tagName)) ? null : tagName;
     }
 
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#hibernateDiscriminatorValue()
+     */
+    protected String handleGetHibernateDiscriminatorValue()
+    {
+        String value = (String)findTaggedValue(HibernateProfile.TAGGEDVALUE_ENTITY_DISCRIMINATOR_VALUE);
+
+        if (value == null)
+        {
+            value = getEntityImplementationName();
+        }
+
+        return value;
+    }
 }

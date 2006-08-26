@@ -28,13 +28,11 @@ public class HibernateProfile
      */
     public static final String TAGGEDVALUE_HIBERNATE_XML_TAG_NAME = profile.get("HIBERNATE_XML_TAG_NAME");
 
-
     /**
      * Tag attached to association ends to determine if the associated entity should be embed
      * in as XML when v3 XML Persistence is activated.
      */
     public static final String TAGGEDVALUE_HIBERNATE_XML_EMBED = profile.get("HIBERNATE_XML_EMBED");
-
 
     /**
      * Stores the hibernate generator class.
@@ -49,8 +47,8 @@ public class HibernateProfile
     /**
      * Define whether the marked finder will use named parameters or positional parameters.
      */
-    public static final String TAGGEDVALUE_HIBERNATE_USE_NAMED_PARAMETERS = profile
-            .get("HIBERNATE_USE_NAMED_PARAMETERS");
+    public static final String TAGGEDVALUE_HIBERNATE_USE_NAMED_PARAMETERS =
+        profile.get("HIBERNATE_USE_NAMED_PARAMETERS");
 
     /**
      * Stores the viewtype of the Hibernate Session EJB.
@@ -197,6 +195,22 @@ public class HibernateProfile
      * Stores sql formula for an attribute.
      */
     public static final String TAGGEDVALUE_HIBERNATE_FORMULA = profile.get("HIBERNATE_FORMULA");
+
+    /**
+    * Column name of the dicriminator-column
+    */
+    public static final String TAGGEDVALUE_ENTITY_DISCRIMINATOR_COLUMN =
+        profile.get("ENTITY_DISCRIMINATOR_COLUMN");
+
+    /**
+    * Column type of the discriminator-column
+    */
+    public static final String TAGGEDVALUE_ENTITY_DISCRIMINATOR_TYPE = profile.get("ENTITY_DISCRIMINATOR_TYPE");
+
+    /**
+    * Value of the class for the discriminator-column
+    */
+    public static final String TAGGEDVALUE_ENTITY_DISCRIMINATOR_VALUE = profile.get("ENTITY_DISCRIMINATOR_VALUE");
 
     /**
      * Specifies whether a mapped column should be included in SQL INSERT statements.
