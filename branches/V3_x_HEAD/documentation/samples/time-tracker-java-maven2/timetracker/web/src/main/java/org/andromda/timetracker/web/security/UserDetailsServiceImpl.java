@@ -1,4 +1,4 @@
-package org.andromda.timetracker.security;
+package org.andromda.timetracker.web.security;
 
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UserDetailsService;

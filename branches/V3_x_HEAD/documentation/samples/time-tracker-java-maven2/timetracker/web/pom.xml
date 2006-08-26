@@ -88,6 +88,10 @@
             <groupId>jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.acegisecurity</groupId>
+            <artifactId>acegi-security</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <resources>

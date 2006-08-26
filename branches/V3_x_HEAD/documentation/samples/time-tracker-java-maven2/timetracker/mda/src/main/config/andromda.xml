@@ -72,7 +72,6 @@
                 <!-- uncomment to enable EJB security
                 <property name="securityRealm">${application.id}</property>
                  -->
-                <property name="mergeMappingsUri">file:${conf.dir}/mappings/SpringMergeMappings.xml</property>
             </properties>
         </namespace>
         <namespace name="hibernate">

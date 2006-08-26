@@ -1,4 +1,4 @@
-package org.andromda.timetracker.security;
+package org.andromda.timetracker.web.security;
 
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.GrantedAuthorityImpl;

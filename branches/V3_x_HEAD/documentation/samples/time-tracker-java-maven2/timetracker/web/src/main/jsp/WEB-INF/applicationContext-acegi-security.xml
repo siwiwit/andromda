@@ -13,7 +13,7 @@
   - declared in the application context in the same order. Collaborators
   - required by those filters are placed at the end of the file.
   -
-  - $Id: applicationContext-acegi-security.xml,v 1.1.2.2 2006-08-25 15:34:26 nbhatia Exp $
+  - $Id: applicationContext-acegi-security.xml,v 1.1.2.1 2006-08-26 23:42:19 nbhatia Exp $
   -->
 
 <beans>
@@ -136,7 +136,7 @@
     </bean>
 
     <!-- UserDetailsService is the most commonly frequently Acegi Security interface implemented by end users -->
-    <bean id="userDetailsService" class="org.andromda.timetracker.security.UserDetailsServiceImpl"/>
+    <bean id="userDetailsService" class="org.andromda.timetracker.web.security.UserDetailsServiceImpl"/>
 
     <!-- This bean is optional; it isn't used by any other bean as it only listens and logs -->
     <bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener"/>
