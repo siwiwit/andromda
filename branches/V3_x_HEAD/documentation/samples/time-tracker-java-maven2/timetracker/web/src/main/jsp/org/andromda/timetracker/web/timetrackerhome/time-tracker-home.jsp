@@ -4,6 +4,8 @@
 
 <tiles:insert beanName="default_layout_definition" beanScope="request" flush="true">
 
+    <c:set var="tabId" value="Home" scope="request"/>
+
     <tiles:put name="title" type="string">
         <bean:message key="time.tracker.home.title"/>
     </tiles:put>
@@ -21,28 +23,28 @@
                 <tr>
                     <td>
                         <html:link action="/TimeTrackerHome/TimeTrackerHomeNewTimecard">
-                            <bean:message key="new.timecard"/>
+                            <bean:message key="new.timecard.link"/>
                         </html:link>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <html:link action="/TimeTrackerHome/TimeTrackerHomeLastSavedTimecard">
-                            <bean:message key="last.saved.timecard"/>
+                            <bean:message key="last.saved.timecard.link"/>
                         </html:link>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <html:link action="/TimeTrackerHome/TimeTrackerHomeSearchTimecards">
-                            <bean:message key="search.timecards"/>
+                            <bean:message key="search.timecards.link"/>
                         </html:link>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <html:link action="/TimeTrackerHome/TimeTrackerHomeApproveTimecards">
-                            <bean:message key="approve.timecards"/>
+                            <bean:message key="approve.timecards.link"/>
                         </html:link>
                     </td>
                 </tr>

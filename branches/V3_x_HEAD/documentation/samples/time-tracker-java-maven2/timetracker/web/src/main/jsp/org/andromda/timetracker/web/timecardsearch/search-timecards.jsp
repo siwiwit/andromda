@@ -4,6 +4,8 @@
 
 <tiles:insert beanName="default_layout_definition" beanScope="request" flush="true">
 
+    <c:set var="tabId" value="SearchTimecards" scope="request"/>
+
     <tiles:put name="title" type="string">
         <bean:message key="search.timecards.title"/>
     </tiles:put>
