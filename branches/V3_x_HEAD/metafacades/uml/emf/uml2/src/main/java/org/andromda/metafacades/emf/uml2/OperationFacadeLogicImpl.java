@@ -12,6 +12,7 @@ import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
+import org.andromda.metafacades.uml.UMLProfile;
 import org.andromda.translation.ocl.ExpressionKinds;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -126,30 +127,30 @@ public class OperationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.OperationFacade#getExceptions()
      */
-    protected java.util.Collection handleGetExceptions()
+    protected Collection handleGetExceptions()
     {
         Collection exceptions = new LinkedHashSet();
 
         // finds both exceptions and exception references
         final class ExceptionFilter
-            implements Predicate
+                implements Predicate
         {
-            public boolean evaluate(final Object object)
+            public boolean evaluate(Object object)
             {
                 boolean hasException = object instanceof DependencyFacade;
                 if (hasException)
                 {
                     DependencyFacade dependency = (DependencyFacade)object;
-
                     // first check for exception references
-                    hasException = dependency.hasStereotype("Exception");
+                    hasException = dependency.hasStereotype(UMLProfile.STEREOTYPE_EXCEPTION_REF);
 
                     // if there wasn't any exception reference
                     // now check for actual exceptions
                     if (!hasException)
                     {
                         ModelElementFacade targetElement = dependency.getTargetElement();
-                        hasException = targetElement != null && targetElement.hasStereotype(("Exception"));
+                        hasException = targetElement != null && targetElement.hasStereotype(
+                                UMLProfile.STEREOTYPE_EXCEPTION);
                     }
                 }
                 return hasException;
@@ -161,68 +162,40 @@ public class OperationFacadeLogicImpl
         Collection ownerDependencies = this.getOwner().getSourceDependencies();
         if (ownerDependencies != null && !ownerDependencies.isEmpty())
         {
-            CollectionUtils.filter(
-                ownerDependencies,
-                new ExceptionFilter());
+            CollectionUtils.filter(ownerDependencies, new ExceptionFilter());
             exceptions.addAll(ownerDependencies);
         }
 
         Collection operationDependencies = this.getSourceDependencies();
-
         // now get any exceptions directly on the operation
         if (operationDependencies != null && !operationDependencies.isEmpty())
         {
-            CollectionUtils.filter(
-                operationDependencies,
-                new ExceptionFilter());
+            CollectionUtils.filter(operationDependencies, new ExceptionFilter());
             exceptions.addAll(operationDependencies);
         }
 
         // now transform the dependency(s) to the actual exception(s)
-        CollectionUtils.transform(
-            exceptions,
-            new Transformer()
+        CollectionUtils.transform(exceptions, new Transformer()
+        {
+            public Object transform(Object object)
             {
-                public Object transform(final Object object)
-                {
-                    return ((DependencyFacade)object).getTargetElement();
-                }
-            });
-
-        Collection t = this.metaObject.getRaisedExceptions();
-        exceptions.addAll(this.shieldedElements(t));
-        final Collection params = new ArrayList(this.metaObject.getOwnedParameters());
-        CollectionUtils.filter(
-            params,
-            new Predicate()
-            {
-                public boolean evaluate(final Object object)
-                {
-                    return ((Parameter)object).isException();
-                }
-            });
-        CollectionUtils.transform(
-            params,
-            new Transformer()
-            {
-                public Object transform(final Object object)
-                {
-                    return ((Parameter)object).getType();
-                }
-            });
-        exceptions.addAll(this.shieldedElements(params));
+                return ((DependencyFacade)object).getTargetElement();
+            }
+        });
         return exceptions;
     }
+
 
     /**
      * @see org.andromda.metafacades.uml.OperationFacade#isReturnTypePresent()
      */
     protected boolean handleIsReturnTypePresent()
     {
-        boolean hasReturnType = true;
+        boolean hasReturnType = false;
         if (this.getReturnType() != null)
         {
-            hasReturnType = !StringUtils.trimToEmpty(this.getReturnType().getFullyQualifiedName()).equals("void");
+            hasReturnType = !StringUtils.trimToEmpty(
+                this.getReturnType().getFullyQualifiedName(true)).equals(UMLProfile.VOID_TYPE_NAME);
         }
         return hasReturnType;
     }
@@ -584,6 +557,7 @@ public class OperationFacadeLogicImpl
     protected java.util.Collection handleGetParameters()
     {
         final Collection params = new ArrayList(this.metaObject.getOwnedParameters());
+        params.addAll(this.metaObject.getReturnResults());
         CollectionUtils.filter(
             params,
             new Predicate()

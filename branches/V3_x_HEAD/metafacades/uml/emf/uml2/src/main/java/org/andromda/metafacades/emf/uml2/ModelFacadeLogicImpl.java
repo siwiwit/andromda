@@ -64,7 +64,7 @@ public class ModelFacadeLogicImpl
     {
         return this.findActivityGraphByNameAndStereotype(
             name,
-            "");
+            null);
     }
 
     /**
@@ -85,9 +85,12 @@ public class ModelFacadeLogicImpl
         for (Iterator it = agfCollection.iterator(); it.hasNext() && agfFound == null;)
         {
             ActivityGraphFacade agf = (ActivityGraphFacade)this.shieldedElement(it.next());
-            if (agf.getName().equals(name) && agf.hasStereotype(stereotypeName))
+            if (agf.getName().equals(name))
             {
+            	if(stereotypeName == null || agf.hasStereotype(stereotypeName))
+            	{
                 agfFound = agf;
+            	}
             }
         }
         return agfFound;
@@ -100,7 +103,7 @@ public class ModelFacadeLogicImpl
     {
         return this.findUseCaseWithNameAndStereotype(
             name,
-            "");
+            null);
     }
 
     /**
@@ -116,9 +119,12 @@ public class ModelFacadeLogicImpl
         for (Iterator it = ucCollections.iterator(); it.hasNext() && ucfFound == null;)
         {
             UseCaseFacade ucf = (UseCaseFacade)it.next();
-            if (ucf.getName().equals(name) && ucf.hasStereotype(stereotypeName))
+            if (ucf.getName().equals(name))
             {
-                ucfFound = ucf;
+            	if (stereotypeName == null || ucf.hasStereotype(stereotypeName))
+                {
+            		ucfFound = ucf;
+                }
             }
         }
         return ucfFound;

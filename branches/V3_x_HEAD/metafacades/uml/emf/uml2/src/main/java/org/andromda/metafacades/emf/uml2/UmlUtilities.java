@@ -3,6 +3,7 @@ package org.andromda.metafacades.emf.uml2;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.StereotypeFacade;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -473,33 +474,57 @@ public class UmlUtilities
 
     /**
      * Indicates whether or not the given <code>element</code> contains a
-     * stereotype with the given <code>name</code>.
+     * stereotype with the given <code>stereotypeName</code>.
      *
      * @param element the element instance.
-     * @param name    the name of the element
+     * @param stereotypeName the name of the stereotype
      * @return true/false
      */
     public static boolean containsStereotype(
         final Element element,
-        final String name)
+        final String stereotypeName)
     {
-        if (name == null || StringUtils.isEmpty(name))
+        Collection stereotypes = element.getAppliedStereotypes();
+
+        boolean hasStereotype = StringUtils.isNotBlank(stereotypeName) && stereotypes != null &&
+            !stereotypes.isEmpty();
+
+        if (hasStereotype)
         {
-            return true;
+            class StereotypeFilter
+                implements Predicate
+            {
+                public boolean evaluate(Object object)
+                {
+                    boolean valid;
+                    Stereotype stereotype = (Stereotype)object;
+                    String name = StringUtils.trimToEmpty(stereotype.getName());
+                    valid = stereotypeName.equals(name);
+                    for(Iterator itStereo = stereotype.allParents().iterator(); !valid && itStereo.hasNext();)
+                    {
+                    	Stereotype currentStereotype = (Stereotype) itStereo.next();
+                    	valid = StringUtils.trimToEmpty(currentStereotype.getName()).equals(stereotypeName);
+                    }
+                    return valid;
+                }
+            }
+            hasStereotype = CollectionUtils.find(
+                    stereotypes,
+                    new StereotypeFilter()) != null;
         }
-        final boolean result = getStereotypeNames(element).contains(name);
         if (logger.isDebugEnabled())
         {
             if (element instanceof NamedElement)
             {
-                logger.debug(((NamedElement)element).getQualifiedName() + " has stereotype:" + name + " : " + result);
+                logger.debug(((NamedElement)element).getQualifiedName() + " has stereotype <<" + stereotypeName + ">> : " + hasStereotype);
             }
             else
             {
-                logger.debug(element.toString() + " has stereotype:" + name + " : " + result);
+                logger.debug(element.toString() + " has stereotype <<" + stereotypeName + ">> : " + hasStereotype);
             }
         }
-        return result;
+        return hasStereotype;
+
     }
 
     /**

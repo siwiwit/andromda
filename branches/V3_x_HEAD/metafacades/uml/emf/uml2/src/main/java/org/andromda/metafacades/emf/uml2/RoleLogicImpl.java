@@ -95,12 +95,8 @@ public class RoleLogicImpl
                 if (otherEnd instanceof UseCase)
                 {
                     UseCase uc = (UseCase)otherEnd;
-                    if (UmlUtilities.findAppliedStereotype(
-                            uc,
-                            UMLProfile.STEREOTYPE_FRONT_END_USECASE) != null ||
-                        UmlUtilities.findAppliedStereotype(
-                            uc,
-                            UMLProfile.STEREOTYPE_FRONT_END_APPLICATION) != null)
+                    if (UmlUtilities.containsStereotype(uc, UMLProfile.STEREOTYPE_FRONT_END_USECASE) ||
+                    	    UmlUtilities.containsStereotype(uc, UMLProfile.STEREOTYPE_FRONT_END_APPLICATION))
                     {
                         present = true;
                     }

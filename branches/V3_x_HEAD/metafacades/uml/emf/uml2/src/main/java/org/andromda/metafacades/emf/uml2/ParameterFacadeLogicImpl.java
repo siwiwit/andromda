@@ -1,6 +1,9 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.andromda.metafacades.uml.NameMasker;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
+import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.uml2.Activity;
 import org.eclipse.uml2.Element;
@@ -31,6 +34,19 @@ public class ParameterFacadeLogicImpl
     {
         return this.metaObject.getDefault();
     }
+    
+    /**
+     * Overridden to provide name masking.
+     *
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
+     */
+    protected String handleGetName()
+    {
+        final String nameMask = String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.PARAMETER_NAME_MASK));
+        return NameMasker.mask(
+            super.handleGetName(),
+            nameMask);
+    }
 
     /**
      * @see org.andromda.metafacades.uml.ParameterFacade#isReturn()
@@ -45,7 +61,7 @@ public class ParameterFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return (this.getLower() > 0);
+        return !this.hasStereotype(UMLProfile.STEREOTYPE_NULLABLE);
     }
 
     /**

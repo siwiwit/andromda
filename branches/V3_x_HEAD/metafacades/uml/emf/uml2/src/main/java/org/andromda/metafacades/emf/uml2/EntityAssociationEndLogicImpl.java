@@ -94,14 +94,14 @@ public class EntityAssociationEndLogicImpl
     {
         String constraintName;
 
-        final Object taggedValueObject =
-            this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_FOREIGN_KEY_CONSTRAINT_NAME);
+        final Object taggedValueObject = findTaggedValue(
+                UMLProfile.TAGGEDVALUE_PERSISTENCE_FOREIGN_KEY_CONSTRAINT_NAME);
         if (taggedValueObject == null)
         {
             // we construct our own foreign key constraint name here
-            final StringBuffer buffer = new StringBuffer();
+            StringBuffer buffer = new StringBuffer();
 
-            final ClassifierFacade type = this.getOtherEnd().getType();
+            final ClassifierFacade type = getOtherEnd().getType();
             if (type instanceof Entity)
             {
                 Entity entity = (Entity)type;
@@ -114,9 +114,15 @@ public class EntityAssociationEndLogicImpl
             }
 
             buffer.append(this.getConfiguredProperty(UMLMetafacadeProperties.SQL_NAME_SEPARATOR));
-            buffer.append(this.getColumnName());
-            buffer.append(this.getConfiguredProperty(UMLMetafacadeProperties.CONSTRAINT_SUFFIX));
-
+            buffer.append(this.getColumnName());  
+            constraintName = buffer.toString();
+            
+            final String suffix = ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.CONSTRAINT_SUFFIX)).trim();
+            // we take into consideration the maximum length allowed
+            final String maxLengthString = (String)getConfiguredProperty(UMLMetafacadeProperties.MAX_SQL_NAME_LENGTH);
+            final short maxLength = (short)(Short.valueOf(maxLengthString).shortValue() - suffix.length());
+            buffer = new StringBuffer(EntityMetafacadeUtils.ensureMaximumNameLength(constraintName, new Short(maxLength)));
+            buffer.append(suffix);
             constraintName = buffer.toString();
         }
         else
@@ -124,13 +130,7 @@ public class EntityAssociationEndLogicImpl
             // use the tagged value
             constraintName = taggedValueObject.toString();
         }
-
-        // we take into consideration the maximum length allowed
-        final String maxLengthString = (String)this.getConfiguredProperty(UMLMetafacadeProperties.MAX_SQL_NAME_LENGTH);
-        final Short maxLength = Short.valueOf(maxLengthString);
-        return EntityMetafacadeUtils.ensureMaximumNameLength(
-            constraintName,
-            maxLength);
+        return constraintName;
     }
 
     /**

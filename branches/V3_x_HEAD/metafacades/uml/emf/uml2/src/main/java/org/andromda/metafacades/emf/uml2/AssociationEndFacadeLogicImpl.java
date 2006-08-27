@@ -67,7 +67,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsAggregation()
     {
-        return this.metaObject.getAggregation().equals(AggregationKind.SHARED_LITERAL);
+        return UmlUtilities.getOppositeAssociationEnd(this.metaObject).getAggregation().equals(AggregationKind.SHARED_LITERAL);
     }
 
     /**
@@ -75,7 +75,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsComposition()
     {
-        return this.metaObject.getAggregation().equals(AggregationKind.COMPOSITE_LITERAL);
+        return UmlUtilities.getOppositeAssociationEnd(this.metaObject).getAggregation().equals(AggregationKind.COMPOSITE_LITERAL);
     }
 
     /**

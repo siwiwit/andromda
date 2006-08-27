@@ -26,6 +26,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.eclipse.emf.ecore.xmi.impl.XMIHelperImpl;
 import org.eclipse.uml2.Abstraction;
 import org.eclipse.uml2.Comment;
+import org.eclipse.uml2.Constraint;
 import org.eclipse.uml2.Dependency;
 import org.eclipse.uml2.Deployment;
 import org.eclipse.uml2.DirectedRelationship;
@@ -357,9 +358,7 @@ public class ModelElementFacadeLogicImpl
      */
     protected boolean handleHasExactStereotype(final java.lang.String stereotypeName)
     {
-        return UmlUtilities.containsStereotype(
-            this.metaObject,
-            stereotypeName);
+    	return this.getStereotypeNames().contains(StringUtils.trimToEmpty(stereotypeName));
     }
 
     /**
@@ -649,7 +648,20 @@ public class ModelElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetConstraints()
     {
-        return ((Namespace)this.metaObject).getOwnedRules();
+    	ArrayList constraints = new ArrayList();
+    	constraints.addAll(UmlUtilities.getAllMetaObjectsInstanceOf(Constraint.class, this.metaObject.getModel()));
+    	
+    	CollectionUtils.filter(
+    			constraints,
+    			new Predicate()
+    			{
+    				public boolean evaluate(final Object object)
+    				{
+    					Constraint constraint = (Constraint) object;
+    					return constraint.getConstrainedElements().contains(ModelElementFacadeLogicImpl.this.metaObject);
+    				}
+    			});
+    	return constraints;
     }
 
     /**
