@@ -90,8 +90,8 @@ public class SearchControllerImpl extends SearchController
         ...
 
         // Populate submitter and approver dropdowns
-        form.setSubmitterBackingList(userList, "id", "userName");
-        form.setApproverBackingList(userList, "id", "userName");
+        form.setSubmitterBackingList(userList, "id", "username");
+        form.setApproverBackingList(userList, "id", "username");
 
         <b>// Populate status dropdown</b>
         <b>List statusLabels = new ArrayList(TimecardStatus.literals());</b>

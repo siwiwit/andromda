@@ -138,8 +138,8 @@ public class SearchControllerImpl extends SearchController
         userList.add(0, new UserVO(null, ALL_STRING, null, null));
 
         // Populate submitter and approver dropdowns
-        form.setSubmitterBackingList(userList, "id", "userName");
-        form.setApproverBackingList(userList, "id", "userName");
+        form.setSubmitterBackingList(userList, "id", "username");
+        form.setApproverBackingList(userList, "id", "username");
     }
 }
     </pre>
