@@ -36,13 +36,12 @@
             on it and selecting New Diagram > Use Case Diagram. In the dialog box that comes
             up, enter the name <code>Application Use Cases</code> for this diagram. Click <em>OK</em>
             to create the diagram.</li>
-        <li>In the toolbar on the left of the use case diagram click on the Use Case icon (7th
-            icon from the top, also identified in the status bar when you roll your mouse over
-            the icon). Now click anywhere inside the diagram. A new use case will be created.
-            Type the phrase "Search Timecards" to name the use case. Note that the use case
-            is created under the <code>Use Cases</code> package in the containment tree. This
-            is not the final location of the use case, but we will move later to the correct
-            location.</li>
+        <li>In the toolbar on the left of the use case diagram click on the Use Case tool {mosimage}.
+            <!-- img src="Images/MagicDrawUseCaseTool.jpg" alt="Use Case Tool" / -->
+            Now click anywhere inside the diagram. A new use case will be created. Type the
+            phrase "Search Timecards" to name the use case. Note that the use case is created
+            under the <code>Use Cases</code> package in the containment tree. This is not the
+            final location of the use case, but we will move later to the correct location.</li>
         <li>Right click on the use case and give it two stereotypes as discussed earlier: <code>
             FrontEndUseCase</code> and <code>FrontEndApplication</code>.</li>
     </ol>
@@ -78,13 +77,19 @@
         follow the steps below. Use the tool bar on the left to create various elements
         on the diagram. Use the tool tips and the status bar to identify the tool bar icons.</p>
     <ol>
-        <li>Create an Initial State at the top.</li>
-        <li>Drop an Action State below it. Right-click on the action state and open its specification.
-            Type <code>Populate Search Screen</code> in the Name field and click OK. (Note:
-            Do not enter the name by typing it in the diagram, it does not become the name of
-            the action state - it is simply added as a label for the shape.)</li>
+        <li>Create an Initial State at the top using the Initial State tool {mosimage}.
+            <!-- img src="Images/MagicDrawInitialStateTool.jpg" alt="Initial State Tool" / -->
+        </li>
+        <li>Drop an Action State below it using the Action State tool {mosimage}.
+            <!-- img src="Images/MagicDrawActionStateTool.jpg" alt="Action State Tool" / -->
+            Right-click on the action state and open its specification. Type <code>Populate Search
+                Screen</code> in the Name field and click OK. (Note: Do not enter the name by
+            typing it in the diagram, it does not become the name of the action state - it is
+            simply added as a label for the shape.)</li>
         <li>Create a transition from the initial state to the <code>Populate Search Screen</code>
-            state.</li>
+            state. Use the Transition tool {mosimage}
+            <!-- img src="Images/MagicDrawTransitionTool.jpg" alt="Transition Tool" / -->
+            for this.</li>
         <li>Drop another action state below <code>Populate Search Screen</code>. Again, go to
             the specification of this state and name it <code>Search Timecards</code>. Since
             this state represents a screen, give it the stereotype of <code>FrontEndView</code>.</li>
