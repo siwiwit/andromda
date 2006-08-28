@@ -350,12 +350,10 @@ public class UserServiceTest {
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running Services Test
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 4.377 sec <<< FAILURE!
-
-Results :
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
-
+org.apache.maven.surefire.booter.SurefireExecutionException: null;
+nested exception is java.lang.NullPointerException: null
+java.lang.NullPointerException
+        ...
 [INFO] ------------------------------------------------------------------------
 [ERROR] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
@@ -363,46 +361,15 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 [INFO] For more information, run Maven with the -e switch
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 50 seconds
-[INFO] Finished at: Wed Jun 28 14:49:34 EDT 2006
-[INFO] Final Memory: 27M/53M
+[INFO] Total time: 8 seconds
+[INFO] Finished at: Sun Aug 27 21:41:48 EDT 2006
+[INFO] Final Memory: 6M/11M
 [INFO] ------------------------------------------------------------------------
             </pre>
-        </li>
-        <!--
-        ********************************************************************************
-        Actually we should be getting this excpetion, but we get a different one becuase
-        AndroMDA does not generate a sessionFactory if no entities are defined
-        ********************************************************************************
-        <li>Let's look at the test results to see what happened. Open <code>C:\timetracker\core\target\surefire-reports\Services
-            Test.txt</code>. You will see the following log:
-            <pre>
--------------------------------------------------------------------------------
-Test set: Services Test
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 4.367 sec <<< FAILURE!
-testGetAllUsers  Time elapsed: 4.317 sec  <<< FAILURE!
-java.lang.NullPointerException
-	at org.andromda.timetracker.service.UserServiceTest.testGetAllUsers(UserServiceTest.java:23)
-            </pre>
-            So we got a <code>NullPointerException</code> because the test expected a <code>UserVO[]</code>
-            from <code>getAllUsers()</code>, but got a null instead!
-        </li>
--->
-        <li>Let's look at the test results to see what happened. Open <code>C:\timetracker\core\target\surefire-reports\Services
-            Test.txt</code>. You will see the following log:
-            <pre>
--------------------------------------------------------------------------------
-Test set: Services Test
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.842 sec <<< FAILURE!
-testGetAllUsers  Time elapsed: 0.782 sec  <<< FAILURE!
-...
-org.springframework.beans.factory.NoSuchBeanDefinitionException:
-    No bean named 'sessionFactory' is defined
-            </pre>
-            So Spring could not find a bean called 'sessionFactory' which it was expecting.
-            This problem will be fixed when we implement entities in the middle-tier. </li>
+            The test failed because initializeTestSuite() could not initialize the UserService
+            correctly. The reason for this is that Spring could not find a bean called 'sessionFactory'
+            which it was expecting. This problem will be fixed when we implement entities in
+            the middle-tier. </li>
     </ol>
     <h3>What's Next?</h3>
     <p>
