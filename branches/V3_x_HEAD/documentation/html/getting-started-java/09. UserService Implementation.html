@@ -260,9 +260,19 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
             Make sure you get a <code>BUILD SUCCESSFUL</code> message</li>
         <li>Open MySQL Query Browser. Login as timetracker. You should see the <code>user</code>
             table in the <code>timetracker</code> schema.</li>
-        <li>Select File > OpenScript and open the following script file: <code>C:\timetracker-completed\app\src\main\sql\static-data-insert.sql</code>.
-            Delete the insert statements for the <code>task</code> table since we don't have
-            this table yet. Click the Execute button on the top right.</li>
+        <li>Select File > New Script Tab and paste the following SQL script in the new tab.
+            <pre>
+insert into USERS (ID, USERNAME, FIRST_NAME, LAST_NAME)
+    values (1, 'nbhatia',      'Naresh', 'Bhatia');
+insert into USERS (ID, USERNAME, FIRST_NAME, LAST_NAME)
+    values (2, 'lcoude',       'Louis',  'Coude');
+insert into USERS (ID, USERNAME, FIRST_NAME, LAST_NAME)
+    values (3, 'ecrutchfield', 'Eric',   'Crutchfield');
+insert into USERS (ID, USERNAME, FIRST_NAME, LAST_NAME)
+    values (4, 'cmicali',      'Chris',  'Micali');
+            </pre>
+        </li>
+        <li>Click the Execute button on the top right.</li>
         <li>Now rerun the test:<br />
             <code>mvn -f core/pom.xml test</code><br />
             You will see that the test runs successfully - yeah! </li>
