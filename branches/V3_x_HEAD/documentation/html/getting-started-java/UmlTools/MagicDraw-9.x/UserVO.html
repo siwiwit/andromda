@@ -56,11 +56,12 @@
             and select New Diagram > Class Diagram. A Class Diagram Specification dialog appears.
             Type in Value Objects as the name of this diagram and click OK. The diagram is created
             and opened in a new window.</li>
-        <li>In the toolbar on the left of the class diagram click on the Class icon (6th icon
-            from the top). Now click anywhere inside the diagram. A new class will be created.
-            The class will be automatically selected as indicated by the 4 knobs around it.
-            (If you somehow deselected the class, then select it again by clicking on it.) Now
-            type the word "UserVO". This word will be entered as the name of the class.</li>
+        <li>In the toolbar on the left of the class diagram click on the Class tool {mosimage}.
+            <!-- img src="Images/MagicDrawClassTool.jpg" alt="Class Tool" / -->
+            Now click anywhere inside the diagram. A new class will be created. The class will
+            be automatically selected as indicated by the 4 knobs around it. (If you somehow
+            deselected the class, then select it again by clicking on it.) Now type the word
+            "UserVO". This word will be entered as the name of the class.</li>
         <li>Let's add some documentation for the <code>UserVO</code> class. It is always a good
             idea to document your model. Documentation added to model elements such as classes,
             attributes and methods is carried over to the code as comments. Double-click on
@@ -71,16 +72,17 @@
             do this, right-click on the class and select Stereotype. In the next level menu,
             check ValueObject and click Apply. The <code>UserVO</code> class will now have the
             <code>ValueObject</code> stereotype.</li>
-        <li>Let's add <code>id</code> as an attribute of <code>UserVO</code>. Right-click on the
-            <code>UserVO</code> class and select Insert New Attribute. A new attribute is inserted with the
-            specification "-unnamed1". Write over this specification with this new one: "+id
-            : Long" (be sure to delete the minus sign in front of the name). Do not press Enter
-            after typing this attribute (that will create another attribute). Instead click
-            outside the class to finish entering the attribute. Note that attributes are always
-            generated as private members of a class. However the visibilities of the associated
-            getter and setter are determined by the visibility of the attribute specification.
-            In this case we have specified public visibility (by using the plus sign) and hence
-            the getter and setter for the <code>id</code> attribute will be public.</li>
+        <li>Let's add <code>id</code> as an attribute of <code>UserVO</code>. Right-click on
+            the <code>UserVO</code> class and select Insert New Attribute. A new attribute is
+            inserted with the specification "-unnamed1". Write over this specification with
+            this new one: "+id : Long" (be sure to delete the minus sign in front of the name).
+            Do not press Enter after typing this attribute (that will create another attribute).
+            Instead click outside the class to finish entering the attribute. Note that attributes
+            are always generated as private members of a class. However the visibilities of
+            the associated getter and setter are determined by the visibility of the attribute
+            specification. In this case we have specified public visibility (by using the plus
+            sign) and hence the getter and setter for the <code>id</code> attribute will be
+            public.</li>
         <li>Now add three more public attributes called <code>username</code>, <code>firstName</code>
             and <code>lastName</code> to the <code>UserVO</code> class. Make them <code>String</code>
             type.</li>
