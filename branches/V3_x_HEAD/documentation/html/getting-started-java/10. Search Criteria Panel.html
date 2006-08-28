@@ -150,11 +150,13 @@ public class SearchControllerImpl extends SearchController
         Copy it to your solution using the same directory structure.
     </p>
     <p>
-        Now follow the steps below to build and deploy the application to JBoss and test it.
+        Now follow the steps below to build and deploy the application to JBoss and test
+        it.
     </p>
     <ol>
-        <li>Build only the web project to make sure the code added above is compiled and packaged.
-            Here's how:<br />
+        <li>Build the common and web projects to make sure the code added above is compiled
+            and packaged. Here's how:<br />
+            <code>mvn -f common/pom.xml install</code><br />
             <code>mvn -f web/pom.xml install</code></li>
         <li>Start the JBoss server. To do this, open a Command Prompt in the JBoss bin directory
             (<code>C:\jboss-4.0.4\bin</code>) and execute the command <code>run</code>.</li>
