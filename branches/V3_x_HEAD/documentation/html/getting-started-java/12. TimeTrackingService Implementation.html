@@ -64,18 +64,23 @@
         <li>MagicDraw 11.5 (under construction)</li>
     </ul>
     <p>
-        {mosimage}
-        <!-- img src="Images/TimecardToTimecardSummaryVODependency.jpg" alt="Timecard To TimecardSummaryVO Dependency" / -->
-    </p>
-    <p>
         Next add a dependency from the <code>Timecard</code> entity to the <code>TimecardSummaryVO</code>
-        as shown on the right. As you know, this dependency tells AndroMDA to generate conversion
+        as shown below. As you know, this dependency tells AndroMDA to generate conversion
         methods between <code>Timecard</code> and <code>TimecardSummaryVO</code> objects.
         The conversion methods are generated in <code>TimecardDaoBase</code>. However, note
         that <code>TimecardSummaryVO</code> contains attributes fetched from another entity,
         namely <code>User</code>, so we will have to override the default conversion methods
         to fill in these additional attributes.
     </p>
+    <table width="100%" border="0">
+        <tbody>
+            <tr>
+                <!-- img src="Images/TimecardToTimecardSummaryVODependency.jpg" alt="Timecard To TimecardSummaryVO Dependency" / -->
+                <td align="center" style="width: 100%">
+                    {mosimage}</td>
+            </tr>
+        </tbody>
+    </table>
     <p>
         Next add a dependency from <code>TimeTrackingService</code> to the <code>Timecard</code>
         entity as shown below. As you know, this dependency tells AndroMDA to give <code>TimeTrackingService</code>
