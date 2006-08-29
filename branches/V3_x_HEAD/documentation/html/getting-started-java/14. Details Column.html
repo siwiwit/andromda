@@ -49,7 +49,7 @@
             and set its value to <code>timecardSummaries</code>. This tag ensures that the <code>
                 details</code> trigger will occur on the table that displays <code>timecardSummaries</code>.
             Also since we are not specifying any attribute in this value (such as <code>timecardSummaries.id</code>)
-            a separate column will be created with buttons named <code>Detail</code>.</li>
+            a separate column will be created with buttons named <code>Details</code>.</li>
         <li>Create a final state.</li>
         <li>Add a transition from <code>Initialize Timecard Id</code> to the final state.</li>
         <li>Create a page variable called <code>timecardId</code> of type <code>Long</code>
@@ -133,10 +133,12 @@
         <li>Deploy the application:<br />
             <code>mvn -f app/pom.xml -Ddeploy</code></li>
         <li>Open a browser and make it point to http://localhost:8080/timetracker. The TimeTracker
-            search page should appear with Details buttons in the results panel.</li>
-        <li>Click on one of the <code>Detail</code> buttons. The browser should forward to the
-            <code>Timecard Details</code> page. Notice that <code>timecardId</code> is passed
-            as a parameter in the URL.</li>
+            search page should appear with <code>Details</code> buttons in the results panel.
+            <em>Note: You may have to click your browser's refresh button to clear its cache and
+                grab a fresh copy of the page.</em></li>
+        <li>Click on one of the <code>Details</code> buttons. The browser should forward to
+            the <code>Timecard Details</code> page. Notice that <code>id</code> is passed as
+            a parameter in the URL.</li>
     </ol>
     <p>
         Below is a screen shot of the Search screen so far.
