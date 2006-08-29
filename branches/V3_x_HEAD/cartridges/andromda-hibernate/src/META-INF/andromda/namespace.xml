@@ -86,6 +86,27 @@
                     </ul>
                 </documentation>
             </property>
+            <property name="hibernateDistributedCacheMulticastPort">
+                <default>4446</default>
+                <documentation>
+                    The multicast port to be used for multicast group communication when using a distributed cache
+                    provider (see <a href="#hibernateEnableDistributedCache">hibernateEnableDistributedCache</a>).
+                </documentation>
+            </property>
+            <property name="hibernateDistributedCacheMulticastAddress">
+                <default>230.0.0.1</default>
+                <documentation>
+                    The address to be used for multicast group communication when using a distributed cache provider
+                    (see <a href="#hibernateEnableDistributedCache">hibernateEnableDistributedCache</a>).
+                </documentation>
+            </property>
+            <property name="hibernateDistributedCacheSocketTimeout">
+                <default>2000</default>
+                <documentation>
+                    The number of seconds client sockets will wait when sending messages to this listener until
+                    they give up.
+                </documentation>
+            </property>
             <property name="hibernateEntityCache">
                 <default>read-write</default>
                 <documentation>

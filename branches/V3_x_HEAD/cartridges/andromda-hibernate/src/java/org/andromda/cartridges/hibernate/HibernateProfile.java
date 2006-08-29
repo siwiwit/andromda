@@ -147,6 +147,12 @@ public class HibernateProfile
         profile.get("HIBERNATE_ENTITYCACHE_DISTRIBUTED");
 
     /**
+     * Defines if the cache for this association is to be distributed.
+     */
+    public static final String TAGGEDVALUE_HIBERNATE_ASSOCIATIONCACHE_DISTRIBUTED =
+        profile.get("HIBERNATE_ASSOCIATIONCACHE_DISTRIBUTED");
+
+    /**
      * Defines the association collection type
      */
     public static final String TAGGEDVALUE_HIBERNATE_ASSOCIATION_COLLECTION_TYPE =

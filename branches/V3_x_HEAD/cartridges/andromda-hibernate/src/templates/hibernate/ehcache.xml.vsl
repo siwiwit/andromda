@@ -42,8 +42,9 @@
     <cacheManagerPeerProviderFactory
         class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
         properties="peerDiscovery=automatic,
-        multicastGroupAddress=230.0.0.1,
-        multicastGroupPort=4446"/>
+        multicastGroupAddress=$hibernateDistributedCacheMulticastAddress,
+        multicastGroupPort=$hibernateDistributedCacheMulticastPort,
+        socketTimeoutMillis=$hibernateDistributedCacheSocketTimeout"/>
 
     <cacheManagerPeerListenerFactory
         class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"/>
@@ -77,7 +78,14 @@
         eternal="$association.ehCacheEternal"
         timeToIdleSeconds="$association.ehCacheTimeToIdleSeconds"
         timeToLiveSeconds="$association.ehCacheTimeToLiveSeconds"
-        overflowToDisk="$association.ehCacheOverflowToDisk"/>
+        overflowToDisk="$association.ehCacheOverflowToDisk"
+#if ($association.hibernateCacheDistributed)
+    >
+        <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
+    </cache>
+#else
+    />
+#end
 
 #end
 #end

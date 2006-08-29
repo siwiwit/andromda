@@ -12,7 +12,7 @@
                         <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles</location>
                     </moduleSearchLocations>
                 </model>
-            </models>            
+            </models>
         </repository>
     </repositories>
     <namespaces>
@@ -25,7 +25,12 @@
             <properties>
                 <property name="overwrite">true</property>
                 <property name="hibernateVersion">3</property>
-                <property name="hibernateEnableCache">false</property>
+                <property name="hibernateEnableCache">true</property>
+                <property name="hibernateEnableAssociationsCache">true</property>
+                <property name="hibernateEnableDistributedCache">true</property>
+                <property name="hibernateDistributedCacheMulticastAddress">230.1.2.3</property>
+                <property name="hibernateDistributedCacheMulticastPort">1234</property>
+                <property name="hibernateDistributedCacheSocketTimeout">12000</property>
                 <property name="languageMappingsUri">Java</property>
                 <property name="wrapperMappingsUri">JavaWrapper</property>
                 <property name="enableTemplating">true</property>

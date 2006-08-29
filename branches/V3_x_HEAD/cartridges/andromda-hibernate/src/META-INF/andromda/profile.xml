@@ -382,11 +382,11 @@
             </element>
             <element name="ENTITY_DISCRIMINATOR_COLUMN">
                 <documentation>
-					Used at the class level of an entity and is
-					optional. This value indicates the name of the
-					column to be used for the discriminator. If not
-					specified for the SINGLE_TABLE or JOINED inheritance
-					mapping strategies, then default to <b>TYPE</b>.
+                    Used at the class level of an entity and is
+                    optional. This value indicates the name of the
+                    column to be used for the discriminator. If not
+                    specified for the SINGLE_TABLE or JOINED inheritance
+                    mapping strategies, then default to <b>TYPE</b>.
                 </documentation>
                 <value>@andromda.persistence.discriminator.column.name</value>
                 <appliedOnElement>The <![CDATA[<<Entity>>]]> classes</appliedOnElement>
@@ -396,45 +396,45 @@
             </element>
             <element name="ENTITY_DISCRIMINATOR_TYPE">
                 <documentation>
-					Used to override the default entity inheritance
-					discriminator type defined by the
-					<a href="namespace.html#entityDiscriminatorType">
-						entityDiscriminatorType
-					</a>
-					namespace property.
-					<ul>
-						Permitted values are:
-						<li>STRING</li>
-						<li>CHAR</li>
-						<li>INTEGER</li>
-					</ul>
-					<p>
-						The tagged value of
-						@andromda.persistence.discriminator.type is set
-						once on the base/root class to indicate the type
-						of the column used for the discriminator. The
-						default discriminator type is defined by the
-						<a
-							href="namespaces.html#entityDiscriminatorType">
-							entityDiscriminatorType
-						</a>
-						namespace property.
-					</p>
+                    Used to override the default entity inheritance
+                    discriminator type defined by the
+                    <a href="namespace.html#entityDiscriminatorType">
+                        entityDiscriminatorType
+                    </a>
+                    namespace property.
+                    <ul>
+                        Permitted values are:
+                        <li>STRING</li>
+                        <li>CHAR</li>
+                        <li>INTEGER</li>
+                    </ul>
+                    <p>
+                        The tagged value of
+                        @andromda.persistence.discriminator.type is set
+                        once on the base/root class to indicate the type
+                        of the column used for the discriminator. The
+                        default discriminator type is defined by the
+                        <a
+                            href="namespaces.html#entityDiscriminatorType">
+                            entityDiscriminatorType
+                        </a>
+                        namespace property.
+                    </p>
                 </documentation>
                 <value>@andromda.persistence.discriminator.type</value>
                 <appliedOnElement>The <![CDATA[<<Entity>>]]> classes</appliedOnElement>
                 <allowedValues>
-					<value>STRING</value>
-					<value>CHAR</value>
-					<value>INTEGER</value>
+                    <value>STRING</value>
+                    <value>CHAR</value>
+                    <value>INTEGER</value>
                 </allowedValues>
             </element>
             <element name="ENTITY_DISCRIMINATOR_VALUE">
                 <documentation>
-					Used at the class level of an entity and is
-					optional. This is the value that indicates that the
-					row is an entity of the annotated entity type. It
-					should be specified for each class in the hierarchy.
+                    Used at the class level of an entity and is
+                    optional. This is the value that indicates that the
+                    row is an entity of the annotated entity type. It
+                    should be specified for each class in the hierarchy.
                 </documentation>
                 <value>@andromda.persistence.discriminator.value</value>
                 <appliedOnElement>The <![CDATA[<<Entity>>]]> classes</appliedOnElement>
@@ -548,6 +548,17 @@
                     <value>read-write</value>
                     <value>nonstrict-read-write</value>
                     <value>read-only</value>
+                </allowedValues>
+            </element>
+            <element name="HIBERNATE_ASSOCIATIONCACHE_DISTRIBUTED">
+                <documentation>
+                    Defines whether the cache for this association is to be distributed.
+                </documentation>
+                <value>@andromda.hibernate.association.cache.distributed</value>
+                <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement>
+                <allowedValues>
+                    <value>true</value>
+                    <value>false</value>
                 </allowedValues>
             </element>
             <element name="HIBERNATE_EHCACHE_MAX_ELEMENTS">
