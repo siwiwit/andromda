@@ -31,24 +31,15 @@ public class $action.actionClassName
         final HttpServletResponse response)
         throws ServletException, IOException
     {
-        // - we need to retrieve the faces context differently since we're outside of the
-        //   faces servlet
-        final LifecycleFactory lifecycleFactory =
-            (LifecycleFactory)FactoryFinder.getFactory(FactoryFinder.LIFECYCLE_FACTORY);
-        final Lifecycle lifecycle = lifecycleFactory.getLifecycle(LifecycleFactory.DEFAULT_LIFECYCLE);
-        final FacesContextFactory facesContextFactory =
-            (FacesContextFactory)FactoryFinder.getFactory(FactoryFinder.FACES_CONTEXT_FACTORY);
-        final FacesContext facesContext =
-            facesContextFactory.getFacesContext(
-                this.getServletContext(),
-                request,
-                response,
-                lifecycle);
-        final javax.faces.el.VariableResolver variableResolver = facesContext.getApplication().getVariableResolver();
+        // - we need to resolve the controller differently since we're outside of the faces servlet
+#set ($facesContextUtilsFullyQualifiedName = "FacesContextUtils")
+#if ($stringUtils.isNotBlank($managedBeansPackage))
+#set($facesContextUtilsFullyQualifiedName = "${managedBeansPackage}.${facesContextUtilsFullyQualifiedName}")
+#end
 #set ($controller = $action.controller)
         $controller.fullyQualifiedName controller =
-            ($controller.fullyQualifiedName)variableResolver.resolveVariable(
-                facesContext,
+            ($controller.fullyQualifiedName)${facesContextUtilsFullyQualifiedName}.resolveVariable(
+                this.getServletContext(), request, response,
                 "$controller.beanName");
 #if ($action.useCase)
 #set ($useCase = $action.useCase)

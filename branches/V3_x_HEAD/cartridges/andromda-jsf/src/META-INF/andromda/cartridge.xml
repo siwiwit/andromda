@@ -446,6 +446,12 @@
         overwrite="true"/>
     
     <template
+        path="templates/jsf/utils/FacesContextUtils.java.vsl"
+        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
+        outlet="managed-beans"
+        overwrite="true"/>
+    
+    <template
         path="templates/jsf/exception/PatternMatchingExceptionHandler.java.vsl"
         outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${patternMatchingExceptionHandler}.java"
         outlet="managed-beans"
