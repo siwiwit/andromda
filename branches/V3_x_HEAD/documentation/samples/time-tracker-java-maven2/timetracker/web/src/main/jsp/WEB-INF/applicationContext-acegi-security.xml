@@ -13,7 +13,7 @@
   - declared in the application context in the same order. Collaborators
   - required by those filters are placed at the end of the file.
   -
-  - $Id: applicationContext-acegi-security.xml,v 1.1.2.1 2006-08-26 23:42:19 nbhatia Exp $
+  - $Id: applicationContext-acegi-security.xml,v 1.1.2.2 2006-09-01 01:52:09 nbhatia Exp $
   -->
 
 <beans>
@@ -130,6 +130,13 @@
                         </property>
                         <property name="cacheName" value="userCache"/>
                     </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="passwordEncoder">
+            <bean class="org.acegisecurity.providers.encoding.Md5PasswordEncoder">
+                <property name="encodeHashAsBase64">
+                    <value>true</value>
                 </property>
             </bean>
         </property>

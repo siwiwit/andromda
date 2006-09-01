@@ -1,7 +1,8 @@
-insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (1, 'nbhatia',      'cooldude', 'Naresh', 'Bhatia',      'nbhatia@northwind.com',      1, '2006/01/01 09:00', null);
-insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (2, 'lcoude',       'cooldude', 'Louis',  'Coude',       'lcoude@northwind.com',       1, '2006/01/01 09:00', null);
-insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (3, 'ecrutchfield', 'cooldude', 'Eric',   'Crutchfield', 'ecrutchfield@northwind.com', 1, '2006/01/01 09:00', null);
-insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (4, 'cmicali',      'cooldude', 'Chris',  'Micali',      'cmicali@northwind.com',      1, '2006/01/01 09:00', null);
+-- Password is 'cooldude' encoded using MD5
+insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (1, 'nbhatia',      '756slLjeNViurJBGI5JeqA==', 'Naresh', 'Bhatia',      'nbhatia@northwind.com',      1, '2006/01/01 09:00', null);
+insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (2, 'lcoude',       '756slLjeNViurJBGI5JeqA==', 'Louis',  'Coude',       'lcoude@northwind.com',       1, '2006/01/01 09:00', null);
+insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (3, 'ecrutchfield', '756slLjeNViurJBGI5JeqA==', 'Eric',   'Crutchfield', 'ecrutchfield@northwind.com', 1, '2006/01/01 09:00', null);
+insert into USERS (ID, USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, EMAIL, IS_ACTIVE, CREATION_DATE, COMMENT) values (4, 'cmicali',      '756slLjeNViurJBGI5JeqA==', 'Chris',  'Micali',      'cmicali@northwind.com',      1, '2006/01/01 09:00', null);
 commit;
 
 insert into USER_ROLE (ID, ROLE, USER_FK) values (1, 'StandardUser',  1);
