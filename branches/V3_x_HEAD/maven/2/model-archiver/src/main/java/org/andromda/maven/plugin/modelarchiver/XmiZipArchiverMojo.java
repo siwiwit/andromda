@@ -119,6 +119,14 @@ public class XmiZipArchiverMojo
     protected String replacementExtensions;
 
     /**
+     * Whether or not to do replacement of embedded model HREF reference extensions.
+     *
+     * @parameter expression=true
+     * @required
+     */
+    protected boolean replaceExtensions;
+    
+    /**
      * Whether or not the model should have a jar created with it as well.
      *
      * @parameter
@@ -170,6 +178,7 @@ public class XmiZipArchiverMojo
         getLog().debug("workDirectory[" + workDirectory + "]");
         getLog().debug("outputDirectory[" + outputDirectory + "]");
         getLog().debug("finalName[" + finalName + "]");
+        getLog().debug("replaceExtensions[" + replaceExtensions + "]");
 
         try
         {
@@ -215,15 +224,19 @@ public class XmiZipArchiverMojo
                                 }
                                 extractedFile.renameTo(newFile);
                                 String contents = IOUtils.toString(new FileReader(newFile));
-                                for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
+                                getLog().info("Replace extensions?: " + replaceExtensions);
+                                if (replaceExtensions)
                                 {
-                                    final String version = escapePattern(this.project.getVersion());
-                                    final String extension = escapePattern(replacementExtensions[ctr3]);
-                                    final String extensionPattern = "((\\-" + version + ")?)" + extension;
-                                    final String newExtension = "\\-" + version + extension;
-                                    contents = contents.replaceAll(
-                                            extensionPattern,
-                                            newExtension);
+                                    for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
+                                    {
+                                        final String version = escapePattern(this.project.getVersion());
+                                        final String extension = escapePattern(replacementExtensions[ctr3]);
+                                        final String extensionPattern = "((\\-" + version + ")?)" + extension;
+                                        final String newExtension = "\\-" + version + extension;
+                                        contents = contents.replaceAll(
+                                                extensionPattern,
+                                                newExtension);
+                                    }
                                 }
                                 final FileWriter fileWriter = new FileWriter(newFile);
                                 fileWriter.write(contents);
