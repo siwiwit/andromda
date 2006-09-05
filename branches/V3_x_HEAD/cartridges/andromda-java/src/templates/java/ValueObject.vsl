@@ -40,7 +40,7 @@ public#if($class.abstract) abstract#end class $class.name
 ##
 ##  constructor taking only required properties
 ##
-#if ($class.properties.size() > $class.requiredConstructorParameters.size())
+#if ($class.allProperties.size() > $class.allRequiredConstructorParameters.size())
     public ${class.name}(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allRequiredConstructorParameters)
