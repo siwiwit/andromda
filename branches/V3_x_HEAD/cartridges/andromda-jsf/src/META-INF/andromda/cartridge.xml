@@ -75,6 +75,7 @@
     <condition name="enablePreferences">$enablePreferences.equalsIgnoreCase("true")</condition>
     <condition name="clientValidation">$clientValidation.equalsIgnoreCase("true")</condition>
     <condition name="formSerialization">$formSerialization.equalsIgnoreCase("true")</condition>
+    <condition name="securityEnabled">$stringUtils.isNotBlank($securityRealm)</condition>
         
         
     <!-- condition merge-point-->
@@ -407,6 +408,21 @@
         outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
         outlet="managed-beans"
         overwrite="true"/>
+    
+    <template
+        path="templates/jsf/utils/UserRoleFilter.java.vsl"
+        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
+        outlet="managed-beans"
+        overwrite="true"
+        outputCondition="securityEnabled"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="roles">
+                <type name="org.andromda.metafacades.uml.Role"/>
+            </modelElement>
+        </modelElements>
+    </template>
     
     <template
         path="templates/jsf/utils/MessagePhaseListener.java.vsl"

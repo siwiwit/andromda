@@ -133,6 +133,12 @@
     </context-param>
     <!-- context-param merge-point -->
     <!-- filter merge-point -->
+#if ($securityEnabled)
+    <filter>
+        <filter-name>User Role Filter</filter-name>
+        <filter-class>${managedBeansPackage}.UserRoleFilter</filter-class>
+    </filter>
+#end
 
     <!-- ADF Faces Filter -->
     <filter>
@@ -205,6 +211,12 @@
         <filter-name>MyFaces Extensions Filter</filter-name>
         <url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
     </filter-mapping>
+#if ($securityEnabled)
+    <filter-mapping>
+        <filter-name>User Role Filter</filter-name>
+        <url-pattern>*.${facesServletExtension}</url-pattern>
+    </filter-mapping>
+#end
 #foreach ($useCase in $useCases)
 #foreach ($view in $useCase.views)
 #if ($view.populatorRequired)
@@ -232,7 +244,6 @@
         <servlet-name>ADF Resources Servlet</servlet-name>
         <servlet-class>oracle.adf.view.faces.webapp.ResourceServlet</servlet-class>
     </servlet>
-#set ($securityEnabled = $stringUtils.isNotBlank($securityRealm))
 #if ($securityEnabled)
 #set ($logOutServlet = "${managedBeansPackage}.LogOutServlet")
     <servlet>
