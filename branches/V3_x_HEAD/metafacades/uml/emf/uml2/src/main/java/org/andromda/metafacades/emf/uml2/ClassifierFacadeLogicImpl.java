@@ -406,9 +406,6 @@ public class ClassifierFacadeLogicImpl
         // class name
         buffer.append(this.getName());
 
-        // class modifiers (visibility)
-        buffer.append(this.getVisibility());
-
         // generalizations
         for (final Iterator iterator = this.getAllGeneralizations().iterator(); iterator.hasNext();)
         {
@@ -422,7 +419,7 @@ public class ClassifierFacadeLogicImpl
             AttributeFacade attribute = (AttributeFacade)iterator.next();
             buffer.append(attribute.getName());
             buffer.append(attribute.getVisibility());
-            buffer.append(attribute.getType());
+            buffer.append(attribute.getType().getName());
         }
 
         // operations
@@ -431,13 +428,12 @@ public class ClassifierFacadeLogicImpl
             OperationFacade operation = (OperationFacade)iter.next();
             buffer.append(operation.getName());
             buffer.append(operation.getVisibility());
-            buffer.append(operation.getReturnType());
-            for (final Iterator iterator = operation.getParameters().iterator(); iterator.hasNext();)
+            buffer.append(operation.getReturnType().getName());
+            for (final Iterator iterator = operation.getArguments().iterator(); iterator.hasNext();)
             {
                 final ParameterFacade parameter = (ParameterFacade)iterator.next();
                 buffer.append(parameter.getName());
-                buffer.append(parameter.getVisibility());
-                buffer.append(parameter.getType());
+                buffer.append(parameter.getType().getName());
             }
         }
         final String signature = buffer.toString();
@@ -449,9 +445,7 @@ public class ClassifierFacadeLogicImpl
             byte[] hashBytes = md.digest(signature.getBytes());
 
             long hash = 0;
-            for (int ctr = Math.min(
-                        hashBytes.length,
-                        8) - 1; ctr >= 0; ctr--)
+            for (int ctr = Math.min(hashBytes.length, 8) - 1; ctr >= 0; ctr--)
             {
                 hash = (hash << 8) | (hashBytes[ctr] & 0xFF);
             }

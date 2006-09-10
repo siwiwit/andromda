@@ -12,6 +12,7 @@ import org.andromda.metafacades.uml.ActivityGraphFacade;
 import org.andromda.metafacades.uml.StateMachineFacade;
 import org.andromda.metafacades.uml.StateVertexFacade;
 import org.andromda.metafacades.uml.TransitionFacade;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UseCaseFacade;
 import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.StringUtils;
@@ -47,6 +48,17 @@ public class StrutsJspLogicImpl
             }
         }
         return packageName;
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getPackagePath()
+     */
+    public String getPackagePath()
+    {
+        return StringUtils.replace(
+            this.getPackageName(),
+            String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.NAMESPACE_SEPARATOR)),
+            "/");
     }
 
     protected String handleGetMessageKey()

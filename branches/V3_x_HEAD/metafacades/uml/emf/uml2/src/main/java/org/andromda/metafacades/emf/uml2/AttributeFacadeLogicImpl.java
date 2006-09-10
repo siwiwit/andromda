@@ -1,6 +1,8 @@
 package org.andromda.metafacades.emf.uml2;
 
 import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.EnumerationFacade;
+import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
@@ -201,6 +203,21 @@ public class AttributeFacadeLogicImpl
     protected boolean handleIsDefaultValuePresent()
     {
         return !(this.getDefaultValue() == null || this.getDefaultValue().equals(""));
+    }
+    
+    /**
+     * Overridden to provide different handling of the name if this attribute represents a literal.
+     *
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
+     */
+    protected String handleGetName()
+    {
+        final String mask = String.valueOf(this.getConfiguredProperty(
+            this.getOwner() instanceof EnumerationFacade
+                ? UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK
+                : UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK ));
+
+        return NameMasker.mask(super.handleGetName(), mask);
     }
 
     /*  protected boolean handleIsBindingDependenciesPresent()

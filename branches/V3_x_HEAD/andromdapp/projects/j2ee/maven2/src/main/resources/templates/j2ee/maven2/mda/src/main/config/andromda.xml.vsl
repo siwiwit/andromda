@@ -28,11 +28,6 @@
 		 				<location patterns="**/*.uml2">${settings.localRepository}/org/andromda/profiles/emf/uml2</location>
 					</moduleSearchLocations>
 #end
-#if ($modelType.equals("uml2"))
-                    <modelPackages processAll="false">
-		 				<modelPackage>$applicationPackage.replaceAll('\.', '::')**</modelPackage>
-					</modelPackages>
-#end
                 </model>
             </models>
         </repository>

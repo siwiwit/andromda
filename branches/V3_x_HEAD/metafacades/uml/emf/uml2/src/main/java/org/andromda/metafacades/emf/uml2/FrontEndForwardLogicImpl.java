@@ -21,6 +21,7 @@ import org.andromda.metafacades.uml.StateVertexFacade;
 import org.andromda.metafacades.uml.TransitionFacade;
 import org.andromda.metafacades.uml.UseCaseFacade;
 import org.andromda.utils.StringUtilsHelper;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -76,19 +77,19 @@ public class FrontEndForwardLogicImpl
         }
 
         // - name
-        if (forwardName == null)
+        if (StringUtils.isEmpty(forwardName))
         {
             forwardName = super.handleGetName();
         }
 
         // - target
-        if (forwardName == null)
+        if (StringUtils.isEmpty(forwardName))
         {
             forwardName = this.getTarget().getName();
         }
 
         // - else
-        if (forwardName == null)
+        if (StringUtils.isEmpty(forwardName))
         {
             forwardName = "unknown";
         }

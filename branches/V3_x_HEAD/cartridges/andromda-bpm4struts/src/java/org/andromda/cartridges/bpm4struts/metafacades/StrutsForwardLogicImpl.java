@@ -15,6 +15,7 @@ import org.andromda.metafacades.uml.GuardFacade;
 import org.andromda.metafacades.uml.PseudostateFacade;
 import org.andromda.metafacades.uml.StateVertexFacade;
 import org.andromda.utils.StringUtilsHelper;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -95,11 +96,11 @@ public class StrutsForwardLogicImpl
         final EventFacade trigger = this.getTrigger();
         if (trigger != null) forwardName = trigger.getName();
         //name
-        if (forwardName == null) forwardName = this.getName();
+        if (StringUtils.isEmpty(forwardName)) forwardName = this.getName();
         //target
-        if (forwardName == null) forwardName = this.getTarget().getName();
+        if (StringUtils.isEmpty(forwardName)) forwardName = this.getTarget().getName();
         // else
-        if (forwardName == null) forwardName = "unknown";
+        if (StringUtils.isEmpty(forwardName)) forwardName = "unknown";
         // return
         return forwardName;
     }
