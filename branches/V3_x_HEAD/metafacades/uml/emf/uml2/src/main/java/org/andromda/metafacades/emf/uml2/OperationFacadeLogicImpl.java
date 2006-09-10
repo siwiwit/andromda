@@ -182,6 +182,12 @@ public class OperationFacadeLogicImpl
                 return ((DependencyFacade)object).getTargetElement();
             }
         });
+        
+        // finally add in any members of the UML2 RaisedException list
+        //(the 'proper' UML2 way of doing exceptions .. or at least one way).
+        Collection raisedExceptions = this.metaObject.getRaisedExceptions();
+        exceptions.addAll(this.shieldedElements(raisedExceptions));
+
         return exceptions;
     }
 
