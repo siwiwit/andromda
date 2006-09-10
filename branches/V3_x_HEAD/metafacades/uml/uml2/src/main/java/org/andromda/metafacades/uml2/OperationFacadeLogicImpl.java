@@ -316,9 +316,10 @@ public class OperationFacadeLogicImpl
         return 0;
     }
 
-	public ParameterFacade handleGetReturnParameter() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public ParameterFacade handleGetReturnParameter()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

@@ -75,9 +75,8 @@ public class PackageFacadeLogicImpl
      */
     protected java.util.Collection handleGetModelElements()
     {
-        return CollectionUtils.collect(
-            this.metaObject.getModel().allOwnedElements(),
-            UmlUtilities.ELEMENT_TRANSFORMER);
+        return CollectionUtils.collect(this.metaObject.getModel()
+                .allOwnedElements(), UmlUtilities.ELEMENT_TRANSFORMER);
     }
 
     /**

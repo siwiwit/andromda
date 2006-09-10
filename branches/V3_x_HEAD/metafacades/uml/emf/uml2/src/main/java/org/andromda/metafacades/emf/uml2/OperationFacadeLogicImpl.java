@@ -184,7 +184,7 @@ public class OperationFacadeLogicImpl
         });
         
         // finally add in any members of the UML2 RaisedException list
-        //(the 'proper' UML2 way of doing exceptions .. or at least one way).
+        // (the 'proper' UML2 way of doing exceptions .. or at least one way).
         Collection raisedExceptions = this.metaObject.getRaisedExceptions();
         exceptions.addAll(this.shieldedElements(raisedExceptions));
 
@@ -656,8 +656,10 @@ public class OperationFacadeLogicImpl
     /**
      * Get the first UML2 ReturnResult parameter. Not implemented for UML1.4
      */
-	public ParameterFacade handleGetReturnParameter() {
-		Collection returnResults = this.metaObject.getReturnResults();
-		return (ParameterFacade) this.shieldedElement(returnResults.iterator().next());
-	}
+    public ParameterFacade handleGetReturnParameter()
+    {
+        Collection returnResults = this.metaObject.getReturnResults();
+        return (ParameterFacade) this.shieldedElement(returnResults.iterator()
+                .next());
+    }
 }
