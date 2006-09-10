@@ -646,4 +646,12 @@ public class OperationFacadeLogicImpl
         // MD11.5 Exports multiplicity as String
         return UmlUtilities.parseMultiplicity(this.metaObject.getLowerValue());
     }
+
+    /**
+     * Get the first UML2 ReturnResult parameter. Not implemented for UML1.4
+     */
+	public ParameterFacade handleGetReturnParameter() {
+		Collection returnResults = this.metaObject.getReturnResults();
+		return (ParameterFacade) this.shieldedElement(returnResults.iterator().next());
+	}
 }

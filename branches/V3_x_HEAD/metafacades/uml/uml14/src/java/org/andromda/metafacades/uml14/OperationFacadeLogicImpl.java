@@ -599,4 +599,8 @@ public class OperationFacadeLogicImpl
         throw new java.lang.UnsupportedOperationException("'lower' is not a UML1.4 feature");
     }
 
+	public ParameterFacade handleGetReturnParameter() {
+		throw new java.lang.UnsupportedOperationException("ReturnResults is not a UML1.4 feature");
+	}
+
 }

@@ -1,5 +1,7 @@
 package org.andromda.metafacades.uml2;
 
+import org.andromda.metafacades.uml.ParameterFacade;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.OperationFacade.
@@ -313,5 +315,10 @@ public class OperationFacadeLogicImpl
         // TODO: add your implementation here!
         return 0;
     }
+
+	public ParameterFacade handleGetReturnParameter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
