@@ -29,8 +29,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <html:link action="/TimeTrackerHome/TimeTrackerHomeLastSavedTimecard">
-                            <bean:message key="last.saved.timecard.link"/>
+                        <html:link action="/TimeTrackerHome/TimeTrackerHomeLatestTimecard">
+                            <bean:message key="latest.timecard.link"/>
                         </html:link>
                     </td>
                 </tr>
