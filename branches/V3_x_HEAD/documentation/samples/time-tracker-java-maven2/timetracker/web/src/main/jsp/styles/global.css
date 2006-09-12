@@ -27,6 +27,24 @@ a.button:link, a.button:visited, a.button:hover
     font-weight: bold;
 }
 
+a.disabledbutton, a.disabledbutton:link, a.disabledbutton:visited, a.disabledbutton:hover, a.disabledbutton:active
+{
+    padding: 2px 4px 2px 4px;
+    border: outset 2px #dddddd;
+    background-color: #dddddd;
+    text-decoration: none;
+    text-align: center;
+    color: #888888;
+    font-size: 0.8em;
+    font-weight: bold;
+
+}
+
+.tinytext
+{
+    font-size: 0.7em;
+}
+
 a.menu:link, a.menu:visited
 {
     text-decoration: none;
@@ -236,6 +254,11 @@ th
 .menubar ul li A.here:link,
 .menubar ul li A.here:visited {
     color: Black;
+}
+
+.message
+{
+	color: Red;
 }
 
 .sidebar
