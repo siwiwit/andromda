@@ -68,7 +68,7 @@ public class ProfileTransformerMojo
     /**
      * Path to the project profile document output
      * 
-     * @parameter expression="${basedir}/src/site/xdoc/profile.xml"
+     * @parameter expression="${basedir}/src/site/axdoc/profile.xml"
      */
     private String profileOutputPath;
 
@@ -111,6 +111,7 @@ public class ProfileTransformerMojo
                 xslTransformer.transform(profileDocumentPath, profileTransformationUrl, profileOutputPath);
             }
             
+            this.getLog().info("Transformation result " + this.profileOutputPath);
             this.getLog().info("TRANSFORMING PROFILE SUCCESSFUL");
         }
         catch (final Throwable throwable)

@@ -56,7 +56,7 @@ public class NamespaceTransformerMojo
     /**
      * Path to the project namespace document output
      * 
-     * @parameter expression="${basedir}/src/site/xdoc/namespace.xml"
+     * @parameter expression="${basedir}/src/site/axdoc/namespace.xml"
      */
     private String namespaceOutputPath;
 
@@ -99,6 +99,7 @@ public class NamespaceTransformerMojo
                 xslTransformer.transform(namespaceDocumentPath, namespaceTransformationUri, namespaceOutputPath);
             }
             
+            this.getLog().info("Transformed namesapce " + this.namespaceOutputPath);
             this.getLog().info("TRANSFORMING NAMESPACE SUCCESSFUL");
         }
         catch (final Throwable throwable)
