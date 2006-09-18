@@ -380,6 +380,10 @@
                 <artifactId>dom4j</artifactId>
                 <version>1.6.1</version>
                 <scope>runtime</scope>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
             </dependency>
 #else
             <dependency>
