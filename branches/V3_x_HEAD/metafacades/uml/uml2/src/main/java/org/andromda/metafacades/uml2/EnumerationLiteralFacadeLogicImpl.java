@@ -2,6 +2,7 @@ package org.andromda.metafacades.uml2;
 
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.NameMasker;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -12,7 +13,6 @@ import org.andromda.metafacades.uml.NameMasker;
 public class EnumerationLiteralFacadeLogicImpl
     extends EnumerationLiteralFacadeLogic
 {
-
     public EnumerationLiteralFacadeLogicImpl (Object metaObject, String context)
     {
         super (metaObject, context);
@@ -32,8 +32,6 @@ public class EnumerationLiteralFacadeLogicImpl
      */
     protected java.lang.String handleGetValue()
     {
-        // TODO: put your implementation here.
-        return null;
+        return StringUtils.trimToEmpty(this.getName());
     }
-
 }

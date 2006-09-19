@@ -35,6 +35,6 @@ public class EnumerationLiteralFacadeLogicImpl
      */
     protected String handleGetValue()
     {
-        return StringUtils.trimToEmpty(super.handleGetName());
+        return StringUtils.trimToEmpty(this.getName());
     }
 }
