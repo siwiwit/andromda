@@ -82,10 +82,10 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-		<plugins>
-			<!-- This snippet here creates a zip which can be unzipped into your local repository in order
+		<!-- plugins>
+			This snippet here creates a zip which can be unzipped into your local repository in order
                  to install the andromdapp plugin (this is necessary because currently maven2 will not search 
-                 any other repo other than central when trying to install a plugin without a pom.xml, i.e. command line) -->
+                 any other repo other than central when trying to install a plugin without a pom.xml, i.e. command line) 
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
                 <executions>
@@ -111,6 +111,6 @@
 					</tasks>
 				</configuration>
 			</plugin>
-		</plugins>
+		</plugins -->
     </build>
 </project>
