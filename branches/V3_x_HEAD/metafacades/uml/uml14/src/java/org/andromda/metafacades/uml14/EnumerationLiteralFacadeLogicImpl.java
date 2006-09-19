@@ -1,6 +1,7 @@
 package org.andromda.metafacades.uml14;
 
-import org.andromda.utils.StringUtilsHelper;
+import org.andromda.metafacades.uml.NameMasker;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -20,11 +21,12 @@ public class EnumerationLiteralFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
+     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
      */
     protected String handleGetName()
     {
-        return StringUtilsHelper.separate(super.handleGetName(), "_").toUpperCase();
+        final String mask = String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK));
+        return NameMasker.mask(super.handleGetName(), mask);
     }
 
     /**

@@ -33,6 +33,7 @@
 	</metafacade>	
     <metafacade class="org.andromda.metafacades.uml14.EnumerationLiteralFacadeLogicImpl">
         <mapping class="org.omg.uml.foundation.core.EnumerationLiteral$Impl"/>
+        <property reference="enumerationLiteralNameMask"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.EnumerationFacadeLogicImpl">
         <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">

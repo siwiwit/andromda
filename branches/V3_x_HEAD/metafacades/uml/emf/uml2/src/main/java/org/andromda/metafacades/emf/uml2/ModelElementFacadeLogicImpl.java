@@ -1,9 +1,5 @@
 package org.andromda.metafacades.emf.uml2;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.metafacades.uml.BindingFacade;
 import org.andromda.metafacades.uml.ConstraintFacade;
@@ -34,7 +30,6 @@ import org.eclipse.uml2.Element;
 import org.eclipse.uml2.Implementation;
 import org.eclipse.uml2.Manifestation;
 import org.eclipse.uml2.NamedElement;
-import org.eclipse.uml2.Namespace;
 import org.eclipse.uml2.Permission;
 import org.eclipse.uml2.Realization;
 import org.eclipse.uml2.StateMachine;
@@ -44,6 +39,10 @@ import org.eclipse.uml2.TemplateSignature;
 import org.eclipse.uml2.TemplateableElement;
 import org.eclipse.uml2.Usage;
 import org.eclipse.uml2.VisibilityKind;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 
 /**
