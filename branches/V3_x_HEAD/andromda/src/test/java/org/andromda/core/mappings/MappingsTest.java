@@ -1,14 +1,12 @@
 package org.andromda.core.mappings;
 
-import java.net.URL;
-
-import java.util.Collection;
-import java.util.Iterator;
-
 import junit.framework.TestCase;
-
 import org.andromda.core.mapping.Mapping;
 import org.andromda.core.mapping.Mappings;
+
+import java.net.URL;
+import java.util.Collection;
+import java.util.Iterator;
 
 
 /**
@@ -22,7 +20,7 @@ public class MappingsTest
     /**
      * Constructor for MappingsTest.
      *
-     * @param name
+     * @param name the name for this test case
      */
     public MappingsTest(String name)
     {
@@ -94,9 +92,9 @@ public class MappingsTest
 
     public void testMappingsInheritance()
     {
-        URL testMappingsParentUri = MappingsTest.class.getResource("TestMappingsParent.xml");
+        final URL testMappingsParentUri = MappingsTest.class.getResource("TestMappingsParent.xml");
         assertNotNull(testMappingsParentUri);
-        Mappings testMappingsParent = Mappings.getInstance(testMappingsParentUri);
+        final Mappings testMappingsParent = Mappings.getInstance(testMappingsParentUri);
         assertNotNull(testMappingsParent);
         final Collection mappings1 = testMappingsParent.getMappings();
         assertEquals(
@@ -125,7 +123,7 @@ public class MappingsTest
             "Type_Three",
             mapping3.getTo());
 
-        URL testMappingsUri = MappingsTest.class.getResource("TestMappings.xml");
+        final URL testMappingsUri = MappingsTest.class.getResource("TestMappings.xml");
         assertNotNull(testMappingsUri);
         Mappings testMappings = Mappings.getInstance(testMappingsUri);
         assertNotNull(testMappings);
@@ -162,5 +160,17 @@ public class MappingsTest
         assertEquals(
             "Type_Four",
             mapping4.getTo());
+    }
+
+    public void testEmptyMappings()
+    {
+        final URL testEmptyMappingsUri = MappingsTest.class.getResource("TestMappingsEmpty.xml");
+        assertNotNull(testEmptyMappingsUri);
+
+        final Mappings mappings = Mappings.getInstance(testEmptyMappingsUri);
+        assertNotNull(mappings);
+
+        final Collection mappingCollection = mappings.getMappings();
+        assertEquals(0, mappingCollection.size());
     }
 }
