@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.uml2.Model;
@@ -38,17 +40,19 @@ public class EMFUML2RepositoryFacade
      *
      * @see org.andromda.core.repository.RepositoryFacade#open()
      */
-    public void open()
+    protected ResourceSet createNewResourceSet()
     {
         if (logger.isDebugEnabled())
         {
             logger.debug("Registering resource factories");
         }
-        final Map extensionToFactoryMap = this.resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
 
-        // - we need to perform these registrations in order to load a UML2 model into EMF 
+        final ResourceSet resourceSet = new ResourceSetImpl();
+        final Map extensionToFactoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+
+        // - we need to perform these registrations in order to load a UML2 model into EMF
         //   see: http://dev.eclipse.org/viewcvs/indextools.cgi/%7Echeckout%7E/uml2-home/faq.html#6
-        this.resourceSet.getPackageRegistry().put(
+        resourceSet.getPackageRegistry().put(
             UML2Package.eNS_URI,
             UML2Package.eINSTANCE);
         extensionToFactoryMap.put(
@@ -63,8 +67,10 @@ public class EMFUML2RepositoryFacade
         loadOptions.put(
             XMLResource.OPTION_RECORD_UNKNOWN_FEATURE,
             Boolean.TRUE);
+
+        return resourceSet;
     }
-    
+
     /**
      * Overrridden to check that the model is of the correct type.
      * 

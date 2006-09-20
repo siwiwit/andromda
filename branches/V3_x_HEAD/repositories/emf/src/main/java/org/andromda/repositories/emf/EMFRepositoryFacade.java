@@ -1,5 +1,14 @@
 package org.andromda.repositories.emf;
 
+import org.andromda.core.common.ResourceFinder;
+import org.andromda.core.metafacade.ModelAccessFacade;
+import org.andromda.core.repository.RepositoryFacade;
+import org.andromda.core.repository.RepositoryFacadeException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -8,16 +17,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.andromda.core.common.ResourceFinder;
-import org.andromda.core.metafacade.ModelAccessFacade;
-import org.andromda.core.repository.RepositoryFacade;
-import org.andromda.core.repository.RepositoryFacadeException;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 /**
@@ -32,9 +31,9 @@ public abstract class EMFRepositoryFacade
     /**
      * Stores the resources (i.e. models) loaded into EMF.
      */
-    protected final ResourceSet resourceSet = new ResourceSetImpl();
+    private ResourceSet resourceSet;
     
-    protected ModelAccessFacade modelFacade = null;
+    protected ModelAccessFacade modelFacade;
 
     /**
      * Stores the actual loaded model.
@@ -57,17 +56,15 @@ public abstract class EMFRepositoryFacade
     }
 
     /**
-     * Reads the model with the given <code>uri</code> into the EModelElement
-     * instance.
+     * Reads the model with the given <code>uri</code>.
      *
      * @param uri the URI to the model
-     * @return the model element instance.
      */
     protected void readModel(final String uri)
     {
         try
         {
-           model = resourceSet.createResource(EMFRepositoryFacadeUtils.createUri(uri));
+            model = resourceSet.createResource(EMFRepositoryFacadeUtils.createUri(uri));
             if (model == null)
             {
                 throw new RepositoryFacadeException("'" + uri + "' is an invalid model");
@@ -84,7 +81,20 @@ public abstract class EMFRepositoryFacade
     /**
      * @see org.andromda.core.repository.RepositoryFacade#open()
      */
-    public abstract void open();
+    public void open()
+    {
+        this.resourceSet = this.createNewResourceSet();
+    }
+
+    /**
+     * Creates and returns a new resource suitable suitable for loading models into EMF.
+     * This callback is used when (re-)initializing this repository so that it can be reused between different
+     * AndroMDA runs, once a resource set is used for a model it becomes 'polluted' so that subsequent models
+     * will see things from the previous runs, which might mess up the processing.
+     *
+     * @return a new resource set to be used by this repository
+     */
+    protected abstract ResourceSet createNewResourceSet();
 
     /**
      * @see org.andromda.core.repository.RepositoryFacade#close()
@@ -101,7 +111,7 @@ public abstract class EMFRepositoryFacade
     /**
      * @see org.andromda.core.repository.RepositoryFacade#readModel(java.lang.String[], java.lang.String[])
      */
-    public void readModel(
+    public final void readModel(
         String[] modelUris,
         String[] moduleSearchPaths)
     {
@@ -130,8 +140,8 @@ public abstract class EMFRepositoryFacade
                 }
             }
         }
-        resourceSet.setURIConverter(new EMFURIConverter(moduleSearchPathList));
-        if (modelUris != null && modelUris.length > 0)
+        this.resourceSet.setURIConverter(new EMFURIConverter(moduleSearchPathList));
+        if (modelUris.length > 0)
         {
             final int numberOfModelUris = modelUris.length;
             for (int ctr = 0; ctr < numberOfModelUris; ctr++)
@@ -196,6 +206,7 @@ public abstract class EMFRepositoryFacade
      */
     public void clear()
     {
-        model = null;
+        this.model = null;
+        this.resourceSet = this.createNewResourceSet();
     }
 }

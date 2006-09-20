@@ -339,7 +339,7 @@ public class MDRepositoryFacade
     /**
      * Sets the model access facade instance to be used with this repository.
      *
-     * @param modelAccessFacade
+     * @param modelAccessFacade the model access facade
      */
     public void setModelAccessFacade(Class modelAccessFacade)
     {
@@ -379,7 +379,7 @@ public class MDRepositoryFacade
     /**
      * Loads a metamodel into the repository.
      *
-     * @param repository MetaDataRepository
+     * @param metamodelUri the url to the meta-model
      * @return MofPackage for newly loaded metamodel
      * @throws CreationFailedException
      * @throws IOException
@@ -387,7 +387,7 @@ public class MDRepositoryFacade
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    private final MofPackage loadMetaModel(final URL metamodelUri)
+    private MofPackage loadMetaModel(final URL metamodelUri)
         throws Exception
     {
         long start = System.currentTimeMillis();
@@ -439,10 +439,7 @@ public class MDRepositoryFacade
         this.modelFacade = null;
     }
 
-    /**
-     * @see org.andromda.core.repository.RepositoryFacade#removeModel(java.lang.String)
-     */
-    private final void removeModel(final String modelUri)
+    private void removeModel(final String modelUri)
     {
         // remove the model from the repository (if there is one)
         RefPackage model = repository.getExtent(modelUri);
@@ -455,13 +452,13 @@ public class MDRepositoryFacade
     /**
      * Loads a model into the repository and validates the model against the given metaModel.
      *
-     * @param modelUri the URIs of the model
+     * @param modelUris the URIs of the model
      * @param moduleSearchPath the paths to search for shared modules.
      * @param metaModel meta model of model
      * @return populated model
      * @throws CreationFailedException unable to create model in repository
      */
-    private final RefPackage loadModel(
+    private RefPackage loadModel(
         final String[] modelUris,
         final String[] moduleSearchPath,
         final MofPackage metaModel)
@@ -484,18 +481,15 @@ public class MDRepositoryFacade
                         moduleSearchPath));
             try
             {
-                if (modelUris != null)
+                final int uriNumber = modelUris.length;
+                for (int ctr = 0; ctr < uriNumber; ctr++)
                 {
-                    final int uriNumber = modelUris.length;
-                    for (int ctr = 0; ctr < uriNumber; ctr++)
+                    final String uri = modelUris[ctr];
+                    if (uri != null)
                     {
-                        final String uri = modelUris[ctr];
-                        if (uri != null)
-                        {
-                            xmiReader.read(
-                                modelUris[ctr],
-                                model);
-                        }
+                        xmiReader.read(
+                            modelUris[ctr],
+                            model);
                     }
                 }
             }
@@ -521,14 +515,14 @@ public class MDRepositoryFacade
     /**
      * Loads a model into the repository and validates the model against the given metaModel.
      *
-     * @param modelStream an input stream containing the model.
-     * @param uri the URI of the model.
+     * @param modelStreams input streams containing the models.
+     * @param uris the URIs of the models.
      * @param moduleSearchPaths the paths to search for shared modules.
      * @param metaModel meta model of model
      * @return populated model
      * @throws CreationFailedException unable to create model in repository
      */
-    private final RefPackage loadModel(
+    private RefPackage loadModel(
         final InputStream[] modelStreams,
         final String[] uris,
         final String[] moduleSearchPaths,
@@ -545,24 +539,21 @@ public class MDRepositoryFacade
                         moduleSearchPaths));
             try
             {
-                if (modelStreams != null)
+                final int streamNumber = modelStreams.length;
+                for (int ctr = 0; ctr < streamNumber; ctr++)
                 {
-                    final int streamNumber = modelStreams.length;
-                    for (int ctr = 0; ctr < streamNumber; ctr++)
+                    final InputStream stream = modelStreams[ctr];
+                    String uri = null;
+                    if (uris != null)
                     {
-                        final InputStream stream = modelStreams[ctr];
-                        String uri = null;
-                        if (uris != null)
-                        {
-                            uri = uris[ctr];
-                        }
-                        if (stream != null)
-                        {
-                            xmiReader.read(
-                                stream,
-                                uri,
-                                model);
-                        }
+                        uri = uris[ctr];
+                    }
+                    if (stream != null)
+                    {
+                        xmiReader.read(
+                            stream,
+                            uri,
+                            model);
                     }
                 }
             }
@@ -587,7 +578,6 @@ public class MDRepositoryFacade
     /**
      * Constructs the model from the given <code>metaModel</code>.
      *
-     * @param modelUri the URI to the model (used as the extent name).
      * @param metaModel the meta model.
      * @return the package.
      * @throws CreationFailedException
@@ -621,7 +611,7 @@ public class MDRepositoryFacade
      * @param metaModel   meta model to search
      * @return MofPackage
      */
-    private final MofPackage findPackage(
+    private MofPackage findPackage(
         final String packageName,
         final ModelPackage metaModel)
     {

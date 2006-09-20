@@ -60,7 +60,7 @@ public class EMFURIConverter
     private static Logger logger = Logger.getLogger(EMFURIConverter.class);
 
     /**
-     * Overwridden to provide the normalization of uris given the module search paths.
+     * Overridden to provide the normalization of uris given the module search paths.
      *
      * @see org.eclipse.emf.ecore.resource.URIConverter#normalize(org.eclipse.emf.common.util.URI)
      */
@@ -80,20 +80,21 @@ public class EMFURIConverter
                     {
                         String searchPath = (String)iterator.next();
                         URI fileURI = EMFRepositoryFacadeUtils.createUri(ResourceUtils.normalizePath(searchPath));
-                        if (fileURI.lastSegment().equals(resourceName))
-                        {
-                            AndroMDALogger.info("referenced model --> '" + fileURI + "'");
-                            normalizedUri = fileURI;
-                            this.normalizedUris.put(
+                    	if (fileURI.lastSegment().equals(resourceName))
+                    	{
+                    		AndroMDALogger.info("referenced model --> '" + fileURI + "'");
+                    		normalizedUri = fileURI;
+                    		this.normalizedUris.put(
                                 uri,
                                 normalizedUri);
-                            break;
-                        }
+                    		break;
+                    	}
+
                         final String completePath = ResourceUtils.normalizePath(searchPath + '/' + resourceName);
 
                         try
                         {
-                            InputStream stream = null;
+                            InputStream stream;
                             URL url = ResourceUtils.toURL(completePath);
                             if (url != null)
                             {
@@ -129,13 +130,13 @@ public class EMFURIConverter
                         }
                     }
                 }
-
                 else
                 {
                     normalizedUri = (URI)this.normalizedUris.get(uri);
                 }
             }
         }
+
         return normalizedUri;
     }
 }

@@ -1,13 +1,5 @@
 package org.andromda.core.repository;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.common.ExceptionUtils;
@@ -17,6 +9,13 @@ import org.andromda.core.configuration.Namespaces;
 import org.andromda.core.namespace.PropertyDefinition;
 import org.andromda.core.transformation.Transformer;
 import org.apache.commons.lang.StringUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
