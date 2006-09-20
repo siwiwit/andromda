@@ -326,12 +326,25 @@
     </p>
     <p>
         You can download Eclipse from <a href="http://www.eclipse.org/downloads/">here</a>.
-        Double-click the downloaded file to start the installation. The recommended install
-        location for Eclipse is <code>C:\eclipse</code>. Once installed, set up a classpath
-        variable in Eclipse called <code>M2_REPO</code> as follows:
+        Follow the steps below to install and configure Eclipse:
     </p>
     <ol>
-        <li>Start Eclipse.</li>
+        <li>Unzip the downloaded archive to a suitable location on your hard drive. The recommended
+            location is <code>C:\eclipse</code>.</li>
+        <li>Edit the file <code>eclipse.ini</code> under <code>C:\eclipse</code> to increase
+            the memory available for Eclipse. Here are the suggested contents for this file:
+            <pre>
+-vmargs
+-Xms256m
+-Xmx512m
+-XX:PermSize=64m
+-XX:MaxPermSize=128m
+            </pre>
+        </li>
+        <li>Start Eclipse by double-clicking on <code>eclipse.exe</code>.</li>
+        <li>Eclipse asks for a folder where it can store your projects. This folder is called
+            the Eclipse workspace. Set the workspace to a location where you generally creates
+            projects, such as <code>C:\Projects</code>.</li>
         <li>Choose Preferences from the Window Menu.</li>
         <li>In the left pane, select Java > Build Path > Classpath Variables.</li>
         <li>Click New.</li>
