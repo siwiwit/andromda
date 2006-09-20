@@ -200,7 +200,6 @@ public class EntityLogicImpl
                         element,
                         1,
                         1);
-                logger.info("   " + this.getName() + " " + System.identityHashCode(this) + "        x created!!!");
                 VisibilityKind kind = VisibilityKind.PUBLIC_LITERAL;
                 if (visibility.equalsIgnoreCase("package"))
                 {
