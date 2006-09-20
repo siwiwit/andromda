@@ -55,14 +55,10 @@ public class GeneralizableElementFacadeLogicImpl
     protected java.lang.Object handleGetGeneralization()
     {
         Object parent = null;
-        Collection generalizations = ((Classifier)this.metaObject).getGeneralizations();
-        if (generalizations != null)
+        final Collection generalizations = ((Classifier)this.metaObject).getGeneralizations();
+        if (generalizations != null && !generalizations.isEmpty())
         {
-            Iterator iterator = generalizations.iterator();
-            if (iterator.hasNext())
-            {
-                parent = ((Generalization)iterator.next()).getGeneral();
-            }
+            parent = ((Generalization)generalizations.iterator().next()).getGeneral();
         }
         return parent;
     }
@@ -72,8 +68,7 @@ public class GeneralizableElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetSpecializations()
     {
-        Collection specializations = UmlUtilities.getSpecializations((Classifier)this.metaObject);
-        return specializations;
+        return UmlUtilities.getSpecializations((Classifier)this.metaObject);
     }
 
     /**

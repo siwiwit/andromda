@@ -1,12 +1,5 @@
 package org.andromda.metafacades.emf.uml2;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
@@ -35,6 +28,13 @@ import org.eclipse.uml2.Property;
 import org.eclipse.uml2.Stereotype;
 import org.eclipse.uml2.Type;
 import org.eclipse.uml2.VisibilityKind;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -66,7 +66,7 @@ public class EntityLogicImpl
         super.initialize();
 
         // if there are no identifiers on this entity, create and add one.
-        // enumeration don't have identifiers since they are not entities
+        // enumerations don't have identifiers since they are not entities
         if (!this.isIdentifiersPresent() && this.isAllowDefaultIdentifiers())
         {
             this.createIdentifier();
@@ -168,7 +168,20 @@ public class EntityLogicImpl
         final String type,
         final String visibility)
     {
-        org.eclipse.uml2.Class umlClass = (org.eclipse.uml2.Class)this.metaObject;
+        final org.eclipse.uml2.Class umlClass = (org.eclipse.uml2.Class)this.metaObject;
+
+        // if we auto-create entity identifiers it will only be on hierarchy roots,
+        // problems would arise when calls to #checkForAndAddForeignIdentifiers()
+        // navigate over associated entities, effectively initializing their facade instances:
+        // this results in subclasses having an identifier generated before their ancestors
+        // ideally the method mentioned above would not make use of facades but meta-classes only,
+        // if one is to refactor it that way this comment may be removed together with the line of code under it
+        //
+        // notice how the next line of code does not make use of facades, this is done on purpose in order
+        // to avoid using uninitialized facades
+        //
+        // (Wouter, Sept. 20 2006) also see other UML implementations
+        if (!umlClass.getGeneralizations().isEmpty()) return;
 
         if (umlClass.getAttribute(name) == null)
         {
@@ -187,6 +200,7 @@ public class EntityLogicImpl
                         element,
                         1,
                         1);
+                logger.info("   " + this.getName() + " " + System.identityHashCode(this) + "        x created!!!");
                 VisibilityKind kind = VisibilityKind.PUBLIC_LITERAL;
                 if (visibility.equalsIgnoreCase("package"))
                 {
@@ -842,7 +856,7 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#getAssociationEndsIdentifiers()
+     * @see org.andromda.metafacades.uml.Entity#getIdentifierAssociationEnds()
      */
     protected Collection handleGetIdentifierAssociationEnds() {
         Collection associationEnds = this.getAssociationEnds();
@@ -863,7 +877,7 @@ public class EntityLogicImpl
         identifiers =
             identifiers +
             (!this.getIdentifierAssociationEnds().isEmpty() ? this.getIdentifierAssociationEnds().size() : 0);
-        return (identifiers < 2) ? false : true;
+        return identifiers >= 2;
     }
 
 }

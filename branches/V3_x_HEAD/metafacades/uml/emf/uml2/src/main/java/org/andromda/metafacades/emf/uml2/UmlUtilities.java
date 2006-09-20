@@ -3,7 +3,6 @@ package org.andromda.metafacades.emf.uml2;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.metafacades.uml.ClassifierFacade;
-import org.andromda.metafacades.uml.StereotypeFacade;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;

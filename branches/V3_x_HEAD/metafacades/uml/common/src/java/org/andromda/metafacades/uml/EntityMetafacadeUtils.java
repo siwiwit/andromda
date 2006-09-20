@@ -227,34 +227,30 @@ public class EntityMetafacadeUtils
     }
 
     /**
-     * Retrieves the identifiers for the given <code>entity</code>. If
-     * <code>follow</code> is true then the inheritance hierachy will also be
-     * searched.
+     * Gets all identifiers for an entity. If 'follow' is true, and if
+     * no identifiers can be found on the entity, a search up the
+     * inheritance chain will be performed, and the identifiers from
+     * the first super class having them will be used.   If no
+     * identifiers exist, a default identifier will be created if the
+     * allowDefaultIdentifiers property is set to true.
      *
+     * @param entity the entity for which to retrieve the identifiers
      * @param follow a flag indicating whether or not the inheritance hiearchy
      *        should be followed
      * @return the collection of identifiers.
      */
     public static Collection getIdentifiers(
-        Entity entity,
-        boolean follow)
+        final Entity entity,
+        final boolean follow)
     {
-        Collection identifiers = entity.getAttributes();
+        final Collection identifiers = entity.getAttributes();
         MetafacadeUtils.filterByStereotype(
             identifiers,
             UMLProfile.STEREOTYPE_IDENTIFIER);
 
-        for (ClassifierFacade superClass = (ClassifierFacade)entity.getGeneralization();
-            superClass != null && identifiers.isEmpty() && follow;
-            superClass = (ClassifierFacade)superClass.getGeneralization())
-        {
-            if (superClass.hasStereotype(UMLProfile.STEREOTYPE_ENTITY))
-            {
-                Entity facade = (Entity)superClass;
-                identifiers.addAll(facade.getIdentifiers(follow));
-            }
-        }
-        return identifiers;
+        return identifiers.isEmpty() && follow && entity.getGeneralization() instanceof Entity
+            ? getIdentifiers((Entity)entity.getGeneralization(), follow)
+            : identifiers;
     }
 
     /**
@@ -273,10 +269,10 @@ public class EntityMetafacadeUtils
         String value = typeName;
         if (StringUtils.isNotEmpty(typeName))
         {
-            char beginChar = '(';
-            char endChar = ')';
-            int beginIndex = value.indexOf(beginChar);
-            int endIndex = value.indexOf(endChar);
+            final char beginChar = '(';
+            final char endChar = ')';
+            final int beginIndex = value.indexOf(beginChar);
+            final int endIndex = value.indexOf(endChar);
             if (beginIndex != -1 && endIndex != -1 && endIndex > beginIndex)
             {
                 String replacement = value.substring(

@@ -159,10 +159,25 @@ public class EntityLogicImpl
         final String type,
         final String visibility)
     {
+        final Classifier classifier = (Classifier)this.metaObject;
+
+        // if we auto-create entity identifiers it will only be on hierarchy roots,
+        // problems would arise when calls to #checkForAndAddForeignIdentifiers()
+        // navigate over associated entities, effectively initializing their facade instances:
+        // this results in subclasses having an identifier generated before their ancestors
+        // ideally the method mentioned above would not make use of facades but meta-classes only,
+        // if one is to refactor it that way this comment may be removed together with the line of code under it
+        //
+        // notice how the next line of code does not make use of facades, this is done on purpose in order
+        // to avoid using uninitialized facades
+        //
+        // (Wouter, Sept. 20 2006) also see other UML implementations
+        if (!classifier.getGeneralization().isEmpty()) return;
+
         // only create the identifier if an identifer with the name doesn't
         // already exist
         if (!UML14MetafacadeUtils.attributeExists(
-                this.metaObject,
+                classifier,
                 name))
         {
             final Attribute identifier =
@@ -175,7 +190,7 @@ public class EntityLogicImpl
             identifier.getStereotype().add(
                 UML14MetafacadeUtils.findOrCreateStereotype(UMLProfile.STEREOTYPE_IDENTIFIER));
 
-            ((Classifier)this.metaObject).getFeature().add(identifier);
+            classifier.getFeature().add(identifier);
         }
     }
 
@@ -786,11 +801,11 @@ public class EntityLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.Entity#identifierAssociationEnds()
+     * @see org.andromda.metafacades.uml.Entity#getIdentifierAssociationEnds()
      */
     protected Collection handleGetIdentifierAssociationEnds()
     {
-        Collection associationEnds = this.getAssociationEnds();
+        final Collection associationEnds = this.getAssociationEnds();
         if (associationEnds != null)
         {
             MetafacadeUtils.filterByStereotype(
@@ -809,6 +824,6 @@ public class EntityLogicImpl
         identifiers =
             identifiers +
             (!this.getIdentifierAssociationEnds().isEmpty() ? this.getIdentifierAssociationEnds().size() : 0);
-        return (identifiers < 2) ? false : true;
+        return identifiers >= 2;
     }
 }
