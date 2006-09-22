@@ -224,7 +224,6 @@ public class XmiZipArchiverMojo
                                 }
                                 extractedFile.renameTo(newFile);
                                 String contents = IOUtils.toString(new FileReader(newFile));
-                                getLog().info("Replace extensions?: " + replaceExtensions);
                                 if (replaceExtensions)
                                 {
                                     for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
