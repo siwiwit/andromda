@@ -38,7 +38,7 @@
 #if ($multiSelect)
 #set ($selectBoxType = "selectManyListbox")
 #end
-        <af:$selectBoxType id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" readOnly="$parameter.readOnly"#if ($multiSelect) size="$defaultMultiSelectSize"#end>
+        <af:$selectBoxType id="$propertyId" value="#{${formValuePropertyName}}" label="#{messages['$parameter.messageKey']}:" required="$parameter.required" readOnly="$parameter.readOnly"#if ($multiSelect) size="$defaultMultiSelectSize"#else unselectedLabel=""#end>
             <c:if test="${!empty ${backingListName}}">
                 <f:selectItems value="#{${backingListName}}" />
             </c:if>
