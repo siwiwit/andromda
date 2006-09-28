@@ -1,14 +1,10 @@
 package org.andromda.metafacades.uml14;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.NameMasker;
+import org.andromda.metafacades.uml.OperationFacade;
 import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
@@ -23,6 +19,11 @@ import org.omg.uml.foundation.datatypes.CallConcurrencyKind;
 import org.omg.uml.foundation.datatypes.CallConcurrencyKindEnum;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
 import org.omg.uml.foundation.datatypes.ScopeKindEnum;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  * Metaclass facade implementation.
@@ -601,8 +602,36 @@ public class OperationFacadeLogicImpl
 
 	public ParameterFacade handleGetReturnParameter()
     {
-        throw new java.lang.UnsupportedOperationException(
-                "ReturnResults is not a UML1.4 feature");
+        throw new java.lang.UnsupportedOperationException("ReturnResults is not a UML1.4 feature");
     }
 
+    protected boolean handleIsOverriding()
+    {
+        return this.getOverriddenOperation() != null;
+    }
+
+    protected Object handleGetOverriddenOperation()
+    {
+        OperationFacade overriddenOperation = null;
+
+        final String signature = this.getSignature(false);
+
+        ClassifierFacade ancestor = this.getOwner().getSuperClass();
+        while (overriddenOperation == null && ancestor != null)
+        {
+            for (Iterator operationIterator = ancestor.getOperations().iterator();
+                 overriddenOperation == null && operationIterator.hasNext();)
+            {
+                final OperationFacade ancestorOperation = (OperationFacade)operationIterator.next();
+                if (signature.equals(ancestorOperation.getSignature(false)))
+                {
+                    overriddenOperation = ancestorOperation;
+                }
+            }
+
+            ancestor = ancestor.getSuperClass();
+        }
+
+        return overriddenOperation;
+    }
 }

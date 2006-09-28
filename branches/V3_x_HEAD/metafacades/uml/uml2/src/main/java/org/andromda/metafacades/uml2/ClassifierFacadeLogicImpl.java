@@ -1,5 +1,8 @@
 package org.andromda.metafacades.uml2;
 
+import org.andromda.metafacades.uml.GeneralizableElementFacade;
+import org.andromda.metafacades.uml.ClassifierFacade;
+
 import java.util.Collection;
 
 
@@ -447,6 +450,12 @@ public class ClassifierFacadeLogicImpl
     }
 
     protected java.util.Collection handleGetAllAssociatedClasses()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+
+    protected Object handleGetSuperClass()
     {
         // TODO: add your implementation here!
         return null;

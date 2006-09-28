@@ -14,6 +14,7 @@ import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.metafacades.uml.GeneralizableElementFacade;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
@@ -62,7 +63,7 @@ public class ClassifierFacadeLogicImpl
             String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.CLASSIFIER_NAME_MASK));
         return NameMasker.mask(super.handleGetName(), nameMask);
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#isPrimitive()
      */
@@ -1010,5 +1011,11 @@ public class ClassifierFacadeLogicImpl
         }
 
         return associatedClasses;
+    }
+
+    protected Object handleGetSuperClass()
+    {
+        final GeneralizableElementFacade superClass = this.getGeneralization();
+        return superClass instanceof ClassifierFacade ? superClass : null;
     }
 }

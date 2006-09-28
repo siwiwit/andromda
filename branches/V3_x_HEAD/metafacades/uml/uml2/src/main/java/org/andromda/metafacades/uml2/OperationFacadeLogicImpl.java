@@ -295,7 +295,7 @@ public class OperationFacadeLogicImpl
         // TODO: add your implementation here!
         return null;
     }
-    
+
     /**
      * Get the UML upper multiplicity
      * Not implemented for UML1.4
@@ -316,7 +316,19 @@ public class OperationFacadeLogicImpl
         return 0;
     }
 
-	public ParameterFacade handleGetReturnParameter()
+    public ParameterFacade handleGetReturnParameter()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    protected boolean handleIsOverriding()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    protected Object handleGetOverriddenOperation()
     {
         // TODO Auto-generated method stub
         return null;

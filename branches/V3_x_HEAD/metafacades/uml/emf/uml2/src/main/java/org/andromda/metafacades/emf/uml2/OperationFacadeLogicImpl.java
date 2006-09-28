@@ -13,6 +13,7 @@ import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.metafacades.uml.OperationFacade;
 import org.andromda.translation.ocl.ExpressionKinds;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -661,5 +662,35 @@ public class OperationFacadeLogicImpl
         Collection returnResults = this.metaObject.getReturnResults();
         return (ParameterFacade) this.shieldedElement(returnResults.iterator()
                 .next());
+    }
+
+    protected boolean handleIsOverriding()
+    {
+        return this.getOverriddenOperation() != null;
+    }
+
+    protected Object handleGetOverriddenOperation()
+    {
+        OperationFacade overriddenOperation = null;
+
+        final String signature = this.getSignature(false);
+
+        ClassifierFacade ancestor = this.getOwner().getSuperClass();
+        while (overriddenOperation == null && ancestor != null)
+        {
+            for (Iterator operationIterator = ancestor.getOperations().iterator();
+                 overriddenOperation == null && operationIterator.hasNext();)
+            {
+                final OperationFacade ancestorOperation = (OperationFacade)operationIterator.next();
+                if (signature.equals(ancestorOperation.getSignature(false)))
+                {
+                    overriddenOperation = ancestorOperation;
+                }
+            }
+
+            ancestor = ancestor.getSuperClass();
+        }
+
+        return overriddenOperation;
     }
 }
