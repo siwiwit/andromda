@@ -6,7 +6,7 @@ package $managedBeansPackage;
 /**
  * Used to pass messages to the current faces context (this allows messages to live beyond
  * a request, which is very useful when redirecting).
- * 
+ *
  * @author Chad Brandon
  */
 public class $className
@@ -29,6 +29,8 @@ public class $className
                     {
                         javax.faces.context.FacesContext.getCurrentInstance().addMessage(null, (javax.faces.application.FacesMessage)iterator.next());
                     }
+                    final java.lang.reflect.Method method = form.getClass().getMethod("clearJsfMessages",null);
+                    method.invoke(form,null);
                 }
             }
             catch (final Exception exception)
@@ -37,7 +39,7 @@ public class $className
             }
         }
     }
-    
+
     /**
      * @see javax.faces.event.PhaseListener#afterPhase(javax.faces.event.PhaseEvent)
      */
