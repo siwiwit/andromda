@@ -501,7 +501,14 @@ public class ModelElementFacadeLogicImpl
                 // does this name match the argument tagged value name ?
                 if (UmlUtilities.doesTagValueNameMatch(name,taggedValue.getName()))
                 {
-                    values.addAll(taggedValue.getValues());
+                    //'tagged values' cam have arrays of strings as well as strings as values.
+                    Object value = taggedValue.getValue();
+                    if (value instanceof Collection)
+                    {
+                        values.addAll((Collection)taggedValue.getValue());                        
+                    } else {
+                        values.add(taggedValue.getValue());
+                    }
                 }
             }
         }
