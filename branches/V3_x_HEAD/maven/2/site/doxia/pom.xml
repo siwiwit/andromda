@@ -18,6 +18,7 @@
 			<plugin>
 				<groupId>org.codehaus.plexus</groupId>
 				<artifactId>plexus-maven-plugin</artifactId>
+				<version>1.2</version>
 				<executions>
 					<execution>
 						<goals>
