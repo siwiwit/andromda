@@ -18,6 +18,11 @@
             <artifactId>andromda-schema2xmi</artifactId>
             <version>${pom.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.andromda.maven.site</groupId>
+            <artifactId>andromda-site-plugins</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
