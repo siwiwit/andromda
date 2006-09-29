@@ -22,6 +22,7 @@
             <groupId>org.andromda.maven.site</groupId>
             <artifactId>andromda-site-plugins</artifactId>
             <version>${pom.version}</version>
+            <type>pom</type>
         </dependency>
     </dependencies>
     <build>
