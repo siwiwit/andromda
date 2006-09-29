@@ -15,6 +15,8 @@ import org.andromda.core.configuration.Model;
 import org.andromda.core.configuration.Repository;
 import org.apache.maven.plugin.MojoExecutionException;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Exports the MagicDraw project file to EMF XMI
  * (requires valid MagicDraw installation in MD_HOME, but
@@ -94,7 +96,7 @@ public class MagicDrawExportEMFXMIMojo
     		return;
     	}
     	
-    	String source = dest.replace(UML2EXT, MDEXT);
+    	String source = StringUtils.replace(dest, UML2EXT, MDEXT);
     	File destFile = new File(new URI(ResourceUtils.normalizePath(dest)));
     	File sourceFile = new File(new URI(ResourceUtils.normalizePath(source)));
     	if (sourceFile == null || !sourceFile.exists())
@@ -185,7 +187,7 @@ public class MagicDrawExportEMFXMIMojo
 
 	    	//check for running os
 	    	String os = System.getProperty("os.name");
-	    	if (os.contains("Windows"))
+	    	if (os.indexOf("Windows") != -1)
 	    	{
 	    		exportExt = ".exe";
 	    	}
