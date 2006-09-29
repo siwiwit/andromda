@@ -26,7 +26,9 @@
         <sourceDirectory>src/main/java</sourceDirectory>
     </build>
     <modules>
-        <module>doxia</module>
+        <!-- comment out until the issue with plexus-cdc is resolved 
+            <module>doxia</module>
+          -->
         <module>plugin</module>
         <module>skin</module>
     </modules>
