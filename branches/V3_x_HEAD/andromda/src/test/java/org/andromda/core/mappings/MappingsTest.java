@@ -208,7 +208,6 @@ public class MappingsTest
 
     public void testCyclicInheritanceLogicalMappingsException()
     {
-        // the order has been mixed up on purpose
         Mappings.addLogicalMappings(MappingsTest.class.getResource("TestMappingsCyclicA.xml"));
         Mappings.addLogicalMappings(MappingsTest.class.getResource("TestMappingsCyclicB.xml"));
 
