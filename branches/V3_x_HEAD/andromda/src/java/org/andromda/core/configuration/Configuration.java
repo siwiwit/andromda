@@ -285,6 +285,10 @@ public class Configuration
             {
                 mappingsLocations.addAll(Arrays.asList(locations[ctr].getResources()));
             }
+
+            // clear out any old cached mappings
+            Mappings.clearLogicalMappings();
+
             for (final Iterator iterator = mappingsLocations.iterator(); iterator.hasNext();)
             {
                 try

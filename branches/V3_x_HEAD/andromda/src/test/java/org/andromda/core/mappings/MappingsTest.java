@@ -223,5 +223,11 @@ public class MappingsTest
             assertTrue(message.indexOf("TestMappingsCyclicA") != -1);
             assertTrue(message.indexOf("TestMappingsCyclicB") != -1);
         }
+        finally
+        {
+            // clear out the cached entries so that the other tests won't fail because if the invalid
+            // ones we have entered here
+            Mappings.clearLogicalMappings();
+        }
     }
 }

@@ -229,10 +229,10 @@ public class Mappings
         // (top-level mappings first)
 
         final Map unprocessedMappings = new HashMap(logicalMappings);
-        final Map processedMappings = new LinkedHashMap(); // these will be initialized and in the good order
+        final Map processedMappings = new LinkedHashMap(); // these will be in the good order
 
         // keep looping until there are no more unprocessed mappings
-        // if nothing more can be processed but there are mappings left
+        // if nothing more can be processed but there are unprocessed mappings left
         // then we have an error (cyclic dependency or unknown parent mappings) which cannot be solved
         boolean processed = true;
         while (processed)
@@ -285,6 +285,14 @@ public class Mappings
         }
 
         logicalMappings.putAll(processedMappings);
+    }
+
+    /**
+     * Clears the entries from the logical mappings cache.
+     */
+    public static void clearLogicalMappings()
+    {
+        logicalMappings.clear();
     }
 
     /**
