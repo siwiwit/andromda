@@ -280,8 +280,8 @@ public class Mappings
         if (!unprocessedMappings.isEmpty())
         {
             throw new MappingsException(
-                "Logical mappings cannot be initialize due to invalid inheritance: " +
-                    "cyclic dependency or unknown parent mapping");
+                "Logical mappings cannot be initialized due to invalid inheritance: " +
+                    unprocessedMappings.keySet());
         }
 
         logicalMappings.putAll(processedMappings);

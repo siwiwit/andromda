@@ -3,6 +3,7 @@ package org.andromda.core.mappings;
 import junit.framework.TestCase;
 import org.andromda.core.mapping.Mapping;
 import org.andromda.core.mapping.Mappings;
+import org.andromda.core.mapping.MappingsException;
 
 import java.net.URL;
 import java.util.Collection;
@@ -203,5 +204,25 @@ public class MappingsTest
         final Mapping ddd = mappings.getMapping("datatype::ddd");
         assertNotNull(ddd);
         assertEquals("DDD", ddd.getTo());
+    }
+
+    public void testCyclicInheritanceLogicalMappingsException()
+    {
+        // the order has been mixed up on purpose
+        Mappings.addLogicalMappings(MappingsTest.class.getResource("TestMappingsCyclicA.xml"));
+        Mappings.addLogicalMappings(MappingsTest.class.getResource("TestMappingsCyclicB.xml"));
+
+        try
+        {
+            Mappings.initializeLogicalMappings();
+            fail("Excepted exception");
+        }
+        catch (MappingsException mappingsException)
+        {
+            final String message = mappingsException.getMessage();
+            assertTrue(message.startsWith("Logical mappings cannot be initialized due to invalid inheritance"));
+            assertTrue(message.indexOf("TestMappingsCyclicA") != -1);
+            assertTrue(message.indexOf("TestMappingsCyclicB") != -1);
+        }
     }
 }
