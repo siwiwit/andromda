@@ -214,7 +214,7 @@ public class MappingsTest
         try
         {
             Mappings.initializeLogicalMappings();
-            fail("Excepted exception");
+            fail("Expected exception");
         }
         catch (MappingsException mappingsException)
         {
