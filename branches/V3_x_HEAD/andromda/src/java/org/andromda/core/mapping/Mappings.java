@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.ResourceUtils;
@@ -28,6 +29,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * used. </p>
  *
  * @author Chad Brandon
+ * @author Wouter Zoons
  * @see org.andromda.core.common.XmlObjectFactory
  */
 public class Mappings
@@ -36,7 +38,7 @@ public class Mappings
      * Contains the set of Mapping objects keyed by the 'type' element defined
      * within the from type mapping XML file.
      */
-    private Map mappings = new LinkedHashMap();
+    private final Map mappings = new LinkedHashMap();
 
     /**
      * A static mapping containing all logical mappings currently available.
@@ -105,6 +107,7 @@ public class Mappings
     /**
      * Attempts to get any inherited mappings for the
      * given <code>mappings</code>.
+     * This method may only be called when the logical mappings have been initialized.
      *
      * @param mappings the mappings instance for which to
      *        get the inherited mappings.
@@ -114,6 +117,7 @@ public class Mappings
      *         or just the same mappings unchanged if the
      *         <code>mappings</code> doesn't extend anything.
      * @throws Exception if an exception occurs.
+     * @see #initializeLogicalMappings()
      */
     private static Mappings getInheritedMappings(
         final Mappings mappings,
@@ -144,9 +148,7 @@ public class Mappings
             }
             if (parentMappings != null)
             {
-                final Map allMappings = new LinkedHashMap(parentMappings.mappings);
-                allMappings.putAll(mappings.mappings);
-                mappings.mappings = allMappings;
+                mergeWithoutOverriding(parentMappings, mappings);
             }
         }
         return mappings;
@@ -221,16 +223,68 @@ public class Mappings
      */
     public static void initializeLogicalMappings()
     {
-        final Map initialized = new LinkedHashMap();
-        for (final Iterator nameIterator = logicalMappings.keySet().iterator(); nameIterator.hasNext();)
+        // !!! no calls to getInstance(..) must be made in this method !!!
+
+        // reorder the logical mappings so that they can safely be loaded
+        // (top-level mappings first)
+
+        final Map unprocessedMappings = new HashMap(logicalMappings);
+        final Map processedMappings = new LinkedHashMap(); // these will be initialized and in the good order
+
+        // keep looping until there are no more unprocessed mappings
+        // if nothing more can be processed but there are mappings left
+        // then we have an error (cyclic dependency or unknown parent mappings) which cannot be solved
+        boolean processed = true;
+        while (processed)
         {
-            final String name = (String)nameIterator.next();
-            final Mappings mappings = (Mappings)logicalMappings.get(name);
-            initialized.put(
-                name,
-                getInstance(mappings.getResource()));
+            // we need to have at least one entry processed before the routine qualifies for the next iteration
+            processed = false;
+
+            // we only process mappings if they have parents that have already been processed
+            for (final Iterator iterator = unprocessedMappings.entrySet().iterator(); iterator.hasNext();)
+            {
+                final Map.Entry logicalMapping = (Map.Entry)iterator.next();
+                final String name = (String)logicalMapping.getKey();
+                final Mappings mappings = (Mappings)logicalMapping.getValue();
+
+                if (mappings.extendsUri == null)
+                {
+                    // no parent mappings are always safe to add
+
+                    // move to the map of processed mappings
+                    processedMappings.put(name, mappings);
+                    // remove from the map of unprocessed mappings
+                    iterator.remove();
+                    // set the flag
+                    processed = true;
+                }
+                else if (processedMappings.containsKey(mappings.extendsUri))
+                {
+                    final Mappings parentMappings = (Mappings)processedMappings.get(mappings.extendsUri);
+                    if (parentMappings != null)
+                    {
+                        mergeWithoutOverriding(parentMappings, mappings);
+                    }
+
+                    // move to the map of processed mappings
+                    processedMappings.put(name, mappings);
+                    // remove from the map of unprocessed mappings
+                    iterator.remove();
+                    // set the flag
+                    processed = true;
+                }
+            }
+
         }
-        logicalMappings.putAll(initialized);
+
+        if (!unprocessedMappings.isEmpty())
+        {
+            throw new MappingsException(
+                "Logical mappings cannot be initialize due to invalid inheritance: " +
+                    "cyclic dependency or unknown parent mapping");
+        }
+
+        logicalMappings.putAll(processedMappings);
     }
 
     /**
@@ -320,6 +374,22 @@ public class Mappings
     }
 
     /**
+     * Reads the argument parent mappings and copies any mapping entries that do not already exist in this instance.
+     * This method preserves ordering and add new entries to the end.
+     *
+     * @param sourceMappings the mappings from which to read possible new entries
+     * @param targetMappings the mappings to which to store possible new entries from the sourceMappings
+     */
+    private static void mergeWithoutOverriding(Mappings sourceMappings, Mappings targetMappings)
+    {
+        final Map allMappings = new LinkedHashMap(targetMappings.mappings.size() + sourceMappings.mappings.size());
+        allMappings.putAll(sourceMappings.mappings);
+        allMappings.putAll(targetMappings.mappings);
+        targetMappings.mappings.clear();
+        targetMappings.mappings.putAll(allMappings);
+    }
+
+    /**
      * Returns the <code>to</code> mapping from a given <code>from</code>
      * mapping.
      *
@@ -350,7 +420,7 @@ public class Mappings
 
     /**
      * Adds a mapping to the globally available mappings, these are used by this
-     * class to instatiate mappings from logical names as opposed to physical
+     * class to instantiate mappings from logical names as opposed to physical
      * names.
      *
      * @param mappingsUri the Mappings URI to add to the globally available Mapping

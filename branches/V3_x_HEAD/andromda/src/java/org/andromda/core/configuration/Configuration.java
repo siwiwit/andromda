@@ -1,5 +1,10 @@
 package org.andromda.core.configuration;
 
+import org.andromda.core.common.ResourceUtils;
+import org.andromda.core.common.XmlObjectFactory;
+import org.andromda.core.mapping.Mappings;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -8,11 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-
-import org.andromda.core.common.ResourceUtils;
-import org.andromda.core.common.XmlObjectFactory;
-import org.andromda.core.mapping.Mappings;
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -271,17 +271,17 @@ public class Configuration
     }
 
     /**
-     * Loads all mappings from the specified mapping search locations If the location points to a directory the directory
+     * Loads all mappings from the specified mapping search locations.
+     * If the location points to a directory the directory
      * contents will be loaded, otherwise just the mapping itself will be loaded.
      */
     private void initializeMappings()
     {
-        final Collection mappingsLocations = new ArrayList();
-        if (mappingsLocations != null)
+        if (this.mappingsSearchLocations != null)
         {
+            final Collection mappingsLocations = new ArrayList();
             final Location[] locations = this.getMappingsSearchLocations();
-            final int locationNumber = locations.length;
-            for (int ctr = 0; ctr < locationNumber; ctr++)
+            for (int ctr = 0; ctr < locations.length; ctr++)
             {
                 mappingsLocations.addAll(Arrays.asList(locations[ctr].getResources()));
             }

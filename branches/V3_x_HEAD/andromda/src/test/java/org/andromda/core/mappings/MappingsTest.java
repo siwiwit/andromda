@@ -13,6 +13,7 @@ import java.util.Iterator;
  * Tests {@link org.andromda.core.mapping.Mappings)
  *
  * @author Chad Brandon
+ * @author Wouter Zoons
  */
 public class MappingsTest
     extends TestCase
@@ -172,5 +173,35 @@ public class MappingsTest
 
         final Collection mappingCollection = mappings.getMappings();
         assertEquals(0, mappingCollection.size());
+    }
+
+    public void testTransitivelyExtendingLogicalMappings()
+    {
+        // the order has been mixed up on purpose
+        Mappings.addLogicalMappings(MappingsTest.class.getResource("TestMappingsExtendsLevelA.xml"));
+        Mappings.addLogicalMappings(MappingsTest.class.getResource("TestMappingsExtendsLevelD.xml"));
+        Mappings.addLogicalMappings(MappingsTest.class.getResource("TestMappingsExtendsLevelC.xml"));
+        Mappings.addLogicalMappings(MappingsTest.class.getResource("TestMappingsExtendsLevelB.xml"));
+
+        Mappings.initializeLogicalMappings();
+
+        final Mappings mappings = Mappings.getInstance("TestMappingsExtendsLevelD");
+        assertNotNull(mappings);
+
+        final Mapping aaa = mappings.getMapping("datatype::aaa");
+        assertNotNull(aaa);
+        assertEquals("AAA", aaa.getTo());
+
+        final Mapping bbb = mappings.getMapping("datatype::bbb");
+        assertNotNull(bbb);
+        assertEquals("BBB", bbb.getTo());
+
+        final Mapping ccc = mappings.getMapping("datatype::ccc");
+        assertNotNull(ccc);
+        assertEquals("CCC", ccc.getTo());
+
+        final Mapping ddd = mappings.getMapping("datatype::ddd");
+        assertNotNull(ddd);
+        assertEquals("DDD", ddd.getTo());
     }
 }
