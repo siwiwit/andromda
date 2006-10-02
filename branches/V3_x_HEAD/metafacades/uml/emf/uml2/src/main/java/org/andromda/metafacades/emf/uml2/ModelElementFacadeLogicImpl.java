@@ -494,19 +494,25 @@ public class ModelElementFacadeLogicImpl
 
             // loop over the tagged values
             final Collection taggedValues = this.getTaggedValues();
-            for (final Iterator taggedValueIterator = taggedValues.iterator(); taggedValueIterator.hasNext();)
+            for (final Iterator taggedValueIterator = taggedValues.iterator(); taggedValueIterator
+                    .hasNext();)
             {
-                TaggedValueFacade taggedValue = (TaggedValueFacade)taggedValueIterator.next();
+                TaggedValueFacade taggedValue = (TaggedValueFacade) taggedValueIterator
+                        .next();
 
                 // does this name match the argument tagged value name ?
-                if (UmlUtilities.doesTagValueNameMatch(name,taggedValue.getName()))
+                if (UmlUtilities.doesTagValueNameMatch(name, taggedValue
+                        .getName()))
                 {
-                    //'tagged values' cam have arrays of strings as well as strings as values.
+                    // 'tagged values' cam have arrays of strings as well as
+                    // strings as values.
                     Object value = taggedValue.getValue();
                     if (value instanceof Collection)
                     {
-                        values.addAll((Collection)taggedValue.getValue());                        
-                    } else {
+                        values.addAll((Collection) taggedValue.getValue());
+                    }
+                    else
+                    {
                         values.add(taggedValue.getValue());
                     }
                 }
