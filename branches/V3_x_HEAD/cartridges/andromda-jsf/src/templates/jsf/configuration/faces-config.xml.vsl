@@ -36,7 +36,7 @@
     <managed-bean>
         <managed-bean-name>$controller.beanName</managed-bean-name>
         <managed-bean-class>$controller.fullyQualifiedImplementationName</managed-bean-class>
-        <managed-bean-scope>application</managed-bean-scope>
+        <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 #end
     <!-- global navigational-rules -->
