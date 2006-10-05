@@ -40,12 +40,14 @@
     <metafacade class="org.andromda.metafacades.uml2.EnumerationFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.EnumerationImpl"/>
         <property reference="enumerationNameMask"/>
+        <property reference="typeSafeEnumsEnabled"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml2.EnumerationFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.ClassImpl">
             <stereotype>ENUMERATION</stereotype>
         </mapping>
         <property reference="enumerationNameMask"/>
+        <property reference="typeSafeEnumsEnabled"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml2.AssociationClassFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.AssociationClassImpl"/>

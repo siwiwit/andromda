@@ -16,6 +16,7 @@ ${indent}<component name="$attribute.name" class="${attribute.type.packageName}.
 #renderPropertiesAndAssociations3($attribute.type $sqlPrefix "$indent    ")
 ${indent}</component>
 #else
+#if ($typeSafeEnumsEnabled == false)
 ${indent}<property name="$attribute.name" type="$fullyQualifiedPropertyType"#if($attribute.formula || $attribute.lazy) lazy="true"#end#if(!$attribute.insertEnabled) insert="false"#end#if(!$attribute.updateEnabled) update="false"#end#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
 #if($attribute.formula)
 ${indent}    <formula>$attribute.formula</formula>
@@ -23,6 +24,20 @@ ${indent}    <formula>$attribute.formula</formula>
 ${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end/>
 #end
 ${indent}</property>
+#else
+${indent}<property name="$attribute.name" #if($attribute.formula || $attribute.lazy) lazy="true"#end#if(!$attribute.insertEnabled) insert="false"#end#if(!$attribute.updateEnabled) update="false"#end#if ($attribute.xmlTagName) node="$attribute.xmlTagName"#end>
+#if($attribute.formula)
+${indent}    <formula>$attribute.formula</formula>
+#else
+${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end/>
+${indent}    <type name="${attribute.fullyQualifiedHibernateType}">
+#if ($attribute.type.enumeration)
+                 <param name="enumClassName">${attribute.type.fullyQualifiedName}</param>
+#end
+${indent}    </type>
+#end
+${indent}</property>
+#end
 #end
 #end
 #end

@@ -345,5 +345,14 @@
                the default Eclipse task tag.
             </documentation>
         </property>
+		<property name="typeSafeEnumsEnabled">
+			<default>false</default>
+			<documentation>
+				Indicates whether enumerations must be generated using a Java 5 type-safe enum or a 
+     			traditional enumeration-pattern class. Note that there are 2 prerequisites for this
+				property to work correctly: you must use a Java 5 compiler and you must use Hibernate 3
+				for Object-relational mapping.
+			</documentation>
+		</property>
     </propertyGroup>
 </properties>

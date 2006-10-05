@@ -1,5 +1,8 @@
 package org.andromda.metafacades.uml2;
 
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
+import org.apache.commons.lang.BooleanUtils;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.EnumerationFacade.
@@ -43,6 +46,15 @@ public class EnumerationFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.EnumerationFacade#getMemberVariables()
+     */
+    protected java.util.Collection handleGetMemberVariables()
+    {
+        // TODO: add your implementation here!
+        return null;
+    }
+    
+    /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getLiteralType()
      */
     protected java.lang.Object handleGetLiteralType()
@@ -50,5 +62,13 @@ public class EnumerationFacadeLogicImpl
         // TODO: add your implementation here!
         return null;
     }
-
+    
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationFacade#isTypeSafe()
+     */
+    protected boolean handleIsTypeSafe() 
+    {
+        return BooleanUtils.toBoolean(
+                String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.TYPE_SAFE_ENUMS_ENABLED)));
+    }
 }

@@ -115,6 +115,33 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationMember()
+     */
+    protected boolean handleIsEnumerationMember()
+    {
+        // TODO: put your implementation here.
+        return false;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleGetEnumerationLiteralParameters()
+     */
+    protected String handleGetEnumerationLiteralParameters()
+    {
+        // TODO: put your implementation here.
+        return null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationLiteralParametersExist()
+     */
+    protected boolean handleIsEnumerationLiteralParametersExist()
+    {
+        // TODO: put your implementation here.
+        return false;
+    }
+    
+    /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getGetterSetterTypeName()
      */
     protected java.lang.String handleGetGetterSetterTypeName()

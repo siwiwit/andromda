@@ -227,6 +227,37 @@
                 </documentation>
                 <value>@andromda.persistence.immutable</value>
             </element>
+			<element name="PERSISTENCE_ENUMERATION_MEMBER_VARIABLE">
+			    <documentation>
+			        Specifies whether the enumeration attribue is
+			        defined as a member variable rather than a literal.
+			        This should only be set if the attribute is NOT a
+			        literal.
+			    </documentation>
+			    <value>
+			        @andromda.persistence.enumeration.member.variable
+			    </value>
+			    <appliedOnElement>
+			        Enumeration Attribute
+			    </appliedOnElement>
+			    <allowedValues>
+			        <value>true</value>
+			        <value>false</value>
+			    </allowedValues>
+			</element>
+			<element name="PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS">
+			    <documentation>
+			        Specifies the enumeration literal parameters which are
+			        passed to the appropriate constructor when created.
+			        The parameters are comma separated.
+			    </documentation>
+			    <value>
+			        @andromda.persistence.enumeration.literal.parameters
+			    </value>
+			    <appliedOnElement>
+			        Enumeration Literal
+			    </appliedOnElement>
+			</element>
             <element name="PRESENTATION_CONTROLLER_USECASE">
                 <documentation>
                     The value should correspond to the use-case holding the activity graph

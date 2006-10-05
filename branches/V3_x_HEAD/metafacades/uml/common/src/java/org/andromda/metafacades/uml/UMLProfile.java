@@ -205,6 +205,18 @@ public class UMLProfile
         "PERSISTENCE_FOREIGN_KEY_CONSTRAINT_NAME");
 
     /**
+     * Used to assign an enumeration attribute as a member variable rather than a literal.
+     */
+    public static final String TAGGEDVALUE_PERSISTENCE_ENUMERATION_MEMBER_VARIABLE = profile.get(
+        "PERSISTENCE_ENUMERATION_MEMBER_VARIABLE");
+    
+    /**
+     * Used on an enumeration literal to define the enumeration literal parameters.
+     */
+    public static final String TAGGEDVALUE_PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS = profile.get(
+        "PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS");
+    
+    /**
      * Used to assign the controller to the activity (when it can not be assigned explicity).
      */
     public static final String TAGGEDVALUE_PRESENTATION_CONTROLLER_USECASE = profile.get("PRESENTATION_CONTROLLER_USECASE");

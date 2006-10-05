@@ -80,7 +80,23 @@
         overwrite="true">
         <modelElements variable="enumeration">
             <modelElement>
-                <type name="org.andromda.metafacades.uml.EnumerationFacade"/>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
+                	<property name="typeSafe">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+	
+	<template
+        path="templates/java/TypeSafeEnumeration.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="enumerations"
+        overwrite="true">
+        <modelElements variable="enumeration">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
+                	<property name="typeSafe"/>
+                </type>
             </modelElement>
         </modelElements>
     </template>

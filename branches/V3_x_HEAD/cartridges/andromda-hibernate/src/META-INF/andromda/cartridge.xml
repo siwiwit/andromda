@@ -62,10 +62,12 @@
     <!-- This property is only relevant for Hibernate 3 -->
     <property reference="hibernateQueryFactory"/>
     <property reference="toDoTag"/>
+	<property reference="typeSafeEnumsEnabled"/>
 
     <!-- cartridge-property merge-point-->
 
     <condition name="mapSubclassesInSeparateFile">$hibernateUtils.mapSubclassesInSeparateFile</condition>
+	<condition name="typeSafeEnumsEnabled">$typeSafeEnumsEnabled.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
@@ -187,11 +189,45 @@
             <modelElement>
                 <type name="org.andromda.metafacades.uml.EnumerationFacade">
                     <property name="version">3</property>
+					<property name="typeSafe">false</property>
                 </type>
             </modelElement>
         </modelElements>
     </template>
-
+	
+	<template
+        path="templates/hibernate3/hibernate.cfg.xml.vsl"
+        outputPattern="hibernate.cfg.xml"
+        outlet="configuration"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements variable="entities">
+            <modelElement>
+                <type name="org.andromda.cartridges.hibernate.metafacades.HibernateEntity">
+                    <property name="requiresMapping"/>
+                    <property name="version">3</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+	
+	<template
+        path="templates/hibernate3/usertypes/HibernateEnumType.vsl"
+        outputPattern="$generatedFile"
+        outlet="user-types"
+        overwrite="true"
+		outputToSingleFile="true"
+		outputOnEmptyElements="false">
+		<modelElements variable="enumeration">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
+                    <property name="version">3</property>
+					<property name="typeSafe">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
 
     <!-- common templates -->
     <template

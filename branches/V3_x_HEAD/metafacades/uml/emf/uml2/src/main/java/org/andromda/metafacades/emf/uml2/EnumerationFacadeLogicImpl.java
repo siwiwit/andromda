@@ -7,6 +7,8 @@ import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.uml2.Enumeration;
 import org.eclipse.uml2.NamedElement;
@@ -49,11 +51,61 @@ public class EnumerationFacadeLogicImpl
      */
     protected java.util.Collection handleGetLiterals()
     {
-        return this.metaObject instanceof Enumeration
+        // To Check: could be sufficient to return the collection of literals only
+        //           without filtering
+        Collection literals = (this.metaObject instanceof Enumeration
             ? ((Enumeration)this.metaObject).getOwnedLiterals()
-            : CollectionUtils.collect(this.getAttributes(), UmlUtilities.ELEMENT_TRANSFORMER);
+            : CollectionUtils.collect(this.getAttributes(), UmlUtilities.ELEMENT_TRANSFORMER));
+        
+        CollectionUtils.filter(
+            literals,
+            new Predicate()
+            {
+                public boolean evaluate(Object object)
+                {
+                    boolean isLiteral = true;
+                    final AttributeFacade attribute = (AttributeFacade)object; 
+                    if (attribute.isEnumerationMember())
+                    {
+                        isLiteral = false;
+                    }
+                    return isLiteral;
+                }
+            }
+        );
+        return literals;
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationFacade#getMemberVariables()
+     */
+    protected Collection handleGetMemberVariables()
+    {
+        // To Check: could be sufficient to return the collection of attributes only
+        //           without filtering
+        Collection variables = (this.metaObject instanceof Enumeration
+                ? ((Enumeration)this.metaObject).getOwnedLiterals()
+                : CollectionUtils.collect(this.getAttributes(), UmlUtilities.ELEMENT_TRANSFORMER));
+
+        CollectionUtils.filter(
+            variables,
+            new Predicate()
+            {
+                public boolean evaluate(Object object)
+                {
+                    boolean isMember = false;
+                    final AttributeFacade attribute = (AttributeFacade)object;
+                    if (attribute.isEnumerationMember())
+                    {
+                        isMember = true;
+                    }
+                    return isMember;
+                }
+            }
+        );
+        return variables;
+    }
+    
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getFromOperationSignature()
      */
@@ -70,6 +122,15 @@ public class EnumerationFacadeLogicImpl
         return signature.toString();
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationFacade#isTypeSafe()
+     */
+    protected boolean handleIsTypeSafe() 
+    {
+        return BooleanUtils.toBoolean(
+                String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.TYPE_SAFE_ENUMS_ENABLED)));
+    }
+    
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getFromOperationName()
      */

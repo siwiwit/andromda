@@ -260,6 +260,42 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationMember()
+     */
+    protected boolean handleIsEnumerationMember()
+    {
+        boolean isMemberVariable = false;
+        final String isMemberVariableAsString = (String)this.findTaggedValue(
+                UMLProfile.TAGGEDVALUE_PERSISTENCE_ENUMERATION_MEMBER_VARIABLE);
+        if (StringUtils.isNotEmpty(isMemberVariableAsString) && BooleanUtils.toBoolean(isMemberVariableAsString))
+        {
+            isMemberVariable = true;
+        }
+        return isMemberVariable;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleGetEnumerationLiteralParameters()
+     */
+    protected String handleGetEnumerationLiteralParameters()
+    {
+        return (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationLiteralParametersExist()
+     */
+    protected boolean handleIsEnumerationLiteralParametersExist()
+    {
+        boolean parametersExist = false;
+        if (StringUtils.isNotBlank(this.getEnumerationLiteralParameters()))
+        {
+            parametersExist = true;
+        }
+        return parametersExist;
+    }
+    
+    /**
      * @see org.andromda.metafacades.uml.AttributeFacade#isDefaultValuePresent()
      */
     public boolean handleIsDefaultValuePresent()
@@ -274,12 +310,21 @@ public class AttributeFacadeLogicImpl
      */
     protected String handleGetName()
     {
-        final String mask = String.valueOf(this.getConfiguredProperty(
-            this.getOwner() instanceof EnumerationFacade
-                ? UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK
-                : UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK ));
-
-        return NameMasker.mask(super.handleGetName(), mask);
+        String name = null;
+        if (this.isEnumerationMember())
+        {
+            name = super.handleGetName();
+        }
+        else
+        {
+            final String mask = String.valueOf(this.getConfiguredProperty(
+                this.getOwner() instanceof EnumerationFacade
+                    ? UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK
+                    : UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK ));
+    
+            name = NameMasker.mask(super.handleGetName(), mask);
+        }
+        return name;
     }
 
     /**

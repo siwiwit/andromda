@@ -133,6 +133,42 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationMember()
+     */
+    protected boolean handleIsEnumerationMember()
+    {
+        boolean isMemberVariable = false;
+        final String isMemberVariableAsString = (String)this.findTaggedValue(
+                UMLProfile.TAGGEDVALUE_PERSISTENCE_ENUMERATION_MEMBER_VARIABLE);
+        if (StringUtils.isNotEmpty(isMemberVariableAsString) && BooleanUtils.toBoolean(isMemberVariableAsString))
+        {
+            isMemberVariable = true;
+        }
+        return isMemberVariable;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleGetEnumerationLiteralParameters()
+     */
+    protected String handleGetEnumerationLiteralParameters()
+    {
+        return (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationLiteralParametersExist()
+     */
+    protected boolean handleIsEnumerationLiteralParametersExist()
+    {
+        boolean parametersExist = false;
+        if (StringUtils.isNotBlank(this.getEnumerationLiteralParameters()))
+        {
+            parametersExist = true;
+        }
+        return parametersExist;
+    }
+    
+    /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getGetterSetterTypeName()
      */
     protected java.lang.String handleGetGetterSetterTypeName()

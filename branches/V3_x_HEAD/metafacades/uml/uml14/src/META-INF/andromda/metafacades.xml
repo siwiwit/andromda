@@ -40,6 +40,7 @@
             <stereotype>ENUMERATION</stereotype>
         </mapping>
         <property reference="enumerationNameMask"/>
+        <property reference="typeSafeEnumsEnabled"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.AssociationClassFacadeLogicImpl">
         <mapping class="org.omg.uml.foundation.core.AssociationClass$Impl"/>

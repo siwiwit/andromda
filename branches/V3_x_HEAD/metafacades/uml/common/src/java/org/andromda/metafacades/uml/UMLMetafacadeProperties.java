@@ -224,4 +224,10 @@ public class UMLMetafacadeProperties
      */
     public static final String MANAGEABLE_ID_DISPLAY_STRATEGY = "manageableIdDisplayStrategy";
 
+    /**
+     * Indicates whether enumerations must be generated using a Java 5 type-safe enum or a 
+     * traditional enumeration-pattern class.
+     */
+	public static final String TYPE_SAFE_ENUMS_ENABLED = "typeSafeEnumsEnabled";
+
 }

@@ -5,6 +5,7 @@ import org.andromda.cartridges.hibernate.HibernateUtils;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 import org.andromda.metafacades.uml.NameMasker;
+import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
 
@@ -180,5 +181,38 @@ public class HibernateEntityAttributeLogicImpl
         }
         return (StringUtils.isBlank(tagName)) ? null : tagName;
     }
+
+	protected String handleGetFullyQualifiedHibernateType() {
+		final String fullyQualifiedName;
+
+        if (this.getType().isEnumeration())
+        {
+            fullyQualifiedName = "org.andromda.persistence.hibernate.usertypes.HibernateEnumType";
+        }
+        else
+        {
+            final String hibernateTypeMappingsUri = (String)this.getConfiguredProperty("hibernateTypeMappingsUri");
+            final TypeMappings mappings = TypeMappings.getInstance(hibernateTypeMappingsUri);
+
+            if (mappings == null)
+            {
+                fullyQualifiedName = this.getType().getFullyQualifiedName();
+            }
+            else
+            {
+                final String fullyQualifiedModelName = this.getType().getFullyQualifiedName(true);
+                if (mappings.getMappings().containsFrom(fullyQualifiedModelName))
+                {
+                    fullyQualifiedName = mappings.getTo(fullyQualifiedModelName);
+                }
+                else
+                {
+                    fullyQualifiedName = this.getType().getFullyQualifiedName();
+                }
+            }
+        }
+
+        return fullyQualifiedName; 
+	}
     
 }
