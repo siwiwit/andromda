@@ -87,7 +87,8 @@ public class MagicDrawExportEMFXMIMojo
 
     private void exportFile(String dest) throws Exception {
     	final String UML2EXT = ".uml2";
-    	final String MDEXT = ".xml.zip";
+    	final String MDEXT1 = ".xml.zip";
+        final String MDEXT2 = ".mdzip";
     	
     	//get the source file name from the destination name (we expect xml.zip)
     	if (!dest.endsWith(UML2EXT))
@@ -96,13 +97,19 @@ public class MagicDrawExportEMFXMIMojo
     		return;
     	}
     	
-    	String source = StringUtils.replace(dest, UML2EXT, MDEXT);
-    	File destFile = new File(new URI(ResourceUtils.normalizePath(dest)));
+    	String source = StringUtils.replace(dest, UML2EXT, MDEXT1);
     	File sourceFile = new File(new URI(ResourceUtils.normalizePath(source)));
-    	if (sourceFile == null || !sourceFile.exists())
+        if (sourceFile == null || !sourceFile.exists())
+        {
+            source = StringUtils.replace(dest, UML2EXT, MDEXT2);
+            sourceFile = new File(new URI(ResourceUtils.normalizePath(source)));
+        }
+        if (sourceFile == null || !sourceFile.exists())
     	{
     		throw new MojoExecutionException("Model file [" + source + "] does not exist");
     	}
+
+        File destFile = new File(new URI(ResourceUtils.normalizePath(dest)));
     	if (destFile == null || !destFile.exists())
     	{
     		getLog().debug("No old model file [" + dest + "] existing");
