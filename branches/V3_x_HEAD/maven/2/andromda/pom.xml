@@ -49,12 +49,6 @@
         </dependency>
         <dependency>
             <groupId>org.andromda.repositories</groupId>
-            <artifactId>andromda-repository-mdr-uml2</artifactId>
-            <version>${pom.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.andromda.repositories</groupId>
             <artifactId>andromda-repository-emf-uml2</artifactId>
             <version>${pom.version}</version>
             <scope>runtime</scope>
@@ -62,12 +56,6 @@
         <dependency>
             <groupId>org.andromda.metafacades</groupId>
             <artifactId>andromda-metafacades-uml14</artifactId>
-            <version>${pom.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.andromda.metafacades</groupId>
-            <artifactId>andromda-metafacades-uml2</artifactId>
             <version>${pom.version}</version>
             <scope>runtime</scope>
         </dependency>
