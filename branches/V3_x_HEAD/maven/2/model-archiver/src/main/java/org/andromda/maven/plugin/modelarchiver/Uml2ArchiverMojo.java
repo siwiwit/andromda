@@ -157,7 +157,6 @@ public class Uml2ArchiverMojo
                                         this.finalName + '.' + FileUtils.getExtension(extractedFile.toString()));
                                 extractedFile.renameTo(newFile);
                                 String contents = IOUtils.toString(new FileReader(newFile));
-                                getLog().info("Not doing stuff: " + replaceExtensions);
                                 if (replaceExtensions)
                                 {
                                     for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
