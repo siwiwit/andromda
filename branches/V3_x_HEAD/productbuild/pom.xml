@@ -197,14 +197,6 @@
                </configuration>
             </plugin>
 		</plugins>
-        <!-- required for deploying to remote repository using the maven-deploy-plugin -->
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>1.0-alpha-5</version>
-            </extension>
-        </extensions>
     </build>
     <modules>
         <module>andromda</module>
@@ -239,13 +231,13 @@
         </pluginRepository>
     </pluginRepositories>
     <prerequisites>
-        <maven>2.0.1</maven>
+        <maven>2.0.4</maven>
     </prerequisites>
     <distributionManagement>
         <repository>
             <id>andromda-repository</id>
             <name>AndroMDA Repository</name>
-            <url>scp://galaxy.andromda.org/var/www/andromda/maven2</url>
+            <url>/var/www/andromda/maven2</url>
         </repository>
     </distributionManagement>
 </project>
