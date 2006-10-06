@@ -26,6 +26,7 @@
             <groupId>org.andromda.metafacades</groupId>
             <artifactId>andromda-metafacades-uml</artifactId>
             <version>${pom.version}</version>
+            <type>xml.zip</type>
         </dependency>
         <dependency>
             <groupId>org.andromda.translationlibraries</groupId>
