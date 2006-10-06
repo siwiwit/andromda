@@ -20,5 +20,8 @@
         <property name="model">jar:file:${project.basedir}/src/main/uml/AnimalQuiz.xml.zip!/AnimalQuiz.xml</property>
         <property name="configurationUri">${project.basedir}/src/main/config/andromda.xml</property>
         <property name="databaseType">hypersonic</property>
+        <property name="parentPomGroupId">org.andromda</property>
+        <property name="parentPomArtifactId">andromda</property>
+        <property name="parentPomVersion">3.2-SNAPSHOT</property>
     </properties>
 </andromdapp>
