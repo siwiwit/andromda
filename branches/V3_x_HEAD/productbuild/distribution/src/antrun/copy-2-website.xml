@@ -40,16 +40,7 @@
 				<include name="andromda/**/*"/>
 			</fileset>
 		</copy>
-		<echo>
-  Copying M2 artifacts 
-			from ${maven2.repository}/org/andromda		
-			to ${website.dir}/maven2
-		</echo>
-		<copy todir="${website.dir}/maven2" preservelastmodified="true">
-			<fileset dir="${maven2.repository}">
-				<include name="org/andromda/**/*"/>
-			</fileset>
-		</copy>
+		<echo>Copying M2 distribution</echo>
 		<copy todir="${website.dir}/maven2/org/andromda/distributions" preservelastmodified="true">
 			<fileset dir="${distribution.output.directory}">
 				<include name="*.zip"/>
