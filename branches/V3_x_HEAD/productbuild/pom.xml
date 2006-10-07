@@ -237,7 +237,7 @@
         <repository>
             <id>andromda-repository</id>
             <name>AndroMDA Repository</name>
-            <url>/var/www/andromda/maven2</url>
+            <url>file:/var/www/andromda/maven2</url>
         </repository>
     </distributionManagement>
 </project>
