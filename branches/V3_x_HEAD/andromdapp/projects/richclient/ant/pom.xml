@@ -34,12 +34,22 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-hibernate</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>1.2.7</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-remoting</artifactId>
             <version>1.2.7</version>
         </dependency>
         <dependency>
@@ -53,6 +63,11 @@
             <version>1.2.7</version>
         </dependency>
         <dependency>
+            <groupId>ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
             <groupId>aopalliance</groupId> 
             <artifactId>aopalliance</artifactId> 
             <version>1.0</version>
@@ -62,10 +77,6 @@
             <artifactId>acegi-security</artifactId>
             <version>1.0.1</version>
             <exclusions>    
-                <exclusion>
-                   <groupId>org.springframework</groupId>
-                   <artifactId>spring-remoting</artifactId>
-                </exclusion>
                 <exclusion>
                    <groupId>org.springframework</groupId>
                    <artifactId>spring-context</artifactId>
