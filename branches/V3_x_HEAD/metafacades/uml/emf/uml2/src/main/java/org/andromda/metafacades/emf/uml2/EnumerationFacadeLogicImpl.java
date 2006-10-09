@@ -12,6 +12,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.uml2.Enumeration;
 import org.eclipse.uml2.NamedElement;
+import org.eclipse.uml2.EnumerationLiteral;
 
 import java.util.Collection;
 
@@ -53,7 +54,7 @@ public class EnumerationFacadeLogicImpl
     {
         // To Check: could be sufficient to return the collection of literals only
         //           without filtering
-        Collection literals = (this.metaObject instanceof Enumeration
+        final Collection literals = (this.metaObject instanceof Enumeration
             ? ((Enumeration)this.metaObject).getOwnedLiterals()
             : CollectionUtils.collect(this.getAttributes(), UmlUtilities.ELEMENT_TRANSFORMER));
         
@@ -63,13 +64,11 @@ public class EnumerationFacadeLogicImpl
             {
                 public boolean evaluate(Object object)
                 {
-                    boolean isLiteral = true;
-                    final AttributeFacade attribute = (AttributeFacade)object; 
-                    if (attribute.isEnumerationMember())
-                    {
-                        isLiteral = false;
-                    }
-                    return isLiteral;
+                    // evaluates to true in case it's a native literal
+                    // or an attribute which is not considered a regular member
+                    return
+                        (object instanceof EnumerationLiteral) ||
+                          (object instanceof AttributeFacade && !((AttributeFacade)object).isEnumerationMember());
                 }
             }
         );
@@ -83,7 +82,7 @@ public class EnumerationFacadeLogicImpl
     {
         // To Check: could be sufficient to return the collection of attributes only
         //           without filtering
-        Collection variables = (this.metaObject instanceof Enumeration
+        final Collection variables = (this.metaObject instanceof Enumeration
                 ? ((Enumeration)this.metaObject).getOwnedLiterals()
                 : CollectionUtils.collect(this.getAttributes(), UmlUtilities.ELEMENT_TRANSFORMER));
 
@@ -93,13 +92,9 @@ public class EnumerationFacadeLogicImpl
             {
                 public boolean evaluate(Object object)
                 {
-                    boolean isMember = false;
-                    final AttributeFacade attribute = (AttributeFacade)object;
-                    if (attribute.isEnumerationMember())
-                    {
-                        isMember = true;
-                    }
-                    return isMember;
+                    // evaluates to true in case it's NOT a native literal
+                    // but an attribute which considered as a regular member
+                    return object instanceof AttributeFacade && ((AttributeFacade)object).isEnumerationMember();
                 }
             }
         );
