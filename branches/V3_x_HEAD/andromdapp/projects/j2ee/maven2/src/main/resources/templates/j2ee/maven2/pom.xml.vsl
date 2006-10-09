@@ -44,7 +44,7 @@
 #if ($modelType.equals("uml1.4"))
             <dependency>
                 <groupId>org.andromda.profiles.uml14</groupId>
-    			<artifactId>andromda-profile</artifactId>
+                <artifactId>andromda-profile</artifactId>
                 <version>$andromdaVersion</version>
                 <type>xml.zip</type>
                 <scope>runtime</scope>
@@ -53,7 +53,7 @@
 #if ($modelType.equals("uml2"))
             <dependency>
                 <groupId>org.andromda.profiles.uml2</groupId>
-    			<artifactId>andromda-profile</artifactId>
+                <artifactId>andromda-profile</artifactId>
                 <version>$andromdaVersion</version>
                 <type>xml.zip</type>
                 <scope>runtime</scope>
@@ -62,7 +62,7 @@
 #if ($modelType.equals("emf-uml2"))
             <dependency>
                 <groupId>org.andromda.profiles.emf.uml2</groupId>
-    			<artifactId>andromda-profile-common</artifactId>
+                <artifactId>andromda-profile-common</artifactId>
                 <version>$andromdaVersion</version>
                 <type>uml2</type>
                 <scope>runtime</scope>
@@ -372,7 +372,7 @@
             <dependency>
                 <groupId>ehcache</groupId>
                 <artifactId>ehcache</artifactId>
-                <version>0.9</version>
+                <version>1.1</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
@@ -380,12 +380,12 @@
                 <artifactId>dom4j</artifactId>
                 <version>1.6.1</version>
                 <scope>runtime</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>xml-apis</groupId>
-						<artifactId>xml-apis</artifactId>
-					</exclusion>
-				</exclusions>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 #else
             <dependency>
