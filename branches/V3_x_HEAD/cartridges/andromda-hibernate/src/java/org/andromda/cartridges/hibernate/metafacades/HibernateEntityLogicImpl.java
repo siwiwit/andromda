@@ -173,6 +173,8 @@ public class HibernateEntityLogicImpl
         {
             inheritance = superEntity.getHibernateInheritanceStrategy();
         }
+        
+        inheritance = inheritance != null ? inheritance.toLowerCase() : null;
 
         if (StringUtils.isBlank(inheritance) || !inheritanceStrategies.contains(inheritance))
         {
