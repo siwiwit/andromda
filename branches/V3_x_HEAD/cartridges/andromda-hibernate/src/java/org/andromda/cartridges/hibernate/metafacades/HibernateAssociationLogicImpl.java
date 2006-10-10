@@ -122,10 +122,7 @@ public class HibernateAssociationLogicImpl
                     (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_ASSOCIATIONCACHE_DISTRIBUTED);
                 return Boolean.valueOf(StringUtils.trimToEmpty(entityCacheDistributed)).booleanValue();
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

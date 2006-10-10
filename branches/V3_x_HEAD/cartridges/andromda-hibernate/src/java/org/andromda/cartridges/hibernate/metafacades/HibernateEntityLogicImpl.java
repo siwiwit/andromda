@@ -380,6 +380,7 @@ public class HibernateEntityLogicImpl
             {
                 hibernateGeneratorClass = (String)this.getConfiguredProperty(DEFAULT_HIBERNATE_GENERATOR_CLASS);
             }
+            hibernateGeneratorClass = hibernateGeneratorClass.toLowerCase();
         }
         return StringUtils.trimToEmpty(hibernateGeneratorClass);
     }
@@ -592,10 +593,7 @@ public class HibernateEntityLogicImpl
                 (String)this.findTaggedValue(HibernateProfile.TAGGEDVALUE_HIBERNATE_ENTITYCACHE_DISTRIBUTED);
             return Boolean.valueOf(StringUtils.trimToEmpty(entityCacheDistributed)).booleanValue();
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**
