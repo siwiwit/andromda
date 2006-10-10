@@ -380,7 +380,7 @@ public class HibernateEntityLogicImpl
             {
                 hibernateGeneratorClass = (String)this.getConfiguredProperty(DEFAULT_HIBERNATE_GENERATOR_CLASS);
             }
-            hibernateGeneratorClass = hibernateGeneratorClass.toLowerCase();
+            hibernateGeneratorClass = hibernateGeneratorClass != null ? hibernateGeneratorClass.toLowerCase() : null;
         }
         return StringUtils.trimToEmpty(hibernateGeneratorClass);
     }
