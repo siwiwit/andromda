@@ -20,13 +20,13 @@
                     <uri>${model.uri}</uri>
 #if ($modelType.equals("uml1.4"))
                     <moduleSearchLocations>
-		 				<location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
-					</moduleSearchLocations>
+                         <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
+                    </moduleSearchLocations>
 #end
 #if ($modelType.equals("emf-uml2"))
                     <moduleSearchLocations>
-		 				<location patterns="**/*.uml2">${settings.localRepository}/org/andromda/profiles/emf/uml2</location>
-					</moduleSearchLocations>
+                         <location patterns="**/*.uml2">${settings.localRepository}/org/andromda/profiles/emf/uml2</location>
+                    </moduleSearchLocations>
 #end
                 </model>
             </models>
@@ -294,7 +294,7 @@
 #if ($ejb3)
                 <!-- Comment out the enumerations outlet for the java cartridge to avoid conflict
                      with the ejb3 cartridge.
-                <property name="enumerations">${common.generated.dir}</property> 
+                <property name="enumerations">${common.generated.dir}</property>
                 -->
 #else
                 <property name="enumerations">${common.generated.dir}</property>
@@ -315,7 +315,7 @@
                 <property name="decorators">${web.manual.java.dir}</property>
                 <property name="messages">${web.generated.dir}/WEB-INF/classes</property>
                 <property name="configuration">${web.generated.dir}/WEB-INF</property>
-                <!-- uncomment to enable web tier security 
+                <!-- uncomment to enable web tier security
                 <property name="securityRealm">${application.id}</property>
                  -->
 #if ($ejb)
@@ -344,7 +344,7 @@
                 <property name="configuration">${web.generated.dir}</property>
                 <property name="libraries">${web.generated.dir}</property>
                 <property name="custom-resources">${web.manual.dir}</property>
-                <!-- uncomment to enable web tier security 
+                <!-- uncomment to enable web tier security
                 <property name="securityRealm">${application.id}</property>
                  -->
 #if ($ejb)
