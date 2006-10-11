@@ -536,10 +536,10 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #set ($argumentValue = "${argument.name}.getValue()")
 #end
 #set ($setParameterOperation = "setParameter")
-#if ($useNamedParametersInQueries && ($argument.type.collectionType || $argument.type.arrayType))
+#if ($argument.type.collectionType || $argument.type.arrayType)
 #set ($setParameterOperation = "${setParameterOperation}List")
 #end
-#if ($finder.useNamedParameters || $argument.type.collectionType || $argument.type.arrayType)
+#if ($useNamedParametersInQueries || $finder.useNamedParameters || $argument.type.collectionType || $argument.type.arrayType)
             queryObject.${setParameterOperation}("$argument.name", $argumentValue);
 #else
             queryObject.${setParameterOperation}($count, $argumentValue);
