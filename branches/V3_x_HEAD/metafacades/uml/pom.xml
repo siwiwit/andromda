@@ -143,7 +143,6 @@
     <modules>
         <module>common</module>
         <module>uml14</module>
-        <module>uml2</module>
         <module>emf/uml2</module>
     </modules>
     <properties>
