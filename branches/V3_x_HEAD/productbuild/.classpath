@@ -30,8 +30,6 @@
 	<classpathentry kind="src" path="metafacades/uml/uml14/src/java"/>
 	<classpathentry kind="src" path="metafacades/uml/uml14/src/META-INF"/>
 	<classpathentry kind="src" path="metafacades/uml/uml14/target/src"/>
-	<classpathentry kind="src" path="metafacades/uml/uml2/src/main/java"/>
-	<classpathentry kind="src" path="metafacades/uml/uml2/target/src"/>
 	<classpathentry kind="src" path="repositories/emf/src/main/java"/>
 	<classpathentry kind="src" path="repositories/emf/uml2/src/main/java"/>
 	<classpathentry kind="src" path="repositories/emf/uml2/src/test/java"/>
