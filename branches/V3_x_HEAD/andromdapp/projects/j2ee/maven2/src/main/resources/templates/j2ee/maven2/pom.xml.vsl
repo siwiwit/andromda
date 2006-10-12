@@ -1259,6 +1259,7 @@
     <distributionManagement>
         <repository>
             <url>$distributionManagementRepositoryUrl</url>
+            <uniqueVersion>false</uniqueVersion>
         </repository>
     </distributionManagement>
 #end
