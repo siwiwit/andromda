@@ -246,6 +246,37 @@ public class AndroMDAppType
         }
         return this.templateEngine;
     }
+    
+    /**
+     * Stores the template engine exclusions.
+     */
+    private Map templateEngineExclusions = new LinkedHashMap();
+
+    /**
+     * Adds a template engine exclusion (these are the things that the template engine
+     * will exclude when processing templates)
+     *
+     * @param path the path to the resulting output
+     * @param patterns any patterns to which the conditions should apply
+     */
+    public void addTemplateEngineExclusion(
+        final String path,
+        final String patterns)
+    {
+        this.templateEngineExclusions.put(
+            path,
+            AndroMDAppUtils.stringToArray(patterns));
+    }
+    
+    /**
+     * Gets the template engine exclusions.
+     *
+     * @return the map of template engine exclusion paths and its patterns (if it has any defined).
+     */
+    final Map getTemplateEngineExclusions()
+    {
+        return this.templateEngineExclusions;
+    }
 
     /**
      * The 'yes' response.
@@ -358,7 +389,7 @@ public class AndroMDAppType
 
                     if (this.isWriteable(projectRelativePath))
                     {
-                        if (this.hasTemplateExtension(path))
+                        if (this.isValidTemplate(path))
                         {
                             final File outputFile =
                                 new File(
@@ -454,13 +485,6 @@ public class AndroMDAppType
     }
 
     /**
-     * The keeps track of the paths that have been evaluated and whether or not
-     * they are writable.
-     */
-
-    //private Map evaluatedPaths = new LinkedHashMap();
-
-    /**
      * Indicates whether or not this path is <em>writable</em>
      * based on the path and any output conditions that may be specified.
      *
@@ -482,7 +506,6 @@ public class AndroMDAppType
         Boolean writable = null;
 
         final Map evaluatedPaths = new LinkedHashMap();
-
         for (final Iterator iterator = this.outputConditions.iterator(); iterator.hasNext();)
         {
             final Conditions conditions = (Conditions)iterator.next();
@@ -548,28 +571,49 @@ public class AndroMDAppType
 
     /**
      * Indicates whether or not the given <code>path</code> matches at least
-     * one of the file extensions stored in the {@link #templateExtensions}.
+     * one of the file extensions stored in the {@link #templateExtensions}
+     * and isn't in the template engine exclusions.
      *
      * @param path the path to check.
      * @return true/false
      */
-    private boolean hasTemplateExtension(final String path)
+    private boolean isValidTemplate(final String path)
     {
-        boolean hasTemplateExtension = false;
-        if (this.templateExtensions != null)
+        boolean exclude = false;
+        final Map exclusions = this.getTemplateEngineExclusions();
+        for (final Iterator pathIterator = exclusions.keySet().iterator(); pathIterator.hasNext();)
         {
-            final int numberOfExtensions = this.templateExtensions.length;
-            for (int ctr = 0; ctr < numberOfExtensions; ctr++)
+            final String exclusionPath = (String)pathIterator.next();
+            if (path.startsWith(exclusionPath))
             {
-                final String extension = '.' + this.templateExtensions[ctr];
-                if (extension != null && path.endsWith(extension))
+                final String[] patterns = (String[])exclusions.get(exclusionPath);
+                exclude = ResourceUtils.matchesAtLeastOnePattern(
+                    exclusionPath,
+                    patterns);
+                if (exclude)
                 {
-                    hasTemplateExtension = true;
                     break;
                 }
             }
         }
-        return hasTemplateExtension;
+        boolean validTemplate = false;
+        if (!exclude)
+        {
+            if (this.templateExtensions != null)
+            {
+                final int numberOfExtensions = this.templateExtensions.length;
+                for (int ctr = 0; ctr < numberOfExtensions; ctr++)
+                {
+                    final String extension = '.' + this.templateExtensions[ctr];
+                    validTemplate = extension != null && path.endsWith(extension);
+                    if (validTemplate)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        return validTemplate;
     }
 
     /**

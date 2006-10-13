@@ -163,6 +163,15 @@
         </xs:complexType>
     </xs:element>
     <xs:element name="directory" type="xs:string"/>
+    <xs:element name="exclusion">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="patterns" type="xs:string" use="optional"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="documentation" type="xs:anyType"/>
     <xs:element name="from" type="xs:string"/>
     <xs:element name="instructions" type="xs:string">
@@ -346,6 +355,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="macrolibrary" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="exclusion" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="className" type="xs:string">
                 <xs:annotation>
