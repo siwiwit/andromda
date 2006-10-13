@@ -220,7 +220,7 @@ public class ModelElementFacadeLogicImpl
                             // its name
                             if (value instanceof EnumerationLiteralFacade)
                             {
-                                values.add(((EnumerationLiteralFacade)value).getValue());
+                                values.add(((EnumerationLiteralFacade)value).getValue(true));
                             }
                             else if (value instanceof String)
                             {

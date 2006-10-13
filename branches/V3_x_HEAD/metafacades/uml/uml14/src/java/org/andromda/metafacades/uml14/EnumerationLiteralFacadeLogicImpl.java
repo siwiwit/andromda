@@ -21,12 +21,11 @@ public class EnumerationLiteralFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
+     * @see org.andromda.metafacades.uml.ModelElementFacadeLogic#getName()
      */
     protected String handleGetName()
     {
-        final String mask = String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK));
-        return NameMasker.mask(super.handleGetName(), mask);
+        return this.getName(false);
     }
 
     /**
@@ -34,6 +33,28 @@ public class EnumerationLiteralFacadeLogicImpl
      */
     protected String handleGetValue()
     {
-        return StringUtils.trimToEmpty(this.getName());
+        return this.getValue(false);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getName(boolean)
+     */
+    protected String handleGetName(boolean modelName)
+    {
+        String name = super.handleGetName();
+        final String mask = String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK));
+        if (!modelName && StringUtils.isNotBlank(mask))
+        {
+            name = NameMasker.mask(name, mask);
+        }
+        return name;
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getValue(boolean)
+     */
+    protected String handleGetValue(boolean modelValue)
+    {
+        return StringUtils.trimToEmpty(this.getName(modelValue));
     }
 }

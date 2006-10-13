@@ -56,7 +56,7 @@ public class AttributeFacadeLogicImpl
      */
     public java.lang.String handleGetSetterName()
     {
-        return "set" + StringUtils.capitalize(metaObject.getName());
+        return "set" + StringUtils.capitalize(this.getName());
     }
 
     /**
