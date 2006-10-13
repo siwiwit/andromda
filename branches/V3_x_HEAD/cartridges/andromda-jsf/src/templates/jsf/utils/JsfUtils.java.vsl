@@ -147,4 +147,36 @@ public class $className
     {
         return TEMPORARY_DIRECTORY + session.getId() + SERIALIZED_FORM_FILE_NAME;
     }
+    
+    /**
+     * The pattern used for matching the message key.
+     */
+    private static final java.util.regex.Pattern messageKeyPattern = java.util.regex.Pattern.compile("$messageResourceKeyPattern");
+    
+    /**
+     * Attempts to extract a resource key from the given message based on a specified pattern.
+     *
+     * @param message the message from which to extract the key
+     * @return the retrieved string matching the pattern.
+     */
+    public static String extractMessageKey(String message)
+    {
+        String matched = null;
+        if (message != null)
+        {
+            final java.util.regex.Matcher matcher = messageKeyPattern.matcher(message.replaceAll("[\\s]+", " "));
+            try
+            {
+                if (matcher.matches())
+                {
+                    matched = matcher.group(3);
+                }
+            }
+            catch (java.lang.IllegalStateException ex)
+            {
+                // no match was found ignore
+            }
+        }
+        return matched;
+    }
 }

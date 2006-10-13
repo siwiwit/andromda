@@ -32,7 +32,7 @@
     <property reference="menuTheme"/>
     <property reference="applicationName"/>
     <property reference="formPopulatorName"/>
-    <property reference="exceptionHandlerPattern"/>
+    <property reference="messageResourceKeyPattern"/>
     <property reference="converterPattern"/>
     <property reference="actionFormKey"/>
     <property reference="patternMatchingExceptionHandler"/>
