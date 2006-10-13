@@ -1,6 +1,5 @@
 package org.andromda.metafacades.emf.uml2;
 
-import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.metafacades.uml.FilteredCollection;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
