@@ -416,7 +416,7 @@
         overwrite="true"
         outputCondition="securityEnabled"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="true">
         <modelElements>
             <modelElement variable="roles">
                 <type name="org.andromda.metafacades.uml.Role"/>
