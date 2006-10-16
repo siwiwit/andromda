@@ -109,6 +109,11 @@ public class Filters
     {
         return this.filters.isEmpty();
     }
+    
+    /**
+     * The double star constant.
+     */
+    private static final String DOUBLE_STAR = "**";
 
     /**
      * Provides matching of simple wildcards. (i.e. '*.java' etc.)
@@ -126,12 +131,11 @@ public class Filters
         if (value != null)
         {
             final String scopeOperator = MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR;
-            final String doubleStar = "**";
             pattern = StringUtils.replace(
                     pattern,
                     ".",
                     "\\.");
-            boolean matchAll = pattern.indexOf(doubleStar) != -1;
+            boolean matchAll = pattern.indexOf(DOUBLE_STAR) != -1;
             pattern = pattern.replaceAll(
                     "\\*{1}",
                     "\\.\\*");
@@ -139,7 +143,7 @@ public class Filters
             {
                 pattern = StringUtils.replace(
                         pattern,
-                        doubleStar,
+                        DOUBLE_STAR,
                         ".*");
             }
             try
