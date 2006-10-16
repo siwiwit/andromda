@@ -62,8 +62,7 @@ public class FrontEndFinalStateLogicImpl
         Object targetUseCase = null;
 
         // first check if there is a hyperlink from this final state to a
-        // use-case
-        // this works at least in MagicDraw
+        // use-case this works at least in MagicDraw
         final Object taggedValue = this.findTaggedValue(UMLProfile.TAGGEDVALUE_MODEL_HYPERLINK);
         if (taggedValue != null)
         {
@@ -76,7 +75,9 @@ public class FrontEndFinalStateLogicImpl
                 targetUseCase = taggedValue;
             }
         }
-        else// maybe the name points to a use-case ?
+        
+        // maybe the name points to a use-case ?
+        if (targetUseCase == null)
         {
             final String name = super.handleGetName();
             if (StringUtils.isNotBlank(name))

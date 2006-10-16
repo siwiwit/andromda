@@ -73,7 +73,9 @@ public class FrontEndFinalStateLogicImpl
                 targetUseCase = taggedValue;
             }
         }
-        else // maybe the name points to a use-case ?
+        
+        // maybe the name points to a use-case ?
+        if (targetUseCase == null) 
         {
             final String name = super.handleGetName();
             if (StringUtils.isNotBlank(name))
