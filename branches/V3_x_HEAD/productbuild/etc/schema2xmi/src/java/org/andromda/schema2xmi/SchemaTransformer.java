@@ -13,10 +13,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.engine.ModelProcessorException;
 import org.andromda.core.mapping.Mappings;
+import org.andromda.core.namespace.NamespaceComponents;
+import org.andromda.core.repository.Repositories;
 import org.andromda.core.repository.RepositoryFacade;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.lang.StringUtils;
@@ -145,21 +146,22 @@ public class SchemaTransformer
         ExceptionUtils.checkEmpty("jdbcUser", jdbcUser);
         ExceptionUtils.checkEmpty("jdbcPassword", jdbcPassword);
 
+        NamespaceComponents.instance().discover();
+        Repositories.instance().initialize();
+        this.repository = (RepositoryFacade)Repositories.instance().getImplementation(Schema2XMIGlobals.REPOSITORY_NAMESPACE_NETBEANSMDR);
+        if (repository == null)
+        {
+            throw new ModelProcessorException(
+                "No Repository could be found, please make sure you have a repository with namespace " + Schema2XMIGlobals.REPOSITORY_NAMESPACE_NETBEANSMDR +
+                " on your classpath");
+        }
+        this.repository.open();
+
         this.jdbcDriver = jdbcDriver;
         this.jdbcConnectionUrl = jdbcConnectionUrl;
         this.jdbcUser = jdbcUser;
         this.jdbcPassword = jdbcPassword;
         this.jdbcConnectionUrl = jdbcConnectionUrl;
-
-        this.repository = (RepositoryFacade)ComponentContainer.instance().findComponent(RepositoryFacade.class);
-
-        if (repository == null)
-        {
-            throw new ModelProcessorException(
-                "No Repository could be found, please make sure you have a " + RepositoryFacade.class.getName() +
-                " instance on your classpath");
-        }
-        repository.open();
     }
 
     /**
