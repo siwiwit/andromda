@@ -148,7 +148,7 @@ public class SchemaTransformer
 
         NamespaceComponents.instance().discover();
         Repositories.instance().initialize();
-        this.repository = (RepositoryFacade)Repositories.instance().getImplementation(Schema2XMIGlobals.REPOSITORY_NAMESPACE_NETBEANSMDR);
+        this.repository = Repositories.instance().getImplementation(Schema2XMIGlobals.REPOSITORY_NAMESPACE_NETBEANSMDR);
         if (repository == null)
         {
             throw new ModelProcessorException(
