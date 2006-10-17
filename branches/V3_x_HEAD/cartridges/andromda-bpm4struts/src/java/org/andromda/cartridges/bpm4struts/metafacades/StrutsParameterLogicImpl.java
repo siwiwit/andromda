@@ -511,6 +511,16 @@ public class StrutsParameterLogicImpl
 
         return required;
     }
+    
+    /**
+     * Override to not allow selectable parameters to be considered tables.
+     * 
+     * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsParameterLogic#isTable()
+     */
+    public boolean isTable()
+    {
+        return super.isTable() && !this.isSelectable();
+    }
 
     protected boolean handleIsAllGlobalTableActionsHaveSameParameter()
     {
