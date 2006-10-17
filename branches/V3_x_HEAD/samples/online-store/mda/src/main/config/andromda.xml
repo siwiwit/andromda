@@ -21,6 +21,7 @@
             <properties>
                 <property name="languageMappingsUri">Java</property>
                 <property name="wrapperMappingsUri">JavaWrapper</property>
+                <property name="overwrite">true</property>
             </properties>
         </namespace>
         <namespace name="java">
