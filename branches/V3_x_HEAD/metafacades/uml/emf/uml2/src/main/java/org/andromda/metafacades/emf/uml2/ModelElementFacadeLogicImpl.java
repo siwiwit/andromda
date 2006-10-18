@@ -277,9 +277,10 @@ public class ModelElementFacadeLogicImpl
         }
         if (!modelName)
         {
-            if (this.getLanguageMappings() != null)
+            final TypeMappings languageMappings = this.getLanguageMappings();
+            if (languageMappings != null)
             {
-                fullName = StringUtils.trimToEmpty(this.getLanguageMappings().getTo(fullName));
+                fullName = StringUtils.trimToEmpty(languageMappings.getTo(fullName));
 
                 // now replace the metafacade scope operators
                 // with the mapped scope operators

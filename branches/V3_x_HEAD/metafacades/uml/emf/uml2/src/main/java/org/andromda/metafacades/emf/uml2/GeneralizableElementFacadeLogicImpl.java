@@ -80,8 +80,7 @@ public class GeneralizableElementFacadeLogicImpl
         Collection generalizations = ((Classifier)this.metaObject).getGeneralizations();
         if (generalizations != null && !generalizations.isEmpty())
         {
-            Iterator iterator = generalizations.iterator();
-            while (iterator.hasNext())
+            for (final Iterator iterator = generalizations.iterator(); iterator.hasNext();)
             {
                 parents.add(((Generalization)iterator.next()).getGeneral());
             }
