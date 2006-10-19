@@ -435,7 +435,7 @@ public class MetafacadeLogicImpl
     /**
      * Used to sort metafacade generalizations by precedence.
      */
-    private static final class GeneralizationPrecedenceComparator
+    static final class GeneralizationPrecedenceComparator
         implements Comparator
     {
         public int compare(

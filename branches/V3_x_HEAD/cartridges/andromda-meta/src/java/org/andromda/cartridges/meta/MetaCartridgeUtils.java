@@ -42,12 +42,12 @@ public class MetaCartridgeUtils
     /**
      * Used to sort operations by <code>fullyQualifiedName</code>.
      */
-    private final static class FullyQualifiedNameComparator
+    final static class FullyQualifiedNameComparator
         implements Comparator
     {
         private final Collator collator = Collator.getInstance();
 
-        private FullyQualifiedNameComparator()
+        FullyQualifiedNameComparator()
         {
             collator.setStrength(Collator.PRIMARY);
         }
