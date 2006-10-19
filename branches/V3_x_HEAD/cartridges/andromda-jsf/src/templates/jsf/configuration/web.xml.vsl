@@ -19,13 +19,6 @@
         <param-value>*.xhtml</param-value>
     </context-param>
 
-    <context-param>
-        <param-name>facelets.LIBRARIES</param-name>
-        <param-value>
-            <!-- facelets tag-lib merge-point -->
-        </param-value>
-    </context-param>
-
     <!-- ADF Faces has its own ViewHandler, which is a "decorating"
          view handler - for example, it needs to wrap methods like renderView()
          to perform some extra pre- and post-handling.  Facelets, on the other
