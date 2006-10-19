@@ -835,7 +835,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetNavigableConnectingEnds()
     {
-        final Collection connectingEnds = this.getAssociationEnds();
+        final Collection connectingEnds = new ArrayList(this.getAssociationEnds());
         CollectionUtils.transform(
             connectingEnds,
             new Transformer()

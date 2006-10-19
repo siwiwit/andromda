@@ -1,10 +1,20 @@
 package org.andromda.metafacades.uml14;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.FilteredCollection;
+import org.andromda.metafacades.uml.GeneralizableElementFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.OperationFacade;
@@ -13,7 +23,6 @@ import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.metafacades.uml.GeneralizableElementFacade;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
@@ -24,15 +33,6 @@ import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.DataType;
 import org.omg.uml.foundation.core.Interface;
 import org.omg.uml.foundation.core.Operation;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -836,7 +836,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected Collection handleGetNavigableConnectingEnds()
     {
-        final Collection connectingEnds = this.getAssociationEnds();
+        final Collection connectingEnds = new ArrayList(this.getAssociationEnds());
         CollectionUtils.transform(
             connectingEnds,
             new Transformer()
