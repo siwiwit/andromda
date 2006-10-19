@@ -259,6 +259,7 @@
 #if ($webservice && !$jsr181Webservice)
         <namespace name="webservice">
             <properties>
+                <property name="soapStack">$soapStack</property>
                 <property name="axisVersion">$axisVersion</property>
                 <property name="schemaTypeMappingsUri">AxisWSDLMappings</property>
                 <property name="languageMappingsUri">AxisJavaMappings</property>
