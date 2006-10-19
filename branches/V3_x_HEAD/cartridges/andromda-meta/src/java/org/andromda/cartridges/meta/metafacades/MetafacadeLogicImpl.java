@@ -284,7 +284,6 @@ public class MetafacadeLogicImpl
         final Set declarationSet,
         final Metafacade facade)
     {
-        final String methodName = "MetafacadeFacadeLogicImpl.internalGetMethodDataForPSM";
         try
         {
             final String methodVisibility = "public";
@@ -351,11 +350,10 @@ public class MetafacadeLogicImpl
                 }
             }
         }
-        catch (Throwable th)
+        catch (final Throwable throwable)
         {
-            String errMsg = "Error performing " + methodName;
-            logger.error(errMsg, th);
-            throw new MetafacadeException(errMsg, th);
+            logger.error(throwable);
+            throw new MetafacadeException(throwable);
         }
     }
 
