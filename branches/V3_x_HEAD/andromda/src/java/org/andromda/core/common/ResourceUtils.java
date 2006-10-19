@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -285,6 +286,8 @@ public class ResourceUtils
     {
         return resource != null && resource.toString().startsWith(ARCHIVE_PREFIX);
     }
+    
+    private static final String URL_DECODE_ENCODING = "UTF-8";
 
     /**
      * If this <code>resource</code> is an archive file, it will return the resource as an archive.
@@ -309,7 +312,8 @@ public class ResourceUtils
                             0,
                             entryPrefixIndex);
                 }
-                archive = new ZipFile(new URL(resourceUrl).getFile());
+                resourceUrl = URLDecoder.decode(new URL(resourceUrl).getFile(), URL_DECODE_ENCODING); 
+                archive = new ZipFile(resourceUrl);
             }
             return archive;
         }
