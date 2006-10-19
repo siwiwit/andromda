@@ -260,7 +260,9 @@
         <namespace name="webservice">
             <properties>
                 <property name="soapStack">$soapStack</property>
+#if (!$xfire)
                 <property name="axisVersion">$axisVersion</property>
+#end
                 <property name="schemaTypeMappingsUri">AxisWSDLMappings</property>
                 <property name="languageMappingsUri">AxisJavaMappings</property>
                 <property name="defaultProvider">RPC</property>
