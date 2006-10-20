@@ -366,7 +366,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected java.util.Collection handleGetProperties()
     {
-        final Collection properties = this.getAttributes();
+        final Collection properties = new ArrayList(this.getAttributes());
         properties.addAll(this.getNavigableConnectingEnds());
         return properties;
     }
