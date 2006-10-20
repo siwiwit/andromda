@@ -3,6 +3,7 @@ package org.andromda.metafacades.uml;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.andromda.core.common.ExceptionUtils;
@@ -243,7 +244,7 @@ public class EntityMetafacadeUtils
         final Entity entity,
         final boolean follow)
     {
-        final Collection identifiers = entity.getAttributes();
+        final Collection identifiers = new ArrayList(entity.getAttributes());
         MetafacadeUtils.filterByStereotype(
             identifiers,
             UMLProfile.STEREOTYPE_IDENTIFIER);
