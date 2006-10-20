@@ -249,7 +249,7 @@ public class EntityLogicImpl
         String separator = "";
         buffer.append("(");
 
-        final Collection attributes = this.getAttributes();
+        final Collection attributes = new ArrayList(this.getAttributes());
 
         for (ClassifierFacade superClass = (ClassifierFacade)getGeneralization(); superClass != null && follow;
             superClass = (ClassifierFacade)superClass.getGeneralization())
@@ -507,7 +507,7 @@ public class EntityLogicImpl
      */
     protected Collection handleGetBusinessOperations()
     {
-        final Collection businessOperations = this.getImplementationOperations();
+        final Collection businessOperations = new ArrayList(this.getImplementationOperations());
         MetafacadeUtils.filterByNotType(
             businessOperations,
             EntityQueryOperation.class);
