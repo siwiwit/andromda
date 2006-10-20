@@ -95,7 +95,7 @@ public class EntityLogicImpl
      */
     protected java.util.Collection handleGetQueryOperations(final boolean follow)
     {
-        final Collection queryOperations = this.getOperations();
+        final Collection queryOperations = new ArrayList(this.getOperations());
 
         MetafacadeUtils.filterByType(
             queryOperations,
