@@ -858,7 +858,7 @@ public class EntityLogicImpl
      * @see org.andromda.metafacades.uml.Entity#getIdentifierAssociationEnds()
      */
     protected Collection handleGetIdentifierAssociationEnds() {
-        Collection associationEnds = this.getAssociationEnds();
+        Collection associationEnds = new ArrayList(this.getAssociationEnds());
         if (associationEnds != null)
         {
             MetafacadeUtils.filterByStereotype(

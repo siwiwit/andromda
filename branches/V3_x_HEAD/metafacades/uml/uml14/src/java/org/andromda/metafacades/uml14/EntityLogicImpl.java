@@ -805,7 +805,7 @@ public class EntityLogicImpl
      */
     protected Collection handleGetIdentifierAssociationEnds()
     {
-        final Collection associationEnds = this.getAssociationEnds();
+        final Collection associationEnds = new ArrayList(this.getAssociationEnds());
         if (associationEnds != null)
         {
             MetafacadeUtils.filterByStereotype(
