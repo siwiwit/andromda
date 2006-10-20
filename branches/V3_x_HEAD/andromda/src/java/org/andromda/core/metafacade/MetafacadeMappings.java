@@ -542,7 +542,7 @@ public class MetafacadeMappings
 
     /**
      * Finds the first mapping in the internal {@link #mappings} collection that
-     * matches the given predicate.
+     * matches the given condition.
      *
      * @param condition the condition
      * @return the found mapping instance
