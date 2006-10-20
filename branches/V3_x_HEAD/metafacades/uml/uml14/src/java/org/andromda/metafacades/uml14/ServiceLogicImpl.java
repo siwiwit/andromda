@@ -88,7 +88,7 @@ public class ServiceLogicImpl
      */
     protected Collection handleGetRoles()
     {
-        Collection roles = this.getTargetDependencies();
+        final Collection roles = new ArrayList(this.getTargetDependencies());
         CollectionUtils.filter(roles, new Predicate()
         {
             public boolean evaluate(final Object object)

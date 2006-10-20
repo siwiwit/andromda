@@ -1,5 +1,6 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
@@ -38,7 +39,7 @@ public class ServiceOperationLogicImpl
         {
             roles.addAll(((Service)this.getOwner()).getRoles());
         }
-        Collection operationRoles = this.getTargetDependencies();
+        final Collection operationRoles = new ArrayList(this.getTargetDependencies());
         CollectionUtils.filter(
             operationRoles,
             new Predicate()
