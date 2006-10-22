@@ -115,7 +115,15 @@ public class ModelElementFacadeLogicImpl
      */
     protected java.lang.String handleGetName()
     {
-        return ((NamedElement)this.metaObject).getName();
+        // In UML2, model elements need not have a name,
+        // only when they are an instance of NamedElement.
+        if (this.metaObject instanceof NamedElement)
+        {
+            NamedElement namedElement = (NamedElement) this.metaObject;
+            return namedElement.getName();
+            
+        }
+        return "";
     }
 
     /**
