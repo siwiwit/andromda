@@ -56,7 +56,7 @@
         <mapping class="org.eclipse.uml2.impl.AssociationClassImpl"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.AssociationEndFacadeLogicImpl">
-        <mapping class="org.andromda.metafacades.emf.uml2.AssociationEndImpl"></mapping>
+        <mapping class="org.andromda.metafacades.emf.uml2.AssociationEndImpl"/>
         <property reference="defaultMultiplicity"/>
         <property reference="pluralizeAssociationEndNames"/>
         <property reference="enableTemplating"/>
