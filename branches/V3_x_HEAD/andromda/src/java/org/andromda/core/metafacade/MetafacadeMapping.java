@@ -351,7 +351,7 @@ public class MetafacadeMapping
             mapping != null && this.getMetafacadeClass().equals(mapping.getMetafacadeClass()) &&
             this.getStereotypes().equals(mapping.getStereotypes()) && this.getContext().equals(mapping.getContext());
 
-        // - if they match and the mappingClassNames both non-null, verify they match
+        // - if they match and the mappingClassNames are both non-null, verify they match
         if (match && this.mappingClassName != null && mapping.mappingClassName != null)
         {
             match = this.getMappingClassName().equals(mapping.getMappingClassName());
