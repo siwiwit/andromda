@@ -2,7 +2,7 @@ package org.andromda.maven.plugin;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URI;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -97,19 +97,42 @@ public class MagicDrawExportEMFXMIMojo
     		return;
     	}
     	
+    	//check for first MD extension
+    	//(use URL.getFile() to get rid of spaces in file name)
     	String source = StringUtils.replace(dest, UML2EXT, MDEXT1);
-    	File sourceFile = new File(new URI(ResourceUtils.normalizePath(source)));
+		URL sourceUrl = null;
+		try {
+			sourceUrl = new URL(ResourceUtils.normalizePath(source));
+		} catch (MalformedURLException e) {
+			throw new MojoExecutionException("Invalid source model file name [" + source + "]: " + e.getMessage());
+		}
+
+    	//check for for second MD extension
+    	File sourceFile = new File(sourceUrl.getFile());
         if (sourceFile == null || !sourceFile.exists())
         {
             source = StringUtils.replace(dest, UML2EXT, MDEXT2);
-            sourceFile = new File(new URI(ResourceUtils.normalizePath(source)));
+    		try {
+    			sourceUrl = new URL(ResourceUtils.normalizePath(source));
+    		} catch (MalformedURLException e) {
+    			throw new MojoExecutionException("Invalid source model file name [" + source + "]: " + e.getMessage());
+    		}
         }
+        sourceFile = new File(sourceUrl.getFile());
         if (sourceFile == null || !sourceFile.exists())
     	{
     		throw new MojoExecutionException("Model file [" + source + "] does not exist");
     	}
 
-        File destFile = new File(new URI(ResourceUtils.normalizePath(dest)));
+        //check for destination (emf) file
+		URL destUrl = null;
+		try {
+			destUrl = new URL(ResourceUtils.normalizePath(dest));
+		} catch (MalformedURLException e) {
+			throw new MojoExecutionException("Invalid destination model file name [" + dest + "]: " + e.getMessage());
+		}
+		
+        File destFile = new File(destUrl.getFile());
     	if (destFile == null || !destFile.exists())
     	{
     		getLog().debug("No old model file [" + dest + "] existing");
@@ -134,12 +157,9 @@ public class MagicDrawExportEMFXMIMojo
     	
     	//perform the export via MagicDraw
     	getLog().info("Exporting model file [" + source + "] ...");
-    	String command = "\"" + magicDrawHome
-    			+ File.separator + "plugins"
-    			+ File.separator + "com.nomagic.magicdraw.emfuml2export"
-    			+ File.separator + "exportEMFXMI" + exportExt + "\""
-    			+ " project_file=" + sourceFile.getPath()
-    			+ " destination_dir=" + sourceFile.getParent()
+    	String command = "\"" + exporterPath + "\"" 
+    			+ " project_file=\"" + sourceFile.getPath() + "\""
+    			+ " destination_dir=\"" + sourceFile.getParent() + "\""
     			+ " load_all_modules=true";
     	Process process = Runtime.getRuntime().exec(command);
     	
@@ -172,6 +192,11 @@ public class MagicDrawExportEMFXMIMojo
 	 */
 	private String exportExt = "";
 
+    /**
+     * The full path name to the exporter plugin executeable
+     */
+    private String exporterPath;
+	
 	private void checkForMagicDraw() throws MojoExecutionException
 	{
 		if (!checkedMagicDraw)
@@ -197,6 +222,28 @@ public class MagicDrawExportEMFXMIMojo
 	    	if (os.indexOf("Windows") != -1)
 	    	{
 	    		exportExt = ".exe";
+	    	}
+	    	
+	    	//check for plugin name (has changed from MD 11.5 to 11.6)
+	    	String pluginName115 = "com.nomagic.magicdraw.emfuml2export";
+	    	String pluginName116 = "com.nomagic.magicdraw.emfuml2xmi";
+	    	exporterPath = magicDrawHome
+				+ File.separator + "plugins"
+				+ File.separator + pluginName116
+				+ File.separator + "exportEMFXMI" + exportExt;
+	    	File exporter = new File(exporterPath);
+	    	if (exporter == null || !exporter.exists())
+	    	{
+	    		exporterPath = magicDrawHome
+				+ File.separator + "plugins"
+				+ File.separator + pluginName115
+				+ File.separator + "exportEMFXMI" + exportExt;
+	    	}
+	    	
+	    	exporter = new File(exporterPath);
+	    	if (exporter == null || !exporter.exists())
+	    	{
+	    		throw new MojoExecutionException("No exporter plugin found in MagicDraw home directory " + magicDrawHome);
 	    	}
 
 	    	checkedMagicDraw = true;
