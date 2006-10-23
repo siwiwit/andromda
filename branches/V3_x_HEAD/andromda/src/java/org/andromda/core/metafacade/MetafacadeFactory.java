@@ -174,15 +174,15 @@ public class MetafacadeFactory
                 this.getLogger().debug("mappingObject stereotypes --> '" + stereotypes + "'");
             }
 
-            final MetafacadeMappings modelMetafacadeMappings = this.getModelMetafacadeMappings();
-            final MetafacadeMapping mapping =
-                modelMetafacadeMappings.getMetafacadeMapping(
+            MetafacadeMapping mapping = null;
+            if (metafacadeClass == null)
+            {
+                final MetafacadeMappings modelMetafacadeMappings = this.getModelMetafacadeMappings();
+                mapping = modelMetafacadeMappings.getMetafacadeMapping(
                     mappingObject,
                     this.getNamespace(),
                     context,
                     stereotypes);
-            if (metafacadeClass == null)
-            {
                 if (mapping != null)
                 {
                     metafacadeClass = mapping.getMetafacadeClass();
@@ -317,12 +317,11 @@ public class MetafacadeFactory
                 metafacadeClass);
         if (metafacade == null)
         {
-            MultiKey key = new MultiKey(mappingObject, metafacadeClass);
-            if (!this.metafacadesInCreation.containsKey(key))
+            final MultiKey key = new MultiKey(mappingObject, metafacadeClass);
+            if (!this.metafacadesInCreation.contains(key))
             {
-                this.metafacadesInCreation.put(
-                    key,
-                    metafacadeClass);
+                this.metafacadesInCreation.add(
+                    key);
                 metafacade = MetafacadeUtils.constructMetafacade(
                         metafacadeClass,
                         mappingObject,
@@ -364,7 +363,7 @@ public class MetafacadeFactory
      * Stores the metafacades being created, so that we don't get stuck in
      * endless recursion during creation.
      */
-    private final Map metafacadesInCreation = new LinkedHashMap();
+    private final Collection metafacadesInCreation = new ArrayList();
 
     /**
      * Returns a metafacade for a mappingObject, depending on its <code>mappingClass</code>.
