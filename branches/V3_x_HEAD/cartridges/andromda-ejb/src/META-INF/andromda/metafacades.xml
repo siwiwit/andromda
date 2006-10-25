@@ -44,12 +44,18 @@
         <property reference="jndiNamePrefix"/>
     </metafacade>
     <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBAssociationFacadeLogicImpl">
-        <mapping class="org.omg.uml.foundation.core.UmlAssociation$Impl">
-        </mapping>
+        <mapping class="org.omg.uml.foundation.core.UmlAssociation$Impl"/>
     </metafacade>
     <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBAssociationEndFacadeLogicImpl">
         <mapping>
             <property name="type.eJBEntityFacadeMetaType"/>
+        </mapping>
+    </metafacade>
+    <!-- we have 2 mappings for EJBAssociationEndFacade because because one or the other sometimes fails, but having
+         both works -->
+    <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBAssociationEndFacadeLogicImpl">
+        <mapping>
+            <context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacade</context>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBEntityAttributeFacadeLogicImpl">
