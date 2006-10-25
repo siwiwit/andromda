@@ -69,17 +69,17 @@ public class EMFURIConverter
         URI normalizedUri = super.normalize(uri);
         if (normalizedUri.equals(uri))
         {
-            final String resourceName = uri.toString().replaceAll(
-                    ".*(\\\\+|/)",
-                    "");
             if (this.moduleSearchPaths != null)
             {
-                if (!normalizedUris.containsKey(uri))
+                if (!this.normalizedUris.containsKey(uri))
                 {
+                    final String resourceName = uri.toString().replaceAll(
+                        ".*(\\\\+|/)",
+                        "");
                     for (final Iterator iterator = this.moduleSearchPaths.iterator(); iterator.hasNext();)
                     {
-                        String searchPath = (String)iterator.next();
-                        URI fileURI = EMFRepositoryFacadeUtils.createUri(ResourceUtils.normalizePath(searchPath));
+                        final String searchPath = (String)iterator.next();
+                        final URI fileURI = EMFRepositoryFacadeUtils.createUri(ResourceUtils.normalizePath(searchPath));
                     	if (fileURI.lastSegment().equals(resourceName))
                     	{
                     		AndroMDALogger.info("referenced model --> '" + fileURI + "'");
