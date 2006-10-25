@@ -18,7 +18,6 @@ import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.configuration.Namespace;
 import org.andromda.core.configuration.Namespaces;
 import org.andromda.core.namespace.BaseNamespaceComponent;
-import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -211,7 +210,8 @@ public class MetafacadeMappings
             {
                 for (final Iterator iterator = hierarchy.iterator(); iterator.hasNext() && mapping == null;)
                 {
-                    mapping = this.getMapping(
+                    mapping =
+                        this.getMapping(
                             (String)iterator.next(),
                             mappingObject,
                             context,
@@ -421,7 +421,8 @@ public class MetafacadeMappings
 
                                         // reset the "in process" mappings
                                         inProcessMappings.clear();
-                                        valid = MetafacadeUtils.propertiesValid(
+                                        valid =
+                                            MetafacadeUtils.propertiesValid(
                                                 metafacade,
                                                 mapping);
                                     }
@@ -494,7 +495,8 @@ public class MetafacadeMappings
 
                                     // reset the "in process" mappings
                                     inProcessMappings.clear();
-                                    valid = MetafacadeUtils.propertiesValid(
+                                    valid =
+                                        MetafacadeUtils.propertiesValid(
                                             metafacade,
                                             mapping);
                                 }
@@ -522,7 +524,8 @@ public class MetafacadeMappings
         // - if it's still null, try with the parent
         if (mapping == null && this.getParent() != null)
         {
-            mapping = this.getParent().getMapping(
+            mapping =
+                this.getParent().getMapping(
                     metaclassName,
                     mappingObject,
                     context,
@@ -634,11 +637,6 @@ public class MetafacadeMappings
      * The cache of interfaces for the given className in reversed order.
      */
     private final Map reversedInterfaceArrayCache = new HashMap();
-    
-    /**
-     * A cache for the mappings.
-     */
-    private final Map mappingCache = new HashMap();
 
     /**
      * Gets the interfaces for the given <code>className</code> in reverse
@@ -698,82 +696,72 @@ public class MetafacadeMappings
         if (this.getLogger().isDebugEnabled())
         {
             this.getLogger().debug(
-                "performing 'MetafacadeMappings.getMetafacadeMapping' with mappingObject '" + mappingObject + "', stereotypes '" +
-                stereotypes + "', namespace '" + namespace + "' and context '" + context + "'");
+                "performing 'MetafacadeMappings.getMetafacadeMapping' with mappingObject '" + mappingObject +
+                "', stereotypes '" + stereotypes + "', namespace '" + namespace + "' and context '" + context + "'");
         }
 
-        final MultiKey mappingKey = new MultiKey(mappingObject, context, stereotypes);
-        Map cache = (Map)this.mappingCache.get(namespace);
-        if (cache == null)
+        MetafacadeMapping mapping = null;
+
+        final MetafacadeMappings mappings = this.getNamespaceMappings(namespace);
+
+        // first try the namespace mappings
+        if (mappings != null)
         {
-            cache = new HashMap();
-            this.mappingCache.put(namespace, cache);
+            // - set the parent namespace
+            mappings.parentNamespace = this.getNamespace();
+            mapping =
+                mappings.getMapping(
+                    mappingObject,
+                    context,
+                    stereotypes);
         }
-        
-        MetafacadeMapping mapping = (MetafacadeMapping)cache.get(mappingKey);
 
+        // - if we've found a namespace mapping, try to get any shared mappings
+        //   that this namespace mapping may extend and copy over any property
+        //   references from the shared mapping to the namespace mapping.
+        if (mapping != null)
+        {
+            final Collection propertyReferences = mapping.getPropertyReferences();
+            final MetafacadeMapping defaultMapping = this.getMapping(
+                    mappingObject,
+                    context,
+                    stereotypes);
+            if (defaultMapping != null)
+            {
+                Collection defaultPropertyReferences = defaultMapping.getPropertyReferences();
+                final Class metafacadeInterface =
+                    this.metafacadeClasses.getMetafacadeClass(mapping.getMetafacadeClass().getName());
+                final Class defaultMetafacadeInterface =
+                    this.metafacadeClasses.getMetafacadeClass(defaultMapping.getMetafacadeClass().getName());
+                if (defaultMetafacadeInterface.isAssignableFrom(metafacadeInterface))
+                {
+                    mapping.addPropertyReferences(defaultPropertyReferences);
+
+                    // add the namespace property references back so
+                    // that the default ones don't override the
+                    // namespace specific ones.
+                    mapping.addPropertyReferences(propertyReferences);
+                }
+            }
+        }
+
+        // if the namespace mappings weren't found, try the default
         if (mapping == null)
         {
-            final MetafacadeMappings mappings = this.getNamespaceMappings(namespace);
-            // first try the namespace mappings
-            if (mappings != null)
-            {
-                // - set the parent namespace
-                mappings.parentNamespace = this.getNamespace();
-                mapping = mappings.getMapping(
-                        mappingObject,
-                        context,
-                        stereotypes);
-            }
-    
-            // - if we've found a namespace mapping, try to get any shared mappings
-            //   that this namespace mapping may extend and copy over any property
-            //   references from the shared mapping to the namespace mapping.
-            if (mapping != null)
-            {
-                final Collection propertyReferences = mapping.getPropertyReferences();
-                final MetafacadeMapping defaultMapping = this.getMapping(
-                        mappingObject,
-                        context,
-                        stereotypes);
-                if (defaultMapping != null)
-                {
-                    Collection defaultPropertyReferences = defaultMapping.getPropertyReferences();
-                    final Class metafacadeInterface =
-                        this.metafacadeClasses.getMetafacadeClass(mapping.getMetafacadeClass().getName());
-                    final Class defaultMetafacadeInterface =
-                        this.metafacadeClasses.getMetafacadeClass(defaultMapping.getMetafacadeClass().getName());
-                    if (defaultMetafacadeInterface.isAssignableFrom(metafacadeInterface))
-                    {
-                        mapping.addPropertyReferences(defaultPropertyReferences);
-    
-                        // add the namespace property references back so
-                        // that the default ones don't override the
-                        // namespace specific ones.
-                        mapping.addPropertyReferences(propertyReferences);
-                    }
-                }
-            }
-    
-            // if the namespace mappings weren't found, try the default
-            if (mapping == null)
-            {
-                if (this.getLogger().isDebugEnabled())
-                {
-                    this.getLogger().debug("namespace mapping not found --> finding default");
-                }
-                mapping = this.getMapping(
-                        mappingObject,
-                        context,
-                        stereotypes);
-            }
-    
             if (this.getLogger().isDebugEnabled())
             {
-                this.getLogger().debug("found mapping --> '" + mapping + "'");
+                this.getLogger().debug("namespace mapping not found --> finding default");
             }
-            
-           cache.put(mappingKey, mapping);
+            mapping =
+                this.getMapping(
+                    mappingObject,
+                    context,
+                    stereotypes);
+        }
+
+        if (this.getLogger().isDebugEnabled())
+        {
+            this.getLogger().debug("found mapping --> '" + mapping + "'");
         }
         return mapping;
     }
@@ -1207,7 +1195,6 @@ public class MetafacadeMappings
         this.mappingsByMetafacadeClass.clear();
         this.contextHierachyCache.clear();
         this.reversedInterfaceArrayCache.clear();
-        this.mappingCache.clear();
         for (final Iterator iterator = this.modelMetafacadeMappings.values().iterator(); iterator.hasNext();)
         {
             final MetafacadeMappings metafacadeMappings = (MetafacadeMappings)iterator.next();
