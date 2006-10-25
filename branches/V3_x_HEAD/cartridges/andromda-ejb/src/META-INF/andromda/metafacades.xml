@@ -43,9 +43,7 @@
         <property reference="sqlMappingsUri"/>
         <property reference="jndiNamePrefix"/>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBAssociationFacadeLogicImpl">
-        <mapping class="org.omg.uml.foundation.core.UmlAssociation$Impl"/>
-    </metafacade>
+    <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBAssociationFacadeLogicImpl"/>
     <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBAssociationEndFacadeLogicImpl">
         <mapping>
             <property name="type.eJBEntityFacadeMetaType"/>
