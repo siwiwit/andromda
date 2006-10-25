@@ -37,7 +37,7 @@ public class EMFURIConverter
         this.moduleSearchPaths = moduleSearchPaths;
         if (logger.isDebugEnabled())
         {
-            for (Iterator pathIterator = this.moduleSearchPaths.iterator(); pathIterator.hasNext();)
+            for (final Iterator pathIterator = this.moduleSearchPaths.iterator(); pathIterator.hasNext();)
             {
                 logger.debug("Model search path:" + pathIterator.next());
             }
@@ -74,21 +74,21 @@ public class EMFURIConverter
                 if (!this.normalizedUris.containsKey(uri))
                 {
                     final String resourceName = uri.toString().replaceAll(
-                        ".*(\\\\+|/)",
-                        "");
+                            ".*(\\\\+|/)",
+                            "");
                     for (final Iterator iterator = this.moduleSearchPaths.iterator(); iterator.hasNext();)
                     {
                         final String searchPath = (String)iterator.next();
                         final URI fileURI = EMFRepositoryFacadeUtils.createUri(ResourceUtils.normalizePath(searchPath));
-                    	if (fileURI.lastSegment().equals(resourceName))
-                    	{
-                    		AndroMDALogger.info("referenced model --> '" + fileURI + "'");
-                    		normalizedUri = fileURI;
-                    		this.normalizedUris.put(
+                        if (fileURI.lastSegment().equals(resourceName))
+                        {
+                            AndroMDALogger.info("referenced model --> '" + fileURI + "'");
+                            normalizedUri = fileURI;
+                            this.normalizedUris.put(
                                 uri,
                                 normalizedUri);
-                    		break;
-                    	}
+                            break;
+                        }
 
                         final String completePath = ResourceUtils.normalizePath(searchPath + '/' + resourceName);
 
@@ -128,6 +128,15 @@ public class EMFURIConverter
                                 "Caught exception in EMFURIConverter",
                                 exception);
                         }
+                    }
+
+                    // - if the normalized URI isn't part of the module search path,
+                    //   still store it so we don't continue to look it up each time (which is really slow)
+                    if (!this.normalizedUris.containsKey(uri))
+                    {
+                        this.normalizedUris.put(
+                            uri,
+                            normalizedUri);
                     }
                 }
                 else
