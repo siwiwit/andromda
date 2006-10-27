@@ -39,22 +39,6 @@
         <property reference="defaultEntityDiscriminatorColumn"/>
         <property reference="defaultEntityDiscriminatorType"/>
     </metafacade>
-    <!-- we have 2 mappings for HibernateAssociationEnd because because one or the other sometimes fails, but having
-         both works -->
-    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEndLogicImpl">
-        <mapping>
-            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
-        </mapping>
-        <property reference="hibernateAssociationEndOuterJoin"/>
-        <property reference="listTypeImplementation"/>
-        <property reference="setTypeImplementation"/>
-        <property reference="mapTypeImplementation"/>
-        <property reference="bagTypeImplementation"/>
-        <property reference="specificCollectionInterfaces"/>
-        <property reference="defaultCollectionInterface"/>
-        <property reference="associationEndCollectionIndexName"/>
-        <property reference="associationEndCollectionIndexType"/>
-    </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEndLogicImpl">
         <mapping>
             <property name="type.hibernateEntityMetaType"/>

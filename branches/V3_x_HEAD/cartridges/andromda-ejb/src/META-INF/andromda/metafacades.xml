@@ -56,13 +56,6 @@
             <property name="type.eJBEntityFacadeMetaType"/>
         </mapping>
     </metafacade>
-    <!-- we have 2 mappings for EJBAssociationEndFacade because because one or the other sometimes fails, but having
-         both works -->
-    <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBAssociationEndFacadeLogicImpl">
-        <mapping>
-            <context>org.andromda.cartridges.ejb.metafacades.EJBEntityFacade</context>
-        </mapping>
-    </metafacade>
     <metafacade class="org.andromda.cartridges.ejb.metafacades.EJBEntityAttributeFacadeLogicImpl">
         <mapping>
             <property name="owner.eJBEntityFacadeMetaType"/>
