@@ -59,28 +59,24 @@
                 </p>
             </subsection>
             <subsection name="Custom Resources">
-                <p>
-                    <em>The <code>custom-resources.properties</code> file is no longer generated,
-                        if you want your own resource messages to be displayed
-                        you will need to make use of the merge point inside the generated resource bundle, as explained
-                        in this section.
-                    </em>
+                <p class="highlight">
+                    If you have generated your AndroMDA project using <code>andromdapp:generate</code> then the following
+                    will have already been configured, you may skip this section.
                 </p>
                 <p>
-                    In order to do just that you will need to create your own resource bundle with your custom set of
-                    messages and put it somewhere in your source tree, for example in
-                    <code>/web/src/properties/custom.properties</code>.
+                    In order to make use of custom message properties you will need to create your own resource bundle 
+                    with your custom set of messages and put it somewhere in your source tree, for example in
+                    <code>/web/src/main/properties/custom.properties</code>.
                 </p>
                 <p>
-                    Next, tell AndroMDA to merge this file into the generated resource bundle, if you generated your
-                    project using <code>andromdapp:generate</code> it is sufficient to add the following to
-                    <code>/mda/conf/mappings/Bpm4StrutsMergeMappings.xml</code>:
+                    Next, tell AndroMDA to merge this file into the generated resource bundle, 
+                    it is sufficient to add the following to <code>/mda/src/main/config/mappings/WebMergeMappings.xml</code>:
                 </p>
 <source language="xml"><!--
     <mapping>
         <from><![CDATA[# custom-messages merge-point]]></from>
         <to>
-            <path>../../../web/src/properties/custom.properties</path>
+            <path>../../../web/src/main/properties/custom.properties</path>
         </to>
     </mapping>
 --></source>
