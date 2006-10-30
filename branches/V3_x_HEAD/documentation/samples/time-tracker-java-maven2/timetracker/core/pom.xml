@@ -60,10 +60,13 @@
             <groupId>jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
+        <!-- commented out because the groovy jar does not have a pom and it makes maven fail -->
+        <!--
         <dependency>
             <groupId>org.andromda</groupId>
             <artifactId>andromda-script-wrappers</artifactId>
         </dependency>
+        -->
     </dependencies>
     <build>
         <plugins>
