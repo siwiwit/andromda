@@ -161,17 +161,17 @@
     </security-constraint>
 #end
 #end
-#if ($securityEnabled)
+    <!-- security-constraint merge-point -->
     <login-config>
         <auth-method>BASIC</auth-method>
         <realm-name>$securityRealm</realm-name>
     </login-config>
-#end
 #set ($allRoles = $webServiceUtils.getAllRoles($services))
 #foreach ($role in $allRoles)
     <security-role>
         <role-name>$role.name</role-name>
     </security-role>
 #end
+    <!-- security-role merge-point -->
 #end
 </web-app>
