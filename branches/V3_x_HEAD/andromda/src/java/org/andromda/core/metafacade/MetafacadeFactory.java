@@ -322,16 +322,24 @@ public class MetafacadeFactory
             {
                 this.metafacadesInCreation.add(
                     key);
-                metafacade = MetafacadeUtils.constructMetafacade(
-                        metafacadeClass,
-                        mappingObject,
-                        context);
-                this.metafacadesInCreation.remove(key);
-                if (mapping != null)
+                if (mapping != null && mapping.isContextRoot())
                 {
+                    metafacade = MetafacadeUtils.constructMetafacade(
+                            metafacadeClass,
+                            mappingObject,
+                            null);
                     // set whether or not this metafacade is a context root
                     metafacade.setContextRoot(mapping.isContextRoot());
                 }
+                else
+                {
+                    metafacade = MetafacadeUtils.constructMetafacade(
+                            metafacadeClass,
+                            mappingObject,
+                            context);
+                }
+                this.metafacadesInCreation.remove(key);
+
                 this.cache.add(
                     mappingObject,
                     metafacade);
