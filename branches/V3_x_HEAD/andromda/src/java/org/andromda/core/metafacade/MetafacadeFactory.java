@@ -219,10 +219,6 @@ public class MetafacadeFactory
                 metafacade.setInitialized();
                 metafacade.initialize();
             }
-            if (this.getLogger().isDebugEnabled())
-            {
-                this.getLogger().debug("constructed metafacade >> '" + metafacade + "'");
-            }
             return metafacade;
         }
         catch (final Throwable throwable)
