@@ -9,6 +9,16 @@
     <distributable/>
 
 #end
+    <context-param>
+        <!-- Maximum memory per request (in bytes) -->
+        <param-name>oracle.adf.view.faces.UPLOAD_MAX_MEMORY</param-name>
+        <param-value>$fileUploadMaxMemoryPerRequest</param-value>
+    </context-param>
+    <context-param>
+        <!-- Maximum disk space per request (in bytes) -->
+        <param-name>oracle.adf.view.faces.UPLOAD_MAX_DISK_SPACE</param-name>
+        <param-value>$fileUploadMaxDiskSpacePerRequest</param-value>
+    </context-param>
 #if ($viewTypeIsFacelets)
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>

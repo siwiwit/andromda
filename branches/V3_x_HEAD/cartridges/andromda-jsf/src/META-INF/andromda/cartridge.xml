@@ -63,6 +63,8 @@
     <property reference="formMessagesProperty"/>
     <property reference="useCaseForwardsClassName"/>
     <property reference="maxTableRows"/>
+    <property reference="fileUploadMaxMemoryPerRequest"/>
+    <property reference="fileUploadMaxDiskSpacePerRequest"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>

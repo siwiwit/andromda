@@ -99,6 +99,18 @@
                     The extension used for the application's handling of JSF pages.
                 </documentation>
             </property>
+            <property name="fileUploadMaxMemoryPerRequest">
+                <default>10240000</default>
+                <documentation>
+                    Maximum memory per request (in bytes) for file uploads.
+                </documentation>
+            </property>
+            <property name="fileUploadMaxDiskSpacePerRequest">
+                <default>512000</default>
+                <documentation>
+                    Maximum memory per request (in bytes) for file uploads.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="UI Layout">
             <documentation>
