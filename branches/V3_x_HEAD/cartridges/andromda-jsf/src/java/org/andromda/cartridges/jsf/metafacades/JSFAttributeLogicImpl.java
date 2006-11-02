@@ -352,19 +352,26 @@ public class JSFAttributeLogicImpl
             {
                 final String name = this.getName();
                 final Collection actions = ownerParameter.getControllerOperation().getDeferringActions();
-                for (final Iterator actionIterator = actions.iterator(); actionIterator.hasNext();)
+                if (actions.isEmpty())
                 {
-                    final JSFAction action = (JSFAction)actionIterator.next();
-                    final Collection formFields = action.getFormFields();
-                    for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !selectable;)
+                   selectable = this.isInputMultibox() || this.isInputSelect() || this.isInputRadio();
+                }
+                else
+                {
+                    for (final Iterator actionIterator = actions.iterator(); actionIterator.hasNext();)
                     {
-                        final Object object = fieldIterator.next();
-                        if (object instanceof JSFParameter)
+                        final JSFAction action = (JSFAction)actionIterator.next();
+                        final Collection formFields = action.getFormFields();
+                        for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !selectable;)
                         {
-                            final JSFParameter parameter = (JSFParameter)object;
-                            if (name.equals(parameter.getName()))
+                            final Object object = fieldIterator.next();
+                            if (object instanceof JSFParameter)
                             {
-                                selectable = parameter.isSelectable();
+                                final JSFParameter parameter = (JSFParameter)object;
+                                if (name.equals(parameter.getName()))
+                                {
+                                    selectable = parameter.isSelectable();
+                                }
                             }
                         }
                     }
