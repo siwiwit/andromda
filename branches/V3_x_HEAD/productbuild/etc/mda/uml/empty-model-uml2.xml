@@ -10,7 +10,7 @@
 			<module resource='file:/C:/Program%20Files/MagicDraw%20UML%2011.5/profiles/UML_Standard_Profile.xml' autoloadType='ALWAYS_LOAD' readOnly='true' loadIndex='false' requiredVersion='-1'>
 				<mount mountPoint='magicdraw_uml_standard_profile_v_0001' mountedOn='eee_1045467100313_135436_1'/>
 			</module>
-			<module resource='file:/C:/Documents%20and%20Settings/Saratoga/.m2/repository/org/andromda/profiles/uml2/andromda-profile/3.2-SNAPSHOT/andromda-profile-3.2-SNAPSHOT.xml.zip' autoloadType='ALWAYS_LOAD' readOnly='true' loadIndex='true' requiredVersion='-1'>
+			<module resource='file:/C:/Documents%20and%20Settings/Saratoga/.m2/repository/org/andromda/profiles/uml2/andromda-profile/3.2/andromda-profile-3.2.xml.zip' autoloadType='ALWAYS_LOAD' readOnly='true' loadIndex='true' requiredVersion='-1'>
 				<mount mountPoint='_8a70287_1078771814628_224704_589' mountedOn='eee_1045467100313_135436_1'/>
 			</module>
 		</mountTable>
@@ -22,17 +22,17 @@
 		<ownedComment xmi:type='uml:Comment' xmi:id='_11_5_e240333_1154450477439_510234_1' body='Author:Saratoga.&#10;Created:01.08.06 18:41.&#10;Title:.&#10;Comment:.&#10;'>
 			<annotatedElement xmi:idref='eee_1045467100313_135436_1'/>
 		</ownedComment>
-		<ownedMember xmi:type='uml:Package' href='UML_Standard_Profile-3.2-SNAPSHOT.xml|magicdraw_uml_standard_profile_v_0001'>
+		<ownedMember xmi:type='uml:Package' href='UML_Standard_Profile-3.2.xml|magicdraw_uml_standard_profile_v_0001'>
 			<xmi:Extension xmi:Extender='MagicDraw UML 11.5' xmi:ExtenderID='MagicDraw UML 11.5'>
 				<referenceExtension referentPath='UML Standard Profile' referentType='Package'/>
 			</xmi:Extension>
 		</ownedMember>
-		<ownedMember xmi:type='uml:Package' href='andromda-profile-3.2-SNAPSHOT.xml.zip|_8a70287_1078771814628_224704_589'>
+		<ownedMember xmi:type='uml:Package' href='andromda-profile-3.2.xml.zip|_8a70287_1078771814628_224704_589'>
 			<xmi:Extension xmi:Extender='MagicDraw UML 11.5' xmi:ExtenderID='MagicDraw UML 11.5'>
 				<referenceExtension referentPath='org.andromda.profile' referentType='Package'/>
 			</xmi:Extension>
 		</ownedMember>
-		<ownedMember xmi:type='uml:Package' href='andromda-profile-datatype-3.2-SNAPSHOT.xml.zip|_9_0_1fe00f9_1119336925546_238419_77'>
+		<ownedMember xmi:type='uml:Package' href='andromda-profile-datatype-3.2.xml.zip|_9_0_1fe00f9_1119336925546_238419_77'>
 			<xmi:Extension xmi:Extender='MagicDraw UML 11.5' xmi:ExtenderID='MagicDraw UML 11.5'>
 				<referenceExtension referentPath='datatype' referentType='Package'/>
 			</xmi:Extension>
@@ -49,7 +49,7 @@
 			</proxy>
 			<proxy xmi:type='uml:Package' xmi:id='_8a70287_1078771814628_224704_589' name='org.andromda.profile' visibility='public'>
 				<xmi:Extension xmi:Extender='MagicDraw UML 11.5' xmi:ExtenderID='MagicDraw UML 11.5'>
-					<moduleExtension moduleRoot='::org.andromda.profile' moduleName='andromda-profile-3.2-SNAPSHOT.xml.zip' remoteProjectID='' remoteModuleVersion='1154528834734' moduleUsedByProject='true'/>
+					<moduleExtension moduleRoot='::org.andromda.profile' moduleName='andromda-profile-3.2.xml.zip' remoteProjectID='' remoteModuleVersion='1154528834734' moduleUsedByProject='true'/>
 				</xmi:Extension>
 			</proxy>
 		</privateProxies>
@@ -87,39 +87,39 @@
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-meta\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-meta\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-presentation\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-presentation\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-persistence\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-persistence\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-xml\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-xml\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-service\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-service\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-webservice\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-webservice\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-datatype\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-datatype\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-process\3.2-SNAPSHOT</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-process\3.2</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<allowFiles xmi:value='false'/>

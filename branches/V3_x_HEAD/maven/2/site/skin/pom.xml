@@ -4,7 +4,7 @@
     <parent>
         <artifactId>andromda-site-plugins</artifactId>
         <groupId>org.andromda.maven.site</groupId>
-        <version>3.2-SNAPSHOT</version>
+        <version>3.2</version>
     </parent>
     <artifactId>andromda-site-skin</artifactId>
     <packaging>jar</packaging>
