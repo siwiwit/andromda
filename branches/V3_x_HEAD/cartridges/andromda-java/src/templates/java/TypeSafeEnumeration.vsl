@@ -41,7 +41,8 @@ public enum $enumeration.name
 #else
 #set ($separator = ",")
 #end
-#if ($hasMemberVariables)
+#set ($literalParameters = ${literal.enumerationLiteralParameters})
+#if ($hasMemberVariables && $stringUtils.isNotBlank($literalParameters))
 #set ($arguments = "(${literal.enumerationLiteralParameters})")
 #else
 #set ($arguments = "")
@@ -92,9 +93,19 @@ $member.getDocumentation("     * ")
      * Retrieves an instance of $enumeration.name from <code>its name</code>.
      *
      * @param name the name to create the $enumeration.name from.
+     * @return The enumeration literal named after the 'name' argument
      */
     public static $enumeration.name fromString(String name)
     {
 		return ${enumeration.name}.valueOf(name);
+	}
+	
+	/**
+	 * This method is necessary to comply with DaoBase implementation.
+	 * @return The name of this literal.
+	 */
+	public Object getValue()
+	{
+		return this.name();
 	}
 }
