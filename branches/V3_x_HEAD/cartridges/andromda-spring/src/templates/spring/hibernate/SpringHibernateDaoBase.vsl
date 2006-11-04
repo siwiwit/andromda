@@ -595,7 +595,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             criteriaSearch.getConfiguration().setFetchSize(${criteriaArgumentName}.getFetchSize());
             criteriaSearch.getConfiguration().setMaximumResultSize(${criteriaArgumentName}.getMaximumResultSize());
 #set($criteriaClass = $criteriaArgument.type)
-#foreach($criteriaAttribute in $criteriaClass.attributes)
+#foreach($criteriaAttribute in $criteriaClass.getAttributes(true))
 #if($criteriaAttribute.matchModePresent)
 #set($matchModeArgument = ", ${hibernateUtils.criterionPackage}.MatchMode.${criteriaAttribute.matchModeConstant}")
 #else
