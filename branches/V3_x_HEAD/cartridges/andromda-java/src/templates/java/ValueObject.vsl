@@ -25,6 +25,9 @@ public#if($class.abstract) abstract#end class $class.name
     private static final long serialVersionUID = ${class.serialVersionUID}L;
 
 #end
+##
+##  default constructor
+##
 #if ($class.requiredConstructorParameters.size() > 0 || $class.allRequiredConstructorParameters.size() > $class.requiredConstructorParameters.size())
     public ${class.name}()
     {
@@ -40,7 +43,7 @@ public#if($class.abstract) abstract#end class $class.name
 ##
 ##  constructor taking only required properties
 ##
-#if ($class.allProperties.size() > $class.allRequiredConstructorParameters.size())
+#if ($class.allProperties.size() > $class.allRequiredConstructorParameters.size() && ($class.allRequiredConstructorParameters.size() != 1 || !$class.allRequiredConstructorParameters.get(0).getterSetterTypeName.equals($class.fullyQualifiedName)))
     public ${class.name}(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allRequiredConstructorParameters)
@@ -64,6 +67,10 @@ ${comma}${property.name}## no newline
     }
 
 #end
+##
+##  constructor taking all properties
+##
+#if ($class.allProperties.size() != 1 || !$class.allProperties.get(0).getterSetterTypeName.equals($class.fullyQualifiedName))
     public ${class.name}(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allProperties)
@@ -86,6 +93,7 @@ ${comma}${property.name}## no newline
 #end
     }
 
+#end
     /**
      * Copies constructor from other ${class.name}
      *
