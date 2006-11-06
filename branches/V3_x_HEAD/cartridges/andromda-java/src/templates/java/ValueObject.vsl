@@ -116,9 +116,12 @@ ${comma}otherBean.${property.getterName}()## no newline
      */
     public void copy(${class.name} otherBean)
     {
+        if (otherBean != null)
+        {
 #foreach ($property in $class.allProperties)
-        this.${property.setterName}(otherBean.${property.getterName}());
+            this.${property.setterName}(otherBean.${property.getterName}());
 #end
+        }
     }
 
 #foreach ($attribute in $class.attributes)
