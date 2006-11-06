@@ -352,26 +352,19 @@ public class JSFAttributeLogicImpl
             {
                 final String name = this.getName();
                 final Collection actions = ownerParameter.getControllerOperation().getDeferringActions();
-                if (actions.isEmpty())
+                for (final Iterator actionIterator = actions.iterator(); actionIterator.hasNext();)
                 {
-                   selectable = this.isInputMultibox() || this.isInputSelect() || this.isInputRadio();
-                }
-                else
-                {
-                    for (final Iterator actionIterator = actions.iterator(); actionIterator.hasNext();)
+                    final JSFAction action = (JSFAction)actionIterator.next();
+                    final Collection formFields = action.getFormFields();
+                    for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !selectable;)
                     {
-                        final JSFAction action = (JSFAction)actionIterator.next();
-                        final Collection formFields = action.getFormFields();
-                        for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !selectable;)
+                        final Object object = fieldIterator.next();
+                        if (object instanceof JSFParameter)
                         {
-                            final Object object = fieldIterator.next();
-                            if (object instanceof JSFParameter)
+                            final JSFParameter parameter = (JSFParameter)object;
+                            if (name.equals(parameter.getName()))
                             {
-                                final JSFParameter parameter = (JSFParameter)object;
-                                if (name.equals(parameter.getName()))
-                                {
-                                    selectable = parameter.isSelectable();
-                                }
+                                selectable = parameter.isSelectable();
                             }
                         }
                     }

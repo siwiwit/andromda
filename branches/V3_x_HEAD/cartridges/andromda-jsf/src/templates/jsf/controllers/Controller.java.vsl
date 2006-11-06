@@ -405,7 +405,7 @@ $decisionTransition.getDocumentation("     * ")
         {
             for (final java.util.Iterator iterator = component.getFacetsAndChildren(); iterator.hasNext();)
             {
-                final Object object = (javax.faces.component.UIComponent)iterator.next();
+                final Object object = iterator.next();
                 if (object instanceof javax.faces.component.UIComponent)
                 {
                     final javax.faces.component.UIComponent uiComponent = (javax.faces.component.UIComponent)object;
