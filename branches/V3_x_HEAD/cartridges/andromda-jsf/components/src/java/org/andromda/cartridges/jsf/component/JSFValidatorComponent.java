@@ -417,18 +417,12 @@ public class JSFValidatorComponent
         writer.write("\", \"");
         writer.write(validator.getErrorMessage(context));
         writer.write("\", new Function(\"x\", \"return {");
-
         final Map parameters = validator.getParameters();
         for (final Iterator iterator = parameters.keySet().iterator(); iterator.hasNext();)
         {
             final String name = (String)iterator.next();
-            if (iterator.hasNext())
-            {
-                writer.write(",");
-            }
             writer.write(name);
             writer.write(":");
-
             boolean mask = name.equals("mask");
 
             // - mask validator does not construct regular expression
@@ -449,6 +443,10 @@ public class JSFValidatorComponent
             else
             {
                 writer.write("'");
+            }
+            if (iterator.hasNext())
+            {
+                writer.write(",");
             }
         }
         writer.write("}[x];\"))");
