@@ -58,18 +58,18 @@ public class $entity.daoImplementationName
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName, $valueObjectRef.targetElement.fullyQualifiedName)
      */
     public void ${valueObjectRef.transformationMethodName}(
-        $entity.fullyQualifiedEntityName sourceEntity,
-        $valueObjectRef.targetElement.fullyQualifiedName targetVO)
+        $entity.fullyQualifiedEntityName source,
+        $valueObjectRef.targetElement.fullyQualifiedName target)
     {
         // ${toDoTag} verify behavior of ${valueObjectRef.transformationMethodName}
-        super.${valueObjectRef.transformationMethodName}(sourceEntity, targetVO);
+        super.${valueObjectRef.transformationMethodName}(source, target);
 #foreach ($property in $valueObjectRef.targetElement.allProperties)
 #foreach ($entityProp in $entity.allProperties)
 #if ($property.name == $entityProp.name)
 #set ($getVal = false)
-#set ($getVal = $converter.typeConvert($entityProp.type.fullyQualifiedName, "sourceEntity.${entityProp.getterName}()", $property.type.fullyQualifiedName) )
+#set ($getVal = $converter.typeConvert($entityProp.type.fullyQualifiedName, "source.${entityProp.getterName}()", $property.type.fullyQualifiedName) )
 #if (!$getVal)
-        // WARNING! No conversion for targetVO.${property.name} (can't convert sourceEntity.${entityProp.getterName}():${entityProp.type.fullyQualifiedName} to $property.type.fullyQualifiedName
+        // WARNING! No conversion for target.${property.name} (can't convert source.${entityProp.getterName}():${entityProp.type.fullyQualifiedName} to $property.type.fullyQualifiedName
 #end
 #end
 #end
@@ -124,20 +124,20 @@ public class $entity.daoImplementationName
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToEntityMethodName}($valueObjectRef.targetElement.fullyQualifiedName, $entity.fullyQualifiedEntityName)
      */
     public void ${valueObjectRef.transformationToEntityMethodName}(
-        $valueObjectRef.targetElement.fullyQualifiedName sourceVO,
-        $entity.fullyQualifiedEntityName targetEntity,
+        $valueObjectRef.targetElement.fullyQualifiedName source,
+        $entity.fullyQualifiedEntityName target,
         boolean copyIfNull)
     {
         // ${toDoTag} verify behavior of ${valueObjectRef.transformationToEntityMethodName}
-        super.${valueObjectRef.transformationToEntityMethodName}(sourceVO, targetEntity, copyIfNull);
+        super.${valueObjectRef.transformationToEntityMethodName}(source, target, copyIfNull);
 #set ($attributes = $entity.getAttributes(true,false))
 #foreach ($attribute in $attributes)
 #foreach ($voProperty in $valueObjectRef.targetElement.allProperties)
 #if ($attribute.name == $voProperty.name)
 #set ($getVal = false)
-#set ($getVal = $converter.typeConvert($voProperty.type.fullyQualifiedName, "sourceVO.${voProperty.getterName}()", $attribute.type.fullyQualifiedName) )
+#set ($getVal = $converter.typeConvert($voProperty.type.fullyQualifiedName, "source.${voProperty.getterName}()", $attribute.type.fullyQualifiedName) )
 #if (!$getVal)
-        // No conversion for targetEntity.${attribute.name} (can't convert sourceVO.${voProperty.getterName}():${voProperty.type.fullyQualifiedName} to $attribute.type.fullyQualifiedName
+        // No conversion for target.${attribute.name} (can't convert source.${voProperty.getterName}():${voProperty.type.fullyQualifiedName} to $attribute.type.fullyQualifiedName
 #end
 #end
 #end

@@ -75,8 +75,8 @@ public interface $entity.daoName
      * value object that are "read-only" (as those do not have setter methods exposed).
      */
     public void ${valueObjectRef.transformationMethodName}(
-        $entity.fullyQualifiedEntityName sourceEntity,
-        $valueObjectRef.targetElement.fullyQualifiedName targetVO);
+        $entity.fullyQualifiedEntityName source,
+        $valueObjectRef.targetElement.fullyQualifiedName target);
 
 
     /**
@@ -95,8 +95,8 @@ public interface $entity.daoName
      * it will be copied regardless of its value.
      */
     public void ${valueObjectRef.transformationToEntityMethodName}(
-        $valueObjectRef.targetElement.fullyQualifiedName sourceVO,
-        $entity.fullyQualifiedEntityName targetEntity,
+        $valueObjectRef.targetElement.fullyQualifiedName source,
+        $entity.fullyQualifiedEntityName target,
         boolean copyIfNull);
 
     /**
