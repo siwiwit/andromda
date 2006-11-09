@@ -189,11 +189,6 @@
             <stereotype>VALUE_OBJECT</stereotype>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.metafacades.emf.uml2.ValueObjectLogicImpl">
-        <mapping class="org.eclipse.uml2.impl.ClassImpl">
-            <stereotype>PSM_METACLASS</stereotype>
-        </mapping>
-    </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.ValueObjectAssociationEndLogicImpl">
         <mapping class="org.andromda.metafacades.emf.uml2.AssociationEndImpl">
             <property name="type.valueObjectMetaType"/>

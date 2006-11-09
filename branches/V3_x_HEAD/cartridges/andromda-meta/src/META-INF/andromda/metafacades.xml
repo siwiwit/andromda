@@ -30,4 +30,9 @@
         </mapping>
         <property reference="generalizationNamePattern"/>
     </metafacade>
+    <metafacade class="org.andromda.cartridges.meta.metafacades.PSMmetaclassLogicImpl">
+        <mapping>
+            <stereotype>PSM_METACLASS</stereotype>
+        </mapping>
+    </metafacade>
 </metafacades>

@@ -50,4 +50,30 @@
         </modelElements>
     </template>
 
+    <template
+        path="templates/meta/PSMmetaclass.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="facades"
+        overwrite="true">
+        <modelElements variable="class">
+            <modelElement>
+                <type name="org.andromda.cartridges.meta.metafacades.PSMmetaclass"/>                
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/meta/PSMmetaclassImpl.vsl"
+        outputPattern="{0}/{1}Impl.java"
+        outlet="facade-logic-impls"
+        overwrite="false">
+        <modelElements variable="class">
+            <modelElement>
+                <type name="org.andromda.cartridges.meta.metafacades.PSMmetaclass">
+					<property name="operationsPresent"/>
+				</type>                
+            </modelElement>
+        </modelElements>
+    </template>
+
 </cartridge>
