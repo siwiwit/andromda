@@ -708,8 +708,8 @@
                         <source language="xml">
 <![CDATA[<modelPackages>
     ...
-    <modelPackage process="false">name="my::package::bar::*</modelPackage>                                
-    <modelPackage process="false">name="my::package::bar**</modelPackage>
+    <modelPackage process="false">my::package::bar::*</modelPackage>                                
+    <modelPackage process="false">my::package::bar**</modelPackage>
     ...
 </modelPackages>]]>                                
                         </source>
@@ -746,7 +746,7 @@
 <![CDATA[<modelPackages>
   ...
     <modelPackage>my::package::foo</modelPackage>
-    <modelPackage process="false">name="my::package::bar</modelPackage>
+    <modelPackage process="false">my::package::bar</modelPackage>
   ...
 </modelPackages>]]></source>
                                 <p>
@@ -832,9 +832,9 @@
                         <source language="xml">
 <![CDATA[<constraints>
     ...
-    <constraint enforce="false">name="my::package::bar::SomeClass::*</constraint>                                
-    <constraint enforce="false">name="my::package::bar**</constraint>
-    <constraint enforce="false">name="my::package::bar::SomeClass::a constraint**</constraint>
+    <constraint enforce="false">my::package::bar::SomeClass::*</constraint>                                
+    <constraint enforce="false">my::package::bar**</constraint>
+    <constraint enforce="false">my::package::bar::SomeClass::a constraint**</constraint>
     ...
 </constraints>]]>                                
                         </source>
