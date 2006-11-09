@@ -10,7 +10,7 @@ package $class.packageName;
 /**
  * @see $class.fullyQualifiedName
  */
-public class ${class.name}Impl
+public#if($class.implMustBeAbstract) abstract#end class ${class.name}Impl
     extends $class.fullyQualifiedName
 {
 ##
@@ -85,6 +85,7 @@ ${comma}otherBean.${property.getterName}()## no newline
 ##
 ## generate implementations for operations
 #foreach ($operation in $class.operations)
+#if (!$operation.abstract)
 #set ($returnType = $operation.returnType)
 #set ($signature = $operation.signature)
     /**
@@ -101,5 +102,6 @@ ${comma}otherBean.${property.getterName}()## no newline
         throw new java.lang.UnsupportedOperationException("${class.fullyQualifiedName}.${signature} Not implemented!");
     }
 
+#end
 #end
 }
