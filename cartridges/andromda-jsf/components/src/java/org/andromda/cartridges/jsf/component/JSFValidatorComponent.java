@@ -14,6 +14,7 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.validator.Validator;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,7 +48,8 @@ public class JSFValidatorComponent
      * validator type names. The values are maps from IDs to JSFValidator
      * objects.
      */
-    private final Map validators = new LinkedHashMap();
+    private Map validators = new LinkedHashMap();
+
 
     /**
      * The component renders itself; therefore, this method returns null.
@@ -150,8 +152,7 @@ public class JSFValidatorComponent
                                         final Arg[] args = field.getArgs(dependency);
                                         if (args != null)
                                         {
-                                            for (final Iterator varIterator = field.getVars().keySet().iterator();
-                                                varIterator.hasNext();)
+                                            for (final Iterator varIterator = field.getVars().keySet().iterator(); varIterator.hasNext();)
                                             {
                                                 final String name = (String)varIterator.next();
                                                 validator.addParameter(
@@ -161,11 +162,14 @@ public class JSFValidatorComponent
                                             validator.setArgs(ValidatorMessages.getArgs(
                                                     dependency,
                                                     field));
-                                            valueHolder.addValidator(validator);
                                             this.addValidator(
                                                 dependency,
                                                 component.getClientId(context),
                                                 validator);
+                                            if (!this.validatorPresent(valueHolder, validator))
+                                            {
+                                                valueHolder.addValidator(validator);
+                                            }
                                         }
                                     }
                                     else
@@ -188,6 +192,37 @@ public class JSFValidatorComponent
                 childComponent,
                 context);
         }
+    }
+    
+    /**
+     * Indicates whether or not the JSFValidator instance is present and if so returns true.
+     * 
+     * @param valueHolder the value holder on which to check if its present.
+     * @return true/false
+     */
+    private boolean validatorPresent(EditableValueHolder valueHolder, final Validator validator)
+    {
+        boolean present = false;
+        if (validator != null)
+        {
+            final Validator[] validators = valueHolder.getValidators();
+            if (validators != null)
+            {
+                for (int ctr = 0; ctr < validators.length; ctr++)
+                {
+                    final Validator test = validators[ctr];
+                    if (test instanceof JSFValidator)
+                    {
+                        present = test.toString().equals(validator.toString());
+                        if (present)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return present;
     }
 
     private static final String JAVASCRIPT_UTILITIES = "javascriptUtilities";
@@ -250,15 +285,31 @@ public class JSFValidatorComponent
     }
 
     /**
-     * The function name attribute storing the function name to render
-     * when using client side validation.
+     * The attribute storing whether or not client-side validation
+     * shall performed.
      */
-    public static final String FUNCTION_NAME = "functionName";
+    public static final String CLIENT = "client";
 
     /**
-     * The key for the current validator id.
+     * Sets whether or not client-side validation shall be performed.
+     *
+     * @param true/false
      */
-    public static final String VALIDATOR_ID = "validatorId";
+    public void setClient(final String functionName)
+    {
+        this.getAttributes().put(CLIENT, functionName);
+    }
+    
+    /**
+     * Gets whether or not client side validation shall be performed.
+     * 
+     * @return true/false
+     */
+    private boolean isClient()
+    {
+        String client = (String)this.getAttributes().get(CLIENT);
+        return StringUtils.isBlank(client) ? true : Boolean.valueOf(client).booleanValue();
+    }
 
     /**
      * writes the javascript functions to the response.
@@ -274,9 +325,9 @@ public class JSFValidatorComponent
     {
         writer.write("var bCancel = false;\n");
         writer.write("function ");
-        writer.write(this.getAttributes().get(FUNCTION_NAME).toString());
+        writer.write("validate" + StringUtils.capitalize(form.getId()));
         writer.write("(form) { return bCancel || true\n");
-
+        
         // - for each validator type, write "&& fun(form);
         final Collection validatorTypes = new ArrayList(this.validators.keySet());
 
@@ -366,18 +417,12 @@ public class JSFValidatorComponent
         writer.write("\", \"");
         writer.write(validator.getErrorMessage(context));
         writer.write("\", new Function(\"x\", \"return {");
-
         final Map parameters = validator.getParameters();
         for (final Iterator iterator = parameters.keySet().iterator(); iterator.hasNext();)
         {
             final String name = (String)iterator.next();
-            if (iterator.hasNext())
-            {
-                writer.write(",");
-            }
             writer.write(name);
             writer.write(":");
-
             boolean mask = name.equals("mask");
 
             // - mask validator does not construct regular expression
@@ -398,6 +443,10 @@ public class JSFValidatorComponent
             else
             {
                 writer.write("'");
+            }
+            if (iterator.hasNext())
+            {
+                writer.write(",");
             }
         }
         writer.write("}[x];\"))");
@@ -461,27 +510,18 @@ public class JSFValidatorComponent
             {
                 this.validators.clear();
                 this.forms.clear();
-
-                // - include the javascript utilities (only once per request)
-                if (this.getRequest().getAttribute(JAVASCRIPT_UTILITIES) == null)
-                {
-                    this.addValidator(
-                        JAVASCRIPT_UTILITIES,
-                        null,
-                        null);
-                    this.getRequest().setAttribute(
-                        JAVASCRIPT_UTILITIES,
-                        "present");
-                }
-                final String validatorId = (String)this.getAttributes().get(VALIDATOR_ID);
-                final UIForm form = this.findForm(validatorId);
+                // - add the javascript utilities each time
+                this.addValidator(
+                    JAVASCRIPT_UTILITIES,
+                    null,
+                    null);
+                final UIForm form = this.findForm(this.getId());
                 if (form != null)
                 {
                     this.findValidators(
                         form,
                         context);
-                    final String functionName = (String)this.getAttributes().get(FUNCTION_NAME);
-                    if (functionName != null)
+                    if (this.isClient())
                     {
                         final ResponseWriter writer = context.getResponseWriter();
                         this.writeScriptStart(writer);

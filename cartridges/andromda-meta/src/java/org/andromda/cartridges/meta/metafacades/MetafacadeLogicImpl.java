@@ -275,7 +275,6 @@ public class MetafacadeLogicImpl
         }
         catch (Throwable th)
         {
-            th.printStackTrace();
             throw new RuntimeException(th);
         }
     }
@@ -285,7 +284,6 @@ public class MetafacadeLogicImpl
         final Set declarationSet,
         final Metafacade facade)
     {
-        final String methodName = "MetafacadeFacadeLogicImpl.internalGetMethodDataForPSM";
         try
         {
             final String methodVisibility = "public";
@@ -352,11 +350,10 @@ public class MetafacadeLogicImpl
                 }
             }
         }
-        catch (Throwable th)
+        catch (final Throwable throwable)
         {
-            String errMsg = "Error performing " + methodName;
-            logger.error(errMsg, th);
-            throw new MetafacadeException(errMsg, th);
+            logger.error(throwable);
+            throw new MetafacadeException(throwable);
         }
     }
 
@@ -436,7 +433,7 @@ public class MetafacadeLogicImpl
     /**
      * Used to sort metafacade generalizations by precedence.
      */
-    private static final class GeneralizationPrecedenceComparator
+    static final class GeneralizationPrecedenceComparator
         implements Comparator
     {
         public int compare(
@@ -447,5 +444,25 @@ public class MetafacadeLogicImpl
             MetafacadeGeneralization b = (MetafacadeGeneralization)objectB;
             return a.getPrecedence().compareTo(b.getPrecedence());
         }
+    }
+
+    /**
+     * @see org.andromda.cartridges.meta.metafacades.MetafacadeLogic#getAllParents()
+     */
+    protected Collection handleGetAllParents()
+    {
+        Set allParents = new LinkedHashSet();
+        final Collection parents = this.getGeneralizations();
+        allParents.addAll(parents);
+        for (final Iterator iterator = parents.iterator(); iterator.hasNext();)
+        {
+            final Object object = iterator.next();
+            if (object instanceof Metafacade)
+            {
+                final Metafacade metafacade = (Metafacade)object;
+                allParents.addAll(metafacade.getAllParents());    
+            }
+        }
+        return allParents;
     }
 }

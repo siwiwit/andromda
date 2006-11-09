@@ -1,5 +1,6 @@
 package org.andromda.core.common;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import java.util.HashMap;
@@ -36,28 +37,47 @@ public class Converter
             {
                 object = object.toString();
             }
+            else if (expectedType == Class.class)
+            {
+                object = ClassUtils.loadClass(object.toString());
+            }
             else
             {
+                final Class originalType = expectedType;
                 if (expectedType.isPrimitive())
                 {
                     expectedType = (Class)primitiveWrappers.get(expectedType);
                 }
-                Method valueOfMethod = null;
+                Method method = null;
                 try
                 {
-                    valueOfMethod =
-                        expectedType.getDeclaredMethod(
+                    method = expectedType.getDeclaredMethod(
                             VALUE_OF_METHOD_NAME,
                             new Class[] {object.getClass()});
+                    object = method.invoke(
+                            expectedType,
+                            new Object[] {object});
                 }
                 catch (final NoSuchMethodException exception)
                 {
-                    throw new IntrospectorException("Could not convert '" + object + "' to type '" +
-                        expectedType.getName() + "'");
+                    // - ignore
                 }
-                object = valueOfMethod.invoke(
-                        expectedType,
-                        new Object[] {object});
+
+                // - if we couldn't find the method try with the constructor
+                if (method == null)
+                {
+                    Constructor constructor;
+                    try
+                    {
+                        constructor = expectedType.getConstructor(new Class[] {originalType});
+                        object = constructor.newInstance(new Object[] {object});
+                    }
+                    catch (final NoSuchMethodException exception)
+                    {
+                        throw new IntrospectorException("Could not convert '" + object + "' to type '" +
+                            expectedType.getName() + "'");
+                    }
+                }
             }
         }
         catch (final Throwable throwable)

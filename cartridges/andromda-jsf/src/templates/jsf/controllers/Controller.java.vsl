@@ -25,60 +25,68 @@ $operation.getDocumentation("     * ")
      */
     protected $action.fullyQualifiedFormImplementationName $action.formImplementationGetter
     {
+        // - we do this in the case a button that submitted the form was set to immediate (this should be removed 
+        //   when we found a better way to handle this).
+        final javax.faces.component.UIForm uiForm = this.findForm(this.getContext().getViewRoot(), "$action.formBeanName");
+        this.populateComponentInputs(uiForm);
         return ($action.fullyQualifiedFormImplementationName)this.resolveVariable("$action.formBeanName");
     }
     
 #end
     public java.lang.String ${action.triggerName}()
     {
+#set ($formPopulationOperationRequired = !$action.formFields.empty)
+#if ($action.finalStateTarget)
+#set ($targetUseCase = $action.target.targetUseCase)
+        $targetUseCase.controller.fullyQualifiedName controller =
+            ($targetUseCase.controller.fullyQualifiedName)this.resolveVariable(
+                "$targetUseCase.controller.beanName");
+        return controller.${targetUseCase.controllerAction}();
+#else
         String forward = null;
+        final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = new ${managedBeansPackage}.AdfFacesContextWrapper();
+        final Object currentForm = this.resolveVariable("$action.formKey");
         try
         {
-#if (!$action.formFields.empty)
-#set ($formPopulationOperationRequired = true)
+#if ($formPopulationOperationRequired)
             final $action.fullyQualifiedFormImplementationName form =
                 this.$action.formImplementationGetter;
 
-            // - pass any parameters from the previous form along
-            ${managedBeansPackage}.${formPopulatorName}.populateForm(this.resolveVariable("$action.formKey"), form);
+            // - pass any parameters from the previous form along 
+            ${managedBeansPackage}.${formPopulatorName}.populateForm(currentForm, form);
             // - populate the form with any request parameters that may match
             this.populateFormFromRequestParameters(form, form.getDateTimeFormatters());
 #end
-#if (!$deferredOperations.empty)
             try
             {
+#if (!$action.formFields.empty)
+                contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", form);
+                // - add this temporary ADF context to the session so that we can retrieve from a view populator if required
+                this.getSession(false).setAttribute("$adfContextAttributeName", contextWrapper);
 #end
                 forward = #processTransition($action)
-#if (!$action.formFields.empty)
-                ${managedBeansPackage}.FormHistory formHistory = (${managedBeansPackage}.FormHistory)this.resolveVariable("$formHistoryBeanName");
-                if (formHistory != null)
-                {
-                    formHistory.addFormToHistory(form);
-                }        
-#end
+#saveMessages($action "                ")
 #if (!$action.formFields.empty && $action.formResetRequired)
                 form.reset();
 #end
-#if (!$deferredOperations.empty)
             }
             catch (final Throwable throwable)
             {
+                contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", currentForm);
                 final String message = ${managedBeansPackage}.Messages.get(
                     ${managedBeansPackage}.${patternMatchingExceptionHandler}.instance().handleException(throwable), null);
                 this.addErrorMessage(message);
             }
-#end
-#if (!$action.formFields.empty)
-            this.getSession(true).setAttribute("$action.formKey", form);
-#end
         }
         catch (final Throwable throwable)
         {
+            contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", currentForm);
             this.addExceptionMessage(throwable);
             // - set the forward to null so that we stay on the current view
             forward = null;
         }
         return forward;
+#end
     }
 
 #foreach ($actionState in $action.actionStates)
@@ -201,8 +209,28 @@ $decisionTransition.getDocumentation("     * ")
      */
     protected java.lang.Object resolveVariable(final String name)
     {
-        final javax.faces.context.FacesContext context = this.getContext();
-        return context != null ? context.getApplication().getVariableResolver().resolveVariable(context, name) : null;    
+        oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
+        Object variable = adfContext.getProcessScope().get(name);
+        // - if we couldn't get the variable from the regular ADF context, see if
+        //   the session contains an ADF context with the variable
+        if (variable == null)
+        {
+            final javax.servlet.http.HttpSession session = this.getSession(false);
+            if (session != null)
+            {
+                final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
+                    (${managedBeansPackage}.AdfFacesContextWrapper)session.getAttribute("$adfContextAttributeName");
+                adfContext = contextWrapper != null ? contextWrapper.getCurrentInstance() : null;
+            }
+            variable = adfContext != null ? adfContext.getProcessScope().get(name) : null;
+        }
+        // - finally try resolving it in the standard JSF manner
+        if (variable == null)
+        {
+            final javax.faces.context.FacesContext context = this.getContext();
+            variable = context != null ? context.getApplication().getVariableResolver().resolveVariable(context, name) : null;
+        }
+        return variable;
     }
 
     /**
@@ -277,9 +305,31 @@ $decisionTransition.getDocumentation("     * ")
     protected void addMessage(final javax.faces.application.FacesMessage.Severity severity, final String message)
     {
         final javax.faces.application.FacesMessage facesMessage = new javax.faces.application.FacesMessage(severity, message, message);
-        javax.faces.context.FacesContext.getCurrentInstance().addMessage(
-            null,
-            facesMessage);
+        final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
+        final Object form = adfContext.getProcessScope().get("$actionFormKey");
+        if (form != null)
+        {
+            try
+            {
+                final java.lang.reflect.Method method = form.getClass().getMethod(
+                    "add${stringUtils.capitalize($formMessagesProperty)}", 
+                    new Class[]{javax.faces.application.FacesMessage.class});
+                method.invoke(form, new Object[]{facesMessage});  
+            }
+            catch (final Exception exception)
+            {
+                throw new RuntimeException(exception);
+            }
+        }
+    }
+    
+    /**
+     * Copies all matching properties from the <code>fromForm</code> to the given
+     * <code>toForm</code> overridding any previously set values.
+     */
+    protected void copyForm(final Object fromForm, final Object toForm)
+    {
+        ${managedBeansPackage}.${formPopulatorName}.populateForm(fromForm, toForm, true);
     }
 #if ($formPopulationOperationRequired)
 
@@ -309,11 +359,20 @@ $decisionTransition.getDocumentation("     * ")
                         // - only convert if the string is not empty
                         if (parameter != null && parameter.trim().length() > 0)
                         {
-                            final java.text.DateFormat formatter = (java.text.DateFormat)formatters.get(name);
+                            java.text.DateFormat formatter = (java.text.DateFormat)formatters.get(name);
                             // - if the formatter is available we use that, otherwise we attempt to convert
                             if (formatter != null)
                             {
-                                value = formatter.parse(parameter);
+                                try
+                                {
+                                    value = formatter.parse(parameter);
+                                }
+                                catch (java.text.ParseException parseException)
+                                {
+                                    // - try the default formatter (handles the default java.util.Date.toString() format)
+                                    formatter = (java.text.DateFormat)formatters.get(null);
+                                    value = formatter.parse(parameter); 
+                                }
                             }
                             else
                             {
@@ -328,6 +387,82 @@ $decisionTransition.getDocumentation("     * ")
         catch (final Throwable throwable)
         {
             throw new RuntimeException(throwable);
+        }
+    }
+    
+    /**
+     * Finds the form (if one is present) on the given <code>component</code> having the given
+     * <code>id</code>.
+     * 
+     * @param component the component to search.
+     * @param id the id of the form.
+     * @return the form or null if none was found.
+     */
+    private javax.faces.component.UIForm findForm(javax.faces.component.UIComponent component, String id)
+    {
+        javax.faces.component.UIForm foundForm = null;
+        if (component != null)
+        {
+            for (final java.util.Iterator iterator = component.getFacetsAndChildren(); iterator.hasNext();)
+            {
+                final Object object = iterator.next();
+                if (object instanceof javax.faces.component.UIComponent)
+                {
+                    final javax.faces.component.UIComponent uiComponent = (javax.faces.component.UIComponent)object;
+                    if (uiComponent instanceof javax.faces.component.UIForm)
+                    {
+                        final javax.faces.component.UIForm form = (javax.faces.component.UIForm)uiComponent;
+                        if (form.getId().equals(id))
+                        {
+                            foundForm = form;
+                            break;
+                        }
+                    }
+                    foundForm = this.findForm(uiComponent, id);
+                    if (foundForm != null)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        return foundForm;
+    }
+    
+    /**
+     * If the given <code>component</code> has an child input elements, this method findds
+     * them all and populates them.  This is to get around the fact that when immediate is set to true
+     * on a button that submits the form that the form isn't populated.
+     * 
+     * @param component the component to populate.
+     */
+    private void populateComponentInputs(javax.faces.component.UIComponent component)
+    {
+        if (component != null)
+        {
+            for (final java.util.Iterator iterator = component.getFacetsAndChildren(); iterator.hasNext();)
+            {
+                final javax.faces.component.UIComponent uiComponent = (javax.faces.component.UIComponent)iterator.next();
+                if (uiComponent instanceof javax.faces.component.UIInput)
+                {
+                    try
+                    {
+                        final javax.faces.component.UIInput input = (javax.faces.component.UIInput)uiComponent;
+                        input.validate(this.getContext());
+                        input.updateModel(this.getContext());
+                    }
+                    catch (javax.faces.validator.ValidatorException exception)
+                    {
+                        // - ignore, no value is set (validate will be called by the regular
+                        //   JSF lifecycle processing anyway, this is just called to populate the
+                        //   local value
+                    }
+                }
+                else
+                {
+                    this.populateComponentInputs(uiComponent);
+                }
+            }
         }
     }
 #end
@@ -410,17 +545,3 @@ $decisionTransition.getDocumentation("     * ")
 
 #end
 }
-##
-##  This macro determines what to do when processing a transition
-##
-#macro (processTransition $transition)
-#if (!$transition)
-null;
-#elseif ($transition.enteringFinalState || $transition.enteringView)
-"$transition.name";
-#elseif ($transition.enteringDecisionPoint)
-__${transition.operationCall.name}(#if (!$action.formFields.empty)form#end);
-#else
-${transition.target.actionMethodName}(#if (!$action.formFields.empty)form#end);
-#end
-#end

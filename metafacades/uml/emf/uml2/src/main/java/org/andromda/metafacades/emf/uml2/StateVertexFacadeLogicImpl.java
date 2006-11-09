@@ -1,8 +1,14 @@
 package org.andromda.metafacades.emf.uml2;
 
+import java.util.ArrayList;
+
+import org.eclipse.uml2.Element;
+import org.eclipse.uml2.StateMachine;
+
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.StateVertexFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.StateVertexFacade.
  *
  * @see org.andromda.metafacades.uml.StateVertexFacade
  */
@@ -10,8 +16,8 @@ public class StateVertexFacadeLogicImpl
     extends StateVertexFacadeLogic
 {
     public StateVertexFacadeLogicImpl(
-        Object metaObject,
-        String context)
+        final org.eclipse.uml2.Vertex metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -21,8 +27,9 @@ public class StateVertexFacadeLogicImpl
      */
     protected java.util.Collection handleGetOutgoing()
     {
-        // TODO: add your implementation here!
-        return null;
+        ArrayList outList = new ArrayList();
+        outList.addAll(this.metaObject.getOutgoings());
+        return outList;
     }
 
     /**
@@ -30,8 +37,9 @@ public class StateVertexFacadeLogicImpl
      */
     protected java.util.Collection handleGetIncoming()
     {
-        // TODO: add your implementation here!
-        return null;
+        ArrayList inList = new ArrayList();
+        inList.addAll(this.metaObject.getIncomings());
+        return inList;
     }
 
     /**
@@ -39,8 +47,8 @@ public class StateVertexFacadeLogicImpl
      */
     protected java.lang.Object handleGetContainer()
     {
-        // TODO: add your implementation here!
-        return null;
+        //TODO: What's this ?
+        return this.metaObject.getContainer().getNamespace();
     }
 
     /**
@@ -48,8 +56,7 @@ public class StateVertexFacadeLogicImpl
      */
     protected java.lang.Object handleGetPartition()
     {
-        // TODO: add your implementation here!
-        return null;
+        return this.metaObject.getContainer();
     }
 
     /**
@@ -57,13 +64,14 @@ public class StateVertexFacadeLogicImpl
      */
     protected java.lang.Object handleGetStateMachine()
     {
-        // TODO: add your implementation here!
-        return null;
+        Element owner = this.metaObject;
+        while (!(owner instanceof StateMachine))
+        {
+            owner = owner.getOwner();
+        }
+        return owner;
     }
 
-    /**
-     * @see org.andromda.core.metafacade.MetafacadeBase#getValidationOwner()
-     */
     public Object getValidationOwner()
     {
         return getStateMachine();

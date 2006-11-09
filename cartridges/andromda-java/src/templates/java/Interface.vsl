@@ -51,7 +51,7 @@ $target.getDocumentation("     * ")
 #end
 #end
 
-#foreach ( $operation in $interface.operations)
+#foreach ($operation in $interface.operations)
 #if ($operation.visibility == "public")
     /**
 $operation.getDocumentation("     * ")

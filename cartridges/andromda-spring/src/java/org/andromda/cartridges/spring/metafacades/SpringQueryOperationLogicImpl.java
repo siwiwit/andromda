@@ -69,7 +69,7 @@ public class SpringQueryOperationLogicImpl
      */
     protected boolean handleIsCriteriaFinder()
     {
-        return (getCriteriaArgument() != null);
+        return this.getCriteriaArgument() != null;
     }
 
     /**
@@ -77,17 +77,18 @@ public class SpringQueryOperationLogicImpl
      */
     protected ParameterFacade handleGetCriteriaArgument()
     {
-        Collection parameters = getParameters();
-        for (final Iterator iter = parameters.iterator(); iter.hasNext();)
+        ParameterFacade foundParameter = null;
+        for (final Iterator iterator = this.getParameters().iterator(); iterator.hasNext();)
         {
-            ParameterFacade parameter = (ParameterFacade)iter.next();
-            ClassifierFacade type = parameter.getType();
-            if (type.hasStereotype(UMLProfile.STEREOTYPE_CRITERIA))
+            final ParameterFacade parameter = (ParameterFacade)iterator.next();
+            final ClassifierFacade type = parameter.getType();
+            if (type != null && type.hasStereotype(UMLProfile.STEREOTYPE_CRITERIA))
             {
-                return parameter;
+                foundParameter = parameter;
+                break;
             }
         }
-        return null;
+        return foundParameter;
     }
 
     /**

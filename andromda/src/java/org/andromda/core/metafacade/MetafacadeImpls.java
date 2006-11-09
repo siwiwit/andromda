@@ -254,7 +254,7 @@ public class MetafacadeImpls
     /**
      * Stores the metafacade interface and implementation classes.
      */
-    private static final class MetafacadeClasses
+    static final class MetafacadeClasses
     {
         /**
          * Stores all <code>metafacade</code> implementation classes keyed by <code>metafacade</code> interface class.

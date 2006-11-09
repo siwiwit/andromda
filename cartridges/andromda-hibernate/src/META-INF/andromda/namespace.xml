@@ -32,6 +32,18 @@
                     <strong>no operations</strong> are present on the entity with <em>instance scope</em>.
                 </documentation>
             </property>
+            <property name="entity-mappings">
+                <documentation>
+                    The location to which hibernate entity mapping files are generated, these are the ones
+                    with the <code>.hbm.xml</code> extension.
+                </documentation>
+            </property>
+            <property name="user-types">
+                <documentation>
+                    The location to which hibernate enumeration user-types are generated. This includes
+                    String CLOB, BLOB and enumeration user-types.
+                </documentation>
+            </property>
             <property name="session-beans" required="false">
                 <documentation>
                     The directory to which Session EJB service wrappers are generated.  If this
@@ -59,6 +71,40 @@
                 <default>false</default>
                 <documentation>
                     Enable/disable hibernate's second level cache features for the cartridge.
+                </documentation>
+            </property>
+            <property name="hibernateEnableDistributedCache">
+                <default>false</default>
+                <documentation>
+                    If this property is set to true, distributed caching will be enabled. To enable distributed caching
+                    for an entity, you must set this property to true AND tag the entity using the tagged value
+                    <a href="profile.html#@andromda.hibernate.entity.cache.distributed">@andromda.hibernate.entity.cache.distributed</a>
+                    tagged value.
+                    <ul>
+                       <li>true</li>
+                       <li>false</li>
+                    </ul>
+                </documentation>
+            </property>
+            <property name="hibernateDistributedCacheMulticastPort">
+                <default>4446</default>
+                <documentation>
+                    The multicast port to be used for multicast group communication when using a distributed cache
+                    provider (see <a href="#hibernateEnableDistributedCache">hibernateEnableDistributedCache</a>).
+                </documentation>
+            </property>
+            <property name="hibernateDistributedCacheMulticastAddress">
+                <default>230.0.0.1</default>
+                <documentation>
+                    The address to be used for multicast group communication when using a distributed cache provider
+                    (see <a href="#hibernateEnableDistributedCache">hibernateEnableDistributedCache</a>).
+                </documentation>
+            </property>
+            <property name="hibernateDistributedCacheSocketTimeout">
+                <default>2000</default>
+                <documentation>
+                    The number of seconds client sockets will wait when sending messages to this listener until
+                    they give up.
                 </documentation>
             </property>
             <property name="hibernateEntityCache">
@@ -150,12 +196,12 @@
             </property>
             <property name="hibernateConnectionReleaseMode" required="false">
                 <documentation>
-                    Specify when Hibernate should release JDBC connections. By default, a JDBC connection 
-                    is held until the session is explicitly closed or disconnected. For an application server JTA datasource, 
-                    you should use after_statement to aggressively release connections after every JDBC call. 
-                    For a non-JTA connection, it often makes sense to release the connection at the end of each 
-                    transaction, by using after_transaction. auto will choose after_statement for the JTA and 
-                    CMT transaction strategies and after_transaction for the JDBC transaction strategy. 
+                    Specify when Hibernate should release JDBC connections. By default, a JDBC connection
+                    is held until the session is explicitly closed or disconnected. For an application server JTA datasource,
+                    you should use after_statement to aggressively release connections after every JDBC call.
+                    For a non-JTA connection, it often makes sense to release the connection at the end of each
+                    transaction, by using after_transaction. auto will choose after_statement for the JTA and
+                    CMT transaction strategies and after_transaction for the JDBC transaction strategy.
                     <ul>
                         Valid values are:
                         <li>on_close</li> - default
@@ -233,11 +279,6 @@
                     SQL dialect of the database.
                 </documentation>
             </property>
-            <property name="hibernateDefaultSchema" required="false">
-                <documentation>
-                    Qualify unqualified tablenames with the given schema/tablespace in generated SQL.
-                </documentation>
-            </property>
             <property name="hibernateMaxFetchDepth" required="false">
                 <documentation>
                     Sets a maximum "depth" for the outer join fetch tree. Recommended values between 0 and 3
@@ -275,6 +316,7 @@
                         <li>update</li>
                         <li>create</li>
                         <li>create-drop</li>
+                        <li>validate (since Hibernate 3)</li>
                     </ol>
                 </documentation>
             </property>
@@ -388,6 +430,24 @@
                     </ul>
                 </documentation>
             </property>
+            <property name="hibernateXMLPersistence">
+                <default>false</default>
+                <documentation>
+                    Set to <code>true</code> to enable Hibernate's
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a>
+                    using dom4J. The <code>hibernateVersion</code> namespace property must be set to <code>3</code>.
+                </documentation>
+            </property>
+            <property name="hibernateXMLPersistIDAsAttribute">
+                <default>true</default>
+                <documentation>
+                    Set to <code>true</code> if the identifier for generated entities should be mapped
+                    to an <i>attribute</i> of the entity's XML tag, or as a separate field when
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a>
+                    is enabled. The <code>hibernateXMLPersistence</code> namespace property must be set
+                    to <code>true</code> for this option to have meaning.
+                </documentation>
+            </property>
             <property name="defaultHibernateGeneratorClass">
                 <default>native</default>
                 <documentation>
@@ -482,6 +542,29 @@
                               the concrete case because it has limitations in the associations.
                           </li>
                       </ul>
+                </documentation>
+            </property>
+            <property name="hibernateMappingStrategy">
+                <default>hierarchy</default>
+                <documentation>
+                    Denotes whether or not subclasses should be mapped into the same <code>.hbm.xml</code> file or
+                    in a separate one.
+                    <ul>
+                        <li>Set this value to <code>subclass</code> when you want to have a mapping file per entity</li>
+                        <li>The default is <code>hierarchy</code> which will render a mapping file per subclass</li>
+                    </ul>
+                </documentation>
+            </property>
+            <property name="defaultEntityDiscriminatorColumn">
+                <default>class</default>
+                <documentation>
+                    The default name of the <code>discriminator-column</code> on the hibernate entity XML mapping.
+                </documentation>
+            </property>
+            <property name="defaultEntityDiscriminatorType">
+                <default>string</default>
+                <documentation>
+                    The default type of the <code>discriminator-column</code> of the hibernate entity XML mapping.
                 </documentation>
             </property>
             <property name="compositionDefinesEagerLoading">

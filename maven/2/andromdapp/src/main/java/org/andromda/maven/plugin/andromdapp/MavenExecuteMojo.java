@@ -1,12 +1,10 @@
 package org.andromda.maven.plugin.andromdapp;
 
 import java.io.File;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
 import org.andromda.maven.plugin.andromdapp.utils.ProjectUtils;
 import org.andromda.maven.plugin.andromdapp.utils.Projects;

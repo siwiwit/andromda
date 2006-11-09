@@ -246,6 +246,37 @@ public class AndroMDAppType
         }
         return this.templateEngine;
     }
+    
+    /**
+     * Stores the template engine exclusions.
+     */
+    private Map templateEngineExclusions = new LinkedHashMap();
+
+    /**
+     * Adds a template engine exclusion (these are the things that the template engine
+     * will exclude when processing templates)
+     *
+     * @param path the path to the resulting output
+     * @param patterns any patterns to which the conditions should apply
+     */
+    public void addTemplateEngineExclusion(
+        final String path,
+        final String patterns)
+    {
+        this.templateEngineExclusions.put(
+            path,
+            AndroMDAppUtils.stringToArray(patterns));
+    }
+    
+    /**
+     * Gets the template engine exclusions.
+     *
+     * @return the map of template engine exclusion paths and its patterns (if it has any defined).
+     */
+    final Map getTemplateEngineExclusions()
+    {
+        return this.templateEngineExclusions;
+    }
 
     /**
      * The 'yes' response.
@@ -355,9 +386,10 @@ public class AndroMDAppType
                             path,
                             location,
                             "");
+
                     if (this.isWriteable(projectRelativePath))
                     {
-                        if (this.hasTemplateExtension(path))
+                        if (this.isValidTemplate(path))
                         {
                             final File outputFile =
                                 new File(
@@ -456,7 +488,7 @@ public class AndroMDAppType
      * Indicates whether or not this path is <em>writable</em>
      * based on the path and any output conditions that may be specified.
      *
-     * @param path the path tot check.
+     * @param path the path to check.
      * @return true/false
      */
     private boolean isWriteable(String path)
@@ -470,80 +502,118 @@ public class AndroMDAppType
                     1,
                     path.length());
         }
-        boolean writable = true;
+
+        Boolean writable = null;
+
+        final Map evaluatedPaths = new LinkedHashMap();
         for (final Iterator iterator = this.outputConditions.iterator(); iterator.hasNext();)
         {
             final Conditions conditions = (Conditions)iterator.next();
             final Map outputPaths = conditions.getOutputPaths();
             final String conditionsType = conditions.getType();
-            for (final Iterator pathIterator = outputPaths.keySet().iterator(); pathIterator.hasNext();)
+            int ctr = 0;
+            for (final Iterator pathIterator = outputPaths.keySet().iterator(); pathIterator.hasNext(); ctr++)
             {
                 final String outputPath = (String)pathIterator.next();
-                if (path.startsWith(outputPath))
-                {
-                    final String[] patterns = (String[])outputPaths.get(outputPath);
-                    if (ResourceUtils.matchesAtLeastOnePattern(
-                            path,
-                            patterns))
-                    {
-                        for (final Iterator conditionIterator = conditions.getConditions().iterator();
-                            conditionIterator.hasNext();)
-                        {
-                            final Condition condition = (Condition)conditionIterator.next();
-                            final String id = condition.getId();
-                            if (id != null && id.trim().length() > 0)
-                            {
-                                writable = condition.evaluate(this.templateContext.get(id));
 
-                                // - if we're 'anding' the conditions, we break at the first false
-                                if (Conditions.TYPE_AND.equals(conditionsType))
+                // - only evaluate if we haven't yet evaluated
+                writable = (Boolean)evaluatedPaths.get(path);
+                if (writable == null)
+                {
+                    if (path.startsWith(outputPath))
+                    {
+                        final String[] patterns = (String[])outputPaths.get(outputPath);
+                        if (ResourceUtils.matchesAtLeastOnePattern(
+                                path,
+                                patterns))
+                        {
+                            // - assume writable is false, since the path matches at least one conditions path.
+                            for (final Iterator conditionIterator = conditions.getConditions().iterator();
+                                conditionIterator.hasNext();)
+                            {
+                                final Condition condition = (Condition)conditionIterator.next();
+                                final String id = condition.getId();
+                                if (id != null && id.trim().length() > 0)
                                 {
-                                    if (!writable)
+                                    final boolean result = condition.evaluate(this.templateContext.get(id));
+                                    writable = Boolean.valueOf(result);
+                                    if (Conditions.TYPE_AND.equals(conditionsType) && !result)
                                     {
+                                        // - if we 'and' the conditions, we break at the first false
                                         break;
                                     }
-                                }
-                                else
-                                {
-                                    // otherwise we break at the first true condition
-                                    if (writable)
+                                    else if (Conditions.TYPE_OR.equals(conditionsType) && result)
                                     {
+                                        // - otherwise we break at the first true condition
                                         break;
                                     }
                                 }
                             }
                         }
                     }
+                    if (writable != null)
+                    {
+                        evaluatedPaths.put(
+                            path,
+                            writable);
+                    }
                 }
             }
         }
-        return writable;
+
+        // - if writable is still null, set to true
+        if (writable == null)
+        {
+            writable = Boolean.TRUE;
+        }
+        return writable.booleanValue();
     }
 
     /**
      * Indicates whether or not the given <code>path</code> matches at least
-     * one of the file extensions stored in the {@link #templateExtensions}.
+     * one of the file extensions stored in the {@link #templateExtensions}
+     * and isn't in the template engine exclusions.
      *
      * @param path the path to check.
      * @return true/false
      */
-    private boolean hasTemplateExtension(final String path)
+    private boolean isValidTemplate(final String path)
     {
-        boolean hasTemplateExtension = false;
-        if (this.templateExtensions != null)
+        boolean exclude = false;
+        final Map exclusions = this.getTemplateEngineExclusions();
+        for (final Iterator pathIterator = exclusions.keySet().iterator(); pathIterator.hasNext();)
         {
-            final int numberOfExtensions = this.templateExtensions.length;
-            for (int ctr = 0; ctr < numberOfExtensions; ctr++)
+            final String exclusionPath = (String)pathIterator.next();
+            if (path.startsWith(exclusionPath))
             {
-                final String extension = '.' + this.templateExtensions[ctr];
-                if (extension != null && path.endsWith(extension))
+                final String[] patterns = (String[])exclusions.get(exclusionPath);
+                exclude = ResourceUtils.matchesAtLeastOnePattern(
+                    exclusionPath,
+                    patterns);
+                if (exclude)
                 {
-                    hasTemplateExtension = true;
                     break;
                 }
             }
         }
-        return hasTemplateExtension;
+        boolean validTemplate = false;
+        if (!exclude)
+        {
+            if (this.templateExtensions != null)
+            {
+                final int numberOfExtensions = this.templateExtensions.length;
+                for (int ctr = 0; ctr < numberOfExtensions; ctr++)
+                {
+                    final String extension = '.' + this.templateExtensions[ctr];
+                    validTemplate = extension != null && path.endsWith(extension);
+                    if (validTemplate)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        return validTemplate;
     }
 
     /**

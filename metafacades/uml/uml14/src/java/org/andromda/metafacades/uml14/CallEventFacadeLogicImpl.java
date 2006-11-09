@@ -1,5 +1,8 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * MetafacadeLogic implementation.
@@ -22,5 +25,14 @@ public class CallEventFacadeLogicImpl
     public java.lang.Object handleGetOperation()
     {
         return metaObject.getOperation();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml14.CallEventFacade#getOperations()
+     */
+    protected List handleGetOperations()
+    {
+        final Object operation = this.getOperation();
+        return operation == null ? Collections.EMPTY_LIST : Collections.singletonList(operation);
     }
 }

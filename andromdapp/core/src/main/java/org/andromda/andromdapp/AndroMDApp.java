@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ResourceFinder;
@@ -162,35 +163,46 @@ public class AndroMDApp
     private List chooseTypeAndRun(boolean write)
         throws Exception
     {
-        AndroMDAppType andromdapp = null;
-        if (this.types.size() > 1)
-        {
-            final StringBuffer typesChoice = new StringBuffer("[");
-            for (final Iterator iterator = this.types.keySet().iterator(); iterator.hasNext();)
-            {
-                final String type = (String)iterator.next();
-                typesChoice.append(type);
-                if (iterator.hasNext())
-                {
-                    typesChoice.append(", ");
-                }
-            }
-            typesChoice.append("]");
-            this.printText("Please choose the type of application to generate " + typesChoice);
-            String selectedType = this.readLine();
-            while (!this.types.containsKey(selectedType))
-            {
-                selectedType = this.readLine();
-            }
-            andromdapp = (AndroMDAppType)this.types.get(selectedType);
-        }
-        else if (!this.types.isEmpty())
-        {
-            andromdapp = (AndroMDAppType)((Map.Entry)this.types.entrySet().iterator().next()).getValue();
-        }
-        else
+        if (this.types.isEmpty())
         {
             throw new AndroMDAppException("No '" + DESCRIPTOR + "' descriptor files could be found");
+        }
+        final Map properties = new LinkedHashMap();
+        for (final Iterator iterator = this.configurations.iterator(); iterator.hasNext();)
+        {
+            Configuration configuration = (Configuration)iterator.next();
+            properties.putAll(configuration.getAllProperties());
+        }
+        final String applicationType = (String)properties.get(APPLICATION_TYPE);
+        final Set validTypes = this.types.keySet();
+        AndroMDAppType andromdapp = (AndroMDAppType)this.types.get(applicationType);
+        if (andromdapp == null)
+        {
+            if (this.types.size() > 1)
+            {
+                final StringBuffer typesChoice = new StringBuffer("[");
+                for (final Iterator iterator = validTypes.iterator(); iterator.hasNext();)
+                {
+                    final String type = (String)iterator.next();
+                    typesChoice.append(type);
+                    if (iterator.hasNext())
+                    {
+                        typesChoice.append(", ");
+                    }
+                }
+                typesChoice.append("]");
+                this.printText("Please choose the type of application to generate " + typesChoice);
+                String selectedType = this.readLine();
+                while (!this.types.containsKey(selectedType))
+                {
+                    selectedType = this.readLine();
+                }
+                andromdapp = (AndroMDAppType)this.types.get(selectedType);
+            }
+            else if (!this.types.isEmpty())
+            {
+                andromdapp = (AndroMDAppType)((Map.Entry)this.types.entrySet().iterator().next()).getValue();
+            }
         }
 
         andromdapp.setConfigurations(this.configurations);        
@@ -206,6 +218,11 @@ public class AndroMDApp
         andromdapp.addToTemplateContext(templateContext);
         return andromdapp.processResources(write);
     }
+    
+    /**
+     * Identifies the AndroMDApp type (used to override the prompting of the type).
+     */
+    private static final String APPLICATION_TYPE = "andromdappType";
     
     /**
      * Removes all structure generated from the previous run.

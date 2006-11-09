@@ -4,7 +4,7 @@
   <artifactId>andromda-meta-cartridge</artifactId>
   <packaging>andromda-cartridge</packaging>
   <name>AndroMDA Meta Cartridge</name>
-  <version>4.0-M1-SNAPSHOT</version>
+  <version>3.2</version>
   <description>Produces AndroMDA Metafacades.</description>
   <url>http://www.andromda.org/andromda-cartridges/andromda-meta-cartridge</url>
   <issueManagement>
@@ -43,9 +43,9 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</developerConnection>
-    <url>http://cvs.sourceforge.net/viewcvs.py/andromda/andromda-cartridges/andromda-meta-cartridge</url>
+    <connection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</connection>
+    <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</developerConnection>
+    <url>http://andromda.cvs.sourceforge.net/andromda-cartridges/andromda-meta-cartridge</url>
   </scm>
   <organization>
     <name>AndroMDA.org</name>
@@ -53,14 +53,31 @@
   </organization>
   <repositories>
     <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>snapshot-andromda</id>
+      <name>AndroMDA Repository</name>
+      <url>http://team.andromda.org/maven2/</url>
+    </repository>
+    <repository>
+      <snapshots />
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.maven.codehaus.org/maven2/</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>apache-snapshots</id>
+      <url>http://cvs.apache.org/maven-snapshot-repository/</url>
+    </repository>
+    <repository>
       <id>andromda</id>
       <name>AndroMDA Repository</name>
       <url>http://team.andromda.org/maven2</url>
-    </repository>
-    <repository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
     </repository>
     <repository>
       <snapshots>
@@ -75,12 +92,23 @@
     <pluginRepository>
       <id>andromda</id>
       <name>AndroMDA Repository</name>
-      <url>http://team.andromda.org/maven2</url>
+      <url>http://team.andromda.org/maven2/</url>
     </pluginRepository>
     <pluginRepository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.maven.codehaus.org/maven2/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>apache-snapshots</id>
+      <url>http://cvs.apache.org/maven-snapshot-repository/</url>
     </pluginRepository>
     <pluginRepository>
       <releases>
@@ -99,9 +127,19 @@
   </reporting>
   <distributionManagement>
     <repository>
+      <uniqueVersion>false</uniqueVersion>
       <id>andromda-repository</id>
       <name>AndroMDA Repository</name>
-      <url>scp://galaxy.andromda.org/var/www/andromda/maven2</url>
+      <url>file:/var/www/andromda/maven2</url>
     </repository>
   </distributionManagement>
+  <properties>
+    <model.uri>jar:file:d:\java\development\andromda-all\cartridges\andromda-meta/src/uml/MetaMetafacadeModel.xml.zip!/MetaMetafacadeModel.xml</model.uri>
+    <src.dir>d:\java\development\andromda-all\cartridges\andromda-meta/src</src.dir>
+    <java.src.dir>d:\java\development\andromda-all\cartridges\andromda-meta/src/java</java.src.dir>
+    <test.model.uri>jar:file:d:\java\development\andromda-all\cartridges\andromda-meta/src/test/uml/MetaCartridgeTestModel.xml.zip!/MetaCartridgeTestModel.xml</test.model.uri>
+    <test.output.dir>d:\java\development\andromda-all\cartridges\andromda-meta/target/cartridge-test/actual</test.output.dir>
+    <test.src.dir>d:\java\development\andromda-all\cartridges\andromda-meta/src/test</test.src.dir>
+    <maven.build.src>d:\java\development\andromda-all\cartridges\andromda-meta/target/src</maven.build.src>
+  </properties>
 </project>

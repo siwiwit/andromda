@@ -11,16 +11,18 @@ import java.util.Map;
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.profile.Profile;
+import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.log4j.Logger;
 
 
 /**
- * The factory in charge of constucting Metafacade instances. In order for a
+ * The factory in charge of constructing Metafacade instances. In order for a
  * metafacade (i.e. a facade around a meta model element) to be constructed, it
  * must be constructed through this factory.
  *
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen </a>
  * @author Chad Brandon
+ * @author Peter Friese
  */
 public class MetafacadeFactory
 {
@@ -66,8 +68,6 @@ public class MetafacadeFactory
     /**
      * Performs any initialization required by the factory (i.e. discovering all
      * <code>metafacade</code> mappings, etc).
-     *
-     * @param modelTypeNamespaces defines the possible model type namespaces.
      */
     public void initialize()
     {
@@ -148,7 +148,7 @@ public class MetafacadeFactory
      *        null).
      * @return the new metafacade
      */
-    private final MetafacadeBase createMetafacade(
+    private MetafacadeBase createMetafacade(
         final Object mappingObject,
         final String context,
         Class metafacadeClass)
@@ -174,15 +174,15 @@ public class MetafacadeFactory
                 this.getLogger().debug("mappingObject stereotypes --> '" + stereotypes + "'");
             }
 
-            final MetafacadeMappings modelMetafacadeMappings = this.getModelMetafacadeMappings();
-            final MetafacadeMapping mapping =
-                modelMetafacadeMappings.getMetafacadeMapping(
+            MetafacadeMapping mapping = null;
+            if (metafacadeClass == null)
+            {
+                final MetafacadeMappings modelMetafacadeMappings = this.getModelMetafacadeMappings();
+                mapping = modelMetafacadeMappings.getMetafacadeMapping(
                     mappingObject,
                     this.getNamespace(),
                     context,
                     stereotypes);
-            if (metafacadeClass == null)
-            {
                 if (mapping != null)
                 {
                     metafacadeClass = mapping.getMetafacadeClass();
@@ -218,10 +218,6 @@ public class MetafacadeFactory
             {
                 metafacade.setInitialized();
                 metafacade.initialize();
-            }
-            if (this.getLogger().isDebugEnabled())
-            {
-                this.getLogger().debug("constructed metafacade >> '" + metafacade + "'");
             }
             return metafacade;
         }
@@ -300,14 +296,12 @@ public class MetafacadeFactory
      * @param metafacadeClass the metafacade class.
      * @param mappingObject the object to which the metafacade is mapped.
      * @param context the context to which the metafacade applies
-     * @param mappings the MetafacadeMappings instance to which the optional
-     *        <code>mapping</code> instance belongs.
      * @param mapping the optional MetafacadeMapping instance from which the
      *        metafacade is mapped.
      * @return the new (or cached) metafacade.
      * @throws Exception if any error occurs during metafacade creation
      */
-    private final MetafacadeBase getMetafacade(
+    private MetafacadeBase getMetafacade(
         final Class metafacadeClass,
         final Object mappingObject,
         final String context,
@@ -319,22 +313,29 @@ public class MetafacadeFactory
                 metafacadeClass);
         if (metafacade == null)
         {
-            final Object value = this.metafacadesInCreation.get(mappingObject);
-            if (value == null || !value.equals(metafacadeClass))
+            final MultiKey key = new MultiKey(mappingObject, metafacadeClass);
+            if (!this.metafacadesInCreation.contains(key))
             {
-                this.metafacadesInCreation.put(
-                    mappingObject,
-                    metafacadeClass);
-                metafacade = MetafacadeUtils.constructMetafacade(
-                        metafacadeClass,
-                        mappingObject,
-                        context);
-                this.metafacadesInCreation.remove(mappingObject);
-                if (mapping != null)
+                this.metafacadesInCreation.add(
+                    key);
+                if (mapping != null && mapping.isContextRoot())
                 {
+                    metafacade = MetafacadeUtils.constructMetafacade(
+                            metafacadeClass,
+                            mappingObject,
+                            null);
                     // set whether or not this metafacade is a context root
                     metafacade.setContextRoot(mapping.isContextRoot());
                 }
+                else
+                {
+                    metafacade = MetafacadeUtils.constructMetafacade(
+                            metafacadeClass,
+                            mappingObject,
+                            context);
+                }
+                this.metafacadesInCreation.remove(key);
+
                 this.cache.add(
                     mappingObject,
                     metafacade);
@@ -343,6 +344,12 @@ public class MetafacadeFactory
 
         if (metafacade != null)
         {
+            // if the requested metafacadeClass is different from the one in the mapping, contextRoot should be reset 
+            if (mapping != null && !mapping.getMetafacadeClass().equals(metafacadeClass)) 
+            { 
+                metafacade.setContextRoot(false); 
+                metafacade.resetMetafacadeContext(context); 
+            } 
             // we need to set some things each time
             // we change a metafacade's namespace
             final String metafacadeNamespace = metafacade.getNamespace();
@@ -360,7 +367,7 @@ public class MetafacadeFactory
      * Stores the metafacades being created, so that we don't get stuck in
      * endless recursion during creation.
      */
-    private final Map metafacadesInCreation = new LinkedHashMap();
+    private final Collection metafacadesInCreation = new ArrayList();
 
     /**
      * Returns a metafacade for a mappingObject, depending on its <code>mappingClass</code>.
@@ -423,9 +430,7 @@ public class MetafacadeFactory
      * Returns a metafacade for each mappingObject, contained within the
      * <code>mappingObjects</code> collection depending on its
      * <code>mappingClass</code> and (optionally) its <code>sterotypes</code>,
-     * and <code>contextName</code>.  Note that if model package information was given
-     * in the {@link MetafacadeFactoryContext#getModelPackages()} then the model
-     * packages which do not apply will be filtered out.
+     * and <code>contextName</code>.
      *
      * @param mappingObjects the meta model element.
      * @param contextName the name of the context the meta model element is
@@ -532,7 +537,7 @@ public class MetafacadeFactory
      * @param namespace the namespace in which the property is stored.
      * @param metafacadeName the name of the metafacade under which the property is registered
      * @param name the name of the property
-     * @param the value to give the property
+     * @param value to give the property
      */
     final void registerProperty(
         final String namespace,
@@ -570,7 +575,7 @@ public class MetafacadeFactory
      *
      * @param metafacadeName the name of the metafacade under which the property is registered
      * @param name the name of the property
-     * @param the value to give the property
+     * @param value to give the property
      */
     final void registerProperty(
         final String metafacadeName,
@@ -617,19 +622,18 @@ public class MetafacadeFactory
         final String name)
     {
         final Map propertyNamespace = this.getMetafacadePropertyNamespace(metafacade);
-        return propertyNamespace != null ? propertyNamespace.containsKey(name) : false;
+        return propertyNamespace != null && propertyNamespace.containsKey(name);
     }
 
     /**
      * Finds the first property having the given <code>namespaces</code>, or
      * <code>null</code> if the property can <strong>NOT </strong> be found.
      *
-     * @param namespace the property namespace to search.
      * @param metafacade the metafacade to search.
      * @param name the name of the property to find.
      * @return the property or null if it can't be found.
      */
-    private final Object findProperty(
+    private Object findProperty(
         final MetafacadeBase metafacade,
         final String name)
     {
@@ -641,7 +645,6 @@ public class MetafacadeFactory
      * Gets the registered property registered under the <code>namespace</code>
      * with the <code>name</code>
      *
-     * @param namespace the namespace of the property to check.
      * @param metafacade the metafacade to search
      * @param name the name of the property to check.
      * @return the registered property
@@ -675,7 +678,7 @@ public class MetafacadeFactory
      * Gets the list of all validation messages collection during model processing.
      *
      * @return Returns the validationMessages.
-     * @see #validateMetafacades()
+     * @see #validateAllMetafacades()
      */
     public List getValidationMessages()
     {
@@ -789,7 +792,7 @@ public class MetafacadeFactory
     /**
      * Registers all namespace properties (if required).
      */
-    private final void registerNamespaceProperties()
+    private void registerNamespaceProperties()
     {
         // - only register them if they already aren't registered
         if (this.metafacadeNamespaces.isEmpty())
@@ -827,7 +830,7 @@ public class MetafacadeFactory
     /**
      * Clears out the factory's internal caches (other
      * than namespace properties, which can be cleared by
-     * calling {@link #clearNamespaceProperties()}.
+     * calling {@link org.andromda.core.configuration.Namespaces#clear()}.
      */
     public void clearCaches()
     {

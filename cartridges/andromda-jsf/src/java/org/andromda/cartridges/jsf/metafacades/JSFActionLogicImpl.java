@@ -4,8 +4,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.andromda.cartridges.jsf.JSFGlobals;
 import org.andromda.cartridges.jsf.JSFProfile;
@@ -67,7 +70,7 @@ public class JSFActionLogicImpl
      */
     public String getName()
     {
-        return JSFUtils.toWebResourceName(super.getName());
+        return JSFUtils.toWebResourceName(this.getUseCase().getName() + "-" + super.getName());
     }
 
     /**
@@ -219,12 +222,15 @@ public class JSFActionLogicImpl
     {
         String messageKey = null;
 
-        final JSFEvent actionTrigger = (JSFEvent)this.getTrigger();
-        if (actionTrigger != null)
+        final Object trigger = this.getTrigger();
+        if (trigger instanceof JSFEvent)
         {
-            messageKey = actionTrigger.getMessageKey();
+            final JSFEvent actionTrigger = (JSFEvent)trigger;
+            if (actionTrigger != null)
+            {
+                messageKey = actionTrigger.getMessageKey();
+            }
         }
-
         return messageKey;
     }
 
@@ -233,8 +239,13 @@ public class JSFActionLogicImpl
      */
     protected String handleGetDocumentationKey()
     {
-        final JSFEvent trigger = (JSFEvent)this.getTrigger();
-        return (trigger == null ? this.getMessageKey() + ".is.an.action.without.trigger" : trigger.getMessageKey()) +
+        final Object trigger = this.getTrigger();
+        JSFEvent event = null;
+        if (trigger instanceof JSFEvent)
+        {
+            event = (JSFEvent)trigger;
+        }
+        return (event == null ? this.getMessageKey() + ".is.an.action.without.trigger" : event.getMessageKey()) +
         '.' + JSFGlobals.DOCUMENTATION_MESSAGE_KEY_SUFFIX;
     }
 
@@ -322,10 +333,14 @@ public class JSFActionLogicImpl
                 final List tables = view.getTables();
                 for (int ctr = 0; ctr < tables.size() && tableLinkParameter == null; ctr++)
                 {
-                    final JSFParameter table = (JSFParameter)tables.get(ctr);
-                    if (tableLinkName.equals(table.getName()))
+                    final Object object = tables.get(ctr);
+                    if (object instanceof JSFParameter)
                     {
-                        tableLinkParameter = table;
+                        final JSFParameter table = (JSFParameter)object;
+                        if (tableLinkName.equals(table.getName()))
+                        {
+                            tableLinkParameter = table;
+                        }
                     }
                 }
             }
@@ -467,17 +482,20 @@ public class JSFActionLogicImpl
                 public boolean evaluate(final Object object)
                 {
                     boolean valid = false;
-                    final JSFParameter parameter = (JSFParameter)object;
-                    valid = parameter.isInputHidden();
-                    if (!valid)
+                    if (object instanceof JSFParameter)
                     {
-                        for (final Iterator iterator = parameter.getAttributes().iterator(); iterator.hasNext();)
+                        final JSFParameter parameter = (JSFParameter)object;
+                        valid = parameter.isInputHidden();
+                        if (!valid)
                         {
-                            JSFAttribute attribute = (JSFAttribute)iterator.next();
-                            valid = attribute.isInputHidden();
-                            if (valid)
+                            for (final Iterator iterator = parameter.getAttributes().iterator(); iterator.hasNext();)
                             {
-                                break;
+                                JSFAttribute attribute = (JSFAttribute)iterator.next();
+                                valid = attribute.isInputHidden();
+                                if (valid)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
@@ -496,11 +514,15 @@ public class JSFActionLogicImpl
         final Collection actionParameters = this.getParameters();
         for (final Iterator iterator = actionParameters.iterator(); iterator.hasNext();)
         {
-            final JSFParameter parameter = (JSFParameter)iterator.next();
-            if (parameter.isValidationRequired())
+            final Object object = iterator.next();
+            if (object instanceof JSFParameter)
             {
-                required = true;
-                break;
+                final JSFParameter parameter = (JSFParameter)object;
+                if (parameter.isValidationRequired())
+                {
+                    required = true;
+                    break;
+                }
             }
         }
         return required;
@@ -538,11 +560,15 @@ public class JSFActionLogicImpl
         {
             for (final Iterator iterator = this.getParameters().iterator(); iterator.hasNext();)
             {
-                final JSFParameter parameter = (JSFParameter)iterator.next();
-                resetRequired = parameter.isReset();
-                if (resetRequired)
+                final Object object = iterator.next();
+                if (object instanceof JSFParameter)
                 {
-                    break;
+                    final JSFParameter parameter = (JSFParameter)object;
+                    resetRequired = parameter.isReset();
+                    if (resetRequired)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -636,5 +662,71 @@ public class JSFActionLogicImpl
     protected String handleGetFormImplementationGetter()
     {
         return "get" + StringUtils.capitalize(this.getFormBeanName(false)) + "()";
+    }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFAction#isFinalStateTarget()
+     */
+    protected boolean handleIsFinalStateTarget()
+    {
+        return this.getTarget() instanceof JSFFinalState;
+    }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFAction#getFromOutcome()
+     */
+    protected String handleGetFromOutcome()
+    {
+        return this.getName();
+    }
+    
+    protected boolean handleIsSuccessMessagesPresent()
+    {
+        return !this.getSuccessMessages().isEmpty();
+    }
+
+    protected boolean handleIsWarningMessagesPresent()
+    {
+        return !this.getWarningMessages().isEmpty();
+    }
+    
+    /**
+     * Collects specific messages in a map.
+     *
+     * @param taggedValue the tagged value from which to read the message
+     * @return maps message keys to message values, but only those that match the arguments
+     *         will have been recorded
+     */
+    private Map getMessages(String taggedValue)
+    {
+        Map messages;
+
+        final Collection taggedValues = this.findTaggedValues(taggedValue);
+        if (taggedValues.isEmpty())
+        {
+            messages = Collections.EMPTY_MAP;
+        }
+        else
+        {
+            messages = new LinkedHashMap(); // we want to keep the order
+
+            for (final Iterator iterator = taggedValues.iterator(); iterator.hasNext();)
+            {
+                final String value = (String)iterator.next();
+                messages.put(StringUtilsHelper.toResourceMessageKey(value), value);
+            }
+        }
+
+        return messages;
+    }
+
+    protected Map handleGetSuccessMessages()
+    {
+        return this.getMessages(JSFProfile.TAGGEDVALUE_ACTION_SUCCESS_MESSAGE);
+    }
+
+    protected Map handleGetWarningMessages()
+    {
+        return this.getMessages(JSFProfile.TAGGEDVALUE_ACTION_WARNING_MESSAGE);
     }
 }

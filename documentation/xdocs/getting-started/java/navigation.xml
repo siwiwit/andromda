@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  	<title>Getting started</title>
+
+	<body>
+
+        <links>
+            <item name="MDA" href="http://www.omg.org/mda/"/>
+            <item name="MDA FAQs" href="http://www.klasse.nl/mda/mda-faq.html"/>
+            <item name="UML" href="http://www.cetus-links.org/oo_uml.html"/>
+            <item name="OCL" href="http://www.klasse.nl/ocl/index.html"/>
+            <item name="XMI" href="http://www.omg.org/technology/documents/formal/xmi.htm"/>
+        </links>
+
+        <menu name="Getting Started">
+            <item name="Introduction" href="/getting-started/java/index.html"/>
+            <item name="Sample Application" href="/getting-started/java/sample-application.html"/>
+            <item name="Environment Setup" href="/getting-started/java/env-setup.html"/>
+            <item name="Starter App" href="/getting-started/java/create-application.html"/>
+            <item name="Entities" href="/getting-started/java/create-entity.html"/>
+            <item name="Value Objects" href="/getting-started/java/create-value-object.html"/>
+            <item name="Services" href="/getting-started/java/create-service.html"/>
+            <item name="Console App" href="/getting-started/java/create-console-app.html"/>
+            <item name="Associations" href="/getting-started/java/create-association.html"/>
+            <item name="Complete the Model" href="/getting-started/java/complete-timetracker-model.html"/>
+            <item name="Enhance Console App" href="/getting-started/java/enhance-console-app.html"/>
+        </menu>
+  	</body>
+</project>

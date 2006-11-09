@@ -6,7 +6,14 @@
 #set ($exportable = $table.tableExportable)
 <div id="${table.name}" class="table">
 #if (!$table.tableGlobalActions.empty)
-    <form id="${table.name}" name="" action="" method="post" enctype="multipart/form-data">
+## this next loop has been introduced here in order to detect whether or not we need to post the form with multipart encoding
+#set ($multiPartFormData = false)
+#foreach ($action in $table.tableGlobalActions)
+#if ($action.multipartFormData)
+#set ($multiPartFormData = true)
+#end
+#end
+    <form id="${table.name}" name="" action="" method="post"#if($multiPartFormData) enctype="multipart/form-data"#end>
 #end
 #set ($displayTableName = "form.${table.name}")
     <display:table name="${${displayTableName}}" id="row"

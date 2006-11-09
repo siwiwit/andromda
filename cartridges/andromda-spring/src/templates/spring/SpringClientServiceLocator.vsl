@@ -1,4 +1,3 @@
-#parse("templates/spring/SpringGlobals.vm")
 // license-header java merge-point
 //
 // Attention: Generated code! Do not modify by hand!
@@ -48,7 +47,7 @@ public class $clientServiceLocatorName
      *
      * @return the shared service locator instance.
      */
-    public static final ${clientServiceLocatorName} instance()
+    public static ${clientServiceLocatorName} instance()
     {
         return instance;
     }
@@ -59,7 +58,7 @@ public class $clientServiceLocatorName
      * is specified for the <code>applicationContextLocation</code>
      * then the default application context will be used.
      *
-     * @param contextLocation the location of the context
+     * @param applicationContextLocation the location of the context
      */
     public synchronized void init(String applicationContextLocation)
     {
@@ -109,6 +108,30 @@ public class $clientServiceLocatorName
     }
 
 #end
+#end
+#foreach ($manageable in $manageables)
+#if ($manageable.remotable)
+    /**
+     * Gets an instance of {@link $manageable.fullyQualifiedManageableServiceName}.
+     */
+    public final $manageable.fullyQualifiedManageableServiceName get${manageable.manageableServiceName}()
+    {
+        return ($manageable.fullyQualifiedManageableServiceName)
+            getContext().getBean("$manageable.manageableServiceName");
+    }
+
+#end
+#end
+#if ($acegiServiceSecurity && $richClient)
+    /**
+     * Get the authentication manager used to validate user credentials.
+     */
+    public final org.acegisecurity.providers.rcp.RemoteAuthenticationManager getRemoteAuthenticationService()
+    {
+        return (org.acegisecurity.providers.rcp.RemoteAuthenticationManager)
+            getContext().getBean("${serviceRemoteContext}RemoteAuthenticationManagerService");
+    }
+
 #end
     /**
      * Gets an instance of the given service.

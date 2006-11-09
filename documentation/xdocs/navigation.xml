@@ -7,7 +7,7 @@
 
         <links>
             <item name="MDA" href="http://www.omg.org/mda/"/>
-            <item name="MDA FAQs" href="http://www.klasse.nl/english/mda/mda-faq.html"/>
+            <item name="MDA FAQs" href="http://www.klasse.nl/mda/mda-faq.html"/>
             <item name="UML" href="http://www.cetus-links.org/oo_uml.html"/>
             <item name="OCL" href="http://www.klasse.nl/ocl/index.html"/>
             <item name="XMI" href="http://www.omg.org/technology/documents/formal/xmi.htm"/>
@@ -15,7 +15,7 @@
 
         <menu name="Overview">
             <item name="What is AndroMDA?" href="/whatisit.html"/>
-            <item name="Getting Started - Java" href="/starting.html"/>
+            <item name="Getting Started - Java" href="/getting-started/java/index.html"/>
             <item name="Getting Started - .NET" href="http://team.andromda.org/contrib/starting-dotnet.html"/>
             <item name="Modeling" href="/modeling.html"/>
             <item name="Samples" href="/samples.html"/>
@@ -45,7 +45,7 @@
 
         <menu name="Downloads">
             <item name="Releases" href="/releases.html"/>
-            <item name="Continuous Builds" href="http://team.andromda.org/maven/andromda/distributions"/>
+            <item name="Continuous Builds" href="http://team.andromda.org/maven2/org/andromda/distributions/"/>
             <item name="Resources" href="/resources.html"/>
         </menu>
 
@@ -67,6 +67,7 @@
             <item name="Building AndroMDA" href="/building.html"/>
             <item name="Coding / Patching" href="/coding-conventions.html"/>
             <item name="JMI 1.4 API" href="/jmi-uml1.4/index.html"/>
+            <item name="EMF UML2 API" href="http://download.eclipse.org/tools/uml2/1.1.1/javadoc"/>
             <item name="CVS Repository" href="/cvs-usage.html"/>
             <item name="Debugging" href="/dev-debugging.html"/>
         </menu>

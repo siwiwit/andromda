@@ -1,6 +1,7 @@
 package org.andromda.cartridges.xmlschema;
 
 import org.andromda.core.profile.Profile;
+import org.andromda.metafacades.uml.UMLProfile;
 
 
 /**
@@ -9,6 +10,7 @@ import org.andromda.core.profile.Profile;
  * Schema cartridge. </p>
  */
 public class XmlSchemaProfile
+    extends UMLProfile
 {
     /**
      * The Profile instance from which we retrieve the mapped profile names.

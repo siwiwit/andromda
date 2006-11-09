@@ -24,7 +24,7 @@ public class ExpressionTranslator
      *
      * @return ExpressionTranslator.
      */
-    public static final ExpressionTranslator instance()
+    public static ExpressionTranslator instance()
     {
         return translator;
     }

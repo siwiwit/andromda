@@ -48,7 +48,7 @@ public class ModelFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelFacadeLogic#getAllActionStates()
+     * @see org.andromda.metafacades.uml.ModelFacade#getAllActionStates()
      */
     protected Collection handleGetAllActionStates()
     {
@@ -72,7 +72,15 @@ public class ModelFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelFacadeLogic#findUseCaseWithTaggedValueOrHyperlink(java.lang.String, java.lang.String)
+     * @see org.andromda.metafacades.uml.ModelFacade#getAllObjectFlowStates()
+     */
+    protected Collection handleGetAllObjectFlowStates()
+    {
+        return metaObject.getActivityGraphs().getObjectFlowState().refAllOfType();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ModelFacade#findUseCaseWithTaggedValueOrHyperlink(java.lang.String, java.lang.String)
      */
     protected UseCaseFacade handleFindUseCaseWithTaggedValueOrHyperlink(
         String tag,
@@ -170,7 +178,7 @@ public class ModelFacadeLogicImpl
         }
     }
 
-    private final Collection filter(
+    private Collection filter(
         Collection collection,
         Predicate collectionFilter)
     {

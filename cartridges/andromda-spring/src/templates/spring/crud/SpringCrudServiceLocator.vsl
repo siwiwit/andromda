@@ -1,5 +1,4 @@
 #if (!$manageables.empty)
-#parse("templates/spring/SpringGlobals.vm")
 // license-header java merge-point
 //
 // Attention: Generated code! Do not modify by hand!

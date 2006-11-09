@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.andromda.cartridges.spring.SpringHibernateUtils;
+import org.andromda.cartridges.spring.metafacades.SpringGlobals;
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.apache.commons.collections.CollectionUtils;
@@ -77,6 +79,11 @@ public class SpringDependencyLogicImpl
         return circularReference;
     }
     
+    private boolean isXmlPersistenceActive() {
+        return SpringHibernateUtils.isXmlPersistenceActive((String)this.getConfiguredProperty(SpringGlobals.HIBERNATE_VERSION),        
+                                                           (String)this.getConfiguredProperty(SpringGlobals.HIBERNATE_XML_PERSISTENCE));
+    }
+    
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringDependency#getTransformationConstantValue()
      */
@@ -111,6 +118,10 @@ public class SpringDependencyLogicImpl
                 }
             }
         }
+        
+        if (isXmlPersistenceActive())
+            value++;
+        
         return value;
     }
 

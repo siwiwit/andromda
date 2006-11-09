@@ -3,6 +3,7 @@ package org.andromda.metafacades.uml;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.andromda.core.common.ExceptionUtils;
@@ -36,9 +37,9 @@ public class EntityMetafacadeUtils
             modelElementName);
 
         StringBuffer sqlName = new StringBuffer();
-        StringCharacterIterator iter = new StringCharacterIterator(StringUtils.uncapitalize(modelElementName));
+        StringCharacterIterator iterator = new StringCharacterIterator(StringUtils.uncapitalize(modelElementName));
 
-        for (char character = iter.first(); character != CharacterIterator.DONE; character = iter.next())
+        for (char character = iterator.first(); character != CharacterIterator.DONE; character = iterator.next())
         {
             if (Character.isUpperCase(character))
             {
@@ -155,36 +156,46 @@ public class EntityMetafacadeUtils
      */
     public static String getSqlNameFromTaggedValue(
         String prefix,
-        ModelElementFacade element,
+        final ModelElementFacade element,
         String name,
-        Short nameMaxLength,
+        final Short nameMaxLength,
         String suffix,
-        Object separator)
+        final Object separator)
     {
         if (element != null)
         {
             Object value = element.findTaggedValue(name);
-            name = StringUtils.trimToEmpty((String)value);
-            if (StringUtils.isEmpty(name))
+            StringBuffer buffer = new StringBuffer(StringUtils.trimToEmpty((String)value));
+            if (StringUtils.isEmpty(buffer.toString()))
             {
                 // if we can't find the tagValue then use the
                 // element name for the name
-                name = element.getName();
-                name = toSqlName(
-                        name,
-                        separator);
+                buffer = new StringBuffer(toSqlName(
+                            element.getName(),
+                            separator));
+                suffix = StringUtils.trimToEmpty(suffix);
+                prefix = StringUtils.trimToEmpty(prefix);
+                if (nameMaxLength != null)
+                {
+                    final short maxLength = (short)(nameMaxLength.shortValue() - suffix.length() - prefix.length());
+                    buffer =
+                        new StringBuffer(
+                            EntityMetafacadeUtils.ensureMaximumNameLength(
+                                buffer.toString(),
+                                new Short(maxLength)));
+                }
                 if (StringUtils.isNotBlank(prefix))
                 {
-                    name = StringUtils.trimToEmpty(prefix) + name;
+                    buffer.insert(
+                        0,
+                        prefix);
                 }
                 if (StringUtils.isNotBlank(suffix))
                 {
-                    name = name + StringUtils.trimToEmpty(suffix);
+                    buffer.append(suffix);
                 }
             }
-            name = ensureMaximumNameLength(
-                    name,
-                    nameMaxLength);
+            name = buffer.toString();
         }
         return name;
     }
@@ -217,34 +228,30 @@ public class EntityMetafacadeUtils
     }
 
     /**
-     * Retrieves the identifiers for the given <code>entity</code>. If
-     * <code>follow</code> is true then the inheritance hierachy will also be
-     * searched.
+     * Gets all identifiers for an entity. If 'follow' is true, and if
+     * no identifiers can be found on the entity, a search up the
+     * inheritance chain will be performed, and the identifiers from
+     * the first super class having them will be used.   If no
+     * identifiers exist, a default identifier will be created if the
+     * allowDefaultIdentifiers property is set to true.
      *
+     * @param entity the entity for which to retrieve the identifiers
      * @param follow a flag indicating whether or not the inheritance hiearchy
      *        should be followed
      * @return the collection of identifiers.
      */
     public static Collection getIdentifiers(
-        Entity entity,
-        boolean follow)
+        final Entity entity,
+        final boolean follow)
     {
-        Collection identifiers = entity.getAttributes();
+        final Collection identifiers = new ArrayList(entity.getAttributes());
         MetafacadeUtils.filterByStereotype(
             identifiers,
             UMLProfile.STEREOTYPE_IDENTIFIER);
 
-        for (ClassifierFacade superClass = (ClassifierFacade)entity.getGeneralization();
-            superClass != null && identifiers.isEmpty() && follow;
-            superClass = (ClassifierFacade)superClass.getGeneralization())
-        {
-            if (superClass.hasStereotype(UMLProfile.STEREOTYPE_ENTITY))
-            {
-                Entity facade = (Entity)superClass;
-                identifiers.addAll(facade.getIdentifiers(follow));
-            }
-        }
-        return identifiers;
+        return identifiers.isEmpty() && follow && entity.getGeneralization() instanceof Entity
+            ? getIdentifiers((Entity)entity.getGeneralization(), follow)
+            : identifiers;
     }
 
     /**
@@ -263,10 +270,10 @@ public class EntityMetafacadeUtils
         String value = typeName;
         if (StringUtils.isNotEmpty(typeName))
         {
-            char beginChar = '(';
-            char endChar = ')';
-            int beginIndex = value.indexOf(beginChar);
-            int endIndex = value.indexOf(endChar);
+            final char beginChar = '(';
+            final char endChar = ')';
+            final int beginIndex = value.indexOf(beginChar);
+            final int endIndex = value.indexOf(endChar);
             if (beginIndex != -1 && endIndex != -1 && endIndex > beginIndex)
             {
                 String replacement = value.substring(

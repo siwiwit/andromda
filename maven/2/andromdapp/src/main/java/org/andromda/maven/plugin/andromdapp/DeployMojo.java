@@ -2,10 +2,15 @@ package org.andromda.maven.plugin.andromdapp;
 
 import java.io.File;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.codehaus.plexus.util.DirectoryScanner;
 
 
 /**
@@ -29,6 +34,22 @@ public class DeployMojo
      * The string indicating whether or not the deploy should be exploded or not.
      */
     private static final String EXPLODED = "exploded";
+
+    /**
+     * Any additional files to include in the deploy liked datasource files etc
+     * (the files must reside in the project build directory).
+     * By default nothing besides the file artifact is deployed.
+     *
+     * @parameter
+     */
+    private String[] includes = new String[0];
+
+    /**
+     * Any files to exclude in the deploy.
+     *
+     * @parameter
+     */
+    private String[] excludes = new String[0];
 
     /**
      * @see org.apache.maven.plugin.AbstractMojo#execute()
@@ -79,10 +100,16 @@ public class DeployMojo
                                 this.getLog().info("Removing exploded artifact: " + deployFile);
                                 FileUtils.deleteDirectory(deployFile);
                             }
-                            this.getLog().info("Deploying " + artifactFile + " to " + deployDirectory);
-                            FileUtils.copyFileToDirectory(
-                                artifactFile,
-                                deployDirectory);
+                            final List deployFiles = this.getAdditionalFiles();
+                            deployFiles.add(0, artifactFile);
+                            for (final Iterator iterator = deployFiles.iterator(); iterator.hasNext();)
+                            {
+                                final File file = (File)iterator.next();
+                                this.getLog().info("Deploying file " + file + " to " + deployDirectory);
+                                FileUtils.copyFileToDirectory(
+                                    file,
+                                    deployDirectory);
+                            }
                         }
                     }
                     catch (final Throwable throwable)
@@ -100,9 +127,37 @@ public class DeployMojo
             }
             else
             {
-                this.getLog().warn(
-                    "Deploy did not occur because file '" +  artifactFile + "' does not exist");
+                this.getLog().warn("Deploy did not occur because file '" + artifactFile + "' does not exist");
             }
         }
+    }
+
+    /**
+     * Retrieves any additional files to include in the deploy.
+     *
+     * @return all poms found.
+     * @throws MojoExecutionException
+     */
+    private List getAdditionalFiles()
+    {
+        final DirectoryScanner scanner = new DirectoryScanner();
+        scanner.setBasedir(this.project.getBuild().getDirectory());
+        scanner.setIncludes(this.includes);
+        scanner.setExcludes(this.excludes);
+        scanner.scan();
+
+        final List files = new ArrayList();
+        for (int ctr = 0; ctr < scanner.getIncludedFiles().length; ctr++)
+        {
+            final File file = new File(
+                    this.project.getBuild().getDirectory(),
+                    scanner.getIncludedFiles()[ctr]);
+            if (file.exists())
+            {
+                files.add(file);
+            }
+        }
+
+        return files;
     }
 }

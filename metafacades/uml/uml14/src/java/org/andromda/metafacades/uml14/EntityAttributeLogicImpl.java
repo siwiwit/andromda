@@ -185,4 +185,16 @@ public class EntityAttributeLogicImpl
         return mappings;
     }
 
+    protected boolean handleIsTransient()
+    {
+        return this.hasStereotype(UMLProfile.STEREOTYPE_TRANSIENT);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityAttribute#getUniqueGroup()
+     */
+    protected String handleGetUniqueGroup() {
+        final String group = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_COLUMN_UNIQUE_GROUP);
+        return group != null ? StringUtils.trimToEmpty(group) : null;
+    }
 }

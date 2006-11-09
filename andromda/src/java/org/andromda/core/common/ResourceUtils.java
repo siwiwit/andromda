@@ -1,13 +1,20 @@
 package org.andromda.core.common;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
+import java.io.IOException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,6 +25,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -27,10 +35,22 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ResourceUtils
 {
+    private final static Logger logger = Logger.getLogger(ResourceUtils.class);
+    
     /**
      * All archive files start with this prefix.
      */
     private static final String ARCHIVE_PREFIX = "jar:";
+    
+    /**
+     * The prefix for URL file resources.
+     */
+    private static final String FILE_PREFIX = "file:";
+    
+    /**
+     * The prefix to use for searching the classpath for a resource.
+     */
+    private static final String CLASSPATH_PREFIX = "classpath:";
 
     /**
      * Retrieves a resource from the current classpath.
@@ -86,7 +106,7 @@ public class ResourceUtils
                 BufferedReader resourceInput = new BufferedReader(resource);
                 for (String line = resourceInput.readLine(); line != null; line = resourceInput.readLine())
                 {
-                    contents.append(line + LINE_SEPARATOR);
+                    contents.append(line).append(LINE_SEPARATOR);
                 }
                 resourceInput.close();
                 resourceInput = null;
@@ -266,6 +286,8 @@ public class ResourceUtils
     {
         return resource != null && resource.toString().startsWith(ARCHIVE_PREFIX);
     }
+    
+    private static final String URL_DECODE_ENCODING = "UTF-8";
 
     /**
      * If this <code>resource</code> is an archive file, it will return the resource as an archive.
@@ -290,7 +312,8 @@ public class ResourceUtils
                             0,
                             entryPrefixIndex);
                 }
-                archive = new ZipFile(new URL(resourceUrl).getFile());
+                resourceUrl = URLDecoder.decode(new URL(resourceUrl).getFile(), URL_DECODE_ENCODING); 
+                archive = new ZipFile(resourceUrl);
             }
             return archive;
         }
@@ -346,7 +369,7 @@ public class ResourceUtils
      * <code>resourceName</code> to the given <code>directory</code> will be made, otherwise an attempt to find the
      * <code>resourceName</code> directly on the classpath will be initiated. </p>
      *
-     * @param resource  the name of a resource
+     * @param resourceName the name of a resource
      * @param directory the directory location
      * @return the resource url
      */
@@ -399,7 +422,7 @@ public class ResourceUtils
      *        the last modified time.
      * @return the last modified time or 0 if it couldn't be retrieved.
      */
-    public static final long getLastModifiedTime(final URL resource)
+    public static long getLastModifiedTime(final URL resource)
     {
         long lastModified;
         try
@@ -436,7 +459,7 @@ public class ResourceUtils
      * <code>resourceName</code> to the given <code>directory</code> will be made, otherwise an attempt to find the
      * <code>resourceName</code> directly on the classpath will be initiated. </p>
      *
-     * @param resource  the name of a resource
+     * @param resourceName the name of a resource
      * @param directory the directory location
      * @return the resource url
      */
@@ -456,7 +479,9 @@ public class ResourceUtils
 
     /**
      * Attempts to construct the given <code>path</code>
-     * to a URL instance.
+     * to a URL instance. If the argument cannot be resolved as a resource
+     * on the file system this method will attempt to locate it on the
+     * classpath.
      *
      * @param path the path from which to construct the URL.
      * @return the constructed URL or null if one couldn't be constructed.
@@ -467,32 +492,177 @@ public class ResourceUtils
         if (path != null)
         {
             path = ResourceUtils.normalizePath(path);
-            final File file = new File(path);
-            if (file.exists())
+
+            try
             {
-                try
+                if (path.startsWith(CLASSPATH_PREFIX))
                 {
-                    url = file.toURL();
+                    url = ResourceUtils.resolveClasspathResource(path);
                 }
-                catch (MalformedURLException exception)
+                else
                 {
-                    // ignore
+                    final File file = new File(path);
+                    url = file.exists() ? file.toURL() : new URL(path);
+                }
+            }
+            catch (MalformedURLException exception)
+            {
+                // ignore means no protocol was specified
+            }
+        }
+        return url;
+    }
+
+    /**
+     * Resolves a URL to a classpath resource, this method will treat occurrences of the exclamation mark
+     * similar to what {@link URL} does with the <code>jar:file</code> protocol.
+     * <p/>
+     * Example: <code>my/path/to/some.zip!/file.xml</code> represents a resource <code>file.xml</code>
+     * that is located in a ZIP file on the classpath called <code>my/path/to/some.zip</code>
+     * <p/>
+     * It is possible to have nested ZIP files, example:
+     * <code>my/path/to/first.zip!/subdir/second.zip!/file.xml</code>.
+     * <p/>
+     * <i>Please note that the extension of the ZIP file can be anything,
+     * but in the case the extension is <code>.jar</code> the JVM will automatically unpack resources
+     * one level deep and put them all on the classpath</i>
+     *
+     * @param path the name of the resource to resolve to a URL, potentially nested in ZIP archives
+     * @return a URL pointing the resource resolved from the argument path
+     *      or <code>null</code> if the argument is <code>null</code> or impossible to resolve
+     */
+    public static URL resolveClasspathResource(String path)
+    {
+        URL urlResource = null;
+        if (path.startsWith(CLASSPATH_PREFIX))
+        {        
+            path = path.substring(CLASSPATH_PREFIX.length(), path.length());
+            
+            // - the value of the following constant is -1 of no nested resources were specified,
+            //   otherwise it points to the location of the first occurrence
+            final int nestedPathOffset = path.indexOf("!/");
+    
+            // - take the part of the path that is not nested (may be all of it)
+            final String resourcePath = nestedPathOffset == -1 ? path : path.substring(0, nestedPathOffset);
+            final String nestingPath = nestedPathOffset == -1 ? "" : path.substring(nestedPathOffset);
+    
+            // - use the new path to load a URL from the classpath using the context class loader for this thread
+            urlResource = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
+    
+            // - at this point the URL might be null in case the resource was not found
+            if (urlResource == null)
+            {
+                if (logger.isDebugEnabled())
+                {
+                    logger.debug("Resource could not be located on the classpath: " + resourcePath);
                 }
             }
             else
             {
                 try
                 {
-                    url = new URL(path);
+                    // - extract the filename from the entire resource path
+                    final int fileNameOffset = resourcePath.lastIndexOf('/');
+                    final String resourceFileName =
+                        fileNameOffset == -1 ? resourcePath : resourcePath.substring(fileNameOffset + 1);
+    
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Creating temporary copy on the file system of the classpath resource");
+                    }
+                    final File fileSystemResource = File.createTempFile(resourceFileName, null);
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Temporary file will be deleted on VM exit: " + fileSystemResource.getAbsolutePath());
+                    }
+                    fileSystemResource.deleteOnExit();
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Copying classpath resource contents into temporary file");
+                    }
+                    writeUrlToFile(urlResource, fileSystemResource.toString(), null);
+    
+                    // - count the times the actual resource to resolve has been nested
+                    final int nestingCount = StringUtils.countMatches(path, "!/");
+                    // - this buffer is used to construct the URL spec to that specific resource
+                    final StringBuffer buffer = new StringBuffer();
+                    for (int ctr = 0; ctr < nestingCount; ctr++)
+                    {
+                        buffer.append(ARCHIVE_PREFIX);
+                    }
+                    buffer.append(FILE_PREFIX).append(fileSystemResource.getAbsolutePath()).append(nestingPath);
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("Constructing URL to " +
+                            (nestingCount > 0 ? "nested" : "") + " resource in temporary file");
+                    }
+    
+                    urlResource = new URL(buffer.toString());
                 }
-                catch (MalformedURLException exception)
+                catch (final IOException exception)
                 {
-                    // ignore
+                    logger.warn("Unable to resolve classpath resource", exception);
+                    // - impossible to properly resolve the path into a URL
+                    urlResource = null;
                 }
             }
         }
-        return url;
+        return urlResource;
     }
+    
+    /**
+     * Writes the URL contents to a file specified by the fileLocation argument.
+     *
+     * @param url the URL to read
+     * @param fileLocation the location which to write.
+     * @param encoding the optional encoding
+     */
+    public static void writeUrlToFile(
+        final URL url,
+        final String fileLocation,
+        final String encoding)
+        throws IOException
+    {
+        ExceptionUtils.checkNull(
+            "url",
+            url);
+        ExceptionUtils.checkEmpty(
+            "fileLocation",
+            fileLocation);
+        final File file = new File(fileLocation);
+        final File parent = file.getParentFile();
+        if (parent != null)
+        {
+            parent.mkdirs();
+        }
+        OutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+        if (StringUtils.isNotBlank(encoding))
+        {
+            BufferedReader inputReader = new BufferedReader(new InputStreamReader(
+                        url.openStream(),
+                        encoding));
+            for (int ctr = inputReader.read(); ctr != -1; ctr = inputReader.read())
+            {
+                stream.write(ctr);
+            }
+            inputReader.close();
+            inputReader = null;
+        }
+        else
+        {
+            InputStream inputStream = new BufferedInputStream(url.openStream());
+            for (int ctr = inputStream.read(); ctr != -1; ctr = inputStream.read())
+            {
+                stream.write(ctr);
+            }
+            inputStream.close();
+            inputStream = null;
+        }
+        stream.flush();
+        stream.close();
+        stream = null;
+    }
+
 
     /**
      * Indicates whether or not the given <code>url</code> is a file.
@@ -502,7 +672,7 @@ public class ResourceUtils
      */
     public static boolean isFile(final URL url)
     {
-        return url != null ? new File(url.getFile()).isFile() : false;
+        return url != null && new File(url.getFile()).isFile();
     }
 
     /**

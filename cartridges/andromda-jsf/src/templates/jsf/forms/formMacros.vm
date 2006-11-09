@@ -132,4 +132,3 @@
     public $field.type.fullyQualifiedName get${backingValueMethod}();
 #end
 #end
-#end

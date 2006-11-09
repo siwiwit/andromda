@@ -24,6 +24,11 @@ public class PathMatcher
     private static final String DOUBLE_STAR = "**/";
     
     /**
+     * A tripple star within a pattern.
+     */
+    private static final String TRIPPLE_STAR = "***";
+    
+    /**
      * Provides matching of simple wildcards. (i.e. '*.java' etc.)
      *
      * @param path the path to match against.
@@ -49,12 +54,12 @@ public class PathMatcher
         }
         path = path.trim();
         pattern = pattern.trim();
-        boolean matches = false;
+        boolean matches;
         pattern = StringUtils.replace(
                 pattern,
                 ".",
                 "\\.");
-        boolean matchAll = pattern.startsWith(DOUBLE_STAR);
+        boolean matchAll = pattern.indexOf(DOUBLE_STAR) != -1 && pattern.indexOf(TRIPPLE_STAR) == -1;
         if (matchAll)
         {
             String replacement = ".*/";

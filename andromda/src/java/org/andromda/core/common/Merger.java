@@ -44,7 +44,7 @@ public class Merger
      *
      * @return the shared instance.
      */
-    public static final Merger instance()
+    public static Merger instance()
     {
         return instance;
     }
@@ -158,7 +158,7 @@ public class Merger
      * @param namespace the namespace to which the mappings belong.
      * @return the Mappings instance.
      */
-    private final Mappings getMergeMappings(final String namespace)
+    private Mappings getMergeMappings(final String namespace)
     {
         Mappings mergeMappings = null;
         if (StringUtils.isNotBlank(namespace))

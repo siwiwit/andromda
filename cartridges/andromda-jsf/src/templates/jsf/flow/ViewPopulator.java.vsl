@@ -23,7 +23,6 @@ import javax.servlet.ServletResponse;
 public class $view.populator
     implements Filter
 {
-
     private FilterConfig config;
 
     /**
@@ -66,16 +65,45 @@ public class $view.populator
                 request,
                 response,
                 lifecycle);
+                
+        oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
         final javax.faces.el.VariableResolver variableResolver = facesContext.getApplication().getVariableResolver();
+        final javax.servlet.http.HttpSession session = ((javax.servlet.http.HttpServletRequest)request).getSession();
         if (form == null)
         {  
-            form = variableResolver.resolveVariable(facesContext, "$view.formKey");
+            // - first try getting the form from the ADF processScope
+            form = adfContext.getProcessScope().get("$view.formKey");
+            // - if the form is null, try getting the current adfContext from the session (and then remove it from the session)
+            if (form == null)
+            {
+                final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
+                    (${managedBeansPackage}.AdfFacesContextWrapper)session.getAttribute("$adfContextAttributeName");
+                adfContext = contextWrapper != null ? contextWrapper.getCurrentInstance() : null;    
+                form = adfContext != null ? adfContext.getProcessScope().get("$view.formKey") : null;   
+#if ($formSerialization) 
+                // - if the form is still null, see if we can get it from a serialized state
+                if (form == null)
+                {
+                    form = ${managedBeansPackage}.JsfUtils.getSerializedForm(session);
+                }
+#end
+                if (form != null)
+                {
+                    // - add the form to the current process scope since it wasn't in the current one to begin with
+                    oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance().getProcessScope().put("$view.formKey", form);   
+                }
+            }
+            else
+            {
+                // - remove the ADF context in the event that its present
+                session.removeAttribute("AndroMDAADFContext");
+            }
         }
         else
         {
-            // - since the form argument is not null, set it as the "$view.formKey" in the session 
+            // - since the form argument is not null, set it as the "$view.formKey" in the processScope 
             //   (to replace the existing "$view.formKey" attribute)
-            ((javax.servlet.http.HttpSession)facesContext.getExternalContext().getSession(true)).setAttribute("$view.formKey", form);
+            adfContext.getProcessScope().put("$view.formKey", form);
         }
         try
         {
@@ -94,21 +122,23 @@ public class $view.populator
 #end
             }
 #end
+#if ($formSerialization)
+            // - serialize the form
+            if (form != null)
+            {
+                ${managedBeansPackage}.JsfUtils.serializeForm(session, form);
+            }
+#end
 #if (!$view.variables.empty || !$view.backingValueVariables.empty)
             // - populate the view variables
             if (form != null)
             {    
-                boolean allPropertiesReadable = true;
 #foreach ($variable in $view.variables)
 #set ($readableVariable = "${variable.name}Readable")
                 final boolean $readableVariable = org.apache.commons.beanutils.PropertyUtils.isReadable(form, "$variable.name");
                 if ($readableVariable)
                 {
                     request.setAttribute("$variable.name", org.apache.commons.beanutils.PropertyUtils.getProperty(form, "$variable.name"));
-                }
-                else
-                {
-                    allPropertiesReadable = false;
                 }
 #end
 #foreach ($variable in $view.backingValueVariables)
@@ -121,20 +151,7 @@ public class $view.populator
 #end
 #end
 #end
-                if (!allPropertiesReadable)
-                {
-                    ${managedBeansPackage}.FormHistory formHistory = (${managedBeansPackage}.FormHistory)variableResolver.resolveVariable(facesContext, "$formHistoryBeanName");
-                    if (formHistory != null)
-                    {
-                        form = formHistory.getLastFormInHistory();
-                        if (form != null)
-                        {
-                            this.populateFormAndViewVariables(request, response, form);
-                            formHistory.addFormToHistory(form);
-                        }
-                    }                
-                }
-            } 
+            }
 #end
         }
         catch (final Throwable throwable)
@@ -142,7 +159,6 @@ public class $view.populator
             throw new ServletException(throwable);
         }
     }
-
 
     /**
      * @see javax.servlet.Filter#destroy()
@@ -152,31 +168,3 @@ public class $view.populator
         this.config = null;
     }
 }
-##
-##  A macro that renders population of the backing list view variables
-##
-#macro(renderBackingValuePopulation $variable $ownerParameter)
-#if ($variable.backingListName)
-#if ($variable.selectable)
-#set ($variableName = $variable.backingListName)
-#else
-#set ($variableName = $variable.backingValueName)
-#end
-#else
-#if ($variable.isSelectable($ownerParameter))
-#set ($variableName = $variable.getBackingListName($ownerParameter))
-#else
-#set ($variableName = $variable.getBackingValueName($ownerParameter))
-#end
-#end
-#set ($readableVariable = "${variableName}Readable")
-                final boolean $readableVariable = org.apache.commons.beanutils.PropertyUtils.isReadable(form, "$variableName");
-                if ($readableVariable)
-                {
-                    request.setAttribute("$variableName", org.apache.commons.beanutils.PropertyUtils.getProperty(form, "$variableName"));
-                }
-                else
-                {
-                    allPropertiesReadable = false;
-                }
-#end

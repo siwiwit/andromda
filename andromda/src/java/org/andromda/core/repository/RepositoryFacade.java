@@ -95,7 +95,7 @@ public interface RepositoryFacade
      * @param type the type of the model facade.
      * @return the model value (or <code>null</code> if no models exist in the repository).
      */
-    public ModelAccessFacade getModel(final Class type);
+    public ModelAccessFacade getModel();
 
     /**
      * Clears the repository of any model(s)

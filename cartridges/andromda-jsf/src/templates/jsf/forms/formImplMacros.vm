@@ -90,8 +90,8 @@
                 for (final java.util.Iterator iterator = items.iterator(); iterator.hasNext(); ctr++)
                 {
                     final java.lang.Object item = iterator.next();
-                    this.${valueListName}[ctr] = org.apache.commons.beanutils.PropertyUtils.getProperty(item, valueProperty);
-                    this.${labelListName}[ctr] = org.apache.commons.beanutils.PropertyUtils.getProperty(item, labelProperty);
+                    this.${valueListName}[ctr] = org.apache.commons.beanutils.PropertyUtils.getProperty(item, valueProperty.trim());
+                    this.${labelListName}[ctr] = org.apache.commons.beanutils.PropertyUtils.getProperty(item, labelProperty.trim());
                 }
             }
             catch (final Throwable throwable)

@@ -1,5 +1,6 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
@@ -59,11 +60,35 @@ public class ServiceLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml.Service#getAllServiceReferences()
+     */
+    public Collection handleGetAllServiceReferences()
+    {
+        final Collection result = new ArrayList();
+
+        // get references of the service itself
+        result.addAll(getServiceReferences());
+
+        // get references of all super classes
+        CollectionUtils.forAllDo(this.getAllGeneralizations(), new Closure()
+        {
+
+            public void execute(Object object)
+            {
+                Service service = (Service)object;
+                result.addAll(service.getServiceReferences());
+            }
+
+        });
+        return result;
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.Service#getRoles()
      */
     protected Collection handleGetRoles()
     {
-        Collection roles = this.getTargetDependencies();
+        final Collection roles = new ArrayList(this.getTargetDependencies());
         CollectionUtils.filter(roles, new Predicate()
         {
             public boolean evaluate(final Object object)

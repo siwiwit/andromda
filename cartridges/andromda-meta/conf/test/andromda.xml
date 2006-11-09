@@ -9,7 +9,9 @@
                     <uri>${test.model.uri}</uri>
                     <moduleSearchLocations>
                         <location patterns="**/*.xml.zip">${basedir}/../../profiles/uml-1.4</location>
+                        <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles/uml-1.4</location>
                         <location patterns="**/*.xml.zip">${basedir}/../../metafacades/uml/common</location>
+                        <location patterns="**/*.xml.zip">${pom.basedir}/../../metafacades/uml/common</location>
                     </moduleSearchLocations>
                     <modelPackages>
                         <modelPackage process="false">org::andromda::metafacades::uml</modelPackage>

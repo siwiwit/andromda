@@ -26,8 +26,11 @@ public class LogOutServlet
         final HttpServletResponse response)
         throws ServletException, IOException
     {
+#if ($formSerialization)
+        ${managedBeansPackage}.JsfUtils.deleteSerializedForm(request.getSession());
+#end
         request.getSession().invalidate();
-        response.sendRedirect(request.getContextPath() + "$useCase.path");
+        response.sendRedirect(request.getContextPath() + "${useCase.path}.${facesServletExtension}");
     }
 
     /**

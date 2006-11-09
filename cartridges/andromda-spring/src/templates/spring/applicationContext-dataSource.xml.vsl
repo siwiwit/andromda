@@ -20,6 +20,8 @@
     <bean id="transactionManager" class="$transactionManager">
 #if ($transactionManager.indexOf('HibernateTransactionManager') != -1)
         <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+#elseif ($transactionManager.indexOf('DataSourceTransactionManager') != -1)
+            <property name="dataSource"><ref bean="dataSource"/></property>
 #else
 #if ($stringUtils.isNotBlank($userTransactionName))
         <property name="userTransactionName">$springUtils.getSpringPropertyValue($userTransactionName)</property>

@@ -309,8 +309,6 @@ public class VelocityTemplateEngine
                 final StringWriter writer = new StringWriter();
                 this.velocityEngine.evaluate(this.velocityContext, writer, LOG_TAG, expression);
                 evaluatedExpression = writer.toString();
-                // - reset the velocity context
-                this.velocityContext = null;
             }
             catch (final Throwable throwable)
             {

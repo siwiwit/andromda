@@ -1,6 +1,7 @@
 package org.andromda.metafacades.uml14;
 
-import org.andromda.utils.StringUtilsHelper;
+import org.andromda.metafacades.uml.NameMasker;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -20,18 +21,40 @@ public class EnumerationLiteralFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
+     * @see org.andromda.metafacades.uml.ModelElementFacadeLogic#getName()
      */
     protected String handleGetName()
     {
-        return StringUtilsHelper.separate(super.handleGetName(), "_").toUpperCase();
+        return this.getName(false);
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.EnumerationLiteralFacade#getDefinitionOne()
+     * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getValue()
      */
     protected String handleGetValue()
     {
-        return StringUtils.trimToEmpty(super.handleGetName());
+        return this.getValue(false);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getName(boolean)
+     */
+    protected String handleGetName(boolean modelName)
+    {
+        String name = super.handleGetName();
+        final String mask = String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK));
+        if (!modelName && StringUtils.isNotBlank(mask))
+        {
+            name = NameMasker.mask(name, mask);
+        }
+        return name;
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getValue(boolean)
+     */
+    protected String handleGetValue(boolean modelValue)
+    {
+        return StringUtils.trimToEmpty(this.getName(modelValue));
     }
 }

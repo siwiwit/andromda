@@ -17,6 +17,11 @@ public class UMLMetafacadeProperties
      * where possible.
      */
     public static final String ENABLE_TEMPLATING = "enableTemplating";
+
+    /**
+     * Stores the property defining the default schema name for entity tables.
+     */
+    public static final String SCHEMA_NAME = "schemaName";
     
     /**
      * Stores the property defining the prefix for entity table names.
@@ -131,6 +136,11 @@ public class UMLMetafacadeProperties
     public static final String DEFAULT_IDENTIFIER_VISIBILITY = "defaultIdentifierVisibility";
 
     /**
+     * The type to given default enumeration literals.
+     */
+    public static final String DEFAULT_ENUMERATION_LITERAL_TYPE = "defaultEnumerationLiteralType";
+
+    /**
      * Are manageable tables resolved by default when referenced ?
      */
     public static final String PROPERTY_DEFAULT_RESOLVEABLE = "defaultResolveable";
@@ -159,6 +169,11 @@ public class UMLMetafacadeProperties
      * Stores the suffix given to array type names.
      */
     public static final String ARRAY_NAME_SUFFIX = "arrayNameSuffix";
+
+    /**
+     * Whether or not to enable manageable entities for the currently running cartridge.
+     */
+    public static final String ENABLE_MANAGEABLE_ENTITIES = "enableManageableEntities";
 
     /**
      * The namespace property used to denote the name of the subpackage create for
@@ -208,5 +223,11 @@ public class UMLMetafacadeProperties
      * should be transparent for the user.
      */
     public static final String MANAGEABLE_ID_DISPLAY_STRATEGY = "manageableIdDisplayStrategy";
+
+    /**
+     * Indicates whether enumerations must be generated using a Java 5 type-safe enum or a 
+     * traditional enumeration-pattern class.
+     */
+	public static final String TYPE_SAFE_ENUMS_ENABLED = "typeSafeEnumsEnabled";
 
 }

@@ -203,7 +203,7 @@ public class NamespaceRegistry
      * Adds a resource root to this namespace (since a namespace can consist of multiple
      * locations)
      *
-     * @param resource The resource to set.
+     * @param resourceRoot The resource root to set.
      */
     final void addResourceRoot(final URL resourceRoot)
     {

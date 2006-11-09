@@ -3,7 +3,7 @@
     <parent>
         <artifactId>andromda-maven-plugins</artifactId>
         <groupId>org.andromda.maven.plugins</groupId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.2</version>
     </parent>
     <artifactId>andromda-translation-library-plugin</artifactId>
     <packaging>maven-plugin</packaging>
@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>org.andromda.repositories</groupId>
-            <artifactId>andromda-repository-mdr</artifactId>
+            <artifactId>andromda-repository-mdr-uml14</artifactId>
             <version>${pom.version}</version>
             <scope>runtime</scope>
         </dependency>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-project</artifactId>
-            <version>2.0.1</version>
+            <version>2.0.4</version>
         </dependency>      
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
