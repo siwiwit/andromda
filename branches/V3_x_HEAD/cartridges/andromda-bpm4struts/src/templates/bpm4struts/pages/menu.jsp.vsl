@@ -8,9 +8,8 @@
 <div class="box1">
      <h4>Latest News</h4>
 
-     <p><b>AndroMDA 3.1</b><br/>
+     <p><b>AndroMDA - the new release</b><br/>
 
-     - Completely new engine core<br/>
      - New cartridges, lots of new features<br/>
      - Major performance improvements...<br/>
      </p>
@@ -66,6 +65,6 @@
        for more information.</p>
     <p class="author">
        The AndroMDA Team <br/>
-       &copy; 2005</p>
+       &copy; 2006</p>
 </div>
 
