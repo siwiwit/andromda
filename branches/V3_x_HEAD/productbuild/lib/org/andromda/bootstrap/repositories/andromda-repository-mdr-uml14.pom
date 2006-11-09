@@ -1,12 +1,12 @@
 <?xml version="1.0"?><project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.andromda.bootstrap.cartridges</groupId>
-  <artifactId>andromda-meta-cartridge</artifactId>
-  <packaging>andromda-cartridge</packaging>
-  <name>AndroMDA Meta Cartridge</name>
+  <groupId>org.andromda.bootstrap.repositories</groupId>
+  <artifactId>andromda-repository-mdr-uml14</artifactId>
+  <name>AndroMDA MDR UML 1.4 Repository</name>
   <version>3.2</version>
-  <description>Produces AndroMDA Metafacades.</description>
-  <url>http://www.andromda.org/andromda-cartridges/andromda-meta-cartridge</url>
+  <description>This MDR UML 1.4 repository module allows AndroMDA to use the NetBeans MDR as a repository for
+            loading, and querying UML 1.4 models</description>
+  <url>http://www.andromda.org/andromda-repositories/andromda-repository-mdr-uml14</url>
   <issueManagement>
     <system>jira</system>
     <url>http://jira.andromda.org/</url>
@@ -43,9 +43,9 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</connection>
-    <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-cartridges/andromda-meta-cartridge</developerConnection>
-    <url>http://andromda.cvs.sourceforge.net/andromda-cartridges/andromda-meta-cartridge</url>
+    <connection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-repositories/andromda-repository-mdr-uml14</connection>
+    <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-repositories/andromda-repository-mdr-uml14</developerConnection>
+    <url>http://andromda.cvs.sourceforge.net/andromda-repositories/andromda-repository-mdr-uml14</url>
   </scm>
   <organization>
     <name>AndroMDA.org</name>
@@ -133,13 +133,4 @@
       <url>file:/var/www/andromda/maven2</url>
     </repository>
   </distributionManagement>
-  <properties>
-    <model.uri>jar:file:d:\java\development\andromda-all\cartridges\andromda-meta/src/uml/MetaMetafacadeModel.xml.zip!/MetaMetafacadeModel.xml</model.uri>
-    <src.dir>d:\java\development\andromda-all\cartridges\andromda-meta/src</src.dir>
-    <java.src.dir>d:\java\development\andromda-all\cartridges\andromda-meta/src/java</java.src.dir>
-    <test.model.uri>jar:file:d:\java\development\andromda-all\cartridges\andromda-meta/src/test/uml/MetaCartridgeTestModel.xml.zip!/MetaCartridgeTestModel.xml</test.model.uri>
-    <test.output.dir>d:\java\development\andromda-all\cartridges\andromda-meta/target/cartridge-test/actual</test.output.dir>
-    <test.src.dir>d:\java\development\andromda-all\cartridges\andromda-meta/src/test</test.src.dir>
-    <maven.build.src>d:\java\development\andromda-all\cartridges\andromda-meta/target/src</maven.build.src>
-  </properties>
 </project>

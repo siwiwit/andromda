@@ -44,6 +44,12 @@
         </dependency>
         <dependency>
             <groupId>org.andromda.bootstrap.repositories</groupId>
+            <artifactId>andromda-repository-mdr-uml14</artifactId>
+            <version>${pom.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda.bootstrap.repositories</groupId>
             <artifactId>andromda-repository-mdr</artifactId>
             <version>${pom.version}</version>
             <scope>runtime</scope>

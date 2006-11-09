@@ -1,9 +1,9 @@
-<project>
+<?xml version="1.0"?><project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.andromda.bootstrap.translationlibraries</groupId>
   <artifactId>andromda-ocl-translation-testsuite</artifactId>
   <name>AndroMDA OCL Translation-Library Test Suite</name>
-  <version>3.2-SNAPSHOT</version>
+  <version>3.2</version>
   <description>AndroMDA (pronounced: andromeda) is an open source code generation framework that follows the Model Driven Architecture
         (MDA) paradigm. It takes model(s) from CASE-tool(s) and generates fully deployable applications and other components.</description>
   <url>http://www.andromda.org/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-translation-testsuite</url>
@@ -16,7 +16,7 @@
     <notifiers>
       <notifier>
         <configuration>
-          <address>chad@andromda.org</address>
+          <address>committers@andromda.org</address>
         </configuration>
       </notifier>
     </notifiers>
@@ -43,15 +43,37 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-translation-testsuite</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-translation-testsuite</developerConnection>
-    <url>http://cvs.sourceforge.net/viewcvs.py/andromda/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-translation-testsuite</url>
+    <connection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-translation-testsuite</connection>
+    <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-translation-testsuite</developerConnection>
+    <url>http://andromda.cvs.sourceforge.net/andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-translation-testsuite</url>
   </scm>
   <organization>
     <name>AndroMDA.org</name>
     <url>http://www.andromda.org/</url>
   </organization>
   <repositories>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>snapshot-andromda</id>
+      <name>AndroMDA Repository</name>
+      <url>http://team.andromda.org/maven2/</url>
+    </repository>
+    <repository>
+      <snapshots />
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.maven.codehaus.org/maven2/</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>apache-snapshots</id>
+      <url>http://cvs.apache.org/maven-snapshot-repository/</url>
+    </repository>
     <repository>
       <id>andromda</id>
       <name>AndroMDA Repository</name>
@@ -70,12 +92,23 @@
     <pluginRepository>
       <id>andromda</id>
       <name>AndroMDA Repository</name>
-      <url>http://team.andromda.org/maven2</url>
+      <url>http://team.andromda.org/maven2/</url>
     </pluginRepository>
     <pluginRepository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.maven.codehaus.org/maven2/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>apache-snapshots</id>
+      <url>http://cvs.apache.org/maven-snapshot-repository/</url>
     </pluginRepository>
     <pluginRepository>
       <releases>
@@ -94,9 +127,10 @@
   </reporting>
   <distributionManagement>
     <repository>
+      <uniqueVersion>false</uniqueVersion>
       <id>andromda-repository</id>
       <name>AndroMDA Repository</name>
-      <url>scp://galaxy.andromda.org/var/www/andromda/maven2</url>
+      <url>file:/var/www/andromda/maven2</url>
     </repository>
   </distributionManagement>
 </project>

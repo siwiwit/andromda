@@ -1,9 +1,9 @@
-<project>
+<?xml version="1.0"?><project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.andromda.bootstrap</groupId>
   <artifactId>andromda-core</artifactId>
   <name>AndroMDA Core</name>
-  <version>3.2-SNAPSHOT</version>
+  <version>3.2</version>
   <description>The Core refers to the "engine" of the framework. The core
         takes care of making all the components of AndroMDA work together. This
         includes plugin discovery (i.e. cartridges, translation-libraries),
@@ -18,7 +18,7 @@
     <notifiers>
       <notifier>
         <configuration>
-          <address>chad@andromda.org</address>
+          <address>committers@andromda.org</address>
         </configuration>
       </notifier>
     </notifiers>
@@ -45,15 +45,37 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-core</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-core</developerConnection>
-    <url>http://cvs.sourceforge.net/viewcvs.py/andromda/andromda-core</url>
+    <connection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-core</connection>
+    <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/andromda-core</developerConnection>
+    <url>http://andromda.cvs.sourceforge.net/andromda-core</url>
   </scm>
   <organization>
     <name>AndroMDA.org</name>
     <url>http://www.andromda.org/</url>
   </organization>
   <repositories>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>snapshot-andromda</id>
+      <name>AndroMDA Repository</name>
+      <url>http://team.andromda.org/maven2/</url>
+    </repository>
+    <repository>
+      <snapshots />
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.maven.codehaus.org/maven2/</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>apache-snapshots</id>
+      <url>http://cvs.apache.org/maven-snapshot-repository/</url>
+    </repository>
     <repository>
       <id>andromda</id>
       <name>AndroMDA Repository</name>
@@ -72,12 +94,23 @@
     <pluginRepository>
       <id>andromda</id>
       <name>AndroMDA Repository</name>
-      <url>http://team.andromda.org/maven2</url>
+      <url>http://team.andromda.org/maven2/</url>
     </pluginRepository>
     <pluginRepository>
-      <id>dcri</id>
-      <name>DCRI Repository</name>
-      <url>http://itdev.dcri.duke.edu/maven2</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>codehaus-snapshots</id>
+      <url>http://snapshots.maven.codehaus.org/maven2/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>apache-snapshots</id>
+      <url>http://cvs.apache.org/maven-snapshot-repository/</url>
     </pluginRepository>
     <pluginRepository>
       <releases>
@@ -96,9 +129,10 @@
   </reporting>
   <distributionManagement>
     <repository>
+      <uniqueVersion>false</uniqueVersion>
       <id>andromda-repository</id>
       <name>AndroMDA Repository</name>
-      <url>scp://galaxy.andromda.org/var/www/andromda/maven2</url>
+      <url>file:/var/www/andromda/maven2</url>
     </repository>
   </distributionManagement>
 </project>
