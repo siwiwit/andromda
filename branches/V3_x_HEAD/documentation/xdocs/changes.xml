@@ -11,9 +11,17 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.3-SNAPSHOT" date="2006-11-02" description="First release candidate of version 3.3">
+        <release version="3.3-SNAPSHOT" date="2006-11-09" description="First release candidate of version 3.3">
         </release>
-        <release version="3.2" date="2006-11-02" description="Version 3.2 final">
+        <release version="3.2" date="2006-11-09" description="Version 3.2 final">
+            <action dev="mattes3" type="add">
+                The meta cartridge now supports code generation for PSM metaclasses.
+				Assign the stereotype <code>PSMmetaclass</code> to a class, and you
+				will get a base class and/or an implementation class for it. Then,
+				you can make your metafacades return instances of the PSM metaclasses.
+				Finally, make your templates use these instances. For more info,
+				see the "10 steps to write a cartridge" tutorial on www.andromda.org.
+            </action>
             <action dev="freter" type="add" issue="HIB-192">
                 The Hibernate cartridge now supports distributed entity caching with ehCache 1.2.
             </action>
