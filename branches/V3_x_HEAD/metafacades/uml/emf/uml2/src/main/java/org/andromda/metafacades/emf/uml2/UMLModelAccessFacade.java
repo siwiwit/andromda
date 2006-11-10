@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.configuration.Filters;
-import org.andromda.core.metafacade.MetafacadeBase;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.core.metafacade.ModelAccessFacade;
@@ -91,8 +90,7 @@ public class UMLModelAccessFacade
         final StringBuffer packageName = new StringBuffer(modelElementFacade.getPackageName(true));
 
         // - if the model element is a package then the package name will be the
-        // name
-        // of the package with its package name
+        // name of the package with its package name
         if (modelElement instanceof PackageFacade)
         {
             final String name = modelElementFacade.getName();
@@ -160,6 +158,8 @@ public class UMLModelAccessFacade
                 }
             }
         }
+        // - filter any elements before we turn them into metafacades (for performance reasons)
+        this.filterElements(elements);
         return elements;
     }
 
@@ -178,9 +178,14 @@ public class UMLModelAccessFacade
                 elements.add(object);
             }
         }
+        
+        // - filter any elements before we turn them into metafacades (for performance reasons)
+        this.filterElements(elements);
 
         // Don't forget to transform properties
-        CollectionUtils.transform(elements, UmlUtilities.ELEMENT_TRANSFORMER);
+        CollectionUtils.transform(
+            elements,
+            UmlUtilities.ELEMENT_TRANSFORMER);
 
         final Collection metafacades;
 
@@ -191,7 +196,6 @@ public class UMLModelAccessFacade
         else
         {
             metafacades = MetafacadeFactory.getInstance().createMetafacades(elements);
-            this.filterMetafacades(metafacades);
         }
 
         return metafacades;
@@ -203,7 +207,7 @@ public class UMLModelAccessFacade
      *
      * @param metafacades the Collection of metafacades.
      */
-    private void filterMetafacades(final Collection metafacades)
+    private void filterElements(final Collection metafacades)
     {
         if (this.modelPackages != null && !this.modelPackages.isEmpty())
         {
@@ -211,20 +215,24 @@ public class UMLModelAccessFacade
                 metafacades,
                 new Predicate()
                 {
-                    public boolean evaluate(final Object metafacade)
+                    public boolean evaluate(final Object element)
                     {
                         boolean valid = false;
-                        if (metafacade instanceof MetafacadeBase)
+                        if (element instanceof NamedElement)
                         {
-                            final ModelElementFacade modelElementFacade = (ModelElementFacade)metafacade;
-                            final StringBuffer packageName = new StringBuffer(modelElementFacade.getPackageName(true));
+                            final NamedElement modelElement = (NamedElement)element;
+                            final StringBuffer packageName =
+                                new StringBuffer(
+                                    UmlUtilities.getPackageName(
+                                        modelElement,
+                                        MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
+                                        true));
 
-                            // - if the model element is a package then the package
-                            // name will be the name
+                            // - if the model element is a package then the package name will be the name
                             // of the package with its package name
-                            if (metafacade instanceof PackageFacade)
+                            if (element instanceof org.eclipse.uml2.Package)
                             {
-                                final String name = modelElementFacade.getName();
+                                final String name = modelElement.getName();
                                 if (StringUtils.isNotBlank(name))
                                 {
                                     packageName.append(MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR);
@@ -233,6 +241,7 @@ public class UMLModelAccessFacade
                             }
                             valid = UMLModelAccessFacade.this.modelPackages.isApply(packageName.toString());
                         }
+
                         return valid;
                     }
                 });
