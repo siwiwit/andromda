@@ -115,15 +115,36 @@ public class $view.populator
 #end
 #if (!$view.variables.empty || !$view.backingValueVariables.empty)
             // - populate the view variables
-            if (form != null)
-            {    
+            populateViewVariablesFromForm(request, form);
+#end
+        }
+        catch (final Throwable throwable)
+        {
+            throw new ServletException(throwable);
+        }
+    }
+    
+#if (!$view.variables.empty || !$view.backingValueVariables.empty)
+    /**
+     * Populates all view variables represented by this populator from the given <code>form</code>.
+     * This operation can be used from within controller operations in order to populate view variables (if its
+     * required to populate them outside of the normal filter execution).
+     *
+     * @param request the current request (to which view variables are populated)
+     * @param form the form from which to retrieve the view variables.
+     */
+    public static void populateViewVariablesFromForm(final ServletRequest request, final Object form)
+        throws Exception
+    {
+        if (form != null)
+        {    
 #foreach ($variable in $view.variables)
 #set ($readableVariable = "${variable.name}Readable")
-                final boolean $readableVariable = org.apache.commons.beanutils.PropertyUtils.isReadable(form, "$variable.name");
-                if ($readableVariable)
-                {
-                    request.setAttribute("$variable.name", org.apache.commons.beanutils.PropertyUtils.getProperty(form, "$variable.name"));
-                }
+            final boolean $readableVariable = org.apache.commons.beanutils.PropertyUtils.isReadable(form, "$variable.name");
+            if ($readableVariable)
+            {
+                request.setAttribute("$variable.name", org.apache.commons.beanutils.PropertyUtils.getProperty(form, "$variable.name"));
+            }
 #end
 #foreach ($variable in $view.backingValueVariables)
 #if (!$variable.complex)
@@ -135,15 +156,10 @@ public class $view.populator
 #end
 #end
 #end
-            }
-#end
-        }
-        catch (final Throwable throwable)
-        {
-            throw new ServletException(throwable);
         }
     }
-
+    
+#end
     /**
      * @see javax.servlet.Filter#destroy()
      */

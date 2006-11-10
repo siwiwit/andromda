@@ -306,7 +306,7 @@ $decisionTransition.getDocumentation("     * ")
     {
         final javax.faces.application.FacesMessage facesMessage = new javax.faces.application.FacesMessage(severity, message, message);
         final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
-        final Object form = adfContext.getProcessScope().get("$actionFormKey");
+        final Object form = this.getCurrentActionForm();
         if (form != null)
         {
             try
@@ -331,6 +331,34 @@ $decisionTransition.getDocumentation("     * ")
     {
         ${managedBeansPackage}.${formPopulatorName}.populateForm(fromForm, toForm, true);
     }
+    
+    /**
+     * Retrieves the current action form while making sure the form is of the given
+     * <code>type</code>.  If the action form is found, but not of the given type, null will
+     * be returned.
+     * 
+     * @param type the type of form to retrieve.
+     * @return the found form.
+     */
+    protected Object getCurrentActionForm(final Class type)
+    {
+        Object form = this.getCurrentActionForm();
+        if (!type.isInstance(form))
+        {
+            form = null;
+        }
+        return form;
+    }
+    
+    /**
+     * Retrieves the current action form instance.
+     * 
+     * @return the current action form instance.
+     */
+    protected Object getCurrentActionForm()
+    {
+        return this.resolveVariable("$actionFormKey");
+    }    
 #if ($formPopulationOperationRequired)
 
     /**
@@ -467,8 +495,8 @@ $decisionTransition.getDocumentation("     * ")
     }
 #end
 #foreach ($sessionObjectRef in $controller.sessionObjectReferences)
-#set ($targetElement = $sessionObjectRef.targetElement)
 
+#set ($targetElement = $sessionObjectRef.targetElement)
     /**
      * Returns the current $targetElement.name from the session found in the argument request.
      * <p/>
@@ -542,6 +570,5 @@ $decisionTransition.getDocumentation("     * ")
             }
         }
     }
-
 #end
 }

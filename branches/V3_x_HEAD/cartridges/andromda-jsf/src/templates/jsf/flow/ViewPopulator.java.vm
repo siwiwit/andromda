@@ -16,9 +16,9 @@
 #end
 #end
 #set ($readableVariable = "${variableName}Readable")
-                final boolean $readableVariable = org.apache.commons.beanutils.PropertyUtils.isReadable(form, "$variableName");
-                if ($readableVariable)
-                {
-                    request.setAttribute("$variableName", org.apache.commons.beanutils.PropertyUtils.getProperty(form, "$variableName"));
-                }
+            final boolean $readableVariable = org.apache.commons.beanutils.PropertyUtils.isReadable(form, "$variableName");
+            if ($readableVariable)
+            {
+                request.setAttribute("$variableName", org.apache.commons.beanutils.PropertyUtils.getProperty(form, "$variableName"));
+            }
 #end
