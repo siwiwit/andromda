@@ -33,7 +33,7 @@ public class $action.actionClassName
 #set ($controller = $action.controller)
         $controller.fullyQualifiedName controller =
             ($controller.fullyQualifiedName)${facesContextUtilsFullyQualifiedName}.resolveVariable(
-                this.getServletContext(), request, response,
+                request, response,
                 "$controller.beanName");
 #if ($action.useCase)
 #set ($useCase = $action.useCase)
