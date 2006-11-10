@@ -133,7 +133,7 @@ public class $view.populator
      * @param request the current request (to which view variables are populated)
      * @param form the form from which to retrieve the view variables.
      */
-    public static void populateViewVariablesFromForm(final ServletRequest request, final Object form)
+    static void populateViewVariablesFromForm(final ServletRequest request, final Object form)
         throws Exception
     {
         if (form != null)
