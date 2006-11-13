@@ -269,8 +269,8 @@
             <p>
                 Open up a console and type the following at the command prompt (the version property at the end of that
                 line may vary depending on the version you wish to use, the SNAPSHOT suffix denotes it is a
-                nightly-build, stable releases could be: <code>3.0M1, 3.0M2, 3.0M3 or 3.0</code>, at the time of
-                this writing <code>3.0</code> was the most recent release (meaning 3.0 final).
+                nightly-build, stable releases could be: <code>3.0, 3.1, 3.2</code>, at the time of
+                this writing <code>3.2</code> was the most recent release (meaning 3.2 final).
             </p>
             <p>
                 The documentation for this specific plugin can be found by clicking on the
@@ -279,7 +279,7 @@
                 <a href="maven-andromdapp-plugin/index.html">here</a>.
             </p>
             <p>
-                <code>maven plugin:download -DgroupId=andromda -DartifactId=maven-andromdapp-plugin -Dversion=3.2</code>
+                <code>maven plugin:download -DgroupId=andromda -DartifactId=maven-andromdapp-plugin -Dversion=3.3-SNAPSHOT</code>
             </p>
             <pre class="console">
 
