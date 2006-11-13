@@ -90,7 +90,7 @@ public abstract class $service.baseName
         }
 #end
 #if (!$argument.type.enumeration && !$argument.type.entityMetaType)
-#foreach ($attribute in $argument.type.attributes)
+#foreach ($attribute in $argument.type.getAttributes(true))
 #if ($attribute.required && !$attribute.type.primitive)
 #if (!$attribute.type.stringType)
         if (${argument.name}.get${stringUtils.capitalize($attribute.name)}() == null)
