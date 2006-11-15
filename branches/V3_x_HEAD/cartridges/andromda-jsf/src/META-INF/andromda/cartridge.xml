@@ -65,6 +65,7 @@
     <property reference="maxTableRows"/>
     <property reference="fileUploadMaxMemoryPerRequest"/>
     <property reference="fileUploadMaxDiskSpacePerRequest"/>
+    <property reference="logoutRedirectPath"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>

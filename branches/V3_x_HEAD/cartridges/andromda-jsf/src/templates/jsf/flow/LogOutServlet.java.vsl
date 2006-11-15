@@ -30,7 +30,11 @@ public class LogOutServlet
         ${managedBeansPackage}.JsfUtils.deleteSerializedForm(request.getSession());
 #end
         request.getSession().invalidate();
+#if ($stringUtils.isEmpty($logoutRedirectPath))
         response.sendRedirect(request.getContextPath() + "${useCase.path}.${facesServletExtension}");
+#else
+        response.sendRedirect(request.getContextPath() + "$logoutRedirectPath");
+#end
     }
 
     /**

@@ -111,6 +111,13 @@
                     Maximum memory per request (in bytes) for file uploads.
                 </documentation>
             </property>
+            <property name="logoutRedirectPath" required="false">
+                <documentation>
+                    The path to which the application redirects after logout occurs.
+                    If this is unspecified, the application redirects to the application
+                    use case entry point.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="UI Layout">
             <documentation>
