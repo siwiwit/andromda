@@ -117,7 +117,7 @@ public class JSFValidatorComponent
         final UIComponent component,
         final FacesContext context)
     {
-        if (component instanceof EditableValueHolder)
+        if (component instanceof EditableValueHolder && component.isRendered())
         {
             final EditableValueHolder valueHolder = (EditableValueHolder)component;
             final UIForm form = JSFValidator.findForm(component);
