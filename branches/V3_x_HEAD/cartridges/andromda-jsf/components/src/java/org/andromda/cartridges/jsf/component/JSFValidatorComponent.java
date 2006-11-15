@@ -50,7 +50,6 @@ public class JSFValidatorComponent
      */
     private Map validators = new LinkedHashMap();
 
-
     /**
      * The component renders itself; therefore, this method returns null.
      */
