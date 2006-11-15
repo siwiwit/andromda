@@ -70,7 +70,7 @@
         this.$labelListName = $labelListName;
     }
 
-#set ($setBackingListMethodSignature = "set${backingListMethod}(java.util.Collection items, java.lang.String valueProperty, java.lang.String labelProperty)")
+#set ($setBackingListMethodSignature = "set${backingListMethod}(java.util.Collection items, java.lang.String valueProperty, java.lang.String labelProperty, java.lang.Class valuePropertyType)")
     public void $setBackingListMethodSignature
     {
         if (valueProperty == null || labelProperty == null)
@@ -91,6 +91,22 @@
                 {
                     final java.lang.Object item = iterator.next();
                     this.${valueListName}[ctr] = org.apache.commons.beanutils.PropertyUtils.getProperty(item, valueProperty.trim());
+                    // - if the valuePropertyType is specified, attempt to convert all values to that type
+                    if (valuePropertyType != null)
+                    {
+                        final java.lang.Object value = this.${valueListName}[ctr];
+                        if (value != null && !valuePropertyType.isInstance(value))
+                        {
+                            try
+                            {
+                                this.${valueListName}[ctr] = org.apache.commons.beanutils.ConvertUtils.convert(String.valueOf(value), valuePropertyType);      
+                            }
+                            catch (final java.lang.Exception exception)
+                            {
+                                // - ignore, means we couldn't perform the conversion
+                            }
+                        }                   
+                    }
                     this.${labelListName}[ctr] = org.apache.commons.beanutils.PropertyUtils.getProperty(item, labelProperty.trim());
                 }
             }
@@ -99,6 +115,11 @@
                 throw new java.lang.RuntimeException(throwable);
             }
         }
+    }
+    
+    public void set${backingListMethod}(java.util.Collection items, java.lang.String valueProperty, java.lang.String labelProperty)
+    {
+        this.set${backingListMethod}(items, valueProperty, labelProperty, null);
     }
     
 #if ($field.type.arrayType || $field.type.collectionType)
