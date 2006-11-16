@@ -740,6 +740,14 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin> 
+                <plugin>
                     <groupId>org.andromda.maven.plugins</groupId>
                     <artifactId>andromda-multi-source-plugin</artifactId>
                     <version>$andromdaVersion</version>
@@ -771,6 +779,7 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>2.2</version>
                 </plugin>
+#if ($ejb3 || $jsf)
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -779,6 +788,7 @@
                         <target>1.5</target>
                     </configuration>
                 </plugin>
+#end
             </plugins>
         </pluginManagement>
     </build>
