@@ -1,4 +1,3 @@
-#if($stringUtils.isNotBlank($securityRealm))
 #set($useCase = $applicationUseCases.iterator().next())
 #if ($stringUtils.isNotBlank($managedBeansPackage))
 package $managedBeansPackage;
@@ -48,4 +47,3 @@ public class LogOutServlet
         this.doGet(request, response);
     }
 }
-#end

@@ -390,7 +390,8 @@
         outlet="controllers"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="securityEnabled">
         <modelElements>
             <modelElement variable="applicationUseCases">
                 <type name="org.andromda.metafacades.uml.FrontEndUseCase">

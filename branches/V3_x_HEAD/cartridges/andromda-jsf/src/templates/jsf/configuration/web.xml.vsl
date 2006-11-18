@@ -245,7 +245,8 @@
         <servlet-name>ADF Resources Servlet</servlet-name>
         <servlet-class>oracle.adf.view.faces.webapp.ResourceServlet</servlet-class>
     </servlet>
-#if ($securityEnabled)
+#set ($generateLogoutServlet = !$useCases.empty && $securityEnabled)
+#if ($generateLogoutServlet)
 #set ($logOutServlet = "${managedBeansPackage}.LogOutServlet")
     <servlet>
         <servlet-name>$logOutServlet</servlet-name>
@@ -278,7 +279,7 @@
         <servlet-name>ADF Resources Servlet</servlet-name>
         <url-pattern>/adf/*</url-pattern>
     </servlet-mapping>
-#if ($securityEnabled)
+#if ($generateLogoutServlet)
     <servlet-mapping>
         <servlet-name>$logOutServlet</servlet-name>
         <url-pattern>/${logoutFileName}.${facesServletExtension}</url-pattern>
