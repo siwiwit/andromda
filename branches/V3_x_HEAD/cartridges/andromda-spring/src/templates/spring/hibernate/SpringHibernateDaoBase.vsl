@@ -947,4 +947,24 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
     
 #end
+    /**
+     * Gets the current <code>principal</code> if one has been set,
+     * otherwise returns <code>null</code>.
+     *
+     * @return the current principal
+     */
+#if ($externalPrincipalStoreClass)
+#* *##set ($principalStoreCall = "#if(!$enableTemplating)(${externalPrincipalStoreGetterType})#end${externalPrincipalStoreClass}.${externalPrincipalStoreGetter};")
+#* *##set ($principalStoreType = ${externalPrincipalStoreGetterType})
+#else
+#* *##set ($principalStoreCall = "${principalStoreName}.get();")
+#* *##if($stringUtils.isNotEmpty($springTypesPackage))
+#*     *##set ($principalStoreCall = "${springTypesPackage}.${principalStoreCall}")
+#* *##end
+#* *##set ($principalStoreType = "java.security.Principal")
+#end
+    protected $principalStoreType getPrincipal()
+    {
+        return $principalStoreCall
+    }
 }
