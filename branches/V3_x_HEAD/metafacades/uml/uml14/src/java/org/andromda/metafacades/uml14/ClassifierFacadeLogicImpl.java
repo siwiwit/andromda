@@ -938,4 +938,9 @@ public class ClassifierFacadeLogicImpl
         final GeneralizableElementFacade superClass = this.getGeneralization();
         return superClass instanceof ClassifierFacade ? superClass : null;
     }
+
+    protected boolean handleIsEmbeddedValue()
+    {
+        return this.hasStereotype(UMLProfile.STEREOTYPE_EMBEDDED_VALUE);
+    }
 }
