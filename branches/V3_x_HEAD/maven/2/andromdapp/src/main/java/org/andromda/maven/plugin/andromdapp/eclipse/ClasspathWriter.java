@@ -167,6 +167,7 @@ public class ClasspathWriter
             final OrArtifactFilter filter = new OrArtifactFilter();
             filter.add(new ScopeArtifactFilter(Artifact.SCOPE_COMPILE));
             filter.add(new ScopeArtifactFilter(Artifact.SCOPE_PROVIDED));
+            filter.add(new ScopeArtifactFilter(Artifact.SCOPE_TEST));
             final ArtifactResolutionResult result =
                 artifactResolver.resolveTransitively(
                     allArtifacts,
