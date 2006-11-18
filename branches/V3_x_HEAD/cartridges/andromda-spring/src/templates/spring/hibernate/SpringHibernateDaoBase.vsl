@@ -529,20 +529,29 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             ${hibernateUtils.basePackage}.Query queryObject = super.getSession(false).createQuery(queryString);
 #foreach($argument in $finder.arguments)
 #set ($count = $velocityCount - 1)
-#set ($argumentValue = $argument.name)
-#if($argument.type.primitive)
-#set ($argumentValue = "new ${argument.type.wrapperName}($argument.name)")
-#elseif ($argument.type.enumeration)
-#set ($argumentValue = "${argument.name}.getValue()")
-#end
 #set ($setParameterOperation = "setParameter")
 #if ($argument.type.collectionType || $argument.type.arrayType)
 #set ($setParameterOperation = "${setParameterOperation}List")
 #end
 #if ($useNamedParametersInQueries || $finder.useNamedParameters || $argument.type.collectionType || $argument.type.arrayType)
-            queryObject.${setParameterOperation}("$argument.name", $argumentValue);
+#if (!$argument.type.embeddedValue)
+            queryObject.${setParameterOperation}("$argument.name", $springUtils.formatHibernateQueryParameterValue($argument.type, $argument.name));
 #else
-            queryObject.${setParameterOperation}($count, $argumentValue);
+#foreach ($attribute in $argument.type.getAttributes(true))
+#set ($parameterValue = "${argument.name}.${attribute.getterName}()")
+            queryObject.${setParameterOperation}("$springUtils.concatNamesCamelCase([$argument.name, $attribute.name])", $springUtils.formatHibernateQueryParameterValue($attribute.type, $parameterValue));
+#end
+#end
+#else[$argument.name, $parameterValue]
+#if (!$argument.type.embeddedValue)
+            queryObject.${setParameterOperation}($count, $springUtils.formatHibernateQueryParameterValue($argument.type, $argument.name));
+#else
+#foreach ($attribute in $argument.type.getAttributes(true))
+#set ($parameterValue = "${argument.name}.${attribute.getterName}()")
+#set ($count = $count + $velocityCount - 1)
+            queryObject.${setParameterOperation}($count, $springUtils.formatHibernateQueryParameterValue($attribute, $parameterValue));
+#end
+#end
 #end
 #end
 #if ($finder.returnType.setType || !$finder.returnType.collectionType)

@@ -1,19 +1,21 @@
 package org.andromda.cartridges.spring;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 
 import org.andromda.cartridges.spring.metafacades.SpringService;
-import org.andromda.metafacades.uml.Service;
+import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
+import org.andromda.metafacades.uml.Service;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.andromda.utils.StringUtilsHelper;
 
 
 /**
@@ -279,5 +281,46 @@ public class SpringUtils
         }
 
         return new ArrayList(filteredElements.values());
+    }
+
+    /**
+     * Formats the given type to the appropriate Hibernate query parameter value.
+     * 
+     * @param type the type of the Hibernate query parameter.
+     * @param value the current value to format.
+     * @return the formatted value.
+     */
+    public String formatHibernateQueryParameterValue(final ClassifierFacade type, String value)
+    {
+        if (type != null)
+        {
+            if (type.isPrimitive())
+            {
+                value = "new " + type.getWrapperName() + "(" + value + ")";
+            }
+            else if (type.isEnumeration())
+            {
+                value = value + ".getValue()";
+            }
+        }
+        return value;
+    }
+    
+    /**
+     * Takes the given <code>names</code> and concatinates them in camel case
+     * form.
+     * 
+     * @param names the names to concatinate.
+     * @return the result of the concatination
+     */
+    public static String concatNamesCamelCase(final Collection names)
+    {
+        String result = null;
+        if (names != null)
+        {
+            result = StringUtilsHelper.lowerCamelCaseName(StringUtilsHelper.join(names.iterator(), " "));
+        }
+        return result;
+        
     }
 }

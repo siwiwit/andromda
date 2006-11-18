@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.andromda.cartridges.spring.SpringProfile;
 import org.andromda.cartridges.spring.SpringHibernateUtils;
+import org.andromda.cartridges.spring.SpringProfile;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
@@ -14,7 +14,6 @@ import org.andromda.metafacades.uml.EnumerationFacade;
 import org.andromda.metafacades.uml.FilteredCollection;
 import org.andromda.metafacades.uml.GeneralizableElementFacade;
 import org.andromda.metafacades.uml.OperationFacade;
-import org.andromda.metafacades.uml.UMLProfile;
 import org.andromda.metafacades.uml.ValueObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -473,7 +472,7 @@ public class SpringEntityLogicImpl
         {
             final AttributeFacade attribute = (AttributeFacade)iterator.next();
             final ClassifierFacade type = attribute.getType();
-            if (type != null && type.hasStereotype(UMLProfile.STEREOTYPE_EMBEDDED_VALUE))
+            if (type != null && type.isEmbeddedValue())
             {
                 embeddedValues.add(attribute.getName());
             }
