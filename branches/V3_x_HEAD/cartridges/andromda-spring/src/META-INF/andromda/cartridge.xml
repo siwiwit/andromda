@@ -366,8 +366,7 @@
         outputPattern="$generatedFile"
         outlet="services"
         overwrite="true"
-        outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputToSingleFile="true">
         <modelElements>
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
@@ -382,8 +381,7 @@
         outputPattern="$generatedFile"
         outlet="server"
         overwrite="true"
-        outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputToSingleFile="true">
         <modelElements>
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
