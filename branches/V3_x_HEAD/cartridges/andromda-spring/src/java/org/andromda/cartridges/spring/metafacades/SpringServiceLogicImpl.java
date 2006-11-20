@@ -49,7 +49,8 @@ public class SpringServiceLogicImpl
         return jndiName.toString();
     }
 
-	protected String handleGetEjbLocalJndiName() {
+    protected String handleGetEjbLocalJndiName()
+    {
         StringBuffer jndiName = new StringBuffer();
         String jndiNamePrefix = StringUtils.trimToEmpty(this.getEjbJndiNamePrefix());
         if (StringUtils.isNotEmpty(jndiNamePrefix))
@@ -63,8 +64,8 @@ public class SpringServiceLogicImpl
                 this.getName(),
                 (this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW) ? "Local" : null)));
         return jndiName.toString();
-	}
-	
+    }
+
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#getEjbImplementationName()
      */
@@ -102,18 +103,19 @@ public class SpringServiceLogicImpl
             this.getName(),
             null);
     }
-    
+
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#getFullyQualifiedLocalEjbName()
      */
-	protected String handleGetFullyQualifiedLocalEjbName() {
-		//add "Local" to local ejb name when viewtype = "both",
-		//to prevent name clashing with remote interface naming 
+    protected String handleGetFullyQualifiedLocalEjbName()
+    {
+        //add "Local" to local ejb name when viewtype = "both",
+        //to prevent name clashing with remote interface naming
         return SpringMetafacadeUtils.getFullyQualifiedName(
                 this.getEjbPackageName(),
                 this.getName(),
                 (this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW) ? "Local" : null));
-	}
+    }
 
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#getFullyQualifiedImplementationName()
@@ -301,7 +303,7 @@ public class SpringServiceLogicImpl
      */
     protected String handleGetRemoteContext()
     {
-        return this.isConfiguredProperty(SpringGlobals.SERVICE_REMOTE_CONTEXT) 
+        return this.isConfiguredProperty(SpringGlobals.SERVICE_REMOTE_CONTEXT)
             ? ObjectUtils.toString(this.getConfiguredProperty(SpringGlobals.SERVICE_REMOTE_CONTEXT)) : "";
     }
 
@@ -333,7 +335,7 @@ public class SpringServiceLogicImpl
     protected String handleGetRemoteUrl()
     {
         String result = "";
-        
+
         String propertyPrefix = ObjectUtils.toString(this.getConfiguredProperty(SpringGlobals.CONFIG_PROPERTY_PREFIX));
 
         if (this.isRemotingTypeNone())
@@ -359,6 +361,11 @@ public class SpringServiceLogicImpl
 
             // service name
             result += "/" + getName();
+        }
+        else if (this.isRemotingTypeLingo())
+        {
+            result = "tcp://${" + propertyPrefix + "remoteServer}";
+            result += "/${" + propertyPrefix + "remotePortJMS}";
         }
         else if (this.isRemotingTypeRmi())
         {
@@ -500,6 +507,14 @@ public class SpringServiceLogicImpl
     }
 
     /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringService#isRemotingTypeLingo()
+     */
+    protected boolean handleIsRemotingTypeLingo()
+    {
+        return this.getRemotingType().equalsIgnoreCase(SpringGlobals.REMOTING_PROTOCOL_LINGO);
+    }
+
+    /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#isRemotingTypeNone()
      */
     protected boolean handleIsRemotingTypeNone()
@@ -552,18 +567,18 @@ public class SpringServiceLogicImpl
     protected boolean handleIsEjbRemoteView()
     {
         return (this.getEjbViewType().equalsIgnoreCase(EJB_REMOTE_VIEW)
-        		|| this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW));
+                || this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW));
     }
 
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#isEjbLocalView()
      */
-	protected boolean handleIsEjbLocalView()
-	{
+    protected boolean handleIsEjbLocalView()
+    {
         return (this.getEjbViewType().equalsIgnoreCase(EJB_LOCAL_VIEW)
-        		|| this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW));
-	}
-    
+                || this.getEjbViewType().equalsIgnoreCase(EJB_BOTH_VIEW));
+    }
+
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#getEjbTransactionType()
      */
@@ -608,12 +623,12 @@ public class SpringServiceLogicImpl
     {
         return this.getWebServiceAttachmentHandlerCall(SpringGlobals.WEBSERVICE_INCOMING_ATTACHMENT_HANDLER_CALL_PATTERN);
     }
-    
+
     /**
      * Constructs the webservice attachment handler call or returns null if
      * one isn't found or is not appropriate it for the service (i.e. it isn't
      * a webservice).
-     * 
+     *
      * @param patternProperty the property defining the pattern type.
      * @return the call value.
      */
@@ -628,13 +643,13 @@ public class SpringServiceLogicImpl
                 call = value;
             }
         }
-        return call;        
+        return call;
     }
 
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#isRichClient()
      */
-    protected boolean handleIsRichClient() 
+    protected boolean handleIsRichClient()
     {
         final String richClient = StringUtils.trimToEmpty(String.valueOf(this.getConfiguredProperty(SpringGlobals.RICH_CLIENT)));
         return richClient.equalsIgnoreCase("true");

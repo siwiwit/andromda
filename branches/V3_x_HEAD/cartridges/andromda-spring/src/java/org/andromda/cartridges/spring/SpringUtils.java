@@ -12,10 +12,10 @@ import org.andromda.cartridges.spring.metafacades.SpringService;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.Service;
+import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.andromda.utils.StringUtilsHelper;
 
 
 /**
@@ -146,6 +146,37 @@ public class SpringUtils
     }
 
     /**
+     * Indicates if any remotable services using Lingo are present.
+     *
+     * @param services the collection of services to check.
+     * @return true/false.
+     */
+    public boolean lingoRemotableServicesPresent(final Collection services)
+    {
+        boolean present = services != null && !services.isEmpty();
+        if (present)
+        {
+            present =
+                CollectionUtils.find(
+                        services,
+                        new Predicate()
+                        {
+                            public boolean evaluate(final Object object)
+                            {
+                                boolean valid = false;
+                                if (object instanceof SpringService)
+                                {
+                                    final SpringService service = (SpringService)object;
+                                    valid = service.isRemotingTypeLingo();
+                                }
+                                return valid;
+                            }
+                        }) != null;
+        }
+        return present;
+    }
+
+    /**
      * Based on the given <code>value</code>, this method will return
      * a formatted Spring property (including the handling of 'null').
      *
@@ -168,31 +199,31 @@ public class SpringUtils
         }
         return propertyValue;
     }
-    
+
     /**
-     * Removes generics from string. Currently used to strip generics 
+     * Removes generics from string. Currently used to strip generics
      * from ejb-jar.xml method parameters.
-     * 
+     *
      * @param String containing generics
      * @return String with generics stripped
      */
     public String removeGenerics(final String parameter)
     {
-		int position = parameter.indexOf("<");
-		String result = parameter;
-		if(position != -1)
+        int position = parameter.indexOf("<");
+        String result = parameter;
+        if(position != -1)
         {
-			result = result.substring(0, position);
+            result = result.substring(0, position);
         }
-		return result;
+        return result;
     }
-    
+
     /**
      * Are we generating code for a rich client?
      */
     private boolean richClient = false;
 
-    
+
     /**
      * Sets if code is being generated for a rich client.
      */
@@ -200,15 +231,15 @@ public class SpringUtils
     {
         this.richClient = richClientProperty;
     }
-    
+
     /**
-     * Returns TRUE if code is being generated for a rich client environment 
+     * Returns TRUE if code is being generated for a rich client environment
      */
     public boolean isRichClient()
     {
         return this.richClient;
     }
- 
+
     /**
      * Returns the class name part of a fully qualified name
      * @param fullyQualifiedName
@@ -227,11 +258,11 @@ public class SpringUtils
        }
        else
           className = "";
-       
+
        return className;
     }
 
-    
+
     /**
      * Returns the package name part of a fully qualified name
      * @param fullyQualifiedName
@@ -250,7 +281,7 @@ public class SpringUtils
        }
        else
           packageName = "";
-       
+
        return packageName;
     }
 
@@ -285,7 +316,7 @@ public class SpringUtils
 
     /**
      * Formats the given type to the appropriate Hibernate query parameter value.
-     * 
+     *
      * @param type the type of the Hibernate query parameter.
      * @param value the current value to format.
      * @return the formatted value.
@@ -305,11 +336,11 @@ public class SpringUtils
         }
         return value;
     }
-    
+
     /**
      * Takes the given <code>names</code> and concatinates them in camel case
      * form.
-     * 
+     *
      * @param names the names to concatinate.
      * @return the result of the concatination
      */
@@ -321,6 +352,6 @@ public class SpringUtils
             result = StringUtilsHelper.lowerCamelCaseName(StringUtilsHelper.join(names.iterator(), " "));
         }
         return result;
-        
+
     }
 }

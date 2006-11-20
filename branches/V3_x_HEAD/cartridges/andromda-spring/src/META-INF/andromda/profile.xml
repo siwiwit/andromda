@@ -137,7 +137,8 @@
             <element name="SPRING_SERVICE_REMOTING_TYPE">
                 <documentation>
                     Services marked with this stereotype will be exported using Spring's remoting
-                    architecture.
+                    architecture. Please note that in order to be able to use
+                    <a href="http://lingo.codehaus.org/">Lingo remoting</a>, you need to use Spring 2.0.
                 </documentation>
                 <value>@andromda.spring.service.remoting.type</value>
                 <appliedOnElement><![CDATA[<<Service>>]]></appliedOnElement>
@@ -147,6 +148,7 @@
                     <value>httpinvoker</value>
                     <value>burlap</value>
                     <value>hessian</value>
+                    <value>lingo></value>
                 </allowedValues>
             </element>
             <element name="SPRING_SERVICE_REMOTE_PORT">

@@ -7,7 +7,7 @@ package org.andromda.cartridges.spring.metafacades;
  * @author Wouter Zoons
  */
 public class SpringGlobals
-{   
+{
     /**
      * Denotes whether or not subclasses require their own mapping file.
      */
@@ -82,17 +82,17 @@ public class SpringGlobals
      * The pattern used to construct the DAO implementation name.
      */
     static final String DAO_IMPLEMENTATION_PATTERN = "daoImplementationNamePattern";
-    
+
     /**
      * The pattern used to indicate whether or not ejb transactions are enabled.
      */
     static final String EJB_TRANSACTIONS_ENABLED = "ejbTransactionsEnabled";
-    
+
     /**
      * The pattern used to construct the web service outgoing attachment handler call.
      */
     static final String WEBSERVICE_OUTGOING_ATTACHMENT_HANDLER_CALL_PATTERN = "webServiceOutgoingAttachmentHandlerCallPattern";
-    
+
     /**
      * The pattern used to construct the web service incoming attachment handler call.
      */
@@ -114,6 +114,11 @@ public class SpringGlobals
     static final String REMOTING_PROTOCOL_HTTPINVOKER = "httpinvoker";
 
     /**
+     * Lingo protocol for remote services
+     */
+    static final String REMOTING_PROTOCOL_LINGO = "lingo";
+
+    /**
      * Disable remoting
      */
     static final String REMOTING_PROTOCOL_NONE = "none";
@@ -131,7 +136,7 @@ public class SpringGlobals
     /**
      * Prefix for configuration properties related to remoting.
      */
-    static final String CONFIG_PROPERTY_PREFIX = "configPropertyPrefix";
+    public static final String CONFIG_PROPERTY_PREFIX = "configPropertyPrefix";
 
     /**
      * Default service exceptino name pattern
@@ -182,7 +187,7 @@ public class SpringGlobals
      * The remote context to which services are to be deployed
      */
     static final String SERVICE_REMOTE_CONTEXT = "serviceRemoteContext";
-    
+
     /**
      * Indicates if "XML Persistence" code generation is enabled. Requires Hibernate 3.
      */
@@ -203,5 +208,5 @@ public class SpringGlobals
      * The version for Hibernate 3.
      */
     public static final String HIBERNATE_VERSION_3 = "3";
-    
+
 }

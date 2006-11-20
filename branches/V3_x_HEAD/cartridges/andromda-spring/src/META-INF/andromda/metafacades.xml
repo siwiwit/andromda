@@ -14,6 +14,7 @@
     <property reference="serviceInterceptors"/>
     <property reference="serviceRemotingType"/>
     <property reference="serviceRemotePort"/>
+    <property reference="serviceRemotePortJMS"/>
     <property reference="serviceRemoteContext"/>
     <property reference="serviceRemoteServer"/>
     <property reference="entityNamePattern"/>
@@ -23,8 +24,8 @@
     <property reference="ejbServiceOperationTransactionType"/>
     <property reference="serviceHibernateInterceptorEnabled"/>
     <property reference="ejbViewType"/>
-    <property reference="richClient"/>    
-    <property reference="configPropertyPrefix"/>    
+    <property reference="richClient"/>
+    <property reference="configPropertyPrefix"/>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringQueryOperationLogicImpl">
         <mapping>
             <stereotype>FINDER_METHOD</stereotype>
@@ -37,7 +38,7 @@
             <property name="query"/>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringCriteriaSearchLogicImpl" 
+    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringCriteriaSearchLogicImpl"
         contextRoot="true">
         <mapping>
             <stereotype>CRITERIA</stereotype>
@@ -48,7 +49,7 @@
             <context>org.andromda.cartridges.spring.metafacades.SpringCriteriaSearch</context>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringServiceLogicImpl" 
+    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringServiceLogicImpl"
         contextRoot="true">
         <mapping>
             <stereotype>SERVICE</stereotype>

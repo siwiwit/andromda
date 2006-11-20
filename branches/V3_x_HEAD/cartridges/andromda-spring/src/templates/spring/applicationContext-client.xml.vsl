@@ -11,6 +11,9 @@
             <props>
                 <prop key="${configPropertyPrefix}remoteServer">$serviceRemoteServer</prop>
                 <prop key="${configPropertyPrefix}remotePort">$serviceRemotePort</prop>
+#if($lingoRemotableServicesPresent)
+                <prop key="${configPropertyPrefix}remotePortJMS">$serviceRemotePortJMS</prop>
+#end
 #if($stringUtils.isNotBlank($serviceRemoteContext))
                 <prop key="${configPropertyPrefix}remoteContext">$serviceRemoteContext</prop>
 #end
@@ -42,6 +45,23 @@
 
 #foreach($service in $services)
 #if($service.remotable)
+#if($service.remotingTypeLingo)
+    <!-- $service.name Remote Service Local Proxy with inner $service.name Remote Service invoker -->
+    <bean id="$service.getBeanName(false)" class="org.logicblaze.lingo.jms.JmsProxyFactoryBean">
+        <property name="serviceInterface"><value>$service.fullyQualifiedName</value></property>
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="destination">
+            <bean class="org.activemq.message.ActiveMQQueue">
+                <constructor-arg index="0">
+                    <value>$service.fullyQualifiedName</value>
+                </constructor-arg>
+            </bean>
+        </property>
+        <!-- enable async one ways on the client -->
+        <property name="remoteInvocationFactory" ref="invocationFactory"/>
+    </bean>
+
+#else
     <!-- $service.name Remote Service Local Proxy with inner $service.name Remote Service invoker -->
     <bean id="$service.getBeanName(false)" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="target">
@@ -85,6 +105,7 @@
 
 #end
 #end
+#end
 #foreach ($manageable in $manageables)
     <!-- $manageable.manageableServiceName Remote Service Local Proxy with inner $manageable.manageableServiceName Remote Service invoker -->
     <bean id="$manageable.manageableServiceName" class="org.springframework.aop.framework.ProxyFactoryBean">
@@ -115,6 +136,24 @@
 #end
 #if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
     <bean id="clientRequestInterceptor" class="$clientHttpInvokerExecutor"/>
+
+#end
+#if($lingoRemotableServicesPresent)
+    <!-- Lingo invocation factory -->
+    <bean id="invocationFactory"
+        class="org.logicblaze.lingo.LingoRemoteInvocationFactory">
+        <constructor-arg>
+            <bean class="org.logicblaze.lingo.SimpleMetadataStrategy">
+                <!-- enable async one ways -->
+                <constructor-arg value="true"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- JMS connection factory for Lingo remoting -->
+    <bean id="jmsFactory" class="org.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePortJMS}"/>
+    </bean>
 
 #end
     <!-- ========================= End of SERVICE DEFINITIONS ========================= -->

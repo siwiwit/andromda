@@ -664,8 +664,8 @@
             <property name="hibernateXMLPersistence">
                 <default>false</default>
                 <documentation>
-                    Set to <i>TRUE</i> to enable Hibernate's 
-                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a> 
+                    Set to <i>TRUE</i> to enable Hibernate's
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a>
                     using dom4J. "hibernateVersion" must be set to "3"
                 </documentation>
             </property>
@@ -822,12 +822,12 @@
             </property>
             <property name="hibernateConnectionReleaseMode" required="false">
                 <documentation>
-                    Specify when Hibernate should release JDBC connections. By default, a JDBC connection 
-                    is held until the session is explicitly closed or disconnected. For an application server JTA datasource, 
-                    you should use after_statement to aggressively release connections after every JDBC call. 
-                    For a non-JTA connection, it often makes sense to release the connection at the end of each 
-                    transaction, by using after_transaction. auto will choose after_statement for the JTA and 
-                    CMT transaction strategies and after_transaction for the JDBC transaction strategy. 
+                    Specify when Hibernate should release JDBC connections. By default, a JDBC connection
+                    is held until the session is explicitly closed or disconnected. For an application server JTA datasource,
+                    you should use after_statement to aggressively release connections after every JDBC call.
+                    For a non-JTA connection, it often makes sense to release the connection at the end of each
+                    transaction, by using after_transaction. auto will choose after_statement for the JTA and
+                    CMT transaction strategies and after_transaction for the JDBC transaction strategy.
                     <ul>
                         Valid values are:
                         <li>on_close</li> - default
@@ -877,12 +877,12 @@
                 </documentation>
             </property>
             <property name="acegiRolePrefix">
-				<default>ROLE_</default>
+                <default>ROLE_</default>
                 <documentation>
                     The prefix for all roles defined in the model. This configures the <code>acegiServiceDecisionVoter</code>s <code>rolePrefix</code>
-					attribute. As proposed by Acegi for our default voter <code>org.acegisecurity.vote.RoleVoter</code>, the default value is <code>ROLE_</code>.
-					It can be overwritten with an empty string if no prefix is wanted/neccessary at all.
-					Please <strong>NOTE</strong> that AndroMDA will add this prefix to all role/actor names, 
+                    attribute. As proposed by Acegi for our default voter <code>org.acegisecurity.vote.RoleVoter</code>, the default value is <code>ROLE_</code>.
+                    It can be overwritten with an empty string if no prefix is wanted/neccessary at all.
+                    Please <strong>NOTE</strong> that AndroMDA will add this prefix to all role/actor names,
                     which do not already have it defined in the model.
                 </documentation>
             </property>
@@ -1005,7 +1005,7 @@
                 <documentation>
                     The name of the bean that implements a cache for user information. If
                     defined, it activate user caching in the Dao provider by setting
-                    the "userCache" property of the Dao provider defined with the 
+                    the "userCache" property of the Dao provider defined with the
                     acegiDaoAuthenticationProviderClass namespace property.
                 </documentation>
             </property>
@@ -1025,7 +1025,7 @@
                     "configLocation" property in the configuration of the implementation
                     of the acegiDaoUserCacheImplClass namespace property. You should
                     also define the acegiUserCacheName namespace property so it
-                    matches the cache name of the cache to use that is defined in the 
+                    matches the cache name of the cache to use that is defined in the
                     EhCache configuration file.  If "default" is used for
                     this property, a "default implementation" will be generated in
                     the server configuration outlet. The file will be named
@@ -1035,7 +1035,7 @@
             <property name="acegiUserCacheName" required="false">
                 <documentation>
                     The name of the cache configuration to use for caching user
-                    authentication information.  This cache configuration should be 
+                    authentication information.  This cache configuration should be
                     found in the EhCache configuration file defined with
                     the acegiUserCacheConfigLocation namespace property.
                 </documentation>
@@ -1044,8 +1044,8 @@
                 <documentation>
                     The name of the bean that implements a password encoder for
                     user information. If defined, it activates user password encoding
-                    in the Dao provider by setting the "passwordEncoder" property 
-                    of the Dao provider defined with the acegiDaoAuthenticationProviderClass 
+                    in the Dao provider by setting the "passwordEncoder" property
+                    of the Dao provider defined with the acegiDaoAuthenticationProviderClass
                     namespace property.
                 </documentation>
             </property>
@@ -1061,8 +1061,8 @@
                 <documentation>
                     The name of the bean that implements a password encoder salt source for
                     user information. If defined, it enhances user password encoding
-                    in the Dao provider by setting the "saltSource" property 
-                    of the Dao provider defined with the acegiDaoAuthenticationProviderClass 
+                    in the Dao provider by setting the "saltSource" property
+                    of the Dao provider defined with the acegiDaoAuthenticationProviderClass
                     namespace property.
                 </documentation>
             </property>
@@ -1081,13 +1081,23 @@
                         <li>httpinvoker</li>
                         <li>burlap</li>
                         <li>hessian</li>
+                        <li>lingo</li>
                     </ul>
+                    Please note that in order to use <a href="http://lingo.codehaus.org/">Lingo remoting</a>, you need
+                    to use Spring 2.0.
                 </documentation>
             </property>
             <property name="serviceRemotePort">
                 <default>8080</default>
                 <documentation>
                     The port the exported services get published on.
+                </documentation>
+            </property>
+            <property name="serviceRemotePortJMS">
+                <default>61616</default>
+                <documentation>
+                    This port will be used if you export services using
+                    <a href="http://lingo.codehaus.org/">Lingo remoting</a>.
                 </documentation>
             </property>
             <property name="serviceRemoteContext" required="false">

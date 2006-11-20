@@ -89,6 +89,7 @@
     <property reference="ejbTransactionsEnabled"/>
     <property reference="serviceInterceptors"/>
     <property reference="serviceRemotePort"/>
+    <property reference="serviceRemotePortJMS"/>
     <property reference="serviceRemoteContext"/>
     <property reference="serviceRemoteServer"/>
     <property reference="securityRealm"/>
@@ -145,7 +146,7 @@
     <property reference="enableTemplating"/>
     <property reference="hibernateQueryUseNamedParameters"/>
     <!-- cartridge-property merge-point -->
-    
+
     <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
     <condition name="daoInheritanceEnabled">$daoInheritanceEnabled.equalsIgnoreCase("true")</condition>
     <condition name="acegiServiceSecurity">$acegiServiceSecurity.equalsIgnoreCase("true")</condition>
@@ -155,8 +156,9 @@
     <condition name="adviceEnabled">$stringUtils.isNotBlank($advice-impls)</condition>
     <condition name="requiredCheckEnabled">$parameterRequiredCheck.equalsIgnoreCase("true")</condition>
     <condition name="ejbSecurityEnabled">$stringUtils.isNotBlank($securityRealm)</condition>
-    <condition name="remoteEjbsPresent">$springUtils.remoteEjbsPresent($services)</condition> 
-    <condition name="localEjbsPresent">$springUtils.localEjbsPresent($services)</condition> 
+    <condition name="remoteEjbsPresent">$springUtils.remoteEjbsPresent($services)</condition>
+    <condition name="localEjbsPresent">$springUtils.localEjbsPresent($services)</condition>
+    <condition name="lingoRemotableServicesPresent">$springUtils.lingoRemotableServicesPresent($services)</condition>
     <condition name="useNamedParametersInQueries">$hibernateQueryUseNamedParameters.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
