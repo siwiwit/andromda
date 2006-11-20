@@ -10,7 +10,7 @@
 			<module resource='file:/C:/Program%20Files/MagicDraw%20UML%2011.5/profiles/UML_Standard_Profile.xml' autoloadType='ALWAYS_LOAD' readOnly='true' loadIndex='false' requiredVersion='-1'>
 				<mount mountPoint='magicdraw_uml_standard_profile_v_0001' mountedOn='eee_1045467100313_135436_1'/>
 			</module>
-			<module resource='file:/C:/Documents%20and%20Settings/Saratoga/.m2/repository/org/andromda/profiles/uml2/andromda-profile/3.2/andromda-profile-3.3-SNAPSHOT.xml.zip' autoloadType='ALWAYS_LOAD' readOnly='true' loadIndex='true' requiredVersion='-1'>
+			<module resource='file:/C:/Documents%20and%20Settings/Saratoga/.m2/repository/org/andromda/profiles/uml2/andromda-profile/3.3-SNAPSHOT/andromda-profile-3.3-SNAPSHOT.xml.zip' autoloadType='ALWAYS_LOAD' readOnly='true' loadIndex='true' requiredVersion='-1'>
 				<mount mountPoint='_8a70287_1078771814628_224704_589' mountedOn='eee_1045467100313_135436_1'/>
 			</module>
 		</mountTable>
