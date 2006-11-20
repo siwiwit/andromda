@@ -87,39 +87,39 @@
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-meta\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-meta\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-presentation\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-presentation\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-persistence\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-persistence\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-xml\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-xml\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-service\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-service\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-webservice\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-webservice\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-datatype\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-datatype\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
-							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-process\3.2</value>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-process\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
 						<allowFiles xmi:value='false'/>
