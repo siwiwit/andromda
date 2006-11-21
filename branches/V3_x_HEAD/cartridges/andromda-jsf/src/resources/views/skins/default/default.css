@@ -481,6 +481,7 @@ a:hover
 #pageContent
 {
     margin: 25px;
+    padding: 20px 0 20px 0;
 }
 
 .error
