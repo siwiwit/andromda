@@ -542,7 +542,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             queryObject.${setParameterOperation}("$springUtils.concatNamesCamelCase([$argument.name, $attribute.name])", $springUtils.formatHibernateQueryParameterValue($attribute.type, $parameterValue));
 #end
 #end
-#else[$argument.name, $parameterValue]
+#else
 #if (!$argument.type.embeddedValue)
             queryObject.${setParameterOperation}($count, $springUtils.formatHibernateQueryParameterValue($argument.type, $argument.name));
 #else
