@@ -406,40 +406,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring</artifactId>
                 <version>1.2.8</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>javax.transaction</groupId>
-                        <artifactId>jta</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>javax.resource</groupId>
-                        <artifactId>connector</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>xdoclet</groupId>
-                        <artifactId>xjavadoc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.servlets</groupId>
-                        <artifactId>cos</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId
-                        <artifactId>jstl</artifactId>>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>taglibs</groupId>
-                        <artifactId>standard</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>quartz</groupId>
-                        <artifactId>quartz</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>aopalliance</groupId>
