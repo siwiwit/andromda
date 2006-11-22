@@ -392,6 +392,12 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate</artifactId>
                 <version>3.2.0.ga</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.transaction</groupId>
+                        <artifactId>jta</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 #end
 #end
@@ -402,36 +408,36 @@
                 <version>1.2.8</version>
                 <exclusions>
                     <exclusion>
+                        <groupId>javax.servlet</groupId>
                         <artifactId>servlet-api</artifactId>
-                        <groupId>javax.servlet</groupId>
                     </exclusion>
                     <exclusion>
-                        <artifactId>jta</artifactId>
                         <groupId>javax.transaction</groupId>
+                        <artifactId>jta</artifactId>
                     </exclusion>
                     <exclusion>
-                        <artifactId>connector</artifactId>
                         <groupId>javax.resource</groupId>
+                        <artifactId>connector</artifactId>
                     </exclusion>
                     <exclusion>
-                        <artifactId>xjavadoc</artifactId>
                         <groupId>xdoclet</groupId>
+                        <artifactId>xjavadoc</artifactId>
                     </exclusion>
                     <exclusion>
-                        <artifactId>cos</artifactId>
                         <groupId>com.servlets</groupId>
+                        <artifactId>cos</artifactId>
                     </exclusion>
                     <exclusion>
-                        <artifactId>jstl</artifactId>
-                        <groupId>javax.servlet</groupId>
+                        <groupId>javax.servlet</groupId
+                        <artifactId>jstl</artifactId>>
                     </exclusion>
                     <exclusion>
-                        <artifactId>standard</artifactId>
                         <groupId>taglibs</groupId>
+                        <artifactId>standard</artifactId>
                     </exclusion>
                     <exclusion>
-                        <artifactId>quartz</artifactId>
                         <groupId>quartz</groupId>
+                        <artifactId>quartz</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
