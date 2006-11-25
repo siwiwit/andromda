@@ -57,7 +57,9 @@
             Create <code>UserDetailsVO</code>, <code>UserRoleVO</code> and <code>UserRoleVO[]</code>
             in the <code>Value Objects</code> diagram as shown below. Note that <code>UserDetailsVO</code>
             extends <code>UserVO</code> using a <em>Generalization</em> relationship. Next create
-            the dependency relationships as shown in the diagram.<br />
+            the dependency relationships as shown in the diagram. Note that the Dependency
+            from User to UserRole needs to be created in addition to the Association
+            which already connects them.<br />
             {mosimage}
             <!-- img src="Images/UserDetailsVO.jpg" alt="UserDetailsVO" / -->
         </li>
@@ -71,7 +73,8 @@
             User</code> along with its roles - all in one database hit. Here's the specification
             for this method:<br />
             <code>+getUserDetails(username : String) : User</code><br />
-            Since we want this method to be generated in the DAO, change its scope to <code>classifier</code>.</li>
+            Since we want this method to be generated in the DAO, change its scope to <code>classifier</code>
+            (or, for ArgoUML select the <code>static</code> modifier).</li>
         <li>That completes all the changes to the model. Now let's generate code:<br />
             <code>mvn install</code><br />
             The tests will fail because the database schema has changed.</li>
@@ -250,6 +253,10 @@ import org.andromda.timetracker.vo.UserDetailsVO;
                 &lt;/exclusions&gt;
             &lt;/dependency&gt;
             </pre>
+            NOTE: If you get an runtime error from your application server
+            saying it can't find <code>org/apache/commons/codec/binary/Base64</code>
+            when you try to log in, you may need to comment out the exclusion
+            for <code>commons-codec</code>.
         </li>
         <li>Now edit the file <code>C:\timetracker\web\pom.xml</code> and add the following
             dependency under the <code>dependencies</code> section. Again, if you are unsure
