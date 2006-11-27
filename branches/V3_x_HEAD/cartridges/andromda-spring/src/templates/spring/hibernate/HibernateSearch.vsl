@@ -57,6 +57,14 @@ public class $criteriaSearchBaseName
 
         }
     }
+    
+    /**
+     * Exposes the root criteria to subclasses.
+     */
+    protected ${hibernateUtils.basePackage}.Criteria getRootCriteria()
+    {
+        return this.rootCriteria;
+    }
 
     /**
      * Constructor for ${criteriaSearchBaseName}. Creates a <code>${criteriaSearchBaseName}</code> with a default

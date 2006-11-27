@@ -415,4 +415,5 @@ $operation.getDocumentation(" * ")
 #end
 
 #end
+    // spring-dao merge-point
 }
