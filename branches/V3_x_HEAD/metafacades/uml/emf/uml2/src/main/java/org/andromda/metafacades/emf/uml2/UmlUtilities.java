@@ -572,11 +572,21 @@ public class UmlUtilities
      * @param element the element from which to retrieve the tagged values.
      * @return the collection of {@link TagDefinition} instances.
      */
-    public static Collection getTaggedValue(final NamedElement element)
+    public static Collection getTaggedValue(final Element element)
     {
-        if (logger.isDebugEnabled())
+    	String elementName = "";
+
+    	if (element instanceof NamedElement) {
+			elementName = ((NamedElement)element).getName();
+		}
+    	else
+    	{
+    		elementName = element.toString();
+    	}
+
+    	if (logger.isDebugEnabled())
         {
-            logger.debug("Searching Tagged Values for " + element.getName());
+            logger.debug("Searching Tagged Values for " + elementName);
         }
         final Collection tags = new ArrayList();
         final Collection stereotypes = element.getAppliedStereotypes();
@@ -661,7 +671,7 @@ public class UmlUtilities
 
         if (logger.isDebugEnabled())
         {
-            logger.debug("Found " + tags.size() + " tagged values for " + element.getName());
+            logger.debug("Found " + tags.size() + " tagged values for " + elementName);
         }
 
         return tags;

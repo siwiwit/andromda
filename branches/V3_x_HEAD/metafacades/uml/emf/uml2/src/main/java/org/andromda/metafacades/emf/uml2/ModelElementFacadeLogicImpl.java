@@ -121,7 +121,7 @@ public class ModelElementFacadeLogicImpl
         {
             NamedElement namedElement = (NamedElement) this.metaObject;
             return namedElement.getName();
-            
+
         }
         return "";
     }
@@ -596,7 +596,7 @@ public class ModelElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetTaggedValues()
     {
-        return UmlUtilities.getTaggedValue((NamedElement)this.metaObject);
+        return UmlUtilities.getTaggedValue(this.metaObject);
     }
 
     /**
@@ -668,7 +668,7 @@ public class ModelElementFacadeLogicImpl
     {
     	ArrayList constraints = new ArrayList();
     	constraints.addAll(UmlUtilities.getAllMetaObjectsInstanceOf(Constraint.class, this.metaObject.getModel()));
-    	
+
     	CollectionUtils.filter(
     			constraints,
     			new Predicate()
@@ -690,7 +690,7 @@ public class ModelElementFacadeLogicImpl
         // A more efficient implmentation of this would have been to use getClientDependencies() and getTemplateBindings()
     	// But it would have required the same filtering
     	// This way, the code is the "same" as getTargettingDependencies
-    	
+
         ArrayList dependencies = new ArrayList();
         dependencies.addAll(UmlUtilities.getAllMetaObjectsInstanceOf(
                 DirectedRelationship.class,
@@ -712,7 +712,7 @@ public class ModelElementFacadeLogicImpl
             });
         return dependencies;
     }
-    
+
     /**
      * This function test if the given relation is a dependency in UML1.4 sense of term.
      * @param relation: The relation to test
@@ -722,7 +722,7 @@ public class ModelElementFacadeLogicImpl
     {
     	// this ensure that this relation is either a dependency or a template binding
     	boolean isAUml14Dependency = (relation instanceof Dependency) || (relation instanceof TemplateBinding);
-    	
+
     	// but we don't want subclass of dependency
     	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Abstraction); // present in uml 1.4 (but filter in uml14 facade)
     	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Deployment);
@@ -732,7 +732,7 @@ public class ModelElementFacadeLogicImpl
     	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Realization);
     	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Substitution);
     	isAUml14Dependency = isAUml14Dependency && !(relation instanceof Usage);// present in uml 1.4
-    	
+
     	return isAUml14Dependency;
     }
 
