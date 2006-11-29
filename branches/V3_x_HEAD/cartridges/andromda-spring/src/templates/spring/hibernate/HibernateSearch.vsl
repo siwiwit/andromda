@@ -103,11 +103,11 @@ public class $criteriaSearchBaseName
                 int direction = parameter.getOrderDirection();
                 if (direction == ${criteriaSearchBaseName}Parameter.ORDER_ASC)
                 {
-                    this.rootCriteria.addOrder(${hibernateUtils.criterionPackage}.Order.asc(parameter.getParameterPattern()));
+                    this.getParameterCriteria(parameter).addOrder(${hibernateUtils.criterionPackage}.Order.asc(this.getParameterName(parameter)));
                 }
                 else
                 {
-                    this.rootCriteria.addOrder(${hibernateUtils.criterionPackage}.Order.desc(parameter.getParameterPattern()));
+                    this.getParameterCriteria(parameter).addOrder(${hibernateUtils.criterionPackage}.Order.desc(this.getParameterName(parameter)));
                 }
             }
         }
@@ -190,41 +190,9 @@ public class $criteriaSearchBaseName
     {
         if (considerParameter(parameter))
         {
-            // parsing the pattern of the parameter
-            String[] path = ${criteriaSearchBaseName}Parameter.PATTERN.split(parameter.getParameterPattern());
-            String parameterName = path[path.length - 1];
-            ${hibernateUtils.basePackage}.Criteria parameterCriteria = this.rootCriteria;
-
-            ${hibernateUtils.basePackage}.Criteria childEntityCriteria;
-            if (path.length > 1)
-            {
-                // We have a parameter affecting an attribute of an inner childEntity object so we need
-                // to traverse to get the right criteria object
-                childEntityCriteria = this.rootCriteria;
-                // Evaluating the proper criteria object for the defined parameter
-                Class type = this.resultType;
-                for (int index = 0; index < (path.length - 1); index++)
-                {
-                    final String childEntityName = path[index];
-                    final java.util.Collection embeddedValues = CriteriaSearchProperties.getEmbeddedValues(type);
-                    if (embeddedValues != null && embeddedValues.contains(childEntityName))
-                    {
-                        // - use the rest of the path as the parameter name
-                        final int number = path.length - index;
-                        final String[] restOfPath = new String[path.length - index];
-                        java.lang.System.arraycopy(path, index, restOfPath, 0, number);
-                        parameterName = org.apache.commons.lang.StringUtils.join(restOfPath, ".");
-                        break;
-                    }
-                    type = CriteriaSearchProperties.getNavigableAssociationEndType(type, childEntityName);
-                    childEntityCriteria = locateCriteria(childEntityName, childEntityCriteria);
-                }
-                if (childEntityCriteria != null)
-                {
-                    // We now have the right criteria object
-                    parameterCriteria = childEntityCriteria;
-                }
-            }
+            final org.hibernate.Criteria parameterCriteria = this.getParameterCriteria(parameter);
+            final java.lang.String parameterName = this.getParameterName(parameter);
+            
             // check the type parameter value to add
             if(parameter.getParameterValue() instanceof Object[])
             {
@@ -250,6 +218,85 @@ public class $criteriaSearchBaseName
         {
             this.orderList.add(parameter);
         }
+    }
+    
+    /**
+     * Retrieves the appropriate criteria object for the given <code>parameter</code>.
+     * 
+     * @param parameter the parameter for which to retrieve the criteria.
+     * @return the retrieved criteria.
+     */
+    private ${hibernateUtils.basePackage}.Criteria getParameterCriteria(final ${criteriaSearchBaseName}Parameter parameter)
+    {
+        String[] path = ${criteriaSearchBaseName}Parameter.PATTERN.split(parameter.getParameterPattern());
+        ${hibernateUtils.basePackage}.Criteria parameterCriteria = this.rootCriteria;
+
+        ${hibernateUtils.basePackage}.Criteria childEntityCriteria;
+        if (path.length > 1)
+        {
+            // We have a parameter affecting an attribute of an inner childEntity object so we need
+            // to traverse to get the right criteria object
+            childEntityCriteria = this.rootCriteria;
+            // Evaluating the proper criteria object for the defined parameter
+            Class type = this.resultType;
+            for (int index = 0; index < (path.length - 1); index++)
+            {
+                final String childEntityName = path[index];
+                final java.util.Collection embeddedValues = CriteriaSearchProperties.getEmbeddedValues(type);
+                if (embeddedValues != null && embeddedValues.contains(childEntityName))
+                {
+                    // - use the rest of the path as the parameter name
+                    final int number = path.length - index;
+                    final String[] restOfPath = new String[path.length - index];
+                    java.lang.System.arraycopy(path, index, restOfPath, 0, number);
+                    break;
+                }
+                type = CriteriaSearchProperties.getNavigableAssociationEndType(type, childEntityName);
+                childEntityCriteria = locateCriteria(childEntityName, childEntityCriteria);
+            }
+            if (childEntityCriteria != null)
+            {
+                // We now have the right criteria object
+                parameterCriteria = childEntityCriteria;
+            }
+        }
+        return parameterCriteria;
+    }
+    
+    /**
+     * Retrieves the appropriate nested parameter name for the given <code>parameter</code>.
+     * 
+     * @param parameter the parameter for which to retrieve the parameter name.
+     * @return the parameter name.
+     */
+    private java.lang.String getParameterName(final ${criteriaSearchBaseName}Parameter parameter)
+    {
+        // parsing the pattern of the parameter
+        String[] path = ${criteriaSearchBaseName}Parameter.PATTERN.split(parameter.getParameterPattern());
+        String parameterName = path[path.length - 1];
+        if (path.length > 1)
+        {
+            // We have a parameter affecting an attribute of an inner childEntity object so we need
+            // to traverse to get the correct parameter name
+            // Evaluating the proper criteria object for the defined parameter
+            Class type = this.resultType;
+            for (int index = 0; index < (path.length - 1); index++)
+            {
+                final String childEntityName = path[index];
+                final java.util.Collection embeddedValues = CriteriaSearchProperties.getEmbeddedValues(type);
+                if (embeddedValues != null && embeddedValues.contains(childEntityName))
+                {
+                    // - use the rest of the path as the parameter name
+                    final int number = path.length - index;
+                    final String[] restOfPath = new String[path.length - index];
+                    java.lang.System.arraycopy(path, index, restOfPath, 0, number);
+                    parameterName = org.apache.commons.lang.StringUtils.join(restOfPath, ".");
+                    break;
+                }
+                type = CriteriaSearchProperties.getNavigableAssociationEndType(type, childEntityName);
+            }
+        }
+        return parameterName;
     }
 
     /**
