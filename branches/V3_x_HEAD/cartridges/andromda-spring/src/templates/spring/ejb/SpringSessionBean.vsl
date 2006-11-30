@@ -52,7 +52,19 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
         }
         catch (Exception exception)
         {
+#foreach($exception in $operation.exceptions)
+            if (exception instanceof $exception.fullyQualifiedName)
+            {
+                throw ($exception.fullyQualifiedName)exception;
+            }
+#end
             final Throwable cause = getRootCause(exception);
+#foreach($exception in $operation.exceptions)
+            if (cause instanceof $exception.fullyQualifiedName)
+            {
+                throw ($exception.fullyQualifiedName)cause;
+            }
+#end
             if (cause instanceof Exception)
             {
                 throw new javax.ejb.EJBException((Exception)cause);
