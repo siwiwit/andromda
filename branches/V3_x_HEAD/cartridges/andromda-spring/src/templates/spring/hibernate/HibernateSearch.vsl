@@ -190,7 +190,7 @@ public class $criteriaSearchBaseName
     {
         if (considerParameter(parameter))
         {
-            final org.hibernate.Criteria parameterCriteria = this.getParameterCriteria(parameter);
+            final ${hibernateUtils.basePackage}.Criteria parameterCriteria = this.getParameterCriteria(parameter);
             final java.lang.String parameterName = this.getParameterName(parameter);
             
             // check the type parameter value to add

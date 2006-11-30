@@ -82,10 +82,10 @@ public abstract class $entity.daoBaseName
             final java.lang.Object entity = this.getHibernateTemplate().execute(
                     new org.springframework.orm.hibernate3.HibernateCallback()
                     {
-                        public java.lang.Object doInHibernate(org.hibernate.Session hibernateSession)
-                            throws org.hibernate.HibernateException
+                        public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session hibernateSession)
+                            throws ${hibernateUtils.basePackage}.HibernateException
                         {
-                            org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                            ${hibernateUtils.basePackage}.Session xmlSession = hibernateSession.getSession(${hibernateUtils.basePackage}.EntityMode.DOM4J);
                             return xmlSession.get(${entity.fullyQualifiedEntityImplementationName}.class, $argument);
                         }
                     },
@@ -167,10 +167,10 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         java.lang.Object newID = this.getHibernateTemplate().execute(
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
-                    public java.lang.Object doInHibernate(org.hibernate.Session hibernateSession)
-                        throws org.hibernate.HibernateException
+                    public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session hibernateSession)
+                        throws ${hibernateUtils.basePackage}.HibernateException
                     {
-                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        ${hibernateUtils.basePackage}.Session xmlSession = hibernateSession.getSession(${hibernateUtils.basePackage}.EntityMode.DOM4J);
                         return xmlSession.save("$entity.fullyQualifiedEntityImplementationName", $argumentName);
                     }
                 },
@@ -341,10 +341,10 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
-                    public java.lang.Object doInHibernate(org.hibernate.Session hibernateSession)
-                        throws org.hibernate.HibernateException
+                    public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session hibernateSession)
+                        throws ${hibernateUtils.basePackage}.HibernateException
                     {
-                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        ${hibernateUtils.basePackage}.Session xmlSession = hibernateSession.getSession(${hibernateUtils.basePackage}.EntityMode.DOM4J);
                         xmlSession.update("$entity.fullyQualifiedEntityImplementationName", $argumentName);
                         return null;
                     }
@@ -406,10 +406,10 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().execute(
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
-                    public java.lang.Object doInHibernate(org.hibernate.Session hibernateSession)
-                        throws org.hibernate.HibernateException
+                    public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session hibernateSession)
+                        throws ${hibernateUtils.basePackage}.HibernateException
                     {
-                        org.hibernate.Session xmlSession = hibernateSession.getSession(org.hibernate.EntityMode.DOM4J);
+                        ${hibernateUtils.basePackage}.Session xmlSession = hibernateSession.getSession(${hibernateUtils.basePackage}.EntityMode.DOM4J);
                         xmlSession.delete($argumentName);
                         return null;
                     }
