@@ -15,9 +15,10 @@ $operation.getDocumentation("     * ")
     $operation.formSignature;
 
 #end
-
+#set ($formPopulationOperationRequired = false)
 #foreach ($action in $controller.useCase.actions)
 #if (!$action.formFields.empty)
+#set ($formPopulationOperationRequired = true)
     /**
      * Retrieves the {@link $action.fullyQualifiedFormImplementationName} form instance (normally you wont't
      * need to call this method explicitly, however this is here for times when you need to access the
@@ -35,7 +36,6 @@ $operation.getDocumentation("     * ")
 #end
     public java.lang.String ${action.triggerName}()
     {
-#set ($formPopulationOperationRequired = !$action.formFields.empty)
 #if ($action.finalStateTarget)
 #set ($targetUseCase = $action.target.targetUseCase)
         $targetUseCase.controller.fullyQualifiedName controller =
@@ -48,7 +48,7 @@ $operation.getDocumentation("     * ")
         final Object currentForm = this.resolveVariable("$action.formKey");
         try
         {
-#if ($formPopulationOperationRequired)
+#if (!$action.formFields.empty)
             final $action.fullyQualifiedFormImplementationName form =
                 this.$action.formImplementationGetter;
 
