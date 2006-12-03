@@ -44,14 +44,14 @@
             <dependency>
                 <groupId>org.andromda.profiles.uml14</groupId>
                 <artifactId>andromda-profile</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
                 <type>xml.zip</type>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-core</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -74,41 +74,41 @@
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-translation-core</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
             </dependency>
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-validation-library</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
             </dependency>
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-spring-cartridge</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-hibernate-cartridge</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-java-cartridge</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-bpm4struts-cartridge</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-query-library</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
                 <scope>runtime</scope>
             </dependency>
             <!-- This dependency provides the ability to implement your
@@ -119,7 +119,7 @@
             <dependency>
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-script-wrappers</artifactId>
-                <version>3.3-SNAPSHOT</version>
+                <version>3.2</version>
                 <scope>runtime</scope>
             </dependency>
             -->
@@ -366,7 +366,7 @@
                 <plugin>
                     <groupId>org.andromda.maven.plugins</groupId>
                     <artifactId>andromda-multi-source-plugin</artifactId>
-                    <version>3.3-SNAPSHOT</version>
+                    <version>3.2</version>
                     <executions>
                         <execution>
                             <goals>
@@ -383,12 +383,12 @@
                 <plugin>
                     <groupId>org.andromda.maven.plugins</groupId>
                     <artifactId>andromda-maven-plugin</artifactId>
-                    <version>3.3-SNAPSHOT</version>
+                    <version>3.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.andromda.maven.plugins</groupId>
                     <artifactId>andromdapp-maven-plugin</artifactId>
-                    <version>3.3-SNAPSHOT</version>
+                    <version>3.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -545,7 +545,7 @@
                         <plugin>
                             <groupId>org.andromda.maven.plugins</groupId>
                             <artifactId>andromdapp-maven-plugin</artifactId>
-                            <version>3.3-SNAPSHOT</version>
+                            <version>3.2</version>
                             <!-- provides the injection of the script wrapper support into the class files (this should only
                                  be done when developing locally), uncomment this executions element to enable
                             <executions>
