@@ -27,7 +27,7 @@
 			from ${maven2.repository}/org/andromda		
 			to ${maven1.repository}/andromda
 		</echo>
-		<copy todir="${maven1.repository}/andromda/uml2" flatten="true" preservelastmodified="true">
+		<copy todir="${maven1.repository}/andromda/uml2s" flatten="true" preservelastmodified="true">
 			<fileset dir="${maven2.repository}/org/andromda">
 				<include name="**/*.uml2"/>
 			</fileset>
