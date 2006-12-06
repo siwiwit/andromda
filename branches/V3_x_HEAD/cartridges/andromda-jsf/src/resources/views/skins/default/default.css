@@ -406,6 +406,34 @@ af|messages::header
   margin: 0px;
 }
 
+/* Shuttle images */
+
+.AFShuttleMoveIcon:alias 
+{
+	content:url(/skins/default/images/move.png); 
+	width: 16px; 
+	height: 16px;
+}
+.AFShuttleMoveAllIcon:alias 
+{
+	content:url(/skins/default/images/moveAll.png); 
+	width: 16px; 
+	height: 16px;
+}
+.AFShuttleRemoveIcon:alias 
+{
+	content:url(/skins/default/images/remove.png); 
+	width: 16px; 
+	height: 16px;
+}
+
+.AFShuttleRemoveAllIcon:alias 
+{
+	content:url(/skins/default/images/removeAll.png); 
+	width: 16px; 
+	height: 16px;
+} 
+
 /** Column Settings - adding an icon to the sortable column**/
 af|column::sort-ascend-icon
 {
