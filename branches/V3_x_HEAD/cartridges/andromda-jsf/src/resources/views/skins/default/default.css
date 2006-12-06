@@ -287,12 +287,10 @@ af|panelBox::header
 /* for panelBox without a header and shuttles */
 .AFBoxContentBody:alias
 {
-  background-color: white;
-  border-color: #E7E4EA;
-  border-style:solid;
-  border-width:3px;
-  margin:2px; 
-  padding:5px;
+  border: none;
+  margin:0; 
+  padding:0;
+  background-color: transparent;
 }
 
 /** panelHeader **/
