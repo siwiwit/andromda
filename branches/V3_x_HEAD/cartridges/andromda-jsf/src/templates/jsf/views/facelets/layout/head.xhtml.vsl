@@ -15,6 +15,8 @@
     </script>
     <script type="text/javascript" language="Javascript1.1" src="${facesContext.externalContext.request.contextPath}/js/key-events.js">
     </script>
+    <script type="text/javascript" language="Javascript1.1" src="${facesContext.externalContext.request.contextPath}/js/shortlinks.js">
+    </script>
 </afh:head>
 </ui:composition>
 </html>
