@@ -221,7 +221,7 @@ $field.getDocumentation("     * ")
      * Sets the current {@link javax.faces.application.FacesMessage} message
      * instances stored within this form.
      *
-     * @return the current Faces messages.
+     * @param messages a collection of the current Faces messages.
      */
     public void set${stringUtils.capitalize($formMessagesProperty)}(final java.util.Collection messages)
     {
