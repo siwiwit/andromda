@@ -115,7 +115,7 @@
     
     <template
         path="templates/webservice/xfire/services.xml.vsl"
-        outputPattern="META-INF/xfire/services.xml"
+        outputPattern="WEB-INF/classes/META-INF/xfire/services.xml"
         outlet="configuration"
         overwrite="true"
         outputToSingleFile="true"
