@@ -710,4 +710,13 @@ public class JSFAttributeLogicImpl
     {
         return ObjectUtils.toString(this.findTaggedValue(JSFProfile.TAGGEDVALUE_INPUT_TABLE_IDENTIFIER_COLUMNS)).trim();
     }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFAttributer#isReset()
+     */
+    protected boolean handleIsReset()
+    {
+        return Boolean.valueOf(ObjectUtils.toString(this.findTaggedValue(JSFProfile.TAGGEDVALUE_INPUT_RESET)))
+                   .booleanValue();
+    }
 }

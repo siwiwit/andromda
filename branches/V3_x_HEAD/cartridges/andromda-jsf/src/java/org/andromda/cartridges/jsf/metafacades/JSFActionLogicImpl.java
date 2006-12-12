@@ -13,6 +13,7 @@ import java.util.Map;
 import org.andromda.cartridges.jsf.JSFGlobals;
 import org.andromda.cartridges.jsf.JSFProfile;
 import org.andromda.cartridges.jsf.JSFUtils;
+import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EventFacade;
 import org.andromda.metafacades.uml.FrontEndAction;
 import org.andromda.metafacades.uml.ModelElementFacade;
@@ -568,6 +569,24 @@ public class JSFActionLogicImpl
                     if (resetRequired)
                     {
                         break;
+                    }
+                    else if (parameter.isComplex())
+                    {
+                        final ClassifierFacade type = parameter.getType();
+                        final Collection attributes = type.getAttributes(true);
+                        for (final Iterator attributeIterator = attributes.iterator(); attributeIterator.hasNext();)
+                        {
+                            final Object attribute = attributeIterator.next();
+                            if (attribute instanceof JSFAttribute)
+                            {
+                                final JSFAttribute jsfAttribute = (JSFAttribute)attribute;
+                                if (jsfAttribute.isReset())
+                                {
+                                    resetRequired = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }

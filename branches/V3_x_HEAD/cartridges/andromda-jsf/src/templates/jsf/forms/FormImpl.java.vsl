@@ -166,6 +166,12 @@ $field.getDocumentation("     * ")
 #foreach($field in $action.parameters)
 #if ($field.reset)
         this.$field.name = $field.type.javaNullString;
+#elseif ($field.complex)
+#foreach ($attribute in $field.type.getAttributes(true))
+#if ($attribute.reset)
+        this.${field.name}.${attribute.setterName}($attribute.type.javaNullString);
+#end
+#end
 #end
 #end
     }
