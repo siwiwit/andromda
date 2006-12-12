@@ -34,9 +34,6 @@ public#if($class.abstract) abstract#end class $class.name
 #if($class.generalization)
         super();
 #end
-#foreach ($property in $class.requiredConstructorParameters)
-        this.${property.name} = ${property.type.javaNullString};
-#end
     }
 
 #end
