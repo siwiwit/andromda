@@ -519,7 +519,7 @@ public class StrutsParameterLogicImpl
      */
     public boolean isTable()
     {
-        return super.isTable() && !this.isSelectable();
+        return super.isTable() && !this.isSelectable() && !this.isHiddenField();
     }
 
     protected boolean handleIsAllGlobalTableActionsHaveSameParameter()
