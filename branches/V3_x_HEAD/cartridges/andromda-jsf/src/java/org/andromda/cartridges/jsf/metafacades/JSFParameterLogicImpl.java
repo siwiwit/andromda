@@ -47,7 +47,8 @@ public class JSFParameterLogicImpl
      */
     public boolean isTable()
     {
-        return super.isTable() && !this.isInputTable();
+        return super.isTable() && !this.isSelectable() 
+            && !this.isInputTable() && !this.isInputHidden();
     }
 
     /**
