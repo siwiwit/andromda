@@ -794,7 +794,7 @@ public class ModelElementFacadeLogicImpl
 
     protected boolean handleIsBindingDependenciesPresent()
     {
-        Collection dependencies = this.getSourceDependencies();
+        final Collection dependencies = new ArrayList(this.getSourceDependencies());
         CollectionUtils.filter(
             dependencies,
             new Predicate()
