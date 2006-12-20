@@ -7,7 +7,9 @@
 #set ($valuesTemplateType = "")
 #set ($literalsTemplateType = "")
 #set ($namesTemplateType = "")
+#set ($valueListTemplateType = "")
 #if($enableTemplating)
+#set ($valueListTemplateType = "<$enumeration.name>")
 #if($enumeration.literalType.primitive)
 #set ($valuesTemplateType = "<${enumeration.literalType.wrapperName}, ${enumeration.name}>")
 #set ($literalsTemplateType = "<${enumeration.literalType.wrapperName}>")
@@ -133,6 +135,16 @@ $literal.getDocumentation("     * ")
     {
         return names;
     }
+    
+    /**
+     * Returns an unmodifiable list containing the actual enumeration instance values.
+     *
+     * @return A List containing the actual enumeration instance values.
+     */
+    public static java.util.List${valueListTemplateType} values()
+    {
+        return valueList;
+    }
 
     /**
      * @see java.lang.Object#equals(java.lang.Object)
@@ -180,9 +192,10 @@ $literal.getDocumentation("     * ")
         return ${enumeration.name}.${enumeration.fromOperationName}(this.value);
     }
 
-    private static final java.util.Map${valuesTemplateType} values = new java.util.HashMap${valuesTemplateType}($enumeration.literals.size(), 1);
+    private static final java.util.Map${valuesTemplateType} values = new java.util.LinkedHashMap${valuesTemplateType}($enumeration.literals.size(), 1);
     private static java.util.List${literalsTemplateType} literals = new java.util.ArrayList${literalsTemplateType}($enumeration.literals.size());
     private static java.util.List${namesTemplateType} names = new java.util.ArrayList${namesTemplateType}($enumeration.literals.size());
+    private static java.util.List${valueListTemplateType} valueList = new java.util.ArrayList${valueListTemplateType}($enumeration.literals.size());
 
     /**
      * Initializes the values.
@@ -195,9 +208,11 @@ $literal.getDocumentation("     * ")
 #set ($value = "new ${literal.type.wrapperName}(${literal.name}.value)")
 #end
         values.put($value, $literal.name);
+        valueList.add($literal.name);
         literals.add($value);
         names.add("$literal.name");
 #end
+        valueList = java.util.Collections.unmodifiableList(valueList);
         literals = java.util.Collections.unmodifiableList(literals);
         names = java.util.Collections.unmodifiableList(names);
     }
