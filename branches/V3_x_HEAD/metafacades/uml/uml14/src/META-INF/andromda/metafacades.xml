@@ -364,7 +364,7 @@
             <stereotype>TOPIC</stereotype>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.metafacades.uml14.TopicLogicImpl" contextRoot="true">
+    <metafacade class="org.andromda.metafacades.uml14.QueueLogicImpl" contextRoot="true">
         <mapping class="org.omg.uml.foundation.core.Node$Impl">
             <stereotype>QUEUE</stereotype>
         </mapping>
