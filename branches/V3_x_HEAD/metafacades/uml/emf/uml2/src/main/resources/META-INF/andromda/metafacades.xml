@@ -381,4 +381,14 @@
             <property name="containedInFrontEndUseCase"/>
         </mapping>
     </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.TopicLogicImpl" contextRoot="true">
+        <mapping class="org.eclipse.uml2.impl.NodeImpl">
+            <stereotype>TOPIC</stereotype>
+        </mapping>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.TopicLogicImpl" contextRoot="true">
+        <mapping class="org.eclipse.uml2.impl.NodeImpl">
+            <stereotype>QUEUE</stereotype>
+        </mapping>
+    </metafacade>
 </metafacades>

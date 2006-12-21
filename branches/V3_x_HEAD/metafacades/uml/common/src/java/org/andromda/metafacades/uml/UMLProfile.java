@@ -136,6 +136,16 @@ public class UMLProfile
      * Represents an exception on a "front-end" view.
      */
     public static final String STEREOTYPE_FRONT_END_EXCEPTION = profile.get("FRONT_END_EXCEPTION");
+    
+    /**
+     * Represents a "Queue" message destination.
+     */
+    public static final String STEREOTYPE_QUEUE = profile.get("QUEUE");
+    
+    /**
+     * Represents a "Topic" message destination.
+     */
+    public static final String STEREOTYPE_TOPIC = profile.get("TOPIC");
 
     /* ----------------- Tagged Values -------------------- */
 

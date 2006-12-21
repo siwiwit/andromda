@@ -359,4 +359,14 @@
             <property name="containedInFrontEndUseCase"/>
         </mapping>
     </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.TopicLogicImpl" contextRoot="true">
+        <mapping class="org.omg.uml.foundation.core.Node$Impl">
+            <stereotype>TOPIC</stereotype>
+        </mapping>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.TopicLogicImpl" contextRoot="true">
+        <mapping class="org.omg.uml.foundation.core.Node$Impl">
+            <stereotype>QUEUE</stereotype>
+        </mapping>
+    </metafacade>
 </metafacades>

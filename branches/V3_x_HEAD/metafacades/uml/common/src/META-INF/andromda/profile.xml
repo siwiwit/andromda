@@ -151,6 +151,22 @@
                 <value>FrontEndApplication</value>
                 <appliedOnElement>use-case</appliedOnElement>
             </element>
+            <element name="QUEUE">
+                <documentation>
+                    The node flagged with this stereotype represents a Queue message destination 
+                    (i.e. JMS, etc).
+                </documentation>
+                <value>Queue</value>
+                <appliedOnElement>Node</appliedOnElement>
+            </element>
+            <element name="TOPIC">
+                <documentation>
+                    The node flagged with this stereotype represents a Topic message destination 
+                    (i.e. JMS, etc).
+                </documentation>
+                <value>Topic</value>
+                <appliedOnElement>Node</appliedOnElement>
+            </element>
         </elementGroup>
         <elementGroup name="Tagged Values">
             <element name="DOCUMENTATION">
