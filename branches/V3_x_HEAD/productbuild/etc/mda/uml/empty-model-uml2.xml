@@ -90,6 +90,10 @@
 							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-meta\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>
 						</mdElement>
+ 						<mdElement elementClass='FileProperty'>
+							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-messaging\3.3-SNAPSHOT\</value>
+							<selectionMode xmi:value='1'/>
+						</mdElement>
 						<mdElement elementClass='FileProperty'>
 							<value>&lt;maven2.repository&gt;\org\andromda\profiles\uml2\andromda-profile-presentation\3.3-SNAPSHOT\</value>
 							<selectionMode xmi:value='1'/>

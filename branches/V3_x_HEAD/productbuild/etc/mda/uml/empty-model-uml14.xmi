@@ -61,6 +61,10 @@
 							<selectionMode xmi.value='2'/>
 						</mdElement>
 						<mdElement elementClass='FileProperty'>
+							<value>&lt;maven2.repository&gt;/org/andromda/profiles/uml14/andromda-profile-messaging/3.3-SNAPSHOT/</value>
+							<selectionMode xmi.value='2'/>
+						</mdElement>
+						<mdElement elementClass='FileProperty'>
 							<value>&lt;maven2.repository&gt;/org/andromda/profiles/uml14/andromda-profile-meta/3.3-SNAPSHOT/</value>
 							<selectionMode xmi.value='2'/>
 						</mdElement>
