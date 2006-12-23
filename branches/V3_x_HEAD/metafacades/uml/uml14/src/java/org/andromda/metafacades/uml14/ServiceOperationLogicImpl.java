@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.Destination;
 import org.andromda.metafacades.uml.Role;
 import org.andromda.metafacades.uml.Service;
 import org.apache.commons.collections.Closure;
@@ -90,5 +91,51 @@ public class ServiceOperationLogicImpl
             owner = (Service)this.getOwner();
         }
         return owner;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#isIncomingMessageOperation()
+     */
+    public boolean handleIsIncomingMessageOperation()
+    {
+        return this.getIncomingDestination() != null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#isOutgoingMessagingOperation()
+     */
+    public boolean handleIsOutgoingMessagingOperation()
+    {
+        return this.getOutgoingDestination() != null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#getIncomingDestination()
+     */
+    public Object handleGetIncomingDestination()
+    {
+        final Collection dependencies = this.getTargetDependencies();
+        return CollectionUtils.find(dependencies, 
+            new Predicate() {
+
+                public boolean evaluate(Object object)
+                {
+                    return object instanceof Destination;
+                }});
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#getOutgoingDestination()
+     */
+    public Object handleGetOutgoingDestination()
+    {
+        final Collection dependencies = this.getSourceDependencies();
+        return CollectionUtils.find(dependencies, 
+            new Predicate() {
+
+                public boolean evaluate(Object object)
+                {
+                    return object instanceof Destination;
+                }});
     }
 }
