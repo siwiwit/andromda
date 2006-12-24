@@ -18,7 +18,7 @@
 
     <!-- JMS Queue Connection Factory -->
     <bean id="internalJmsQueueConnectionFactory"
-        	class="org.springframework.jndi.JndiObjectFactoryBean">
+            class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiTemplate">
             <ref bean="jndiTemplate"/>
         </property>
@@ -26,7 +26,7 @@
             <value>$jmsQueueConnectionFactory</value>
         </property>
     </bean>
-    
+
 #foreach ($destination in $topics)
     <bean id="$destination.beanName"
         class="org.springframework.jndi.JndiObjectFactoryBean">
@@ -37,9 +37,10 @@
             <value>$jmsJndiTopicPrefix$destination.name</value>
         </property>
     </bean>
-    
+
 #end
 #foreach ($destination in $queues)
+    <!-- JMS Destination -->
     <bean id="$destination.beanName"
         class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiTemplate">
@@ -49,10 +50,10 @@
             <value>$jmsJndiQueuePrefix$destination.name</value>
         </property>
     </bean>
-    
+
 #end
 #foreach ($destination in $destinations)
-    <!-- JMS Queue Template -->
+    <!-- JMS Destination Template -->
     <bean id="$destination.templateBeanName" class="$jmsTemplateImplementation">
         <property name="connectionFactory">
             <ref bean="internalJmsQueueConnectionFactory"/>
@@ -64,8 +65,8 @@
             <value>$jmsReceiveTimeout</value>
         </property>
     </bean>
-    
+
 #end
     <!-- ========================= End of JMS DEFINITIONS ========================= -->
-    
+
 </beans>
