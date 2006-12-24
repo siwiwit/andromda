@@ -64,6 +64,26 @@ public abstract class $service.baseName
     }
 
 #end
+#foreach($destination in $service.messagingDestinations)
+    private org.springframework.jms.core.JmsTemplate $destination.templateBeanName;
+    
+    /**
+     * Sets the JMS template for the $destination.name JMS destination.
+     */
+    public void ${destination.templateSetterName}(org.springframework.jms.core.JmsTemplate $destination.templateBeanName)
+    {
+        this.$destination.templateBeanName = $destination.templateBeanName;
+    }
+    
+    /**
+     * Gets the JMS template for the $destination.name JMS destination.
+     */
+    protected org.springframework.jms.core.JmsTemplate ${destination.templateGetterName}()
+    {
+        return this.$destination.templateBeanName;
+    }
+
+#end
 #foreach ($operation in $service.implementationOperations)
     /**
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}

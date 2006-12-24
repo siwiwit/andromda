@@ -121,7 +121,7 @@ public class ServiceOperationLogicImpl
 
                 public boolean evaluate(Object object)
                 {
-                    return object instanceof Destination;
+                    return ((DependencyFacade)object).getSourceElement() instanceof Destination;
                 }});
     }
 
@@ -131,12 +131,14 @@ public class ServiceOperationLogicImpl
     public Object handleGetOutgoingDestination()
     {
         final Collection dependencies = this.getSourceDependencies();
-        return CollectionUtils.find(dependencies, 
-            new Predicate() {
-
-                public boolean evaluate(Object object)
-                {
-                    return object instanceof Destination;
-                }});
+        final DependencyFacade dependency = (DependencyFacade)
+            CollectionUtils.find(dependencies, 
+                new Predicate() {
+    
+                    public boolean evaluate(Object object)
+                    {
+                        return ((DependencyFacade)object).getTargetElement() instanceof Destination;
+                    }});
+        return dependency != null ? dependency.getTargetElement() : null;
     }
 }

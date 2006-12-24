@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="$xmlEncoding"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <!-- ========================= JMS DEFINITIONS ========================= -->
+
+    <!-- JNDI Environment Template -->
+    <bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">
+        <property name="environment">
+            <props>
+                <prop key="java.naming.factory.initial">$jmsInitialContextFactory</prop>
+                <prop key="java.naming.provider.url">$jmsProviderUrl</prop>
+                <prop key="java.naming.factory.url.pkgs">$jmsUrlPackagePrefixes</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- JMS Queue Connection Factory -->
+    <bean id="internalJmsQueueConnectionFactory"
+        	class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiTemplate">
+            <ref bean="jndiTemplate"/>
+        </property>
+        <property name="jndiName">
+            <value>$jmsQueueConnectionFactory</value>
+        </property>
+    </bean>
+    
+#foreach ($destination in $topics)
+    <bean id="$destination.beanName"
+        class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiTemplate">
+            <ref bean="jndiTemplate"/>
+        </property>
+        <property name="jndiName">
+            <value>$jmsJndiTopicPrefix$destination.name</value>
+        </property>
+    </bean>
+    
+#end
+#foreach ($destination in $queues)
+    <bean id="$destination.beanName"
+        class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiTemplate">
+            <ref bean="jndiTemplate"/>
+        </property>
+        <property name="jndiName">
+            <value>$jmsJndiQueuePrefix$destination.name</value>
+        </property>
+    </bean>
+    
+#end
+#foreach ($destination in $destinations)
+    <!-- JMS Queue Template -->
+    <bean id="$destination.templateBeanName" class="$jmsTemplateImplementation">
+        <property name="connectionFactory">
+            <ref bean="internalJmsQueueConnectionFactory"/>
+        </property>
+        <property name="defaultDestination">
+            <ref bean="$destination.beanName"/>
+        </property>
+        <property name="receiveTimeout">
+            <value>$jmsReceiveTimeout</value>
+        </property>
+    </bean>
+    
+#end
+    <!-- ========================= End of JMS DEFINITIONS ========================= -->
+    
+</beans>

@@ -145,6 +145,16 @@
     <property reference="serverTestContextDataSource"/>
     <property reference="enableTemplating"/>
     <property reference="hibernateQueryUseNamedParameters"/>
+    <property reference="jmsProviderUrl"/>
+    <property reference="jmsInitialContextFactory"/>
+    <property reference="jmsUrlPackagePrefixes"/>
+    <property reference="jmsQueueConnectionFactory"/>    
+    <property reference="jmsJndiTopicPrefix"/>
+    <property reference="jmsJndiQueuePrefix"/>   
+    <property reference="jmsTemplateImplementation"/> 
+    <property reference="applicationContextJms"/>
+    <property reference="jmsReceiveTimeout"/>
+    
     <!-- cartridge-property merge-point -->
 
     <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
@@ -1069,6 +1079,25 @@
         <modelElements variable="entities">
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringEntity"/>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <!-- JMS -->
+    
+    <template
+        path="templates/spring/jms/applicationContext-jms.xml.vsl"
+        outputPattern="$applicationContextJms"
+        outlet="spring-configuration"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements variable="destinations">
+            <modelElement variable="topics">
+                <type name="org.andromda.metafacades.uml.Topic"/>
+            </modelElement>
+            <modelElement variable="queues">
+                <type name="org.andromda.metafacades.uml.Queue"/>
             </modelElement>
         </modelElements>
     </template>

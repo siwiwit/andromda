@@ -3,6 +3,7 @@ package org.andromda.metafacades.uml14;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.Entity;
@@ -133,5 +134,32 @@ public class ServiceLogicImpl
             }
         });
         return roles;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Service#getMessagingDestinations()
+     */
+    protected Collection handleGetMessagingDestinations()
+    {
+        final Set destinations = new LinkedHashSet();
+        CollectionUtils.forAllDo(this.getOperations(), new Closure()
+        {
+            public void execute(Object object)
+            {
+                if (object instanceof ServiceOperation)
+                {
+                    final ServiceOperation operation = (ServiceOperation)object;
+                    if (operation.isIncomingMessageOperation())
+                    {
+                        destinations.add(operation.getIncomingDestination());
+                    }
+                    else if (operation.isOutgoingMessagingOperation())
+                    {
+                        destinations.add(operation.getOutgoingDestination());
+                    }
+                }
+            }
+        });
+        return destinations;
     }
 }

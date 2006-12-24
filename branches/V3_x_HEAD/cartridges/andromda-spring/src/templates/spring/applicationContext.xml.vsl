@@ -195,6 +195,11 @@
 #end
             </bean>
         </property>
+#foreach($destination in $service.messagingDestinations)
+        <property name="$destination.templateBeanName">
+            <ref bean="$destination.templateBeanName"/>
+        </property>
+#end
         <property name="proxyInterfaces">
             <value>$service.fullyQualifiedName</value>
         </property>

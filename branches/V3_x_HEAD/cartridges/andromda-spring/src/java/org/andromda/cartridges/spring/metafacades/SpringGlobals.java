@@ -147,6 +147,11 @@ public class SpringGlobals
      * Default service exceptions
      */
     static final String DEFAULT_SERVICE_EXCEPTIONS = "defaultServiceExceptions";
+    
+    /**
+     * Property for configuring the JMS destination template accessor name.
+     */
+    static final String JMS_DESTINATION_TEMPLATE_PATTERN = "jmsDestinationTemplatePattern";
 
     /**
      * Enable rich-client code generation ?

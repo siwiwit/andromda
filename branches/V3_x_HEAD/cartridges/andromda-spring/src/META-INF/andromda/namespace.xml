@@ -633,6 +633,76 @@
                 </documentation>
             </property>
         </propertyGroup>
+        <propertyGroup name="JMS">
+            <documentation>
+                The properties for configuring JMS support generation.
+            </documentation>
+            <property name="jmsProviderUrl">
+                <default>localhost:1099</default>
+                <documentation>
+                    The provider URL for remote JMS access.
+                </documentation>
+            </property>
+            <property name="jmsInitialContextFactory">
+                <default>org.jnp.interfaces.NamingContextFactory</default>
+                <documentation>
+                    The initial context factory class for JMS access.
+                </documentation>
+            </property>
+            <property name="jmsUrlPackagePrefixes">
+                <default>org.jnp.interfaces:org.jboss.naming</default>
+                <documentation>
+                    The URL package prefixes for remote JMS access.
+                </documentation>
+            </property>
+            <property name="jmsQueueConnectionFactory">
+                <default>UIL2ConnectionFactory</default>
+                <documentation>
+                    The default JMS queue connection factory.
+                </documentation>
+            </property>
+            <property name="applicationContextJms">
+                <default>applicationContext-jms.xml</default>
+                <documentation>
+                    The name/path of the application context resource
+                    file that contains the bean proxy definitions for accessing the
+                    JMS related services (i.e. Queues).
+                </documentation>
+            </property>
+            <property name="jmsJndiTopicPrefix">
+                <default>topic/</default>
+                <documentation>
+                    The JNDI prefix for topics (i.e. a prefix of "topic/" would result in a topic named "Events"
+                    as "topic/Events").
+                </documentation>
+            </property>
+            <property name="jmsJndiQueuePrefix">
+                <default>queue/</default>
+                <documentation>
+                    The JNDI prefix for queues (i.e. a prefix of "queue/" would result in a topic named "Events"
+                    as "queue/Events").
+                </documentation>
+            </property>
+            <property name="jmsTemplateImplementation">
+                <default>org.springframework.jms.core.JmsTemplate102</default>
+                <documentation>
+                    The implementation to use for the Spring JmsTemplate.  <code>org.springframework.jms.core.JmsTemplate102</code> is used
+                    for JMS <em>1.0.2</em> providers and <code>org.springframework.jms.core.JmsTemplate</code> is used for <em>1.1</em> providers>
+                </documentation>
+            </property>
+            <property name="jmsReceiveTimeout">
+                <default>30000</default>
+                <documentation>
+                    The timeout at which the transmission of the JMS message will timeout.
+                </documentation>
+            </property>
+            <property name="jmsDestinationTemplatePattern">
+                <default>{0}JmsTemplate</default>
+                <documentation>
+                    The pattern used to create the JMS template used for accessing a destination (topic/queue).
+                </documentation>
+            </property>
+        </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>
                 The properties for configuring <a href="http://www.hibernate.org">Hibernate</a> support generation.

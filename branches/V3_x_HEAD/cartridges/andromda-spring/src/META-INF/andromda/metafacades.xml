@@ -26,6 +26,7 @@
     <property reference="ejbViewType"/>
     <property reference="richClient"/>
     <property reference="configPropertyPrefix"/>
+    <property reference="jmsDestinationTemplatePattern"/>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringQueryOperationLogicImpl">
         <mapping>
             <stereotype>FINDER_METHOD</stereotype>
@@ -100,4 +101,14 @@
         <property reference="implementationOperationNamePattern"/>
     </metafacade>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringDependencyLogicImpl"/>
+    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringQueueLogicImpl" contextRoot="true">
+        <mapping>
+            <stereotype>QUEUE</stereotype>
+        </mapping>
+    </metafacade>
+    <metafacade class="org.andromda.cartridges.spring.metafacades.SpringTopicLogicImpl" contextRoot="true">
+        <mapping>
+            <stereotype>TOPIC</stereotype>
+        </mapping>
+    </metafacade>
 </metafacades>
