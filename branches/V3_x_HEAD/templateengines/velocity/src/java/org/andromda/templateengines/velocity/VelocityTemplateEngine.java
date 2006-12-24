@@ -398,7 +398,7 @@ public class VelocityTemplateEngine
      * <p/>
      * Error messages can now be traced to plugin activities. </p>
      */
-    private static class VelocityLoggingReceiver
+    static class VelocityLoggingReceiver
         implements LogSystem
     {
         /**
