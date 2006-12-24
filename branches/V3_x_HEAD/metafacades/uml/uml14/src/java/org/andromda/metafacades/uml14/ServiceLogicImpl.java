@@ -153,7 +153,7 @@ public class ServiceLogicImpl
                     {
                         destinations.add(operation.getIncomingDestination());
                     }
-                    else if (operation.isOutgoingMessagingOperation())
+                    else if (operation.isOutgoingMessageOperation())
                     {
                         destinations.add(operation.getOutgoingDestination());
                     }

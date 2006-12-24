@@ -92,6 +92,14 @@ public class ServiceOperationLogicImpl
         }
         return owner;
     }
+    
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#isMessageOperation()
+     */
+    public boolean handleIsMessageOperation()
+    {
+        return this.isIncomingMessageOperation() || this.isOutgoingMessageOperation();
+    }
 
     /**
      * @see org.andromda.metafacades.uml.ServiceOperation#isIncomingMessageOperation()
@@ -102,9 +110,9 @@ public class ServiceOperationLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ServiceOperation#isOutgoingMessagingOperation()
+     * @see org.andromda.metafacades.uml.ServiceOperation#isOutgoingMessageOperation()
      */
-    public boolean handleIsOutgoingMessagingOperation()
+    public boolean handleIsOutgoingMessageOperation()
     {
         return this.getOutgoingDestination() != null;
     }

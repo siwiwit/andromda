@@ -163,7 +163,7 @@ public class ServiceLogicImpl extends ServiceLogic
                     {
                         destinations.add(operation.getIncomingDestination());
                     }
-                    else if (operation.isOutgoingMessagingOperation())
+                    else if (operation.isOutgoingMessageOperation())
                     {
                         destinations.add(operation.getOutgoingDestination());
                     }
