@@ -66,7 +66,7 @@ public abstract class $service.baseName
 #end
 #foreach($destination in $service.messagingDestinations)
     private org.springframework.jms.core.JmsTemplate $destination.templateBeanName;
-    
+
     /**
      * Sets the JMS template for the $destination.name JMS destination.
      */
@@ -74,7 +74,7 @@ public abstract class $service.baseName
     {
         this.$destination.templateBeanName = $destination.templateBeanName;
     }
-    
+
     /**
      * Gets the JMS template for the $destination.name JMS destination.
      */
@@ -88,7 +88,7 @@ public abstract class $service.baseName
     /**
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}
      */
-    $operation.visibility $operation.returnType.fullyQualifiedName $operation.signature
+    $operation.visibility $operation.returnType.fullyQualifiedName $operation.getSignature("final")
 #if ($operation.exceptionsPresent)
         $operation.throwsClause
 #end
@@ -136,11 +136,32 @@ public abstract class $service.baseName
 #end
         try
         {
+#if (!$operation.messageOperation)
 #set ($call = "this.${operation.implementationCall};")
 #if ($operation.returnTypePresent)
             return $call
 #else
             $call
+#end
+#elseif ($operation.outgoingMessageOperation)
+            this.${operation.outgoingDestination.templateBeanName}.send(new org.springframework.jms.core.MessageCreator() {
+                public javax.jms.Message createMessage(javax.jms.Session session) throws javax.jms.JMSException
+                {
+                    try
+                    {
+                        return ${service.baseName}.this.${operation.outgoingMessageImplementationCall};
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ${service.fullyQualifiedDefaultExceptionName}(
+                            "Error performing '${service.fullyQualifiedName}.${operation.signature}' --> " + ex,
+                            ex);
+                    }
+                }
+            });
+#elseif ($operation.incomingMessageOperation)
+            final javax.jms.Message message = ${operation.incomingDestination.templateBeanName}.receive();
+            return this.${operation.incomingMessageImplementationCall};
 #end
         }
 #foreach($exception in $operation.exceptions)
@@ -170,7 +191,7 @@ public abstract class $service.baseName
      /**
       * Performs the core logic for {@link #${operation.getSignature(false)}}
       */
-    protected abstract $operation.returnType.fullyQualifiedName $operation.implementationSignature
+    protected abstract $operation.implementationReturnTypeName $operation.implementationSignature
         throws java.lang.Exception;
 
 #end

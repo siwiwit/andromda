@@ -1,10 +1,10 @@
 package org.andromda.metafacades.uml;
 
 import java.text.Collator;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -181,5 +181,50 @@ public class MetafacadeUtils
                 a.getFullyQualifiedName() != null ? a.getFullyQualifiedName() : "",
                 b.getFullyQualifiedName() != null ? b.getFullyQualifiedName() : "");
         }
+    }
+
+    /**
+     * Creates a typed argument list with the given <code>arguments</code>.  If the <code>withArgumentNames</code>
+     * flag is true, the argument names are included in the list.  
+     * 
+     * @param arguments the arguments from which to create the list.
+     * @param withArgumentNames whether or not to include the argument names.
+     * @param modifier
+     */
+    public static String getTypedArgumentList(
+        final Collection arguments,
+        final boolean withArgumentNames,
+        final String modifier)
+    {
+        final StringBuffer buffer = new StringBuffer();
+        boolean commaNeeded = false;
+        for (final Iterator iterator = arguments.iterator(); iterator.hasNext();)
+        {
+            ParameterFacade paramter = (ParameterFacade)iterator.next();
+            String type = null;
+            ClassifierFacade classifier = paramter.getType();
+            if (classifier != null)
+            {
+                type = classifier.getFullyQualifiedName();
+            }
+
+            if (commaNeeded)
+            {
+                buffer.append(", ");
+            }
+            if (StringUtils.isNotBlank(modifier))
+            {
+                buffer.append(modifier);
+                buffer.append(" ");
+            }
+            buffer.append(type);
+            if (withArgumentNames)
+            {
+                buffer.append(" ");
+                buffer.append(paramter.getName());
+            }
+            commaNeeded = true;
+        }
+        return buffer.toString();
     }
 }

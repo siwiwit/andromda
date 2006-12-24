@@ -1,6 +1,8 @@
 package org.andromda.cartridges.spring.metafacades;
 
 import org.andromda.cartridges.spring.SpringProfile;
+import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.StringUtils;
 
@@ -39,7 +41,20 @@ public class SpringServiceOperationLogicImpl
      */
     protected String handleGetImplementationSignature()
     {
-        return this.getImplementationOperationName(StringUtils.capitalize(this.getSignature()));
+        String signature;
+        if (this.isIncomingMessageOperation())
+        {
+            signature = this.getIncomingMessageImplementationSignature();
+        }
+        else if (this.isOutgoingMessageOperation())
+        {
+            signature = this.getOutgoingMessageImplementationSignature();
+        }
+        else
+        {
+            signature = this.getImplementationOperationName(StringUtils.capitalize(this.getSignature()));
+        }
+        return signature;
     }
 
     /**
@@ -140,5 +155,77 @@ public class SpringServiceOperationLogicImpl
             throwsClause.insert(0, "throws ");
         }
         return throwsClause.toString();
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getOutgoingMessageImplementationCall()
+     */
+    protected String handleGetOutgoingMessageImplementationCall()
+    {
+        return this.getOutgoingMessageImplementationCall("session");
+    }
+    
+    private String getOutgoingMessageImplementationCall(String firstArgument)
+    {
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(StringUtils.capitalize(this.getName()));
+        buffer.append("(" + firstArgument + ", ");
+        buffer.append(this.getArgumentNames());
+        buffer.append(")");
+        return this.getImplementationOperationName(buffer.toString());  
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getOutgoingMessageImplementationSignature()
+     */
+    protected String handleGetOutgoingMessageImplementationSignature()
+    {
+        return this.getMessagingImplementationSignature("javax.jms.Session session");
+    }
+    
+    private String getMessagingImplementationSignature(final String firstArgument)
+    {
+        final StringBuffer signature = new StringBuffer(this.getImplementationName());
+        signature.append("(" + firstArgument + ", ");
+        signature.append(MetafacadeUtils.getTypedArgumentList(
+                this.getArguments(),
+                true,
+                null));
+        signature.append(")");
+        return signature.toString();
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getIncomingMessageImplementationCall()
+     */
+    protected String handleGetIncomingMessageImplementationCall()
+    {
+        return this.getOutgoingMessageImplementationCall("message");
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getIncomingMessageImplementationSignature()
+     */
+    protected String handleGetIncomingMessageImplementationSignature()
+    {
+        return this.getMessagingImplementationSignature("javax.jms.Message message");
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getImplementationReturnTypeName()
+     */
+    protected String handleGetImplementationReturnTypeName()
+    {
+        String returnTypeName;
+        if (this.isOutgoingMessageOperation())
+        {
+            returnTypeName = "javax.jms.Message";
+        }
+        else
+        {
+            final ClassifierFacade returnType = this.getReturnType();
+            returnTypeName = returnType != null ? returnType.getFullyQualifiedName() : null;
+        }
+        return returnTypeName;
     }
 }

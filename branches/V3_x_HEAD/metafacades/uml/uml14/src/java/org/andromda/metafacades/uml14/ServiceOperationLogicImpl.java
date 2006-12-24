@@ -123,13 +123,15 @@ public class ServiceOperationLogicImpl
     public Object handleGetIncomingDestination()
     {
         final Collection dependencies = this.getTargetDependencies();
-        return CollectionUtils.find(dependencies, 
-            new Predicate() {
-
-                public boolean evaluate(Object object)
-                {
-                    return ((DependencyFacade)object).getSourceElement() instanceof Destination;
-                }});
+        final DependencyFacade dependency = (DependencyFacade)
+            CollectionUtils.find(dependencies, 
+                new Predicate() {
+    
+                    public boolean evaluate(Object object)
+                    {
+                        return ((DependencyFacade)object).getSourceElement() instanceof Destination;
+                    }});
+        return dependency != null ? dependency.getSourceElement() : null;
     }
 
     /**

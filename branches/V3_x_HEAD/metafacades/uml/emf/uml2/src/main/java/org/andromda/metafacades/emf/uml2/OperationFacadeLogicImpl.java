@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.ParameterFacade;
@@ -96,7 +97,8 @@ public class OperationFacadeLogicImpl
 
     private String getTypedArgumentList(final boolean withArgumentNames)
     {
-        return this.getTypedArgumentList(
+        return MetafacadeUtils.getTypedArgumentList(
+            this.getArguments(),
             withArgumentNames,
             null);
     }
@@ -458,7 +460,8 @@ public class OperationFacadeLogicImpl
     {
         StringBuffer signature = new StringBuffer(name);
         signature.append("(");
-        signature.append(this.getTypedArgumentList(
+        signature.append(MetafacadeUtils.getTypedArgumentList(
+                this.getArguments(),
                 withArgumentNames,
                 argumentModifier));
         signature.append(")");
@@ -466,75 +469,12 @@ public class OperationFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.OperationFacade#getTypedArgumentList(boolean,
-     *      String)
-     */
-    private String getTypedArgumentList(
-        final boolean withArgumentNames,
-        final String modifier)
-    {
-        StringBuffer buffer = new StringBuffer();
-        Iterator parameterIterator = this.metaObject.getOwnedParameters().iterator();
-
-        boolean commaNeeded = false;
-        while (parameterIterator.hasNext())
-        {
-            Parameter paramter = (Parameter)parameterIterator.next();
-
-            if (paramter.isException())
-            {
-                continue;
-            }
-
-            if (!paramter.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL))
-            {
-                String type = null;
-                if (paramter.getType() == null)
-                {
-                    this.logger.error(
-                        "ERROR! No type specified for parameter --> '" + paramter.getName() + "' on operation --> '" +
-                        this.getName() + "', please check your model");
-                }
-                else
-                {
-                    ClassifierFacade theType = (ClassifierFacade)this.shieldedElement(paramter.getType());
-                    if (paramter.isMultivalued())
-                    {
-                        type = theType.getFullyQualifiedName() + "[]";
-                    }
-                    else
-                    {
-                        type = theType.getFullyQualifiedName();
-                    }
-                }
-
-                if (commaNeeded)
-                {
-                    buffer.append(", ");
-                }
-                if (StringUtils.isNotBlank(modifier))
-                {
-                    buffer.append(modifier);
-                    buffer.append(" ");
-                }
-                buffer.append(type);
-                if (withArgumentNames)
-                {
-                    buffer.append(" ");
-                    buffer.append(paramter.getName());
-                }
-                commaNeeded = true;
-            }
-        }
-        return buffer.toString();
-    }
-
-    /**
      * @see org.andromda.metafacades.uml.OperationFacade#getTypedArgumentList(java.lang.String)
      */
     protected java.lang.String handleGetTypedArgumentList(final java.lang.String modifier)
     {
-        return this.getTypedArgumentList(
+        return MetafacadeUtils.getTypedArgumentList(
+            this.getArguments(),
             true,
             modifier);
     }
