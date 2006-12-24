@@ -963,6 +963,9 @@
             <modelElement variable="manageables">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
             </modelElement>
+            <modelElement variable="destinations">
+                <type name="org.andromda.metafacades.uml.Destination"/>
+            </modelElement>
         </modelElements>
     </template>
 

@@ -16,6 +16,9 @@
 #elseif($stringUtils.isNotBlank($driver))
                 <value>$stringUtils.replace($applicationContextLocalDataSource, '/', '.')</value>
 #end
+#if (!$destinations.empty)
+                <value>$stringUtils.replace($applicationContextJms, '/', '.')</value>
+#end
 #if (!$manageables.empty)
                 <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
 #end
