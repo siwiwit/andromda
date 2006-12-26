@@ -10,6 +10,8 @@ $interface.getDocumentation(" * ")
 public interface $interface.name
 #if (!$interface.allGeneralizations.empty)
     extends $interface.generalizationList
+#elseif ($serializable)
+    extends java.io.Serializable
 #end
 {
 
