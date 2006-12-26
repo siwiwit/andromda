@@ -458,6 +458,20 @@ af|column::sortable-header-text
     text-decoration: underline;
 }
 
+.AFTableCellDataBackgroundColor:alias
+{
+    padding-left: 4px;
+    padding-right: 4px;
+    margin: 0;
+}
+
+.AFTableCellDataBandedBackgroundColor:alias
+{
+    padding-left: 4px;
+    padding-right: 4px;
+    margin: 0;
+}
+
 .AFTableCellDataVerticalAlign:alias
 {
     vertical-align: middle;
