@@ -458,6 +458,11 @@ af|column::sortable-header-text
     text-decoration: underline;
 }
 
+.AFTableCellDataVerticalAlign:alias
+{
+    vertical-align: middle;
+}
+
 /** These are the styles on the actual navigation bar for a table **/
 af|selectRangeChoiceBar::prev-icon
 {
