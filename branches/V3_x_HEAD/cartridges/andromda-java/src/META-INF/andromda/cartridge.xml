@@ -114,6 +114,20 @@
             </modelElement>           
         </modelElements>  
     </template>
+    
+    <template
+        path="templates/java/InterfaceImpl.vsl"
+        outputPattern="$generatedFile"
+        outlet="interface-impls"
+        overwrite="true">
+        <modelElements variable="interface">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.ClassifierFacade">
+                    <property name="interface"/>
+                </type>
+            </modelElement>           
+        </modelElements>  
+    </template>
 
     <!-- cartridge-template merge-point -->
 

@@ -8,6 +8,9 @@
         <component name="profile">
             <path>META-INF/andromda/profile.xml</path>
         </component>
+        <component name="metafacades">
+            <path>META-INF/andromda/metafacades.xml</path>
+        </component>
     </components>
     <properties>
         <!-- namespace-propertyGroup merge-point -->
@@ -45,6 +48,11 @@
                     The directory to which interfaces are generated.
                 </documentation>
             </property>
+            <property name="interface-impls" required="false">
+                <documentation>
+                    The directory to which default interfaces implementations are generated.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Other">
             <property name="serializable">
@@ -58,6 +66,13 @@
                 <documentation>
                     Whether or not constructors taking all properties will
                     be generated or not (on the value object for example).
+                </documentation>
+            </property>
+            <property name="interfaceImplementationNamePattern">
+                <default>Default{0}</default>
+                <documentation>
+                    The pattern used to create the default interface implementation name, where <em>{0}</em>
+                    represents the name of the interface.
                 </documentation>
             </property>
         </propertyGroup>

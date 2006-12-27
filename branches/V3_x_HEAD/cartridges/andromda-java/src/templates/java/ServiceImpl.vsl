@@ -21,18 +21,17 @@ public class ${service.name}Impl
 #foreach ($operation in $service.implementationOperations)
 #set ($returnType = $operation.returnType)
 #set ($returnObject = "returnValue")
-#set ($signature = $operation.signature)
     /**
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}
      */
 #if ($operation.exceptionsPresent)
-    $operation.visibility $returnType.fullyQualifiedName $signature
+    $operation.visibility $returnType.fullyQualifiedName $operation.signature
         throws $operation.exceptionList
 #else
-    $operation.visibility $returnType.fullyQualifiedName $signature
+    $operation.visibility $returnType.fullyQualifiedName $operation.signature
 #end
     {
-        // ${toDoTag} implement $operation.visibility $returnType.fullyQualifiedName $signature
+        // ${toDoTag} implement $operation.visibility $returnType.fullyQualifiedName $operation.signature
 #set ($returnTypeName = $operation.type.fullyQualifiedName)
 #if ($operation.returnTypePresent)
 #if (!$operation.type.primitive)
@@ -43,7 +42,7 @@ public class ${service.name}Impl
         return ($returnTypeName)0;
 #end
 #else
-        throw new java.lang.UnsupportedOperationException("${service.fullyQualifiedName}.${signature} Not implemented!");
+        throw new java.lang.UnsupportedOperationException("${service.fullyQualifiedName}.${operation.signature} Not implemented!");
 #end
     }
 

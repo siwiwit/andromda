@@ -13,11 +13,23 @@
         <plugins>
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromda-maven-plugin</artifactId>  
+                <dependencies>
+                    <dependency>
+                        <groupId>org.andromda.cartridges</groupId>
+                        <artifactId>andromda-meta-cartridge</artifactId>
+                        <version>${pom.version}</version>
+                    </dependency>
+                </dependencies>    
+            </plugin>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromda-cartridge-plugin</artifactId>     
             </plugin>
         </plugins>
     </build>
     <properties>
+        <model.uri>jar:file:${src.dir}/uml/JavaMetafacadeModel.xml.zip!/JavaMetafacadeModel.xml</model.uri>
         <test.model.uri>jar:file:${test.src.dir}/uml/JavaCartridgeTestModel.xml.zip!/JavaCartridgeTestModel.xml</test.model.uri>
     </properties>
 </project>
