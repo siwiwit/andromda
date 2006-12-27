@@ -27,11 +27,13 @@ $attribute.getDocumentation("     * ")
 $attribute.getDocumentation("     * ")
      */
     public $attribute.getterSetterTypeName ${attribute.getterName}();
+#if (!$attribute.readOnly)
 
     /**
 $attribute.getDocumentation("     * ")
      */
     public void ${attribute.setterName}($attribute.getterSetterTypeName $attribute.name);
+#end
 #end
 
 #end
@@ -52,7 +54,6 @@ $target.getDocumentation("     * ")
 
 #end
 #end
-
 #foreach ($operation in $interface.operations)
 #if ($operation.visibility == "public")
     /**
