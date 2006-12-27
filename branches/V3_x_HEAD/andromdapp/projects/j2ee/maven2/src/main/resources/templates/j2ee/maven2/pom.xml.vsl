@@ -83,7 +83,7 @@
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-ejb-cartridge</artifactId>
                 <version>$andromdaVersion</version>
-                <scope>provided</scope>
+                <scope>runtime</scope>
             </dependency>
 #elseif ($ejb3)
             <dependency>
