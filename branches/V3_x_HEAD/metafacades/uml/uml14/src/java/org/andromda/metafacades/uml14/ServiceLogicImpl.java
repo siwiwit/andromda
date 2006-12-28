@@ -73,13 +73,14 @@ public class ServiceLogicImpl
         // get references of all super classes
         CollectionUtils.forAllDo(this.getAllGeneralizations(), new Closure()
         {
-
             public void execute(Object object)
             {
-                Service service = (Service)object;
-                result.addAll(service.getServiceReferences());
+                if (object instanceof Service)
+                {
+                    final Service service = (Service)object;
+                    result.addAll(service.getServiceReferences());
+                }
             }
-
         });
         return result;
     }
@@ -176,16 +177,14 @@ public class ServiceLogicImpl
         // get references of all super classes
         CollectionUtils.forAllDo(this.getAllGeneralizations(), new Closure()
         {
-
             public void execute(Object object)
             {
-                if (object instanceof Entity)
+                if (object instanceof Service)
                 {
-                    final Entity entity = (Entity)object;
-                    result.addAll(entity.getEntityReferences());
+                    final Service service = (Service)object;
+                    result.addAll(service.getEntityReferences());
                 }
             }
-
         });
         return result;
     }
@@ -211,7 +210,6 @@ public class ServiceLogicImpl
                     result.addAll(service.getMessagingDestinations());
                 }
             }
-
         });
         return result;
     }

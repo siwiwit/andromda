@@ -187,13 +187,13 @@
                 <lookup-method name="$serviceRef.getterName" bean="$serviceRef.targetElement.beanName"/>
 #end
 #end
+#foreach($destination in $service.allMessagingDestinations)
+                <property name="$destination.templateBeanName">
+                    <ref bean="$destination.templateBeanName"/>
+                </property>
+#end
             </bean>
         </property>
-#foreach($destination in $service.allMessagingDestinations)
-        <property name="$destination.templateBeanName">
-            <ref bean="$destination.templateBeanName"/>
-        </property>
-#end
         <property name="proxyInterfaces">
             <value>$service.fullyQualifiedName</value>
         </property>

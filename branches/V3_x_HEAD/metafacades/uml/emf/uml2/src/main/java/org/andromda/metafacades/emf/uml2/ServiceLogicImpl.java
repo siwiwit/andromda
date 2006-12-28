@@ -186,16 +186,14 @@ public class ServiceLogicImpl extends ServiceLogic
         // get references of all super classes
         CollectionUtils.forAllDo(this.getAllGeneralizations(), new Closure()
         {
-
             public void execute(Object object)
             {
-                if (object instanceof Entity)
+                if (object instanceof Service)
                 {
-                    final Entity entity = (Entity)object;
-                    result.addAll(entity.getEntityReferences());
+                    final Service service = (Service)object;
+                    result.addAll(service.getEntityReferences());
                 }
             }
-
         });
         return result;
     }
