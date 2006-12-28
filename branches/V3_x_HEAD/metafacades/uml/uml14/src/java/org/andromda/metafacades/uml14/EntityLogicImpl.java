@@ -826,4 +826,30 @@ public class EntityLogicImpl
             (!this.getIdentifierAssociationEnds().isEmpty() ? this.getIdentifierAssociationEnds().size() : 0);
         return identifiers >= 2;
     }
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityLogic#getAllEntityReferences()
+     */
+    protected Collection handleGetAllEntityReferences()
+    {
+        final Collection result = new LinkedHashSet();
+
+        // get references of the service itself
+        result.addAll(this.getEntityReferences());
+
+        // get references of all super classes
+        CollectionUtils.forAllDo(this.getAllGeneralizations(), new Closure()
+        {
+            public void execute(Object object)
+            {
+                if (object instanceof Entity)
+                {
+                    final Entity entity = (Entity)object;
+                    result.addAll(entity.getEntityReferences());
+                }
+            }
+
+        });
+        return result;
+    }
 }

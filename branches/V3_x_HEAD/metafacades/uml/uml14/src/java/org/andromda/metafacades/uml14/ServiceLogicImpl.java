@@ -65,7 +65,7 @@ public class ServiceLogicImpl
      */
     public Collection handleGetAllServiceReferences()
     {
-        final Collection result = new ArrayList();
+        final Collection result = new LinkedHashSet();
 
         // get references of the service itself
         result.addAll(getServiceReferences());
@@ -161,5 +161,58 @@ public class ServiceLogicImpl
             }
         });
         return destinations;
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.Service#getAllEntityReferences()
+     */
+    protected Collection handleGetAllEntityReferences()
+    {
+        final Collection result = new LinkedHashSet();
+
+        // get references of the service itself
+        result.addAll(this.getEntityReferences());
+
+        // get references of all super classes
+        CollectionUtils.forAllDo(this.getAllGeneralizations(), new Closure()
+        {
+
+            public void execute(Object object)
+            {
+                if (object instanceof Entity)
+                {
+                    final Entity entity = (Entity)object;
+                    result.addAll(entity.getEntityReferences());
+                }
+            }
+
+        });
+        return result;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.Service#getAllMessagingDestinations()
+     */
+    protected Collection handleGetAllMessagingDestinations()
+    {
+        final Collection result = new LinkedHashSet();
+
+        // get references of the service itself
+        result.addAll(this.getMessagingDestinations());
+
+        // get references of all super classes
+        CollectionUtils.forAllDo(this.getAllGeneralizations(), new Closure()
+        {
+            public void execute(Object object)
+            {
+                if (object instanceof Service)
+                {
+                    final Service service = (Service)object;
+                    result.addAll(service.getMessagingDestinations());
+                }
+            }
+
+        });
+        return result;
     }
 }
