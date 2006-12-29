@@ -161,7 +161,11 @@ public abstract class $service.baseName
             });
 #elseif ($operation.incomingMessageOperation)
             final javax.jms.Message message = ${operation.incomingDestination.templateBeanName}.receive();
+#if ($operation.returnTypePresent)
             return this.${operation.incomingMessageImplementationCall};
+#else
+            this.${operation.incomingMessageImplementationCall};
+#end
 #end
         }
 #foreach($exception in $operation.exceptions)

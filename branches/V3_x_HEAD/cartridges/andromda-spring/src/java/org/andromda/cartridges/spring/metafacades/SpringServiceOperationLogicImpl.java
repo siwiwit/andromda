@@ -162,15 +162,19 @@ public class SpringServiceOperationLogicImpl
      */
     protected String handleGetOutgoingMessageImplementationCall()
     {
-        return this.getOutgoingMessageImplementationCall("session");
+        return this.getMessageImplementationCall("session");
     }
     
-    private String getOutgoingMessageImplementationCall(String firstArgument)
+    private String getMessageImplementationCall(String firstArgument)
     {
         final StringBuffer buffer = new StringBuffer();
         buffer.append(StringUtils.capitalize(this.getName()));
-        buffer.append("(" + firstArgument + ", ");
-        buffer.append(this.getArgumentNames());
+        buffer.append("(" + firstArgument);
+        final String argumentNames = this.getArgumentNames();
+        if (StringUtils.isNotBlank(argumentNames))
+        {
+            buffer.append(", ").append(argumentNames);   
+        }
         buffer.append(")");
         return this.getImplementationOperationName(buffer.toString());  
     }
@@ -186,11 +190,15 @@ public class SpringServiceOperationLogicImpl
     private String getMessagingImplementationSignature(final String firstArgument)
     {
         final StringBuffer signature = new StringBuffer(this.getImplementationName());
-        signature.append("(" + firstArgument + ", ");
-        signature.append(MetafacadeUtils.getTypedArgumentList(
-                this.getArguments(),
-                true,
-                null));
+        signature.append("(" + firstArgument);
+        final String arguments = MetafacadeUtils.getTypedArgumentList(
+            this.getArguments(),
+            true,
+            null);
+        if (StringUtils.isNotBlank(arguments))
+        {
+            signature.append(", ").append(arguments);
+        }
         signature.append(")");
         return signature.toString();
     }
@@ -200,7 +208,7 @@ public class SpringServiceOperationLogicImpl
      */
     protected String handleGetIncomingMessageImplementationCall()
     {
-        return this.getOutgoingMessageImplementationCall("message");
+        return this.getMessageImplementationCall("message");
     }
 
     /**
