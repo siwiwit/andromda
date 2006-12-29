@@ -64,6 +64,9 @@
         <property name="receiveTimeout">
             <value>$jmsReceiveTimeout</value>
         </property>
+        <property name="pubSubDomain">
+            <value>$destination.topicMetaType</value>
+        </property>
     </bean>
 
 #end
