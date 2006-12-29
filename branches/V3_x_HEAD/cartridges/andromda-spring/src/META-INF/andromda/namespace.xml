@@ -684,10 +684,10 @@
                 </documentation>
             </property>
             <property name="jmsTemplateImplementation">
-                <default>org.springframework.jms.core.JmsTemplate102</default>
+                <default>org.springframework.jms.core.JmsTemplate</default>
                 <documentation>
                     The implementation to use for the Spring JmsTemplate.  <code>org.springframework.jms.core.JmsTemplate102</code> is used
-                    for JMS <em>1.0.2</em> providers and <code>org.springframework.jms.core.JmsTemplate</code> is used for <em>1.1</em> providers>
+                    for JMS <em>1.0.2</em> providers and <code>org.springframework.jms.core.JmsTemplate</code> is used for <em>1.1</em> providers.
                 </documentation>
             </property>
             <property name="jmsReceiveTimeout">
