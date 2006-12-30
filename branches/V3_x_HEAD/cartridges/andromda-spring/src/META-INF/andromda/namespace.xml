@@ -640,7 +640,8 @@
             <property name="jmsProviderUrl">
                 <default>localhost:1099</default>
                 <documentation>
-                    The provider URL for remote JMS access.
+                    The provider URL for remote JMS access (if you're using ActiveMQ as your provider, you'll typically
+                    want to set the URL as 'tcp://localhost:61616'; changing the port as necessary of course).
                 </documentation>
             </property>
             <property name="jmsInitialContextFactory">
@@ -655,7 +656,7 @@
                     The URL package prefixes for remote JMS access.
                 </documentation>
             </property>
-            <property name="jmsQueueConnectionFactory">
+            <property name="jmsConnectionFactory">
                 <default>UIL2ConnectionFactory</default>
                 <documentation>
                     The default JMS queue connection factory.
@@ -669,18 +670,18 @@
                     JMS related services (i.e. Queues).
                 </documentation>
             </property>
-            <property name="jmsJndiTopicPrefix">
+            <property name="jmsTopicNamePrefix">
                 <default>topic/</default>
                 <documentation>
-                    The JNDI prefix for topics (i.e. a prefix of "topic/" would result in a topic named "Events"
-                    as "topic/Events").
+                    The prefix for topics names (i.e. a prefix of "topic/" would result in a topic named "Events"
+                    as "topic/Events").  Applies to the JNDI name (in case of JBossMQ), or physical name (in case of ActiveMQ).
                 </documentation>
             </property>
-            <property name="jmsJndiQueuePrefix">
+            <property name="jmsQueueNamePrefix">
                 <default>queue/</default>
                 <documentation>
-                    The JNDI prefix for queues (i.e. a prefix of "queue/" would result in a topic named "Events"
-                    as "queue/Events").
+                    The prefix for queue names (i.e. a prefix of "queue/" would result in a topic named "Events"
+                    as "queue/Events").  Applies to the JNDI name (in case of JBossMQ), or physical name (in case of ActiveMQ).
                 </documentation>
             </property>
             <property name="jmsTemplateImplementation">
@@ -700,6 +701,12 @@
                 <default>{0}JmsTemplate</default>
                 <documentation>
                     The pattern used to create the JMS template used for accessing a destination (topic/queue).
+                </documentation>
+            </property>
+            <property name="jmsProvider">
+                <default>JBossMQ</default>
+                <documentation>
+                    The JMS provider implementation (valid values are "JBossMQ" and "ActiveMQ")
                 </documentation>
             </property>
         </propertyGroup>

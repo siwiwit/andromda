@@ -4,7 +4,8 @@
 <beans>
 
     <!-- ========================= JMS DEFINITIONS ========================= -->
-
+    
+#if ($jbossMq)
     <!-- JNDI Environment Template -->
     <bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">
         <property name="environment">
@@ -16,47 +17,66 @@
         </property>
     </bean>
 
-    <!-- JMS Queue Connection Factory -->
-    <bean id="internalJmsQueueConnectionFactory"
+    <!-- JMS Connection Factory -->
+    <bean id="jmsConnectionFactory"
             class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiTemplate">
             <ref bean="jndiTemplate"/>
         </property>
         <property name="jndiName">
-            <value>$jmsQueueConnectionFactory</value>
+            <value>$jmsConnectionFactory</value>
         </property>
     </bean>
-
-#foreach ($destination in $topics)
-    <bean id="$destination.beanName"
-        class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiTemplate">
-            <ref bean="jndiTemplate"/>
-        </property>
-        <property name="jndiName">
-            <value>$jmsJndiTopicPrefix$destination.name</value>
+    
+#elseif ($activeMq)
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL">
+            <value>$jmsProviderUrl</value>
         </property>
     </bean>
-
+    
 #end
-#foreach ($destination in $queues)
-    <!-- JMS Destination -->
+#foreach ($destination in $destinations)
+#if ($jbossMq)
     <bean id="$destination.beanName"
         class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiTemplate">
             <ref bean="jndiTemplate"/>
         </property>
         <property name="jndiName">
-            <value>$jmsJndiQueuePrefix$destination.name</value>
+#if ($destination.topicMetaType)
+            <value>$jmsTopicNamePrefix$destination.name</value>
+#else
+            <value>$jmsQueueNamePrefix$destination.name</value>
+#end
         </property>
     </bean>
+#elseif ($activeMq)
+    <bean id="$destination.beanName" class="org.apache.activemq.command.ActiveMQTopic" autowire="constructor">
+        <constructor-arg>
+#if ($destination.topicMetaType)
+            <value>$jmsTopicNamePrefix$destination.name</value>
+#else
+            <value>$jmsQueueNamePrefix$destination.name</value>
+#end
+        </constructor-arg>
+    </bean>
+#end
 
 #end
 #foreach ($destination in $destinations)
     <!-- JMS Destination Template -->
     <bean id="$destination.templateBeanName" class="$jmsTemplateImplementation">
         <property name="connectionFactory">
-            <ref bean="internalJmsQueueConnectionFactory"/>
+#if ($jmsTemplateImplementation.endsWith("102"))
+            <bean class="org.springframework.jms.connection.SingleConnectionFactory102">
+#else
+            <bean class="org.springframework.jms.connection.SingleConnectionFactory">
+#end
+                <property name="targetConnectionFactory">
+                    <ref bean="jmsConnectionFactory"/>
+                </property>
+            </bean>
         </property>
         <property name="defaultDestination">
             <ref bean="$destination.beanName"/>
@@ -64,9 +84,11 @@
         <property name="receiveTimeout">
             <value>$jmsReceiveTimeout</value>
         </property>
+#if ($destination.topicMetaType)
         <property name="pubSubDomain">
-            <value>$destination.topicMetaType</value>
+            <value>true</value>
         </property>
+#end
     </bean>
 
 #end

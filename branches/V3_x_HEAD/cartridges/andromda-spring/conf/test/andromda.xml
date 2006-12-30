@@ -53,6 +53,7 @@
                 <property name="serviceRemotePort">1234</property>
                 <property name="serviceRemoteContext">spring-test</property>
                 <property name="configPropertyPrefix">server1.</property>
+                <property name="jmsProvider">JBossMQ</property>
             </properties>
         </namespace>
     </namespaces>

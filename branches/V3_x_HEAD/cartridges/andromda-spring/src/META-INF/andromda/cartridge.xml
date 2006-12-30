@@ -148,12 +148,13 @@
     <property reference="jmsProviderUrl"/>
     <property reference="jmsInitialContextFactory"/>
     <property reference="jmsUrlPackagePrefixes"/>
-    <property reference="jmsQueueConnectionFactory"/>    
-    <property reference="jmsJndiTopicPrefix"/>
-    <property reference="jmsJndiQueuePrefix"/>   
+    <property reference="jmsConnectionFactory"/>    
+    <property reference="jmsTopicNamePrefix"/>
+    <property reference="jmsQueueNamePrefix"/>   
     <property reference="jmsTemplateImplementation"/> 
     <property reference="applicationContextJms"/>
     <property reference="jmsReceiveTimeout"/>
+    <property reference="jmsProvider"/>
     
     <!-- cartridge-property merge-point -->
 
@@ -170,6 +171,8 @@
     <condition name="localEjbsPresent">$springUtils.localEjbsPresent($services)</condition>
     <condition name="lingoRemotableServicesPresent">$springUtils.lingoRemotableServicesPresent($services)</condition>
     <condition name="useNamedParametersInQueries">$hibernateQueryUseNamedParameters.equalsIgnoreCase("true")</condition>
+    <condition name="activeMq">$jmsProvider.equalsIgnoreCase("ActiveMQ")</condition>
+    <condition name="jbossMq">$jmsProvider.equalsIgnoreCase("JBossMQ")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
