@@ -29,7 +29,7 @@
     </bean>
     
 #elseif ($activeMq)
-    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL">
             <value>$jmsProviderUrl</value>
         </property>
