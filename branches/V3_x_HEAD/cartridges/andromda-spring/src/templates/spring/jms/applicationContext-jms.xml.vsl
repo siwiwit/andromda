@@ -80,7 +80,7 @@
             <ref bean="$operation.owner.beanName"/>
         </property>
         <property name="defaultListenerMethod">
-            <value>receiveEvent</value>
+            <value>$operation.name</value>
         </property>
     </bean>  
     
