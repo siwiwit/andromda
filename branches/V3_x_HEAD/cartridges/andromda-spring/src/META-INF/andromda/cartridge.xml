@@ -155,6 +155,8 @@
     <property reference="applicationContextJms"/>
     <property reference="jmsReceiveTimeout"/>
     <property reference="jmsProvider"/>
+    <property reference="jmsMessageListenerContainerImplementation"/>
+    <property reference="jmsMessageListenerAdapterImplementation"/>
     
     <!-- cartridge-property merge-point -->
 

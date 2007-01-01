@@ -75,20 +75,31 @@
 #end
 #foreach ($operation in $incomingMessageOperations)
 #if (!$operation.arguments.empty)
-    <bean id="${operation.messageListenerBeanName}Listener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
-        <property name="delegate" ref="$operation.messageListenerBeanName"/>
-        <property name="defaultListenerMethod" value="receiveEvent"/>
+    <bean id="${operation.messageListenerBeanName}Listener" class="$jmsMessageListenerAdapterImplementation">
+        <property name="delegate">
+            <ref bean="$operation.owner.beanName"/>
+        </property>
+        <property name="defaultListenerMethod">
+            <value>receiveEvent</value>
+        </property>
     </bean>  
     
 #end
-    <bean id="${operation.messageListenerBeanName}ListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="jmsConnectionFactory"/>
+    <bean id="${operation.messageListenerBeanName}ListenerContainer" class="$jmsMessageListenerContainerImplementation">
+        <property name="connectionFactory">
+            <ref bean="jmsConnectionFactory"/>
+        </property>
+        <property name="messageListener">
 #if ($operation.arguments.empty)
-        <property name="messageListener" ref="$operation.messageListenerBeanName"/>
+            <ref bean="$operation.messageListenerBeanName"/>
+
 #else
-        <property name="messageListener" ref="${operation.messageListenerBeanName}Listener"/>
+            <ref bean="${operation.messageListenerBeanName}Listener"/>
 #end
-        <property name="destination" ref="$operation.incomingDestination.beanName"/>
+        </property>
+        <property name="destination">
+            <ref bean="$operation.incomingDestination.beanName"/>
+        </property>
     </bean>
     
 #if ($operation.arguments.empty)    

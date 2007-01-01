@@ -709,6 +709,20 @@
                     The JMS provider implementation (valid values are "JBossMQ" and "ActiveMQ")
                 </documentation>
             </property>
+            <property name="jmsMessageListenerAdapterImplementation">
+                <default>org.springframework.jms.listener.adapter.MessageListenerAdapter</default>
+                <documentation>
+                    The Spring message listener adaptor implementation.  
+                    See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/listener/adapter/MessageListenerAdapter.html">API docs</a>.
+                </documentation>
+            </property>
+            <property name="jmsMessageListenerContainerImplementation">
+                <default>org.springframework.jms.listener.DefaultMessageListenerContainer</default>
+                <documentation>
+                    The Spring message listener container implementation.
+                    See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/listener/DefaultMessageListenerContainer.html">API docs</a>.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>
