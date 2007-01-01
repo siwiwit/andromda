@@ -635,7 +635,7 @@
         </propertyGroup>
         <propertyGroup name="JMS">
             <documentation>
-                The properties for configuring JMS support generation.
+                The properties for configuring JMS support generation.  JMS support is only available whtn using Spring 2.x.
             </documentation>
             <property name="jmsProviderUrl">
                 <default>localhost:1099</default>
