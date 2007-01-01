@@ -1,5 +1,7 @@
 package org.andromda.cartridges.spring.metafacades;
 
+import java.util.Collection;
+
 import org.andromda.cartridges.spring.SpringProfile;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
@@ -238,11 +240,20 @@ public class SpringServiceOperationLogicImpl
     {
         final StringBuffer buffer = new StringBuffer();
         buffer.append(StringUtils.capitalize(this.getName()));
-        buffer.append("(" + firstArgument);
+        buffer.append("(");
+        final boolean outgoingMessageOperation = this.isOutgoingMessageOperation();
+        if (outgoingMessageOperation || (this.isIncomingMessageOperation() && this.getArguments().isEmpty()))
+        {
+            buffer.append(firstArgument);
+        }
         final String argumentNames = this.getArgumentNames();
+        if (outgoingMessageOperation && StringUtils.isNotBlank(argumentNames))
+        {
+            buffer.append(", ");
+        }
         if (StringUtils.isNotBlank(argumentNames))
         {
-            buffer.append(", ").append(argumentNames);   
+            buffer.append(argumentNames);
         }
         buffer.append(")");
         return this.getImplementationOperationName(buffer.toString());  
@@ -258,18 +269,7 @@ public class SpringServiceOperationLogicImpl
     
     private String getMessagingImplementationSignature(final String firstArgument)
     {
-        final StringBuffer signature = new StringBuffer(this.getImplementationName());
-        signature.append("(" + firstArgument);
-        final String arguments = MetafacadeUtils.getTypedArgumentList(
-            this.getArguments(),
-            true,
-            null);
-        if (StringUtils.isNotBlank(arguments))
-        {
-            signature.append(", ").append(arguments);
-        }
-        signature.append(")");
-        return signature.toString();
+        return this.getMessagingOperationSignature(this.getImplementationName(), firstArgument, null);
     }
     
     /**
@@ -279,12 +279,45 @@ public class SpringServiceOperationLogicImpl
      */
     private String getIncomingMessageSignature(String modifier)
     {
-        final StringBuffer signature = new StringBuffer(this.getName()).append("(");
+        return this.getMessagingOperationSignature(this.getName(), "javax.jms.Message message", modifier);
+    }
+    
+    /**
+     * Constructs the incoming or outgoing messaging operation signature given the <code>operationName</code>
+     * and the <code>firstArgument</code>.
+     * 
+     * @param operationName the name of the operation.
+     * @param firstArgument the argument that will be the first argument in the operation signature.
+     * @param modifier the modifier to add to each argument (if null or empty, it isn't added).
+     * @return the signature of the operation.
+     */
+    private String getMessagingOperationSignature(final String operationName, final String firstArgument, final String modifier)
+    {
+        final StringBuffer signature = new StringBuffer(operationName);
+        signature.append("(");
         if (StringUtils.isNotBlank(modifier))
         {
             signature.append(modifier).append(" ");
         }
-        signature.append("javax.jms.Message message)");
+        final Collection arguments = this.getArguments();
+        final boolean outgoingMessageOperation = this.isOutgoingMessageOperation();
+        if (outgoingMessageOperation || (this.isIncomingMessageOperation() && arguments.isEmpty()))
+        {
+            signature.append(firstArgument);
+        }
+        final String argumentList = MetafacadeUtils.getTypedArgumentList(
+            this.getArguments(),
+            true,
+            modifier);
+        if (outgoingMessageOperation && StringUtils.isNotBlank(argumentList))
+        {
+            signature.append(", ");
+        }
+        if (StringUtils.isNotBlank(argumentList))
+        {
+            signature.append(argumentList);
+        }
+        signature.append(")");
         return signature.toString();
     }
    

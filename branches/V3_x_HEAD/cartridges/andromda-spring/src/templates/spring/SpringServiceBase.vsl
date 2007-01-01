@@ -159,11 +159,13 @@ public abstract class $service.baseName
                     }
                 }
             });
-#elseif ($operation.incomingMessageOperation && $operation.arguments.empty)
+#elseif ($operation.incomingMessageOperation)
+#if ($operation.arguments.empty)
             if (message == null)
             {
                 message = ${operation.incomingDestination.templateBeanName}.receive();
             }
+#end
 #if ($operation.returnTypePresent)
             return this.${operation.incomingMessageImplementationCall};
 #else
