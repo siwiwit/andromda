@@ -76,7 +76,7 @@
 #foreach ($operation in $incomingMessageOperations)
 #if (!$operation.arguments.empty)
     <bean id="${operation.messageListenerBeanName}Listener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
-        <property name="delegate" ref="$operation.messageListnerBeanName"/>
+        <property name="delegate" ref="$operation.messageListenerBeanName"/>
         <property name="defaultListenerMethod" value="receiveEvent"/>
     </bean>  
     
