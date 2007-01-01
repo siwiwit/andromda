@@ -346,6 +346,9 @@ public class SpringServiceOperationLogicImpl
             StringUtilsHelper.upperCamelCaseName(this.getName());
     }
 
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getMessageListenerBeanName()
+     */
     protected String handleGetMessageListenerBeanName()
     {
         return StringUtils.uncapitalize(this.getMessageListenerName());
