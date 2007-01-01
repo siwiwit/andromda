@@ -56,7 +56,12 @@
         </property>
     </bean>
 #elseif ($activeMq)
-    <bean id="$destination.beanName" class="org.apache.activemq.command.ActiveMQTopic" autowire="constructor">
+#if ($destination.topicMetaType)
+#set ($activeMqDestinationClass = "org.apache.activemq.command.ActiveMQTopic")
+#else
+#set ($activeMqDestinationClass = "org.apache.activemq.command.ActiveMQQueue")
+#end
+    <bean id="$destination.beanName" class="$activeMqDestinationClass" autowire="constructor">
         <constructor-arg>
 #if ($destination.topicMetaType)
             <value>$jmsTopicNamePrefix$destination.name</value>
@@ -67,6 +72,33 @@
     </bean>
 #end
 
+#end
+#foreach ($operation in $incomingMessageOperations)
+#if (!$operation.arguments.empty)
+    <bean id="${operation.messageListenerBeanName}Listener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <property name="delegate" ref="$operation.messageListnerBeanName"/>
+        <property name="defaultListenerMethod" value="receiveEvent"/>
+    </bean>  
+    
+#end
+    <bean id="${operation.messageListenerBeanName}ListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="jmsConnectionFactory"/>
+#if ($operation.arguments.empty)
+        <property name="messageListener" ref="$operation.messageListenerBeanName"/>
+#else
+        <property name="messageListener" ref="${operation.messageListenerBeanName}Listener"/>
+#end
+        <property name="destination" ref="$operation.incomingDestination.beanName"/>
+    </bean>
+    
+#if ($operation.arguments.empty)    
+    <bean id="$operation.messageListenerBeanName" class="$operation.fullyQualifiedMessageListenerName">
+        <property name="$operation.owner.beanName">
+            <ref bean="$operation.owner.beanName"/>
+        </property>
+    </bean>
+    
+#end
 #end
 #foreach ($destination in $destinations)
     <!-- JMS Destination Template -->

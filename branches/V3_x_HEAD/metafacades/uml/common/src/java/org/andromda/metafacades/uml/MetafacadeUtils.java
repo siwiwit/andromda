@@ -1,6 +1,7 @@
 package org.andromda.metafacades.uml;
 
 import java.text.Collator;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -185,8 +186,8 @@ public class MetafacadeUtils
 
     /**
      * Creates a typed argument list with the given <code>arguments</code>.  If the <code>withArgumentNames</code>
-     * flag is true, the argument names are included in the list.  
-     * 
+     * flag is true, the argument names are included in the list.
+     *
      * @param arguments the arguments from which to create the list.
      * @param withArgumentNames whether or not to include the argument names.
      * @param modifier
@@ -226,5 +227,29 @@ public class MetafacadeUtils
             commaNeeded = true;
         }
         return buffer.toString();
+    }
+
+    /**
+     * Creates a typed argument list with the given <code>arguments</code>.  If the <code>withArgumentNames</code>
+     * flag is true, the argument names are included in the list.
+     *
+     * @param arguments the arguments from which to create the list.
+     * @param withArgumentNames whether or not to include the argument names.
+     * @param modifier
+     */
+    public static String getSignature(
+        final String name,
+        Collection arguments,
+        final boolean withArgumentNames,
+        final String argumentModifier)
+    {
+        final StringBuffer signature = new StringBuffer(name);
+        signature.append("(");
+        signature.append(getTypedArgumentList(
+                arguments,
+                withArgumentNames,
+                argumentModifier));
+        signature.append(")");
+        return signature.toString();
     }
 }

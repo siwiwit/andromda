@@ -2,6 +2,7 @@ package org.andromda.metafacades.uml14;
 
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.OperationFacade;
@@ -68,7 +69,7 @@ public class OperationFacadeLogicImpl
      */
     protected String handleGetSignature(boolean withArgumentNames)
     {
-        return this.getSignature(this.getName(), withArgumentNames, null);
+        return MetafacadeUtils.getSignature(this.getName(), this.getArguments(), withArgumentNames, null);
     }
 
     /**
@@ -390,16 +391,7 @@ public class OperationFacadeLogicImpl
      */
     protected String handleGetSignature(String argumentModifier)
     {
-        return this.getSignature(this.getName(), true, argumentModifier);
-    }
-
-    private String getSignature(final String name, final boolean withArgumentNames, final String argumentModifier)
-    {
-        final StringBuffer signature = new StringBuffer(name);
-        signature.append("(");
-        signature.append(this.getTypedArgumentList(withArgumentNames, argumentModifier));
-        signature.append(")");
-        return signature.toString();
+        return MetafacadeUtils.getSignature(this.getName(), this.getArguments(), true, argumentModifier);
     }
 
     private String getTypedArgumentList(boolean withArgumentNames, String modifier)
@@ -500,7 +492,7 @@ public class OperationFacadeLogicImpl
      */
     protected String handleGetPreconditionSignature()
     {
-        return this.getSignature(this.getPreconditionName(), true, null);
+        return MetafacadeUtils.getSignature(this.getPreconditionName(), this.getArguments(), true, null);
     }
 
     /**

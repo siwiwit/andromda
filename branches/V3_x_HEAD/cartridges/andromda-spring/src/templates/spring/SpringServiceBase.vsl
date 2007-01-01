@@ -88,7 +88,7 @@ public abstract class $service.baseName
     /**
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}
      */
-    $operation.visibility $operation.returnType.fullyQualifiedName $operation.getSignature("final")
+    $operation.visibility $operation.returnType.fullyQualifiedName $operation.signature
 #if ($operation.exceptionsPresent)
         $operation.throwsClause
 #end
@@ -159,8 +159,11 @@ public abstract class $service.baseName
                     }
                 }
             });
-#elseif ($operation.incomingMessageOperation)
-            final javax.jms.Message message = ${operation.incomingDestination.templateBeanName}.receive();
+#elseif ($operation.incomingMessageOperation && $operation.arguments.empty)
+            if (message == null)
+            {
+                message = ${operation.incomingDestination.templateBeanName}.receive();
+            }
 #if ($operation.returnTypePresent)
             return this.${operation.incomingMessageImplementationCall};
 #else

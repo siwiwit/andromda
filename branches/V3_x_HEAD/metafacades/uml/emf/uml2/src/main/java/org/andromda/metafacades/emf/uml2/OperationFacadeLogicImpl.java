@@ -355,8 +355,9 @@ public class OperationFacadeLogicImpl
      */
     protected java.lang.String handleGetPreconditionSignature()
     {
-        return this.getSignature(
+        return MetafacadeUtils.getSignature(
             this.getPreconditionName(),
+            this.getArguments(),
             true,
             null);
     }
@@ -443,29 +444,11 @@ public class OperationFacadeLogicImpl
      */
     protected java.lang.String handleGetSignature(final boolean withArgumentNames)
     {
-        return this.getSignature(
+        return MetafacadeUtils.getSignature(
             this.getName(),
+            this.getArguments(),
             withArgumentNames,
             null);
-    }
-
-    /**
-     * @see org.andromda.metafacades.uml.OperationFacade#getSignature(String,
-     *      boolean, String)
-     */
-    private String getSignature(
-        final String name,
-        final boolean withArgumentNames,
-        final String argumentModifier)
-    {
-        StringBuffer signature = new StringBuffer(name);
-        signature.append("(");
-        signature.append(MetafacadeUtils.getTypedArgumentList(
-                this.getArguments(),
-                withArgumentNames,
-                argumentModifier));
-        signature.append(")");
-        return signature.toString();
     }
 
     /**
@@ -484,8 +467,9 @@ public class OperationFacadeLogicImpl
      */
     protected java.lang.String handleGetSignature(final java.lang.String argumentModifier)
     {
-        return this.getSignature(
+        return MetafacadeUtils.getSignature(
             this.getName(),
+            this.getArguments(),
             true,
             argumentModifier);
     }

@@ -16,7 +16,7 @@ public interface $service.name
     /**
 $operation.getDocumentation("     * ")
      */
-    $operation.visibility $operation.returnType.fullyQualifiedName $operation.signature
+    $operation.visibility $operation.returnType.fullyQualifiedName $operation.getSignature("final")
         $operation.getThrowsClause("java.rmi.RemoteException");
 
 #end

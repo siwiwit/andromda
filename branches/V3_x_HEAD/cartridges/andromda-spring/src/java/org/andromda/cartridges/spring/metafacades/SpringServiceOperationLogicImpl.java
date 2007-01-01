@@ -4,6 +4,7 @@ import org.andromda.cartridges.spring.SpringProfile;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -55,6 +56,74 @@ public class SpringServiceOperationLogicImpl
             signature = this.getImplementationOperationName(StringUtils.capitalize(this.getSignature()));
         }
         return signature;
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.OperationFacade#getCall()
+     * 
+     * Overridden to provide the message argument (when necessary)
+     */
+    public java.lang.String getCall()
+    {
+        String call;
+        if (this.isIncomingMessageOperation() && this.getArguments().isEmpty())
+        {
+            call = this.getName() + "(message)";
+        }
+        else
+        {
+            call = super.getCall();
+        }
+        return call;
+    }
+    
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getSignature(java.lang.String)
+     * 
+     * Overridden to provide the appropriate incoming message (if needed).
+     */
+    public String getSignature(String modifier)
+    {
+        String signature;
+        if (this.isIncomingMessageOperation() && this.getArguments().isEmpty())
+        {
+            signature = this.getIncomingMessageSignature(modifier);
+        }
+        else
+        {
+            signature = super.getSignature(modifier);
+        }
+        return signature;
+    }
+    
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperationLogic#getSignature(boolean)
+     * 
+     * Overridden to provide the appropriate incoming message (if needed).
+     */
+    public java.lang.String getSignature(final boolean withArgumentNames)
+    {
+        String signature;
+        if (this.isIncomingMessageOperation() && this.getArguments().isEmpty())
+        {
+            signature = this.getIncomingMessageSignature(null);
+        }
+        else
+        {
+            signature = super.getSignature(withArgumentNames);
+        }
+        return signature;
+    }
+    
+    /**
+     * 
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperationLogic#getSignature()
+     * 
+     * Overridden to provide the appropriate incoming message (if needed).
+     */
+    public String getSignature()
+    {
+        return this.getSignature(true);
     }
 
     /**
@@ -202,7 +271,23 @@ public class SpringServiceOperationLogicImpl
         signature.append(")");
         return signature.toString();
     }
-
+    
+    /**
+     * Gets the signature for an incoming message operation.
+     * 
+     * @return the signature
+     */
+    private String getIncomingMessageSignature(String modifier)
+    {
+        final StringBuffer signature = new StringBuffer(this.getName()).append("(");
+        if (StringUtils.isNotBlank(modifier))
+        {
+            signature.append(modifier).append(" ");
+        }
+        signature.append("javax.jms.Message message)");
+        return signature.toString();
+    }
+   
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getIncomingMessageImplementationCall()
      */
@@ -235,5 +320,34 @@ public class SpringServiceOperationLogicImpl
             returnTypeName = returnType != null ? returnType.getFullyQualifiedName() : null;
         }
         return returnTypeName;
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getFullyQualifiedMessageListenerName()
+     */
+    protected String handleGetFullyQualifiedMessageListenerName()
+    {
+        StringBuffer name = new StringBuffer();
+        final String packageName = this.getPackageName();
+        if (StringUtils.isNotBlank(packageName))
+        {
+            name.append(packageName).append('.');
+        }
+        name.append(this.getMessageListenerName());
+        return name.toString();
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getMessageListenerName()
+     */
+    protected String handleGetMessageListenerName()
+    {
+        return this.getOwner().getName() + 
+            StringUtilsHelper.upperCamelCaseName(this.getName());
+    }
+
+    protected String handleGetMessageListenerBeanName()
+    {
+        return StringUtils.uncapitalize(this.getMessageListenerName());
     }
 }

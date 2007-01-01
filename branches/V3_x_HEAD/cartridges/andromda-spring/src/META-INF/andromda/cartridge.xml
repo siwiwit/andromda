@@ -1098,12 +1098,35 @@
         overwrite="true"
         outputToSingleFile="true"
         outputOnEmptyElements="false">
-        <modelElements variable="destinations">
+        <modelElements>
             <modelElement variable="topics">
                 <type name="org.andromda.metafacades.uml.Topic"/>
             </modelElement>
             <modelElement variable="queues">
                 <type name="org.andromda.metafacades.uml.Queue"/>
+            </modelElement>
+            <modelElement variable="destinations">
+                <type name="org.andromda.metafacades.uml.Destination"/>
+            </modelElement>
+            <modelElement variable="incomingMessageOperations">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringServiceOperation">
+                    <property name="incomingMessageOperation"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/spring/jms/MessageListener.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="services"
+        overwrite="true">
+        <modelElements>
+            <modelElement variable="operation">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringServiceOperation">
+                    <property name="incomingMessageOperation"/>
+                    <property name="arguments.empty"/>
+                </type>
             </modelElement>
         </modelElements>
     </template>
