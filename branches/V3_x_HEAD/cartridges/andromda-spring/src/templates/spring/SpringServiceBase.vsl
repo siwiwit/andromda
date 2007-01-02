@@ -88,7 +88,7 @@ public abstract class $service.baseName
     /**
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}
      */
-    $operation.visibility $operation.returnType.fullyQualifiedName $operation.signature
+    $operation.visibility $operation.returnType.fullyQualifiedName $operation.getSignature("final")
 #if ($operation.exceptionsPresent)
         $operation.throwsClause
 #end
