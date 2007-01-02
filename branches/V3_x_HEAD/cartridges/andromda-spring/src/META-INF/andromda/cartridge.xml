@@ -157,6 +157,10 @@
     <property reference="jmsProvider"/>
     <property reference="jmsMessageListenerContainerImplementation"/>
     <property reference="jmsMessageListenerAdapterImplementation"/>
+    <property reference="jmsExplicitQosEnabled"/>
+    <property reference="jmsClientId"/>
+    <property reference="jmsDurableSubscriptions"/>
+    <property reference="jmsDurableSubscriptionName"/>
     
     <!-- cartridge-property merge-point -->
 

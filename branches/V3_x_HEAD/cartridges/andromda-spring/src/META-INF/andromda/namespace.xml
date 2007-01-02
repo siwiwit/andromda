@@ -723,6 +723,29 @@
                     See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/listener/DefaultMessageListenerContainer.html">API docs</a>.
                 </documentation>
             </property>
+            <property name="jmsExplicitQosEnabled">
+                <default>true</default>
+                <documentation>
+                    If "true", then the values of deliveryMode, priority, and timeToLive will be used when sending a message.
+                </documentation>
+            </property>
+            <property name="jmsClientId" required="false">
+                <documentation>
+                    Set the client identifier base name for JMS connections.
+                </documentation>
+            </property>
+            <property name="jmsDurableSubscriptions">
+                <default>true</default>
+                <documentation>
+                    Whether or not subscriptions should be durable by default.  Only makes sense when listening to a topic (pub-sub domain).
+                </documentation>
+            </property>
+            <property name="jmsDurableSubscriptionName" required="false">
+                <documentation>
+                    The name used to identify the durable subscription. To be applied in case of a topic (pub-sub domain) with subscription durability activated.
+                    The durable subscription name needs to be unique within this client's JMS client id. Default is the class name of the specified message listener. 
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>

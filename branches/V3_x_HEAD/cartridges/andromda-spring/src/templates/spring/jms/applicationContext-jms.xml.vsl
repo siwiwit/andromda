@@ -31,10 +31,15 @@
 #elseif ($activeMq)
     <bean id="jmsConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
         <property name="connectionFactory">
-            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+            <bean class="org.apache.activemq.spring.ActiveMQConnectionFactory">
                 <property name="brokerURL">
                     <value>$jmsProviderUrl</value>
                 </property>
+#if ($stringUtils.isNotBlank($jmsClientId))
+                <property name="clientID">
+                    <value>$jmsClientId</value>
+                </property>
+#end
             </bean>
         </property>
     </bean>
@@ -92,7 +97,6 @@
         <property name="messageListener">
 #if ($operation.arguments.empty)
             <ref bean="$operation.messageListenerBeanName"/>
-
 #else
             <ref bean="${operation.messageListenerBeanName}Listener"/>
 #end
@@ -100,6 +104,19 @@
         <property name="destination">
             <ref bean="$operation.incomingDestination.beanName"/>
         </property>
+#if ($operation.incomingDestination.topicMetaType)
+        <property name="subscriptionDurable">
+            <value>$jmsDurableSubscriptions</value>
+        </property>
+        <property name="pubSubDomain">
+            <value>true</value>
+        </property>
+#end
+#if ($stringUtils.isNotBlank($jmsDurableSubscriptionName))
+        <property name="durableSubscriptionName">
+            <value>$jmsDurableSubscriptionName</value>
+        </property>
+#end
     </bean>
     
 #if ($operation.arguments.empty)    
@@ -128,6 +145,9 @@
             <value>true</value>
         </property>
 #end
+        <property name="explicitQosEnabled">
+            <value>$jmsExplicitQosEnabled</value>
+        </property>
     </bean>
 
 #end
