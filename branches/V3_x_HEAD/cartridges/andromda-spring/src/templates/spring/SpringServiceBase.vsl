@@ -204,6 +204,7 @@ public abstract class $service.baseName
         throws java.lang.Exception;
 
 #end
+#if (!$service.generalization)
     /**
      * Gets the current <code>principal</code> if one has been set,
      * otherwise returns <code>null</code>.
@@ -250,6 +251,57 @@ public abstract class $service.baseName
         throws java.lang.Exception
     {
         return $service.webServiceIncomingAttachmentHandlerCall;
+    }
+#end
+
+    /**
+     * Gets the message source available to this service.
+     */
+    protected org.springframework.context.MessageSource getMessages()
+    {
+#set ($beanLocator =  "BeanLocator")
+#if($stringUtils.isNotEmpty($springTypesPackage))
+#set ($beanLocator = "$springTypesPackage.$beanLocator")
+#end
+        return (org.springframework.context.MessageSource)
+            ${beanLocator}.instance().getBean("$messageSourceBeanName");
+    }
+    
+    /**
+     * Gets the message having the given <code>key</code> in the underlying message bundle.
+     *
+     * @param key the key of the message in the ${messageBundlePath}.properties message bundle.
+     */
+    protected String getMessage(final String key)
+    {
+        return this.getMessages().getMessage(key, null, null);
+    }
+    
+    /**
+     * Gets the message having the given <code>key</code> and <code>arguments</code> in the 
+     * underlying message bundle.
+     *
+     * @param key the key of the message in the ${messageBundlePath}.properties message bundle.
+     * @param arguments any arguments to substitute when resolving the message.
+     */
+    protected String getMessage(final String key, final Object[] arguments)
+    {
+        return this.getMessages().getMessage(key, arguments, null);
+    }
+    
+    /**
+     * Gets the message having the given <code>key</code> using the given <code>arguments</code>
+     * for the given <code>locale</code>.
+     *
+     * @param key the key of the message in the ${messageBundlePath}.properties message bundle.
+     * @param arguments any arguments to substitute when resolving the message.
+     * @param locale the locale of the messages to retrieve.
+     */
+    protected String getMessage(
+        final java.lang.String key, final java.lang.Object[] arguments, 
+        final java.util.Locale locale)
+    {
+        return this.getMessages().getMessage(key, arguments, locale);
     }
 #end
 }

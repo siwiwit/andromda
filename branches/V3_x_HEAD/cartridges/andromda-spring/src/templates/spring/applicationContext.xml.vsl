@@ -5,9 +5,9 @@
 
     <!-- ========================= GENERAL DEFINITIONS ========================= -->
 
-    <!-- Message source for this context, loaded from localized "messages_xx" files -->
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename"><value>messages</value></property>
+    <!-- Message source for this context, loaded from localized "${messageBundlePath}_xx" files -->
+    <bean id="$messageSourceBeanName" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename"><value>$messageBundlePath</value></property>
     </bean>
 
     <!-- applicationContext merge-point -->

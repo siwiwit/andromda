@@ -189,6 +189,18 @@
                     from the entity shall be generated.
                 </documentation>
             </property>
+            <property name="messageBundlePath">
+                <default>messages</default>
+                <documentation>
+                    The path of the file representing the message bundle.
+                </documentation>
+            </property>
+            <property name="messageSourceBeanName">
+                <default>messageSource</default>
+                <documentation>
+                    The name of the bean that stores the message source.
+                </documentation>
+            </property>
             <property name="daoNamePattern">
                 <default>{0}Dao</default>
                 <documentation>
@@ -498,6 +510,14 @@
                 <default>org.springframework.transaction.jta.JtaTransactionManager</default>
                 <documentation>
                     The transaction manager implementation used by Spring.
+                </documentation>
+            </property>
+            <property name="dataSourceEnabled">
+                <default>true</default>
+                <documentation>
+                    Whether or not a data source will be defined.  By default the data source configuration is
+                    always generated, however if this is set to false and no entities have been
+                    modeled, a data source will not be generated.
                 </documentation>
             </property>
             <property name="localTransactionManager">

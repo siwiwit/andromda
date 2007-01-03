@@ -145,6 +145,9 @@
     <property reference="serverTestContextDataSource"/>
     <property reference="enableTemplating"/>
     <property reference="hibernateQueryUseNamedParameters"/>
+    <property reference="dataSourceEnabled"/>
+    <property reference="messageBundlePath"/>
+    <property reference="messageSourceBeanName"/>
     <property reference="jmsProviderUrl"/>
     <property reference="jmsInitialContextFactory"/>
     <property reference="jmsUrlPackagePrefixes"/>
@@ -179,10 +182,11 @@
     <condition name="useNamedParametersInQueries">$hibernateQueryUseNamedParameters.equalsIgnoreCase("true")</condition>
     <condition name="activeMq">$jmsProvider.equalsIgnoreCase("ActiveMQ")</condition>
     <condition name="jbossMq">$jmsProvider.equalsIgnoreCase("JBossMQ")</condition>
+    <condition name="dataSourceEnabled">$dataSourceEnabled.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
-
+    
      <template
         path="templates/spring/SpringServiceLocator.vsl"
         outputPattern="$generatedFile"
@@ -202,7 +206,7 @@
             </modelElement>
         </modelElements>
     </template>
-
+   
      <template
         path="templates/spring/SpringServiceLocator.vsl"
         outputPattern="$generatedFile"
@@ -1094,6 +1098,14 @@
             </modelElement>
         </modelElements>
     </template>
+    
+     <template
+        path="templates/spring/SpringBeanLocator.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="services"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="true"/>
     
     <!-- JMS -->
     

@@ -4,7 +4,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-
+#if ($dataSourceEnabled || !$entities.empty)
     <!-- ========================= DATASOURCE DEFINITION ========================= -->
 
     <!-- JNDI DataSource for J2EE environments -->
@@ -13,7 +13,8 @@
     </bean>
     
     <!-- ====================== End of DATASOURCE DEFINITION ====================== -->
-
+    
+#end
 #if ($stringUtils.isNotBlank($transactionManager))
     <!-- ===================== TRANSACTION MANAGER DEFINITION ========================= -->
 

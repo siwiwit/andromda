@@ -27,7 +27,7 @@
 #if ($acegiServiceSecurity)
                 <value>$stringUtils.replace($applicationContextServerAuthentication, '/', '.')</value>
 #end
-#end                
+#end
                 <!-- beanRefFactory merge-point -->
            </list>
         </constructor-arg>
@@ -54,5 +54,5 @@
     </bean>
 #end
     <!-- beanRefFactoryEjbXml merge-point -->
-    
+
 </beans>
