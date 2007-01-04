@@ -819,18 +819,12 @@ public class ParameterChecks
         ValidatorAction action,
         Field field)
     {
-        String value = null;
-        if (object != null)
-        {
-            value = String.valueOf(parameters.get(field.getProperty()));
-        }
-
+        String value = ObjectUtils.toString(object);
         if (!StringUtils.isBlank(value))
         {
             try
             {
                 int min = Integer.parseInt(field.getVarValue("minlength"));
-
                 if (!GenericValidator.minLength(
                         value,
                         min))
