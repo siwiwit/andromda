@@ -88,7 +88,8 @@
                     var field = form[oMinLength[x][0]];
 
                     if (field.type == 'text' ||
-                        field.type == 'textarea') {
+                        field.type == 'textarea' ||
+                        field.type == 'password') {
 
                         var iMin = parseInt(oMinLength[x][2]("minlength"));
                         if ((trim(field.value).length > 0) && (field.value.length < iMin)) {
@@ -133,7 +134,8 @@
                     var field = form[oMaxLength[x][0]];
 
                     if (field.type == 'text' ||
-                        field.type == 'textarea') {
+                        field.type == 'textarea' || 
+                        field.type == 'password') {
 
                         var iMax = parseInt(oMaxLength[x][2]("maxlength"));
                         if (field.value.length > iMax) {
@@ -178,7 +180,8 @@
                     var field = form[oMasked[x][0]];
 
                     if ((field.type == 'text' ||
-                         field.type == 'textarea') &&
+                         field.type == 'textarea' ||
+                         field.type == 'password') &&
                          (field.value.length > 0)) {
 
                         if (!matchPattern(field.value, oMasked[x][2]("mask"))) {
@@ -231,7 +234,8 @@
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
                         field.type == 'select-one' ||
-                  field.type == 'radio') {
+                        field.type == 'radio' ||
+                        field.type == 'password') {
 
                   var value = '';
                   // get field's value
@@ -303,7 +307,8 @@
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
                         field.type == 'select-one' ||
-                        field.type == 'radio') {
+                        field.type == 'radio' || 
+                        field.type == 'password') {
 
                         var value = '';
                   // get field's value
@@ -374,7 +379,8 @@
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
                         field.type == 'select-one' ||
-                        field.type == 'radio') {
+                        field.type == 'radio' || 
+                        field.type == 'password') {
 
                         var value = '';
                   // get field's value
@@ -445,7 +451,8 @@
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
                         field.type == 'select-one' ||
-                        field.type == 'radio') {
+                        field.type == 'radio' || 
+                        field.type == 'password') {
 
                         var value = '';
                   // get field's value
@@ -515,7 +522,8 @@
                     if (field.type == 'text' ||
                         field.type == 'textarea' ||
                         field.type == 'select-one' ||
-                        field.type == 'radio') {
+                        field.type == 'radio' || 
+                        field.type == 'password') {
 
                        var value = '';
                   // get field's value
@@ -916,7 +924,8 @@
                     var field = form[oRange[x][0]];
 
                     if ((field.type == 'text' ||
-                         field.type == 'textarea') &&
+                         field.type == 'textarea' ||
+                         field.type == 'password') &&
                         (field.value.length > 0)) {
 
                         var iMin = parseInt(oRange[x][2]("min"));
@@ -964,7 +973,8 @@
                     var field = form[oRange[x][0]];
 
                     if ((field.type == 'text' ||
-                         field.type == 'textarea') &&
+                         field.type == 'textarea' ||
+                         field.type == 'password') &&
                         (field.value.length > 0)) {
 
                         var fMin = parseFloat(oRange[x][2]("min"));
@@ -1010,7 +1020,8 @@
                 oCreditCard = eval('new ' + formName.value + '_creditCard()');;
                 for (x in oCreditCard) {
                     if ((form[oCreditCard[x][0]].type == 'text' ||
-                         form[oCreditCard[x][0]].type == 'textarea') &&
+                         form[oCreditCard[x][0]].type == 'textarea' ||
+                         form[oCreditCard[x][0]].type == 'password') &&
                         (form[oCreditCard[x][0]].value.length > 0)) {
                         if (!luhnCheck(form[oCreditCard[x][0]].value)) {
                             if (i == 0) {
@@ -1089,7 +1100,8 @@
                 oEmail = eval('new ' + formName.value + '_email()');;
                 for (x in oEmail) {
                     if ((form[oEmail[x][0]].type == 'text' ||
-                         form[oEmail[x][0]].type == 'textarea') &&
+                         form[oEmail[x][0]].type == 'textarea' ||
+                         form[oEmail[x][0]].type == 'password') &&
                         (form[oEmail[x][0]].value.length > 0)) {
                         if (!checkEmail(form[oEmail[x][0]].value)) {
                             if (i == 0) {
