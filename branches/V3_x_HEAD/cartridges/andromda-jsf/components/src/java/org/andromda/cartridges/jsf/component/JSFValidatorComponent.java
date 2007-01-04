@@ -116,7 +116,7 @@ public class JSFValidatorComponent
         final UIComponent component,
         final FacesContext context)
     {
-        if (component instanceof EditableValueHolder && component.isRendered())
+        if (component instanceof EditableValueHolder && this.canValidate(component))
         {
             final EditableValueHolder valueHolder = (EditableValueHolder)component;
             final UIForm form = JSFValidator.findForm(component);
@@ -191,6 +191,30 @@ public class JSFValidatorComponent
                 childComponent,
                 context);
         }
+    }
+    
+    /**
+     * Indicates whether or not this component can be validated.
+     * 
+     * @param component the component to check.
+     * @return true/false
+     */
+    private boolean canValidate(final UIComponent component)
+    {
+        boolean canValidate = true;
+        if (component != null)
+        {
+            canValidate = component.isRendered();
+            if (canValidate)
+            {
+                final UIComponent parent = component.getParent();
+                if (parent != null)
+                {
+                    canValidate = canValidate(parent);
+                }
+            }
+        }
+        return canValidate;
     }
     
     /**
