@@ -548,7 +548,7 @@ public class ClassifierFacadeLogicImpl
     protected org.andromda.metafacades.uml.AttributeFacade handleFindAttribute(final java.lang.String name)
     {
         return (AttributeFacade)CollectionUtils.find(
-            this.getAttributes(),
+            this.getAttributes(true),
             new Predicate()
             {
                 public boolean evaluate(final Object object)

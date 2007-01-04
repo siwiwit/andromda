@@ -714,7 +714,7 @@ public class ClassifierFacadeLogicImpl
     protected AttributeFacade handleFindAttribute(final String name)
     {
         return (AttributeFacade)CollectionUtils.find(
-            this.getAttributes(),
+            this.getAttributes(true),
             new Predicate()
             {
                 public boolean evaluate(Object object)
