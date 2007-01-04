@@ -463,15 +463,20 @@ public class JSFUtils
      * Retrieves the "equal" value from the given element (if one is present).
      *
      * @param element the element from which to retrieve the equal value.
+     * @param ownerParameter the optional owner parameter (specified if the element is an attribute).
      * @return the "equal" value.
      */
-    public static java.lang.String getEqual(final ModelElementFacade element)
+    public static java.lang.String getEqual(final ModelElementFacade element, final ParameterFacade ownerParameter)
     {
         String equal = null;
         if (element != null)
         {
             final Object value = element.findTaggedValue(JSFProfile.TAGGEDVALUE_INPUT_EQUAL);
             equal = value == null ? null : value.toString();
+            if (StringUtils.isNotBlank(equal) && ownerParameter != null)
+            {
+                equal = ownerParameter.getName() + StringUtilsHelper.upperCamelCaseName(equal);
+            }
         }
         return equal;
     }
@@ -668,7 +673,7 @@ public class JSFUtils
             {
                 validatorTypesList.add("validwhen");
             }
-            if (JSFUtils.getEqual(element) != null)
+            if (JSFUtils.getEqual(element, null) != null)
             {
                 validatorTypesList.add("equal");
             }
@@ -690,11 +695,13 @@ public class JSFUtils
      *
      * @param element the element from which to retrieve the variables
      * @param type the type of the element.
+     * @param ownerParameter the optional owner parameter (if the element is an attribute for example).
      * @return the collection of validator variables.
      */
     public static java.util.Collection getValidatorVars(
         final ModelElementFacade element,
-        final ClassifierFacade type)
+        final ClassifierFacade type,
+        final ParameterFacade ownerParameter)
     {
         final Map vars = new LinkedHashMap();
         if (element != null && type != null)
@@ -793,7 +800,7 @@ public class JSFUtils
                     Arrays.asList(new Object[] {test, validWhen}));
             }
             
-            final String equal = JSFUtils.getEqual(element);
+            final String equal = JSFUtils.getEqual(element, ownerParameter);
             if (equal != null)
             {
                 final String fieldName = "fieldName";
@@ -871,7 +878,7 @@ public class JSFUtils
         else if ("equal".equals(validatorType))
         {
             ModelElementFacade equalParameter = null;
-            final String equal = JSFUtils.getEqual(element);
+            final String equal = JSFUtils.getEqual(element, null);
             if (element instanceof ParameterFacade)
             {
                 final FrontEndParameter parameter = (FrontEndParameter)element;

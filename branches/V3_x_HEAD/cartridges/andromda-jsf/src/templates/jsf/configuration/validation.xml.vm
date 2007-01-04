@@ -22,7 +22,12 @@
 #end
 #end
 #end
-#foreach ($validatorVar in $field.validatorVars)
+#if ($ownerParameter)
+#set ($validatorVars = $field.getValidatorVars($ownerParameter))
+#else
+#set ($validatorVars = $field.validatorVars)
+#end
+#foreach ($validatorVar in $validatorVars)
 #set ($varValue = $validatorVar.get(1))
 #if ($field.equalValidator)
 #set ($varValue = "${action.formBeanName}:${varValue}")

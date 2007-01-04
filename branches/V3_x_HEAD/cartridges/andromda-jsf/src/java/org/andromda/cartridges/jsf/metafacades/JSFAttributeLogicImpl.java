@@ -391,15 +391,16 @@ public class JSFAttributeLogicImpl
             (ModelElementFacade)this.THIS(),
             this.getType());
     }
-
+    
     /**
-     * @see org.andromda.cartridges.jsf.metafacades.JSFParameter#getValidatorVars()
+     * @see org.andromda.cartridges.jsf.metafacades.JSFAttribute#getValidatorVars(JSFParameter)
      */
-    protected java.util.Collection handleGetValidatorVars()
+    protected Collection handleGetValidatorVars(JSFParameter ownerParameter)
     {
         return JSFUtils.getValidatorVars(
             ((ModelElementFacade)this.THIS()),
-            this.getType());
+            this.getType(),
+            ownerParameter);
     }
 
     /**
@@ -610,7 +611,7 @@ public class JSFAttributeLogicImpl
      */
     protected boolean handleIsEqualValidator()
     {
-        final String equal = JSFUtils.getEqual((ModelElementFacade)this.THIS());
+        final String equal = JSFUtils.getEqual((ModelElementFacade)this.THIS(), null);
         return equal != null && equal.trim().length() > 0;
     }
 

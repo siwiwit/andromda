@@ -843,7 +843,8 @@ public class JSFParameterLogicImpl
     {
         return JSFUtils.getValidatorVars(
             ((ModelElementFacade)this.THIS()),
-            this.getType());
+            this.getType(),
+            null);
     }
 
     /**
@@ -913,7 +914,7 @@ public class JSFParameterLogicImpl
      */
     protected boolean handleIsEqualValidator()
     {
-        final String equal = JSFUtils.getEqual((ModelElementFacade)this.THIS());
+        final String equal = JSFUtils.getEqual((ModelElementFacade)this.THIS(), null);
         return equal != null && equal.trim().length() > 0;
     }
 
