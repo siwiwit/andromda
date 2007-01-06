@@ -105,6 +105,18 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
             org.springframework.context.access.ContextSingletonBeanFactoryLocator.getInstance("$beanRefFactory"));
         super.setBeanFactoryLocatorKey("$beanRefFactoryId");
     }
+    
+    /**
+     * @see org.springframework.ejb.support.AbstractEnterpriseBean#onEjbRemove()
+     */
+    public void onEjbRemove()
+    {
+        // - make sure we close the factory on shutdown
+        org.springframework.context.support.AbstractApplicationContext context = 
+            (org.springframework.context.support.AbstractApplicationContext)this.getBeanFactory();
+        context.close();
+        super.onEjbRemove();
+    }
 #end
 
     /**
