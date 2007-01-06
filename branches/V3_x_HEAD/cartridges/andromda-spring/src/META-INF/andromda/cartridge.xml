@@ -164,6 +164,7 @@
     <property reference="jmsClientId"/>
     <property reference="jmsDurableSubscriptions"/>
     <property reference="jmsDurableSubscriptionName"/>
+    <property reference="jmsTransactionsEnabled"/>
     
     <!-- cartridge-property merge-point -->
 
@@ -182,6 +183,7 @@
     <condition name="useNamedParametersInQueries">$hibernateQueryUseNamedParameters.equalsIgnoreCase("true")</condition>
     <condition name="activeMq">$jmsProvider.equalsIgnoreCase("ActiveMQ")</condition>
     <condition name="jbossMq">$jmsProvider.equalsIgnoreCase("JBossMQ")</condition>
+    <condition name="jmsTransactionsEnabled">$jmsTransactionsEnabled.equalsIgnoreCase("true")</condition>
     <condition name="dataSourceEnabled">$dataSourceEnabled.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 

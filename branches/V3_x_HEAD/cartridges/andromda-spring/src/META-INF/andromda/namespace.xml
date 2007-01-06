@@ -766,6 +766,12 @@
                     The durable subscription name needs to be unique within this client's JMS client id. Default is the class name of the specified message listener. 
                 </documentation>
             </property>
+            <property name="jmsTransactionsEnabled" required="false">
+                <default>true</default>
+                <documentation>
+                    Whether or not JMS destinations should be transacted.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>
