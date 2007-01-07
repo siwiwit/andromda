@@ -49,6 +49,14 @@
             <groupId>aopalliance</groupId>
             <artifactId>aopalliance</artifactId>
         </dependency>
+        <dependency>
+            <groupId>activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+        </dependency>
 #end
 #if ($hibernateVersion.equals("2"))
         <dependency>
