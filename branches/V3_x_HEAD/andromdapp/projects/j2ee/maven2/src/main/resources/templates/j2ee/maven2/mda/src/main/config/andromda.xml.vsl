@@ -126,10 +126,7 @@
                 <property name="webServiceUrlPattern">/services</property>
 #if ($jbossSeam)
                 <property name="seamEnabled">true</property>
-#else
-                <!-- uncomment to enable JBoss Seam
-                <property name="seamEnabled">true</property>
-                -->
+                <property name="persistenceProviderExtensions">hibernate</property>
 #end
             </properties>
         </namespace>
