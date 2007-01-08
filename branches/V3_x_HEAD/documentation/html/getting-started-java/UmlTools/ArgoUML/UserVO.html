@@ -34,6 +34,11 @@
             saved the AndroMDA profile.  Click Open to open this model and then choose
             File&rarr;Save As... and save in the newly created AndroMDA project at
             C:/timetracker/mda/src/main/uml/timetracker.zargo</li>
+        <li>It is critical to also update the root pom.xml to reference the proper model, 
+            more specifically you will need to make the <code>model.uri</code> element point to
+            jar:file:${project.basedir}/mda/src/main/uml/timetracker.zargo!/timetracker.xmi;
+            you will need to do this because the default value points to a plain XMI file instead
+            of the XMI file contained in a ZIP archive (the .zargo file saved by ArgoUML)</li>
         <li>The TimeTracker model will now open showing the only class diagram present in this
             model. The title of this diagram is "DataTypes". This diagram contains
             platform independent datatypes that should be used in your UML model.</li>
