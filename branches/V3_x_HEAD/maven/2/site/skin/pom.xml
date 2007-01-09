@@ -2,8 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+        <groupId>org.andromda.maven.plugins.site</groupId>
         <artifactId>andromda-site-plugins</artifactId>
-        <groupId>org.andromda.maven.site</groupId>
         <version>3.3-SNAPSHOT</version>
     </parent>
     <artifactId>andromda-site-skin</artifactId>

@@ -19,8 +19,9 @@ package org.andromda.maven.doxia.module.xdoc;
 import org.apache.maven.doxia.site.module.SiteModule;
 
 /**
- * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
- * @version $Id: AndromdadocSiteModule.java,v 1.1.2.1 2006-09-14 08:10:40 vancek Exp $
+ * @version $Id: AndromdadocSiteModule.java,v 1.1.2.2 2007-01-09 03:20:41 vancek Exp $
+ * 
+ * Based taken from Apache Foundation Doxia Project.
  * 
  * @plexus.component role="org.apache.maven.doxia.site.module.SiteModule" role-hint="andromdadoc"
  */

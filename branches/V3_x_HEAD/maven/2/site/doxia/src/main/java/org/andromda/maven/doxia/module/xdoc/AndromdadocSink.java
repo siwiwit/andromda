@@ -18,24 +18,29 @@ package org.andromda.maven.doxia.module.xdoc;
 
 import org.apache.maven.doxia.module.HtmlTools;
 import org.apache.maven.doxia.module.apt.AptParser;
+import org.apache.maven.doxia.sink.Sink;
 import org.apache.maven.doxia.sink.SinkAdapter;
 import org.apache.maven.doxia.sink.StructureSink;
 import org.apache.maven.doxia.util.LineBreaker;
+import org.codehaus.plexus.util.StringUtils;
 
 import java.io.Writer;
 
 /**
  * A doxia Sink which produces an xdoc model.
  *
- * @author <a href="mailto:james@jamestaylor.org">James Taylor</a>
- * @version $Id: AndromdadocSink.java,v 1.1.2.1 2006-09-14 08:10:39 vancek Exp $
+ * Based taken from Apache Foundation Doxia Project.
+ * 
+ * @version $Id: AndromdadocSink.java,v 1.1.2.2 2007-01-09 03:20:41 vancek Exp $
  * 
  * @plexus.component role="org.apache.maven.doxia.sink.Sink" role-hint="andromdadoc"
+ * 
+ * This sink is not being detected correctly at this stage.  All callbacks are invoked from
+ * the xhtml doxia sink.
  */
-public class AndromdadocSink
-    extends SinkAdapter
+public class AndromdadocSink extends SinkAdapter
 {
-    private static final String EOL = System.getProperty( "line.separator" );
+    private static final String EOL = System.getProperty("line.separator");
 
     private LineBreaker out;
 
@@ -55,9 +60,16 @@ public class AndromdadocSink
 
     private String section;
 
-    public AndromdadocSink( Writer out )
+    private Sink xhtmlSink;
+
+    public AndromdadocSink(Writer out)
     {
-        this.out = new LineBreaker( out );
+        this.out = new LineBreaker(out);
+    }
+
+    public AndromdadocSink(Sink xhtmlSink)
+    {
+        this.xhtmlSink = xhtmlSink;
     }
 
     protected void resetState()
@@ -77,155 +89,200 @@ public class AndromdadocSink
 
         headFlag = true;
 
-        markup( "<?xml version=\"1.0\" ?>" + EOL );
+        markup("<?xml version=\"1.0\" ?>" + EOL);
 
-        markup( "<document>" + EOL );
+        markup("<document>" + EOL);
 
-        markup( "<properties>" + EOL );
+        markup("<properties>" + EOL);
     }
 
     public void head_()
     {
         headFlag = false;
 
-        markup( "</properties>" + EOL );
+        markup("</properties>" + EOL);
     }
 
     public void title_()
     {
-        if ( buffer.length() > 0 )
+        if (buffer.length() > 0)
         {
-            markup( "<title>" );
-            content( buffer.toString() );
-            markup( "</title>" + EOL );
+            markup("<title>");
+            content(buffer.toString());
+            markup("</title>" + EOL);
             buffer = new StringBuffer();
         }
     }
 
     public void author_()
     {
-        if ( buffer.length() > 0 )
+        if (buffer.length() > 0)
         {
-            markup( "<author>" );
-            content( buffer.toString() );
-            markup( "</author>" + EOL );
+            markup("<author>");
+            content(buffer.toString());
+            markup("</author>" + EOL);
             buffer = new StringBuffer();
         }
     }
 
     public void date_()
     {
-        if ( buffer.length() > 0 )
+        if (buffer.length() > 0)
         {
-            markup( "<date>" );
-            content( buffer.toString() );
-            markup( "</date>" );
+            markup("<date>");
+            content(buffer.toString());
+            markup("</date>");
             buffer = new StringBuffer();
         }
     }
 
     public void body()
     {
-        markup( "<body>" + EOL );
+        markup("<body>" + EOL);
     }
 
     public void body_()
     {
-        markup( "</body>" + EOL );
+        markup("</body>" + EOL);
 
-        markup( "</document>" + EOL );
+        markup("</document>" + EOL);
 
         out.flush();
 
         resetState();
     }
 
+    public void div(String styleClass)
+    {
+        markup("<div class=\"" + styleClass + "\">");
+    }
+    
+    public void div_()
+    {
+        markup("</div>");
+    }
+    
     public void section1()
     {
-        section = "section";
+        this.div("section");
     }
 
     public void section2()
     {
-        section = "subsection";
+        this.div("subsection");
     }
 
     public void section3()
     {
-        section = "subsection";
+        this.div("subsection");
     }
 
     public void section4()
     {
-        section = "subsection";
+       this.div("subsection");
     }
 
     public void section5()
     {
-        section = "subsection";
+        this.div("subsection");
+    }
+
+    public void subsection(String name)
+    {
+        this.div("subsection");
+        xhtmlSink.sectionTitle2();
+        xhtmlSink.text(name);
+        xhtmlSink.sectionTitle2_();
     }
 
     public void sectionTitle()
     {
-        markup( "<" + section + " name=\"" );
+        markup("<" + section + " name=\"");
     }
 
     public void sectionTitle_()
     {
-        markup( "\">" );
+        markup("\">");
     }
 
     public void section1_()
     {
-        markup( "</section>" );
+        this.div_();
     }
 
     public void section2_()
     {
-        markup( "</subsection>" );
+        this.div_();
     }
 
     public void section3_()
     {
-        markup( "</subsection>" );
+        this.div_();
     }
 
     public void section4_()
     {
-        markup( "</subsection>" );
+        this.div_();
     }
 
     public void section5_()
     {
-        markup( "</subsection>" );
+        this.div_();
     }
 
     public void list()
     {
-        markup( "<ul>" + EOL );
+        markup("<ul>" + EOL);
+    }
+
+    public void list(String styleClass)
+    {
+        if (StringUtils.isNotEmpty(styleClass))
+        {
+            markup("<ul class=\"" + styleClass + "\">");
+        }
+        else
+        {
+            this.list();
+        }
     }
 
     public void list_()
     {
-        markup( "</ul>" );
+        markup("</ul>");
     }
 
     public void listItem()
     {
-        markup( "<li>" );
-        itemFlag++;
+        markup("<li>");
+        //itemFlag++;
         // What follows is at least a paragraph.
+    }
+
+    public void listItem(String styleClass)
+    {
+        if (StringUtils.isNotEmpty(styleClass))
+        {
+            markup("<li class=\"" + styleClass + "\">");
+            //itemFlag++;
+            // What follows is at least a paragraph
+        }
+        else
+        {
+            this.listItem();
+        }
     }
 
     public void listItem_()
     {
-        markup( "</li>" + EOL );
+        markup("</li>" + EOL);
+        //itemFlag--;
     }
 
-    public void numberedList( int numbering )
+    public void numberedList(int numbering)
     {
         String style;
-        switch ( numbering )
+        switch (numbering)
         {
             case NUMBERING_UPPER_ALPHA:
                 style = "upper-alpha";
@@ -243,71 +300,86 @@ public class AndromdadocSink
             default:
                 style = "decimal";
         }
-        markup( "<ol style=\"list-style-type: " + style + "\">" + EOL );
+        markup("<ol style=\"list-style-type: " + style + "\">" + EOL);
     }
 
     public void numberedList_()
     {
-        markup( "</ol>" );
+        markup("</ol>");
     }
 
     public void numberedListItem()
     {
-        markup( "<li>" );
-        itemFlag++;
+        markup("<li>");
+        //itemFlag++;
         // What follows is at least a paragraph.
     }
 
     public void numberedListItem_()
     {
-        markup( "</li>" + EOL );
+        markup("</li>" + EOL);
     }
 
     public void definitionList()
     {
-        markup( "<dl compact=\"compact\">" + EOL );
+        markup("<dl compact=\"compact\">" + EOL);
     }
 
     public void definitionList_()
     {
-        markup( "</dl>" );
+        markup("</dl>");
     }
 
     public void definedTerm()
     {
-        markup( "<dt><b>" );
+        markup("<dt><b>");
     }
 
     public void definedTerm_()
     {
-        markup( "</b></dt>" + EOL );
+        markup("</b></dt>" + EOL);
     }
 
     public void definition()
     {
-        markup( "<dd>" );
-        itemFlag++;
+        markup("<dd>");
+        //itemFlag++;
         // What follows is at least a paragraph.
     }
 
     public void definition_()
     {
-        markup( "</dd>" + EOL );
+        markup("</dd>" + EOL);
     }
 
     public void paragraph()
     {
-        if ( itemFlag == 0 )
+        if (itemFlag == 0)
         {
-            markup( "<p>" );
+            markup("<p>");
+        }
+    }
+
+    public void paragraph(String styleClass)
+    {
+        if (itemFlag == 0)
+        {
+            if (styleClass != null)
+            {
+                markup("<p class=\"" + styleClass + "\">");
+            }
+            else
+            {
+                markup("<p>");
+            }
         }
     }
 
     public void paragraph_()
     {
-        if ( itemFlag == 0 )
+        if (itemFlag == 0)
         {
-            markup( "</p>" );
+            markup("</p>");
         }
         else
         {
@@ -316,92 +388,124 @@ public class AndromdadocSink
 
     }
 
-    public void verbatim( boolean boxed )
+    public void verbatim(boolean boxed)
     {
         verbatimFlag = true;
         boxedFlag = boxed;
-        if ( boxed )
-        {
-            markup( "<source>" );
-        }
-        else
-        {
-            markup( "<pre>" );
-        }
+        markup("<div class=\"source\"><pre>");
     }
 
     public void verbatim_()
     {
-        if ( boxedFlag )
-        {
-            markup( "</source>" );
-        }
-        else
-        {
-            markup( "</pre>" );
-        }
-
+        markup("</pre></div>");
         verbatimFlag = false;
-
         boxedFlag = false;
     }
 
     public void horizontalRule()
     {
-        markup( "<hr />" );
+        markup("<hr />");
     }
 
     public void table()
     {
-        markup( "<table align=\"center\">" + EOL );
+        markup("<table align=\"center\">" + EOL);
     }
 
+    public void table(String styleClass)
+    {
+        if (StringUtils.isNotEmpty(styleClass))
+        {
+            markup("<table class=\"" + styleClass + "\">" + EOL);
+        }
+        else
+        {
+            this.table();
+        }
+    }
+    
     public void table_()
     {
-        markup( "</table>" );
+        markup("</table>" + EOL);
     }
 
-    public void tableRows( int[] justification, boolean grid )
+    public void tableRows(int[] justification, boolean grid)
 
     {
-        markup( "<table align=\"center\" border=\"" + ( grid ? 1 : 0 ) + "\">" + EOL );
+        markup("<table align=\"center\" border=\"" + (grid ? 1 : 0) + "\">" + EOL);
         this.cellJustif = justification;
     }
 
     public void tableRows_()
     {
-        markup( "</table>" );
+        markup("</table>" + EOL);
     }
 
     public void tableRow()
     {
-        markup( "<tr valign=\"top\">" + EOL );
+        markup("<tr valign=\"top\">" + EOL);
         cellCount = 0;
     }
 
+    public void tableRow(String styleClass)
+    {
+        if (StringUtils.isNotEmpty(styleClass))
+        {
+            markup("<tr class=\"" + styleClass + "\">" + EOL);
+        }
+        else
+        {
+            this.tableRow();
+        }
+        cellCount = 0;
+    }
+    
     public void tableRow_()
     {
-        markup( "</tr>" + EOL );
+        markup("</tr>" + EOL);
         cellCount = 0;
     }
 
     public void tableCell()
     {
-        tableCell( false );
+        tableCell(false);
     }
 
     public void tableHeaderCell()
     {
-        tableCell( true );
+        tableCell(true);
     }
 
-    public void tableCell( boolean headerRow )
+    public void tableHeaderCell(String width, String styleClass)
+    {
+        if (StringUtils.isNotEmpty(styleClass) || StringUtils.isNotEmpty(width))
+        {
+            markup("<th");
+
+            if (StringUtils.isNotEmpty(styleClass))
+            {
+                markup(" class=\"" + styleClass + "\"");
+            }
+
+            if (StringUtils.isNotEmpty(width))
+            {
+                markup(" width=\"" + width + "\"");
+            }
+            markup(">" + EOL);
+        }
+        else
+        {
+            this.tableHeaderCell();
+        }
+    }
+
+    public void tableCell(boolean headerRow)
     {
         String justif = null;
 
-        if ( cellJustif != null )
+        if (cellJustif != null)
         {
-            switch ( cellJustif[cellCount] )
+            switch (cellJustif[cellCount])
             {
                 case AptParser.JUSTIFY_LEFT:
                     justif = "left";
@@ -416,162 +520,258 @@ public class AndromdadocSink
             }
         }
 
-        if ( justif != null )
+        if (justif != null)
         {
-            markup( "<t" + ( headerRow ? 'h' : 'd' ) + " align=\"" + justif + "\">" );
+            markup("<t" + (headerRow ? 'h' : 'd') + " align=\"" + justif + "\">" + EOL);
         }
         else
         {
-            markup( "<t" + ( headerRow ? 'h' : 'd' ) + ">" );
+            markup("<t" + (headerRow ? 'h' : 'd') + ">" + EOL);
+        }
+    }
+
+    public void tableCell(String width, String styleClass, String colspan)
+    {
+        if (StringUtils.isNotEmpty(styleClass) || 
+                StringUtils.isNotEmpty(width) || 
+                (StringUtils.isNotEmpty(colspan) && StringUtils.isNumeric(colspan)))
+        {
+            markup("<td");
+            if (StringUtils.isNotEmpty(styleClass))
+            {
+                markup(" class=\"" + styleClass + "\"");
+            }
+            if (StringUtils.isNotEmpty(width))
+            {
+                markup(" width=\"" + width + "\"");
+            }
+            if (StringUtils.isNotEmpty(colspan))
+            {
+                markup(" colspan=\"" + colspan + "\"");
+            }
+            markup(">" + EOL);
+        }
+        else
+        {
+            this.tableCell();
         }
     }
 
     public void tableCell_()
     {
-        tableCell_( false );
+        tableCell_(false);
     }
 
     public void tableHeaderCell_()
     {
-        tableCell_( true );
+        tableCell_(true);
     }
 
-    public void tableCell_( boolean headerRow )
+    public void tableCell_(boolean headerRow)
     {
-        markup( "</t" + ( headerRow ? 'h' : 'd' ) + ">" + EOL );
+        markup("</t" + (headerRow ? 'h' : 'd') + ">" + EOL);
         ++cellCount;
     }
 
     public void tableCaption()
     {
-        markup( "<p><i>" );
+        markup("<p><i>");
     }
 
     public void tableCaption_()
     {
-        markup( "</i></p>" );
+        markup("</i></p>");
     }
 
-    public void anchor( String name )
+    public void anchor(String name)
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            String id = StructureSink.linkToKey( name );
-            markup( "<a id=\"" + id + "\" name=\"" + id + "\">" );
+            String id = StructureSink.linkToKey(name);
+            markup("<a id=\"" + id + "\" name=\"" + id + "\">" + EOL);
+        }
+    }
+
+    public void anchor(String styleClass, String name)
+    {
+        if (StringUtils.isNotEmpty(name))
+        {
+            markup("<a name=\"" + name + "\"");
+
+            if (StringUtils.isNotEmpty(styleClass))
+            {
+                markup(" class=\"" + styleClass + "\"");
+            }
+            else
+            {
+                final String id = StructureSink.linkToKey(name);
+                markup(" id=\"" + id + "\"");
+            }
+            markup(">" + EOL);
+        }
+        else
+        {
+            this.anchor(name);
         }
     }
 
     public void anchor_()
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "</a>" );
+            markup("</a>" + EOL);
         }
     }
 
-    public void link( String name )
+    public void link(String name)
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "<a href=\"" + name + "\">" );
+            markup("<a href=\"" + name + "\">" + EOL);
+        }
+    }
+
+    public void link(
+            String styleClass, 
+            String target, 
+            String href,
+            String name)
+    {
+        if (StringUtils.isNotEmpty(styleClass)
+                || StringUtils.isNotEmpty(target)
+                || StringUtils.isNotEmpty(href)
+                || StringUtils.isNotEmpty(name))
+        {
+            markup("<a");
+
+            if (StringUtils.isNotEmpty(styleClass))
+            {
+                markup(" class=\"" + styleClass + "\"");
+            }
+            if (StringUtils.isNotEmpty(target))
+            {
+                markup(" target=\"" + target + "\"");
+
+                /**
+                 * Set the class style to newWindow if it's a new window and no style is specified
+                 */
+                if (target.equalsIgnoreCase("_blank")
+                        && StringUtils.isEmpty(styleClass))
+                {
+                    markup(" class=\"newWindow\" title=\"New Window\"");
+                }
+            }
+            if (StringUtils.isNotEmpty(name))
+            {
+                markup(" name=\"" + name + "\"");
+            }
+            if (StringUtils.isNotEmpty(href))
+            {
+                markup(" href=\"" + href + "\"");
+            }
+            markup(">" + EOL);
+        }
+        else
+        {
+            this.link(href);
         }
     }
 
     public void link_()
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "</a>" );
+            markup("</a>" + EOL);
         }
     }
 
     public void italic()
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "<i>" );
+            markup("<i>");
         }
     }
 
     public void italic_()
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "</i>" );
+            markup("</i>");
         }
     }
 
     public void bold()
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "<b>" );
+            markup("<b>");
         }
     }
 
     public void bold_()
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "</b>" );
+            markup("</b>");
         }
     }
 
     public void monospaced()
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "<tt>" );
+            markup("<tt>");
         }
     }
 
     public void monospaced_()
     {
-        if ( !headFlag )
+        if (!headFlag)
         {
-            markup( "</tt>" );
+            markup("</tt>");
         }
     }
 
     public void lineBreak()
     {
-        if ( headFlag )
+        if (headFlag)
         {
-            buffer.append( EOL );
+            buffer.append(EOL);
         }
         else
         {
-            markup( "<br />" );
+            markup("<br />");
         }
     }
 
     public void nonBreakingSpace()
     {
-        if ( headFlag )
+        if (headFlag)
         {
-            buffer.append( ' ' );
+            buffer.append(' ');
         }
         else
         {
-            markup( "&#160;" );
+            markup("&#160;");
         }
     }
 
-    public void text( String text )
+    public void text(String text)
     {
-        if ( headFlag )
+        if (headFlag)
         {
-            buffer.append( text );
+            buffer.append(text);
         }
         else
         {
-            if ( verbatimFlag )
+            if (verbatimFlag)
             {
-                verbatimContent( text );
+                verbatimContent(text);
             }
             else
             {
-                content( text );
+                content(text);
             }
         }
     }
@@ -580,38 +780,73 @@ public class AndromdadocSink
     //
     // ----------------------------------------------------------------------
 
-    protected void markup( String text )
+    protected void markup(String text)
     {
-        out.write( text, true );
+        if (xhtmlSink != null)
+        {
+            xhtmlSink.rawText(text);
+        }
+        else
+        {
+            out.write(text, true);
+        }
     }
 
-    protected void content( String text )
+    protected void content(String text)
     {
-        out.write( escapeHTML( text ), false );
+        if (xhtmlSink != null)
+        {
+            xhtmlSink.rawText(escapeHTML(text));
+        }
+        else
+        {
+            out.write(escapeHTML(text), false);
+        }
     }
 
-    protected void verbatimContent( String text )
+    protected void verbatimContent(String text)
     {
-        out.write( escapeHTML( text ), true );
+        if (xhtmlSink != null)
+        {
+            xhtmlSink.rawText(escapeHTML(text));
+        }
+        else
+        {
+            out.write(escapeHTML(text), true);
+        }
     }
 
-    public static String escapeHTML( String text )
+    public static String escapeHTML(String text)
     {
-        return HtmlTools.escapeHTML( text );
+        return HtmlTools.escapeHTML(text);
     }
 
-    public static String encodeURL( String text )
+    public static String encodeURL(String text)
     {
-        return HtmlTools.encodeURL( text );
+        return HtmlTools.encodeURL(text);
     }
 
     public void flush()
     {
-        out.flush();
+        if (xhtmlSink != null)
+        {
+            xhtmlSink.flush();
+        }
+        else
+        {
+            out.flush();
+        }
     }
 
     public void close()
     {
-        out.close();
+        if (xhtmlSink != null)
+        {
+            xhtmlSink.close();
+        }
+        else
+        {
+            out.close();
+        }
     }
 }

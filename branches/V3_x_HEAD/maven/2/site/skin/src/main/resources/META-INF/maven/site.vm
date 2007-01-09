@@ -109,7 +109,7 @@
       #end
     #end
     #if ( $alignedFileName == $currentItemHref )
-      <string><a href="$currentItemHref">$item.name</a></strong>
+      <strong><a href="$currentItemHref">$item.name</a></strong>
     #else
       <a href="$currentItemHref">$item.name</a>
     #end
@@ -315,7 +315,7 @@
     </div>
     <div id="breadcrumbs">
       <div class="xleft">
-        #publishDate( "left" $decoration.publishDate $decoration.version ) | Doc for ${project.version}
+        #publishDate( "left" $decoration.publishDate $decoration.version )&nbsp;| Doc for ${project.version}
       </div>
       <div class="xright">
         #links( $decoration.body.links )

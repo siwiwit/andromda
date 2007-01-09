@@ -65,15 +65,13 @@
                         <xsl:for-each select="element">
                             <xsl:sort select="value"/>
                             <li>
-                                <p>
-	                                <xsl:element name="a">
-	                                    <xsl:attribute name="href">#<xsl:value-of select="normalize-space(value)"/></xsl:attribute>
-	                                    <xsl:attribute name="title">
-	                                        <xsl:if test="appliedOnElement">Applied on: <xsl:value-of select="normalize-space(appliedOnElement)"/></xsl:if>
-	                                    </xsl:attribute>
-	                                    <xsl:value-of select="normalize-space(value)"/>
-	                                </xsl:element>
-	                            </p>
+                                <xsl:element name="a">
+                                    <xsl:attribute name="href">#<xsl:value-of select="normalize-space(value)"/></xsl:attribute>
+                                    <xsl:attribute name="title">
+                                        <xsl:if test="appliedOnElement">Applied on: <xsl:value-of select="normalize-space(appliedOnElement)"/></xsl:if>
+                                    </xsl:attribute>
+                                    <xsl:value-of select="normalize-space(value)"/>
+                                </xsl:element>
                             </li>
                         </xsl:for-each>
                     </ul>
@@ -128,16 +126,14 @@
                             <ul>
                                 <xsl:for-each select="allowedValues/value">
                                     <li>
-                                        <p>
-	                                        <xsl:choose>
-	                                            <xsl:when test="@default='true'">
-	                                                <code class="defaultValue"><xsl:copy-of select="."/></code> (default)
-	                                            </xsl:when>
-	                                            <xsl:otherwise>
-	                                                <code><xsl:copy-of select="."/></code>
-	                                            </xsl:otherwise>
-	                                        </xsl:choose>
-	                                    </p>
+                                        <xsl:choose>
+                                            <xsl:when test="@default='true'">
+                                                <code class="defaultValue"><xsl:copy-of select="."/></code> (default)
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <code><xsl:copy-of select="."/></code>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
                                     </li>
                                 </xsl:for-each>
                             </ul>

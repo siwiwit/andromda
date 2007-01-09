@@ -6,7 +6,7 @@
         <artifactId>andromda-maven-plugins</artifactId>
         <version>3.3-SNAPSHOT</version>
     </parent>
-    <groupId>org.andromda.maven.site</groupId>
+    <groupId>org.andromda.maven.plugins.site</groupId>
     <artifactId>andromda-site-plugins</artifactId>
     <packaging>pom</packaging>
     <name>AndroMDA Maven Site Plugins</name>
@@ -27,7 +27,8 @@
     </build>
     <modules>
         <module>doxia</module>
-        <module>plugin</module>
+        <module>plugin/site</module>
+        <module>plugin/cartridge</module>
         <module>skin</module>
     </modules>
 </project>

@@ -1,7 +1,7 @@
 package org.andromda.maven.doxia.module.xdoc;
 
 /*
- * Copyright 2004-2005 The Apache Software Foundation.
+ * Copyright 2004-2006 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,438 +32,350 @@ import java.util.Map;
 /**
  * Parse an xdoc model and emit events into the specified doxia
  * Sink.
+ * 
+ * Based taken from Apache Foundation Doxia Project.
  *
- * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
- * @version $Id: AndromdadocParser.java,v 1.1.2.1 2006-09-14 08:10:39 vancek Exp $
+ * @version $Id: AndromdadocParser.java,v 1.1.2.2 2007-01-09 03:20:42 vancek Exp $
  * 
  * @plexus.component role="org.apache.maven.doxia.parser.Parser" role-hint="andromdadoc"
  */
-public class AndromdadocParser
-    extends AbstractParser
+public class AndromdadocParser extends AbstractParser
 {
-    public void parse( Reader reader, Sink sink )
+    public void parse(Reader reader, Sink sink) 
         throws ParseException
     {
         try
         {
             XmlPullParser parser = new MXParser();
 
-            parser.setInput( reader );
+            parser.setInput(reader);
 
-            parseXdoc( parser, sink );
+            parseXdoc(parser, sink);
         }
-        catch ( Exception ex )
+        catch (Exception ex)
         {
-            throw new ParseException( "Error parsing the model.", ex );
+            throw new ParseException("Error parsing the model.", ex);
         }
     }
 
-    public void parseXdoc( XmlPullParser parser, Sink sink )
+    public void parseXdoc(XmlPullParser parser, Sink sink) 
         throws Exception
     {
+        /**
+         * Because the AndromdadocSink is not currently detected, explicity instantiate it here
+         */
+        final AndromdadocSink andromdaSink = new AndromdadocSink(sink);
+        
+        String sourceLanguage = null;
+
         int eventType = parser.getEventType();
 
-        while ( eventType != XmlPullParser.END_DOCUMENT )
+        while (eventType != XmlPullParser.END_DOCUMENT)
         {
-            if ( eventType == XmlPullParser.START_TAG )
+            if (eventType == XmlPullParser.START_TAG)
             {
-                if ( parser.getName().equals( "document" ) )
+                if (parser.getName().equals("document"))
                 {
                     //Do nothing
                 }
-                else if ( parser.getName().equals( "title" ) )
+                else if (parser.getName().equals("title"))
                 {
                     sink.title();
                 }
-                else if ( parser.getName().equals( "author" ) )
+                else if (parser.getName().equals("author"))
                 {
                     sink.author();
                 }
-                else if ( parser.getName().equals( "body" ) )
+                else if (parser.getName().equals("body"))
                 {
                     sink.body();
                 }
-                else if ( parser.getName().equals( "section" ) )
+                else if (parser.getName().equals("section"))
                 {
-                    sink.anchor( parser.getAttributeValue( null, "name" ) );
+                    final String name = parser.getAttributeValue(null, "name");
+                    sink.anchor(name);
                     sink.anchor_();
-                    
                     sink.section1();
-
                     sink.sectionTitle1();
-
-                    sink.text( parser.getAttributeValue( null, "name" ) );
-
+                    sink.text(name);
                     sink.sectionTitle1_();
                 }
-                else if ( parser.getName().equals( "subsection" ) )
+                else if (parser.getName().equals("subsection"))
                 {
-                    sink.anchor( parser.getAttributeValue( null, "name" ) );
+                    /**
+                     * sink.section2 invokes the callback in the xhtml sink - part of 
+                     * the doxia modules package - instead we override that locally.
+                     */
+                    final String name = parser.getAttributeValue(null, "name");
+                    sink.anchor(name);
                     sink.anchor_();
-                    
-                    sink.section2();
-
-                    sink.sectionTitle2();
-
-                    sink.text( parser.getAttributeValue( null, "name" ) );
-
-                    sink.sectionTitle2_();
+                    andromdaSink.subsection(name);
                 }
-                else if ( parser.getName().equals( "p" ) )
+                else if (parser.getName().equals("p"))
                 {
-                    final String styleClass = parser.getAttributeValue( null, "class" );
-                    this.writeParagraph( sink, styleClass );
+                    final String styleClass = parser.getAttributeValue(null, "class");
+                    andromdaSink.paragraph(styleClass);
                 }
-                else if ( parser.getName().equals( "source" ) )
+                else if (parser.getName().equals("source"))
                 {
-                    sink.verbatim( true );
+                    sourceLanguage = parser.getAttributeValue(null, "language");
+                    andromdaSink.verbatim(true);
                 }
-                else if ( parser.getName().equals( "ul" ) )
+                else if (parser.getName().equals("ul"))
                 {
-                    sink.list();
+                    final String styleClass = parser.getAttributeValue(null, "class");
+                    andromdaSink.list(styleClass);
                 }
-                else if ( parser.getName().equals( "ol" ) )
+                else if (parser.getName().equals("ol"))
                 {
-                    sink.numberedList( Sink.NUMBERING_DECIMAL );
+                    andromdaSink.numberedList(Sink.NUMBERING_DECIMAL);
                 }
-                else if ( parser.getName().equals( "li" ) )
+                else if (parser.getName().equals("li"))
                 {
-                    final String styleClass = parser.getAttributeValue( null, "class" );
-                    this.writeListItem( sink, styleClass );
+                    final String styleClass = parser.getAttributeValue(null, "class");
+                    andromdaSink.listItem(styleClass);
                 }
-                else if ( parser.getName().equals( "properties" ) )
+                else if (parser.getName().equals("properties"))
                 {
                     sink.head();
                 }
-                else if ( parser.getName().equals( "b" ) )
+                else if (parser.getName().equals("b"))
                 {
                     sink.bold();
                 }
-                else if ( parser.getName().equals( "i" ) )
+                else if (parser.getName().equals("i"))
                 {
                     sink.italic();
                 }
-                else if ( parser.getName().equals( "a" ) )
+                else if (parser.getName().equals("a"))
                 {
-                    final String styleClass = parser.getAttributeValue( null, "class" );
-                    final String target = parser.getAttributeValue( null, "target" );
-                    final String href = parser.getAttributeValue( null, "href" );
-                    
-                    if ( StringUtils.isNotEmpty( href ) )
+                    final String styleClass = parser.getAttributeValue(null, "class");
+                    final String target = parser.getAttributeValue(null, "target");
+                    final String href = parser.getAttributeValue(null, "href");
+                    final String name = parser.getAttributeValue(null, "name");
+
+                    if (StringUtils.isNotEmpty(styleClass)
+                            || StringUtils.isNotEmpty(target)
+                            || StringUtils.isNotEmpty(href))
                     {
-                        this.writeLink( sink, styleClass, target, href );
+                        andromdaSink.link(styleClass, target, href, name);
                     }
                     else
                     {
-                        final String name = parser.getAttributeValue( null, "name" );
-                        if ( StringUtils.isNotEmpty( name ) )
+                        if (StringUtils.isNotEmpty(name))
                         {
-                            this.writeAnchor( sink, styleClass, name );
+                            andromdaSink.anchor(styleClass, name);
                         }
                         else
                         {
-                            handleRawText( sink, parser );
+                            handleRawText(sink, parser);
                         }
                     }
                 }
-                else if ( parser.getName().equals( "macro" ) )
+                else if (parser.getName().equals("macro"))
                 {
-                    String macroId = parser.getAttributeValue( null, "id" );
+                    String macroId = parser.getAttributeValue(null, "id");
 
                     int count = parser.getAttributeCount();
 
                     Map parameters = new HashMap();
 
-                    for ( int i = 1; i < count; i++ )
+                    for (int i = 1; i < count; i++)
                     {
-                        parameters.put( parser.getAttributeName( i ), parser.getAttributeValue( i ) );
+                        parameters.put(parser.getAttributeName(i), parser.getAttributeValue(i));
                     }
 
-                    MacroRequest request = new MacroRequest( parameters );
+                    MacroRequest request = new MacroRequest(parameters);
 
-                    executeMacro( macroId, request, sink );
+                    executeMacro(macroId, request, sink);
                 }
 
                 // ----------------------------------------------------------------------
                 // Tables
                 // ----------------------------------------------------------------------
 
-                else if ( parser.getName().equals( "table" ) )
+                else if (parser.getName().equals("table"))
                 {
-                    sink.table();
+                    final String styleClass = parser.getAttributeValue(null, "class");
+                    andromdaSink.table(styleClass);
                 }
-                else if ( parser.getName().equals( "tr" ) )
+                else if (parser.getName().equals("tr"))
                 {
-                    sink.tableRow();
+                    final String styleClass = parser.getAttributeValue(null, "class");
+                    andromdaSink.tableRow(styleClass);
                 }
-                else if ( parser.getName().equals( "th" ) )
+                else if (parser.getName().equals("th"))
                 {
-                    final String width = parser.getAttributeValue( null, "width" );
-                    final String styleClass = parser.getAttributeValue( null, "class" );
-                    this.writeTableHeaderCell( sink, width, styleClass );
+                    final String width = parser.getAttributeValue(null, "width");
+                    final String styleClass = parser.getAttributeValue(null, "class");
+                    andromdaSink.tableHeaderCell(width, styleClass);
                 }
-                else if ( parser.getName().equals( "td" ) )
+                else if (parser.getName().equals("td"))
                 {
-                    String width = parser.getAttributeValue( null, "width" );
-                    String styleClass = parser.getAttributeValue( null, "class" );
-                    this.writeTableCell( sink, width, styleClass );
+                    String width = parser.getAttributeValue(null, "width");
+                    String styleClass = parser.getAttributeValue(null, "class");
+                    String colspan = parser.getAttributeValue(null, "colspan");
+                    andromdaSink.tableCell(width, styleClass, colspan);
                 }
                 else
                 {
-                    handleRawText( sink, parser );
+                    handleRawText(sink, parser);
                 }
             }
-            else if ( eventType == XmlPullParser.END_TAG )
+            else if (eventType == XmlPullParser.END_TAG)
             {
-                if ( parser.getName().equals( "document" ) )
+                if (parser.getName().equals("document"))
                 {
                     //Do nothing
                 }
-                else if ( parser.getName().equals( "title" ) )
+                else if (parser.getName().equals("title"))
                 {
                     sink.title_();
                 }
-                else if ( parser.getName().equals( "author" ) )
+                else if (parser.getName().equals("author"))
                 {
                     sink.author_();
                 }
-                else if ( parser.getName().equals( "body" ) )
+                else if (parser.getName().equals("body"))
                 {
                     sink.body_();
                 }
-                else if ( parser.getName().equals( "p" ) )
+                else if (parser.getName().equals("p"))
                 {
-                    sink.paragraph_();
+                    // sink.paragraph_();
+                    andromdaSink.paragraph_();
                 }
-                else if ( parser.getName().equals( "source" ) )
+                else if (parser.getName().equals("source"))
                 {
-                    sink.verbatim_();
+                    andromdaSink.verbatim_();
+                    sourceLanguage = null;
                 }
-                else if ( parser.getName().equals( "ul" ) )
+                else if (parser.getName().equals("ul"))
                 {
-                    sink.list_();
+                    andromdaSink.list_();
                 }
-                else if ( parser.getName().equals( "ol" ) )
+                else if (parser.getName().equals("ol"))
                 {
-                    sink.numberedList_();
+                    andromdaSink.numberedList_();
                 }
-                else if ( parser.getName().equals( "li" ) )
+                else if (parser.getName().equals("li"))
                 {
-                    sink.listItem_();
+                    andromdaSink.listItem_();
                 }
-                else if ( parser.getName().equals( "properties" ) )
+                else if (parser.getName().equals("properties"))
                 {
                     sink.head_();
                 }
-                else if ( parser.getName().equals( "b" ) )
+                else if (parser.getName().equals("b"))
                 {
                     sink.bold_();
                 }
-                else if ( parser.getName().equals( "i" ) )
+                else if (parser.getName().equals("i"))
                 {
                     sink.italic_();
                 }
-                else if ( parser.getName().equals( "a" ) )
+                else if (parser.getName().equals("a"))
                 {
                     // TODO: Note there will be badness if link_ != anchor != </a>
-                    sink.link_();
+                    andromdaSink.link_();
                 }
 
                 // ----------------------------------------------------------------------
                 // Tables
                 // ----------------------------------------------------------------------
 
-                else if ( parser.getName().equals( "table" ) )
+                else if (parser.getName().equals("table"))
                 {
-                    sink.table_();
+                    andromdaSink.table_();
                 }
-                else if ( parser.getName().equals( "tr" ) )
+                else if (parser.getName().equals("tr"))
                 {
-                    sink.tableRow_();
+                    andromdaSink.tableRow_();
                 }
-                else if ( parser.getName().equals( "th" ) )
+                else if (parser.getName().equals("th"))
                 {
-                    sink.tableHeaderCell_();
+                    andromdaSink.tableHeaderCell_();
                 }
-                else if ( parser.getName().equals( "td" ) )
+                else if (parser.getName().equals("td"))
                 {
-                    sink.tableCell_();
+                    andromdaSink.tableCell_();
                 }
 
                 // ----------------------------------------------------------------------
                 // Sections
                 // ----------------------------------------------------------------------
 
-                else if ( parser.getName().equals( "section" ) )
+                else if (parser.getName().equals("section"))
                 {
                     sink.section1_();
                 }
-                else if ( parser.getName().equals( "subsection" ) )
+                else if (parser.getName().equals("subsection"))
                 {
                     sink.section2_();
                 }
                 else
                 {
-                    sink.rawText( "</" );
+                    sink.rawText("</");
 
-                    sink.rawText( parser.getName() );
+                    sink.rawText(parser.getName());
 
-                    sink.rawText( ">" );
+                    sink.rawText(">");
                 }
 
                 // ----------------------------------------------------------------------
                 // Sections
                 // ----------------------------------------------------------------------
             }
-            else if ( eventType == XmlPullParser.TEXT )
+            else if (eventType == XmlPullParser.TEXT)
             {
-                sink.text( parser.getText() );
+                if (StringUtils.isNotEmpty(sourceLanguage))
+                {
+                    if ("xml".equalsIgnoreCase(sourceLanguage.trim()))
+                    {
+                        new HighlightXmlSink().highlight(andromdaSink, parser.getText());
+                    }
+                    else if ("java".equalsIgnoreCase(sourceLanguage.trim()))
+                    {
+                        new HighlightJavaSink().highlight(andromdaSink, parser.getText());
+                    }
+                    else if ("velocity".equalsIgnoreCase(sourceLanguage.trim()))
+                    {
+                        new HighlightVelocitySink().highlight(andromdaSink, parser.getText());
+                    }
+                }
+                else
+                {
+                    sink.text(parser.getText());
+                }
             }
 
             eventType = parser.next();
         }
     }
 
-    private void handleRawText( Sink sink, XmlPullParser parser )
+    private void handleRawText(Sink sink, XmlPullParser parser)
     {
-        sink.rawText( "<" );
+        sink.rawText("<");
 
-        sink.rawText( parser.getName() );
+        sink.rawText(parser.getName());
 
         int count = parser.getAttributeCount();
 
-        for ( int i = 0; i < count; i++ )
+        for (int i = 0; i < count; i++)
         {
-            sink.rawText( " " );
+            sink.rawText(" ");
 
-            sink.rawText( parser.getAttributeName( i ) );
+            sink.rawText(parser.getAttributeName(i));
 
-            sink.rawText( "=" );
+            sink.rawText("=");
 
-            sink.rawText( "\"" );
+            sink.rawText("\"");
 
-            sink.rawText( parser.getAttributeValue( i ) );
+            sink.rawText(parser.getAttributeValue(i));
 
-            sink.rawText( "\"" );
+            sink.rawText("\"");
         }
 
-        sink.rawText( ">" );
-    }
-    
-    private void writeParagraph( Sink sink, String styleClass )
-    {
-        if ( styleClass != null )
-        {
-            sink.rawText( "<p class=\"" + styleClass + "\">" );
-        }
-        else
-        {
-            sink.paragraph();
-        }
-    }
-    
-    private void writeListItem( Sink sink, String styleClass )
-    {
-        if ( StringUtils.isNotEmpty( styleClass ) )
-        {
-            sink.rawText( "<li class=\"" + styleClass + "\">" );
-        }
-        else
-        {
-            sink.listItem();
-        }
-    }
-    
-    private void writeLink( Sink sink, String styleClass, String target, String href )
-    {
-        if ( StringUtils.isNotEmpty( styleClass ) )
-        {
-            sink.rawText( "<a " );
-            
-            if ( StringUtils.isNotEmpty( styleClass ) )
-            {
-                sink.rawText( "class=\"" + styleClass + "\" " );
-            }
-            
-            if ( StringUtils.isNotEmpty( target ) )
-            {
-                sink.rawText( "target=\"" + target + "\" " );
-            }
-            
-            sink.rawText( "href=\"" + href + "\">" );
-        }
-        else
-        {
-            sink.link( href );
-        }
-    }
-
-    private void writeAnchor( Sink sink, String styleClass, String name )
-    {
-        if ( StringUtils.isNotEmpty( name ) )
-        {
-            sink.rawText( "<a name=\"" + name + "\" " );
-            
-            if ( StringUtils.isNotEmpty( styleClass ) )
-            {
-                sink.rawText( "class=\"" + styleClass + "\"" );
-            }
-            else
-            {
-                final String id = StructureSink.linkToKey( name );
-                sink.rawText( "id=\"" + id + "\"" );
-            }
-            sink.rawText( ">" );
-        }
-        else
-        {
-            sink.anchor( name );
-        }
-    }
-    
-    private void writeTableHeaderCell( Sink sink, String width, String styleClass )
-    {
-        if ( StringUtils.isNotEmpty( styleClass ) || StringUtils.isNotEmpty( width ) )
-        {
-            sink.rawText( "<th " );
-            
-            if ( StringUtils.isNotEmpty( styleClass ) )
-            {
-                sink.rawText( " class=\"" + styleClass + "\"" );
-            }
-    
-            if ( StringUtils.isNotEmpty( width ) )
-            {
-                sink.rawText( "width=\"" + width + "\"" );
-            }
-            sink.rawText( ">" );
-        }
-        else
-        {
-            sink.tableHeaderCell();
-        }
-    }
-    
-    private void writeTableCell( Sink sink, String width, String styleClass )
-    {
-        if ( StringUtils.isNotEmpty( styleClass ) || StringUtils.isNotEmpty( width ) )
-        {
-            sink.rawText( "<td " );
-            
-            if ( StringUtils.isNotEmpty( styleClass ) )
-            {
-                sink.rawText( " class=\"" + styleClass + "\"" );
-            }
-    
-            if ( StringUtils.isNotEmpty( width ) )
-            {
-                sink.rawText( "width=\"" + width + "\"" );
-            }
-            sink.rawText( ">" );
-        }
-        else
-        {
-            sink.tableCell();
-        }
+        sink.rawText(">");
     }
 }
