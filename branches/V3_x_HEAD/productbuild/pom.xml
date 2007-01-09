@@ -258,7 +258,7 @@
         </repository>
         <site>
             <id>website</id>
-            <url>/andromda/docs-m2</url>
+            <url>file:/andromda/docs-m2</url>
         </site>
     </distributionManagement>
 </project>
