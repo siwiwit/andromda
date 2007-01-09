@@ -27,6 +27,14 @@
       <name>AndroMDA.org</name>
       <url>http://www.andromda.org/</url>
     </organization>
+    <licenses>
+        <license>
+            <name>The AndroMDA Project</name>
+            <url>licenses/LICENSE.txt</url>
+            <distribution>repo</distribution>
+            <comments>AndroMDA runs under a BSD license</comments>
+        </license>
+    </licenses>
     <ciManagement>
         <system>continuum</system>
         <notifiers>
@@ -174,6 +182,8 @@
                             tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-cartridge-plugin/${pom.version}/andromda-cartridge-plugin-${pom.version}.jar"/>
                         <copy file="${basedir}/lib/org/andromda/maven/plugins/andromda-model-archiver-plugin/andromda-model-archiver-plugin.jar"
                             tofile="${settings.localRepository}/org/andromda/maven/plugins/andromda-model-archiver-plugin/${pom.version}/andromda-model-archiver-plugin-${pom.version}.jar"/>
+                        <copy file="${basedir}/lib/org/andromda/maven/plugins/site/andromda-doxia-module-xdoc/andromda-doxia-module-xdoc.jar"
+                            tofile="${settings.localRepository}/org/andromda/maven/plugins/site/andromda-doxia-module-xdoc/${pom.version}/andromda-doxia-module-xdoc-${pom.version}.jar"/>
 					</tasks>
 				</configuration>
 			</plugin>
@@ -185,6 +195,21 @@
                   <source>1.4</source>
                   <target>1.4</target>
                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.andromda.maven.plugins.site</groupId>
+                        <artifactId>andromda-doxia-module-xdoc</artifactId>
+                        <version>${pom.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <locales>en</locales>
+                    <outputEncoding>UTF-8</outputEncoding>
+                </configuration>
             </plugin>
 		</plugins>
     </build>
@@ -205,6 +230,7 @@
         <module>etc/web/taglibs</module>
         <module>etc/schema2xmi</module>
         <module>etc/script-wrappers</module>
+        <module>documentation</module>
     </modules>
     <repositories>
         <repository>
@@ -230,5 +256,9 @@
             <url>file:/var/www/andromda/maven2</url>
             <uniqueVersion>false</uniqueVersion>
         </repository>
+        <site>
+            <id>website</id>
+            <url>/andromda/docs-m2</url>
+        </site>
     </distributionManagement>
 </project>

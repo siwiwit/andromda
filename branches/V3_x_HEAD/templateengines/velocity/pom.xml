@@ -9,6 +9,12 @@
     <packaging>jar</packaging>
     <name>AndroMDA Velocity Template Engine</name>
     <description>The template engine that supports Apache's Velocity scripting language.</description>
+    <scm>
+        <connection>scm:cvs:pserver:anonymous:@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/templateengines/velocity</connection>
+        <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
+        <tag>V3_x_HEAD</tag>
+        <url>http://andromda.cvs.sourceforge.net/</url>
+    </scm>
     <dependencies>
     	<dependency> 
     		<groupId>velocity</groupId>
@@ -33,7 +39,11 @@
                 <configuration>
                     <installDirectory>${basedir}/../../lib</installDirectory>
                 </configuration>
-            </plugin>            
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+            </plugin>           
         </plugins>
     </build>
 </project>

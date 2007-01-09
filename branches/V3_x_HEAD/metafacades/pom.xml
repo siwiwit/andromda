@@ -9,6 +9,12 @@
     <artifactId>andromda-metafacades</artifactId>
     <packaging>pom</packaging>
     <name>AndroMDA Metafacades</name>
+    <scm>
+        <connection>scm:cvs:pserver:anonymous:@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/metafacades</connection>
+        <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
+        <tag>V3_x_HEAD</tag>
+        <url>http://andromda.cvs.sourceforge.net/</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.andromda</groupId>
@@ -33,4 +39,16 @@
     <modules>
         <module>uml</module>
     </modules>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

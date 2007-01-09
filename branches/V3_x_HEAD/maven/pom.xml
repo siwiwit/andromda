@@ -23,6 +23,18 @@
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin> 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
     <modules>
         <module>2/initialize</module>
         <module>2/andromda</module>

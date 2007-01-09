@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA EMF UML2 Metafacades Namespace</title></properties><body>
+    <section name="AndroMDA EMF UML2 Metafacades Namespace Components"><ul>
+    <li>metafacades</li>
+    <li>profile</li>
+</ul></section>
+<section name="AndroMDA EMF UML2 Metafacades Namespace Properties"><div class="namespacePropertyGroup"><a name="Masking" class="namespacePropertyGroup">Masking</a><div class="namespacePropertyGroupDocumentation"><documentation>
+            Certain namespace properties (the ones listed below) are used to provide masking of names.
+            For example a name such as "Hospital Visit" given to an enumeration literal could be transformed
+            into <em>'HOSPITAL_VISIT'</em> during model processing by applying the <em>'upperunderscore'</em>
+            mask to it.
+            When applicable, the following masks are available:
+            <ul>
+                <li>uppercase - upper cases the name (i.e. "Hospital Visit" would become <em>HOSPITAL VISIT</em>)</li>
+                <li>lowercase - lower cases the name (i.e. "Hospital Visit" would become <em>hospital visit</em>)</li>
+                <li>upperunderscore - upper cases the name and replaces all non-word characters with an underscore (i.e. "Hospital Visit" would become <em>HOSPITAL_VISIT</em>)</li>
+                <li>lowerunderscore - lower cases the name and replaces all non-word characters with an underscore (i.e. "Hospital Visit" would become <em>hospital_visit</em>)</li>
+                <li>underscore - replaces all non-word characters with an underscore (i.e. "Hospital Visit" would become <em>Hospital_Visit</em>)</li>
+                <li>nospace - removes all spaces (i.e. "Hospital Visit" would become <em>HospitalVisit</em>)</li>
+                <li>uppercamelcase - camel cases the word beginning with an upper cased letter (i.e. "Hospital Visit" would become <em>HospitalVisit</em>)</li>
+                <li>lowercamelcase - camel cases the word beginning with a lower cased letter (i.e. "Hospital Visit" would become <em>hospitalVisit</em></li>
+                <li>none - no mask is applied</li>
+            </ul>
+        </documentation></div><ul><li><a href="#classifierNameMask" title="Optional, defaults to &apos;none&apos;">classifierNameMask</a></li><li><a href="#classifierPropertyNameMask" title="Optional, defaults to &apos;none&apos;">classifierPropertyNameMask</a></li><li><a href="#entityNameMask" title="Optional, defaults to &apos;none&apos;">entityNameMask</a></li><li><a href="#entityPropertyNameMask" title="Optional, defaults to &apos;none&apos;">entityPropertyNameMask</a></li><li><a href="#enumerationLiteralNameMask" title="Optional, defaults to &apos;none&apos;">enumerationLiteralNameMask</a></li><li><a href="#enumerationNameMask" title="Optional, defaults to &apos;none&apos;">enumerationNameMask</a></li><li><a href="#operationNameMask" title="Optional, defaults to &apos;none&apos;">operationNameMask</a></li><li><a href="#parameterNameMask" title="Optional, defaults to &apos;none&apos;">parameterNameMask</a></li><li><a href="#roleNameMask" title="Optional, defaults to &apos;none&apos;">roleNameMask</a></li></ul></div><div class="namespacePropertyGroup"><a name="Other" class="namespacePropertyGroup">Other</a><ul><li><a href="#allowDefaultIdentifiers" title="Optional, defaults to &apos;true&apos;">allowDefaultIdentifiers</a></li><li><a href="#arrayNameSuffix" title="Optional, defaults to &apos;[]&apos;">arrayNameSuffix</a></li><li><a href="#columnNamePrefix" title="Optional, no default value available">columnNamePrefix</a></li><li><a href="#constraintSuffix" title="Optional, defaults to &apos;C&apos;">constraintSuffix</a></li><li><a href="#defaultEnumerationLiteralType" title="Optional, defaults to &apos;datatype::String&apos;">defaultEnumerationLiteralType</a></li><li><a href="#defaultIdentifierPattern" title="Optional, defaults to &apos;id&apos;">defaultIdentifierPattern</a></li><li><a href="#defaultIdentifierType" title="Optional, defaults to &apos;datatype::Long&apos;">defaultIdentifierType</a></li><li><a href="#defaultIdentifierVisibility" title="Optional, defaults to &apos;public&apos;">defaultIdentifierVisibility</a></li><li><a href="#defaultMaximumListSize" title="Optional, defaults to &apos;250&apos;">defaultMaximumListSize</a></li><li><a href="#defaultMultiplicity" title="Optional, defaults to &apos;1&apos;">defaultMultiplicity</a></li><li><a href="#defaultPageSize" title="Optional, defaults to &apos;20&apos;">defaultPageSize</a></li><li><a href="#defaultResolveable" title="Optional, defaults to &apos;true&apos;">defaultResolveable</a></li><li><a href="#enableManageableEntities" title="Optional, defaults to &apos;true&apos;">enableManageableEntities</a></li><li><a href="#enableMetafacadePropertyCaching" title="Optional, defaults to &apos;true&apos;">enableMetafacadePropertyCaching</a></li><li><a href="#enableTemplating" title="Optional, defaults to &apos;false&apos;">enableTemplating</a></li><li><a href="#foreignKeySuffix" title="Optional, defaults to &apos;_FK&apos;">foreignKeySuffix</a></li><li><a href="#jdbcMappingsUri" title="Optional, no default value available">jdbcMappingsUri</a></li><li><a href="#languageMappingsUri" title="Required">languageMappingsUri</a></li><li><a href="#manageableIdDisplayStrategy" title="Optional, defaults to &apos;auto&apos;">manageableIdDisplayStrategy</a></li><li><a href="#manageablePackageSuffix" title="Optional, defaults to &apos;crud&apos;">manageablePackageSuffix</a></li><li><a href="#manageableServiceAccessorPattern" title="Optional, no default value available">manageableServiceAccessorPattern</a></li><li><a href="#maxSqlNameLength" title="Optional, defaults to &apos;30&apos;">maxSqlNameLength</a></li><li><a href="#namespaceSeparator" title="Optional, defaults to &apos;.&apos;">namespaceSeparator</a></li><li><a href="#pluralizeAssociationEndNames" title="Optional, defaults to &apos;true&apos;">pluralizeAssociationEndNames</a></li><li><a href="#postconditionNamePattern" title="Optional, defaults to &apos;{0}Postcondition&apos;">postconditionNamePattern</a></li><li><a href="#preconditionNamePattern" title="Optional, defaults to &apos;{0}Precondition&apos;">preconditionNamePattern</a></li><li><a href="#relationNameSeparator" title="Optional, defaults to &apos;2&apos;">relationNameSeparator</a></li><li><a href="#schemaName" title="Optional, no default value available">schemaName</a></li><li><a href="#servicePackageNamePattern" title="Optional, defaults to &apos;{0}&apos;">servicePackageNamePattern</a></li><li><a href="#sqlMappingsUri" title="Optional, no default value available">sqlMappingsUri</a></li><li><a href="#sqlNameSeparator" title="Optional, defaults to &apos;_&apos;">sqlNameSeparator</a></li><li><a href="#tableNamePrefix" title="Optional, no default value available">tableNamePrefix</a></li><li><a href="#toDoTag" title="Optional, defaults to &apos;@todo&apos;">toDoTag</a></li><li><a href="#typeSafeEnumsEnabled" title="Optional, defaults to &apos;false&apos;">typeSafeEnumsEnabled</a></li><li><a href="#undefinedName" title="Optional, defaults to &apos;undefined&apos;">undefinedName</a></li><li><a href="#useArraysForMultiplicitiesOfTypeMany" title="Optional, defaults to &apos;false&apos;">useArraysForMultiplicitiesOfTypeMany</a></li><li><a href="#wrapperMappingsUri" title="Required">wrapperMappingsUri</a></li></ul></div><p>
+    
+        
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="classifierNameMask" class="namespacePropertyTitle">classifierNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+               Provides the ability to apply a mask to all classifier names.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="operationNameMask" class="namespacePropertyTitle">operationNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Provides the ability to apply a mask to all operation names.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="classifierPropertyNameMask" class="namespacePropertyTitle">classifierPropertyNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Provides the ability to apply a mask to all classifier property names.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="roleNameMask" class="namespacePropertyTitle">roleNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Provides the ability to apply a mask to role names (roles
+                are actors).
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enumerationNameMask" class="namespacePropertyTitle">enumerationNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Provides the ability to apply a mask to enumeration names.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="entityNameMask" class="namespacePropertyTitle">entityNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Provides the ability to apply a mask to entity names
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="entityPropertyNameMask" class="namespacePropertyTitle">entityPropertyNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Provides the ability to apply a mask to entity property names.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="parameterNameMask" class="namespacePropertyTitle">parameterNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Provides the ability to apply a mask to all parameter names.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enumerationLiteralNameMask" class="namespacePropertyTitle">enumerationLiteralNameMask</a><a href="#Masking" title="Go to Masking namespace element group">(Back to Masking)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Provides the ability to apply a mask to all enumeration literal names.
+            </documentation></td></tr></table></div>
+    
+    
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="languageMappingsUri" class="namespacePropertyTitle">languageMappingsUri</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                URI specifying the specific mappings from model types to language types.
+                (i.e. file:${basedir}/JavaMappings.xml)
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="wrapperMappingsUri" class="namespacePropertyTitle">wrapperMappingsUri</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                URI specifying primitive type to wrapper types (i.e.
+                int -&gt; java.lang.Integer)
+                (i.e. file:${basedir}/JavaWrapperMappings.xml)
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="pluralizeAssociationEndNames" class="namespacePropertyTitle">pluralizeAssociationEndNames</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Turns on/off the pluralization of association ends with multiplicities
+                greater than one.  You'll want to turn off this feature if your model
+                is in a language other than english.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="namespaceSeparator" class="namespacePropertyTitle">namespaceSeparator</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">.</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Used to separate namespaces within the generated code.  For example
+                setting this to '.' causes fully qualified names to be defined as
+                'some.package.name.SomeClass'.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="undefinedName" class="namespacePropertyTitle">undefinedName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">undefined</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                When a model element name is unspecified this is
+                the name used (instead of null).
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enableTemplating" class="namespacePropertyTitle">enableTemplating</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Determines whether or not to enable templating, enabling this feature will produce
+                fully qualified names with their template parameters. Also, class names that are
+                implicitly templates will also have them present (eg.
+                <code>Person:addresses : datatype::List&lt;Address&gt;</code> for class associations).
+                Set this property to <code>true</code> if you want to enable this feature.
+            </documentation></td></tr></table></div>
+
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="arrayNameSuffix" class="namespacePropertyTitle">arrayNameSuffix</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">[]</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The suffix given to array names.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="useArraysForMultiplicitiesOfTypeMany" class="namespacePropertyTitle">useArraysForMultiplicitiesOfTypeMany</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Whether or not array types should denote multiplicities
+                greater than one for associations between objects where appropriate
+                (i.e. value objects when exposed as webservices).
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="maxSqlNameLength" class="namespacePropertyTitle">maxSqlNameLength</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">30</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The maximum length that a SQL name (such as a column name or
+                table name) may be.  This is useful for databases that have a limit
+                on the lengh that a name used in DDL may be (like Oracle).  If you set
+                this to 30 for example, then all names will be truncated
+                after 30 characters when retrieveing the column name or table name.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="schemaName" class="namespacePropertyTitle">schemaName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The name of the default schema in which all persistent entity tables
+                are stored.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="tableNamePrefix" class="namespacePropertyTitle">tableNamePrefix</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The prefix to give all persistent entity table names.  For example
+                if you had an entity named 'Car' and you defined the tableNamePrefix
+                as 'My_', then the table name for the 'Car' entity would be
+                'My_Car'.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="columnNamePrefix" class="namespacePropertyTitle">columnNamePrefix</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The prefix to give all persistent entity table column names.  For example
+                if you had an column named 'Name' and you defined the columnNamePrefix
+                as 'My_', then the column name would be 'My_Name'.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="foreignKeySuffix" class="namespacePropertyTitle">foreignKeySuffix</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">_FK</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The suffix to use when creating foreign keys for entity associations.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="constraintSuffix" class="namespacePropertyTitle">constraintSuffix</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">C</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The suffix to use when creating constraints such as for entity associations.
+                This is appended to the <code>foreignKeySuffix</code> suffix for foreign
+                key constraint names.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enableManageableEntities" class="namespacePropertyTitle">enableManageableEntities</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Whether or not to enable &lt;&lt;Manageable&gt;&gt; entities. Sometimes it is interesting
+                to disable the related code generating for a specific cartridge; let's say for
+                example that you only want to have the back-end code generated, not the front-end code: in
+                this case you'ld simple set this property to <code>false</code> in the corresponding
+                cartridge's (i.e. bpm4struts) namespace.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="manageablePackageSuffix" class="namespacePropertyTitle">manageablePackageSuffix</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">crud</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The name of the subpackage that will be used for the generation of
+                &lt;&lt;Manageable&gt;&gt; entities.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="sqlNameSeparator" class="namespacePropertyTitle">sqlNameSeparator</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">_</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Definies what is used for seperating words when SQL names are
+                constructed, for example a model element named CompanyAddress would
+                be translated to COMPANY_ADDRESS if the value of <code>sqlNameSeparator</code>
+                was '<em>_</em>'.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enableMetafacadePropertyCaching" class="namespacePropertyTitle">enableMetafacadePropertyCaching</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Used for performance reasons, caching a metafacade's properties
+                significantly speeds up the code generation process. Can be disabled when debugging.
+                This feature can be set on a per cartridge basis.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultMultiplicity" class="namespacePropertyTitle">defaultMultiplicity</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">1</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The default multiplicity to use when nothing is defined, the possible values
+                are 0 or 1.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="preconditionNamePattern" class="namespacePropertyTitle">preconditionNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}Precondition</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The pattern used for constructing an operation's precondition name.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="postconditionNamePattern" class="namespacePropertyTitle">postconditionNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}Postcondition</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The pattern used to constructing an operation's postcondition name.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="sqlMappingsUri" class="namespacePropertyTitle">sqlMappingsUri</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The URI to the the SQL mappings file.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jdbcMappingsUri" class="namespacePropertyTitle">jdbcMappingsUri</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The URI to the the JDBC mappings file.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="manageableServiceAccessorPattern" class="namespacePropertyTitle">manageableServiceAccessorPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The pattern used for constructing the accessor's for manageable services.
+                Used with CRUD.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="servicePackageNamePattern" class="namespacePropertyTitle">servicePackageNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The name of the package in which to create the service files, <code>{0}</code>
+                can be used to denote the package in which the service has been modeled.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="allowDefaultIdentifiers" class="namespacePropertyTitle">allowDefaultIdentifiers</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                Specifies whether or not default identifiers should
+                be created for entities that do not have them
+                modeled.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultIdentifierPattern" class="namespacePropertyTitle">defaultIdentifierPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">id</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The pattern used to construct the default identifier name of an entity, where <em>{0}</em>
+                represents the name of the entity as lower camel case (i.e. if <code>defaultIdentifierPattern</code>
+                had a value of <em>{0}Id</em>, then the resulting identifier of a an Entity named PersonName would
+                be <em>personNameId</em>).
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultIdentifierType" class="namespacePropertyTitle">defaultIdentifierType</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">datatype::Long</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The type to give default identifiers.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultIdentifierVisibility" class="namespacePropertyTitle">defaultIdentifierVisibility</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">public</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The visibility to give default identifiers.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultEnumerationLiteralType" class="namespacePropertyTitle">defaultEnumerationLiteralType</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">datatype::String</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The type to give default enumeration literals.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="relationNameSeparator" class="namespacePropertyTitle">relationNameSeparator</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">2</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                The separator used for constructing a relation name between two associations.
+            </documentation></td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="manageableIdDisplayStrategy" class="namespacePropertyTitle">manageableIdDisplayStrategy</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">auto</code></td></tr><tr><td class="documentation" colspan="2">
+                                No documentation available
+                            </td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultResolveable" class="namespacePropertyTitle">defaultResolveable</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2">
+                                No documentation available
+                            </td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultPageSize" class="namespacePropertyTitle">defaultPageSize</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">20</code></td></tr><tr><td class="documentation" colspan="2">
+                                No documentation available
+                            </td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultMaximumListSize" class="namespacePropertyTitle">defaultMaximumListSize</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">250</code></td></tr><tr><td class="documentation" colspan="2">
+                                No documentation available
+                            </td></tr></table></div>
+        <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="toDoTag" class="namespacePropertyTitle">toDoTag</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">@todo</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+               The tag to use that prefixes all comments in generated source code that requires
+               manual modifications.  Eclipse users may want to set this to "TODO", which is 
+               the default Eclipse task tag.
+            </documentation></td></tr></table></div>
+		<div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="typeSafeEnumsEnabled" class="namespacePropertyTitle">typeSafeEnumsEnabled</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+				Indicates whether enumerations must be generated using a Java 5 type-safe enum or a 
+     			traditional enumeration-pattern class. Note that there are 2 prerequisites for this
+				property to work correctly: you must use a Java 5 compiler and you must use Hibernate 3
+				for Object-relational mapping.
+			</documentation></td></tr></table></div>
+    
+</p></section>
+</body></document>

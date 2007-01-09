@@ -9,6 +9,16 @@
     <artifactId>andromda-translation-libraries</artifactId>
     <packaging>pom</packaging>
     <name>AndroMDA Translation Libraries</name>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://galaxy.andromda.org/jira/BrowseProject.jspa?id=10002</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:cvs:pserver:anonymous:@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/translation-libraries</connection>
+        <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
+        <tag>V3_x_HEAD</tag>
+        <url>http://andromda.cvs.sourceforge.net/</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.andromda</groupId>
@@ -30,4 +40,16 @@
     <modules>
         <module>ocl</module>
     </modules>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
