@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA Hibernate Cartridge Profile</title></properties><body>
+    
+        
+            Dependencies can be used between Services and Entities, they
+            won't need any stereotype assigned to them. These dependencies
+            are used to reference an entity from another entity or service,
+            or to reference a service from an entity or another service.
+        
+        
+            Entity query operations (i.e. finders) can be denoted by setting the
+            query flag on the modeled operation to true
+            (they do not require any stereotypes).
+        
+        
+            Actors represent roles within your model. To designate that a role
+            has access to a given service you must draw a dependency from an Actor
+            to the
+            &lt;&lt;Service&gt;&gt;. To designate the
+            role has access to to a given operation, you must draw a dependency from
+            an Actor to the operation.
+        
+        
+            Transitive persistencein Hibernate is controlled by cascading Hibernate operations.
+            There are four points to adjust that:
+            
+                the
+                    hibernateDefaultCascadenamespace property:
+                    the overall default for cascade
+                
+                the
+                    hibernateCompositionCascadenamespace
+                    property:
+                    how an UML composition should be interpreted as cascade
+                
+                the
+                    hibernateAggregationCascadenamespace
+                    property:
+                    how an UML aggregation should be interpreted as cascade
+                
+                the
+                    @andromda.hibernate.cascade tagged value
+                    at the individual association end
+                
+            
+            The idea is to visualize the cascading hierarchie by using UML composition and aggregation. The inverse
+            direction is marked with cascade="none" to get a clear direction.
+        
+    
+    <section name="AndroMDA Hibernate Cartridge Profile"><p>
+                This profile contains all elements that can be applied on the model used as the
+                MDA transformation process. These elements are specific to the AndroMDA Hibernate Cartridge component.
+            </p><div class="profileElementGroup"><a name="Stereotypes" class="profileElementGroupTitle">Stereotypes</a><div class="profileElementGroupDocumentation">
+                            Stereotypes are the names you sometimes see appear in UML diagrams, they typically look
+                            like &lt;&lt;MyStereotype&gt;&gt; and can be applied on any type of UML model element.
+                        </div><ul><li><a href="#Entity" title="Applied on: class">Entity</a></li><li><a href="#Enumeration" title="Applied on: class">Enumeration</a></li><li><a href="#Service" title="Applied on: class">Service</a></li></ul></div><div class="profileElementGroup"><a name="Tagged Values" class="profileElementGroupTitle">Tagged Values</a><div class="profileElementGroupDocumentation">
+                            Sometimes it happens you want to add information to the model but there is no clean way
+                            of doing it. In those cases you may want to resort to tagged values, but these cases should
+                            be considered with caution. A tagged value is something extra, something optional,
+                            and the application should run fine without them.
+                        </div><ul><li><a href="#@andromda.ejb.transaction.type" title="Applied on: Service Operation">@andromda.ejb.transaction.type</a></li><li><a href="#@andromda.ejb.viewType" title="Applied on: &lt;&lt;Service&gt;&gt;">@andromda.ejb.viewType</a></li><li><a href="#@andromda.hibernate.cascade" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.cascade</a></li><li><a href="#@andromda.hibernate.collection.index" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.collection.index</a></li><li><a href="#@andromda.hibernate.collection.index.type" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.collection.index.type</a></li><li><a href="#@andromda.hibernate.collection.type" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.collection.type</a></li><li><a href="#@andromda.hibernate.entity.dynamicInsert" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.entity.dynamicInsert</a></li><li><a href="#@andromda.hibernate.entity.dynamicUpdate" title="Applied on: ">@andromda.hibernate.entity.dynamicUpdate</a></li><li><a href="#@andromda.hibernate.entity.proxy" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.entity.proxy</a></li><li><a href="#@andromda.hibernate.formula" title="Applied on: The attribute of an &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.formula</a></li><li><a href="#@andromda.hibernate.generator.class" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.generator.class</a></li><li><a href="#@andromda.hibernate.inheritance" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.inheritance</a></li><li><a href="#@andromda.hibernate.lazy" title="Applied on: &lt;&lt;Entity&gt;&gt;classes, association ends between &lt;&lt;Entity&gt;&gt;classes, or attributes of an &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.lazy</a></li><li><a href="#@andromda.hibernate.orderByColumns" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.orderByColumns</a></li><li><a href="#@andromda.hibernate.outerjoin" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.outerjoin</a></li><li><a href="#@andromda.hibernate.property.insert" title="Applied on: the attribute of an &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.property.insert</a></li><li><a href="#@andromda.hibernate.property.update" title="Applied on: the attribute of an &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.property.update</a></li><li><a href="#@andromda.hibernate.query" title="Applied on: An Entity operation marked as a query.">@andromda.hibernate.query</a></li><li><a href="#@andromda.hibernate.query.useNamedParameters" title="Applied on: An Entity operation marked as a query.">@andromda.hibernate.query.useNamedParameters</a></li><li><a href="#@andromda.hibernate.sort.type" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.sort.type</a></li><li><a href="#@andromda.hibernate.version" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.version</a></li><li><a href="#@andromda.hibernate.whereClause" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.whereClause</a></li><li><a href="#@andromda.hibernate.xml.embed" title="Applied on: Association ends between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.xml.embed</a></li><li><a href="#@andromda.hibernate.xml.tagName" title="Applied on: the attribute of an &lt;&lt;Entity&gt;&gt;, or an the &lt;&lt;Entity&gt;&gt; itself, or on an association end between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.xml.tagName</a></li><li><a href="#@andromda.persistence.discriminator.column.name" title="Applied on: The &lt;&lt;Entity&gt;&gt; classes">@andromda.persistence.discriminator.column.name</a></li><li><a href="#@andromda.persistence.discriminator.type" title="Applied on: The &lt;&lt;Entity&gt;&gt; classes">@andromda.persistence.discriminator.type</a></li><li><a href="#@andromda.persistence.discriminator.value" title="Applied on: The &lt;&lt;Entity&gt;&gt; classes">@andromda.persistence.discriminator.value</a></li></ul></div><div class="profileElementGroup"><a name="Tagged Values for caching" class="profileElementGroupTitle">Tagged Values for caching</a><div class="profileElementGroupDocumentation"><documentation>
+                The following are tagged values exclusively used for tuning the persistence cache.
+            </documentation></div><ul><li><a href="#@andromda.hibernate.association.cache" title="Applied on: Association between &lt;&lt;Entity&gt;&gt; classes">@andromda.hibernate.association.cache</a></li><li><a href="#@andromda.hibernate.association.cache.distributed" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.association.cache.distributed</a></li><li><a href="#@andromda.hibernate.ehcache.eternal" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.ehcache.eternal</a></li><li><a href="#@andromda.hibernate.ehcache.maxElementsInMemory" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.ehcache.maxElementsInMemory</a></li><li><a href="#@andromda.hibernate.ehcache.overflowToDisk" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.ehcache.overflowToDisk</a></li><li><a href="#@andromda.hibernate.ehcache.timeToIdleSeconds" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.ehcache.timeToIdleSeconds</a></li><li><a href="#@andromda.hibernate.ehcache.timeToLiveSeconds" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.ehcache.timeToLiveSeconds</a></li><li><a href="#@andromda.hibernate.entity.cache" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.entity.cache</a></li><li><a href="#@andromda.hibernate.entity.cache.distributed" title="Applied on: &lt;&lt;Entity&gt;&gt;">@andromda.hibernate.entity.cache.distributed</a></li><li><a href="#@andromda.hibernate.query.useCache" title="Applied on: A query operation">@andromda.hibernate.query.useCache</a></li></ul></div><p>
+        
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Entity" class="profileElementTitle">Entity</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>class</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Denotes a class is representing an Hibernate POJO. This will instruct the cartridge to generate
+                    an <code>.hbm.xml</code> descriptor and the corresponding class from it.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Service" class="profileElementTitle">Service</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>class</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Denotes a class is representing an EJB session bean that is supposed to be used as a facade
+                    for a set of entities.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Enumeration" class="profileElementTitle">Enumeration</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>class</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    This class will instruct the generation of a type-safe enumeration class. The class implements the
+                    required Hibernate interface to be able to be persisted. That way it is possible for Entities to
+                    use this enumeration type for their attributes.
+                </documentation></td></tr></table></div>
+        
+        
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.query" class="profileElementTitle">@andromda.hibernate.query</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>An Entity operation marked as a
+                    <code>query</code>.
+                </appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines a hibernate query expression. Note that it's encouraged
+                    to model your query body as an OCL constraint (instead of using
+                    this tagged value).
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.query.useNamedParameters" class="profileElementTitle">@andromda.hibernate.query.useNamedParameters</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>An Entity operation marked as a
+                    <code>query</code>.
+                </appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines whether the marked finder will use named parameters or not.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.ejb.viewType" class="profileElementTitle">@andromda.ejb.viewType</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Service>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines the view type for a Session EJB. If undefined,
+                    the default defined by the
+                    <a href="namespace.html#ejbViewType">ejbViewType</a>
+                    namespace property will be assumed.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>local</value></code></li><li><code><value>remote</value></code></li><li><code><value>both</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.ejb.transaction.type" class="profileElementTitle">@andromda.ejb.transaction.type</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Service Operation</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines a transaction type for the method.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>NotSupported</value></code></li><li><code><value>Supports</value></code></li><li><code><value>Required</value></code></li><li><code><value>RequiresNew</value></code></li><li><code><value>Mandatory</value></code></li><li><code><value>Never</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.lazy" class="profileElementTitle">@andromda.hibernate.lazy</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>
+                    <a href="#Entity"><![CDATA[<<Entity>>]]></a>classes, association ends between
+                    <a href="#Entity"><![CDATA[<<Entity>>]]></a>classes, or attributes of an
+                    <a href="#Entity"><![CDATA[<<Entity>>]]></a>
+                </appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Used to denote how entities, relationships or attributes must be loaded:
+                    <code>true</code>for
+                    <code>lazy</code>,
+                    <code>false</code>for
+                    <code>eager</code>. Defaults to
+                    <code>false</code>for composite
+                    associations (unless
+                    <a href="namespace.html#compositionDefinesEagerLoading">compositionDefinesEagerLoading</a>is
+                    set to
+                    <code>false</code>) and defaults to
+                    <code>true</code>for the other kinds.
+                    For entities, defaults to <code>false</code> for Hibernate 2 and
+                    <code>true</code> for Hibernate 3 and NHibernate.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.inheritance" class="profileElementTitle">@andromda.hibernate.inheritance</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Used to override the default hibernate inheritance
+                    strategy defined by the
+                    <a href="namespace.html#hibernateInheritanceStrategy">hibernateInheritanceStrategy</a>
+                    namespace property.
+                    <ul>
+                        Permitted values are:
+                        <li>class - table per hierarchy.</li>
+                        <li>subclass - table per class in hierarchy.</li>
+                        <li>concrete - Table per class.</li>
+                        <li>union-subclass - Table per class (only on Hibernate 3).</li>
+                        <li>
+                            interface - Root class is defined as
+                            an interface and the attributes remapped to the subclasses.
+                            This is useful in the concrete case because it has limitations
+                            in the associations.
+                        </li>
+                    </ul>
+                    <p>
+                        The tagged value of @andromda.hibernate.inheritance
+                        is set on the base/root class.
+                        All subclasses must then follow the same strategy unless
+                        interface or concrete is the predecessor strategy.
+                        The default strategy is defined by the
+                        <a href="namespaces.html#hibernateInheritanceStrategy">hibernateInheritanceStrategy</a>
+                        namespace property.
+                    </p>
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>class</value></code></li><li><code><value>subclass</value></code></li><li><code><value>concrete</value></code></li><li><code><value>union-subclass</value></code></li><li><code><value>interface</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.outerjoin" class="profileElementTitle">@andromda.hibernate.outerjoin</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines if Hibernate will use a outer join for fetching the given assocation end.
+                    For Hibernate3 this will result in a fetch clause with values:
+                    <ul>
+                        <li>join</li>
+                        <li>select</li>
+                    </ul>
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>auto</value></code></li><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.entity.dynamicInsert" class="profileElementTitle">@andromda.hibernate.entity.dynamicInsert</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines if the entity will limit the SQL insert statement to properties with values. This value
+                    overrides the
+                    <a href="namespace.html#hibernateEntityDynamicInsert">namespace property</a>for this entity.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.entity.dynamicUpdate" class="profileElementTitle">@andromda.hibernate.entity.dynamicUpdate</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement/></td></tr><tr><td class="documentation"><documentation>
+                    Defines if the entity will limit the SQL update statements to properties that are modified. This
+                    value overrides the
+                    <a href="namespace.html#hibernateEntityDynamicUpdate">namespace property</a>for this entity.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.generator.class" class="profileElementTitle">@andromda.hibernate.generator.class</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Used to define the generator class used for the hibernate entity.
+                    Any of the hibernate generator classes may be used.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>increment</value></code></li><li><code><value>identity</value></code></li><li><code><value>sequence</value></code></li><li><code><value>hilo</value></code></li><li><code><value>seqhilo</value></code></li><li><code><value>guid</value></code></li><li><code><value>uuid</value></code></li><li><code><value>uuid.hex</value></code></li><li><code><value>uuid.string</value></code></li><li><code><value>native</value></code></li><li><code><value>assigned</value></code></li><li><code><value>select</value></code></li><li><code><value>foreign</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.entity.proxy" class="profileElementTitle">@andromda.hibernate.entity.proxy</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines if a proxy will be enabled for the entity. Overrrides the "hibernateProxy" namespace
+                    property.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.collection.type" class="profileElementTitle">@andromda.hibernate.collection.type</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Used to define the mapping for hibernate collections.
+                    This value overrides the
+                    <a href="namespace.html#hibernateAssociationCollectionType">namespace property</a>.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>set</value></code></li><li><code><value>map</value></code></li><li><code><value>bag</value></code></li><li><code><value>list</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.sort.type" class="profileElementTitle">@andromda.hibernate.sort.type</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Used to define how elements will be sorted within the collection defined by the association. (Only
+                    available for maps and sets)
+                    This value overrides the
+                    <a href="namespace.html#hibernateAssociationSortType">namespace property</a>.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>unsorted</value></code></li><li><code><value>natural</value></code></li><li><code><value>comparatorClass</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.orderByColumns" class="profileElementTitle">@andromda.hibernate.orderByColumns</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Column names that will be used for sorting the collection, with asc or desc optionally.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>Properties of this entity</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.whereClause" class="profileElementTitle">@andromda.hibernate.whereClause</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    SQL condition to define a subset of available data for the collection
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>An SQL code fragment</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.collection.index" class="profileElementTitle">@andromda.hibernate.collection.index</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Column containing the collection index, overrides the
+                    <a href="namespace.html#associationEndCollectionIndexName">associationEndCollectionIndexName</a>
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>A property of this entity</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.collection.index.type" class="profileElementTitle">@andromda.hibernate.collection.index.type</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    The type of the column containing the collection index, overrides the
+                    <a href="namespace.html#associationEndCollectionIndexType">associationEndCollectionIndexType</a>
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>A property of this entity</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.version" class="profileElementTitle">@andromda.hibernate.version</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Specifies wheter or not the entity will have a version property. If a value is present, then the
+                    entity will have
+                    a version property with the name specified within the tagged value.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>The name of the version property</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.cascade" class="profileElementTitle">@andromda.hibernate.cascade</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Place an individual cascade value at an association end, overriding the properties
+                    <a href="namespace.html#hibernateDefaultCascade">hibernateDefaultCascade</a>,
+                    <a href="namespace.html#hibernateCompositionCascade">hibernateCompositionCascade</a>and
+                    <a href="namespace.html#hibernateAggregationCascade">hibernateAggregationCascade</a>.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.formula" class="profileElementTitle">@andromda.hibernate.formula</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>The attribute of an &lt;&lt;Entity&gt;&gt;</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines an attribute of a class as a calculated value. This tagged value
+                    stores the SQL formula that will be used to assign a value to this property.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>An SQL code fragment</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.persistence.discriminator.column.name" class="profileElementTitle">@andromda.persistence.discriminator.column.name</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>The &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Used at the class level of an entity and is
+                    optional. This value indicates the name of the
+                    column to be used for the discriminator. If not
+                    specified for the SINGLE_TABLE or JOINED inheritance
+                    mapping strategies, then default to <b>TYPE</b>.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>column name</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.persistence.discriminator.type" class="profileElementTitle">@andromda.persistence.discriminator.type</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>The &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Used to override the default entity inheritance
+                    discriminator type defined by the
+                    <a href="namespace.html#entityDiscriminatorType">
+                        entityDiscriminatorType
+                    </a>
+                    namespace property.
+                    <ul>
+                        Permitted values are:
+                        <li>STRING</li>
+                        <li>CHAR</li>
+                        <li>INTEGER</li>
+                    </ul>
+                    <p>
+                        The tagged value of
+                        @andromda.persistence.discriminator.type is set
+                        once on the base/root class to indicate the type
+                        of the column used for the discriminator. The
+                        default discriminator type is defined by the
+                        <a href="namespaces.html#entityDiscriminatorType">
+                            entityDiscriminatorType
+                        </a>
+                        namespace property.
+                    </p>
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>STRING</value></code></li><li><code><value>CHAR</value></code></li><li><code><value>INTEGER</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.persistence.discriminator.value" class="profileElementTitle">@andromda.persistence.discriminator.value</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>The &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Used at the class level of an entity and is
+                    optional. This is the value that indicates that the
+                    row is an entity of the annotated entity type. It
+                    should be specified for each class in the hierarchy.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>A String</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.property.insert" class="profileElementTitle">@andromda.hibernate.property.insert</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>the attribute of an &lt;&lt;Entity&gt;&gt;</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Specifies whether a mapped column should be included in SQL INSERT
+                    statements. Setting to <code>false</code> allows the column to be
+                    initialized using other mechanisms such as a value defaulted by the
+                    database. Defaults to <code>true</code>.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.property.update" class="profileElementTitle">@andromda.hibernate.property.update</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>the attribute of an &lt;&lt;Entity&gt;&gt;</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Specifies whether a mapped column should be included in SQL UPDATE
+                    statements. Setting to <code>false</code> allows the column to be
+                    updated using other mechanisms such as a value defaulted by the
+                    database. Defaults to <code>true</code>.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.xml.tagName" class="profileElementTitle">@andromda.hibernate.xml.tagName</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>the attribute of an &lt;&lt;Entity&gt;&gt;, or an the &lt;&lt;Entity&gt;&gt; itself,
+                                  or on an association end between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines the name of the XML element that is generated when
+                    an entity, attribute, or associated entity is represented in XML format.
+                    Valid only when XML persistence has been enabled. Controls the <i>node</i>
+                    attribute in the Hibernate mapping file.
+                    See also <a href="namespace.html#hibernateXMLPersistence">hibernateXMLPersistence</a>
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>Any valid XML tag name</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.xml.embed" class="profileElementTitle">@andromda.hibernate.xml.embed</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association ends between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Specifies wheter or not the entity attached to the association end should be
+                    embedded as a complete XML structure, or simply as a referenc to its ID.
+                    Controls the <i>embed-xml</i> attribute in the Hibernate mapping file.
+                    See also <a href="namespace.html#hibernateXMLPersistence">hibernateXMLPersistence</a>
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+        
+        
+            
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.query.useCache" class="profileElementTitle">@andromda.hibernate.query.useCache</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>A query operation</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines is caching is enabled for this query
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.entity.cache" class="profileElementTitle">@andromda.hibernate.entity.cache</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines the cache strategy for the Entity.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>read-write</value></code></li><li><code><value>nonstrict-read-write</value></code></li><li><code><value>read-only</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.entity.cache.distributed" class="profileElementTitle">@andromda.hibernate.entity.cache.distributed</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines whether the cache for this entity is to be distributed.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.association.cache" class="profileElementTitle">@andromda.hibernate.association.cache</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Association between &lt;&lt;Entity&gt;&gt; classes</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines the cache strategy for the association.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>read-write</value></code></li><li><code><value>nonstrict-read-write</value></code></li><li><code><value>read-only</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.association.cache.distributed" class="profileElementTitle">@andromda.hibernate.association.cache.distributed</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines whether the cache for this association is to be distributed.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.ehcache.maxElementsInMemory" class="profileElementTitle">@andromda.hibernate.ehcache.maxElementsInMemory</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    EhCache property. Defines the maximum number of objects that will be created in memory.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>A strictly positive integer</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.ehcache.eternal" class="profileElementTitle">@andromda.hibernate.ehcache.eternal</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    EhCache property. Defines if elements are eternal.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.ehcache.timeToIdleSeconds" class="profileElementTitle">@andromda.hibernate.ehcache.timeToIdleSeconds</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    EhCache property. Defines the time to idle for an element before it expires.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>A strictly positive integer</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.ehcache.timeToLiveSeconds" class="profileElementTitle">@andromda.hibernate.ehcache.timeToLiveSeconds</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    EhCache property. Defines the time to live for an element before it expires.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>A strictly positive integer</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.ehcache.overflowToDisk" class="profileElementTitle">@andromda.hibernate.ehcache.overflowToDisk</a><a href="#Tagged Values for caching" title="Go to Tagged Values for caching profile element group">(Back to Tagged Values for caching)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    EhCache property. Defines if elements can overflow to disk.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>true</value></code></li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+        
+    </p></section>
+</body></document>

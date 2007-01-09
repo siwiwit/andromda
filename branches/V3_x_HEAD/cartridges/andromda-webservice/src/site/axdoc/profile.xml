@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA WebService Cartridge Profile</title></properties><body>
+    
+        Actors represent roles within your model.  To designate that a role has access
+        to a given web service you must draw a dependeny from an Actor to the &lt;&lt;WebService&gt;&gt;.
+    
+    <section name="AndroMDA WebService Cartridge Profile"><p>
+                This profile contains all elements that can be applied on the model used as the
+                MDA transformation process. These elements are specific to the AndroMDA WebService Cartridge component.
+            </p><div class="profileElementGroup"><a name="Stereotypes" class="profileElementGroupTitle">Stereotypes</a><div class="profileElementGroupDocumentation">
+                            Stereotypes are the names you sometimes see appear in UML diagrams, they typically look
+                            like &lt;&lt;MyStereotype&gt;&gt; and can be applied on any type of UML model element.
+                        </div><ul><li><a href="#Enumeration" title="Applied on: class">Enumeration</a></li><li><a href="#Nullable" title="Applied on: Service operation parameter">Nullable</a></li><li><a href="#Service" title="Applied on: class">Service</a></li><li><a href="#ValueObject" title="Applied on: class">ValueObject</a></li><li><a href="#WebService" title="Applied on: class">WebService</a></li><li><a href="#WebServiceOperation" title="Applied on: Service operation">WebServiceOperation</a></li></ul></div><div class="profileElementGroup"><a name="Tagged Values" class="profileElementGroupTitle">Tagged Values</a><div class="profileElementGroupDocumentation">
+                            Sometimes it happens you want to add information to the model but there is no clean way
+                            of doing it. In those cases you may want to resort to tagged values, but these cases should
+                            be considered with caution. A tagged value is something extra, something optional,
+                            and the application should run fine without them.
+                        </div><ul><li><a href="#@andromda.role.name" title="Applied on: An actor with a dependency to a &lt;&lt;WebService&gt;&gt;">@andromda.role.name</a></li><li><a href="#@andromda.webservice.provider" title="Applied on: Service and WebService">@andromda.webservice.provider</a></li><li><a href="#@andromda.webservice.style" title="Applied on: Service and WebService">@andromda.webservice.style</a></li><li><a href="#@andromda.webservice.use" title="Applied on: Service and WebService">@andromda.webservice.use</a></li></ul></div><p>
+        
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Service" class="profileElementTitle">Service</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>class</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Creates a WSDD file for each model element with
+                    this stereotype.  Each method to be exposed, must be
+                    stereotyped with the &lt;&lt;WebServiceOperation&gt;&gt; stereotype.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="WebService" class="profileElementTitle">WebService</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>class</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Creates a WSDD service fragment and exposes ALL methods of the element
+                    as a web service.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="WebServiceOperation" class="profileElementTitle">WebServiceOperation</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Service operation</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    This is used in conjunction with the &lt;&lt;Service&gt;&gt; stereotype.
+                    Adds the method to the list of allowed methods
+                    which will be exposed as a web service.  You <strong>MUST</strong>
+                    place this stereotype on an operation if you want it exposed
+                    as a web service (unless you add the &lt;&lt;WebService&gt;&gt; stereotype to your class).
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="ValueObject" class="profileElementTitle">ValueObject</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>class</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Allows the definition of complex types.  These types can be related
+                    to each other through associations and if the association multiplicity
+                    is greater than 1, then an array reference will be generated (instead
+                    of a Collection).
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Enumeration" class="profileElementTitle">Enumeration</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>class</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Allows the definition of enumerated types.  These types <strong>MUST</strong>
+                  define their attributes as <em>frozen</em>.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Nullable" class="profileElementTitle">Nullable</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Service operation parameter</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Allows you to define whether or not operation parameters can be nullable
+                    or <em>nillable</em> (in WSDL terms).  If this is <strong>NOT</strong>
+                    defined on a parameter, then a null check will be generated for that
+                    parameter on the service operation.
+                </documentation></td></tr></table></div>
+        
+        
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.webservice.style" class="profileElementTitle">@andromda.webservice.style</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Service and WebService</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Defines the style of the web service to be generated (i.e. wrapped, document, rpc).
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.webservice.use" class="profileElementTitle">@andromda.webservice.use</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Service and WebService</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    The use of the service to be generated (i.e. literal, encoded).
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.webservice.provider" class="profileElementTitle">@andromda.webservice.provider</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>Service and WebService</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    The provider to use for the service, by default its <code>RPC</code>
+                    which will use a plain java object as the provider.  Another value
+                    that can be specified is <code>EJB</code>, if this is specified,
+                    then its expected that either the EJB or Hibernate cartridge
+                    is being used with this cartridge.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.role.name" class="profileElementTitle">@andromda.role.name</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>An actor with a dependency to a &lt;&lt;WebService&gt;&gt;</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Optionally allows you to define the name of the role (if it needs
+                    to be different than the name of the actor that defines the role).
+                </documentation></td></tr></table></div>
+        
+    </p></section>
+</body></document>

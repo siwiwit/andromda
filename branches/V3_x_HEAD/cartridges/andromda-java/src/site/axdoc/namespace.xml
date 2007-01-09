@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA JavaCartridge Namespace</title></properties><body>
+    <section name="AndroMDA JavaCartridge Namespace Components"><ul>
+        <li>cartridge</li>
+        <li>profile</li>
+        <li>metafacades</li>
+    </ul></section>
+    <section name="AndroMDA JavaCartridge Namespace Properties"><div class="namespacePropertyGroup"><a name="Other" class="namespacePropertyGroup">Other</a><ul><li><a href="#enablePropertyConstructors" title="Optional, defaults to &apos;true&apos;">enablePropertyConstructors</a></li><li><a href="#interfaceImplementationNamePattern" title="Optional, defaults to &apos;Default{0}&apos;">interfaceImplementationNamePattern</a></li><li><a href="#serializable" title="Optional, defaults to &apos;true&apos;">serializable</a></li></ul></div><div class="namespacePropertyGroup"><a name="Outlets" class="namespacePropertyGroup">Outlets</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Defines the locations to which output is generated.
+            </documentation></div><ul><li><a href="#enumerations" title="Optional, no default value available">enumerations</a></li><li><a href="#exceptions" title="Optional, no default value available">exceptions</a></li><li><a href="#interface-impls" title="Optional, no default value available">interface-impls</a></li><li><a href="#interfaces" title="Optional, no default value available">interfaces</a></li><li><a href="#service-impls" title="Optional, no default value available">service-impls</a></li><li><a href="#services" title="Optional, no default value available">services</a></li><li><a href="#value-objects" title="Optional, no default value available">value-objects</a></li></ul></div><p>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="services" class="namespacePropertyTitle">services</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which POJO service interfaces are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="service-impls" class="namespacePropertyTitle">service-impls</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which POJO service implementation classes are generated
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="value-objects" class="namespacePropertyTitle">value-objects</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which value objects are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="exceptions" class="namespacePropertyTitle">exceptions</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which exceptions are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enumerations" class="namespacePropertyTitle">enumerations</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which enumerations are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="interfaces" class="namespacePropertyTitle">interfaces</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which interfaces are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="interface-impls" class="namespacePropertyTitle">interface-impls</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which default interfaces implementations are generated.
+                </documentation></td></tr></table></div>
+        
+        
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serializable" class="namespacePropertyTitle">serializable</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Indicates whether or not generated objects must support distributed environments.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enablePropertyConstructors" class="namespacePropertyTitle">enablePropertyConstructors</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not constructors taking all properties will
+                    be generated or not (on the value object for example).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="interfaceImplementationNamePattern" class="namespacePropertyTitle">interfaceImplementationNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">Default{0}</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used to create the default interface implementation name, where <em>{0}</em>
+                    represents the name of the interface.
+                </documentation></td></tr></table></div>
+        
+    </p></section>
+</body></document>

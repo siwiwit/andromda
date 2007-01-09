@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA JBPM Cartridge Profile</title></properties><body>
+    <section name="AndroMDA JBPM Cartridge Profile"><p>
+                This profile contains all elements that can be applied on the model used as the
+                MDA transformation process. These elements are specific to the AndroMDA JBPM Cartridge component.
+            </p><div class="profileElementGroup"><a name="Stereotypes" class="profileElementGroupTitle">Stereotypes</a><div class="profileElementGroupDocumentation">
+                            Stereotypes are the names you sometimes see appear in UML diagrams, they typically look
+                            like &lt;&lt;MyStereotype&gt;&gt; and can be applied on any type of UML model element.
+                        </div><ul><li><a href="#After Signal" title="Applied on: call-event">After Signal</a></li><li><a href="#Before Signal" title="Applied on: call-event">Before Signal</a></li><li><a href="#Business Process" title="Applied on: use-case">Business Process</a></li><li><a href="#Node Enter" title="Applied on: call-event">Node Enter</a></li><li><a href="#Node Leave" title="Applied on: call-event">Node Leave</a></li><li><a href="#Task" title="Applied on: call-event">Task</a></li><li><a href="#Timer" title="Applied on: call-event">Timer</a></li></ul></div><div class="profileElementGroup"><a name="Tagged Values" class="profileElementGroupTitle">Tagged Values</a><div class="profileElementGroupDocumentation">
+                            Sometimes it happens you want to add information to the model but there is no clean way
+                            of doing it. In those cases you may want to resort to tagged values, but these cases should
+                            be considered with caution. A tagged value is something extra, something optional,
+                            and the application should run fine without them.
+                        </div><ul><li><a href="#@andromda.process.jbpm.assignment.expression" title="Applied on: swimlane">@andromda.process.jbpm.assignment.expression</a></li><li><a href="#@andromda.process.jbpm.task.blocking" title="Applied on: &lt;&lt;Task&gt;&gt;">@andromda.process.jbpm.task.blocking</a></li><li><a href="#@andromda.process.jbpm.timer.duedate" title="Applied on: &lt;&lt;Timer&gt;&gt;">@andromda.process.jbpm.timer.duedate</a></li><li><a href="#@andromda.process.jbpm.timer.repeat" title="Applied on: &lt;&lt;Timer&gt;&gt;">@andromda.process.jbpm.timer.repeat</a></li><li><a href="#@andromda.process.jbpm.timer.transition" title="Applied on: &lt;&lt;Timer&gt;&gt;">@andromda.process.jbpm.timer.transition</a></li></ul></div><p>
+        
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Business Process" class="profileElementTitle">Business Process</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>use-case</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Instructs the jBpm cartridge to process the contents of this use-case.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Before Signal" class="profileElementTitle">Before Signal</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>call-event</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Will specify that the event on which this stereotype has been modeled is of type
+                    <code>before-signal</code>.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="After Signal" class="profileElementTitle">After Signal</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>call-event</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Will specify that the event on which this stereotype has been modeled is of type
+                    <code>after-signal</code>.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Node Enter" class="profileElementTitle">Node Enter</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>call-event</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Will specify that the event on which this stereotype has been modeled is of type
+                    <code>node-enter</code>.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Node Leave" class="profileElementTitle">Node Leave</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>call-event</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Will specify that the event on which this stereotype has been modeled is of type
+                    <code>node-leave</code>.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Task" class="profileElementTitle">Task</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>call-event</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Will specify that the event on which this stereotype is to be considered a task.
+                    The event on which this stereotype is placed usually is a <code>state</code> node
+                    (do not confuse with <code>action state</code>).
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="Timer" class="profileElementTitle">Timer</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>call-event</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    The underlying event will represent an action that will be executed on a timely basis.
+                    The usage of this stereotype is usually supported by means of a set of tagged values.
+                </documentation></td></tr></table></div>
+        
+        
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.process.jbpm.assignment.expression" class="profileElementTitle">@andromda.process.jbpm.assignment.expression</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>swimlane</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Specifies an assignment expression as a <a href="http://www.beanshell.org/">bean-shell script</a>.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>Any valid bean-shell script</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.process.jbpm.timer.repeat" class="profileElementTitle">@andromda.process.jbpm.timer.repeat</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Timer>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    After a timer has been executed on the duedate, this tagged value specifies
+                    the duration between repeating timer executions until the node is left.
+                    If yes or true are specified then the value of duedate is used.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>yes</value></code></li><li><code><value>true</value></code></li><li><code><value>a duration as defined by jBpm</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.process.jbpm.timer.duedate" class="profileElementTitle">@andromda.process.jbpm.timer.duedate</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Timer>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    The duration that specifies the time period between the creation of the timer and the
+                    execution of the timer. This can be expressed in business hours, minutes, etc...
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>a duration as defined by jBpm</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.process.jbpm.timer.transition" class="profileElementTitle">@andromda.process.jbpm.timer.transition</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Timer>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    The transition to take once the timer finishes.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code><value>the name of one of the transition going out of the state onto which this timer
+                        has been modeled</value></code></li></ul></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.process.jbpm.task.blocking" class="profileElementTitle">@andromda.process.jbpm.task.blocking</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement><![CDATA[<<Task>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Denotes whether or not this task should be blocking.
+                </documentation></td></tr><tr><td>
+                            Allowed values for this element:
+                            <ul><li><code class="defaultValue"><value default="true">true</value></code> (default)
+                                            </li><li><code><value>false</value></code></li></ul></td></tr></table></div>
+        
+    </p></section>
+</body></document>

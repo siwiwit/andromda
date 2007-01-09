@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA JSF Cartridge Namespace</title></properties><body>
+    <section name="AndroMDA JSF Cartridge Namespace Components"><ul>
+        <li>cartridge</li>
+        <li>metafacades</li>
+        <li>profile</li>
+    </ul></section>
+    <section name="AndroMDA JSF Cartridge Namespace Properties"><div class="namespacePropertyGroup"><a name="Configuration" class="namespacePropertyGroup">Configuration</a><div class="namespacePropertyGroupDocumentation"><documentation>
+               The properties that provide configuration of the JSF configuration files.
+            </documentation></div><ul><li><a href="#facesConfig" title="Optional, defaults to &apos;faces-config.xml&apos;">facesConfig</a></li><li><a href="#facesConfigFiles" title="Optional, no default value available">facesConfigFiles</a></li><li><a href="#facesServletExtension" title="Optional, defaults to &apos;jsf&apos;">facesServletExtension</a></li><li><a href="#fileUploadMaxDiskSpacePerRequest" title="Optional, defaults to &apos;10240000&apos;">fileUploadMaxDiskSpacePerRequest</a></li><li><a href="#fileUploadMaxMemoryPerRequest" title="Optional, defaults to &apos;512000&apos;">fileUploadMaxMemoryPerRequest</a></li><li><a href="#formScope" title="Optional, defaults to &apos;request&apos;">formScope</a></li><li><a href="#logoutRedirectPath" title="Optional, no default value available">logoutRedirectPath</a></li></ul></div><div class="namespacePropertyGroup"><a name="Messages and i18n" class="namespacePropertyGroup">Messages and i18n</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Properties related to the configuration of messages and internationalization in general.
+            </documentation></div><ul><li><a href="#applicationName" title="Required">applicationName</a></li><li><a href="#normalizeMessages" title="Optional, defaults to &apos;true&apos;">normalizeMessages</a></li></ul></div><div class="namespacePropertyGroup"><a name="Other" class="namespacePropertyGroup">Other</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Other various properties that couldn't be classified into another category.
+            </documentation></div><ul><li><a href="#actionFormKey" title="Optional, defaults to &apos;form&apos;">actionFormKey</a></li><li><a href="#adfContextAttributeName" title="Optional, defaults to &apos;AndroMDAADFContext&apos;">adfContextAttributeName</a></li><li><a href="#backingListPattern" title="Optional, defaults to &apos;{0}BackingList&apos;">backingListPattern</a></li><li><a href="#backingValuePattern" title="Optional, defaults to &apos;{0}BackingValue&apos;">backingValuePattern</a></li><li><a href="#controllerImplementationPattern" title="Optional, defaults to &apos;{0}Impl&apos;">controllerImplementationPattern</a></li><li><a href="#converterPattern" title="Optional, defaults to &apos;{0}JsfConverter&apos;">converterPattern</a></li><li><a href="#distributable" title="Optional, defaults to &apos;false&apos;">distributable</a></li><li><a href="#dummyData" title="Optional, defaults to &apos;true&apos;">dummyData</a></li><li><a href="#fileTypeName" title="Optional, defaults to &apos;oracle.adf.view.faces.model.UploadedFile&apos;">fileTypeName</a></li><li><a href="#formBeanPattern" title="Optional, defaults to &apos;{0}{1}Form&apos;">formBeanPattern</a></li><li><a href="#formImplementationPattern" title="Optional, defaults to &apos;{0}FormImpl&apos;">formImplementationPattern</a></li><li><a href="#formMessagesProperty" title="Optional, defaults to &apos;jsfMessages&apos;">formMessagesProperty</a></li><li><a href="#formPattern" title="Optional, defaults to &apos;{0}Form&apos;">formPattern</a></li><li><a href="#formPopulatorName" title="Optional, defaults to &apos;FormPopulator&apos;">formPopulatorName</a></li><li><a href="#formSerialization" title="Optional, defaults to &apos;true&apos;">formSerialization</a></li><li><a href="#jsfComponentsPackage" title="Optional, defaults to &apos;org.andromda.presentation.jsf.components&apos;">jsfComponentsPackage</a></li><li><a href="#jspIncludes" title="Optional, defaults to &apos;includes.jspf&apos;">jspIncludes</a></li><li><a href="#labelListPattern" title="Optional, defaults to &apos;{0}LabelList&apos;">labelListPattern</a></li><li><a href="#managedBeansPackage" title="Optional, defaults to &apos;org.andromda.presentation.jsf&apos;">managedBeansPackage</a></li><li><a href="#messageResourceKeyPattern" title="Optional, defaults to &apos;(.*)(\\{\\s*([\\w|\\.+]*)\\s*\\})(.*)&apos;">messageResourceKeyPattern</a></li><li><a href="#messageResources" title="Optional, defaults to &apos;message-resources&apos;">messageResources</a></li><li><a href="#patternMatchingExceptionHandler" title="Optional, defaults to &apos;PatternMatchingExceptionHandler&apos;">patternMatchingExceptionHandler</a></li><li><a href="#serviceAccessorPattern" title="Optional, no default value available">serviceAccessorPattern</a></li><li><a href="#servicePackageNamePattern" title="Optional, defaults to &apos;{0}&apos;">servicePackageNamePattern</a></li><li><a href="#sessionTimeout" title="Optional, defaults to &apos;45&apos;">sessionTimeout</a></li><li><a href="#stateSavingMethod" title="Optional, defaults to &apos;client&apos;">stateSavingMethod</a></li><li><a href="#useCaseForwardsClassName" title="Optional, defaults to &apos;UseCaseForwards&apos;">useCaseForwardsClassName</a></li><li><a href="#valueListPattern" title="Optional, defaults to &apos;{0}ValueList&apos;">valueListPattern</a></li><li><a href="#viewPopulatorPattern" title="Optional, defaults to &apos;{0}Populator&apos;">viewPopulatorPattern</a></li><li><a href="#virtualHost" title="Optional, no default value available">virtualHost</a></li><li><a href="#xmlEncoding" title="Optional, defaults to &apos;UTF-8&apos;">xmlEncoding</a></li></ul></div><div class="namespacePropertyGroup"><a name="Outlets" class="namespacePropertyGroup">Outlets</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Defines the locations to which output is generated.
+            </documentation></div><ul><li><a href="#configuration" title="Required">configuration</a></li><li><a href="#controller-impls" title="Required">controller-impls</a></li><li><a href="#controllers" title="Required">controllers</a></li><li><a href="#custom-resources" title="Optional, no default value available">custom-resources</a></li><li><a href="#forms" title="Required">forms</a></li><li><a href="#libraries" title="Optional, no default value available">libraries</a></li><li><a href="#managed-beans" title="Required">managed-beans</a></li><li><a href="#messages" title="Required">messages</a></li><li><a href="#views" title="Required">views</a></li></ul></div><div class="namespacePropertyGroup"><a name="UI Layout" class="namespacePropertyGroup">UI Layout</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Properties related to the configuration of the user interface layout.
+            </documentation></div><ul><li><a href="#enablePreferences" title="Optional, defaults to &apos;true&apos;">enablePreferences</a></li><li><a href="#maxTableRows" title="Optional, defaults to &apos;10&apos;">maxTableRows</a></li><li><a href="#menuLayout" title="Optional, defaults to &apos;vbr&apos;">menuLayout</a></li><li><a href="#menuTheme" title="Optional, defaults to &apos;ThemePanel&apos;">menuTheme</a></li><li><a href="#preferencesBeanName" title="Optional, defaults to &apos;preferences&apos;">preferencesBeanName</a></li><li><a href="#preferencesClassName" title="Optional, defaults to &apos;Preferences&apos;">preferencesClassName</a></li><li><a href="#skin" title="Optional, defaults to &apos;default&apos;">skin</a></li></ul></div><div class="namespacePropertyGroup"><a name="Validation and Security" class="namespacePropertyGroup">Validation and Security</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                These properties configure the validation of user input as well as the security.
+            </documentation></div><ul><li><a href="#clientValidation" title="Optional, defaults to &apos;true&apos;">clientValidation</a></li><li><a href="#securityRealm" title="Optional, no default value available">securityRealm</a></li></ul></div><div class="namespacePropertyGroup"><a name="Views" class="namespacePropertyGroup">Views</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Properties that configure view information.
+            </documentation></div><ul><li><a href="#defaultDateFormat" title="Optional, defaults to &apos;MM/dd/yyyy&apos;">defaultDateFormat</a></li><li><a href="#defaultMultiSelectSize" title="Optional, defaults to &apos;3&apos;">defaultMultiSelectSize</a></li><li><a href="#defaultTimeFormat" title="Optional, defaults to &apos;HH:mm&apos;">defaultTimeFormat</a></li><li><a href="#enableFaceletsDevelopmentSupport" title="Optional, defaults to &apos;false&apos;">enableFaceletsDevelopmentSupport</a></li><li><a href="#loginFileName" title="Optional, defaults to &apos;login&apos;">loginFileName</a></li><li><a href="#logoutFileName" title="Optional, defaults to &apos;logout&apos;">logoutFileName</a></li><li><a href="#strictDateTimeFormat" title="Optional, defaults to &apos;false&apos;">strictDateTimeFormat</a></li><li><a href="#viewType" title="Optional, defaults to &apos;jsp&apos;">viewType</a></li><li><a href="#welcomeFileName" title="Optional, defaults to &apos;index.jsp&apos;">welcomeFileName</a></li></ul></div><p>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="configuration" class="namespacePropertyTitle">configuration</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which configuration files are generated. These are the files
+                    that typically appear in WEB-INF, such as faces-config.xml and validation-rules.xml, etc.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="custom-resources" class="namespacePropertyTitle">custom-resources</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which any customizable resources will be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="libraries" class="namespacePropertyTitle">libraries</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which JSF libraries will be generated (these are the libraries required for JSF support, 
+                    myfaces libraries, etc).  If this isn't defined, its expected that the libraries will be provided by another means.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="controllers" class="namespacePropertyTitle">controllers</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which any controllers are generated (this outlet
+                    contains classes which are fully generated and should not be
+                    touched).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="controller-impls" class="namespacePropertyTitle">controller-impls</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which controller implementations are generated (these
+                    are where your hooks go to your services).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="managed-beans" class="namespacePropertyTitle">managed-beans</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which any additional managed beans are generated (including
+                    layout options, etc).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="messages" class="namespacePropertyTitle">messages</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which message resource bundles are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="views" class="namespacePropertyTitle">views</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Where the application views (JSPs, Facelets, etc) are output.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="forms" class="namespacePropertyTitle">forms</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The forms to which input is stored are output here.
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="facesConfig" class="namespacePropertyTitle">facesConfig</a><a href="#Configuration" title="Go to Configuration namespace element group">(Back to Configuration)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">faces-config.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the JSF configuration file (this file stores the JSF managed bean
+                    form information and navigation rules).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="facesConfigFiles" class="namespacePropertyTitle">facesConfigFiles</a><a href="#Configuration" title="Go to Configuration namespace element group">(Back to Configuration)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Comma separated list of URIs of (additional) faces config files.
+                    (e.g. /WEB-INF/jsf-config.xml).  See JSF 1.0 PRD2, 10.3.2
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="formScope" class="namespacePropertyTitle">formScope</a><a href="#Configuration" title="Go to Configuration namespace element group">(Back to Configuration)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">request</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The scope to given the forms.  This value can be overriddem by a tagged value.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="facesServletExtension" class="namespacePropertyTitle">facesServletExtension</a><a href="#Configuration" title="Go to Configuration namespace element group">(Back to Configuration)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">jsf</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The extension used for the application's handling of JSF pages.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="fileUploadMaxMemoryPerRequest" class="namespacePropertyTitle">fileUploadMaxMemoryPerRequest</a><a href="#Configuration" title="Go to Configuration namespace element group">(Back to Configuration)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">512000</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Maximum memory per request (in bytes) for file uploads.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="fileUploadMaxDiskSpacePerRequest" class="namespacePropertyTitle">fileUploadMaxDiskSpacePerRequest</a><a href="#Configuration" title="Go to Configuration namespace element group">(Back to Configuration)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">10240000</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Maximum memory per request (in bytes) for file uploads.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="logoutRedirectPath" class="namespacePropertyTitle">logoutRedirectPath</a><a href="#Configuration" title="Go to Configuration namespace element group">(Back to Configuration)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The path to which the application redirects after logout occurs.
+                    If this is unspecified, the application redirects to the application
+                    use case entry point.
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enablePreferences" class="namespacePropertyTitle">enablePreferences</a><a href="#UI Layout" title="Go to UI Layout namespace element group">(Back to UI Layout)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not a preferences menu item should be included in the menu (this
+                    menu item allows you to control skinning, etc).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="preferencesClassName" class="namespacePropertyTitle">preferencesClassName</a><a href="#UI Layout" title="Go to UI Layout namespace element group">(Back to UI Layout)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">Preferences</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Defines the name of the preferences class (which allows dynamic control
+                    of the UI's view preferences; skinning, etc).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="skin" class="namespacePropertyTitle">skin</a><a href="#UI Layout" title="Go to UI Layout namespace element group">(Back to UI Layout)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">default</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default skin to be applied (i.e look and feel of the application).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="preferencesBeanName" class="namespacePropertyTitle">preferencesBeanName</a><a href="#UI Layout" title="Go to UI Layout namespace element group">(Back to UI Layout)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">preferences</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Defines the bean name under which the preferences class will be stored.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="menuLayout" class="namespacePropertyTitle">menuLayout</a><a href="#UI Layout" title="Go to UI Layout namespace element group">(Back to UI Layout)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">vbr</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The menu layout.  Valid values are:
+                    <ul>
+                        <li>hbr</li>
+                        <li>hur</li>
+                        <li>hul</li>
+                        <li>vbr</li>
+                        <li>vur</li>
+                        <li>vur</li>
+                    </ul>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="maxTableRows" class="namespacePropertyTitle">maxTableRows</a><a href="#UI Layout" title="Go to UI Layout namespace element group">(Back to UI Layout)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">10</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The dfault value to set for the maximum rows displayed in a table.
+                </documentation></td></tr></table></div>            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="menuTheme" class="namespacePropertyTitle">menuTheme</a><a href="#UI Layout" title="Go to UI Layout namespace element group">(Back to UI Layout)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">ThemePanel</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The navigation theme to use (the possible choices are:
+                    ThemeOffice, ThemeMiniBlack, ThemeIE, ThemePanel).
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationName" class="namespacePropertyTitle">applicationName</a><a href="#Messages and i18n" title="Go to Messages and i18n namespace element group">(Back to Messages and i18n)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the application (this is used as the display
+                    name of the application).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="normalizeMessages" class="namespacePropertyTitle">normalizeMessages</a><a href="#Messages and i18n" title="Go to Messages and i18n namespace element group">(Back to Messages and i18n)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Denotes the way application resource messages ought to be generated.
+                    When messages are normalized it means that elements with the same name
+                    will reuse the same label, even if they are located in entirely different
+                    use-cases or pages.
+                    This results in resource bundles that are not only smaller in size but
+                    also more straightforward to translate. The downside is that it will be
+                    less evident to customize labels for certain fields (which is rarely the
+                    case anyway).
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="viewType" class="namespacePropertyTitle">viewType</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">jsp</code></td></tr><tr><td class="documentation" colspan="2"><documentation>Defines the type of view to render, currently the options are: 'jsp' or 'facelets'.</documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="welcomeFileName" class="namespacePropertyTitle">welcomeFileName</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">index.jsp</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The path of the file that will be the welcome file (minus the extension).
+                </documentation></td></tr></table></div>   
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="loginFileName" class="namespacePropertyTitle">loginFileName</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">login</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The path to the file that provides the login page (minus the extension).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="logoutFileName" class="namespacePropertyTitle">logoutFileName</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">logout</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The path to the file that provides application logout (minus the extension)
+                </documentation></td></tr></table></div> 
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultMultiSelectSize" class="namespacePropertyTitle">defaultMultiSelectSize</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">3</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default size to use for multi select boxes.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enableFaceletsDevelopmentSupport" class="namespacePropertyTitle">enableFaceletsDevelopmentSupport</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not the Facelet development support should be enabled (in the generated web.xml), this is
+                    useful to enable when developing with Faclets, however should be disabled when going to production.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultDateFormat" class="namespacePropertyTitle">defaultDateFormat</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">MM/dd/yyyy</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default date format to use in case it has not been explicitely
+                    specified, for event parameters.
+                    Take a look
+                    <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html">here</a>
+                    to see how to properly construct date formats.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="strictDateTimeFormat" class="namespacePropertyTitle">strictDateTimeFormat</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Specifies whether or not date and time formats are to be strictly matched.
+                    This property takes either true or false as values. If set to true all dates and times
+                    entered by the end-user will fail validation if they do not strictly adhere to their given format.
+                    Note that this strictness can always be overriden locally
+                    using the @andromda.struts.view.field.format tagged value.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultTimeFormat" class="namespacePropertyTitle">defaultTimeFormat</a><a href="#Views" title="Go to Views namespace element group">(Back to Views)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">HH:mm</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default time format to use when it has not been explicitely
+                    specified for event parameters. Take a look
+                    <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/text/SimpleDateFormat.html">here</a>
+                    to see how to properly construct time formats.
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="securityRealm" class="namespacePropertyTitle">securityRealm</a><a href="#Validation and Security" title="Go to Validation and Security namespace element group">(Back to Validation and Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The security realm to use when security is enabled.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="clientValidation" class="namespacePropertyTitle">clientValidation</a><a href="#Validation and Security" title="Go to Validation and Security namespace element group">(Back to Validation and Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Indicates whether or not validation should occur on the client side.
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="virtualHost" class="namespacePropertyTitle">virtualHost</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name to use for the virtual host (if one is required).  For example application.myserver.com.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="formSerialization" class="namespacePropertyTitle">formSerialization</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not forms should be serialized to disk (and therefore stored for later retrieval
+                    for example when the user's session is lost). This just provides simple perisistence for the application
+                    state.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="adfContextAttributeName" class="namespacePropertyTitle">adfContextAttributeName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">AndroMDAADFContext</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the temporary variable that stores the current ADF faces context (this 
+                    should typically not be changed).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="useCaseForwardsClassName" class="namespacePropertyTitle">useCaseForwardsClassName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">UseCaseForwards</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the class containing all use case forwards.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="sessionTimeout" class="namespacePropertyTitle">sessionTimeout</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">45</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The number of minutes the session may be idle before timeout occurs.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="distributable" class="namespacePropertyTitle">distributable</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not the web application should be considered <em>distributable</em>;
+                    this means that the session will be persisted and restored.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="stateSavingMethod" class="namespacePropertyTitle">stateSavingMethod</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">client</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The JSF state saving method to use within the application (can be 
+                    either <em>client</em> or <em>server</em>).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="fileTypeName" class="namespacePropertyTitle">fileTypeName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">oracle.adf.view.faces.model.UploadedFile</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The fully qualified type name to use when file types are modeled for parameters (used for
+                    for file uploads).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="dummyData" class="namespacePropertyTitle">dummyData</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Indicates whether or not dummy data should be rendered (in places like controllers).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="formPopulatorName" class="namespacePropertyTitle">formPopulatorName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">FormPopulator</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name to give the form populator utility class. This utility class provides
+                    JSF's form population when transfering information from one form to another
+                    during application flow.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="backingListPattern" class="namespacePropertyTitle">backingListPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}BackingList</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used for constructing a parameter's backing list name.  A backing list 
+                    is used when you want to select the value of the parameter from a list (typically 
+                    used for drop-down select input types).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="backingValuePattern" class="namespacePropertyTitle">backingValuePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}BackingValue</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used for constructing a parameter's backing value name.  A backing value 
+                    is used with an input table type (when you want to submit values from a table of
+                    complex objects).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="labelListPattern" class="namespacePropertyTitle">labelListPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}LabelList</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used for constructing the label list name (stores the list
+                    of possible parameter value labels). 
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="valueListPattern" class="namespacePropertyTitle">valueListPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}ValueList</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used for constructing the values list name (stores the list of
+                    possible parameter values when selecting from a list).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="converterPattern" class="namespacePropertyTitle">converterPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}JsfConverter</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used for constructing converters (like the enumeration converter), where
+                    <em>{0}</em> is the name of the model element.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="viewPopulatorPattern" class="namespacePropertyTitle">viewPopulatorPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}Populator</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used to construct the view form populator filter, where <em>{0}</em>
+                    is the name of the view.  
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="managedBeansPackage" class="namespacePropertyTitle">managedBeansPackage</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.andromda.presentation.jsf</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Defines the the package in which any extra managed-beans will 
+                    be generated (such as the layout options class, etc).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jsfComponentsPackage" class="namespacePropertyTitle">jsfComponentsPackage</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.andromda.presentation.jsf.components</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Defines the the package to which any JSF components generated by
+                    the cartridge reside.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="xmlEncoding" class="namespacePropertyTitle">xmlEncoding</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">UTF-8</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Encoding for generated XML files.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="formPattern" class="namespacePropertyTitle">formPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}Form</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use for constructing the form name, where
+                    <em>{0}</em> is the name of the controller operation capitalized.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="formImplementationPattern" class="namespacePropertyTitle">formImplementationPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}FormImpl</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use for constructing the form implementation name, where
+                    <em>{0}</em> is the name of the controller operation capitalized.                    
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="formMessagesProperty" class="namespacePropertyTitle">formMessagesProperty</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">jsfMessages</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Defines the name of the property on a form that stores messages.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="formBeanPattern" class="namespacePropertyTitle">formBeanPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}{1}Form</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern for constructing the name of the bean under which the form is stored,
+                    where <em>{0}</em> is the name of the use case and <em>{1}</em> is the name of the trigger.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="controllerImplementationPattern" class="namespacePropertyTitle">controllerImplementationPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}Impl</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern for constructing the name of the controller implementation class name (where <em>{0}</em>
+                    represents the modeled name of the controller).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="actionFormKey" class="namespacePropertyTitle">actionFormKey</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">form</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the key under which each action for is stored.  This
+                    form is passed along from action to action in order to transfer
+                    all parameters.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="messageResources" class="namespacePropertyTitle">messageResources</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">message-resources</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The path of the localized message resources (the <em>.properties</em>
+                    suffix is appended to this value when creating the actual file.).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jspIncludes" class="namespacePropertyTitle">jspIncludes</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">includes.jspf</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Defines the name of the default includes file (this contains any 
+                    message resources as well as tag libs.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="servicePackageNamePattern" class="namespacePropertyTitle">servicePackageNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the package in which to create the service files, <code>{0}</code>
+                    can be used to denote the package in which the service has been modeled.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceAccessorPattern" class="namespacePropertyTitle">serviceAccessorPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use when calling the backend code for &lt;&lt;Service&gt;&gt; lookups.
+                    For calling services you would use following patterns:
+                    <ul>
+                        <li><strong>Spring</strong>: <code>${application.package}.ServiceLocator.instance().get{1}()</code></li>
+                        <li><strong>EJB</strong>: <code>${myPackage}.{1}Util.getHome().create()</code></li>
+                    </ul>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="messageResourceKeyPattern" class="namespacePropertyTitle">messageResourceKeyPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">(.*)(\\{\\s*([\\w|\\.+]*)\\s*\\})(.*)</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Used to define the pattern used for retrieving message resource keys
+                    from messages (like exceptions).  This is useful when exceptions or other messages
+                    are propogated from the business tier and you want to map these to messages in your presentation tier.
+                    Normally you won't need to change this pattern, however you may want to,
+                    if you want to use it for exceptions you may have no control over
+                    (i.e. SQLExceptions).  Currently the default pattern supports a message with
+                    an embedded <em>{some.resource.key}</em> type key.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="patternMatchingExceptionHandler" class="namespacePropertyTitle">patternMatchingExceptionHandler</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">PatternMatchingExceptionHandler</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name to give the pattern matching exception handler.
+                </documentation></td></tr></table></div>
+        
+    </p></section>
+</body></document>

@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA Spring Cartridge Namespace</title></properties><body>
+    <section name="AndroMDA Spring Cartridge Namespace Components"><ul>
+        <li>cartridge</li>
+        <li>metafacades</li>
+        <li>profile</li>
+    </ul></section>
+    <section name="AndroMDA Spring Cartridge Namespace Properties"><div class="namespacePropertyGroup"><a name="Acegi Security" class="namespacePropertyGroup">Acegi Security</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Configures the declaritive role based security <strong>without EJB</strong>, which uses the
+                <a href="http://acegisecurity.sourceforge.net">Acegi Security System for Spring</a>.
+            </documentation></div><ul><li><a href="#acegiAuthenticationManager" title="Optional, no default value available">acegiAuthenticationManager</a></li><li><a href="#acegiRolePrefix" title="Optional, defaults to &apos;ROLE_&apos;">acegiRolePrefix</a></li><li><a href="#acegiRunAsManager" title="Optional, no default value available">acegiRunAsManager</a></li><li><a href="#acegiServiceAccessDecisionManager" title="Optional, defaults to &apos;org.acegisecurity.vote.AffirmativeBased&apos;">acegiServiceAccessDecisionManager</a></li><li><a href="#acegiServiceDecisionVoter" title="Optional, defaults to &apos;org.acegisecurity.vote.RoleVoter&apos;">acegiServiceDecisionVoter</a></li><li><a href="#acegiServiceSecurity" title="Optional, defaults to &apos;false&apos;">acegiServiceSecurity</a></li><li><a href="#acegiServiceSecurityInterceptor" title="Optional, defaults to &apos;org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor&apos;">acegiServiceSecurityInterceptor</a></li></ul></div><div class="namespacePropertyGroup"><a name="Hibernate" class="namespacePropertyGroup">Hibernate</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                The properties for configuring <a href="http://www.hibernate.org">Hibernate</a> support generation.
+            </documentation></div><ul><li><a href="#hibernateCacheProvider" title="Optional, defaults to &apos;net.sf.hibernate.cache.EhCacheProvider&apos;">hibernateCacheProvider</a></li><li><a href="#hibernateConnectionReleaseMode" title="Optional, no default value available">hibernateConnectionReleaseMode</a></li><li><a href="#hibernateDefaultSchema" title="Optional, no default value available">hibernateDefaultSchema</a></li><li><a href="#hibernateDialect" title="Optional, no default value available">hibernateDialect</a></li><li><a href="#hibernateEnableCache" title="Optional, defaults to &apos;false&apos;">hibernateEnableCache</a></li><li><a href="#hibernateHbm2DDLAuto" title="Optional, no default value available">hibernateHbm2DDLAuto</a></li><li><a href="#hibernateInheritanceStrategy" title="Optional, defaults to &apos;subclass&apos;">hibernateInheritanceStrategy</a></li><li><a href="#hibernateJdbcBatchSize" title="Optional, no default value available">hibernateJdbcBatchSize</a></li><li><a href="#hibernateJdbcFetchSize" title="Optional, no default value available">hibernateJdbcFetchSize</a></li><li><a href="#hibernateJdbcUseScrollableResultSet" title="Optional, no default value available">hibernateJdbcUseScrollableResultSet</a></li><li><a href="#hibernateJdbcUseStreamsForBinary" title="Optional, no default value available">hibernateJdbcUseStreamsForBinary</a></li><li><a href="#hibernateJndiName" title="Optional, no default value available">hibernateJndiName</a></li><li><a href="#hibernateMappingStrategy" title="Optional, defaults to &apos;hierarchy&apos;">hibernateMappingStrategy</a></li><li><a href="#hibernateMaxFetchDepth" title="Optional, no default value available">hibernateMaxFetchDepth</a></li><li><a href="#hibernatePoolSize" title="Optional, no default value available">hibernatePoolSize</a></li><li><a href="#hibernateQueryCacheFactory" title="Optional, defaults to &apos;net.sf.hibernate.cache.StandardQueryCacheFactory&apos;">hibernateQueryCacheFactory</a></li><li><a href="#hibernateQuerySubstitutions" title="Optional, no default value available">hibernateQuerySubstitutions</a></li><li><a href="#hibernateQueryUseNamedParameters" title="Optional, defaults to &apos;false&apos;">hibernateQueryUseNamedParameters</a></li><li><a href="#hibernateShowSql" title="Optional, no default value available">hibernateShowSql</a></li><li><a href="#hibernateTransactionManagerLookup" title="Optional, no default value available">hibernateTransactionManagerLookup</a></li><li><a href="#hibernateTransactionManagerStrategy" title="Optional, no default value available">hibernateTransactionManagerStrategy</a></li><li><a href="#hibernateUseOuterJoin" title="Optional, no default value available">hibernateUseOuterJoin</a></li><li><a href="#hibernateUserTransactionName" title="Optional, no default value available">hibernateUserTransactionName</a></li><li><a href="#hibernateVersion" title="Optional, defaults to &apos;2&apos;">hibernateVersion</a></li><li><a href="#hibernateXMLPersistence" title="Optional, defaults to &apos;false&apos;">hibernateXMLPersistence</a></li><li><a href="#javaTypeConversionIgnoreList" title="Optional, no default value available">javaTypeConversionIgnoreList</a></li><li><a href="#serviceHibernateInterceptorEnabled" title="Optional, defaults to &apos;true&apos;">serviceHibernateInterceptorEnabled</a></li></ul></div><div class="namespacePropertyGroup"><a name="JMS" class="namespacePropertyGroup">JMS</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                The properties for configuring JMS support generation.  JMS support is only available whtn using Spring 2.x.
+            </documentation></div><ul><li><a href="#applicationContextJms" title="Optional, defaults to &apos;applicationContext-jms.xml&apos;">applicationContextJms</a></li><li><a href="#jmsClientId" title="Optional, no default value available">jmsClientId</a></li><li><a href="#jmsConnectionFactory" title="Optional, defaults to &apos;UIL2ConnectionFactory&apos;">jmsConnectionFactory</a></li><li><a href="#jmsDestinationTemplatePattern" title="Optional, defaults to &apos;{0}JmsTemplate&apos;">jmsDestinationTemplatePattern</a></li><li><a href="#jmsDurableSubscriptionName" title="Optional, no default value available">jmsDurableSubscriptionName</a></li><li><a href="#jmsDurableSubscriptions" title="Optional, defaults to &apos;true&apos;">jmsDurableSubscriptions</a></li><li><a href="#jmsExplicitQosEnabled" title="Optional, defaults to &apos;true&apos;">jmsExplicitQosEnabled</a></li><li><a href="#jmsInitialContextFactory" title="Optional, defaults to &apos;org.jnp.interfaces.NamingContextFactory&apos;">jmsInitialContextFactory</a></li><li><a href="#jmsMessageListenerAdapterImplementation" title="Optional, defaults to &apos;org.springframework.jms.listener.adapter.MessageListenerAdapter&apos;">jmsMessageListenerAdapterImplementation</a></li><li><a href="#jmsMessageListenerContainerImplementation" title="Optional, defaults to &apos;org.springframework.jms.listener.DefaultMessageListenerContainer&apos;">jmsMessageListenerContainerImplementation</a></li><li><a href="#jmsProvider" title="Optional, defaults to &apos;JBossMQ&apos;">jmsProvider</a></li><li><a href="#jmsProviderUrl" title="Optional, defaults to &apos;localhost:1099&apos;">jmsProviderUrl</a></li><li><a href="#jmsQueueNamePrefix" title="Optional, defaults to &apos;queue/&apos;">jmsQueueNamePrefix</a></li><li><a href="#jmsReceiveTimeout" title="Optional, defaults to &apos;30000&apos;">jmsReceiveTimeout</a></li><li><a href="#jmsTemplateImplementation" title="Optional, defaults to &apos;org.springframework.jms.core.JmsTemplate&apos;">jmsTemplateImplementation</a></li><li><a href="#jmsTopicNamePrefix" title="Optional, defaults to &apos;topic/&apos;">jmsTopicNamePrefix</a></li><li><a href="#jmsUrlPackagePrefixes" title="Optional, defaults to &apos;org.jnp.interfaces:org.jboss.naming&apos;">jmsUrlPackagePrefixes</a></li></ul></div><div class="namespacePropertyGroup"><a name="Other" class="namespacePropertyGroup">Other</a><ul><li><a href="#applicationContext" title="Optional, defaults to &apos;applicationContext.xml&apos;">applicationContext</a></li><li><a href="#applicationContextClient" title="Optional, defaults to &apos;applicationContext-import-remoteServices.xml&apos;">applicationContextClient</a></li><li><a href="#applicationContextDataSource" title="Optional, defaults to &apos;applicationContext-dataSource.xml&apos;">applicationContextDataSource</a></li><li><a href="#applicationContextLocalDataSource" title="Optional, defaults to &apos;applicationContext-localDataSource.xml&apos;">applicationContextLocalDataSource</a></li><li><a href="#applicationContextLocalEjb" title="Optional, defaults to &apos;applicationContext-localEjb.xml&apos;">applicationContextLocalEjb</a></li><li><a href="#applicationContextManageable" title="Optional, defaults to &apos;applicationContext-manageable.xml&apos;">applicationContextManageable</a></li><li><a href="#applicationContextRemoteEjb" title="Optional, defaults to &apos;applicationContext-remoteEjb.xml&apos;">applicationContextRemoteEjb</a></li><li><a href="#applicationContextServer" title="Optional, defaults to &apos;applicationContext-export-remoteServices.xml&apos;">applicationContextServer</a></li><li><a href="#beanRefFactory" title="Optional, defaults to &apos;beanRefFactory.xml&apos;">beanRefFactory</a></li><li><a href="#beanRefFactoryEjbId" title="Optional, defaults to &apos;beanRefFactoryEjb&apos;">beanRefFactoryEjbId</a></li><li><a href="#beanRefFactoryId" title="Optional, defaults to &apos;beanRefFactory&apos;">beanRefFactoryId</a></li><li><a href="#clientExceptionHandlingAdviceName" title="Optional, defaults to &apos;ClientExceptionHandlingAdvice&apos;">clientExceptionHandlingAdviceName</a></li><li><a href="#clientServiceLocatorClassloaderSwitching" title="Optional, defaults to &apos;off&apos;">clientServiceLocatorClassloaderSwitching</a></li><li><a href="#clientServiceLocatorName" title="Optional, defaults to &apos;RemoteServiceLocator&apos;">clientServiceLocatorName</a></li><li><a href="#connectionUrl" title="Optional, no default value available">connectionUrl</a></li><li><a href="#criteriaSearchBaseName" title="Optional, defaults to &apos;CriteriaSearch&apos;">criteriaSearchBaseName</a></li><li><a href="#crudValueObjectSuffix" title="Optional, defaults to &apos;ValueObject&apos;">crudValueObjectSuffix</a></li><li><a href="#daoBaseNamePattern" title="Optional, defaults to &apos;{0}DaoBase&apos;">daoBaseNamePattern</a></li><li><a href="#daoImplementationNamePattern" title="Optional, defaults to &apos;{0}DaoImpl&apos;">daoImplementationNamePattern</a></li><li><a href="#daoInheritanceEnabled" title="Optional, defaults to &apos;true&apos;">daoInheritanceEnabled</a></li><li><a href="#daoNamePattern" title="Optional, defaults to &apos;{0}Dao&apos;">daoNamePattern</a></li><li><a href="#dataSource" title="Optional, no default value available">dataSource</a></li><li><a href="#dataSourceEnabled" title="Optional, defaults to &apos;true&apos;">dataSourceEnabled</a></li><li><a href="#defaultServiceExceptionNamePattern" title="Optional, defaults to &apos;{0}Exception&apos;">defaultServiceExceptionNamePattern</a></li><li><a href="#defaultServiceExceptions" title="Optional, defaults to &apos;true&apos;">defaultServiceExceptions</a></li><li><a href="#driver" title="Optional, no default value available">driver</a></li><li><a href="#ejbJndiNamePrefix" title="Optional, no default value available">ejbJndiNamePrefix</a></li><li><a href="#ejbLocalProxyFactoryBean" title="Optional, defaults to &apos;org.springframework.ejb.access.LocalStatelessSessionProxyFactoryBean&apos;">ejbLocalProxyFactoryBean</a></li><li><a href="#ejbPackageNamePattern" title="Optional, defaults to &apos;{0}.ejb&apos;">ejbPackageNamePattern</a></li><li><a href="#ejbRemoteInitialContextFactory" title="Optional, defaults to &apos;org.jnp.interfaces.NamingContextFactory&apos;">ejbRemoteInitialContextFactory</a></li><li><a href="#ejbRemoteProviderUrl" title="Optional, defaults to &apos;localhost:1099&apos;">ejbRemoteProviderUrl</a></li><li><a href="#ejbRemoteProxyFactoryBean" title="Optional, defaults to &apos;org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean&apos;">ejbRemoteProxyFactoryBean</a></li><li><a href="#ejbRemoteUrlPackagePrefixes" title="Optional, defaults to &apos;org.jboss.naming:org.jnp.interfaces&apos;">ejbRemoteUrlPackagePrefixes</a></li><li><a href="#ejbServiceOperationTransactionType" title="Optional, defaults to &apos;Required&apos;">ejbServiceOperationTransactionType</a></li><li><a href="#ejbSessionBeanBaseClass" title="Optional, defaults to &apos;org.springframework.ejb.support.AbstractStatelessSessionBean&apos;">ejbSessionBeanBaseClass</a></li><li><a href="#ejbSessionBeanBaseInterfaceLocal" title="Optional, defaults to &apos;javax.ejb.EJBLocalObject&apos;">ejbSessionBeanBaseInterfaceLocal</a></li><li><a href="#ejbSessionBeanBaseInterfaceRemote" title="Optional, defaults to &apos;javax.ejb.EJBObject&apos;">ejbSessionBeanBaseInterfaceRemote</a></li><li><a href="#ejbTransactionsEnabled" title="Optional, defaults to &apos;true&apos;">ejbTransactionsEnabled</a></li><li><a href="#ejbViewType" title="Optional, defaults to &apos;local&apos;">ejbViewType</a></li><li><a href="#enableDaoPropertiesCreateMethod" title="Optional, defaults to &apos;true&apos;">enableDaoPropertiesCreateMethod</a></li><li><a href="#enableSpringTransactionsWhenEjbsEnabled" title="Optional, defaults to &apos;true&apos;">enableSpringTransactionsWhenEjbsEnabled</a></li><li><a href="#entityNamePattern" title="Optional, defaults to &apos;{0}&apos;">entityNamePattern</a></li><li><a href="#externalPrincipalStoreClass" title="Optional, no default value available">externalPrincipalStoreClass</a></li><li><a href="#externalPrincipalStoreGetter" title="Optional, defaults to &apos;get()&apos;">externalPrincipalStoreGetter</a></li><li><a href="#externalPrincipalStoreGetterType" title="Optional, defaults to &apos;java.security.Principal&apos;">externalPrincipalStoreGetterType</a></li><li><a href="#implementationOperationNamePattern" title="Optional, defaults to &apos;handle{0}&apos;">implementationOperationNamePattern</a></li><li><a href="#jdbcDataSourceClass" title="Optional, defaults to &apos;org.springframework.jdbc.datasource.DriverManagerDataSource&apos;">jdbcDataSourceClass</a></li><li><a href="#jdbcDataSourceDestroyMethod" title="Optional, no default value available">jdbcDataSourceDestroyMethod</a></li><li><a href="#jndiDataSourceClass" title="Optional, defaults to &apos;org.springframework.jndi.JndiObjectFactoryBean&apos;">jndiDataSourceClass</a></li><li><a href="#localTransactionManager" title="Optional, defaults to &apos;org.springframework.orm.hibernate.HibernateTransactionManager&apos;">localTransactionManager</a></li><li><a href="#manageableServiceLocatorName" title="Optional, defaults to &apos;ManageableServiceLocator&apos;">manageableServiceLocatorName</a></li><li><a href="#messageBundlePath" title="Optional, defaults to &apos;messages&apos;">messageBundlePath</a></li><li><a href="#messageSourceBeanName" title="Optional, defaults to &apos;messageSource&apos;">messageSourceBeanName</a></li><li><a href="#openSessionInViewFilterName" title="Optional, defaults to &apos;AndroMDAOpenSessionInViewFilter&apos;">openSessionInViewFilterName</a></li><li><a href="#parameterRequiredCheck" title="Optional, defaults to &apos;true&apos;">parameterRequiredCheck</a></li><li><a href="#password" title="Optional, no default value available">password</a></li><li><a href="#principalStoreName" title="Optional, defaults to &apos;PrincipalStore&apos;">principalStoreName</a></li><li><a href="#securityRealm" title="Optional, no default value available">securityRealm</a></li><li><a href="#serviceInterceptors" title="Optional, no default value available">serviceInterceptors</a></li><li><a href="#serviceLocatorDefaultFactoryId" title="Optional, no default value available">serviceLocatorDefaultFactoryId</a></li><li><a href="#serviceLocatorName" title="Optional, defaults to &apos;ServiceLocator&apos;">serviceLocatorName</a></li><li><a href="#serviceOperationTransactionType" title="Optional, defaults to &apos;PROPAGATION_REQUIRED&apos;">serviceOperationTransactionType</a></li><li><a href="#sessionFactory" title="Optional, defaults to &apos;org.springframework.orm.hibernate.LocalSessionFactoryBean&apos;">sessionFactory</a></li><li><a href="#springPresentationTypesPackage" title="Optional, defaults to &apos;org.andromda.spring.presentation&apos;">springPresentationTypesPackage</a></li><li><a href="#springTypesPackage" title="Optional, defaults to &apos;org.andromda.spring&apos;">springTypesPackage</a></li><li><a href="#transactionManager" title="Optional, defaults to &apos;org.springframework.transaction.jta.JtaTransactionManager&apos;">transactionManager</a></li><li><a href="#transactionManagerName" title="Optional, no default value available">transactionManagerName</a></li><li><a href="#username" title="Optional, no default value available">username</a></li><li><a href="#userTransactionName" title="Optional, no default value available">userTransactionName</a></li><li><a href="#webServiceIncomingAttachmentHandlerCallPattern" title="Optional, no default value available">webServiceIncomingAttachmentHandlerCallPattern</a></li><li><a href="#webServiceOutgoingAttachmentHandlerCallPattern" title="Optional, no default value available">webServiceOutgoingAttachmentHandlerCallPattern</a></li><li><a href="#xmlEncoding" title="Optional, defaults to &apos;UTF-8&apos;">xmlEncoding</a></li></ul></div><div class="namespacePropertyGroup"><a name="Outlets" class="namespacePropertyGroup">Outlets</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Defines the locations to which output is generated.
+            </documentation></div><ul><li><a href="#advice-impls" title="Optional, no default value available">advice-impls</a></li><li><a href="#client" title="Optional, no default value available">client</a></li><li><a href="#client-config" title="Optional, no default value available">client-config</a></li><li><a href="#client-test" title="Optional, no default value available">client-test</a></li><li><a href="#criteria" title="Optional, no default value available">criteria</a></li><li><a href="#dao-impls" title="Required">dao-impls</a></li><li><a href="#daos" title="Required">daos</a></li><li><a href="#merge-mappings" title="Optional, no default value available">merge-mappings</a></li><li><a href="#open-session-in-view" title="Optional, no default value available">open-session-in-view</a></li><li><a href="#server" title="Optional, no default value available">server</a></li><li><a href="#server-config" title="Optional, no default value available">server-config</a></li><li><a href="#server-impl" title="Optional, no default value available">server-impl</a></li><li><a href="#server-test" title="Optional, no default value available">server-test</a></li><li><a href="#server-test-config" title="Optional, no default value available">server-test-config</a></li><li><a href="#service-impls" title="Required">service-impls</a></li><li><a href="#service-interfaces" title="Required">service-interfaces</a></li><li><a href="#services" title="Required">services</a></li><li><a href="#session-ejbs" title="Optional, no default value available">session-ejbs</a></li><li><a href="#spring-configuration" title="Required">spring-configuration</a></li><li><a href="#value-objects" title="Optional, no default value available">value-objects</a></li></ul></div><div class="namespacePropertyGroup"><a name="Remoting" class="namespacePropertyGroup">Remoting</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Properties related to Spring remote services
+            </documentation></div><ul><li><a href="#serviceRemoteContext" title="Optional, no default value available">serviceRemoteContext</a></li><li><a href="#serviceRemotePort" title="Optional, defaults to &apos;8080&apos;">serviceRemotePort</a></li><li><a href="#serviceRemotePortJMS" title="Optional, defaults to &apos;61616&apos;">serviceRemotePortJMS</a></li><li><a href="#serviceRemoteServer" title="Optional, defaults to &apos;localhost&apos;">serviceRemoteServer</a></li><li><a href="#serviceRemotingType" title="Optional, defaults to &apos;none&apos;">serviceRemotingType</a></li></ul></div><div class="namespacePropertyGroup"><a name="Rich Client" class="namespacePropertyGroup">Rich Client</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Configures code generation when developing in a Rich Client environment.
+            </documentation></div><ul><li><a href="#acegiAuthenticationDaoBeanName" title="Optional, no default value available">acegiAuthenticationDaoBeanName</a></li><li><a href="#acegiAuthenticationDaoImplClass" title="Optional, no default value available">acegiAuthenticationDaoImplClass</a></li><li><a href="#acegiAuthenticationManagerImplClass" title="Optional, no default value available">acegiAuthenticationManagerImplClass</a></li><li><a href="#acegiDaoAuthenticationProviderBeanName" title="Optional, defaults to &apos;daoAuthenticationProvider&apos;">acegiDaoAuthenticationProviderBeanName</a></li><li><a href="#acegiDaoAuthenticationProviderImplClass" title="Optional, no default value available">acegiDaoAuthenticationProviderImplClass</a></li><li><a href="#acegiDaoUserCacheBeanName" title="Optional, no default value available">acegiDaoUserCacheBeanName</a></li><li><a href="#acegiDaoUserCacheImplClass" title="Optional, no default value available">acegiDaoUserCacheImplClass</a></li><li><a href="#acegiPasswordEncoderBeanName" title="Optional, no default value available">acegiPasswordEncoderBeanName</a></li><li><a href="#acegiPasswordEncoderImplClass" title="Optional, no default value available">acegiPasswordEncoderImplClass</a></li><li><a href="#acegiPasswordSaltSourceBeanName" title="Optional, no default value available">acegiPasswordSaltSourceBeanName</a></li><li><a href="#acegiUserCacheConfigLocation" title="Optional, no default value available">acegiUserCacheConfigLocation</a></li><li><a href="#acegiUserCacheName" title="Optional, no default value available">acegiUserCacheName</a></li><li><a href="#applicationContextClientAuthentication" title="Optional, defaults to &apos;applicationContext-client-authentication.xml&apos;">applicationContextClientAuthentication</a></li><li><a href="#applicationContextServerAuthentication" title="Optional, defaults to &apos;applicationContext-server-authentication.xml&apos;">applicationContextServerAuthentication</a></li><li><a href="#clientHttpInvokerExecutor" title="Optional, no default value available">clientHttpInvokerExecutor</a></li><li><a href="#configPropertyPrefix" title="Optional, defaults to the empty string">configPropertyPrefix</a></li><li><a href="#richClient" title="Optional, defaults to &apos;false&apos;">richClient</a></li><li><a href="#serverTestBeanRefFactory" title="Optional, defaults to &apos;applicationContext-test.xml&apos;">serverTestBeanRefFactory</a></li><li><a href="#serverTestContextAuthentication" title="Optional, defaults to &apos;applicationContext-test-authentication.xml&apos;">serverTestContextAuthentication</a></li><li><a href="#serverTestContextDataSource" title="Optional, defaults to &apos;applicationContext-test-dataSource.xml&apos;">serverTestContextDataSource</a></li></ul></div><p>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="value-objects" class="namespacePropertyTitle">value-objects</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    When using the CRUD feature (manageable entities) this outlet will be used to emit
+                    the value objects to (returned by the services to the client).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="criteria" class="namespacePropertyTitle">criteria</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which search criteria classes are being generated. If you do not specify this
+                    outlet criteria classes will be generated to the <code>daos</code> outlet.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="services" class="namespacePropertyTitle">services</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which all service classes (including the service locator(s))
+                    will be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="service-impls" class="namespacePropertyTitle">service-impls</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which all service implementation classes will be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="service-interfaces" class="namespacePropertyTitle">service-interfaces</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which all service interfaces and common API classes such
+                    as default service exceptions will be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="daos" class="namespacePropertyTitle">daos</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which Spring DAOs, and any support classes.
+                    <p>
+                        Please <strong>NOTE</strong>
+                        that the dao implementation classes will also be generated to this location when
+                        <strong>no operations</strong> are present on the entity with <em>classifier scope</em>.
+                    </p>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="dao-impls" class="namespacePropertyTitle">dao-impls</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which Spring DAO implementation
+                    classes will be generated (if there are any classifier scoped business
+                    operations modeled on any entity).
+                    <p>
+                        Please <strong>NOTE</strong>
+                        that the dao implementation classes will be generated to the <em>daos</em> outlet when
+                        <strong>no operations</strong> are present on the entity with <em>classifier scope</em>.
+                    </p>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="spring-configuration" class="namespacePropertyTitle">spring-configuration</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which the Spring applicationContext.xml
+                    will be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="open-session-in-view" class="namespacePropertyTitle">open-session-in-view</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which the AndroMDA OpenSessionInViewFilter will be generated
+                    (allows the Hibernate <em>open-session-in-view</em> pattern when you want to
+                    expose your enties directly to your presentation tier - allows lazy-loading to
+                    occur that level).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="session-ejbs" class="namespacePropertyTitle">session-ejbs</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The outlet to which EJB support is generated.  If undefined, EJB support will
+                    not be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="advice-impls" class="namespacePropertyTitle">advice-impls</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which any advice implementation classes will be generated.  Currently
+                    this is useful when using the cartridge's remoting support.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="client" class="namespacePropertyTitle">client</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where client side code is generated if using a Rich Client environment
+                    (i.e. the richClient namespace entry is "true").
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="client-config" class="namespacePropertyTitle">client-config</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where client side configuration files are generated if using a Rich Client environment
+                    (i.e. the richClient namespace entry is "true").
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="client-test" class="namespacePropertyTitle">client-test</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where client side test implementation code will be generated if using a Rich Client environment
+                    (i.e. the richClient namespace entry is "true").
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="server" class="namespacePropertyTitle">server</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where server side code is generated if using a Rich Client environment
+                    (i.e. the richClient namespace entry is "true").
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="server-impl" class="namespacePropertyTitle">server-impl</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where server side implementation code will be generated if using a Rich Client environment
+                    (i.e. the richClient namespace entry is "true").
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="server-config" class="namespacePropertyTitle">server-config</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where server side configuration code is generated if using a Rich Client environment
+                    (i.e. the richClient namespace entry is "true").
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="server-test" class="namespacePropertyTitle">server-test</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where server side test implementation code will be generated if using a Rich Client environment
+                    (i.e. the richClient namespace entry is "true").
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="server-test-config" class="namespacePropertyTitle">server-test-config</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where server side test configuration files will be generated if using a Rich Client environment
+                    (i.e. the richClient namespace entry is "true").
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="merge-mappings" class="namespacePropertyTitle">merge-mappings</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location where AndroMDA merge mapping stub files should be generated.
+                </documentation></td></tr></table></div>
+        
+        
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="webServiceOutgoingAttachmentHandlerCallPattern" class="namespacePropertyTitle">webServiceOutgoingAttachmentHandlerCallPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use when constructing the call to the attachment handler (used for sending
+                    outgoing attachments when your service also represents a web service), for example:
+                    <ul>
+                        <li><strong>Axis</strong>: <code>org.andromda.webservice.AxisAttachmentHandler.saveAttachment(content, contentType, dime)</code></li>
+                    </ul>
+                    Attachments are good for sending large amounts of data over over the wire as it doesn't embed the data
+                    directly in the XML.
+                    <strong>NOTE:</strong> the handler call must have three parameters named <em>content</em>, <em>contentType</em> and <em>dime</em>.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="webServiceIncomingAttachmentHandlerCallPattern" class="namespacePropertyTitle">webServiceIncomingAttachmentHandlerCallPattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use when constructing the call to the attachment handler (used for retrieving
+                    incoming attachments when your service also represents a web service), for example:
+                    <ul>
+                        <li><strong>Axis</strong>: <code>org.andromda.webservice.AxisAttachmentHandler.getAttachments()</code></li>
+                    </ul>
+                    Attachments are good for sending large amounts of data over over the wire as it doesn't embed the data
+                    directly in the XML.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="daoInheritanceEnabled" class="namespacePropertyTitle">daoInheritanceEnabled</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not the DAOs should make up an inheritance tree in the same way as their respective
+                    entities. This is enabled by default but you might want to disable it if you prefer not to have
+                    top-level DAO operations visible in child DAO classes, this is usually the case when using JDK5
+                    generics, which can be enabled using the <code>enableTemplating</code> namespace property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enableDaoPropertiesCreateMethod" class="namespacePropertyTitle">enableDaoPropertiesCreateMethod</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not the create methods on the DAOs taking properties
+                    from the entity shall be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="messageBundlePath" class="namespacePropertyTitle">messageBundlePath</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">messages</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The path of the file representing the message bundle.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="messageSourceBeanName" class="namespacePropertyTitle">messageSourceBeanName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">messageSource</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the bean that stores the message source.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="daoNamePattern" class="namespacePropertyTitle">daoNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}Dao</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use when constructing the DAO name. <em>{0}</em> is used to represent
+                    the entity name in the model, so if you specified a value of <code>{0}Dao</code> all
+                    the entities generated would have a suffix of "Dao".
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="daoBaseNamePattern" class="namespacePropertyTitle">daoBaseNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}DaoBase</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use when constructing the base DAO's name.
+                    <em>{0}</em> is used to represent the entity name
+                    in the model, so if you specified a value of
+                    <code>{0}DaoBase</code> all the entities generated
+                    would have a suffix of "DaoBase".
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="daoImplementationNamePattern" class="namespacePropertyTitle">daoImplementationNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}DaoImpl</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use when constructing the DAO's
+                    implementation name. <em>{0}</em> is used to represent
+                    the entity name in the model, so if you specified a value of
+                    <code>{0}DaoImpl</code> all the entities generated
+                    would have a suffix of "DaoImpl".
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbJndiNamePrefix" class="namespacePropertyTitle">ejbJndiNamePrefix</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The prefix to give to the Session EJB JNDI names (this allows
+                    the same Session EJB to be deployed multiple times in the same
+                    container)
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="enableSpringTransactionsWhenEjbsEnabled" class="namespacePropertyTitle">enableSpringTransactionsWhenEjbsEnabled</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not to enable Spring transaction support when EJBs are enabled.  If this is set to false
+                    then only EJB transaction support is generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbTransactionsEnabled" class="namespacePropertyTitle">ejbTransactionsEnabled</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not EJB transactions should be enabled.  This is sometimes useful to turn off
+                    when you're using EJB wrapped spring services but want to turn off EJB transaction management
+                    so that Spring alone handles the transactions (note that this property only make sense when EJBs are enabled).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbRemoteProxyFactoryBean" class="namespacePropertyTitle">ejbRemoteProxyFactoryBean</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Full class name for proxy factory bean used in application context for
+                    remote EJB access <code>applicationContextRemoteEjb</code>.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbLocalProxyFactoryBean" class="namespacePropertyTitle">ejbLocalProxyFactoryBean</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.ejb.access.LocalStatelessSessionProxyFactoryBean</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Full class name for proxy factory bean used in application context for
+                    local EJB access <code>applicationContextLocalEjb</code>.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbRemoteProviderUrl" class="namespacePropertyTitle">ejbRemoteProviderUrl</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">localhost:1099</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The provider URL for remote EJB access.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbRemoteInitialContextFactory" class="namespacePropertyTitle">ejbRemoteInitialContextFactory</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.jnp.interfaces.NamingContextFactory</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The initial context factory class for remote EJB access.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbRemoteUrlPackagePrefixes" class="namespacePropertyTitle">ejbRemoteUrlPackagePrefixes</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.jboss.naming:org.jnp.interfaces</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The URL package prefixes for remote EJB access.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbPackageNamePattern" class="namespacePropertyTitle">ejbPackageNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}.ejb</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    If EJBs are being used, this specifies the pattern to be
+                    used when constructing the EJB package name
+                    (this allows a Spring Service to be wrapped by a Session EJB
+                    and avoids name conflicts).  The <em>{0}</em> character
+                    represents the service package name.  This could be something like
+                    <em>{0}.ejb</em> which would create the Spring Session EJBs in the
+                    package ending in the <em>ejb</em> package.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultServiceExceptionNamePattern" class="namespacePropertyTitle">defaultServiceExceptionNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}Exception</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use when constructing the default service exception name.
+                    <strong>NOTE:</strong> This propety is only applicable when defaultServiceExceptions
+                    is <code>true</code>.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="defaultServiceExceptions" class="namespacePropertyTitle">defaultServiceExceptions</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not to generate a default exception for each service.  This exception
+                    will handle unexpected exceptions occuring within the implemented operations.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceInterceptors" class="namespacePropertyTitle">serviceInterceptors</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Sets a list of default additional interceptors to be applied to service ProxyBeanFactory
+                    declarations. They will be listed after the serviceSecurityInterceptor,
+                    serviceTransactionInterceptor and hibernateInterceptor if present.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="externalPrincipalStoreClass" class="namespacePropertyTitle">externalPrincipalStoreClass</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    If this is present, it will be assumed that an external principal store class will be used
+                    and non will be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="externalPrincipalStoreGetter" class="namespacePropertyTitle">externalPrincipalStoreGetter</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">get()</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    If externalPrincipalStoreClass is defined, externalPrincipalStoreGetter defines the
+                    method call on that class that will retrieve the principal.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="externalPrincipalStoreGetterType" class="namespacePropertyTitle">externalPrincipalStoreGetterType</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">java.security.Principal</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    If externalPrincipalStoreClass is defined, externalPrincipalStoreGetterType defines the
+                    type returned by the externalPrincipalStoreGetter method.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="entityNamePattern" class="namespacePropertyTitle">entityNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern to use when constructing an entity name.
+                    <em>{0}</em> is used to represent the entity name
+                    in the model, so if you specified a value of
+                    <code>{0}Entity</code> all the entities generated
+                    would have a suffix of "Entity".
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceOperationTransactionType" class="namespacePropertyTitle">serviceOperationTransactionType</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">PROPAGATION_REQUIRED</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default transaction type used for service operations (when not
+                    wrapping your services with EJBs).
+                    <strong>NOTE:</strong> Can be overridden on a per entity basis with the
+                    <a href="profile.html#@andromda_spring_transaction_type">@andromda.spring.transaction.type</a>
+                    tagged value.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbServiceOperationTransactionType" class="namespacePropertyTitle">ejbServiceOperationTransactionType</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">Required</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default transaction type definition used if EJB service operations.
+                    <ul>
+                        Permitted values are:
+                        <li>NotSupported</li>
+                        <li>Supports</li>
+                        <li>Required</li>
+                        <li>RequiresNew</li>
+                        <li>Mandatory</li>
+                        <li>Never</li>
+                    </ul>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbViewType" class="namespacePropertyTitle">ejbViewType</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">local</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    If EJBs are being used, this specifies the view type
+                    for the EJB interfaces.  Can be either <code>local</code>,
+                    <code>remote</code> or <code>both</code>.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbSessionBeanBaseInterfaceLocal" class="namespacePropertyTitle">ejbSessionBeanBaseInterfaceLocal</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">javax.ejb.EJBLocalObject</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Name of session bean local base interface for ejb wrapper.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbSessionBeanBaseInterfaceRemote" class="namespacePropertyTitle">ejbSessionBeanBaseInterfaceRemote</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">javax.ejb.EJBObject</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Name of session bean remote base interface for ejb wrapper.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="ejbSessionBeanBaseClass" class="namespacePropertyTitle">ejbSessionBeanBaseClass</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.ejb.support.AbstractStatelessSessionBean</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Full name of session bean base class for ejb wrapper.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="implementationOperationNamePattern" class="namespacePropertyTitle">implementationOperationNamePattern</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">handle{0}</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used to the create the implementation operation name
+                    (i.e. the operations that actually perform the handling of the logic),
+                    where <em>{0}</em> represents the operation name
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="driver" class="namespacePropertyTitle">driver</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    JDBC Driver to make a database connection.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="username" class="namespacePropertyTitle">username</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The database user login name.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="password" class="namespacePropertyTitle">password</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The database user password.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="connectionUrl" class="namespacePropertyTitle">connectionUrl</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    URL for the JDBC Driver to make the connection to the database.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="dataSource" class="namespacePropertyTitle">dataSource</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    JNDI name of data source to use. (would be used instead
+                    of the connection properties, driver, username, password, etc).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContext" class="namespacePropertyTitle">applicationContext</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name given to the Spring application context file.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextManageable" class="namespacePropertyTitle">applicationContextManageable</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-manageable.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name given to the Spring CRUD application context file.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextDataSource" class="namespacePropertyTitle">applicationContextDataSource</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-dataSource.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name given to the Spring datasource application context file
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextLocalDataSource" class="namespacePropertyTitle">applicationContextLocalDataSource</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-localDataSource.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name given to the Spring local datasource application context file
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextServer" class="namespacePropertyTitle">applicationContextServer</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-export-remoteServices.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name given to the server side Spring configuration file used to
+                    export services for remote invocation.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextClient" class="namespacePropertyTitle">applicationContextClient</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-import-remoteServices.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name given to the client side Spring configuration file used to
+                    import services invoked remotely.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextRemoteEjb" class="namespacePropertyTitle">applicationContextRemoteEjb</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-remoteEjb.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name/path of the application context resource
+                    file that contains the bean proxy definitions for accessing the
+                    ejb service wrappers (if generated with ejbViewType='remote' or 'both') via remote ejb interfaces
+                    (i.e. some/path/applicationContext-remoteejb.xml).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextLocalEjb" class="namespacePropertyTitle">applicationContextLocalEjb</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-localEjb.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name/path of the application context resource
+                    file that contains the bean proxy definitions for accessing the
+                    ejb service wrappers (if generated with ejbViewType='local' or 'both') via local ejb interfaces
+                    (i.e. some/path/applicationContext-localejb.xml)
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="beanRefFactory" class="namespacePropertyTitle">beanRefFactory</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">beanRefFactory.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name/path of the bean ref factory resource file (i.e. some/path/beanRefFactory.xml)
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="beanRefFactoryId" class="namespacePropertyTitle">beanRefFactoryId</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">beanRefFactory</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The ID for the Spring bean reference factory (used to load the bean factory).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="beanRefFactoryEjbId" class="namespacePropertyTitle">beanRefFactoryEjbId</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">beanRefFactoryEjb</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The ID for the Spring bean reference factory that holds the EJB references.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="transactionManager" class="namespacePropertyTitle">transactionManager</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.transaction.jta.JtaTransactionManager</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The transaction manager implementation used by Spring.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="dataSourceEnabled" class="namespacePropertyTitle">dataSourceEnabled</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not a data source will be defined.  By default the data source configuration is
+                    always generated, however if this is set to false and no entities have been
+                    modeled, a data source will not be generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="localTransactionManager" class="namespacePropertyTitle">localTransactionManager</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.orm.hibernate.HibernateTransactionManager</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The transaction manager implementation used by Spring for the local datasource (applicationContextLocalDataSource).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="userTransactionName" class="namespacePropertyTitle">userTransactionName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The (JNDI-) user transaction manager of the J2EE container if using JTA transactions (via spring).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="transactionManagerName" class="namespacePropertyTitle">transactionManagerName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The (JNDI-) transaction manager of the J2EE container if using JTA transactions (via spring).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="sessionFactory" class="namespacePropertyTitle">sessionFactory</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.orm.hibernate.LocalSessionFactoryBean</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Factory bean that creates a local Hibernate SessionFactory instance within Spring.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="springTypesPackage" class="namespacePropertyTitle">springTypesPackage</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.andromda.spring</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The package to which extra types are generated (i.e. ServiceLocator).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="springPresentationTypesPackage" class="namespacePropertyTitle">springPresentationTypesPackage</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.andromda.spring.presentation</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The package to which extra presentation types are generated (i.e. OpenSessionInViewFilter).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceLocatorName" class="namespacePropertyTitle">serviceLocatorName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">ServiceLocator</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name to give the service locator class.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceLocatorDefaultFactoryId" class="namespacePropertyTitle">serviceLocatorDefaultFactoryId</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default beanReafFactoryId to be used in the ServiceLocator. By default the beanRefFactoryId
+                    is used (if EJB is not activated). If EJB is activated the beanRefFactoryEjbId is used.
+                    With the serviceLocatorDefaultFactoryId this behaviour can be explicit overridden.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="manageableServiceLocatorName" class="namespacePropertyTitle">manageableServiceLocatorName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">ManageableServiceLocator</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name to give the CRUD service locator class.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="clientServiceLocatorName" class="namespacePropertyTitle">clientServiceLocatorName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">RemoteServiceLocator</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name to give the service locator class used by remote clients.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="clientServiceLocatorClassloaderSwitching" class="namespacePropertyTitle">clientServiceLocatorClassloaderSwitching</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">off</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether the client service locator should switch the thread context class loader during
+                    retrieval of the client application context xml file.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="clientExceptionHandlingAdviceName" class="namespacePropertyTitle">clientExceptionHandlingAdviceName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">ClientExceptionHandlingAdvice</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name for the client side exception handling advice
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="criteriaSearchBaseName" class="namespacePropertyTitle">criteriaSearchBaseName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">CriteriaSearch</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The base name for the hibernate criteria search utility classes.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="principalStoreName" class="namespacePropertyTitle">principalStoreName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">PrincipalStore</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the principal store class.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="openSessionInViewFilterName" class="namespacePropertyTitle">openSessionInViewFilterName</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">AndroMDAOpenSessionInViewFilter</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the OpenSessionInViewFilter (when using the open-session-in-view
+                    pattern).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="securityRealm" class="namespacePropertyTitle">securityRealm</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the security realm (i.e. animal-quiz, other, etc).
+                    <strong>NOTE:</strong>This enables EJB security if specified.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jndiDataSourceClass" class="namespacePropertyTitle">jndiDataSourceClass</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.jndi.JndiObjectFactoryBean</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the class to use when using a JNDI data source for data access.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jdbcDataSourceClass" class="namespacePropertyTitle">jdbcDataSourceClass</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.jdbc.datasource.DriverManagerDataSource</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the class to use when using a JDBC data source for data access.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jdbcDataSourceDestroyMethod" class="namespacePropertyTitle">jdbcDataSourceDestroyMethod</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the method to use for destroying the JDBC datasource.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="parameterRequiredCheck" class="namespacePropertyTitle">parameterRequiredCheck</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not parameters should be checked if they're required (on DAOs and services)
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="xmlEncoding" class="namespacePropertyTitle">xmlEncoding</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">UTF-8</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The encoding for xml documents
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="crudValueObjectSuffix" class="namespacePropertyTitle">crudValueObjectSuffix</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">ValueObject</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The suffix to append to the names of generated value objects used in CRUD (manageable entities).
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsProviderUrl" class="namespacePropertyTitle">jmsProviderUrl</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">localhost:1099</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The provider URL for remote JMS access (if you're using ActiveMQ as your provider, you'll typically
+                    want to set the URL as 'tcp://localhost:61616'; changing the port as necessary of course).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsInitialContextFactory" class="namespacePropertyTitle">jmsInitialContextFactory</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.jnp.interfaces.NamingContextFactory</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The initial context factory class for JMS access.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsUrlPackagePrefixes" class="namespacePropertyTitle">jmsUrlPackagePrefixes</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.jnp.interfaces:org.jboss.naming</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The URL package prefixes for remote JMS access.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsConnectionFactory" class="namespacePropertyTitle">jmsConnectionFactory</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">UIL2ConnectionFactory</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default JMS queue connection factory.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextJms" class="namespacePropertyTitle">applicationContextJms</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-jms.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name/path of the application context resource
+                    file that contains the bean proxy definitions for accessing the
+                    JMS related services (i.e. Queues).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsTopicNamePrefix" class="namespacePropertyTitle">jmsTopicNamePrefix</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">topic/</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The prefix for topics names (i.e. a prefix of "topic/" would result in a topic named "Events"
+                    as "topic/Events").  Applies to the JNDI name (in case of JBossMQ), or physical name (in case of ActiveMQ).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsQueueNamePrefix" class="namespacePropertyTitle">jmsQueueNamePrefix</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">queue/</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The prefix for queue names (i.e. a prefix of "queue/" would result in a topic named "Events"
+                    as "queue/Events").  Applies to the JNDI name (in case of JBossMQ), or physical name (in case of ActiveMQ).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsTemplateImplementation" class="namespacePropertyTitle">jmsTemplateImplementation</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.jms.core.JmsTemplate</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The implementation to use for the Spring JmsTemplate.  <code>org.springframework.jms.core.JmsTemplate102</code> is used
+                    for JMS <em>1.0.2</em> providers and <code>org.springframework.jms.core.JmsTemplate</code> is used for <em>1.1</em> providers.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsReceiveTimeout" class="namespacePropertyTitle">jmsReceiveTimeout</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">30000</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The timeout at which the transmission of the JMS message will timeout.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsDestinationTemplatePattern" class="namespacePropertyTitle">jmsDestinationTemplatePattern</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}JmsTemplate</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The pattern used to create the JMS template used for accessing a destination (topic/queue).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsProvider" class="namespacePropertyTitle">jmsProvider</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">JBossMQ</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The JMS provider implementation (valid values are "JBossMQ" and "ActiveMQ")
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsMessageListenerAdapterImplementation" class="namespacePropertyTitle">jmsMessageListenerAdapterImplementation</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.jms.listener.adapter.MessageListenerAdapter</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The Spring message listener adaptor implementation.  
+                    See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/listener/adapter/MessageListenerAdapter.html">API docs</a>.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsMessageListenerContainerImplementation" class="namespacePropertyTitle">jmsMessageListenerContainerImplementation</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.springframework.jms.listener.DefaultMessageListenerContainer</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The Spring message listener container implementation.
+                    See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/listener/DefaultMessageListenerContainer.html">API docs</a>.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsExplicitQosEnabled" class="namespacePropertyTitle">jmsExplicitQosEnabled</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    If "true", then the values of deliveryMode, priority, and timeToLive will be used when sending a message.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsClientId" class="namespacePropertyTitle">jmsClientId</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Set the client identifier base name for JMS connections.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsDurableSubscriptions" class="namespacePropertyTitle">jmsDurableSubscriptions</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not subscriptions should be durable by default.  Only makes sense when listening to a topic (pub-sub domain).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jmsDurableSubscriptionName" class="namespacePropertyTitle">jmsDurableSubscriptionName</a><a href="#JMS" title="Go to JMS namespace element group">(Back to JMS)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name used to identify the durable subscription. To be applied in case of a topic (pub-sub domain) with subscription durability activated.
+                    The durable subscription name needs to be unique within this client's JMS client id. Default is the class name of the specified message listener. 
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateVersion" class="namespacePropertyTitle">hibernateVersion</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">2</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The version of Hibernate to use when generating.
+                    <ul>
+                        Allowable values are:
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateMappingStrategy" class="namespacePropertyTitle">hibernateMappingStrategy</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">hierarchy</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Denotes whether or not subclasses should be mapped into the same <code>.hbm.xml</code> file or
+                    in a separate one.
+                    <ul>
+                        <li>Set this value to <code>subclass</code> when you want to have a mapping file per entity</li>
+                        <li>The default is <code>hierarchy</code> which will render a mapping file per subclass</li>
+                    </ul>
+                    This information is important for the Spring cartridge because it needs to know which entities
+                    require a mapping file and which don't.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateXMLPersistence" class="namespacePropertyTitle">hibernateXMLPersistence</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Set to <i>TRUE</i> to enable Hibernate's
+                    <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/xml.html">XML persistence support</a>
+                    using dom4J. "hibernateVersion" must be set to "3"
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateQueryUseNamedParameters" class="namespacePropertyTitle">hibernateQueryUseNamedParameters</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not named parameters (i.e. ':someParameter') or unnamed
+                    (i.e. '?') parameters should be used in the HQL queries embedded
+                    within the model.
+                    <strong>NOTE:</strong> Does not apply to queries written in OCL.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateInheritanceStrategy" class="namespacePropertyTitle">hibernateInheritanceStrategy</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">subclass</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Defines the hibernate inheritance strategy (unless
+                    overridden on an entity level by the
+                    <a href="profile.html#@andromda.hibernate.inheritance">@andromda.hibernate.inheritance</a>
+                    tagged value, can be the following possible values:
+                    <ul>
+                        <li>class - table per hierarchy.</li>
+                        <li>subclass - table per class in hierarchy.</li>
+                        <li>concrete - Table per class.</li>
+                        <li>
+                            interface - Root class is defined as an interface and the
+                            attributes remapped to the subclasses.  This is useful in
+                            the concrete case because it has limitations in the associations.
+                        </li>
+                    </ul>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceHibernateInterceptorEnabled" class="namespacePropertyTitle">serviceHibernateInterceptorEnabled</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">true</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not the hibernate interceptor should be enabled
+                    on services.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernatePoolSize" class="namespacePropertyTitle">hibernatePoolSize</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Hibernate connection pool size.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateTransactionManagerStrategy" class="namespacePropertyTitle">hibernateTransactionManagerStrategy</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Strategy for obtaining the JTA TransactionManager
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateUserTransactionName" class="namespacePropertyTitle">hibernateUserTransactionName</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The JNDI name of the JTA UserTransaction object
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateTransactionManagerLookup" class="namespacePropertyTitle">hibernateTransactionManagerLookup</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The fully qualified class name of the Hibernate TransactionFactory implementation
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateUseOuterJoin" class="namespacePropertyTitle">hibernateUseOuterJoin</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not to use outer joins.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateShowSql" class="namespacePropertyTitle">hibernateShowSql</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not to log SQL statements (true/false).  By default
+                    this is off (within Hibernate).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateJndiName" class="namespacePropertyTitle">hibernateJndiName</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    JNDI name bound to the SessionFactory.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateDialect" class="namespacePropertyTitle">hibernateDialect</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    SQL dialect of the database being used.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateDefaultSchema" class="namespacePropertyTitle">hibernateDefaultSchema</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Qualify unqualified tablenames with the given
+                    schema/tablespace in generated SQL.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateMaxFetchDepth" class="namespacePropertyTitle">hibernateMaxFetchDepth</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Sets a maximum "depth" for the outer join fetch tree. eg. recommended values between 0 and 3
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateJdbcFetchSize" class="namespacePropertyTitle">hibernateJdbcFetchSize</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    A non-zero value determines the JDBC fetch size.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateJdbcBatchSize" class="namespacePropertyTitle">hibernateJdbcBatchSize</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    A nonzero value enables use of JDBC2 batch updates by Hibernate. ex: recommended values between 5 and 30
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateJdbcUseScrollableResultSet" class="namespacePropertyTitle">hibernateJdbcUseScrollableResultSet</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not to enable use of JDBC2 scrollable resultsets by Hibernate.
+                    This property is only necessary when using user supplied connections.
+                    Hibernate uses connection metadata otherwise.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateJdbcUseStreamsForBinary" class="namespacePropertyTitle">hibernateJdbcUseStreamsForBinary</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not to use streams when writing / reading binary or serializable types to/from JDBC
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateHbm2DDLAuto" class="namespacePropertyTitle">hibernateHbm2DDLAuto</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Automatically export schema DDL to the database when the SessionFactory
+                    is created. With create-drop, the database schema will be dropped when
+                    the SessionFactory is closed explicitely. Permitted values are:
+                    <ol>
+                        <li>update</li>
+                        <li>create</li>
+                        <li>create-drop</li>
+                    </ol>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateQuerySubstitutions" class="namespacePropertyTitle">hibernateQuerySubstitutions</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Allows you to define new Hibernate query tokens. For example:
+                    giving this a value of <em>true=1, false=0</em>
+                    would cause the tokens true and false to be translated to integer
+                    literals in the generated SQL.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateEnableCache" class="namespacePropertyTitle">hibernateEnableCache</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Enable/disable hibernate's second level cache features when using Hibernate.
+                     <ul>
+                        <li>true</li>
+                        <li>false</li>
+                     </ul>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateCacheProvider" class="namespacePropertyTitle">hibernateCacheProvider</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">net.sf.hibernate.cache.EhCacheProvider</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                     Defines the Hibernate cache provider implementation class.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateQueryCacheFactory" class="namespacePropertyTitle">hibernateQueryCacheFactory</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">net.sf.hibernate.cache.StandardQueryCacheFactory</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Defines Hibernate query cache factory implementation class
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="hibernateConnectionReleaseMode" class="namespacePropertyTitle">hibernateConnectionReleaseMode</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Specify when Hibernate should release JDBC connections. By default, a JDBC connection
+                    is held until the session is explicitly closed or disconnected. For an application server JTA datasource,
+                    you should use after_statement to aggressively release connections after every JDBC call.
+                    For a non-JTA connection, it often makes sense to release the connection at the end of each
+                    transaction, by using after_transaction. auto will choose after_statement for the JTA and
+                    CMT transaction strategies and after_transaction for the JDBC transaction strategy.
+                    <ul>
+                        Valid values are:
+                        <li>on_close</li> - default
+                        <li>after_transaction</li>
+                        <li>after_statement</li>
+                        <li>auto</li>
+                    </ul>
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="javaTypeConversionIgnoreList" class="namespacePropertyTitle">javaTypeConversionIgnoreList</a><a href="#Hibernate" title="Go to Hibernate namespace element group">(Back to Hibernate)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                   A list of one or more fully qualified java types that should be ignored whenever a type conversion
+                   needs to be done. Currently, there is an issue with ValueObjects generated with the Java Axis
+                   mappings that causes Spring cartidge to generate DAO "entity to value object" type conversions
+                   incorrectly for all date types.  By listing those date types here, the Spring cartridge will not
+                   attempt to auto-generate conversions for date/time related attributes.
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiServiceSecurity" class="namespacePropertyTitle">acegiServiceSecurity</a><a href="#Acegi Security" title="Go to Acegi Security namespace element group">(Back to Acegi Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Whether or not acegi security framework should be used for role based recurity handling for spring services.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiServiceSecurityInterceptor" class="namespacePropertyTitle">acegiServiceSecurityInterceptor</a><a href="#Acegi Security" title="Go to Acegi Security namespace element group">(Back to Acegi Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the class to use for the acegi security interception.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiServiceAccessDecisionManager" class="namespacePropertyTitle">acegiServiceAccessDecisionManager</a><a href="#Acegi Security" title="Go to Acegi Security namespace element group">(Back to Acegi Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.acegisecurity.vote.AffirmativeBased</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the class to use for the acegi security access decision manager.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiServiceDecisionVoter" class="namespacePropertyTitle">acegiServiceDecisionVoter</a><a href="#Acegi Security" title="Go to Acegi Security namespace element group">(Back to Acegi Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">org.acegisecurity.vote.RoleVoter</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the class to use for the acegi security access decision voter.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiRolePrefix" class="namespacePropertyTitle">acegiRolePrefix</a><a href="#Acegi Security" title="Go to Acegi Security namespace element group">(Back to Acegi Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">ROLE_</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The prefix for all roles defined in the model. This configures the <code>acegiServiceDecisionVoter</code>s <code>rolePrefix</code>
+                    attribute. As proposed by Acegi for our default voter <code>org.acegisecurity.vote.RoleVoter</code>, the default value is <code>ROLE_</code>.
+                    It can be overwritten with an empty string if no prefix is wanted/neccessary at all.
+                    Please <strong>NOTE</strong> that AndroMDA will add this prefix to all role/actor names,
+                    which do not already have it defined in the model.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiAuthenticationManager" class="namespacePropertyTitle">acegiAuthenticationManager</a><a href="#Acegi Security" title="Go to Acegi Security namespace element group">(Back to Acegi Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The bean name of the acegi authentication manager (defined in a seperate applicationContext outside of the generated one).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiRunAsManager" class="namespacePropertyTitle">acegiRunAsManager</a><a href="#Acegi Security" title="Go to Acegi Security namespace element group">(Back to Acegi Security)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The bean name of the acegi run as manager (defined in a seperate applicationContext outside of the generated one).
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="richClient" class="namespacePropertyTitle">richClient</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">false</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Set to "true" if the cartridge is generating code for a rich client environment.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="configPropertyPrefix" class="namespacePropertyTitle">configPropertyPrefix</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue"/></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    A prefix to use for properties stored in configuration files. A typical setting
+                    for this is the application ID plus the "." character. Empty by default.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextServerAuthentication" class="namespacePropertyTitle">applicationContextServerAuthentication</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-server-authentication.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the bean definition file used for server side
+                    declarations of user authentication beans when AcegiSecurity is
+                    being used (i.e. acegiServiceSecurity is true).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="applicationContextClientAuthentication" class="namespacePropertyTitle">applicationContextClientAuthentication</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-client-authentication.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the bean definition file used for client side
+                    declarations of user authentication beans when AcegiSecurity is
+                    being used (i.e. acegiServiceSecurity is true).
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serverTestBeanRefFactory" class="namespacePropertyTitle">serverTestBeanRefFactory</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-test.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the bean ref factory resource file used for unit testing
+                    the server code (i.e. application-test.xml)
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serverTestContextDataSource" class="namespacePropertyTitle">serverTestContextDataSource</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-test-dataSource.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the configuration file for the data source of
+                    the server test code (i.e. application-test-dataSource.xml)
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serverTestContextAuthentication" class="namespacePropertyTitle">serverTestContextAuthentication</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">applicationContext-test-authentication.xml</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the bean definition file used for server side
+                    declarations of user authentication beans when AcegiSecurity is
+                    being used and unit tests are being performed.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="clientHttpInvokerExecutor" class="namespacePropertyTitle">clientHttpInvokerExecutor</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                   The name of the class to use if a specialized HttpInvokerExecutor is
+                   desired on the client side when HttpInvoker is used as the remote
+                   service protocol.  One common use it to use org.acegisecurity.context.httpinvoker.AuthenticationSimpleHttpInvokerRequestExecutor
+                   when remote services are protected with Basic Authentication using Acegi security. Another use
+                   is to set this to org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor if
+                   you want to use Jakarta Commons HttpClient to execute requests.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiAuthenticationManagerImplClass" class="namespacePropertyTitle">acegiAuthenticationManagerImplClass</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The class of the authentication manager bean named with the aceciAuthenticationManager
+                    namespace property.  If defined, an implementation definition will be added to the server side
+                    Spring configuration file named with the applicationContextServerAuthentication namespace
+                    property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiDaoAuthenticationProviderBeanName" class="namespacePropertyTitle">acegiDaoAuthenticationProviderBeanName</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">daoAuthenticationProvider</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The bean name of the acegi authentication Dao Provider used by the server side
+                    authentication manager implemented with the acegiAuthenticationManagerImplClass namespace
+                    property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiDaoAuthenticationProviderImplClass" class="namespacePropertyTitle">acegiDaoAuthenticationProviderImplClass</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The class of the Dao Authentication Provider bean named with the acegiDaoAuthenticationProviderBeanName
+                    namespace property.  If defined, an implementation definition will be added to the server side
+                    Spring configuration file named with the applicationContextServerAuthentication namespace
+                    property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiAuthenticationDaoBeanName" class="namespacePropertyTitle">acegiAuthenticationDaoBeanName</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The bean name of the acegi authentication Dao used by the default server side
+                    authentication implementation generated for rich client projects.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiAuthenticationDaoImplClass" class="namespacePropertyTitle">acegiAuthenticationDaoImplClass</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The complete package name and class name of the class that
+                    implements user authentication. This property should be set
+                    if you want to manage user authentication yourself and
+                    you want AndroMDA to generate stub classes to get the
+                    process started.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiDaoUserCacheBeanName" class="namespacePropertyTitle">acegiDaoUserCacheBeanName</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the bean that implements a cache for user information. If
+                    defined, it activate user caching in the Dao provider by setting
+                    the "userCache" property of the Dao provider defined with the
+                    acegiDaoAuthenticationProviderClass namespace property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiDaoUserCacheImplClass" class="namespacePropertyTitle">acegiDaoUserCacheImplClass</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the class used to implement user caching in the Dao
+                    provider.  If defined, a user cache implementation will be added to the server side
+                    Spring configuration file named with the applicationContextServerAuthentication namespace
+                    property. If defined, you must also define the acegiUserCacheConfigLocation namespace
+                    property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiUserCacheConfigLocation" class="namespacePropertyTitle">acegiUserCacheConfigLocation</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location of the EhCache configuration file used by
+                    the acegiDaoUserCacheImplClass. This name is used as the
+                    "configLocation" property in the configuration of the implementation
+                    of the acegiDaoUserCacheImplClass namespace property. You should
+                    also define the acegiUserCacheName namespace property so it
+                    matches the cache name of the cache to use that is defined in the
+                    EhCache configuration file.  If "default" is used for
+                    this property, a "default implementation" will be generated in
+                    the server configuration outlet. The file will be named
+                    ehcache-server-authentication.xml.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiUserCacheName" class="namespacePropertyTitle">acegiUserCacheName</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the cache configuration to use for caching user
+                    authentication information.  This cache configuration should be
+                    found in the EhCache configuration file defined with
+                    the acegiUserCacheConfigLocation namespace property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiPasswordEncoderBeanName" class="namespacePropertyTitle">acegiPasswordEncoderBeanName</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the bean that implements a password encoder for
+                    user information. If defined, it activates user password encoding
+                    in the Dao provider by setting the "passwordEncoder" property
+                    of the Dao provider defined with the acegiDaoAuthenticationProviderClass
+                    namespace property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiPasswordEncoderImplClass" class="namespacePropertyTitle">acegiPasswordEncoderImplClass</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the class used to implement user password encoder in the Dao
+                    provider.  If defined, a password encoder implementation will be added to the server side
+                    Spring configuration file named with the applicationContextServerAuthentication namespace
+                    property.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="acegiPasswordSaltSourceBeanName" class="namespacePropertyTitle">acegiPasswordSaltSourceBeanName</a><a href="#Rich Client" title="Go to Rich Client namespace element group">(Back to Rich Client)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name of the bean that implements a password encoder salt source for
+                    user information. If defined, it enhances user password encoding
+                    in the Dao provider by setting the "saltSource" property
+                    of the Dao provider defined with the acegiDaoAuthenticationProviderClass
+                    namespace property.
+                </documentation></td></tr></table></div>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceRemotingType" class="namespacePropertyTitle">serviceRemotingType</a><a href="#Remoting" title="Go to Remoting namespace element group">(Back to Remoting)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">none</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    Determines the type of remoting to be used for Spring services. Can any one of
+                    <ul>
+                        <li>none</li>
+                        <li>rmi</li>
+                        <li>httpinvoker</li>
+                        <li>burlap</li>
+                        <li>hessian</li>
+                        <li>lingo</li>
+                    </ul>
+                    Please note that in order to use <a href="http://lingo.codehaus.org/">Lingo remoting</a>, you need
+                    to use Spring 2.0.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceRemotePort" class="namespacePropertyTitle">serviceRemotePort</a><a href="#Remoting" title="Go to Remoting namespace element group">(Back to Remoting)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">8080</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The port the exported services get published on.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceRemotePortJMS" class="namespacePropertyTitle">serviceRemotePortJMS</a><a href="#Remoting" title="Go to Remoting namespace element group">(Back to Remoting)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">61616</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    This port will be used if you export services using
+                    <a href="http://lingo.codehaus.org/">Lingo remoting</a>.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceRemoteContext" class="namespacePropertyTitle">serviceRemoteContext</a><a href="#Remoting" title="Go to Remoting namespace element group">(Back to Remoting)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The context the exported services get published on.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="serviceRemoteServer" class="namespacePropertyTitle">serviceRemoteServer</a><a href="#Remoting" title="Go to Remoting namespace element group">(Back to Remoting)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">localhost</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The remote server the Spring services get published on.
+                </documentation></td></tr></table></div>
+        
+    </p></section>
+</body></document>

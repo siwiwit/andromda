@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA EJB Cartridge Namespace</title></properties><body>
+    <section name="AndroMDA EJB Cartridge Namespace Components"><ul>
+        <li>cartridge</li>
+        <li>metafacades</li>
+        <li>profile</li>
+    </ul></section>
+    <section name="AndroMDA EJB Cartridge Namespace Properties"><div class="namespacePropertyGroup"><a name="Other Properties" class="namespacePropertyGroup">Other Properties</a><ul><li><a href="#jndiNamePrefix" title="Optional, no default value available">jndiNamePrefix</a></li><li><a href="#transactionType" title="Optional, defaults to &apos;Required&apos;">transactionType</a></li><li><a href="#valueObjectName" title="Optional, defaults to &apos;{0}&apos;">valueObjectName</a></li><li><a href="#valueObjectPackage" title="Optional, defaults to &apos;{0}&apos;">valueObjectPackage</a></li></ul></div><div class="namespacePropertyGroup"><a name="Outlet Properties" class="namespacePropertyGroup">Outlet Properties</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Defines the locations to which output is generated.
+            </documentation></div><ul><li><a href="#entity-beans" title="Required">entity-beans</a></li><li><a href="#entity-impls" title="Required">entity-impls</a></li><li><a href="#session-beans" title="Required">session-beans</a></li><li><a href="#session-impls" title="Required">session-impls</a></li><li><a href="#value-objects" title="Optional, no default value available">value-objects</a></li></ul></div><p>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="entity-beans" class="namespacePropertyTitle">entity-beans</a><a href="#Outlet Properties" title="Go to Outlet Properties namespace element group">(Back to Outlet Properties)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which Entity EJBs are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="entity-impls" class="namespacePropertyTitle">entity-impls</a><a href="#Outlet Properties" title="Go to Outlet Properties namespace element group">(Back to Outlet Properties)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which Entity EJB implementation files are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="session-beans" class="namespacePropertyTitle">session-beans</a><a href="#Outlet Properties" title="Go to Outlet Properties namespace element group">(Back to Outlet Properties)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which Session Bean files are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="session-impls" class="namespacePropertyTitle">session-impls</a><a href="#Outlet Properties" title="Go to Outlet Properties namespace element group">(Back to Outlet Properties)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The directory to which Session Bean implementation files are generated.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="value-objects" class="namespacePropertyTitle">value-objects</a><a href="#Outlet Properties" title="Go to Outlet Properties namespace element group">(Back to Outlet Properties)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                   The directory to which isomorphic value objects are generated.
+                </documentation></td></tr></table></div>
+        
+        
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="valueObjectPackage" class="namespacePropertyTitle">valueObjectPackage</a><a href="#Other Properties" title="Go to Other Properties namespace element group">(Back to Other Properties)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}</code></td></tr><tr><td class="documentation" colspan="2">
+                                No documentation available
+                            </td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="valueObjectName" class="namespacePropertyTitle">valueObjectName</a><a href="#Other Properties" title="Go to Other Properties namespace element group">(Back to Other Properties)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">{0}</code></td></tr><tr><td class="documentation" colspan="2">
+                                No documentation available
+                            </td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="jndiNamePrefix" class="namespacePropertyTitle">jndiNamePrefix</a><a href="#Other Properties" title="Go to Other Properties namespace element group">(Back to Other Properties)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The prefix to give to the EJB JNDI names (this allows the same
+                    EJBs to be deployed multiple times in the same container)
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="transactionType" class="namespacePropertyTitle">transactionType</a><a href="#Other Properties" title="Go to Other Properties namespace element group">(Back to Other Properties)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">Required</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The default value to use for transaction types.
+                    <ul>
+                        Permitted values are:
+                        <li>NotSupported</li>
+                        <li>Supports</li>
+                        <li>Required</li>
+                        <li>RequiresNew</li>
+                        <li>Mandatory</li>
+                        <li>Never</li>
+                    </ul>
+                    <strong>NOTE:</strong> Can be overridden on a per entity basis with the
+                    <a href="profile.html#@andromda_ejb_transaction_type">@andromda.ejb.transaction.type</a>
+                    tagged value.
+                </documentation></td></tr></table></div>
+        
+    </p></section>
+</body></document>

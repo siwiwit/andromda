@@ -89,6 +89,31 @@
                         </execution>
                     </executions> 
                 </plugin>
+                <plugin>
+                    <groupId>org.andromda.maven.plugins.site</groupId>
+                    <artifactId>andromda-site-plugin</artifactId>
+                    <version>${pom.version}</version>
+                    <executions>
+                        <execution>
+                            <id>profile-transform</id>
+                            <goals>
+                                <goal>profile-xsl</goal>
+                            </goals>
+                            <configuration>
+                                <profileDocumentPath>${pom.basedir}/src/META-INF/andromda/profile.xml</profileDocumentPath> 
+                            </configuration> 
+                        </execution>
+                        <execution>
+                            <id>namespace-transform</id>
+                            <goals>
+                                <goal>namespace-xsl</goal>
+                            </goals>
+                            <configuration> 
+                                <namespaceDocumentPath>${pom.basedir}/src/META-INF/andromda/namespace.xml</namespaceDocumentPath>
+                            </configuration> 
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
         <resources>
@@ -127,6 +152,7 @@
         <module>andromda-spring</module>
         <module>andromda-webservice</module>
         <module>andromda-xmlschema</module>
+        <module>manageable-entities</module>
         <module>testsuite</module>
     </modules>
     <properties>
@@ -135,5 +161,7 @@
         <test.src.dir>${pom.basedir}/src/test</test.src.dir>
         <src.dir>${pom.basedir}/src</src.dir>
         <test.output.dir>${pom.basedir}/target/cartridge-test/actual</test.output.dir>
+        <howto.output.dir>${pom.basedir}/target/site/howto</howto.output.dir>
+        <andromda.cartridge.howto.model.uri>jar:file:${src.dir}/site/resources/howto/HowToModel.xml.zip!/HowToModel.xml</andromda.cartridge.howto.model.uri>
     </properties>
 </project>

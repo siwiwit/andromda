@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA XML Schema Cartridge Profile</title></properties><body>
+    <section name="AndroMDA XML Schema Cartridge Profile"><p>
+                This profile contains all elements that can be applied on the model used as the
+                MDA transformation process. These elements are specific to the AndroMDA XML Schema Cartridge component.
+            </p><div class="profileElementGroup"><a name="Stereotypes" class="profileElementGroupTitle">Stereotypes</a><div class="profileElementGroupDocumentation">
+                            Stereotypes are the names you sometimes see appear in UML diagrams, they typically look
+                            like &lt;&lt;MyStereotype&gt;&gt; and can be applied on any type of UML model element.
+                        </div><ul><li><a href="#XmlAttribute" title="Applied on: attribute">XmlAttribute</a></li><li><a href="#XmlSchemaType" title="Applied on: class">XmlSchemaType</a></li></ul></div><p>
+        
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="XmlSchemaType" class="profileElementTitle">XmlSchemaType</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>class</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    Creates an XSD complete type definition.
+                </documentation></td></tr></table></div>
+            <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="XmlAttribute" class="profileElementTitle">XmlAttribute</a><a href="#Stereotypes" title="Go to Stereotypes profile element group">(Back to Stereotypes)</a></td></tr><tr><td>
+                            Applied on: <appliedOnElement>attribute</appliedOnElement></td></tr><tr><td class="documentation"><documentation>
+                    By default all attributes on an xml schema type will be generated
+                    as xsd elements, however if you want an attribute to be generated as
+                    an xsd attribute instead, you'd give that attribute this stereotype.
+                </documentation></td></tr></table></div>
+        
+    </p></section>
+</body></document>

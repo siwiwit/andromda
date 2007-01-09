@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document><properties><title>AndroMDA XML Schema Cartridge Namespace</title></properties><body>
+    <section name="AndroMDA XML Schema Cartridge Namespace Components"><ul>
+        <li>cartridge</li>
+        <li>metafacades</li>
+        <li>profile</li>
+    </ul></section>
+    <section name="AndroMDA XML Schema Cartridge Namespace Properties"><div class="namespacePropertyGroup"><a name="Other" class="namespacePropertyGroup">Other</a><ul><li><a href="#namespace" title="Required">namespace</a></li><li><a href="#xmlEncoding" title="Optional, defaults to &apos;UTF-8&apos;">xmlEncoding</a></li></ul></div><div class="namespacePropertyGroup"><a name="Outlets" class="namespacePropertyGroup">Outlets</a><div class="namespacePropertyGroupDocumentation"><documentation>
+                Defines the locations to which output is generated.
+            </documentation></div><ul><li><a href="#schema" title="Required">schema</a></li></ul></div><p>
+        
+        
+            
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="schema" class="namespacePropertyTitle">schema</a><a href="#Outlets" title="Go to Outlets namespace element group">(Back to Outlets)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The location to which the XML schema will be written.
+                </documentation></td></tr></table></div>
+        
+        
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="namespace" class="namespacePropertyTitle">namespace</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="required">Required property</div></td><td>
+                                No default value available
+                            </td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The name that will be given to the target and default namespaces.
+                </documentation></td></tr></table></div>
+            <div class="namespaceProperty"><table class="bodyTable"><tr class="a"><td class="namespacePropertyTitle" colspan="2"><a name="xmlEncoding" class="namespacePropertyTitle">xmlEncoding</a><a href="#Other" title="Go to Other namespace element group">(Back to Other)</a></td></tr><tr><td><div class="optional">Optional property</div></td><td>
+                                Default value: <code class="defaultValue">UTF-8</code></td></tr><tr><td class="documentation" colspan="2"><documentation>
+                    The encoding of the schema.
+                </documentation></td></tr></table></div>
+        
+    </p></section>
+</body></document>
