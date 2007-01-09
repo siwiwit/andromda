@@ -55,6 +55,8 @@
                 <property name="configPropertyPrefix">server1.</property>
                 <property name="jmsProvider">JBossMQ</property>
                 <property name="jmsClientId">theJmsClientId</property>
+                <property name="jmsCacheLevelName">CACHE_SESSION</property>
+                <property name="jmsMaxIncomingMessagesPerReceive">100</property>
             </properties>
         </namespace>
     </namespaces>

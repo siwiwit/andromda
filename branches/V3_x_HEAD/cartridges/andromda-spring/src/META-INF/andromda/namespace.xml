@@ -772,6 +772,19 @@
                     Whether or not JMS destinations should be transacted.
                 </documentation>
             </property>
+            <property name="jmsCacheLevelName" required="false">
+                <default></default>
+                <documentation>
+                    Sets the cache level name.  
+                    See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/listener/DefaultMessageListenerContainer.html#setCacheLevelName(java.lang.String)">setCacheLevelName(java.lang.String)</a>
+                </documentation>
+            </property>
+            <property name="jmsMaxIncomingMessagesPerReceive" required="false">
+                <default></default>
+                <documentation>
+                    Sets the maxmium number of incoming messages to process at a time per receive.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>

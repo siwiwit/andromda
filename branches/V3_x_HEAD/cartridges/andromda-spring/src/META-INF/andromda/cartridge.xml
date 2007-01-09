@@ -165,6 +165,8 @@
     <property reference="jmsDurableSubscriptions"/>
     <property reference="jmsDurableSubscriptionName"/>
     <property reference="jmsTransactionsEnabled"/>
+    <property reference="jmsCacheLevelName"/>
+    <property reference="jmsMaxIncomingMessagesPerReceive"/>
     
     <!-- cartridge-property merge-point -->
 

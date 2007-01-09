@@ -35,11 +35,6 @@
                 <property name="brokerURL">
                     <value>$jmsProviderUrl</value>
                 </property>
-#if ($stringUtils.isNotBlank($jmsClientId))
-                <property name="clientID">
-                    <value>$jmsClientId</value>
-                </property>
-#end
             </bean>
         </property>
     </bean>
@@ -94,6 +89,16 @@
         <property name="connectionFactory">
             <ref bean="jmsConnectionFactory"/>
         </property>
+#if ($stringUtils.isNotBlank($jmsMaxIncomingMessagesPerReceive))
+        <property name="maxMessagesPerTask">
+            <value>$jmsMaxIncomingMessagesPerReceive</value>
+        </property>
+#end
+#if ($stringUtils.isNotBlank($jmsCacheLevelName))
+        <property name="cacheLevelName">
+            <value>$jmsCacheLevelName</value>
+        </property>
+#end
 #if ($jmsTransactionsEnabled)
         <property name="transactionManager">
             <ref bean="transactionManager"/>
@@ -109,7 +114,7 @@
         <property name="destination">
             <ref bean="$operation.incomingDestination.beanName"/>
         </property>
-#if (!$activeMq && $stringUtils.isNotBlank($jmsClientId))
+#if ($stringUtils.isNotBlank($jmsClientId))
         <property name="clientId">
             <value>$jmsClientId</value>
         </property>
