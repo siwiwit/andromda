@@ -785,6 +785,12 @@
                     Sets the maxmium number of incoming messages to process at a time per receive.
                 </documentation>
             </property>
+            <property name="jmsRecoveryInterval">
+                <default>5000</default>
+                <documentation>
+                    The interval of recovery attempts in <strong>milliseconds</strong>.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>

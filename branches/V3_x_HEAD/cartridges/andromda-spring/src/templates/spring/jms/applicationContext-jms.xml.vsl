@@ -89,6 +89,9 @@
         <property name="connectionFactory">
             <ref bean="jmsConnectionFactory"/>
         </property>
+        <property name="recoveryInterval">
+            <value>$jmsRecoveryInterval</value>
+        </property>
 #if ($stringUtils.isNotBlank($jmsMaxIncomingMessagesPerReceive))
         <property name="maxMessagesPerTask">
             <value>$jmsMaxIncomingMessagesPerReceive</value>

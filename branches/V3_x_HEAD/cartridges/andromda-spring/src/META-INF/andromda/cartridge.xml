@@ -167,6 +167,7 @@
     <property reference="jmsTransactionsEnabled"/>
     <property reference="jmsCacheLevelName"/>
     <property reference="jmsMaxIncomingMessagesPerReceive"/>
+    <property reference="jmsRecoveryInterval"/>
     
     <!-- cartridge-property merge-point -->
 
