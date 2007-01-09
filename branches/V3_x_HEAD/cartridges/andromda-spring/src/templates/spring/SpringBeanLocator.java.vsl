@@ -49,6 +49,14 @@ public class $className
      * The bean factory reference id.
      */
     private String beanRefFactoryReferenceId;
+    
+    /**
+     * Initializes the Spring application context from the default settings.
+     */
+    public synchronized void init()
+    {
+        this.getContext();
+    }
 
     /**
      * Initializes the Spring application context from
@@ -63,6 +71,8 @@ public class $className
         this.beanFactoryReferenceLocation = beanFactoryReferenceLocation;
         this.beanRefFactoryReferenceId = beanRefFactoryReferenceId;
         this.beanFactoryReference = null;
+        // - initialize the context
+        this.getContext();
     }
 
     /**
@@ -77,6 +87,8 @@ public class $className
     {
         this.beanFactoryReferenceLocation = beanFactoryReferenceLocation;
         this.beanFactoryReference = null;
+        // - initialize the context
+        this.getContext();
     }
     
     /**
