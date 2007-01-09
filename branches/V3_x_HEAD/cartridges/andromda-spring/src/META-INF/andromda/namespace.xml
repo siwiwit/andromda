@@ -791,6 +791,13 @@
                     The interval of recovery attempts in <strong>milliseconds</strong>.
                 </documentation>
             </property>
+            <property name="jmsSessionTransacted">
+                <default>true</default>
+                <documentation>
+                    Set the transaction mode that is used when creating a JMS Session. 
+                    See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/support/JmsAccessor.html#">setSessionTransacted(boolean)</a>
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>

@@ -92,6 +92,9 @@
         <property name="recoveryInterval">
             <value>$jmsRecoveryInterval</value>
         </property>
+        <property name="sessionTransacted">
+            <value>$jmsSessionTransacted</value>
+        </property>
 #if ($stringUtils.isNotBlank($jmsMaxIncomingMessagesPerReceive))
         <property name="maxMessagesPerTask">
             <value>$jmsMaxIncomingMessagesPerReceive</value>
