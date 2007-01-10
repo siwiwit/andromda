@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.andromda</groupId>
+        <groupId>org.andromda.documentation</groupId>
         <artifactId>andromda-documentation</artifactId>
         <version>3.3-SNAPSHOT</version>
     </parent>
