@@ -179,6 +179,7 @@
                 <property name="hibernateDialect">${hibernate.dialect}</property>
                 <property name="hibernateShowSql">${hibernate.db.showSql}</property>
                 <property name="hibernateQueryUseNamedParameters">true</property>
+                <property name="hibernateEnableCache">false</property>
 #if ($hibernateVersion == "2")
                 <property name="sessionFactory">org.springframework.orm.hibernate.LocalSessionFactoryBean</property>
                 <property name="localTransactionManager">org.springframework.orm.hibernate.HibernateTransactionManager</property>
