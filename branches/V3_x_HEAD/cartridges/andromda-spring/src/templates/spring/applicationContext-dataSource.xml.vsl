@@ -10,10 +10,12 @@
     <!-- JNDI DataSource for J2EE environments -->
     <bean id="dataSource" class="$jndiDataSourceClass">
         <property name="jndiName"><value>$dataSource</value></property>
+        <property name="cache"><value>false</value></property>
+        <property name="proxyInterface"><value>javax.sql.DataSource</value></property>
     </bean>
-    
+
     <!-- ====================== End of DATASOURCE DEFINITION ====================== -->
-    
+
 #end
 #if ($stringUtils.isNotBlank($transactionManager))
     <!-- ===================== TRANSACTION MANAGER DEFINITION ========================= -->
