@@ -2,6 +2,10 @@ package org.andromda.maven.doxia.module.xdoc;
 
 import java.util.StringTokenizer;
 
+/**
+ * Support XML syntax highlighting with the Andromdadoc Doxia Module
+ *
+ */
 public class HighlightXmlSink
 {
     private static final String CSS_ELEMENT_CLASS = "xe";

@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+/**
+ * Support Velocity template syntax highlighting with the Andromdadoc Doxia Module
+ *
+ */
 public class HighlightVelocitySink
 {
     private static final String CSS_KEYWORD_CLASS = "vk";

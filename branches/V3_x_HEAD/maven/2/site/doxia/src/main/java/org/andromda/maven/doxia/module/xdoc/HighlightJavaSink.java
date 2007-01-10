@@ -1,11 +1,14 @@
 package org.andromda.maven.doxia.module.xdoc;
 
-
 import org.codehaus.plexus.util.StringUtils;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+/**
+ * Support Java code syntax highlighting with the Andromdadoc Doxia Module
+ *
+ */
 public class HighlightJavaSink
 {
     private static final String CSS_KEYWORD_CLASS = "jk";
