@@ -15,6 +15,9 @@
             <action dev="freter" type="add" issue="SPRING-190">
                 Added support for <![CDATA[<a href="lingo.codehaus.org">Lingo remoting</a>]]> to the Spring cartridge.
             </action>
+            <action dev="vancek" type="update">
+                Migrate M1 site docs to M2. Add site plugins. Remove M1 site xml files.
+            </action>
         </release>
         <release version="3.2" date="2006-11-09" desc="Version 3.2 final" description="Version 3.2 final">
             <action dev="mattes3" type="add">
