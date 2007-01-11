@@ -642,6 +642,7 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>1.3</version>
+                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>woodstox</groupId>
