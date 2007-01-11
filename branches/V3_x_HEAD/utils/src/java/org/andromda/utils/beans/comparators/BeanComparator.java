@@ -129,25 +129,27 @@ public class BeanComparator
             int result = 0;
 
             //first sort for null values, null values will always come last
-            if (aValue != null && bValue == null)
+            if (aValue != null || bValue != null)
             {
-                result = -1;
-            }
-            else if (aValue == null && bValue != null)
-            {
-                result = 1;
-            }
-            else if (aValue != null && bValue != null)
-            {
-                result = this.getComparator(aValue.getClass()).compare(
+                if (aValue == null)
+                {
+                    result = -1;
+                }
+                else if (bValue == null)
+                {
+                    result = 1;
+                }
+                else
+                {
+                    result = this.getComparator(aValue.getClass()).compare(
                         aValue,
                         bValue);
+                }
             }
             return result;
         }
         catch (final Throwable throwable)
         {
-            throwable.printStackTrace();
             throw new ComparatorException(throwable);
         }
     }
