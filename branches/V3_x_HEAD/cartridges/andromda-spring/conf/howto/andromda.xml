@@ -40,7 +40,7 @@
                 <property name="hibernateUseQueryCache">false</property>
                 <property name="hibernateCacheProvider">net.sf.hibernate.cache.EhCacheProvider</property>
                 <property name="hibernateQueryCacheFactory">net.sf.hibernate.cache.StandardQueryCacheFactory</property>
-                <property name="mergeMappingsUri">file:${maven.src.dir}/test/mappings/MergeMappings.xml</property>
+                <property name="mergeMappingsUri">file:${test.src.dir}/mappings/MergeMappings.xml</property>
                 <property name="advice-impls">${howto.output.dir}</property>
                 <property name="hibernateQueryUseNamedParameters">true</property>
                 <property name="open-session-in-view">${howto.output.dir}</property>
