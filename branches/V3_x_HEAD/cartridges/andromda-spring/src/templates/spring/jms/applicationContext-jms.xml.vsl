@@ -35,6 +35,11 @@
                 <property name="brokerURL">
                     <value>$jmsProviderUrl</value>
                 </property>
+#if ($stringUtils.isNotBlank($jmsClientId))
+                <property name="clientID">
+                    <value>$jmsClientId</value>
+                </property>
+#end
             </bean>
         </property>
     </bean>
@@ -123,7 +128,7 @@
         <property name="destination">
             <ref bean="$operation.incomingDestination.beanName"/>
         </property>
-#if ($stringUtils.isNotBlank($jmsClientId))
+#if (!$activeMq && $stringUtils.isNotBlank($jmsClientId))
         <property name="clientId">
             <value>$jmsClientId</value>
         </property>

@@ -129,6 +129,7 @@ public class $className
      */
     public synchronized void shutdown()
     {
+        ((org.springframework.context.support.AbstractApplicationContext)this.getContext()).close();
         if (this.beanFactoryReference != null)
         {
             this.beanFactoryReference.release();

@@ -124,6 +124,7 @@ public class $serviceLocatorName
      */
     public synchronized void shutdown()
     {
+        ((org.springframework.context.support.AbstractApplicationContext)this.getContext()).close();
         if (this.beanFactoryReference != null)
         {
             this.beanFactoryReference.release();
