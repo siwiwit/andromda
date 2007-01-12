@@ -92,6 +92,9 @@
         <property name="recoveryInterval">
             <value>$jmsRecoveryInterval</value>
         </property>
+        <property name="durableSubscriptionName">
+            <value>$operation.messageListenerBeanName</value>
+        </property>
         <property name="sessionTransacted">
             <value>$jmsSessionTransacted</value>
         </property>
