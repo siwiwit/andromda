@@ -386,4 +386,25 @@ public class SpringServiceOperationLogicImpl
     {
         return StringUtils.uncapitalize(this.getMessageListenerName());
     }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getMessageListenerContainerReferenceName()
+     */
+    protected String handleGetMessageListenerContainerReferenceName()
+    {
+        return this.getName() + MESSAGE_LISTENER_CONTAINER_SUFFIX;
+    }
+    
+    /**
+     * The suffix for the listener container.
+     */
+    private static final String MESSAGE_LISTENER_CONTAINER_SUFFIX = "ListenerContainer";
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getMessageListenerContainerBeanName()
+     */
+    protected String handleGetMessageListenerContainerBeanName()
+    {
+        return this.getMessageListenerBeanName() + MESSAGE_LISTENER_CONTAINER_SUFFIX;
+    }
 }

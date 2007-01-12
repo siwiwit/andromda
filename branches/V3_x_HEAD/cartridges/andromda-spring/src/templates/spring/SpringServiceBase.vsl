@@ -84,6 +84,28 @@ public abstract class $service.baseName
     }
 
 #end
+#foreach ($operation in $service.operations)
+#if ($operation.incomingMessageOperation)
+    private $jmsMessageListenerContainerImplementation $operation.messageListenerContainerReferenceName;
+
+    /**
+     * Sets the incoming message listener container for {@link #${operation.getSignature(false)})
+     */
+    public void set$stringUtils.capitalize($operation.messageListenerContainerReferenceName)($jmsMessageListenerContainerImplementation $operation.messageListenerContainerReferenceName)
+    {
+        this.$operation.messageListenerContainerReferenceName = $operation.messageListenerContainerReferenceName;
+    }
+    
+    /**
+     * Gets the incoming message listener container for {@link #${operation.getSignature(false)})
+     */
+    protected $jmsMessageListenerContainerImplementation get$stringUtils.capitalize($operation.messageListenerContainerReferenceName)()
+    {
+        return this.$operation.messageListenerContainerReferenceName;
+    }    
+    
+#end
+#end
 #foreach ($operation in $service.implementationOperations)
     /**
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}

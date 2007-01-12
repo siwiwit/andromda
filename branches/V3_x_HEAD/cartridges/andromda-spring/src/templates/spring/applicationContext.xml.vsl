@@ -192,6 +192,12 @@
                     <ref bean="$destination.templateBeanName"/>
                 </property>
 #end
+#foreach ($operation in $service.operations)
+#if ($operation.incomingMessageOperation)
+## Set this as lookup methods (otherwise we'll have a circular refrence back to the container listener)
+                <lookup-method name="get$stringUtils.capitalize($operation.messageListenerContainerReferenceName)" bean="$operation.messageListenerContainerBeanName"/>
+#end
+#end
             </bean>
         </property>
         <property name="proxyInterfaces">
