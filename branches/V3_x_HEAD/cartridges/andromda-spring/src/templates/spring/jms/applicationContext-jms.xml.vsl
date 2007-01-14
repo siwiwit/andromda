@@ -29,18 +29,20 @@
     </bean>
     
 #elseif ($activeMq)
+    <bean id="activeMqConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL">
+            <value>$jmsProviderUrl</value>
+        </property>
+#if ($stringUtils.isNotBlank($jmsClientId))
+        <property name="clientID">
+            <value>$jmsClientId</value>
+        </property>
+#end
+    </bean>
+    
     <bean id="jmsConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
         <property name="connectionFactory">
-            <bean class="org.apache.activemq.spring.ActiveMQConnectionFactory">
-                <property name="brokerURL">
-                    <value>$jmsProviderUrl</value>
-                </property>
-#if ($stringUtils.isNotBlank($jmsClientId))
-                <property name="clientID">
-                    <value>$jmsClientId</value>
-                </property>
-#end
-            </bean>
+            <ref bean="activeMqConnectionFactory"/>
         </property>
     </bean>
     
@@ -92,7 +94,15 @@
 #end
     <bean id="${operation.messageListenerBeanName}ListenerContainer" class="$jmsMessageListenerContainerImplementation">
         <property name="connectionFactory">
-            <ref bean="jmsConnectionFactory"/>
+            <bean class="org.springframework.jms.connection.SingleConnectionFactory">
+                <property name="targetConnectionFactory">
+#if ($activeMq)
+                    <ref bean="activeMqConnectionFactory"/>
+#else
+                    <ref bean="jmsConnectionFactory"/>
+#end
+                </property>            
+            </bean>
         </property>
         <property name="recoveryInterval">
             <value>$jmsRecoveryInterval</value>
