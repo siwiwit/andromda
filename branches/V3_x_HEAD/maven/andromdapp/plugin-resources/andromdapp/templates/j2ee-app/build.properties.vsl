@@ -83,5 +83,5 @@ ant.version=1.6.2
 # webservice dependency versions
 commons.discovery.version=0.2
 axis.version=1.4
-wsdl4j.version-1.5.1
+wsdl4j.version=1.5.1
 #end
