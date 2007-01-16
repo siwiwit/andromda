@@ -22,7 +22,7 @@
 #end
 #end
 #end
-#if ($ownerParameter)
+#if ($ownerParameter.complex)
 #set ($validatorVars = $field.getValidatorVars($ownerParameter))
 #else
 #set ($validatorVars = $field.validatorVars)
