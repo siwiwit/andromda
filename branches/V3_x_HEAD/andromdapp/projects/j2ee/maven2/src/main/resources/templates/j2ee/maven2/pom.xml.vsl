@@ -245,93 +245,93 @@
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-j2ee</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jbossall-client</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-ejb3-client</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-ejb3x</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>ejb3-persistence</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-annotations-ejb3</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-serialization</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-remoting</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jnp-client</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-aop-jdk50-client</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-aspect-jdk50-client</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
 #if ($jsr181Webservice)
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jbossws-client</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-jaxrpc</artifactId>
-                <version>4.0.4-GA</version>
+                <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
 #end
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-client</artifactId>
-                <version>3.2.0-CR2</version>
+                <version>3.2.0-GA</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-annotations</artifactId>
-                <version>3.2.0-CR2</version>
+                <version>3.2.0-GA</version>
                 <scope>provided</scope>
             </dependency>
 #else
