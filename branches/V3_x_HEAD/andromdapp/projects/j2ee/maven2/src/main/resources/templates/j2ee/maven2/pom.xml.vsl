@@ -71,8 +71,8 @@
 #if ($jbossSeam)
 
             <dependency>
-                <groupId>org.andromda.plugins.profiles.uml14</groupId>
-                <artifactId>andromda-plugins-profile-seam</artifactId>
+                <groupId>org.andromda.profiles.uml14</groupId>
+                <artifactId>andromda-profile-seam</artifactId>
                 <version>1.1-SNAPSHOT</version>
                 <type>xml.zip</type>
                 <scope>runtime</scope>

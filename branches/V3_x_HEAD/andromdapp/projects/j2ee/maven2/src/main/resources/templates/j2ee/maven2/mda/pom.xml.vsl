@@ -34,8 +34,8 @@
 #end
 #if ($jbossSeam)
         <dependency>
-            <groupId>org.andromda.plugins.profiles.uml14</groupId>
-            <artifactId>andromda-plugins-profile-seam</artifactId>
+            <groupId>org.andromda.profiles.uml14</groupId>
+            <artifactId>andromda-profile-seam</artifactId>
             <type>xml.zip</type>
         </dependency>
 #end
