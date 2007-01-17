@@ -661,7 +661,7 @@
                 <default>localhost:1099</default>
                 <documentation>
                     The provider URL for remote JMS access (if you're using ActiveMQ as your provider, you'll typically
-                    want to set the URL as 'tcp://localhost:61616'; changing the port as necessary of course).
+                    want to set the URL as something like 'reliable:tcp://localhost:61616'; changing the port as necessary of course).
                 </documentation>
             </property>
             <property name="jmsInitialContextFactory">
