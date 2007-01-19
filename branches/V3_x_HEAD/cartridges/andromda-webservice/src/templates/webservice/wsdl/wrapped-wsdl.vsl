@@ -109,7 +109,7 @@ $type.getDocumentation("                        ", 64, false)
 #*     *##set ($attributes = $type.getAttributes(true))
 #*     *##set ($otherEnds = $type.getNavigableConnectingEnds(true)) 
 #*     *##if (!$attributes.empty || !$otherEnds.empty)
-                <xsd:sequence>
+                <xsd:all>
 #*     *##foreach ($attribute in $attributes)
                     <xsd:element name="$attribute.name" nillable="$attribute.nillable" type="$attribute.type.schemaType">
                         <xsd:annotation>
@@ -134,7 +134,7 @@ $otherEnd.getDocumentation("                                ", 64, false)
                         </xsd:annotation>
                     </xsd:element>
 #end
-                </xsd:sequence>
+                </xsd:all>
 #end
             </xsd:complexType>
 #end
