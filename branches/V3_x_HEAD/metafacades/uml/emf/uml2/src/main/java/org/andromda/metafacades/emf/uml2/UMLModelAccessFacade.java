@@ -154,12 +154,13 @@ public class UMLModelAccessFacade
                         element,
                         name))
                 {
-                    elements.add(MetafacadeFactory.getInstance().createMetafacade(element));
+                    elements.add(element);
                 }
             }
         }
         // - filter any elements before we turn them into metafacades (for performance reasons)
         this.filterElements(elements);
+        MetafacadeFactory.getInstance().createMetafacades(elements);
         return elements;
     }
 
@@ -178,7 +179,7 @@ public class UMLModelAccessFacade
                 elements.add(object);
             }
         }
-        
+
         // - filter any elements before we turn them into metafacades (for performance reasons)
         this.filterElements(elements);
 
