@@ -11,9 +11,6 @@ package $interface.packageName;
  * The default implementation of {@link $interface.name}
  */
 public#if ($interface.abstractInterfaceImplementation) abstract#end class $className
-#if($interface.generalization)
-    extends $interface.generalization.fullyQualifiedInterfaceImplementationName
-#end
     implements $interface.name
 {
 
@@ -24,7 +21,7 @@ public#if ($interface.abstractInterfaceImplementation) abstract#end class $class
     private static final long serialVersionUID = ${interface.serialVersionUID}L;
 
 #end
-#foreach($attribute in $interface.attributes)
+#foreach($attribute in $interface.getAttributes(true))
 #if ($attribute.visibility == "public")
 #if (!$attribute.static)
     private $attribute.getterSetterTypeName $attribute.name#if ($attribute.defaultValuePresent) = $attribute.defaultValue#end;
@@ -51,31 +48,28 @@ public#if ($interface.abstractInterfaceImplementation) abstract#end class $class
 #end
 #end
 #end
-#foreach ($associationEnd in $interface.associationEnds)
-#set ($target = $associationEnd.otherEnd)
-#if ($target.navigable)
-    private $target.getterSetterTypeName $target.name;
+#foreach ($associationEnd in $interface.getNavigableConnectingEnds(true))
+    private $associationEnd.getterSetterTypeName $associationEnd.name;
     
     /**
-     * @see $interface.fullyQualifiedName#${target.getterName}()
+     * @see $interface.fullyQualifiedName#${associationEnd.getterName}()
      */
-    public $target.getterSetterTypeName ${target.getterName}()
+    public $associationEnd.getterSetterTypeName ${associationEnd.getterName}()
     {
-        return this.${target.name};
+        return this.${associationEnd.name};
     }
 
 ## - always generate setter on impl (so that the value can be populated)
-#if (!$target.readOnly)
+#if (!$associationEnd.readOnly)
     /**
-     * @see $interface.fullyQualifiedName#${target.setterName}($target.getterSetterTypeName)
+     * @see $interface.fullyQualifiedName#${associationEnd.setterName}($associationEnd.getterSetterTypeName)
      */
 #end
-    public void ${target.setterName}($target.getterSetterTypeName $target.name)
+    public void ${associationEnd.setterName}($associationEnd.getterSetterTypeName $associationEnd.name)
     {
-        this.${target.name} = ${target.name};
+        this.${associationEnd.name} = ${associationEnd.name};
     }
 
-#end
 #end
 #foreach ($operation in $interface.operations)
 #set ($returnType = $operation.returnType)
