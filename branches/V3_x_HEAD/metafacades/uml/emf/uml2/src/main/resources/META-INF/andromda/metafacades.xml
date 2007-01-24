@@ -131,6 +131,9 @@
     <metafacade class="org.andromda.metafacades.emf.uml2.ActivityGraphFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.StateMachineImpl"/>
     </metafacade>
+    <metafacade class="org.andromda.metafacades.emf.uml2.StateMachineFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.StateMachineImpl" />
+    </metafacade> 
     <!-- Adapted, because ActivityGraph is mapped to StateMachine -->
     <metafacade class="org.andromda.metafacades.emf.uml2.PartitionFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.RegionImpl"/>
