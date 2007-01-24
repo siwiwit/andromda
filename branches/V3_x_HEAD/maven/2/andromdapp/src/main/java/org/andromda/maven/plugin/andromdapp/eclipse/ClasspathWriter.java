@@ -207,7 +207,7 @@ public class ClasspathWriter
 
         for (final Iterator iterator = allArtifactPaths.iterator(); iterator.hasNext();)
         {
-            final String path = (String)iterator.next();
+            String path = (String)iterator.next();
             if (path.startsWith(repositoryVariableName))
             {
                 this.writeClasspathEntry(
@@ -217,6 +217,10 @@ public class ClasspathWriter
             }
             else
             {
+                if (path.startsWith(rootDirectory))
+                {
+                    path = StringUtils.replace(path, rootDirectory + '/', "");
+                }
                 this.writeClasspathEntry(
                     writer,
                     "lib",
