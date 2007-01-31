@@ -11,6 +11,7 @@ import org.andromda.metafacades.uml.TransitionFacade;
 import org.eclipse.uml2.Activity;
 import org.eclipse.uml2.CallOperationAction;
 import org.eclipse.uml2.Element;
+import org.eclipse.uml2.Operation;
 import org.eclipse.uml2.Transition;
 import org.eclipse.uml2.UseCase;
 
@@ -83,7 +84,11 @@ public class FrontEndEventLogicImpl
             final Object nextNode = iterator.next();
             if (nextNode instanceof CallOperationAction)
             {
-                operations.add(((CallOperationAction)nextNode).getOperation());
+                final Operation operation = ((CallOperationAction)nextNode).getOperation();
+                if (operation != null)
+                { 
+                    operations.add(operation);
+                }
             }
         }
         return operations;
