@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.uml2.CallOperationAction;
+import org.eclipse.uml2.Operation;
 
 /**
  * MetafacadeLogic implementation for
@@ -45,7 +46,11 @@ public class CallEventFacadeLogicImpl extends CallEventFacadeLogic
             final Object nextNode = iterator.next();
             if (nextNode instanceof CallOperationAction)
             {
-                operations.add(((CallOperationAction)nextNode).getOperation());
+                final Operation operation = ((CallOperationAction)nextNode).getOperation();
+                if (operation != null)
+                {
+                    operations.add(operation);
+                }
             }
         }
         return operations;
