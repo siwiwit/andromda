@@ -31,17 +31,6 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
         $operation.throwsClause
 #end
     {
-#if ($ejbSecurityEnabled)
-#if ($externalPrincipalStoreClass)
-#set ($principalStoreClassName = $externalPrincipalStoreClass)
-#else
-#set ($principalStoreClassName = $principalStoreName)
-#if($stringUtils.isNotEmpty($springTypesPackage))
-#set ($principalStoreClassName = "${springTypesPackage}.${principalStoreClassName}")
-#end
-#end
-        ${principalStoreClassName}.set(super.getSessionContext().getCallerPrincipal());
-#end
         try
         {
 #if ($operation.returnTypePresent)
@@ -101,6 +90,17 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
     public void setSessionContext(javax.ejb.SessionContext sessionContext)
     {
         super.setSessionContext(sessionContext);
+#if ($ejbSecurityEnabled)
+#if ($externalPrincipalStoreClass)
+#set ($principalStoreClassName = $externalPrincipalStoreClass)
+#else
+#set ($principalStoreClassName = $principalStoreName)
+#if($stringUtils.isNotEmpty($springTypesPackage))
+#set ($principalStoreClassName = "${springTypesPackage}.${principalStoreClassName}")
+#end
+#end
+        ${principalStoreClassName}.setSessionContext(sessionContext);
+#end
         super.setBeanFactoryLocator(
             org.springframework.context.access.ContextSingletonBeanFactoryLocator.getInstance("$beanRefFactory"));
         super.setBeanFactoryLocatorKey("$beanRefFactoryId");
