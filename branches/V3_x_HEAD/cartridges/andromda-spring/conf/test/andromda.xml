@@ -27,7 +27,6 @@
                 <property name="services">${test.output.dir}</property>
                 <property name="service-interfaces">${test.output.dir}</property>
                 <property name="service-impls">${test.output.dir}</property>
-                <property name="service-locator">${test.output.dir}</property>
                 <property name="session-ejbs">${test.output.dir}</property>
                 <property name="daos">${test.output.dir}</property>
                 <property name="dao-impls">${test.output.dir}</property>

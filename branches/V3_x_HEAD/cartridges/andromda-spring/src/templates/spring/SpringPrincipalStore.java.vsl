@@ -17,11 +17,19 @@ package $springTypesPackage;
 public final class PrincipalStore
 {
 #if ($enableTemplating)
-	private static final ThreadLocal<java.security.Principal> store = new ThreadLocal<java.security.Principal>();
+    private static final ThreadLocal<java.security.Principal> store = new ThreadLocal<java.security.Principal>();
 #else
     private static final ThreadLocal store = new ThreadLocal();
 #end
 
+#if ($ejbsEnabled)
+#if ($enableTemplating)
+    private static final ThreadLocal<javax.ejb.SessionContext> sessionContext = new ThreadLocal<javax.ejb.SessionContext>();
+#else
+    private static final ThreadLocal sessionContext = new ThreadLocal();
+#end
+
+#end
     /**
      * Get the user <code>principal</code>
      * for the currently executing thread.
@@ -30,11 +38,21 @@ public final class PrincipalStore
      */
     public static java.security.Principal get()
     {
-#if($enableTemplating)
-        return store.get();
+#if ($ejbsEnabled)
+        java.security.Principal principal;
+        javax.ejb.SessionContext context =#if (!$enableTemplating)(javax.ejb.SessionContext)#end sessionContext.get();
+        if (context != null)
+        {
+            principal = context.getCallerPrincipal();
+        }
+        else
+        {
+            principal =#if(!$enableTemplating)(java.security.Principal)#end store.get();
+        }
+        return principal;
 #else
-        return (java.security.Principal)store.get();
-#end
+        return#if(!$enableTemplating)(java.security.Principal)#end store.get();
+#end 
     }
 
     /**
@@ -47,5 +65,18 @@ public final class PrincipalStore
     {
         store.set(principal);
     }
+#if ($ejbsEnabled)
+
+    /**
+     * Set the <code>sessionContext</code> for the currently
+     * executing thread.
+     *
+     * @param name the user sessionContext
+     */
+    public static void setSessionContext(final javax.ejb.SessionContext context)
+    {
+        sessionContext.set(context);
+    }
+#end
 }
 #end
