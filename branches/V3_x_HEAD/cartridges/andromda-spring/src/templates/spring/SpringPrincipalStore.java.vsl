@@ -22,7 +22,7 @@ public final class PrincipalStore
     private static final ThreadLocal store = new ThreadLocal();
 #end
 
-#if ($ejbsEnabled)
+#if ($ejbSecurityEnabled)
 #if ($enableTemplating)
     private static final ThreadLocal<javax.ejb.SessionContext> sessionContext = new ThreadLocal<javax.ejb.SessionContext>();
 #else
@@ -38,9 +38,9 @@ public final class PrincipalStore
      */
     public static java.security.Principal get()
     {
-#if ($ejbsEnabled)
+#if ($ejbSecurityEnabled)
         java.security.Principal principal;
-        javax.ejb.SessionContext context =#if (!$enableTemplating)(javax.ejb.SessionContext)#end sessionContext.get();
+        javax.ejb.SessionContext context = getSessionContext();
         if (context != null)
         {
             principal = context.getCallerPrincipal();
@@ -54,6 +54,13 @@ public final class PrincipalStore
         return#if(!$enableTemplating)(java.security.Principal)#end store.get();
 #end 
     }
+#if ($ejbSecurityEnabled)
+
+    private static javax.ejb.SessionContext getSessionContext()
+    {
+        return#if (!$enableTemplating)(javax.ejb.SessionContext)#end sessionContext.get();
+    }
+#end
 
     /**
      * Set the <code>principal</code> for the currently
@@ -65,7 +72,7 @@ public final class PrincipalStore
     {
         store.set(principal);
     }
-#if ($ejbsEnabled)
+#if ($ejbSecurityEnabled)
 
     /**
      * Set the <code>sessionContext</code> for the currently
@@ -77,6 +84,29 @@ public final class PrincipalStore
     {
         sessionContext.set(context);
     }
+    
+#foreach ($role in $roles)
+#set ($isInRoleName = "is${stringUtils.upperCamelCaseName($role.name.toLowerCase())}")
+    /**
+     * Indicates whether or not the current principal plays the <strong>$role.name</strong> role in the application.
+     */
+    public static boolean $isInRoleName()
+    {
+        final javax.ejb.SessionContext sessionContext = getSessionContext();
+        boolean $isInRoleName = sessionContext != null;
+        if ($isInRoleName)
+        {
+#set ($specializedRoles = $role.generalizedByActors)
+            $isInRoleName = sessionContext.isCallerInRole("$role.name")
+#foreach ($specializedRole in $role.generalizedByActors)
+                || sessionContext.isCallerInRole("$specializedRole.name")
+#end
+            ;
+        }
+        return $isInRoleName;
+    }
+    
+#end
 #end
 }
 #end

@@ -325,5 +325,24 @@ public abstract class $service.baseName
     {
         return this.getMessages().getMessage(key, arguments, locale);
     }
+    
+#end
+#if ($ejbSecurityEnabled)
+#set ($principalStoreClassName = $principalStoreName)
+#if($stringUtils.isNotEmpty($springTypesPackage))
+#set ($principalStoreClassName = "${springTypesPackage}.${principalStoreClassName}")
+#end
+#foreach ($role in $service.roles)
+#set ($isInRoleName = "is${stringUtils.upperCamelCaseName($role.name.toLowerCase())}")
+#set ($isPrincipalInRoleName = "isPrincipal${stringUtils.upperCamelCaseName($role.name.toLowerCase())}")
+    /**
+     * Indicates whether or not the current principal plays the <strong>$role.name</strong> role in the application.
+     */
+    public boolean $isPrincipalInRoleName()
+    {
+        return $principalStoreClassName.$isInRoleName();
+    }
+    
+#end
 #end
 }

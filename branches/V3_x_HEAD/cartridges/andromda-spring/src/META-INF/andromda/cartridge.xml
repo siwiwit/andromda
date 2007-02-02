@@ -5,7 +5,7 @@
         <!-- cartridge-macrolibrary merge-point-->
     </templateEngine>
 
-    <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
+    <templateObject name="stringUtils" className="org.andromda.core.common.StringUtilsHelper"/>
     <templateObject name="springUtils" className="org.andromda.cartridges.spring.SpringUtils">
         <property reference="richClient"/>
     </templateObject>
@@ -403,6 +403,9 @@
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">false</property>
                 </type>
+            </modelElement>
+            <modelElement variable="roles">
+                <type name="org.andromda.metafacades.uml.Role"/>
             </modelElement>
         </modelElements>
     </template>
