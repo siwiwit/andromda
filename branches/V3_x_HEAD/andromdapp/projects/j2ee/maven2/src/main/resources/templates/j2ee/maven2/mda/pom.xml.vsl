@@ -140,6 +140,13 @@
                         <exclude>mda/pom.xml</exclude>
                         <exclude>webservice/pom.xml</exclude>
                     </excludes>
+#if ($ejb3)
+                    <classpathMerge>
+                        <![CDATA[
+                        <classpathentry kind="var" path="M2_REPO/org/testng/testng/4.7/testng-4.7-jdk15.jar"/>
+                        ]]>
+                    </classpathMerge>
+#end
                 </configuration>
             </plugin>
         </plugins>
@@ -160,6 +167,11 @@
         <!-- cartridge output locations -->
         <core.generated.dir>${pom.basedir}/../core/target/src</core.generated.dir>
         <core.manual.dir>${pom.basedir}/../core/src/main/java</core.manual.dir>
+#if ($ejb3)
+        <core.manual.test.resources>${pom.basedir}/../core/src/test/resources</core.manual.test.resources>
+        <core.generated.test.dir>${pom.basedir}/../core/target/src</core.generated.test.dir>
+        <core.manual.test.dir>${pom.basedir}/../core/src/test/java</core.manual.test.dir>
+#end
         <web.generated.dir>${pom.basedir}/../web/target/src</web.generated.dir>
         <web.manual.dir>${pom.basedir}/../web/src/main</web.manual.dir>
         <web.manual.java.dir>${web.manual.dir}/java</web.manual.java.dir> 

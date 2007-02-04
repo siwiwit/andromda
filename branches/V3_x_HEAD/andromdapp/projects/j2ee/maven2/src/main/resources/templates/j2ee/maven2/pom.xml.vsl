@@ -242,15 +242,10 @@
 #end
             </dependency>
 #if ($ejb3)
+            <!-- JBoss specific dependencies -->
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-j2ee</artifactId>
-                <version>4.0.5-GA</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss</groupId>
-                <artifactId>jbossall-client</artifactId>
                 <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
@@ -292,12 +287,6 @@
             </dependency>
             <dependency>
                 <groupId>org.jboss</groupId>
-                <artifactId>jnp-client</artifactId>
-                <version>4.0.5-GA</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss</groupId>
                 <artifactId>jboss-aop-jdk50-client</artifactId>
                 <version>4.0.5-GA</version>
                 <scope>provided</scope>
@@ -308,7 +297,20 @@
                 <version>4.0.5-GA</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jbossall-client</artifactId>
+                <version>4.0.5-GA</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jnp-client</artifactId>
+                <version>4.0.5-GA</version>
+                <scope>runtime</scope>
+            </dependency>
 #if ($jsr181Webservice)
+            <!-- Webservice JBossWS dependencies -->
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jbossws-client</artifactId>
@@ -322,16 +324,42 @@
                 <scope>provided</scope>
             </dependency>
 #end
+            <!-- Dependencies needed for Embedded Microcontainer, used in testing -->
+            <dependency>
+           	    <groupId>org.jboss.microcontainer</groupId>
+           	    <artifactId>hibernate-all</artifactId>
+           	    <version>alpha_9</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.microcontainer</groupId>
+                <artifactId>jboss-ejb3-all</artifactId>
+                <version>alpha_9</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+          	    <groupId>org.jboss.microcontainer</groupId>
+           	    <artifactId>thirdparty-all</artifactId>
+           	    <version>alpha_9</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>1.2</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- Hibernate persistence engine dependencies -->
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate</artifactId>
-                <version>3.2.1.ga</version>
+                <version>3.2.0.ga</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-annotations</artifactId>
-                <version>3.2.1.ga</version>
+                <version>3.2.0.ga</version>
                 <scope>provided</scope>
             </dependency>
 #else
@@ -556,6 +584,7 @@
                 <scope>runtime</scope>
             </dependency>
 #if ($jbossSeam)
+            <!-- JBoss Seam depdencies -->
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-seam</artifactId>
@@ -719,6 +748,37 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+#if ($ejb3)
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+            <classifier>jdk15</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>qdox</groupId>
+                    <artifactId>qdox</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>bsh</groupId>
+                    <artifactId>bsh</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>3.1.13</version>
+            <scope>test</scope>
+        </dependency>
+#end
     </dependencies>
     <build>
         <defaultGoal>install</defaultGoal>
@@ -764,6 +824,25 @@
                         <source>1.5</source>
                         <target>1.5</target>
                     </configuration>
+                </plugin>
+#end
+#if ($ejb3)
+                <plugin>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <artifactId>maven-surefire-plugin</artifactId>
+                   <version>2.2</version>
+                   <configuration>
+                       <suiteXmlFiles>
+                           <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                       </suiteXmlFiles>
+                       <!-- This trick allows the JBoss EJB3StandaloneBootstrap to find and deploy our compiled EJBs!! -->
+                       <systemProperties>
+                           <property>
+                               <name>java.class.path</name>
+                               <value>target/classes</value>
+                           </property>
+                        </systemProperties>
+                   </configuration>
                 </plugin>
 #end
             </plugins>

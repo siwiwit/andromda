@@ -153,6 +153,22 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
         </dependency>
+        <dependency>
+  	        <groupId>net.sf.ehcache</groupId>
+  	        <artifactId>ehcache</artifactId>
+        </dependency>
+        <dependency>
+       	    <groupId>org.jboss.microcontainer</groupId>
+       	    <artifactId>hibernate-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jboss-ejb3-all</artifactId>
+        </dependency>
+        <dependency>
+      	    <groupId>org.jboss.microcontainer</groupId>
+       	    <artifactId>thirdparty-all</artifactId>
+        </dependency>
 #else
         <dependency>
             <groupId>jboss</groupId>
@@ -357,6 +373,34 @@
                     <exclude>**/*.java</exclude>
                 </excludes>
             </resource>
+#if ($ejb3)
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>META-INF/persistence.xml</include>
+                </includes>
+            </resource>
+#end
         </resources>
+#if ($ejb3)
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>default.persistence.properties</include>
+					<include>jndi.properties</include>
+					<include>embedded-jboss-beans.xml</include>
+					<include>ejb3-interceptors-aop.xml</include>
+                    <include>jboss-jms-beans.xml</include>
+					<include>log4j.xml</include>
+					<include>security-beans.xml</include>
+					<include>login-config.xml</include>
+                    <include>users.properties</include>
+                    <include>roles.properties</include>
+				</includes>
+			</testResource>
+		</testResources>
+#end
     </build>
 </project>
