@@ -20,18 +20,14 @@ public#if($service.abstract) abstract#end class $service.implementationName
      * @see ${service.fullyQualifiedName}#${operation.getSignature(false)}
      */
 #set ($abstract = $service.abstract && $operation.abstract)
-    protected#if ($abstract) abstract#end $operation.returnType.fullyQualifiedName $operation.implementationSignature
+    protected#if ($abstract) abstract#end  $operation.implementationReturnTypeName $operation.implementationSignature
 #if ($abstract)
         throws java.lang.Exception;        
 #else
         throws java.lang.Exception
     {
-        // ${toDoTag} implement protected $operation.returnType.fullyQualifiedName $operation.implementationSignature
-#if ($operation.returnTypePresent)
-        return $operation.returnType.javaNullString;
-#else
+        // ${toDoTag} implement protected  $operation.implementationReturnTypeName $operation.implementationSignature
         throw new java.lang.UnsupportedOperationException("${service.fullyQualifiedName}.${operation.implementationSignature} Not implemented!");
-#end
     }
 
 #end
