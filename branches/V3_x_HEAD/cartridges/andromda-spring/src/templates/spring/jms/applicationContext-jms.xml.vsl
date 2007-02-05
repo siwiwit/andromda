@@ -16,40 +16,11 @@
             </props>
         </property>
     </bean>
-
-    <!-- JMS Connection Factory -->
-    <bean id="jmsConnectionFactory"
-            class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiTemplate">
-            <ref bean="jndiTemplate"/>
-        </property>
-        <property name="jndiName">
-            <value>$jmsConnectionFactory</value>
-        </property>
-    </bean>
-    
-#elseif ($activeMq)
-    <bean id="activeMqConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
-        <property name="brokerURL">
-            <value>$jmsProviderUrl</value>
-        </property>
-#if ($stringUtils.isNotBlank($jmsClientId))
-        <property name="clientID">
-            <value>$jmsClientId</value>
-        </property>
-#end
-    </bean>
-    
-    <bean id="jmsConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
-        <property name="connectionFactory">
-            <ref bean="activeMqConnectionFactory"/>
-        </property>
-    </bean>
     
 #end
 #foreach ($destination in $destinations)
 #if ($jbossMq)
-    <bean id="$destination.beanName"
+    <bean id="${destination.beanName}Destination"
         class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiTemplate">
             <ref bean="jndiTemplate"/>
@@ -68,7 +39,7 @@
 #else
 #set ($activeMqDestinationClass = "org.apache.activemq.command.ActiveMQQueue")
 #end
-    <bean id="$destination.beanName" class="$activeMqDestinationClass" autowire="constructor">
+    <bean id="${destination.beanName}Destination" class="$activeMqDestinationClass" autowire="constructor">
         <constructor-arg>
 #if ($destination.topicMetaType)
             <value>$jmsTopicNamePrefix$destination.name</value>
@@ -96,19 +67,32 @@
         <property name="connectionFactory">
             <bean class="org.springframework.jms.connection.SingleConnectionFactory">
                 <property name="targetConnectionFactory">
-#if ($activeMq)
-                    <ref bean="activeMqConnectionFactory"/>
-#else
-                    <ref bean="jmsConnectionFactory"/>
+#if ($jbossMq)
+    			                <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                        <property name="jndiTemplate">
+                            <ref bean="jndiTemplate"/>
+                        </property>
+                        <property name="jndiName">
+                            <value>$jmsConnectionFactory</value>
+                        </property>
+    			                </bean>
+#elseif ($activeMq)
+                    <bean class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+                        <property name="brokerURL">
+                            <value>$jmsProviderUrl</value>
+                        </property>
+#if ($stringUtils.isNotBlank($jmsClientId))
+                        <property name="clientID">
+                            <value>$stringUtils.lowerCamelCaseName($jmsClientId)$stringUtils.capitalize($operation.messageListenerBeanName)</value>
+                        </property>
 #end
+#end
+                    </bean>
                 </property>            
             </bean>
         </property>
         <property name="recoveryInterval">
             <value>$jmsRecoveryInterval</value>
-        </property>
-        <property name="durableSubscriptionName">
-            <value>$operation.messageListenerBeanName</value>
         </property>
         <property name="sessionTransacted">
             <value>$jmsSessionTransacted</value>
@@ -136,16 +120,19 @@
 #end
         </property>
         <property name="destination">
-            <ref bean="$operation.incomingDestination.beanName"/>
+            <ref bean="${operation.incomingDestination.beanName}Destination"/>
         </property>
 #if (!$activeMq && $stringUtils.isNotBlank($jmsClientId))
         <property name="clientId">
-            <value>$jmsClientId</value>
+            <value>$stringUtils.lowerCamelCaseName($jmsClientId)$stringUtils.capitalize($operation.messageListenerBeanName)</value>
         </property>
 #end
 #if ($operation.incomingDestination.topicMetaType)
         <property name="subscriptionDurable">
             <value>$jmsDurableSubscriptions</value>
+        </property>
+        <property name="durableSubscriptionName">
+            <value>$operation.messageListenerBeanName</value>
         </property>
         <property name="pubSubDomain">
             <value>true</value>
@@ -171,10 +158,29 @@
     <!-- JMS Destination Template -->
     <bean id="$destination.templateBeanName" class="$jmsTemplateImplementation">
         <property name="connectionFactory">
-            <ref bean="jmsConnectionFactory"/>
+#if ($jbossMq)
+    			        <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiTemplate">
+                    <ref bean="jndiTemplate"/>
+                </property>
+                <property name="jndiName">
+                    <value>$jmsConnectionFactory</value>
+                </property>
+    			        </bean>
+#elseif ($activeMq)
+            <bean class="org.apache.activemq.pool.PooledConnectionFactory">
+                <property name="connectionFactory">
+                    <bean class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+                        <property name="brokerURL">
+                            <value>$jmsProviderUrl</value>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+#end
         </property>
         <property name="defaultDestination">
-            <ref bean="$destination.beanName"/>
+            <ref bean="${destination.beanName}Destination"/>
         </property>
         <property name="receiveTimeout">
             <value>$jmsReceiveTimeout</value>
