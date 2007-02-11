@@ -323,7 +323,7 @@ public interface $entity.daoName
 #foreach ($operation in $entity.queryOperations)
 #set ($returnType = $operation.returnType.fullyQualifiedName)
     /**
-$operation.getDocumentation(" * ")
+$operation.getDocumentation("     * ")
      */
 #if ($operation.exceptionsPresent)
     $operation.visibility $returnType $operation.signature
@@ -347,8 +347,39 @@ $operation.getDocumentation(" * ")
     $operation.visibility $returnType ${operation.name}(String queryString#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end);
 #end
 
-#if ($operation.query && !$operation.returnType.collectionType)
-#set ($returnType = "Object")
+#if ($operation.returnType.collectionType)
+    /**
+     * <p>
+     * Does the same thing as {@link #${operation.getSignature(false)}} with an
+     * additional two arguments called <code>pageNumber</code> and <code>pageSize</code>. The <code>pageNumber</code>
+     * argument allows you to specify the page number when you are paging the results and the pageSize allows you to specify the size of the
+     * page retrieved.
+     * </p>
+     */
+#if ($operation.exceptionsPresent)
+    $operation.visibility $returnType ${operation.name}(int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end)
+        throws $operation.exceptionList;
+#else
+    $operation.visibility $returnType ${operation.name}(int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end);
+#end
+
+    /**
+     * <p>
+     * Does the same thing as {@link #${operation.name}(String#if(!$operation.arguments.empty), ${operation.argumentTypeNames}#end)} with an
+     * additional two arguments called <code>pageNumber</code> and <code>pageSize</code>. The <code>pageNumber</code>
+     * argument allows you to specify the page number when you are paging the results and the pageSize allows you to specify the size of the
+     * page retrieved.
+     * </p>
+     */
+#if ($operation.exceptionsPresent)
+    $operation.visibility $returnType ${operation.name}(String queryString, int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end)
+        throws $operation.exceptionList;
+#else
+    $operation.visibility $returnType ${operation.name}(String queryString, int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end);
+#end
+
+#else 
+#set ($returnType = "java.lang.Object")
 #end
     /**
      * <p>
@@ -368,9 +399,26 @@ $operation.getDocumentation(" * ")
     $operation.visibility $returnType ${operation.name}(int transform#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end);
 #end
 
+#if ($operation.returnType.collectionType)
     /**
      * <p>
-     * Does the same thing as {@link #${operation.name}(boolean#if(!$operation.arguments.empty), ${operation.argumentTypeNames}#end)} with an
+     * Does the same thing as {@link #${operation.name}(int#if(!$operation.arguments.empty), ${operation.argumentTypeNames}#end)} with an
+     * additional two arguments called <code>pageNumber</code> and <code>pageSize</code>. The <code>pageNumber</code>
+     * argument allows you to specify the page number when you are paging the results and the pageSize allows you to specify the size of the
+     * page retrieved.
+     * </p>
+     */
+#if ($operation.exceptionsPresent)
+    $operation.visibility $returnType ${operation.name}(int transform, int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end)
+        throws $operation.exceptionList;
+#else
+    $operation.visibility $returnType ${operation.name}(int transform, int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end);
+#end
+
+#end
+    /**
+     * <p>
+     * Does the same thing as {@link #${operation.name}(int#if(!$operation.arguments.empty), ${operation.argumentTypeNames}#end)} with an
      * additional argument called <code>queryString</code>. This <code>queryString</code>
      * argument allows you to override the query string defined in {@link #${operation.name}(int#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end)}.
      * </p>
@@ -380,6 +428,24 @@ $operation.getDocumentation(" * ")
         throws $operation.exceptionList;
 #else
     $operation.visibility $returnType ${operation.name}(int transform, String queryString#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end);
+#end
+
+#if ($operation.returnType.collectionType)
+    /**
+     * <p>
+     * Does the same thing as {@link #${operation.name}(int, String#if(!$operation.arguments.empty), ${operation.argumentTypeNames}#end)} with an
+     * additional two arguments called <code>pageNumber</code> and <code>pageSize</code>. The <code>pageNumber</code>
+     * argument allows you to specify the page number when you are paging the results and the pageSize allows you to specify the size of the
+     * page retrieved.
+     * </p>
+     */
+#if ($operation.exceptionsPresent)
+    $operation.visibility $returnType ${operation.name}(int transform, String queryString, int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end)
+        throws $operation.exceptionList;
+#else
+    $operation.visibility $returnType ${operation.name}(int transform, String queryString, int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end);
+#end
+
 #end
 #else
     /**
@@ -398,14 +464,31 @@ $operation.getDocumentation(" * ")
         throws $operation.exceptionList;
 #else
     $operation.visibility $returnType ${operation.name}(final int transform#if(!$operation.arguments.empty), ${operation.getTypedArgumentList('final')}#end);
+    
 #end
+#if ($operation.returnType.collectionType)
+    /**
+     * <p>
+     * Does the same thing as {@link #${operation.name}(int, String#if(!$operation.arguments.empty), ${operation.argumentTypeNames}#end)} with an
+     * additional two arguments called <code>pageNumber</code> and <code>pageSize</code>. The <code>pageNumber</code>
+     * argument allows you to specify the page number when you are paging the results and the pageSize allows you to specify the size of the
+     * page retrieved.
+     * </p>
+     */
+#if ($operation.exceptionsPresent)
+    $operation.visibility $returnType ${operation.name}(final int transform, final int pageNumber, final int pageSize#if(!$operation.arguments.empty), ${operation.getTypedArgumentList('final')}#end)
+        throws $operation.exceptionList;
+#else
+    $operation.visibility $returnType ${operation.name}(final int transform, final int pageNumber, final int pageSize#if(!$operation.arguments.empty), ${operation.getTypedArgumentList('final')}#end);
 #end
 
+#end
+#end
 #end
 #foreach ($operation in $entity.daoBusinessOperations)
 #set ($returnType = $operation.returnType.fullyQualifiedName)
     /**
-$operation.getDocumentation(" * ")
+$operation.getDocumentation("     * ")
      */
 #if ($operation.exceptionsPresent)
     $operation.visibility $returnType $operation.signature

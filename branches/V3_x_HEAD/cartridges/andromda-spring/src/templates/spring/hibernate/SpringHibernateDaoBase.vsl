@@ -457,7 +457,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.getHibernateTemplate().deleteAll(entities);
     }
 ##
-## With daoInheritance disabled, only generate the finder methods defined on this entity; i.e. do _not_
+## With daoInheritance disabled, only generate the finder methods defined on this entity; do NOT
 ## include those defined on any of the super-entities.
 ##
 #if ($daoInheritance)
@@ -466,6 +466,19 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #set ($queryOperations = $entity.queryOperations)
 #end
 ##
+#if (!$queryOperations.empty)
+
+    private int calculateFirstResult(int page, int pageSize)
+    {
+        int firstResult = 0;
+        if (page > 0)
+        {
+            firstResult = (page - 1) * pageSize;
+        }
+        return firstResult;
+    }
+    
+#end
 #foreach ($finder in $queryOperations)
 #set ($returnType = $finder.returnType.fullyQualifiedName)
     /**
@@ -482,7 +495,26 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
         return $finderCall
     }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     */
+#if (!$finder.returnType.collectionType)
+#set ($returnType = "java.lang.Object")
+#end
+    $finder.visibility $returnType ${finder.name}(final int transform#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
+#if ($finder.exceptionsPresent)
+        throws $finder.exceptionList
+#end
+    {
+#if ($finder.returnType.collectionType)
+        return this.${finder.name}(transform, -1, -1#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
+#else
+        return this.${finder.name}(transform, "$finder.getQuery($entity)"#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
+#end
+    }
 
+#set ($returnType = $finder.returnType.fullyQualifiedName)
 #if(!$finder.criteriaFinder)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
@@ -498,28 +530,62 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
         return $finderCall
     }
-
-#if (!$finder.returnType.collectionType)
-#set ($returnType = "java.lang.Object")
-#end
+   
+#if ($finder.returnType.collectionType)
     /**
-     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
-    $finder.visibility $returnType ${finder.name}(final int transform#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
+    $finder.visibility $returnType ${finder.name}(final int pageNumber, final int pageSize#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
         throws $finder.exceptionList
 #end
     {
-        return this.${finder.name}(transform, "$finder.getQuery($entity)"#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
+        return this.${finder.name}($entity.daoNoTransformationConstantName, pageNumber, pageSize#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(String, int, int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     */
+    $finder.visibility $returnType ${finder.name}(final String queryString, final int pageNumber, final int pageSize#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
+#if ($finder.exceptionsPresent)
+        throws $finder.exceptionList
+#end
+    {
+        return this.${finder.name}($entity.daoNoTransformationConstantName, queryString, pageNumber, pageSize#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
     }
 
     /**
-     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     */
+    $finder.visibility $returnType ${finder.name}(final int transform, final String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
+#if ($finder.exceptionsPresent)
+        throws $finder.exceptionList
+#end
+    {
+        return this.${finder.name}(transform, queryString, -1, -1#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
+    }
+
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, int, int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     */
+    $finder.visibility $returnType ${finder.name}(final int transform, final int pageNumber, final int pageSize#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
+#if ($finder.exceptionsPresent)
+        throws $finder.exceptionList
+#end
+    {
+        return this.${finder.name}(transform, "$finder.getQuery($entity)", pageNumber, pageSize#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
+    }
+
+#else
+#set ($returnType = "java.lang.Object")
+#end
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if ($finder.returnType.collectionType), int, int#end#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
 #if ($enableTemplating)
     @SuppressWarnings("unchecked")
 #end	 
-    $finder.visibility $returnType ${finder.name}(final int transform, final java.lang.String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
+    $finder.visibility $returnType ${finder.name}(final int transform, final java.lang.String queryString#if ($finder.returnType.collectionType), int pageNumber, int pageSize#end#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
         throws $finder.exceptionList
 #end
@@ -553,6 +619,13 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
 #end
 #end
+#end
+#if ($finder.returnType.collectionType)
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                queryObject.setFirstResult(this.calculateFirstResult(pageNumber, pageSize));
+                queryObject.setMaxResults(pageSize);
+            }
 #end
 #if ($finder.returnType.setType || !$finder.returnType.collectionType)
             java.util.Set results = new java.util.LinkedHashSet(queryObject.list());
@@ -588,9 +661,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
 #else
     /**
-     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
+     * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if ($finder.returnType.collectionType), int, int#end#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
-    $finder.visibility $returnType ${finder.name}(final int transform#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
+    $finder.visibility $returnType ${finder.name}(final int transform#if ($finder.returnType.collectionType), final int pageNumber, final int pageSize#end#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
         throws $finder.exceptionList
 #end
@@ -603,6 +676,13 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             criteriaSearch.getConfiguration().setFirstResult(${criteriaArgumentName}.getFirstResult());
             criteriaSearch.getConfiguration().setFetchSize(${criteriaArgumentName}.getFetchSize());
             criteriaSearch.getConfiguration().setMaximumResultSize(${criteriaArgumentName}.getMaximumResultSize());
+#if ($finder.returnType.collectionType)
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                criteriaSearch.getConfiguration().setFirstResult(calculateFirstResult(pageNumber, pageSize));
+                criteriaSearch.getConfiguration().setMaximumResultSize(pageSize);
+            }
+#end
 #set($criteriaClass = $criteriaArgument.type)
 #foreach($criteriaAttribute in $criteriaClass.getAttributes(true))
 #if($criteriaAttribute.matchModePresent)
