@@ -154,6 +154,35 @@ public interface $entity.daoName
      * @return the loaded entities.
      */
     public java.util.Collection loadAll(final int transform);
+    
+    /**
+     * <p>
+     * Does the same thing as {@link #loadAll()} with an
+     * additional two arguments called <code>pageNumber</code> and <code>pageSize</code>. The <code>pageNumber</code>
+     * argument allows you to specify the page number when you are paging the results and the pageSize allows you to specify the size of the
+     * page retrieved.
+     * </p>
+     *
+     * @param pageNumber the page number to retrieve when paging results.
+     * @param pageSize the size of the page to retrieve when paging results.
+     * @return the loaded entities.
+     */
+    public java.util.Collection loadAll(final int pageNumber, final int pageSize);
+    
+    /**
+     * <p>
+     * Does the same thing as {@link #loadAll(int)} with an
+     * additional two arguments called <code>pageNumber</code> and <code>pageSize</code>. The <code>pageNumber</code>
+     * argument allows you to specify the page number when you are paging the results and the pageSize allows you to specify the size of the
+     * page retrieved.
+     * </p>
+     *
+     * @param transform the flag indicating what transformation to use.
+     * @param pageNumber the page number to retrieve when paging results.
+     * @param pageSize the size of the page to retrieve when paging results.
+     * @return the loaded entities.
+     */
+    public java.util.Collection loadAll(final int transform, final int pageNumber, final int pageSize);
 
 ## Only add these methods if the entity isn't abstract
 #if (!$entity.abstract)

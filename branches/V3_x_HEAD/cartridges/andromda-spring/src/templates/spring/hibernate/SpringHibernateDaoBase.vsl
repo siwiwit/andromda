@@ -120,7 +120,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
     public $entityCollectionType loadAll()
     {
-        return this.loadAll(TRANSFORM_NONE);
+        return this.loadAll($entity.daoNoTransformationConstantName);
     }
 
     /**
@@ -128,14 +128,45 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      */
     public java.util.Collection loadAll(final int transform)
     {
-        final java.util.Collection results = this.getHibernateTemplate().loadAll(${entity.fullyQualifiedEntityImplementationName}.class);
+        return this.loadAll(transform, -1, -1);
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#loadAll(int, int)
+     */
+    public java.util.Collection loadAll(final int pageNumber, final int pageSize)
+    {
+        return this.loadAll($entity.daoNoTransformationConstantName, pageNumber, pageSize);
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#loadAll(int, int, int)
+     */
+    public java.util.Collection loadAll(final int transform, final int pageNumber, final int pageSize)
+    {
+        final ${hibernateUtils.basePackage}.Criteria criteria = this.getSession(false).createCriteria(${entity.fullyQualifiedEntityImplementationName}.class);
+        if (pageNumber > 0 && pageSize > 0)
+        {
+            criteria.setFirstResult(this.calculateFirstResult(pageNumber, pageSize));
+            criteria.setMaxResults(pageSize);
+        }
+        final java.util.Collection results = criteria.list();
         this.transformEntities(transform, results);
         return results;
     }
-
+    
+    private int calculateFirstResult(int pageNumber, int pageSize)
+    {
+        int firstResult = 0;
+        if (pageNumber > 0)
+        {
+            firstResult = (pageNumber - 1) * pageSize;
+        }
+        return firstResult;
+    }
+    
 ## Only add these methods if the entity isn't abstract
 #if (!$entity.abstract)
-
     /**
      * @see ${entity.fullyQualifiedDaoName}#create($entity.fullyQualifiedEntityName)
      */
@@ -151,7 +182,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      */
     public $rootEntityType create(org.dom4j.Element $argumentName)
     {
-       return ($entity.fullyQualifiedEntityName)this.create(TRANSFORM_NONE, $argumentName);
+       return ($entity.fullyQualifiedEntityName)this.create($entity.daoNoTransformationConstantName, $argumentName);
     }
 
     /**
@@ -177,7 +208,6 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                 true);
         
         return this.load(transform, ($identifier.type.fullyQualifiedName)newID);
-        
     }
 
 #end
@@ -465,20 +495,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #else
 #set ($queryOperations = $entity.queryOperations)
 #end
-##
-#if (!$queryOperations.empty)
-
-    private int calculateFirstResult(int page, int pageSize)
-    {
-        int firstResult = 0;
-        if (page > 0)
-        {
-            firstResult = (page - 1) * pageSize;
-        }
-        return firstResult;
-    }
-    
-#end
+##    
 #foreach ($finder in $queryOperations)
 #set ($returnType = $finder.returnType.fullyQualifiedName)
     /**
