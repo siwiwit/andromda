@@ -904,4 +904,22 @@ public class EntityLogicImpl
         });
         return result;
     }
+    
+    /**
+     * @see org.andromda.metafacades.uml.EntityLogic#getEmbeddedValues()
+     */
+    protected Collection handleGetEmbeddedValues()
+    {
+        final Collection embeddedValues = new ArrayList();
+        for (final Iterator iterator = this.getAttributes(true).iterator(); iterator.hasNext();)
+        {
+            final AttributeFacade attribute = (AttributeFacade)iterator.next();
+            final ClassifierFacade type = attribute.getType();
+            if (type != null && type.isEmbeddedValue())
+            {
+                embeddedValues.add(attribute.getName());
+            }
+        }
+        return embeddedValues;
+    }
 }
