@@ -30,38 +30,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-#if ($ejb3)
-            <dependency>
-                <groupId>${pom.groupId}</groupId>
-                <artifactId>${applicationId}-core</artifactId>
-                <exclusions>
-                    <exclusion>
-                        <groupId>net.sf.ehcache</groupId>
-                        <artifactId>ehcache</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.jboss.microcontainer</groupId>
-                        <artifactId>hibernate-all</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.jboss.microcontainer</groupId>
-                        <artifactId>jboss-ejb3-all</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.jboss.microcontainer</groupId>
-                        <artifactId>thirdparty-all</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.jboss.microcontainer</groupId>
-                        <artifactId>jms-ra</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.jboss.microcontainer</groupId>
-                        <artifactId>jcainflow</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-#end
             <dependency>
                 <groupId>commons-digester</groupId>
                 <artifactId>commons-digester</artifactId>
