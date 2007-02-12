@@ -532,7 +532,7 @@ $operation.getDocumentation("     * ")
 #set ($fullyQualifiedSearchClassName = "${springTypesPackage}.${fullyQualifiedSearchClassName}")
 #end
     /**
-     * Does the same thing as {@link #search(fullyQualifiedSearchClassName, int) but with an
+     * Does the same thing as {@link #search($fullyQualifiedSearchClassName, int) but with an
      * additional flag called <code>transform</code>. If this flag is set to <code>$entity.daoNoTransformationConstantName</code> then
      * finder results will <strong>NOT</strong> be transformed during retrieval.
      * If this flag is any of the other constants defined here
@@ -546,6 +546,22 @@ $operation.getDocumentation("     * ")
      * @return any found results from the search.
      */
     public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search, final int maxResults);
+    
+    /**
+     * Does the same thing as {@link #search($fullyQualifiedSearchClassName) but with an
+     * additional flag called <code>transform</code>. If this flag is set to <code>$entity.daoNoTransformationConstantName</code> then
+     * finder results will <strong>NOT</strong> be transformed during retrieval.
+     * If this flag is any of the other constants defined here
+     * then results <strong>WILL BE</strong> passed through an operation which can optionally
+     * transform the entities (into value objects for example). By default, transformation does
+     * not occur.
+     *
+     * @param transform the transformation flag.
+     * @param search the search object which provides the search parameters and pagination specification.
+     * @param maxResults the maximum results to return when executing the search.
+     * @return any found results from the search.
+     */
+    public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search);
     
     /**
      * Does the same thing as {@link #search(fullyQualifiedSearchClassName) but with an additional
