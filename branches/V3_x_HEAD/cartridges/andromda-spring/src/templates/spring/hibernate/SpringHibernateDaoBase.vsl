@@ -1089,12 +1089,22 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
             final $fullyQualifiedPropertySearchClassName propertySearch = new $fullyQualifiedPropertySearchClassName(
                 this.getSession(false), ${entity.fullyQualifiedEntityImplementationName}.class, search, maxResults);
-            return propertySearch.executeAsSet();
+            final java.util.Set results = propertySearch.executeAsSet();
+            this.transformEntities(transform, results);
+            return results;
         }
         catch (${hibernateUtils.basePackage}.HibernateException ex)
         {
             throw super.convertHibernateAccessException(ex);
         }
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#search(int, $fullyQualifiedSearchClassName)
+     */
+    public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search)
+    {
+        return this.search(transform, search, -1);
     }
     
     /**
