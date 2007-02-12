@@ -113,7 +113,7 @@ public class $className
      * @param parameter the parameter from which to get the value.
      * @return the appropriate value.
      */
-    private Object getValue(Class entityType, final SearchParameter parameter)
+    private Object getValue(Class type, final SearchParameter parameter)
     {
         try
         {
