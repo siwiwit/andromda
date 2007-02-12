@@ -865,7 +865,7 @@ public class EntityLogicImpl
             final ClassifierFacade type = attribute.getType();
             if (type != null && type.isEmbeddedValue())
             {
-                embeddedValues.add(attribute.getName());
+                embeddedValues.add(attribute);
             }
         }
         return embeddedValues;
