@@ -118,28 +118,40 @@ public class $className
         try
         {
             final Object value = parameter.getValue();
-            Class type = entityType;
+            Class propertyType = type;
             for (final StringTokenizer tokenizer = new StringTokenizer(parameter.getName(), PERIOD); tokenizer.hasMoreTokens();)
             {
                 final String token = tokenizer.nextToken().trim();
-                entityType = ${criteriaSearchBaseName}Properties.getPropertyType(entityType, token);
+                Class lastType = type;
+                type = CriteriaSearchProperties.getPropertyType(type, token);
                 if (!tokenizer.hasMoreTokens())
                 {
                     break;
                 }
-                type = entityType;  
+                if (type == null)
+                {
+                    throw new RuntimeException("No accessible property named '" + token + "', exists on: " + lastType.getName());
+                }
+                propertyType = type;
             }
             final String name = parameter.getName().replaceAll(".*\\" + PERIOD, "");
-            final Object object = type.newInstance();
+            final Object object = propertyType.newInstance();
             // - copy the parameter to the property object so that when we retrieve it, 
             //  its of the correct type
             org.apache.commons.beanutils.BeanUtils.copyProperty(
                 object,
                 name,
                 value);
-            return org.apache.commons.beanutils.PropertyUtils.getProperty(
-                    object,
-                    name);
+            try
+            {
+                return org.apache.commons.beanutils.PropertyUtils.getProperty(
+                        object,
+                        name);
+            }
+            catch (final NoSuchMethodException noSuchMethodException)
+            {
+                throw new RuntimeException("No accessible property named '" + name + "', exists on: " + propertyType.getName());
+            }
         }
         catch (final Exception exception)
         {
