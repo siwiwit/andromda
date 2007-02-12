@@ -51,6 +51,14 @@
                         <groupId>org.jboss.microcontainer</groupId>
                         <artifactId>thirdparty-all</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.jboss.microcontainer</groupId>
+                        <artifactId>jms-ra</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jboss.microcontainer</groupId>
+                        <artifactId>jcainflow</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 #end

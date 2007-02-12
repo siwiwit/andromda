@@ -169,6 +169,14 @@
       	    <groupId>org.jboss.microcontainer</groupId>
        	    <artifactId>thirdparty-all</artifactId>
         </dependency>
+        <dependency>
+      	    <groupId>org.jboss.microcontainer</groupId>
+       	    <artifactId>jms-ra</artifactId>
+        </dependency>
+        <dependency>
+      	    <groupId>org.jboss.microcontainer</groupId>
+       	    <artifactId>jcainflow</artifactId>
+        </dependency>
 #else
         <dependency>
             <groupId>jboss</groupId>
@@ -388,16 +396,7 @@
 			<testResource>
 				<directory>src/test/resources</directory>
 				<includes>
-					<include>default.persistence.properties</include>
-					<include>jndi.properties</include>
-					<include>embedded-jboss-beans.xml</include>
-					<include>ejb3-interceptors-aop.xml</include>
-                    <include>jboss-jms-beans.xml</include>
-					<include>log4j.xml</include>
-					<include>security-beans.xml</include>
-					<include>login-config.xml</include>
-                    <include>users.properties</include>
-                    <include>roles.properties</include>
+					<include>*.*</include>
 				</includes>
 			</testResource>
 		</testResources>
