@@ -467,20 +467,11 @@ public class SpringEntityLogicImpl
      */
     protected String handleGetAttributeEmbeddedValueList()
     {
-        final Collection embeddedValues = new ArrayList();
-        for (final Iterator iterator = this.getAttributes(true).iterator(); iterator.hasNext();)
+        final StringBuffer buffer = new StringBuffer();
+        for (final Iterator iterator = this.getEmbeddedValues().iterator(); iterator.hasNext();)
         {
             final AttributeFacade attribute = (AttributeFacade)iterator.next();
-            final ClassifierFacade type = attribute.getType();
-            if (type != null && type.isEmbeddedValue())
-            {
-                embeddedValues.add(attribute.getName());
-            }
-        }
-        final StringBuffer buffer = new StringBuffer();
-        for (final Iterator iterator = embeddedValues.iterator(); iterator.hasNext();)
-        {
-            final String name = (String)iterator.next();
+            final String name = attribute.getName();
             if (StringUtils.isNotBlank(name))
             {
                 buffer.append('\"' + name + '\"');

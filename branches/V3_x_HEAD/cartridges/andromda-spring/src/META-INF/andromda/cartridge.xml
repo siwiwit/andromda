@@ -1032,7 +1032,46 @@
             </modelElement>
         </modelElements>
     </template>
-
+    
+    <template
+        path="templates/spring/hibernate/search/SearchParameter.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="daos"
+        overwrite="true"
+        outputToSingleFile="true">
+        <modelElements variable="entities">
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity"/>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/spring/hibernate/search/Search.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="daos"
+        overwrite="true"
+        outputToSingleFile="true">
+        <modelElements variable="entities">
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity"/>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
+        path="templates/spring/hibernate/search/PropertySearch.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="daos"
+        overwrite="true"
+        outputToSingleFile="true">
+        <modelElements variable="entities">
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity"/>
+            </modelElement>
+        </modelElements>
+    </template>
+    
     <template
         path="templates/spring/hibernate/HibernateSearch.vsl"
         outputPattern="$generatedFile"

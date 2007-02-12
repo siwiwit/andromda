@@ -38,28 +38,9 @@ import java.util.regex.Pattern;
  * @author Peter Friese
  */
 public class ${criteriaSearchBaseName}Parameter
+    extends SearchParameter
 {
-
     public static final Pattern PATTERN = Pattern.compile("\\.");
-
-    public static final int LIKE_COMPARATOR = 0;
-    public static final int INSENSITIVE_LIKE_COMPARATOR = 1;
-    public static final int EQUAL_COMPARATOR = 2;
-    public static final int GREATER_THAN_OR_EQUAL_COMPARATOR = 3;
-    public static final int GREATER_THAN_COMPARATOR = 4;
-    public static final int LESS_THAN_OR_EQUAL_COMPARATOR = 5;
-    public static final int LESS_THAN_COMPARATOR = 6;
-    public static final int IN_COMPARATOR = 7;
-    public static final int NOT_EQUAL_COMPARATOR = 8;
-
-    /** Order unset */
-    public static final int ORDER_UNSET = -1;
-
-    /** Ascending order */
-    public static final int ORDER_ASC = 0;
-
-    /** Descending order */
-    public static final int ORDER_DESC = 1;
 
     /** Order relevance not set */
     public static final int RELEVANCE_UNSET = -1;
@@ -184,7 +165,7 @@ public class ${criteriaSearchBaseName}Parameter
         boolean searchIfNull,
         int comparatorID)
     {
-        super();
+        super(parameterPattern, parameterValue);
         this.parameterValue = parameterValue;
         this.parameterPattern = parameterPattern;
         this.searchIfIsNull = searchIfNull;
@@ -487,5 +468,6 @@ public class ${criteriaSearchBaseName}Parameter
     {
         this.orderRelevance = relevance;
     }
-
+    
+    private static final long serialVersionUID = 1L;
 }

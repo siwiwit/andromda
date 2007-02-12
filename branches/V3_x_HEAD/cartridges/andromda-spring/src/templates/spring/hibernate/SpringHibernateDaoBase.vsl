@@ -144,15 +144,22 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      */
     public java.util.Collection loadAll(final int transform, final int pageNumber, final int pageSize)
     {
-        final ${hibernateUtils.basePackage}.Criteria criteria = this.getSession(false).createCriteria(${entity.fullyQualifiedEntityImplementationName}.class);
-        if (pageNumber > 0 && pageSize > 0)
+        try
         {
-            criteria.setFirstResult(this.calculateFirstResult(pageNumber, pageSize));
-            criteria.setMaxResults(pageSize);
+            final ${hibernateUtils.basePackage}.Criteria criteria = this.getSession(false).createCriteria(${entity.fullyQualifiedEntityImplementationName}.class);
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                criteria.setFirstResult(this.calculateFirstResult(pageNumber, pageSize));
+                criteria.setMaxResults(pageSize);
+            }
+            final java.util.Collection results = criteria.list();
+            this.transformEntities(transform, results);
+            return results;
         }
-        final java.util.Collection results = criteria.list();
-        this.transformEntities(transform, results);
-        return results;
+        catch (${hibernateUtils.basePackage}.HibernateException ex)
+        {
+            throw super.convertHibernateAccessException(ex);
+        }
     }
     
     private int calculateFirstResult(int pageNumber, int pageSize)
@@ -1063,6 +1070,47 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     protected $principalStoreType getPrincipal()
     {
         return $principalStoreCall
+    }
+
+#set ($fullyQualifiedSearchClassName = "Search")
+#if($stringUtils.isNotEmpty($springTypesPackage))
+#set ($fullyQualifiedSearchClassName = "${springTypesPackage}.${fullyQualifiedSearchClassName}")
+#end
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#search(int, $fullyQualifiedSearchClassName, int)
+     */
+    public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search, final int maxResults)
+    {
+        try
+        {
+#set ($fullyQualifiedPropertySearchClassName = "PropertySearch")
+#if($stringUtils.isNotEmpty($springTypesPackage))
+#set ($fullyQualifiedPropertySearchClassName = "${springTypesPackage}.${fullyQualifiedPropertySearchClassName}")
+#end
+            final $fullyQualifiedPropertySearchClassName propertySearch = new $fullyQualifiedPropertySearchClassName(
+                this.getSession(false), ${entity.fullyQualifiedEntityImplementationName}.class, search, maxResults);
+            return propertySearch.executeAsSet();
+        }
+        catch (${hibernateUtils.basePackage}.HibernateException ex)
+        {
+            throw super.convertHibernateAccessException(ex);
+        }
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#search($fullyQualifiedSearchClassName, int)
+     */
+    public java.util.Set search(final $fullyQualifiedSearchClassName search, final int maxResults)
+    {
+        return this.search($entity.daoNoTransformationConstantName, search, maxResults);
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#search($fullyQualifiedSearchClassName)
+     */
+    public java.util.Set search(final $fullyQualifiedSearchClassName search)
+    {
+        return this.search($entity.daoNoTransformationConstantName, search, -1);
     }
     
     // spring-hibernate-dao-base merge-point

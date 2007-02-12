@@ -1,0 +1,107 @@
+#set ($className = "Search")
+#set ($generatedFile = "${className}.java")
+#if($stringUtils.isNotEmpty($springTypesPackage))
+package $springTypesPackage;
+#set ($generatedFile = "${stringUtils.replace($springTypesPackage,'.','/')}/${generatedFile}")
+#end
+
+/**
+ * Stores the information necessary to performa a property search.
+ * 
+ * @see PropertySearch
+ */
+public class $className
+    implements java.io.Serializable
+{
+    private static final long serialVersionUID = 3268660047222551971L;
+    
+    /**
+     * Constructs the search object.
+     * 
+     * @param parameters the parameters to use.
+     * @param pageNumber the page number (if paging results).
+     * @param pageSize the page size (if paging results).
+     */
+    public Search(SearchParameter[] parameters, int pageNumber, int pageSize)
+    {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.parameters = parameters;
+    }
+    
+    /**
+     * Constructs the search object.
+     * 
+     * @param parameters the parameters to use.
+     */
+    public Search(SearchParameter[] parameters)
+    {
+        this.parameters = parameters;
+    }
+
+    private int pageNumber;
+   
+    /**
+     * Gets the page number (if paging the results).
+     * 
+     * @return the page number.
+     */
+    public int getPageNumber()
+    {
+        return this.pageNumber;
+    }
+    
+    /**
+     * Sets the page number (if paging the results).
+     * 
+     * @return the page number.
+     */
+    public void setPageNumber(int pageNumber)
+    {
+        this.pageNumber = pageNumber;
+    }
+    
+    private int pageSize;
+    
+    /**
+     * Gets the size of the page (if paging the results).
+     * 
+     * @return the page size.
+     */
+    public int getPageSize()
+    {
+        return this.pageSize;
+    }
+    
+    /**
+     * Sets the size of the page (if paging the results).
+     * 
+     * @param pageSize the page size.
+     */
+    public void setPageSize(int pageSize)
+    {
+        this.pageSize = pageSize;
+    }
+
+    private SearchParameter[] parameters;
+
+    /**
+     * Gets the search parameters for this search object.
+     * 
+     * @param the search parameters.
+     */
+    public SearchParameter[] getParameters()
+    {
+        return this.parameters;
+    }
+
+    /**
+     * Sets the search parameters for this search object.
+     * 
+     * @param parameters
+     */
+    public void setParameters(SearchParameter[] parameters)
+    {
+        this.parameters = parameters;
+    }
+}

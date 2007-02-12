@@ -527,5 +527,43 @@ $operation.getDocumentation("     * ")
 #end
 
 #end
+#set ($fullyQualifiedSearchClassName = "Search")
+#if($stringUtils.isNotEmpty($springTypesPackage))
+#set ($fullyQualifiedSearchClassName = "${springTypesPackage}.${fullyQualifiedSearchClassName}")
+#end
+    /**
+     * Does the same thing as {@link #search(fullyQualifiedSearchClassName, int) but with an
+     * additional flag called <code>transform</code>. If this flag is set to <code>$entity.daoNoTransformationConstantName</code> then
+     * finder results will <strong>NOT</strong> be transformed during retrieval.
+     * If this flag is any of the other constants defined here
+     * then results <strong>WILL BE</strong> passed through an operation which can optionally
+     * transform the entities (into value objects for example). By default, transformation does
+     * not occur.
+     *
+     * @param transform the transformation flag.
+     * @param search the search object which provides the search parameters and pagination specification.
+     * @param maxResults the maximum results to return when executing the search.
+     * @return any found results from the search.
+     */
+    public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search, final int maxResults);
+    
+    /**
+     * Does the same thing as {@link #search(fullyQualifiedSearchClassName) but with an additional
+     * <code>maxResults</code> argument that limits the number of results retrieved.
+     *
+     * @param search the search object which provides the search parameters and pagination specification.
+     * @param maxResults the maximum results to return when executing the search.
+     * @return any found results from the search.
+     */
+    public java.util.Set search(final $fullyQualifiedSearchClassName search, final int maxResults);
+    
+    /**
+     * Performs a search using the parameters specified in the given <code>search</code> object.
+     *
+     * @param search the search object which provides the search parameters and pagination specification.
+     * @return any found results from the search.
+     */
+    public java.util.Set search(final $fullyQualifiedSearchClassName search);
+    
     // spring-dao merge-point
 }

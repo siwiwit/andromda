@@ -13,16 +13,18 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.StringUtils;
 
+
 /**
  * MetafacadeLogic implementation for org.andromda.cartridges.spring.metafacades.SpringDependency.
  *
  * @see org.andromda.cartridges.spring.metafacades.SpringDependency
  */
 public class SpringDependencyLogicImpl
-        extends SpringDependencyLogic
+    extends SpringDependencyLogic
 {
-    
-    public SpringDependencyLogicImpl(Object metaObject, String context)
+    public SpringDependencyLogicImpl(
+        Object metaObject,
+        String context)
     {
         super(metaObject, context);
     }
@@ -67,23 +69,28 @@ public class SpringDependencyLogicImpl
         final Collection sourceDependencies = targetElement.getSourceDependencies();
         if (sourceDependencies != null && !sourceDependencies.isEmpty())
         {
-            circularReference = CollectionUtils.find(sourceDependencies, new Predicate()
-            {
-                public boolean evaluate(Object object)
-                {
-                    DependencyFacade dependency = (DependencyFacade)object;
-                    return dependency != null && dependency.getTargetElement().equals(sourceElement);
-                }
-            }) != null;
+            circularReference =
+                CollectionUtils.find(
+                    sourceDependencies,
+                    new Predicate()
+                    {
+                        public boolean evaluate(Object object)
+                        {
+                            DependencyFacade dependency = (DependencyFacade)object;
+                            return dependency != null && dependency.getTargetElement().equals(sourceElement);
+                        }
+                    }) != null;
         }
         return circularReference;
     }
-    
-    private boolean isXmlPersistenceActive() {
-        return SpringHibernateUtils.isXmlPersistenceActive((String)this.getConfiguredProperty(SpringGlobals.HIBERNATE_VERSION),        
-                                                           (String)this.getConfiguredProperty(SpringGlobals.HIBERNATE_XML_PERSISTENCE));
+
+    private boolean isXmlPersistenceActive()
+    {
+        return SpringHibernateUtils.isXmlPersistenceActive(
+            (String)this.getConfiguredProperty(SpringGlobals.HIBERNATE_VERSION),
+            (String)this.getConfiguredProperty(SpringGlobals.HIBERNATE_XML_PERSISTENCE));
     }
-    
+
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringDependency#getTransformationConstantValue()
      */
@@ -94,7 +101,8 @@ public class SpringDependencyLogicImpl
         if (element instanceof SpringEntity)
         {
             final List hierarchy = new ArrayList();
-            for (SpringEntity entity = (SpringEntity)element; entity != null; entity = (SpringEntity)entity.getGeneralization())
+            for (SpringEntity entity = (SpringEntity)element; entity != null;
+                entity = (SpringEntity)entity.getGeneralization())
             {
                 hierarchy.add(entity);
             }
@@ -102,7 +110,8 @@ public class SpringDependencyLogicImpl
             for (int ctr = hierarchy.size() - 1; ctr >= 0; ctr--)
             {
                 final SpringEntity generalization = (SpringEntity)hierarchy.get(ctr);
-                for (final Iterator referenceIterator = generalization.getValueObjectReferences().iterator(); referenceIterator.hasNext();)
+                for (final Iterator referenceIterator = generalization.getValueObjectReferences().iterator();
+                    referenceIterator.hasNext();)
                 {
                     final Object reference = referenceIterator.next();
                     value++;
@@ -118,10 +127,12 @@ public class SpringDependencyLogicImpl
                 }
             }
         }
-        
+
         if (isXmlPersistenceActive())
+        {
             value++;
-        
+        }
+
         return value;
     }
 
@@ -131,7 +142,7 @@ public class SpringDependencyLogicImpl
     protected String handleGetTransformationToCollectionMethodName()
     {
         return SpringGlobals.TRANSFORMATION_METHOD_PREFIX + StringUtils.capitalize(this.getName()) +
-                SpringGlobals.TRANSFORMATION_TO_COLLECTION_METHOD_SUFFIX;
+        SpringGlobals.TRANSFORMATION_TO_COLLECTION_METHOD_SUFFIX;
     }
 
     /**
@@ -139,7 +150,9 @@ public class SpringDependencyLogicImpl
      */
     protected String handleGetDaoName()
     {
-        return this.getDaoNamePattern().replaceAll("\\{0\\}", this.getName());
+        return this.getDaoNamePattern().replaceAll(
+            "\\{0\\}",
+            this.getName());
     }
 
     /**
@@ -175,7 +188,7 @@ public class SpringDependencyLogicImpl
     {
         return this.getTransformationToEntityMethodName() + SpringGlobals.TRANSFORMATION_TO_COLLECTION_METHOD_SUFFIX;
     }
-    
+
     /**
      * The suffix for the transformation to entity method name.
      */
@@ -183,12 +196,12 @@ public class SpringDependencyLogicImpl
 
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringDependency#getTransformationToEntityMethodName()
-     */    
+     */
     protected String handleGetTransformationToEntityMethodName()
     {
         return this.getName() + TRANSFORMATION_TO_ENTITY_METHOD_NAME_SUFFIX;
     }
-    
+
     /**
      * The suffix for the value object to entity transformer.
      */
@@ -196,9 +209,10 @@ public class SpringDependencyLogicImpl
 
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringDependency#getValueObjectToEntityTransformerName()
-     */    
+     */
     protected String handleGetValueObjectToEntityTransformerName()
     {
-        return StringUtils.capitalize(this.getTransformationToEntityMethodName()) + VALUE_OBJECT_TO_ENTITY_TRANSFORMER_SUFFIX;
+        return StringUtils.capitalize(this.getTransformationToEntityMethodName()) +
+        VALUE_OBJECT_TO_ENTITY_TRANSFORMER_SUFFIX;
     }
 }

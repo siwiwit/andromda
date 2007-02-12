@@ -1,0 +1,149 @@
+#set ($className = "PropertySearch")
+#set ($generatedFile = "${className}.java")
+#if($stringUtils.isNotEmpty($springTypesPackage))
+package $springTypesPackage;
+#set ($generatedFile = "${stringUtils.replace($springTypesPackage,'.','/')}/${generatedFile}")
+#end
+
+import java.util.StringTokenizer;
+
+
+/**
+ * Provides the ability to search by properties. 
+ */
+public class $className
+    extends CriteriaSearch
+{
+    /**
+     * Constructor for $className. Creates a <code>$className</code> instance
+     * from the given arguments.
+     *
+     * @param session The Hibernate session.
+     * @param entityType The <code>Class</code> of the result.
+     * @param search the object that specifies the search criteria.
+     * @param maxResults the maximum results to return (if less than 0; all are returned).
+     */
+    public $className(
+        final ${hibernateUtils.basePackage}.Session session,
+        final java.lang.Class entityType,
+        final Search search,
+        final int maxResults)
+    {
+        super(session, entityType);
+        try
+        {
+            final SearchParameter[] parameters = search.getParameters();
+            if (parameters != null)
+            {
+                for (int ctr = 0; ctr < parameters.length; ctr++)
+                {
+                    final SearchParameter searchParameter = parameters[ctr];
+                    
+                    final Object value = this.getValue(entityType, searchParameter);
+    
+                    // - now add the parameter.
+                    final CriteriaSearchParameter parameter =
+                        new CriteriaSearchParameter(value,
+                            searchParameter.getName(),
+                            searchParameter.getComparator());
+                    parameter.setOrderDirection(searchParameter.getOrder());
+                    this.addParameter(parameter);
+                    
+                    if (search.getPageNumber() > 0 && search.getPageSize() > 0)
+                    {
+                        // - set the first result as part of pagination support
+                        this.getConfiguration().setFirstResult(new java.lang.Integer(this.calculateFirstResult(search.getPageNumber(), search.getPageSize())));
+                        this.getConfiguration().setMaximumResultSize(new java.lang.Integer(search.getPageSize()));
+                    }
+                    else if (maxResults > -1)
+                    {
+                        this.getConfiguration().setMaximumResultSize(new Integer(maxResults));
+                    }
+                }
+            }
+        }
+        catch (java.lang.Exception exception)
+        {
+            throw new RuntimeException(exception);
+        }
+    }
+    
+#if ($hibernateUtils.version3)
+    /**
+     * Gets the total possible count of objects returned in this
+     * search.
+     */
+    public int getTotalCount()
+    {
+        Integer rowCount = null;
+        // Remove first result requirement
+        this.getConfiguration().setFirstResult(new java.lang.Integer(0));
+        this.getRootCriteria().setProjection(
+            org.hibernate.criterion.Projections.projectionList().add(
+                org.hibernate.criterion.Projections.rowCount()));
+        rowCount = (Integer)this.executeAsList().toArray()[0];
+        return rowCount.intValue();
+    }
+
+#end
+    /**
+     * Calculates the first result based upon page size and current
+     * desired page.
+     *
+     * @param search
+     *
+     * @return the calculated first result.
+     */
+    private int calculateFirstResult(int pageNumber, int pageSize)
+    {
+        int calculatedFirstResult = 0;
+        if (pageNumber > 0 && pageSize > 0)
+        {
+            calculatedFirstResult = (pageNumber - 1) * pageSize;
+        }
+        return calculatedFirstResult;
+    }
+    
+    private static final String PERIOD = ".";
+    
+    /**
+     * Converts the value contained within the parameter to the type which Hibernate expects.
+     * 
+     * @param entityType the class of the entity for which the search is being performed.
+     * @param parameter the parameter from which to get the value.
+     * @return the appropriate value.
+     */
+    private Object getValue(Class entityType, final SearchParameter parameter)
+    {
+        try
+        {
+            final Object value = parameter.getValue();
+            Class type = entityType;
+            for (final StringTokenizer tokenizer = new StringTokenizer(parameter.getName(), PERIOD); tokenizer.hasMoreTokens();)
+            {
+                final String token = tokenizer.nextToken().trim();
+                entityType = ${criteriaSearchBaseName}Properties.getPropertyType(entityType, token);
+                if (!tokenizer.hasMoreTokens())
+                {
+                    break;
+                }
+                type = entityType;  
+            }
+            final String name = parameter.getName().replaceAll(".*\\" + PERIOD, "");
+            final Object object = type.newInstance();
+            // - copy the parameter to the property object so that when we retrieve it, 
+            //  its of the correct type
+            org.apache.commons.beanutils.BeanUtils.copyProperty(
+                object,
+                name,
+                value);
+            return org.apache.commons.beanutils.PropertyUtils.getProperty(
+                    object,
+                    name);
+        }
+        catch (final Exception exception)
+        {
+            throw new RuntimeException(exception);
+        }
+    }
+}
