@@ -18,11 +18,12 @@
     <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory" class="$sessionFactory">
         <property name="dataSource"><ref bean="dataSource"/></property>
-        <property name="mappingResources">
+        <property name="mappingLocations">
             <list>
+                <!-- applicationContext hibernateMappingLocations merge-point --> 
 #foreach($entity in $entities)
 #if ($entity.requiresHibernateMapping)
-                <value>${entity.packagePath}/${entity.entityName}.hbm.xml</value>
+                <value>classpath:${entity.packagePath}/${entity.entityName}.hbm.xml</value>
 #end
 #end
             </list>
