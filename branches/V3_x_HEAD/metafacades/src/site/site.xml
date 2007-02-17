@@ -18,7 +18,6 @@
 			<item name="About" href="/index.html"/>
 			<item name="Developing" href="/developing.html"/>
 			<item name="Configuring" href="/configuring.html"/>
-			<item name="Tutorial" href="/tutorial.html"/>
     	</menu>
     	<menu name="Schemas">
     		<item name="Descriptor" href="/descriptor-schema.html"/>
