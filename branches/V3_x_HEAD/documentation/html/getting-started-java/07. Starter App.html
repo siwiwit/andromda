@@ -29,9 +29,7 @@
                 there are no spaces in your pathname - otherwise Maven will run into build problems.</em></li>
         <li>Now execute the following command to generate the starter application. Answer the
             questions exactly as shown in the output that follows. You are allowed to enter
-            your own name in response to the first question :-).
-            <em>Note: If you have problems running andromdapp, please see this
-            <a href="http://galaxy.andromda.org/forum/viewtopic.php?p=18245#18245" target="_blank">post</a>.</em></li>
+            your own name in response to the first question :-).</li>
     </ol>
     <pre>
 C:\>mvn org.andromda.maven.plugins:andromdapp-maven-plugin:generate
@@ -202,8 +200,8 @@ timetracker
         <li>Add another property in the <code>bpm4struts</code> namespace as shown below:<br />
             <code>&lt;property name="normalizeMessages"&gt;true&lt;/property&gt;</code><br />
             This property allows generation of smaller resource bundles with duplicate element
-            names specified by a single message. This optimization is turned off by default for
-            backward compatibility. </li>
+            names specified by a single message. This optimization is turned off by default
+            for backward compatibility. </li>
         <li>Save and close <code>andromda.xml</code></li>
     </ol>
     <p>
@@ -215,7 +213,7 @@ timetracker
             <code>&lt;jdbc.driver.jar&gt;${jboss.home}/server/default/lib/hsqldb.jar&lt;/jdbc.driver.jar&gt;</code><br />
             Since we are using MySQL, change this line as follows (be sure to specify the correct
             version of your driver):<br />
-            <code>&lt;jdbc.driver.jar&gt;${jboss.home}/server/default/lib/mysql-connector-java-3.1.13-bin.jar&lt;/jdbc.driver.jar&gt;</code>
+            <code>&lt;jdbc.driver.jar&gt;${jboss.home}/server/default/lib/mysql-connector-java-5.0.4.jar&lt;/jdbc.driver.jar&gt;</code>
         </li>
         <li>Search for the following two lines which specify the database username and password:<br />
             <code>&lt;jdbc.username&gt;sa&lt;/jdbc.username&gt;<br />

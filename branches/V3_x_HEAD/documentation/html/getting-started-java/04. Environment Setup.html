@@ -24,60 +24,33 @@
             <th>Purpose</th>
         </tr>
         <tr>
-            <td>
-                <code>C:\Documents and Settings\<strong>your user name</strong>\.m2\repository</code>
+            <td><code>C:\Documents and Settings\<strong>your user name</strong>\.m2\repository</code>
             </td>
-            <td>
-                Maven local repository
-            </td>
+            <td>Maven local repository </td>
         </tr>
         <tr>
-            <td>
-                <code>C:\Program Files\Apache Software Foundation\maven-2.0.4</code>
-            </td>
-            <td>
-                Maven program
-            </td>
+            <td><code>C:\Program Files\Apache Software Foundation\maven-2.0.4</code> </td>
+            <td>Maven program </td>
         </tr>
         <tr>
-            <td>
-                <code>C:\Program Files\Java\jdk1.5.0_xx</code>
-            </td>
-            <td>
-                Java Development Kit (xx is the update number)
-            </td>
+            <td><code>C:\Program Files\Java\jdk1.5.0_xx</code> </td>
+            <td>Java Development Kit (xx is the update number) </td>
         </tr>
         <tr>
-            <td>
-                <code>C:\Program Files\Java\jre1.5.0_xx</code>
-            </td>
-            <td>
-                Java Runtime Engine (xx is the update number)
-            </td>
+            <td><code>C:\Program Files\Java\jre1.5.0_xx</code> </td>
+            <td>Java Runtime Engine (xx is the update number) </td>
         </tr>
         <tr>
-            <td>
-                <code>C:\Program Files\MySQL\MySQL Server 5.0</code>
-            </td>
-            <td>
-                MySQL database server
-            </td>
+            <td><code>C:\Program Files\MySQL\MySQL Server 5.0</code> </td>
+            <td>MySQL database server </td>
         </tr>
         <tr>
-            <td>
-                <code>C:\eclipse</code>
-            </td>
-            <td>
-                Eclipse IDE (optional)
-            </td>
+            <td><code>C:\eclipse</code> </td>
+            <td>Eclipse IDE (optional) </td>
         </tr>
         <tr>
-            <td>
-                <code>C:\jboss-4.0.4</code>
-            </td>
-            <td>
-                JBoss Application Server
-            </td>
+            <td><code>C:\jboss-4.0.4</code> </td>
+            <td>JBoss Application Server </td>
         </tr>
     </table>
     <p>
@@ -167,55 +140,37 @@
             <th>Required?</th>
         </tr>
         <tr>
-            <td>
-                JAVA_HOME</td>
-            <td>
-                Java installation directory, e.g. <code>C:\Program Files\Java\jdk1.5.0_06</code></td>
-            <td>
-                Yes</td>
+            <td>JAVA_HOME</td>
+            <td>Java installation directory, e.g. <code>C:\Program Files\Java\jdk1.5.0_06</code></td>
+            <td>Yes</td>
         </tr>
         <tr>
-            <td>
-                JBOSS_HOME</td>
-            <td>
-                JBoss installation directory, e.g. <code>C:\jboss-4.0.4</code></td>
-            <td>
-                Yes</td>
+            <td>JBOSS_HOME</td>
+            <td>JBoss installation directory, e.g. <code>C:\jboss-4.0.4</code></td>
+            <td>Yes</td>
         </tr>
         <tr>
-            <td>
-                M2_HOME</td>
-            <td>
-                Maven installation directory, e.g. <code>C:\Program Files\Apache Software Foundation\maven-2.0.4</code></td>
-            <td>
-                Yes</td>
+            <td>M2_HOME</td>
+            <td>Maven installation directory, e.g. <code>C:\Program Files\Apache Software Foundation\maven-2.0.4</code></td>
+            <td>Yes</td>
         </tr>
         <tr>
-            <td>
-                M2_REPO</td>
-            <td>
-                Maven local repository, e.g. <code>C:\Documents and Settings\<strong>your user name</strong>\.m2\repository</code></td>
-            <td>
-                Yes</td>
+            <td>M2_REPO</td>
+            <td>Maven local repository, e.g. <code>C:\Documents and Settings\<strong>your user name</strong>\.m2\repository</code></td>
+            <td>Yes</td>
         </tr>
         <tr>
-            <td>
-                MAVEN_OPTS</td>
-            <td>
-                Parameters to pass to the Java VM when running Maven. Set this value to: <code>-XX:MaxPermSize=128m
-                    -Xmx512m</code> (required to build large Maven projects)</td>
-            <td>
-                No</td>
+            <td>MAVEN_OPTS</td>
+            <td>Parameters to pass to the Java VM when running Maven. Set this value to: <code>-XX:MaxPermSize=128m
+                -Xmx512m</code> (required to build large Maven projects)</td>
+            <td>No</td>
         </tr>
         <tr>
-            <td>
-                PATH</td>
-            <td>
-                This makes sure the system will search for console commands in the directories listed
+            <td>PATH</td>
+            <td>This makes sure the system will search for console commands in the directories listed
                 here. If this property already exists you should simply add <code>%JAVA_HOME%\bin;%M2_HOME%\bin</code>
             </td>
-            <td>
-                Yes</td>
+            <td>Yes</td>
         </tr>
     </table>
     <h4>Test Maven and create a local repository</h4>
@@ -262,12 +217,52 @@
         generated by the plugin. Install the plugin by following the steps below.
     </p>
     <ol>
-        <li>Click <a href="http://team.andromda.org/maven2/org/andromda/maven/plugins/andromdapp-maven-plugin/3.2/andromdapp-maven-plugin-install-3.2.zip">
-            here</a> to download the the AndroMDA plugin installer.</li>
-        <li>Unzip the contents of the installer into your Maven repository at <code>C:\Documents
-            and Settings\<strong>your user name</strong>\.m2\repository</code>.</li>
-        <li>Verify that the following directory was created:<br />
-            <code>C:\Documents and Settings\<strong>your user name</strong>\.m2\repository\org\andromda\maven\plugins\andromda-maven-plugin</code></li>
+        <li>Create a temporary directory, e.g. <code>C:\andromda-temp</code>.</li>
+        <li>Create a file called <code>pom.xml</code> in this directory with the following content.
+            <pre>
+&lt;project&gt;
+
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;samples.test&lt;/groupId&gt;
+    &lt;artifactId&gt;test&lt;/artifactId&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+    &lt;name&gt;test&lt;/name&gt;
+
+    &lt;build&gt;
+        &lt;defaultGoal&gt;compile&lt;/defaultGoal&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.andromda.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;andromdapp-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.2&lt;/version&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;andromda&lt;/id&gt;
+            &lt;name&gt;AndroMDA Repository&lt;/name&gt;
+            &lt;url&gt;http://team.andromda.org/maven2&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+
+    &lt;pluginRepositories&gt;
+        &lt;pluginRepository&gt;
+            &lt;id&gt;andromda&lt;/id&gt;
+            &lt;name&gt;AndroMDA Repository&lt;/name&gt;
+            &lt;url&gt;http://team.andromda.org/maven2&lt;/url&gt;
+        &lt;/pluginRepository&gt;
+    &lt;/pluginRepositories&gt;
+
+&lt;/project&gt;
+            </pre>
+        </li>
+        <li>Open a Command Prompt in the directory where you created this <code>pom.xml</code>
+            and run the command <code>mvn</code> without any arguments. Make sure the command
+            completes successfully by displaying the <code>BUILD SUCCESSFUL</code> message.</li>
+        <li>You can now delete the temporary directory you created in step 1.</li>
     </ol>
     <h4>Install a UML tool</h4>
     <p>
@@ -302,19 +297,18 @@
             to go to the MySQL download page.</li>
         <li>Download the full Windows installation, specified as "Windows (x86)" (not just the
             "Essentials"). Install it at <code>C:\Program Files\MySQL\MySQL Server 5.0</code>.</li>
-        <li>Download <a href="http://dev.mysql.com/downloads/administrator/1.1.html" target="_blank">
-            MySQL Administrator</a> for GUI based administration of your database. Install it
-            at <code>C:\Program Files\MySQL\MySQL Administrator 1.1</code></li>
-        <li>Download <a href="http://dev.mysql.com/downloads/query-browser/1.1.html" target="_blank">
-            MySQL Query Browser</a> for interactively querying your database. Install it at
-            <code>C:\Program Files\MySQL\MySQL Query Browser 1.1</code>.</li>
-        <li>Download <a href="http://dev.mysql.com/downloads/connector/j/3.1.html" target="_blank">
-            MySQL Connector/J version 3.1.13</a>, the MySQL JDBC driver. Unzip it at <code>C:\Program
+        <li>Download <a href="http://dev.mysql.com/downloads/gui-tools/5.0.html" target="_blank">
+            MySQL GUI Tools Bundle</a> for GUI based administration and querying of your database.
+            Install it at <code>C:\Program Files\MySQL\MySQL Tools for 5.0\</code></li>
+        <li>Download <a href="http://dev.mysql.com/downloads/connector/j/5.0.html" target="_blank">
+            MySQL Connector/J version 5.0.4</a>, the MySQL JDBC driver. Unzip it at <code>C:\Program
                 Files\MySQL</code>.</li>
-        <li>Copy the MySQL driver from <code>C:\Program Files\MySQL\mysql-connector-java-3.1.13\mysql-connector-java-3.1.13-bin.jar</code>
+        <li>Copy the MySQL driver from <code>C:\Program Files\MySQL\mysql-connector-java-5.0.4\mysql-connector-java-5.0.4-bin.jar</code>
             to the JBoss lib directory located at <code>C:\jboss-4.0.4\server\default\lib</code>.
-            (Recheck the target directory - JBoss has multiple lib directories under its root
-            directory.) This allows JBoss to access your database.</li>
+            Rename the copied file to <code>mysql-connector-java-5.0.4.jar</code>, removing
+            the "-bin" to make it consistent with Maven naming conventions. (Recheck the target
+            directory - JBoss has multiple lib directories under its root directory.) This allows
+            JBoss to access your database.</li>
     </ol>
     <h4>Install Eclipse (Optional)</h4>
     <p>
