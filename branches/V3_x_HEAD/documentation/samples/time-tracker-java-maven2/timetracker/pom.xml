@@ -355,7 +355,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>3.1.13</version>
+            <version>5.0.4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -483,7 +483,7 @@
                     For MySQL use: mysql-connector-java-X-bin.jar
                     For Hypersonic use: hsqldb.jar
                 -->
-                <jdbc.driver.jar>${jboss.home}/server/default/lib/mysql-connector-java-3.1.13-bin.jar</jdbc.driver.jar>
+                <jdbc.driver.jar>${jboss.home}/server/default/lib/mysql-connector-java-5.0.4.jar</jdbc.driver.jar>
                 <!--
                     Change driver for appropriate database
                     For MySQL use: com.mysql.jdbc.Driver
