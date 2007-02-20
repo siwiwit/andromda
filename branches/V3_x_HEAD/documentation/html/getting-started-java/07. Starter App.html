@@ -222,6 +222,26 @@ timetracker
             <code>&lt;jdbc.username&gt;timetracker&lt;/jdbc.username&gt;<br />
                 &lt;jdbc.password&gt;timetracker&lt;/jdbc.password&gt;<br />
             </code></li>
+        <li>Search for <code>&lt;repositories&gt;</code> section. Here you will find a declaration
+            for the AndroMDA Repository. Add a declaration for the Java.net repository. This
+            repository will be used to dowload jars provided by Sun (such as <code>jta.jar</code>).
+            The resulting <code>&lt;repositories&gt;</code> section is shown below:
+            <pre>
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;andromda&lt;/id&gt;
+            &lt;name&gt;AndroMDA Repository&lt;/name&gt;
+            &lt;url&gt;http://team.andromda.org/maven2&lt;/url&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+            &lt;id&gt;maven2-repository.dev.java.net&lt;/id&gt;
+            &lt;name&gt;Java.net Repository for Maven 2&lt;/name&gt;
+            &lt;url&gt;https://maven2-repository.dev.java.net/nonav/repository&lt;/url&gt;
+            &lt;layout&gt;default&lt;/layout&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+            </pre>
+        </li>
         <li>Save and close <code>pom.xml</code></li>
     </ol>
     <p>
