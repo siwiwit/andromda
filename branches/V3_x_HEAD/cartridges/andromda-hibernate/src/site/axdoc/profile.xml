@@ -200,7 +200,7 @@
                             <ul><li><code><value>increment</value></code></li><li><code><value>identity</value></code></li><li><code><value>sequence</value></code></li><li><code><value>hilo</value></code></li><li><code><value>seqhilo</value></code></li><li><code><value>guid</value></code></li><li><code><value>uuid</value></code></li><li><code><value>uuid.hex</value></code></li><li><code><value>uuid.string</value></code></li><li><code><value>native</value></code></li><li><code><value>assigned</value></code></li><li><code><value>select</value></code></li><li><code><value>foreign</value></code></li></ul></td></tr></table></div>
             <div class="profileElement"><table><tr><td class="profileElementTitle"><a name="@andromda.hibernate.entity.proxy" class="profileElementTitle">@andromda.hibernate.entity.proxy</a><a href="#Tagged Values" title="Go to Tagged Values profile element group">(Back to Tagged Values)</a></td></tr><tr><td>
                             Applied on: <appliedOnElement><![CDATA[<<Entity>>]]></appliedOnElement></td></tr><tr><td class="documentation"><documentation>
-                    Defines if a proxy will be enabled for the entity. Overrrides the "hibernateProxy" namespace
+                    Defines if a proxy will be enabled for the entity. Overrides the "hibernateProxy" namespace
                     property.
                 </documentation></td></tr><tr><td>
                             Allowed values for this element:

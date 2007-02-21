@@ -265,7 +265,7 @@
             </element>
             <element name="HIBERNATE_PROXY">
                 <documentation>
-                    Defines if a proxy will be enabled for the entity. Overrrides the "hibernateProxy" namespace
+                    Defines if a proxy will be enabled for the entity. Overrides the "hibernateProxy" namespace
                     property.
                 </documentation>
                 <value>@andromda.hibernate.entity.proxy</value>
