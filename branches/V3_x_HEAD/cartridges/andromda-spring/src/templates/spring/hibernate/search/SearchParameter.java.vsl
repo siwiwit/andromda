@@ -147,6 +147,29 @@ public class $className
     {
         this.order = order;
     }
+    
+    private boolean searchIfNull;
+    
+    /**
+     * Whether this parameter will be included in the search even if it is <code>null</code>.
+     * 
+     * @return true/false
+     */
+    public boolean isSearchIfNull()
+    {
+        return this.searchIfNull;
+    }
+
+    /**
+     * Defines whether parameter will be included in the search even if it is <code>null</code>.
+     *
+     * @param searchIfNull <code>true</code> if the parameter should be included in the search
+     *                     even if it is null, <code>false</code> otherwise.
+     */
+    public void setSearchIfNull(boolean searchIfNull)
+    {
+        this.searchIfNull = searchIfNull;
+    }
 
     private static final long serialVersionUID = 1L;
 }

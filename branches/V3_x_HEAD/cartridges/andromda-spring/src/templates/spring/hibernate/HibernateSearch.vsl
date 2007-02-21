@@ -317,16 +317,16 @@ public class $criteriaSearchBaseName
         if (parameter.getParameterValue() instanceof String)
         {
             String stringParameterValue = (String) parameter.getParameterValue();
-            return (parameter.isSearchIfIsNull()
+            return (parameter.isSearchIfNull()
                     || (stringParameterValue != null && stringParameterValue.length() > 0));
         }
         if (parameter.getParameterValue() instanceof Object[])
         {
             Object[] parameterValues = (Object[]) parameter.getParameterValue();
-            return (parameter.isSearchIfIsNull()
+            return (parameter.isSearchIfNull()
                     || (parameterValues != null && parameterValues.length > 0));
         }
-        return (parameter.isSearchIfIsNull() || (parameter.getParameterValue() != null));
+        return (parameter.isSearchIfNull() || (parameter.getParameterValue() != null));
     }
 
     /**

@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  * <br>
  * <br>
  * Usually, if a parameter is <code>null</code> (or if the parameter is of type <code>String</code>
- * and empty), it is not considered for a search. If <code>searchIfIsNull</code> is <code>true</code>
+ * and empty), it is not considered for a search. If <code>searchIfNull</code> is <code>true</code>
  * it is explicitly searched for the parameter to be null (or empty if the parameter is of type
  * <code>String</code>).<br>
  * <br>
@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
  *
  * @author Stefan Reichert
  * @author Peter Friese
+ * @author Chad Brandon
  */
 public class ${criteriaSearchBaseName}Parameter
     extends SearchParameter
@@ -47,14 +48,13 @@ public class ${criteriaSearchBaseName}Parameter
 
     private Object parameterValue;
     private String parameterPattern;
-    private boolean searchIfIsNull = false;
     private ${hibernateUtils.criterionPackage}.MatchMode matchMode = null;
     private int comparatorID = ${criteriaSearchBaseName}Parameter.EQUAL_COMPARATOR;
     private int orderDirection = ORDER_UNSET;
     private int orderRelevance = RELEVANCE_UNSET;
 
     /**
-     * Constructor for ${criteriaSearchBaseName}Parameter. Sets <code>searchIfIsNull</code> to
+     * Constructor for ${criteriaSearchBaseName}Parameter. Sets <code>searchIfNull</code> to
      * <code>false</code> and uses the <code>EQUAL_COMPARATOR</code>.
      *
      * @param parameterValue The actual value of the parameter.
@@ -67,7 +67,7 @@ public class ${criteriaSearchBaseName}Parameter
 
     /**
      * Constructor for ${criteriaSearchBaseName}Parameter for a <code>String</code> parameter.
-     * Sets <code>searchIfIsNull</code> to <code>false</code> and uses the
+     * Sets <code>searchIfNull</code> to <code>false</code> and uses the
      * <code>LIKE_COMPARATOR</code>.
      *
      * @param parameterValue The actual value of the parameter.
@@ -80,7 +80,7 @@ public class ${criteriaSearchBaseName}Parameter
 
     /**
      * Constructor for ${criteriaSearchBaseName}Parameter for a <code>String[]</code> parameter.
-     * Sets <code>searchIfIsNull</code> to <code>false</code> and uses the
+     * Sets <code>searchIfNull</code> to <code>false</code> and uses the
      * <code>LIKE_COMPARATOR</code>.
      *
      * @param parameterValue The actual value of the parameter.
@@ -92,7 +92,7 @@ public class ${criteriaSearchBaseName}Parameter
     }
 
     /**
-     * Constructor for ${criteriaSearchBaseName}Parameter. Sets <code>searchIfIsNull</code> to <code>false</code>.
+     * Constructor for ${criteriaSearchBaseName}Parameter. Sets <code>searchIfNull</code> to <code>false</code>.
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
@@ -107,7 +107,7 @@ public class ${criteriaSearchBaseName}Parameter
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
-     * @param searchIfIsNull Indicates whether the query should contain an
+     * @param searchIfNull Indicates whether the query should contain an
      *     <code>IS NULL</code> if the parameter is <code>null</code>.
      */
     public ${criteriaSearchBaseName}Parameter(
@@ -123,7 +123,7 @@ public class ${criteriaSearchBaseName}Parameter
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
-     * @param searchIfIsNull Indicates whether the query should contain an
+     * @param searchIfNull Indicates whether the query should contain an
      *     <code>IS NULL</code> if the parameter is <code>null</code>.
      */
     public ${criteriaSearchBaseName}Parameter(
@@ -139,7 +139,7 @@ public class ${criteriaSearchBaseName}Parameter
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
-     * @param searchIfIsNull Indicates whether the query should contain an
+     * @param searchIfNull Indicates whether the query should contain an
      *     <code>IS NULL</code> if the parameter is <code>null</code>.
      */
     public ${criteriaSearchBaseName}Parameter(
@@ -155,7 +155,7 @@ public class ${criteriaSearchBaseName}Parameter
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
-     * @param searchIfIsNull Indicates whether the query should contain an
+     * @param searchIfNull Indicates whether the query should contain an
      *     <code>IS NULL</code> if the parameter is <code>null</code>.
      * @param comparatorID Indicates what comparator is to be used (e.g. like, =, <, ...).
      */
@@ -168,7 +168,7 @@ public class ${criteriaSearchBaseName}Parameter
         super(parameterPattern, parameterValue);
         this.parameterValue = parameterValue;
         this.parameterPattern = parameterPattern;
-        this.searchIfIsNull = searchIfNull;
+        super.setSearchIfNull(searchIfNull);
         this.comparatorID = comparatorID;
     }
 
@@ -177,7 +177,7 @@ public class ${criteriaSearchBaseName}Parameter
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
-     * @param searchIfIsNull Indicates whether the query should contain an
+     * @param searchIfNull Indicates whether the query should contain an
      *     <code>IS NULL</code> if the parameter is <code>null</code>.
      * @param matchMode The hibernate matchmode to be used in string comparisons.
      */
@@ -196,7 +196,7 @@ public class ${criteriaSearchBaseName}Parameter
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
-     * @param searchIfIsNull Indicates whether the query should contain an
+     * @param searchIfNull Indicates whether the query should contain an
      *     <code>IS NULL</code> if the parameter is <code>null</code>.
      * @param matchMode The hibernate matchmode to be used in string comparisons.
      */
@@ -215,7 +215,7 @@ public class ${criteriaSearchBaseName}Parameter
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
-     * @param searchIfIsNull Indicates whether the query should contain an
+     * @param searchIfNull Indicates whether the query should contain an
      *     <code>IS NULL</code> if the parameter is <code>null</code>.
      * @param matchMode The hibernate matchmode to be used in string comparisons.
      */
@@ -234,7 +234,7 @@ public class ${criteriaSearchBaseName}Parameter
      *
      * @param parameterValue The actual value of the parameter.
      * @param parameterPattern The pattern of this parameter (dot-seperated path e.g. person.address.street).
-     * @param searchIfIsNull Indicates whether the query should contain an
+     * @param searchIfNull Indicates whether the query should contain an
      *     <code>IS NULL</code> if the parameter is <code>null</code>.
      * @param comparatorID Indicates what comparator is to be used (e.g. like, =, <, ...).
      * @param matchMode The hibernate matchmode to be used in string comparisons.
@@ -390,25 +390,6 @@ public class ${criteriaSearchBaseName}Parameter
     public void setParameterValue(Object parameterValue)
     {
         this.parameterValue = parameterValue;
-    }
-
-    /**
-     * @return Whether this parameter will be included in the search even if it is <code>null</code>.
-     */
-    public boolean isSearchIfIsNull()
-    {
-        return searchIfIsNull;
-    }
-
-    /**
-     * Defines whether parameter will be included in the search even if it is <code>null</code>.
-     *
-     * @param searchIfNull <code>true</code> if the parameter should be included in the search
-     *                     even if it is null, <code>false</code> otherwise.
-     */
-    public void setSearchIfIsNull(boolean searchIfNull)
-    {
-        this.searchIfIsNull = searchIfNull;
     }
 
     /**
