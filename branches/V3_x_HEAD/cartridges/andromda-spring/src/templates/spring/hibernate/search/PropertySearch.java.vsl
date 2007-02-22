@@ -47,6 +47,22 @@ public class $className
                             searchParameter.getName(),
                             searchParameter.getComparator());
                     parameter.setOrderDirection(searchParameter.getOrder());
+                    parameter.setSearchIfNull(searchParameter.isSearchIfNull());
+                    switch (searchParameter.getMatch())
+                    {
+                        case SearchParameter.MATCH_ANYWHERE : 
+                            parameter.setMatchMode(${hibernateUtils.criterionPackage}.MatchMode.ANYWHERE);
+                            break;
+                        case SearchParameter.MATCH_START : 
+                            parameter.setMatchMode(${hibernateUtils.criterionPackage}.MatchMode.START);
+                            break;
+                        case SearchParameter.MATCH_END :
+                            parameter.setMatchMode(${hibernateUtils.criterionPackage}.MatchMode.END);
+                            break;
+                        default:
+                            parameter.setMatchMode(${hibernateUtils.criterionPackage}.MatchMode.EXACT);
+                            break;
+                    }
                     this.addParameter(parameter);
                     
                     if (search.getPageNumber() > 0 && search.getPageSize() > 0)
