@@ -106,6 +106,15 @@ public class $className
     
     private static final String PERIOD = ".";
     
+    // - initialize the converters to behave the way we want when converting values (we don't
+    //   want empty strings converted to zeros, like beanutils does by default)
+    static
+    {
+        org.apache.commons.beanutils.ConvertUtils.register(new org.apache.commons.beanutils.converters.LongConverter(null), java.lang.Long.class);
+        org.apache.commons.beanutils.ConvertUtils.register(new org.apache.commons.beanutils.converters.IntegerConverter(null), java.lang.Integer.class);
+        org.apache.commons.beanutils.ConvertUtils.register(new org.apache.commons.beanutils.converters.ShortConverter(null), java.lang.Short.class);
+    }
+    
     /**
      * Converts the value contained within the parameter to the type which Hibernate expects.
      * 
