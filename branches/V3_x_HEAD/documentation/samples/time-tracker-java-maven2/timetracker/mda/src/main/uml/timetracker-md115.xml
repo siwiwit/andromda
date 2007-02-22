@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version='1.0' encoding='UTF-8'?>
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
@@ -1052,11 +1052,7 @@
 																		<referenceExtension referentPath='org.andromda.profile::presentation::@andromda.presentation.view.table.columns::@andromda.presentation.view.table.columns' referentType='Property'/>
 																	</xmi:Extension>
 																</definingFeature>
-																<value xmi:type='uml:LiteralString' xmi:id='_11_5_fb402e0_1156945504737_512339_925' visibility='public' value='id'/>
-																<value xmi:type='uml:LiteralString' xmi:id='_11_5_fb402e0_1156945508377_119316_926' visibility='public' value='submitterName'/>
-																<value xmi:type='uml:LiteralString' xmi:id='_11_5_fb402e0_1156945521908_863606_927' visibility='public' value='approverName'/>
-																<value xmi:type='uml:LiteralString' xmi:id='_11_5_fb402e0_1156945540986_554657_928' visibility='public' value='status'/>
-																<value xmi:type='uml:LiteralString' xmi:id='_11_5_fb402e0_1156945556735_557478_929' visibility='public' value='startDate'/>
+																<value xmi:type='uml:LiteralString' xmi:id='_11_5_fb402e0_1156945504737_512339_925' visibility='public' value='id,submitterName,approverName,status,startDate'/>
 															</slot>
 														</appliedStereotypeInstance>
 													</modelExtension>
