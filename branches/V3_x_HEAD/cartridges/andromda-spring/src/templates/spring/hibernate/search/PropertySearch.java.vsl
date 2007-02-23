@@ -32,6 +32,7 @@ public class $className
         super(session, entityType);
         try
         {
+            this.getConfiguration().setForceEagerLoading(search.isEagerFetching());
             final SearchParameter[] parameters = search.getParameters();
             if (parameters != null)
             {

@@ -10,10 +10,26 @@ package $springTypesPackage;
  * 
  * @see PropertySearch
  */
-public class $className
+public class ${className}
     implements java.io.Serializable
 {
-    private static final long serialVersionUID = 3268660047222551971L;
+    private static final long serialVersionUID = -8060934999137370126L;
+    
+    /**
+     * Constructs the search object.
+     * 
+     * @param parameters the parameters to use.
+     * @param pageNumber the page number (if paging results).
+     * @param pageSize the page size (if paging results).
+     * @param eagerFetching whether or not the search will eagerly fetch the associations included in the search.
+     */
+    public ${className}(SearchParameter[] parameters, int pageNumber, int pageSize, boolean eagerFetching)
+    {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.parameters = parameters;
+        this.eagerFetching = eagerFetching;
+    }
     
     /**
      * Constructs the search object.
@@ -22,11 +38,20 @@ public class $className
      * @param pageNumber the page number (if paging results).
      * @param pageSize the page size (if paging results).
      */
-    public Search(SearchParameter[] parameters, int pageNumber, int pageSize)
+    public ${className}(SearchParameter[] parameters, int pageNumber, int pageSize)
     {
-        this.pageNumber = pageNumber;
-        this.pageSize = pageSize;
-        this.parameters = parameters;
+        this(parameters, pageNumber, pageSize, false);
+    }
+    
+    
+    /**
+     * Constructs the search object.
+     * 
+     * @param parameters the parameters to use.
+     */
+    public ${className}(SearchParameter[] parameters)
+    {
+        this(parameters, -1, -1, false);
     }
     
     /**
@@ -34,9 +59,9 @@ public class $className
      * 
      * @param parameters the parameters to use.
      */
-    public Search(SearchParameter[] parameters)
+    public ${className}(SearchParameter[] parameters, boolean eagerFetching)
     {
-        this.parameters = parameters;
+        this(parameters, -1, -1, eagerFetching);
     }
 
     private int pageNumber;
@@ -104,4 +129,28 @@ public class $className
     {
         this.parameters = parameters;
     }
-}
+    
+    private boolean eagerFetching;
+
+    /**
+     * Whether or not eager fetching is enabled (if it is enabled, all associations
+     * queried will be fetched eagerly).
+     * 
+     * @return true/false
+     */
+    public boolean isEagerFetching()
+    {
+        return eagerFetching;
+    }
+
+    /**
+     * Sets whether or not eager fetching is enabled (if it is enabled, all associations
+     * queried will be fetched eagerly).
+     * 
+     * @param eagerFetching whether or not to eager fetch the results.
+     */
+    public void setEagerFetching(boolean eagerFetching)
+    {
+        this.eagerFetching = eagerFetching;
+    }   
+}}
