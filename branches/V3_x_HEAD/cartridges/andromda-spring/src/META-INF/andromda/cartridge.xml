@@ -37,6 +37,7 @@
     <property reference="hibernateDefaultSchema"/>
     <property reference="hibernateMaxFetchDepth"/>
     <property reference="hibernateJdbcFetchSize"/>
+    <property reference="hibernateDefaultBatchFetchSize"/>
     <property reference="hibernateJdbcBatchSize"/>
     <property reference="hibernateConnectionReleaseMode"/>
     <property reference="hibernateEnableCache"/>

@@ -927,6 +927,14 @@
                     A non-zero value determines the JDBC fetch size.
                 </documentation>
             </property>
+            <property name="hibernateDefaultBatchFetchSize">
+                <default>16</default>
+                <documentation>
+                    hibernate.default_batch_fetch_size
+                    Set a default size for Hibernate batch fetching of associations. Recommended values: 4, 8, 16 
+                </documentation>
+            </property>
+               
             <property name="hibernateJdbcBatchSize" required="false">
                 <documentation>
                     A nonzero value enables use of JDBC2 batch updates by Hibernate. ex: recommended values between 5 and 30

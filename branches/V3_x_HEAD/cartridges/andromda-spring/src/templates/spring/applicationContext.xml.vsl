@@ -63,6 +63,9 @@
 #if ($stringUtils.isNotBlank($hibernateJdbcFetchSize))
                 <prop key="hibernate.jdbc.fetch_size">$hibernateJdbcFetchSize</prop>
 #end
+#if ($stringUtils.isNotBlank($hibernateDefaultBatchFetchSize))
+                <prop key="hibernate.default_batch_fetch_size">$hibernateDefaultBatchFetchSize</prop>
+#end
 #if ($stringUtils.isNotBlank($hibernateJdbcBatchSize))
                 <prop key="hibernate.jdbc.batch_size">$hibernateJdbcBatchSize</prop>
 #end
