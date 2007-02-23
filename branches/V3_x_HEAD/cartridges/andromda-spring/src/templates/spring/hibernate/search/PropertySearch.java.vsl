@@ -32,6 +32,7 @@ public class $className
         super(session, entityType);
         try
         {
+            this.initializeConverters();
             this.getConfiguration().setForceEagerLoading(search.isEagerFetching());
             final SearchParameter[] parameters = search.getParameters();
             if (parameters != null)
@@ -123,9 +124,11 @@ public class $className
     
     private static final String PERIOD = ".";
     
-    // - initialize the converters to behave the way we want when converting values (we don't
-    //   want empty strings converted to zeros, like beanutils does by default)
-    static
+    /**
+     * Initializes the converters to behave the way we want when converting values (we don't
+     * want empty strings converted to zeros, like beanutils does by default)
+     */
+    private void initializeConverters()
     {
         org.apache.commons.beanutils.ConvertUtils.register(new org.apache.commons.beanutils.converters.LongConverter(null), java.lang.Long.class);
         org.apache.commons.beanutils.ConvertUtils.register(new org.apache.commons.beanutils.converters.IntegerConverter(null), java.lang.Integer.class);
