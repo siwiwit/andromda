@@ -4,6 +4,7 @@
 	<properties>
     	<title>Configuring metafacades</title> 
         <author email="chad@andromda.org">Chad Brandon</author>
+        <author email="wouter@andromda.org">Wouter Zoons</author>
     </properties>
   	<body> 
   		<section name="Writing the metafacades descriptor">
@@ -28,86 +29,183 @@
                 The <a href="../andromda-core/index.html">AndroMDA Core</a> also uses this
                 descriptor to determine what metafacades must be mapped to what meta model
                 objects.  The metafacades descriptor <strong>must</strong> reside within the 
-                META-INF subdirectory of your cartridge (or shared metafacades library) 
-                and <strong>must</strong> be named <em>andromda-metafacades.xml</em>
+                META-INF/andromda subdirectory of your cartridge (or shared metafacades library) 
+                and <strong>must</strong> be named <em>metafacades.xml</em>
             </p>      
             <p>
-                Let's have a look at part of a typical metafacades descriptor:
+                A cartridge's descriptor should only reference metafacades, never metaclasses. Doing so
+                detaches your cartridge from any specific UML version; instead, your cartridge should depend on
+                the generic AndroMDA facades which allows your cartridge to be used in combination with any
+                supported/future UML version.
+            </p>      
+            <p>
+                However, when writing the generic metafacades you will need to depend on the metaclasses, essentially
+                you will need to extend the facade model for each supported UML version and indicate how your facades
+                relate to the metaclasses of that UML version. Only in these cases you will need to reference 
+                metaclasses in the metafacades.xml resource.
+            </p>      
+            <p>
+                Let's have a look at part of the metafacades descriptor from the Hibernate cartridge:
             <source language="xml"><![CDATA[
 <metafacades>
     ...
-    <property reference="arrayNamePrefix" default="ArrayOf"/>
-    <property reference="schemaTypeMappingsUri"/>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeLogicImpl" contextRoot="true">
-        <mapping class="org.omg.uml.foundation.core.Classifier$Impl"/>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeLogicImpl" contextRoot="true">
-        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl"/>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeLogicImpl" contextRoot="true">
-        <mapping class="org.omg.uml.foundation.core.DataType$Impl"/>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLEnumerationTypeLogicImpl">
-        <mapping class="org.omg.uml.foundation.core.Classifier$Impl">
-            <stereotype>ENUMERATION</stereotype>
+    <property reference="hibernateVersion"/>
+    <property reference="hibernateXMLPersistence"/>
+    <property reference="hibernateXMLPersistIDAsAttribute"/>
+    ...
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEntityLogicImpl" contextRoot="true">
+        <mapping>
+            <stereotype>ENTITY</stereotype>
         </mapping>
+        <property reference="hibernateMappingStrategy"/>
+        <property reference="defaultEntityDiscriminatorColumn"/>
+        <property reference="defaultEntityDiscriminatorType"/>
     </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLEnumerationTypeLogicImpl">
-        <mapping class="org.omg.uml.foundation.core.Interface$Impl">
-            <stereotype>ENUMERATION</stereotype>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEndLogicImpl">
+        <mapping>
+            <property name="type.hibernateEntityMetaType"/>
         </mapping>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLEnumerationTypeLogicImpl">
-        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
-            <stereotype>ENUMERATION</stereotype>
-        </mapping>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeAssociationEndLogicImpl">
-        <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
-            <context>org.andromda.cartridges.webservice.metafacades.WSDLType</context>
-        </mapping>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WSDLTypeAttributeLogicImpl">
-        <mapping class="org.omg.uml.foundation.core.Attribute$Impl">
-            <context>org.andromda.cartridges.webservice.metafacades.WSDLType</context>
-        </mapping>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WebServiceLogicImpl" contextRoot="true">
-        <mapping class="org.omg.uml.foundation.core.Classifier$Impl">
-            <stereotype>WEBSERVICE</stereotype>
-        </mapping>
-        <property reference="ejbJndiNamePrefix" default=""/>
-        <property reference="ejbInterfacePattern" default="{0}.{1}"/>
-        <property reference="ejbHomeInterfacePattern" default="{0}.{1}Home"/>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WebServiceLogicImpl" contextRoot="true">
-        <mapping class="org.omg.uml.foundation.core.Classifier$Impl">
-            <stereotype>SERVICE</stereotype>
-        </mapping>
-        <property reference="ejbJndiNamePrefix" default=""/>
-        <property reference="ejbInterfacePattern" default="{0}.{1}"/>
-        <property reference="ejbHomeInterfacePattern" default="{0}.{1}Home"/>
-    </metafacade>
-    <metafacade class="org.andromda.cartridges.webservice.metafacades.WebServiceLogicImpl" contextRoot="true">
-        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
-            <stereotype>WEBSERVICE</stereotype>
-        </mapping>
-        <property reference="ejbJndiNamePrefix" default=""/>
-        <property reference="ejbInterfacePattern" default="{0}.{1}"/>
-        <property reference="ejbHomeInterfacePattern" default="{0}.{1}Home"/>
+        <property reference="hibernateAssociationEndOuterJoin"/>
+        <property reference="listTypeImplementation"/>
+        <property reference="setTypeImplementation"/>
+        <property reference="mapTypeImplementation"/>
+        <property reference="bagTypeImplementation"/>
+        <property reference="specificCollectionInterfaces"/>
+        <property reference="defaultCollectionInterface"/>
+        <property reference="associationEndCollectionIndexName"/>
+        <property reference="associationEndCollectionIndexType"/>
     </metafacade>
     ...
-</metafacades>]]>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateServiceLogicImpl" contextRoot="true">
+        <mapping>
+            <stereotype>SERVICE</stereotype>
+        </mapping>
+    </metafacade>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateTypeLogicImpl">
+        <property reference="hibernateTypeMappingsUri"/>
+    </metafacade>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEnumerationLogicImpl">
+        <mapping>
+            <stereotype>ENUMERATION</stereotype>
+        </mapping>
+    </metafacade>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEntityAttributeLogicImpl">
+        <mapping>
+            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEntity</context>
+        </mapping>
+		<property reference="hibernateTypeMappingsUri"/>
+    </metafacade>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEmbeddedValueLogicImpl" contextRoot="true">
+        <mapping>
+            <stereotype>EMBEDDED_VALUE</stereotype>
+        </mapping>
+        <property reference="embeddedValueImplementationNamePattern"/>
+    </metafacade>
+    <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateEntityAttributeLogicImpl">
+        <mapping>
+            <context>org.andromda.cartridges.hibernate.metafacades.HibernateEmbeddedValue</context>
+        </mapping>
+        <property reference="sqlMappingsUri"/>
+        <property reference="jdbcMappingsUri"/>
+    </metafacade>
+    ...
+</metafacades>
+]]>
             </source>
             </p>
             <p>
-                The following describes each element/attribute within the andromda-metafacades.xml 
+                This is what part of the UML1.4 metafacades descriptor looks like, notice how 
+                the MOF-UML1.4 metaclasses are used:
+            <source language="xml"><![CDATA[
+<metafacades metaclassPattern="{0}.{1}$Impl">
+    <default class="org.andromda.metafacades.uml14.ModelElementFacadeLogicImpl"/>
+    <property reference="languageMappingsUri"/>
+    <property reference="wrapperMappingsUri"/>
+    ...
+    <metafacade class="org.andromda.metafacades.uml14.ClassifierFacadeLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.Classifier$Impl"/>
+        <property reference="classifierNameMask"/>
+	</metafacade>	
+    <metafacade class="org.andromda.metafacades.uml14.EnumerationLiteralFacadeLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.EnumerationLiteral$Impl"/>
+        <property reference="enumerationLiteralNameMask"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.EnumerationFacadeLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
+            <stereotype>ENUMERATION</stereotype>
+        </mapping>
+        <property reference="enumerationNameMask"/>
+        <property reference="typeSafeEnumsEnabled"/>
+    </metafacade>
+    ...
+    <metafacade class="org.andromda.metafacades.uml14.ActivityGraphFacadeLogicImpl">
+        <mapping class="org.omg.uml.behavioralelements.activitygraphs.ActivityGraph$Impl"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.ObjectFlowStateFacadeLogicImpl">
+        <mapping class="org.omg.uml.behavioralelements.activitygraphs.ObjectFlowState$Impl"/>
+    </metafacade>
+    ...
+    <metafacade class="org.andromda.metafacades.uml14.ValueObjectLogicImpl" contextRoot="true">
+        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
+            <stereotype>VALUE_OBJECT</stereotype>
+        </mapping>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.ValueObjectAssociationEndLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
+            <context>org.andromda.metafacades.uml.ValueObject</context>
+        </mapping>
+        <property reference="useArraysForMultiplicitiesOfTypeMany"/>
+    </metafacade>
+    ...
+    <metafacade class="org.andromda.metafacades.uml14.EntityLogicImpl" contextRoot="true">
+        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
+            <stereotype>ENTITY</stereotype>
+        </mapping>
+        <property reference="allowDefaultIdentifiers"/>
+        <property reference="defaultIdentifierPattern"/>
+        <property reference="defaultIdentifierType"/>
+        <property reference="defaultIdentifierVisibility"/>
+        <property reference="relationNameSeparator"/>
+        <property reference="entityNameMask"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.EntityAttributeLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.Attribute$Impl">
+            <context>org.andromda.metafacades.uml.Entity</context>
+        </mapping>
+        <property reference="sqlMappingsUri"/>
+        <property reference="jdbcMappingsUri"/>
+        <property reference="entityPropertyNameMask"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.EntityAssociationEndLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.AssociationEnd$Impl">
+            <context>org.andromda.metafacades.uml.Entity</context>
+        </mapping>
+        <property reference="sqlMappingsUri"/>
+        <property reference="jdbcMappingsUri"/>
+        <property reference="entityPropertyNameMask"/>
+    </metafacade>
+    ...
+    <metafacade class="org.andromda.metafacades.uml14.ServiceLogicImpl" contextRoot="true">
+        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl">
+            <stereotype>SERVICE</stereotype>
+        </mapping>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.ServiceOperationLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.Operation$Impl">
+            <property name="owner.serviceMetaType"/>
+        </mapping>
+    </metafacade>
+]]>
+            </source>
+            </p>
+            <p>
+                The following describes each element/attribute within the metafacades.xml 
                 file and what effect it has on the metafacade configuration process:
             </p>
             <a name="#metafacades"/> 
             <h3><![CDATA[<metafacades/>]]></h3>     
             <p>
-              The <em><![CDATA[<metafacades/>]]></em> element is the root of the andromda-metafacades.xml
+              The <em><![CDATA[<metafacades/>]]></em> element is the root of the metafacades.xml
               file.  This root contains the rest of the metafacade configuration information. 
             </p>
             <table>
