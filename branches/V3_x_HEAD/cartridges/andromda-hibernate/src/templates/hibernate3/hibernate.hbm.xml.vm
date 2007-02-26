@@ -4,7 +4,7 @@
 ##
 #macro (renderPropertiesAndAssociations3 $entity $paramSqlPrefix $indent)
 #foreach ($attribute in $entity.attributes)
-#if (!$attribute.identifier && !$attribute.transient)
+#if (!$attribute.identifier && (!$attribute.transient || $attribute.formula))
 #set ($fullyQualifiedPropertyType = $attribute.type.fullyQualifiedHibernateType)
 #if ($attribute.type.enumeration)
 #set ($fullyQualifiedPropertyType = $attribute.type.fullyQualifiedHibernateEnumerationType)
