@@ -10,10 +10,12 @@ import org.andromda.cartridges.hibernate.HibernateUtils;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.EntityAttribute;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
+import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 
 
 /**
@@ -752,7 +754,7 @@ public class HibernateEntityLogicImpl
     }
 
     /**
-     * @see HibernateEntity#getHibernateVersionProperty()
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#getHibernateVersionProperty()
      */
     protected String handleGetHibernateVersionProperty()
     {
@@ -762,6 +764,14 @@ public class HibernateEntityLogicImpl
             version = (String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION_PROPERTY);
         }
         return version;
+    }
+    
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#getHibernateVersionPropertySqlName()
+     */
+    protected String handleGetHibernateVersionPropertySqlName()
+    {
+        return EntityMetafacadeUtils.toSqlName(this.getHibernateVersionProperty(), UMLMetafacadeProperties.SQL_NAME_SEPARATOR);
     }
 
     /**
