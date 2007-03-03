@@ -771,7 +771,7 @@ public class HibernateEntityLogicImpl
      */
     protected String handleGetHibernateVersionPropertySqlName()
     {
-        return EntityMetafacadeUtils.toSqlName(this.getHibernateVersionProperty(), UMLMetafacadeProperties.SQL_NAME_SEPARATOR);
+        return EntityMetafacadeUtils.toSqlName(this.getHibernateVersionProperty(), this.getConfiguredProperty(UMLMetafacadeProperties.SQL_NAME_SEPARATOR));
     }
 
     /**
