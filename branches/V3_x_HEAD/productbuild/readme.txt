@@ -4,7 +4,7 @@ contain this directory's contents.
 
 Instructions for Maven1:
 
-1) Install the latest version of Maven 1.0.x (http://maven.apache.org) and add it to your $PATH.
+1) Install the latest version of Maven 1.0.x (http://maven.apache.org/maven-1.x) and add it to your $PATH.
 2) Set the MAVEN_OPTS: "export MAVEN_OPTS=-XX:MaxPermSize=128m\ -Xmx512m" 
 3) cd to andromda-all, type 'maven', this will build the entire distribution
    without documentation.  Check the target/distributions directory from the resulting output.
