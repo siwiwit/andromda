@@ -3,7 +3,6 @@ package org.andromda.repositories.emf.uml2;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Special resource set implementation that can resolve proxies
