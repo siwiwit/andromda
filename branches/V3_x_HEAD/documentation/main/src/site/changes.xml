@@ -12,11 +12,23 @@
     </properties>
     <body>
         <release version="3.3-SNAPSHOT" date="2006-11-20" desc="First release candidate of version 3.3" description="First release candidate of version 3.3">
+            <action dev="mattes3" type="fix">
+                The Freemarker template engine plug-in did not find the templates
+                when it ran in a multi-classloader environment like Maven. Now,
+                it uses the context classloader to find the templates.
+            </action>
             <action dev="freter" type="add" issue="SPRING-190">
                 Added support for <![CDATA[<a href="lingo.codehaus.org">Lingo remoting</a>]]> to the Spring cartridge.
             </action>
             <action dev="vancek" type="update">
                 Migrate M1 site docs to M2. Add site plugins. Remove M1 site xml files.
+            </action>
+            <action dev="mattes3" type="add">
+                The EMF repository plug-in can now read *.emx files from RSA
+                directly without the need to convert them to *.uml2, first.
+                It also checks for the IBM-specific metamodels for graphical
+                elements in UML diagrams. If it finds them on the classpath,
+                it registers them with the EMF package factory registry.
             </action>
         </release>
         <release version="3.2" date="2006-11-09" desc="Version 3.2 final" description="Version 3.2 final">
