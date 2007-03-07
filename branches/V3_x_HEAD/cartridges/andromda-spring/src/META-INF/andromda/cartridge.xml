@@ -100,6 +100,7 @@
     <property reference="parameterRequiredCheck"/>
     <property reference="xmlEncoding"/>
     <property reference="session-ejbs"/>
+    <property reference="session-ejb-interfaces"/>
     <property reference="advice-impls"/>
     <property reference="service-impls"/>
     <property reference="dao-impls"/>
@@ -542,7 +543,7 @@
     <template
         path="templates/spring/ejb/SpringSessionRemote.vsl"
         outputPattern="$generatedFile"
-        outlet="session-ejbs"
+        outlet="$outlet"
         overwrite="true"
         outputCondition="ejbsEnabled">
         <modelElements variable="service">
@@ -558,7 +559,7 @@
     <template
         path="templates/spring/ejb/SpringSessionRemoteHome.vsl"
         outputPattern="$generatedFile"
-        outlet="session-ejbs"
+        outlet="$outlet"
         overwrite="true"
         outputCondition="ejbsEnabled">
         <modelElements variable="service">
@@ -574,7 +575,7 @@
     <template
         path="templates/spring/ejb/SpringSessionLocal.vsl"
         outputPattern="$generatedFile"
-        outlet="session-ejbs"
+        outlet="$outlet"
         overwrite="true"
         outputCondition="ejbsEnabled">
         <modelElements variable="service">
@@ -590,7 +591,7 @@
     <template
         path="templates/spring/ejb/SpringSessionLocalHome.vsl"
         outputPattern="$generatedFile"
-        outlet="session-ejbs"
+        outlet="$outlet"
         overwrite="true"
         outputCondition="ejbsEnabled">
         <modelElements variable="service">

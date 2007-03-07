@@ -3,6 +3,11 @@
 #set ($localSuffix = "Local")
 #end
 #set ($generatedFile = "${service.ejbPackageNamePath}/${service.name}${localSuffix}.java")
+#if ($session-ejb-interfaces)
+#set ($outlet = "session-ejb-interfaces")
+#else
+#set ($outlet = "session-ejbs")
+#end
 // license-header java merge-point
 //
 // Attention: Generated code! Do not modify by hand!
