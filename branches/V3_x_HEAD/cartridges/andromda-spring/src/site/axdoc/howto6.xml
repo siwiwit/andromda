@@ -30,6 +30,18 @@
                 Actually, classifier scoped operations go into the DAO while instance scoped operations go into the
                 entity's implementation class (they are considered to be business operations).
             </p>
+            <p class="highlight">
+                For simple finders the cartridge will be able to generate the proper HQL without even requiring you
+                to write any OCL constraint! Just make sure to enable that <code>query</code> flag and name the operation
+                <code>findByXXX(XXX : type)</code> where XXX stands for the property on which you would like to search, 
+                for example: <code>findByUserName(userName : String)</code>. The finder must return a collection type
+                or the type of the underlying entity. In the former case the query is simply executed and the results
+                are returned, in the latter case the first element from the result set is returned 
+                after being cast to the proper type. This is all done automatically and you won't need to worry about
+                anything, there's no need to write any HQL yourself or to implement any method. Check the entity's DAO
+                to learn what else you can do with the newly generated code (such as automatic conversion of the
+                result set into value objects).
+            </p>
             <p>
                 The documentation discussing the modeling of queries in UML is found here:
                 <a href="../../andromda-translation-libraries/andromda-ocl-translation-libraries/andromda-ocl-query-library/modeling.html">Query Translation-Library Modeling</a>.
