@@ -835,16 +835,14 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         {
             switch (transform)
             {
-#foreach ($valueObjectRef in $entity.allValueObjectReferences)
-##
-## When not using daoInheritance, we _must_ refer to the TransformationConstantNames defined in our own interface (and
-## not, as is the case for dao inheritance, to those defined in the super-dao's interface).
-##
-#if ($daoInheritance)
-                case ${valueObjectRef.sourceElement.fullyQualifiedDaoName}.${valueObjectRef.transformationConstantName} :
+## With daoInheritance disabled, only refer to transformation methods defined on this entity
+#if($daoInheritance)
+#set($transformReferences = $entity.allValueObjectReferences)
 #else
-                case ${valueObjectRef.transformationConstantName} :
+#set($transformReferences = $entity.valueObjectReferences)	
 #end
+#foreach ($valueObjectRef in $transformReferences)
+                case ${valueObjectRef.transformationConstantName} :
                     target = ${valueObjectRef.transformationMethodName}(entity);
                     break;
 #end
@@ -871,15 +869,8 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     {
         switch (transform)
         {
-#foreach ($valueObjectRef in $entity.allValueObjectReferences)
-##
-## When not using daoInheritance, we _must_ refer to our TransformationConstantNames (see comment above).
-##
-#if ($daoInheritance)
-            case ${valueObjectRef.sourceElement.fullyQualifiedDaoName}.${valueObjectRef.transformationConstantName} :
-#else
+#foreach ($valueObjectRef in $transformReferences)
             case ${valueObjectRef.transformationConstantName} :
-#end
                 ${valueObjectRef.transformationToCollectionMethodName}(entities);
                 break;
 #end
@@ -889,17 +880,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
     }
 
-##
-## When daoInheritance is disabled we need to generated the transformations for _all_ of our value object
-## references (and not only "ours" as is the case when daoInheritance is enabled).
-##
-#if ($daoInheritance)
-#set ($valueObjectReferences = $entity.valueObjectReferences)
-#else
-#set ($valueObjectReferences = $entity.allValueObjectReferences)
-#end
-##
-#foreach ($valueObjectRef in $valueObjectReferences)
+#foreach ($valueObjectRef in $entity.valueObjectReferences)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToCollectionMethodName}(java.util.Collection)
      */

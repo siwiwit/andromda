@@ -46,19 +46,7 @@ public interface $entity.daoName
 
 #end
 #end
-##
-## With dao inheritance disabled, each and every interface in the hierarchy must generate the complete set of
-## transformation operators (except the "noTransformation" transformation constant which is already generated above).
-##
-## Note: 'valueObjectReferences' holds all of the VO references that the entity currently being processed has;
-## In contrast, 'allValueObjectReference' holds all VO references including the "inherited" ones.
-##
-#if ($daoInheritance)
-#set ($valueObjectReferences = $entity.valueObjectReferences)
-#else
-#set ($valueObjectReferences = $entity.allValueObjectReferences)
-#end
-#foreach ($valueObjectRef in $valueObjectReferences)
+#foreach ($valueObjectRef in $entity.valueObjectReferences)
     /**
      * This constant is used as a transformation flag; entities can be converted automatically into value objects
      * or other types, different methods in a class implementing this interface support this feature: look for

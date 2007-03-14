@@ -44,16 +44,7 @@ public class $entity.daoImplementationName
 }
 
 #end
-##
-## When not using daoInheritance, generate transformations for _all_ of the value object references (and not just those
-## on this entity - as is the case when dao inheritance is enabled).
-##
-#if ($daoInheritance)
-#set ($valueObjectReferences = $entity.valueObjectReferences)
-#else
-#set ($valueObjectReferences = $entity.allValueObjectReferences)
-#end
-#foreach ($valueObjectRef in $valueObjectReferences)
+#foreach ($valueObjectRef in $entity.valueObjectReferences)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationMethodName}($entity.fullyQualifiedEntityName, $valueObjectRef.targetElement.fullyQualifiedName)
      */
