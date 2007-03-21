@@ -10,7 +10,7 @@ package $springTypesPackage;
  * 
  * @see PropertySearch
  */
-public class ${className}
+public class $className
     implements java.io.Serializable
 {
     private static final long serialVersionUID = -8060934999137370126L;
@@ -27,7 +27,7 @@ public class ${className}
     {
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
-        this.parameters = parameters;
+        this.parameters.addAll(java.util.Arrays.asList(parameters));
         this.eagerFetching = eagerFetching;
     }
     
@@ -42,7 +42,6 @@ public class ${className}
     {
         this(parameters, pageNumber, pageSize, false);
     }
-    
     
     /**
      * Constructs the search object.
@@ -108,16 +107,14 @@ public class ${className}
         this.pageSize = pageSize;
     }
 
-    private SearchParameter[] parameters;
+    private java.util.Collection#if ($enableTemplating)<SearchParameter>#end parameters = new java.util.ArrayList#if ($enableTemplating)<SearchParameter>#end();
 
     /**
-     * Gets the search parameters for this search object.
-     * 
-     * @param the search parameters.
+     * Gets the search parameters for this search object..
      */
     public SearchParameter[] getParameters()
     {
-        return this.parameters;
+        return#if (!$enableTemplating) (SearchParameter[])#end this.parameters.toArray(new SearchParameter[0]);
     }
 
     /**
@@ -127,7 +124,7 @@ public class ${className}
      */
     public void setParameters(SearchParameter[] parameters)
     {
-        this.parameters = parameters;
+        this.parameters = new java.util.ArrayList#if ($enableTemplating)<SearchParameter>#end(java.util.Arrays.asList(parameters));
     }
     
     private boolean eagerFetching;
@@ -153,4 +150,27 @@ public class ${className}
     {
         this.eagerFetching = eagerFetching;
     }   
+    
+    /**
+     * Adds an "order by" clause for the search.
+     * 
+     * @param propertyName the property name to order by.
+     * @param order the order.  Use: {@link SearchParameter#ORDER_ASC},
+     *        {@link SearchParameter#ORDER_DESC}, or {@link SearchParameter#ORDER_UNSET}.
+     */
+    public void addOrderBy(final String propertyName, final int order)
+    {
+        this.parameters.add(new SearchParameter(propertyName, null, -1, -1, order));
+    }
+    
+    /**
+     * Adds an "order by" clause for the search.
+     * 
+     * @param propertyName the property name to order by.
+     * @param descending true/false; true for descending ordering, false for ascending ordering.
+     */
+    public void addOrderBy(String propertyName, final boolean descending)
+    {
+        this.addOrderBy(propertyName, descending ? SearchParameter.ORDER_DESC : SearchParameter.ORDER_ASC);
+    }
 }

@@ -1,0 +1,52 @@
+#set ($className = "PaginationResult")
+#set ($generatedFile = "${className}.java")
+#if($stringUtils.isNotEmpty($springTypesPackage))
+package $springTypesPackage;
+#set ($generatedFile = "${stringUtils.replace($springTypesPackage,'.','/')}/${generatedFile}")
+#end
+
+/**
+ * A class that represents a "paged result" of data out of a larger set, ie.
+ * a list of objects together with info to indicate the starting row and
+ * the full size of the dataset. 
+ */
+public class $className
+##
+
+{
+    private long totalSize;
+    private java.lang.Object[] data;
+
+    /**
+     * Create an object representing a sublist of a dataset.
+     *
+     * @param totalSize is the total number of matching rows available.
+     * @param data is a list of consecutive objects from the dataset.
+     */
+    public $className(
+        java.lang.Object[] data,
+        long totalSize)
+    {
+        this.data = data;
+        this.totalSize = totalSize;
+    }
+
+    /**
+     * Returns the number of items in the entire result.
+     *
+     * @return the total size of items.
+     */
+    public long getTotalSize()
+    {
+        return totalSize;
+    }
+
+    /**
+     * Return the array of objects held by this object, which
+     * is a continuous subset of the full dataset.
+     */
+    public java.lang.Object[] getData()
+    {
+        return data;
+    }
+}

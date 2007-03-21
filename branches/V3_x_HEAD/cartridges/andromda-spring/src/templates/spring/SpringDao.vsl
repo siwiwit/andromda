@@ -515,28 +515,36 @@ $operation.getDocumentation("     * ")
 #end
 
 #end
-#set ($fullyQualifiedSearchClassName = "Search")
-#if($stringUtils.isNotEmpty($springTypesPackage))
-#set ($fullyQualifiedSearchClassName = "${springTypesPackage}.${fullyQualifiedSearchClassName}")
-#end
+#set ($fullyQualifiedPagingResultName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "PaginationResult"))
+#set ($fullyQualifiedSearchClassName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "Search"))
+
     /**
-     * Does the same thing as {@link #search($fullyQualifiedSearchClassName, int) but with an
-     * additional flag called <code>transform</code>. If this flag is set to <code>$entity.daoNoTransformationConstantName</code> then
-     * finder results will <strong>NOT</strong> be transformed during retrieval.
-     * If this flag is any of the other constants defined here
-     * then results <strong>WILL BE</strong> passed through an operation which can optionally
-     * transform the entities (into value objects for example). By default, transformation does
-     * not occur.
+     * Does the same thing as {@link #search(int, $fullyQualifiedSearchClassName) but with an
+     * additional two flags called <code>pageNumber</code> and <code>pageSize</code>. These flags allow you to
+     * limit your data to a specified page number and size.
      *
      * @param transform the transformation flag.
+     * @param pageNumber the page number in the data to retrieve
+     * @param pageSize the size of the page to retrieve.
      * @param search the search object which provides the search parameters and pagination specification.
-     * @param maxResults the maximum results to return when executing the search.
-     * @return any found results from the search.
+     * @return any found results from the search wrapped in a {@link $fullyQualifiedPagingResultName} instance.
      */
-    public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search, final int maxResults);
-    
+    public $fullyQualifiedPagingResultName search(final int transform, final int pageNumber, final int pageSize, final $fullyQualifiedSearchClassName search);
+
     /**
      * Does the same thing as {@link #search($fullyQualifiedSearchClassName) but with an
+     * additional two flags called <code>pageNumber</code> and <code>pageSize</code>. These flags allow you to
+     * limit your data to a specified page number and size.
+     *
+     * @param pageNumber the page number in the data to retrieve
+     * @param pageSize the size of the page to retrieve.
+     * @param search the search object which provides the search parameters and pagination specification.
+     * @return any found results from the search wrapped in a {@link $fullyQualifiedPagingResultName} instance.
+     */
+    public $fullyQualifiedPagingResultName search(final int pageNumber, final int pageSize, final $fullyQualifiedSearchClassName search);
+    
+    /**
+     * Does the same thing as {@link #search($fullyQualifiedSearchClassName)} but with an
      * additional flag called <code>transform</code>. If this flag is set to <code>$entity.daoNoTransformationConstantName</code> then
      * finder results will <strong>NOT</strong> be transformed during retrieval.
      * If this flag is any of the other constants defined here
@@ -546,20 +554,9 @@ $operation.getDocumentation("     * ")
      *
      * @param transform the transformation flag.
      * @param search the search object which provides the search parameters and pagination specification.
-     * @param maxResults the maximum results to return when executing the search.
      * @return any found results from the search.
      */
     public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search);
-    
-    /**
-     * Does the same thing as {@link #search(fullyQualifiedSearchClassName) but with an additional
-     * <code>maxResults</code> argument that limits the number of results retrieved.
-     *
-     * @param search the search object which provides the search parameters and pagination specification.
-     * @param maxResults the maximum results to return when executing the search.
-     * @return any found results from the search.
-     */
-    public java.util.Set search(final $fullyQualifiedSearchClassName search, final int maxResults);
     
     /**
      * Performs a search using the parameters specified in the given <code>search</code> object.

@@ -21,13 +21,11 @@ public class $className
      * @param session The Hibernate session.
      * @param entityType The <code>Class</code> of the result.
      * @param search the object that specifies the search criteria.
-     * @param maxResults the maximum results to return (if less than 0; all are returned).
      */
     public $className(
         final ${hibernateUtils.basePackage}.Session session,
         final java.lang.Class entityType,
-        final Search search,
-        final int maxResults)
+        final Search search)
     {
         super(session, entityType);
         try
@@ -66,16 +64,11 @@ public class $className
                             break;
                     }
                     this.addParameter(parameter);
-                    
                     if (search.getPageNumber() > 0 && search.getPageSize() > 0)
                     {
                         // - set the first result as part of pagination support
                         this.getConfiguration().setFirstResult(new java.lang.Integer(this.calculateFirstResult(search.getPageNumber(), search.getPageSize())));
                         this.getConfiguration().setMaximumResultSize(new java.lang.Integer(search.getPageSize()));
-                    }
-                    else if (maxResults > -1)
-                    {
-                        this.getConfiguration().setMaximumResultSize(new Integer(maxResults));
                     }
                 }
             }
@@ -93,14 +86,12 @@ public class $className
      */
     public int getTotalCount()
     {
-        Integer rowCount = null;
         // Remove first result requirement
         this.getConfiguration().setFirstResult(new java.lang.Integer(0));
         this.getRootCriteria().setProjection(
             org.hibernate.criterion.Projections.projectionList().add(
                 org.hibernate.criterion.Projections.rowCount()));
-        rowCount = (Integer)this.executeAsList().toArray()[0];
-        return rowCount.intValue();
+        return ((java.lang.Integer)this.executeAsSet().iterator().next()).intValue();
     }
 
 #end

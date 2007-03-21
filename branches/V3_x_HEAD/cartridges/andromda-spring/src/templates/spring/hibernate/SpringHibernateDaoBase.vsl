@@ -1053,23 +1053,50 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         return $principalStoreCall
     }
 
-#set ($fullyQualifiedSearchClassName = "Search")
-#if($stringUtils.isNotEmpty($springTypesPackage))
-#set ($fullyQualifiedSearchClassName = "${springTypesPackage}.${fullyQualifiedSearchClassName}")
-#end
+#set ($fullyQualifiedPagingResultName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "PaginationResult"))
+#set ($fullyQualifiedSearchClassName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "Search"))
+#set ($fullyQualifiedPropertySearchClassName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "PropertySearch"))
     /**
-     * @see ${entity.fullyQualifiedDaoName}#search(int, $fullyQualifiedSearchClassName, int)
+     * @see ${entity.fullyQualifiedDaoName}#search(int, int, int, $fullyQualifiedSearchClassName)
      */
-    public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search, final int maxResults)
+#if ($enableTemplating)
+    @SuppressWarnings("unchecked")
+#end
+    public $fullyQualifiedPagingResultName search(final int transform, final int pageNumber, final int pageSize, final $fullyQualifiedSearchClassName search)
     {
         try
         {
-#set ($fullyQualifiedPropertySearchClassName = "PropertySearch")
-#if($stringUtils.isNotEmpty($springTypesPackage))
-#set ($fullyQualifiedPropertySearchClassName = "${springTypesPackage}.${fullyQualifiedPropertySearchClassName}")
-#end
+            search.setPageNumber(pageNumber);
+            search.setPageSize(pageSize);
             final $fullyQualifiedPropertySearchClassName propertySearch = new $fullyQualifiedPropertySearchClassName(
-                this.getSession(false), ${entity.fullyQualifiedEntityImplementationName}.class, search, maxResults);
+                this.getSession(false), ${entity.fullyQualifiedEntityImplementationName}.class, search);
+            final java.util.Set results = propertySearch.executeAsSet();
+            this.transformEntities(transform, results);
+            return new $fullyQualifiedPagingResultName(results.toArray(new java.lang.Object[0]),#if ($hibernateUtils.version3) propertySearch.getTotalCount()#else 0#end);
+        }
+        catch (${hibernateUtils.basePackage}.HibernateException ex)
+        {
+            throw super.convertHibernateAccessException(ex);
+        }
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#search(int, int, $fullyQualifiedSearchClassName)
+     */
+    public $fullyQualifiedPagingResultName search(final int pageNumber, final int pageSize, final $fullyQualifiedSearchClassName search)
+    {
+        return this.search($entity.daoNoTransformationConstantName, pageNumber, pageSize, search);
+    }
+    
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#search(int, $fullyQualifiedSearchClassName)
+     */
+    public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search)
+    {
+        try
+        {
+            final $fullyQualifiedPropertySearchClassName propertySearch = new $fullyQualifiedPropertySearchClassName(
+                this.getSession(false), ${entity.fullyQualifiedEntityImplementationName}.class, search);
             final java.util.Set results = propertySearch.executeAsSet();
             this.transformEntities(transform, results);
             return results;
@@ -1081,27 +1108,11 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
     
     /**
-     * @see ${entity.fullyQualifiedDaoName}#search(int, $fullyQualifiedSearchClassName)
-     */
-    public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search)
-    {
-        return this.search(transform, search, -1);
-    }
-    
-    /**
-     * @see ${entity.fullyQualifiedDaoName}#search($fullyQualifiedSearchClassName, int)
-     */
-    public java.util.Set search(final $fullyQualifiedSearchClassName search, final int maxResults)
-    {
-        return this.search($entity.daoNoTransformationConstantName, search, maxResults);
-    }
-    
-    /**
      * @see ${entity.fullyQualifiedDaoName}#search($fullyQualifiedSearchClassName)
      */
     public java.util.Set search(final $fullyQualifiedSearchClassName search)
     {
-        return this.search($entity.daoNoTransformationConstantName, search, -1);
+        return this.search($entity.daoNoTransformationConstantName, search);
     }
     
     // spring-hibernate-dao-base merge-point

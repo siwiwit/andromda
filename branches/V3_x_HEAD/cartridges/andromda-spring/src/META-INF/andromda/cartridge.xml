@@ -1075,6 +1075,19 @@
     </template>
     
     <template
+        path="templates/spring/paging/PaginationResult.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="service-interfaces"
+        overwrite="true"
+        outputToSingleFile="true">
+        <modelElements variable="entities">
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity"/>
+            </modelElement>
+        </modelElements>
+    </template>
+    
+    <template
         path="templates/spring/hibernate/HibernateSearch.vsl"
         outputPattern="$generatedFile"
         outlet="daos"

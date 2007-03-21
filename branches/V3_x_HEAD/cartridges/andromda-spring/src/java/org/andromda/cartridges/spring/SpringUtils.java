@@ -16,6 +16,7 @@ import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -352,6 +353,22 @@ public class SpringUtils
             result = StringUtilsHelper.lowerCamelCaseName(StringUtilsHelper.join(names.iterator(), " "));
         }
         return result;
-
+    }
+    
+    /**
+     * Constructs the fully qualified class name from the packageName and name.
+     * @param packageName the package name to which the class belongs.
+     * @param name the name of the class.
+     * @return the fully qualified name.
+     */
+    public static String getFullyQualifiedClassName(final String packageName, final String name)
+    {
+        final StringBuffer fullName = new StringBuffer(StringUtils.trimToEmpty(packageName));
+        if (fullName.length() > 0)
+        {
+            fullName.append(".");
+        }
+        fullName.append(name);
+        return fullName.toString();
     }
 }
