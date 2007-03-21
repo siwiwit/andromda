@@ -26,7 +26,9 @@ public class $action.formImplementationName
     }
 #foreach ($field in $action.formFields)
 
-#if ($field.type.collectionType)
+#if ($field.pageableTable)
+#set ($fieldTypeName = "javax.faces.model.DataModel")
+#elseif ($field.type.collectionType)
 #set ($fieldTypeName = "java.util.List")
 #elseif ($field.type.fileType)
 #set ($fieldTypeName = "$fileTypeName")
@@ -40,24 +42,6 @@ $field.getDocumentation("     * ")
      */
     public $fieldTypeName ${field.getterName}()
     {
-#if ($field.type.collectionType || $field.type.arrayType)
-#set ($upperCaseFieldName = $stringUtils.capitalize($field.name))
-        if (this.$field.name != null)
-        {
-#if ($field.type.arrayType)
-            this.$field.name = ($field.type.fullyQualifiedName)${managedBeansPackage}.CollectionSorter.sort(
-                java.util.Arrays.asList(this.$field.name),
-                this.get${stringUtils.capitalize($field.tableSortColumnProperty)}(),
-                this.is${upperCaseFieldName}SortAscending()).toArray(new ${field.type.fullyQualifiedName}{});
-#else
-            this.$field.name = ${managedBeansPackage}.CollectionSorter.sort(
-                this.$field.name,
-                this.get${stringUtils.capitalize($field.tableSortColumnProperty)}(),
-                this.is${upperCaseFieldName}SortAscending());
-#end
-        }
-        return this.$field.name;
-#else
 #if ($field.complex)
         if (this.$field.name == null)
         {
@@ -65,7 +49,6 @@ $field.getDocumentation("     * ")
         }
 #end
         return this.${field.name};
-#end
     }
 
     /**
@@ -93,61 +76,6 @@ $field.getDocumentation("     * ")
         this.$field.name = $field.name;
         this.$field.formAttributeSetProperty = true;
     }
-#if ($field.type.collectionType || $field.type.arrayType)
-
-    /**
-     * The name of the sort column for the {@link #${field.name}} collection.
-     */
-    private String $field.tableSortColumnProperty;
-
-    /**
-     * Gets the name of the sort column for the {@link #${field.name}} collection.
-     *
-     * @return the name of the sort column.
-     */
-    public String get${stringUtils.capitalize($field.tableSortColumnProperty)}()
-    {
-        return this.$field.tableSortColumnProperty;
-    }
-
-    /**
-     * Sets the name of the {@link #${field.name}} sort column.
-     *
-     * @param $field.tableSortColumnProperty the name of the column by which {@link #${field.name}}
-     *        are sorted by.
-     */
-    public void set${stringUtils.capitalize($field.tableSortColumnProperty)}(final String $field.tableSortColumnProperty)
-    {
-        this.$field.tableSortColumnProperty = $field.tableSortColumnProperty;
-    }
-
-    /**
-     * The flag indicating whether or not {@link #${field.name}} should be sorted
-     * ascending.
-     */
-    private boolean $field.tableSortAscendingProperty = false;
-
-    /**
-     * Indicates whether or not {@link #${field.name}} should be sorted ascending
-     * or not.
-     *
-     * @return true/false
-     */
-    public boolean is${stringUtils.capitalize($field.tableSortAscendingProperty)}()
-    {
-        return this.$field.tableSortAscendingProperty;
-    }
-
-    /**
-     * Sets whether or not {@link #${field.name}} should be sorted ascending.
-     *
-     * @param $field.tableSortAscendingProperty true/false
-     */
-    public void set${stringUtils.capitalize($field.tableSortAscendingProperty)}(final boolean $field.tableSortAscendingProperty)
-    {
-        this.$field.tableSortAscendingProperty = $field.tableSortAscendingProperty;
-    }
-#end
 #if (!$field.complex && !$field.defaultValuePresent)
 #renderBackingListImplSupport($field "")
 #end

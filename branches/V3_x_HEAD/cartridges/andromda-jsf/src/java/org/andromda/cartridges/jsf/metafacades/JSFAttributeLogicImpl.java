@@ -307,64 +307,66 @@ public class JSFAttributeLogicImpl
         boolean selectable = false;
         if (ownerParameter != null)
         {
-            if (ownerParameter.isActionParameter())
+            selectable = this.isInputMultibox() || this.isInputSelect() || this.isInputRadio();
+            if (!selectable)
             {
-                selectable = this.isInputMultibox() || this.isInputSelect() || this.isInputRadio();
-                final ClassifierFacade type = this.getType();
-
-                if (!selectable && type != null)
+                if (ownerParameter.isActionParameter())
                 {
-                    final String name = this.getName();
-                    final String typeName = type.getFullyQualifiedName();
-
-                    // - if the parameter is not selectable but on a targetting page it IS selectable we must
-                    //   allow the user to set the backing list too                 
-                    final Collection views = ownerParameter.getAction().getTargetViews();
-                    for (final Iterator iterator = views.iterator(); iterator.hasNext() && !selectable;)
+                    final ClassifierFacade type = this.getType();
+                    if (type != null)
                     {
-                        final FrontEndView view = (FrontEndView)iterator.next();
-                        final Collection parameters = view.getAllActionParameters();
-                        for (final Iterator parameterIterator = parameters.iterator();
-                            parameterIterator.hasNext() && !selectable;)
+                        final String name = this.getName();
+                        final String typeName = type.getFullyQualifiedName();
+    
+                        // - if the parameter is not selectable but on a targetting page it IS selectable we must
+                        //   allow the user to set the backing list too                 
+                        final Collection views = ownerParameter.getAction().getTargetViews();
+                        for (final Iterator iterator = views.iterator(); iterator.hasNext() && !selectable;)
                         {
-                            final Object object = parameterIterator.next();
-                            if (object instanceof JSFParameter)
+                            final FrontEndView view = (FrontEndView)iterator.next();
+                            final Collection parameters = view.getAllActionParameters();
+                            for (final Iterator parameterIterator = parameters.iterator();
+                                parameterIterator.hasNext() && !selectable;)
                             {
-                                final JSFParameter parameter = (JSFParameter)object;
-                                final String parameterName = parameter.getName();
-                                final ClassifierFacade parameterType = parameter.getType();
-                                if (parameterType != null)
+                                final Object object = parameterIterator.next();
+                                if (object instanceof JSFParameter)
                                 {
-                                    final String parameterTypeName = parameterType.getFullyQualifiedName();
-                                    if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                                    final JSFParameter parameter = (JSFParameter)object;
+                                    final String parameterName = parameter.getName();
+                                    final ClassifierFacade parameterType = parameter.getType();
+                                    if (parameterType != null)
                                     {
-                                        selectable =
-                                            parameter.isInputMultibox() || parameter.isInputSelect() ||
-                                            parameter.isInputRadio();
+                                        final String parameterTypeName = parameterType.getFullyQualifiedName();
+                                        if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                                        {
+                                            selectable =
+                                                parameter.isInputMultibox() || parameter.isInputSelect() ||
+                                                parameter.isInputRadio();
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
-            else if (ownerParameter.isControllerOperationArgument())
-            {
-                final String name = this.getName();
-                final Collection actions = ownerParameter.getControllerOperation().getDeferringActions();
-                for (final Iterator actionIterator = actions.iterator(); actionIterator.hasNext();)
+                else if (ownerParameter.isControllerOperationArgument())
                 {
-                    final JSFAction action = (JSFAction)actionIterator.next();
-                    final Collection formFields = action.getFormFields();
-                    for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !selectable;)
+                    final String name = this.getName();
+                    final Collection actions = ownerParameter.getControllerOperation().getDeferringActions();
+                    for (final Iterator actionIterator = actions.iterator(); actionIterator.hasNext();)
                     {
-                        final Object object = fieldIterator.next();
-                        if (object instanceof JSFParameter)
+                        final JSFAction action = (JSFAction)actionIterator.next();
+                        final Collection formFields = action.getFormFields();
+                        for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !selectable;)
                         {
-                            final JSFParameter parameter = (JSFParameter)object;
-                            if (name.equals(parameter.getName()))
+                            final Object object = fieldIterator.next();
+                            if (object instanceof JSFParameter)
                             {
-                                selectable = parameter.isSelectable();
+                                final JSFParameter parameter = (JSFParameter)object;
+                                if (name.equals(parameter.getName()))
+                                {
+                                    selectable = parameter.isSelectable();
+                                }
                             }
                         }
                     }

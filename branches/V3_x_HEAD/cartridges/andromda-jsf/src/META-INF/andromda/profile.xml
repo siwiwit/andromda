@@ -292,6 +292,17 @@
                     <value>Comma-separated list of column names</value>
                 </allowedValues>
             </element>
+            <element name="TABLE_PAGEABLE">
+                <documentation>
+                    A flag indicating whether or not a table is "pageable".  When a table is flagged as "pageable", support for DB paging is generated.
+                </documentation>
+                <value>@andromda.presentation.view.table.pageable</value>
+                <appliedOnElement>A collection type parameter going into an action state carrying the <![CDATA[<<FrontEndView>>]]> stereotype</appliedOnElement>
+                <allowedValues>
+                    <value>true</value>
+                    <value default="true">false</value>
+                </allowedValues>
+            </element>
             <element name="INPUT_REQUIRED">
                 <documentation>
                     Denotes whether or not this is a required field. If a field is required its type will always be

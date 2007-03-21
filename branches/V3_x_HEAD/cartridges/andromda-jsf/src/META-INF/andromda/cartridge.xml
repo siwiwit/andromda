@@ -66,6 +66,7 @@
     <property reference="fileUploadMaxMemoryPerRequest"/>
     <property reference="fileUploadMaxDiskSpacePerRequest"/>
     <property reference="logoutRedirectPath"/>
+    <property reference="paginationResultClassName"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="viewTypeIsJsp">$viewType.equalsIgnoreCase("jsp")</condition>
@@ -79,6 +80,7 @@
     <condition name="clientValidation">$clientValidation.equalsIgnoreCase("true")</condition>
     <condition name="formSerialization">$formSerialization.equalsIgnoreCase("true")</condition>
     <condition name="securityEnabled">$stringUtils.isNotBlank($securityRealm)</condition>
+    <condition name="paginationSupportEnabled">$stringUtils.isNotBlank($paginationResultClassName)</condition>
         
         
     <!-- condition merge-point-->
@@ -478,6 +480,13 @@
         overwrite="true"/>
     
     <template
+        path="templates/jsf/utils/PageableDataModel.java.vsl"
+        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
+        outlet="managed-beans"
+        outputCondition="paginationSupportEnabled"
+        overwrite="true"/>
+    
+    <template
         path="templates/jsf/views/jsp/index.jsp.vsl"
         outputPattern="$welcomeFileName"
         outlet="views"
@@ -867,7 +876,7 @@
             </modelElement>
         </modelElements>      
     </template>
-
+    
     <!-- cartridge-template merge-point -->
 
 </cartridge>

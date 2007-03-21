@@ -47,8 +47,17 @@ public class JSFParameterLogicImpl
      */
     public boolean isTable()
     {
-        return super.isTable() && !this.isSelectable() 
+        return (super.isTable() || this.isPageableTable()) && !this.isSelectable() 
             && !this.isInputTable() && !this.isInputHidden();
+    }
+    
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFParameter#isPageableTable()
+     */
+    protected boolean handleIsPageableTable()
+    {
+        final Object value = this.findTaggedValue(JSFProfile.TAGGEDVALUE_TABLE_PAGEABLE);
+        return Boolean.valueOf(ObjectUtils.toString(value)).booleanValue();
     }
 
     /**

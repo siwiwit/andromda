@@ -286,6 +286,19 @@
                 </documentation>
             </property>
         </propertyGroup>
+        <propertyGroup name="Table Paging (DB paging)">
+            <documentation>
+                These properties provide the ability to configure DB paging support for tables used by the cartridge (this is very.
+            </documentation>
+            <property name="paginationResultClassName" required="false">
+                <documentation>
+                    This is the fully qualified name of the class that provides the pagination results supplied from the middle tier; like a service operation.
+                    (i.e. if using the Spring cartridge, you'd set this as <em>name.of.your.model.package.PaginationResult</em> where "name.of.your.model.package" is
+                    the name of your model's root package).  This must be defined in order for the PageableDataModel class to be generated (which is required
+                    for DB backed paging support).
+                </documentation>
+            </property>
+        </propertyGroup>
         <propertyGroup name="Other">
             <documentation>
                 Other various properties that couldn't be classified into another category.
