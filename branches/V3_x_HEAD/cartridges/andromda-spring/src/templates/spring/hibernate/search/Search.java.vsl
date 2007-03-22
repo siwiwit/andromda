@@ -173,4 +173,28 @@ public class $className
     {
         this.addOrderBy(propertyName, descending ? SearchParameter.ORDER_DESC : SearchParameter.ORDER_ASC);
     }
+    
+    private boolean useSqlLimiting = false;
+
+    /**
+     * Whether or not to use sql limiting (if paging is being used).  If this is set to false, then
+     * paging will be based on the actual entities returned instead of using SQL to limit the results.
+     * 
+     * @return true/false
+     */
+    public boolean isUseSqlLimiting()
+    {
+        return useSqlLimiting;
+    }
+    
+    /**
+     * Sets whether or not to use sql limiting (if paging is being used).  If this is set to false, then
+     * paging will be based on the actual entities returned instead of using SQL to limit the results.
+     * 
+     * @param useSqlPaging whether or not to use SQL paging (default is <code>false</code>).
+     */
+    public void setUseSqlLimiting(boolean useSqlPaging)
+    {
+        this.useSqlLimiting = useSqlPaging;
+    }
 }

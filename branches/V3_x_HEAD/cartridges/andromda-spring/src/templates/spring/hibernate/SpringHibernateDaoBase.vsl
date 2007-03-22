@@ -1070,9 +1070,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             search.setPageSize(pageSize);
             final $fullyQualifiedPropertySearchClassName propertySearch = new $fullyQualifiedPropertySearchClassName(
                 this.getSession(false), ${entity.fullyQualifiedEntityImplementationName}.class, search);
-            final java.util.Set results = propertySearch.executeAsSet();
+            final java.util.List results = propertySearch.executeAsList();
             this.transformEntities(transform, results);
-            return new $fullyQualifiedPagingResultName(results.toArray(new java.lang.Object[0]),#if ($hibernateUtils.version3) propertySearch.getTotalCount()#else 0#end);
+            return new $fullyQualifiedPagingResultName(results.toArray(new java.lang.Object[0]), propertySearch.getTotalCount());
         }
         catch (${hibernateUtils.basePackage}.HibernateException ex)
         {
