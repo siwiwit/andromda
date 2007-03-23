@@ -56,6 +56,7 @@
                 <property name="jmsClientId">theJmsClientId</property>
                 <property name="jmsCacheLevelName">CACHE_SESSION</property>
                 <property name="jmsMaxIncomingMessagesPerReceive">100</property>
+                <property name="hibernateEnableCache">true</property>
             </properties>
         </namespace>
     </namespaces>

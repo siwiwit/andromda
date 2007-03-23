@@ -143,6 +143,9 @@ public class $criteriaSearchBaseName
         {
             this.rootCriteria.setMaxResults(this.configuration.getMaximumResultSize().intValue());
         }
+#if ($enableCaching)
+        this.rootCriteria.setCacheable(true);
+#end
         return this.rootCriteria.list();
     }
 

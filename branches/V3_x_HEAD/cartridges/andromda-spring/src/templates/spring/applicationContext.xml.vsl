@@ -81,7 +81,7 @@
 #if ($stringUtils.isNotBlank($hibernateQuerySubstitutions))
                 <prop key="hibernate.query.substitutions">$hibernateQuerySubstitutions</prop>
 #end
-#if ($stringUtils.isNotBlank($hibernateEnableCache))
+#if ($enableCaching)
                 <prop key="hibernate.cache.use_query_cache">$hibernateEnableCache</prop>
 #end
 #if ($stringUtils.isNotBlank($hibernateCacheProvider))

@@ -191,6 +191,7 @@
     <condition name="jbossMq">$jmsProvider.equalsIgnoreCase("JBossMQ")</condition>
     <condition name="jmsTransactionsEnabled">$jmsTransactionsEnabled.equalsIgnoreCase("true")</condition>
     <condition name="dataSourceEnabled">$dataSourceEnabled.equalsIgnoreCase("true")</condition>
+    <condition name="enableCaching">$hibernateEnableCache.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
