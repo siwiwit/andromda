@@ -37,6 +37,7 @@
                 <property name="sessionTimeout">-1</property>
                 <property name="distributable">true</property>
                 <property name="custom-resources">${test.output.dir}</property>
+                <property name="paginationResultClassName">org.andromda.spring.cartridge.PaginationResult</property>
             </properties>
         </namespace>
     </namespaces>

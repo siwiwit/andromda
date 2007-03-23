@@ -139,7 +139,10 @@ public abstract class $className
         Object rowData = null;
         if (page.getData() != null)
         {
-            rowData = page.getData()[listIndex];
+            if (page.getData().length > listIndex)
+            {
+                rowData = page.getData()[listIndex];    
+            }
         }
         return rowData;
     }
