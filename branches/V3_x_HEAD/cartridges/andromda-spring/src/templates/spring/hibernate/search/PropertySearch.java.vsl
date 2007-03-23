@@ -127,7 +127,7 @@ public class $className
         throws ${hibernateUtils.basePackage}.HibernateException
     {
         java.util.List results = super.executeAsList();
-        if (!this.search.isUseSqlLimiting())
+        if (!this.search.isUseSqlLimiting() && this.search.getPageNumber() > 0 && this.search.getPageSize() > 0)
         {
             int start = this.calculateFirstResult(search.getPageNumber(), search.getPageSize());
             int end = this.calculateLastResult(search.getPageNumber(), search.getPageSize());
