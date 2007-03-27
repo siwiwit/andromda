@@ -457,6 +457,19 @@
                     tagged value).
                 </documentation>
             </property>
+            <property name="hibernateOneToManyNotFoundAction">
+                <default>exception</default>
+                <documentation>
+                    Only applicable to Hibernate 3.x; this property sets the default handling of what will happen when an association
+                    is loaded and not found on a one-to-many association.  The allowable values are:
+                    <ul>
+                        <li>exception</li>
+                        <li>ignore</li>
+                    </ul>
+                    If <code>ignore</code> is set, then objects not found in associations will be returned as null, otherwise an ObjectNotFoundException
+                    is thrown by Hibernate.  It is sometimes useful to set this value to <code>ignore</code> when you're using association caching.
+                </documentation>
+            </property>
             <property name="hibernateDefaultCascade">
                 <default>none</default>
                 <documentation>

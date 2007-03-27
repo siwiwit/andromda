@@ -92,7 +92,7 @@ ${indent}    <list-index column="$otherEnd.collectionIndexName"/>
 #if ($otherEnd.map)
 ${indent}    <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.collectionIndexType"/>
 #end
-${indent}    <one-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName"/>
+${indent}    <one-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName" not-found="$hibernateOneToManyNotFoundAction"/>
 ${indent}</$otherEnd.collectionType>
 #elseif ($sourceEnd.many2One && !$sourceEnd.identifiersPresent)
 ${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end#if ($sourceEnd.list) insert="false" update="false" not-null="$otherEnd.required"#end>

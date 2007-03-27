@@ -59,8 +59,9 @@
     <property reference="xmlEncoding"/>
     <property reference="generateEntityEqualsAndHashCode"/>
     <property reference="hibernateProxy"/>
-    <!-- This property is only relevant for Hibernate 3 -->
+    <!-- These 2 properties are only relevant for Hibernate 3 -->
     <property reference="hibernateQueryFactory"/>
+    <property reference="hibernateOneToManyNotFoundAction"/>
     <property reference="toDoTag"/>
 	<property reference="typeSafeEnumsEnabled"/>
 
