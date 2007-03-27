@@ -94,6 +94,7 @@ $operation.getDocumentation("     * ")
 $actionState.getDocumentation("     * ")
      */
     private java.lang.String ${actionState.actionMethodName}(#if (!$action.formFields.empty)final $action.fullyQualifiedFormImplementationName form#end)
+        throws java.lang.Exception
     {
         java.lang.String forward = null;
 #if ($actionState.controllerCalls.empty)
@@ -119,6 +120,7 @@ $actionState.getDocumentation("     * ")
 $decisionTransition.getDocumentation("     * ")
      */
     private java.lang.String __${decisionTransition.operationCall.name}(#if (!$action.formFields.empty)final $action.fullyQualifiedFormImplementationName form#end)
+        throws java.lang.Exception
     {
         final String value = java.lang.String.valueOf($decisionTransition.operationCall.formCall);
 #foreach ($outcome in $decisionTransition.target.outgoing)
