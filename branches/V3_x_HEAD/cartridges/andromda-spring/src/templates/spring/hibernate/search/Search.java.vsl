@@ -64,25 +64,16 @@ public class $className
     }
 
     private int pageNumber;
-   
-    /**
-     * Gets the page number (if paging the results).
-     * 
-     * @return the page number.
-     */
-    public int getPageNumber()
-    {
-        return this.pageNumber;
-    }
     
     /**
      * Sets the page number (if paging the results).
      * 
-     * @return the page number.
+     * @return the current search instance.
      */
-    public void setPageNumber(int pageNumber)
+    public Search setPageNumber(int pageNumber)
     {
         this.pageNumber = pageNumber;
+        return this;
     }
     
     private int pageSize;
@@ -101,10 +92,13 @@ public class $className
      * Sets the size of the page (if paging the results).
      * 
      * @param pageSize the page size.
+     * 
+     * @return the current search instance.
      */
-    public void setPageSize(int pageSize)
+    public Search setPageSize(int pageSize)
     {
         this.pageSize = pageSize;
+        return this;
     }
 
     private java.util.Collection#if ($enableTemplating)<SearchParameter>#end parameters = new java.util.ArrayList#if ($enableTemplating)<SearchParameter>#end();
@@ -121,10 +115,13 @@ public class $className
      * Sets the search parameters for this search object.
      * 
      * @param parameters
+     * 
+     * @param returns the current search instance.
      */
-    public void setParameters(SearchParameter[] parameters)
+    public Search setParameters(SearchParameter[] parameters)
     {
         this.parameters = new java.util.ArrayList#if ($enableTemplating)<SearchParameter>#end(java.util.Arrays.asList(parameters));
+        return this;
     }
     
     private boolean eagerFetching;
@@ -145,10 +142,13 @@ public class $className
      * queried will be fetched eagerly).
      * 
      * @param eagerFetching whether or not to eager fetch the results.
+     * 
+     * @return the current search instance.
      */
-    public void setEagerFetching(boolean eagerFetching)
+    public Search setEagerFetching(boolean eagerFetching)
     {
         this.eagerFetching = eagerFetching;
+        return this;
     }   
     
     /**
@@ -157,10 +157,13 @@ public class $className
      * @param propertyName the property name to order by.
      * @param order the order.  Use: {@link SearchParameter#ORDER_ASC},
      *        {@link SearchParameter#ORDER_DESC}, or {@link SearchParameter#ORDER_UNSET}.
+     *        
+     * @return the current search instance.
      */
-    public void addOrderBy(final String propertyName, final int order)
+    public Search addOrderBy(final String propertyName, final int order)
     {
         this.parameters.add(new SearchParameter(propertyName, null, -1, -1, order));
+        return this;
     }
     
     /**
@@ -168,10 +171,13 @@ public class $className
      * 
      * @param propertyName the property name to order by.
      * @param descending true/false; true for descending ordering, false for ascending ordering.
+     * 
+     * @return the current search instance.
      */
-    public void addOrderBy(String propertyName, final boolean descending)
+    public Search addOrderBy(String propertyName, final boolean descending)
     {
         this.addOrderBy(propertyName, descending ? SearchParameter.ORDER_DESC : SearchParameter.ORDER_ASC);
+        return this;
     }
     
     private boolean useSqlLimiting = false;
@@ -192,9 +198,12 @@ public class $className
      * paging will be based on the actual entities returned instead of using SQL to limit the results.
      * 
      * @param useSqlPaging whether or not to use SQL paging (default is <code>false</code>).
+     * 
+     * @return the current search instance.
      */
-    public void setUseSqlLimiting(boolean useSqlPaging)
+    public Search setUseSqlLimiting(boolean useSqlPaging)
     {
         this.useSqlLimiting = useSqlPaging;
+        return this;
     }
 }
