@@ -65,12 +65,12 @@ public abstract class $service.baseName
 
 #end
 #foreach($destination in $service.messagingDestinations)
-    private org.springframework.jms.core.JmsTemplate $destination.templateBeanName;
+    private org.springframework.jms.core.JmsOperations $destination.templateBeanName;
 
     /**
      * Sets the JMS template for the $destination.name JMS destination.
      */
-    public void ${destination.templateSetterName}(org.springframework.jms.core.JmsTemplate $destination.templateBeanName)
+    public void ${destination.templateSetterName}(org.springframework.jms.core.JmsOperations $destination.templateBeanName)
     {
         this.$destination.templateBeanName = $destination.templateBeanName;
     }
@@ -78,7 +78,7 @@ public abstract class $service.baseName
     /**
      * Gets the JMS template for the $destination.name JMS destination.
      */
-    protected org.springframework.jms.core.JmsTemplate ${destination.templateGetterName}()
+    protected org.springframework.jms.core.JmsOperations ${destination.templateGetterName}()
     {
         return this.$destination.templateBeanName;
     }

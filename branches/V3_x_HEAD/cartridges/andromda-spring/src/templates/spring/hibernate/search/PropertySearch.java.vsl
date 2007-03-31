@@ -194,6 +194,8 @@ public class $className
         org.apache.commons.beanutils.ConvertUtils.register(new org.apache.commons.beanutils.converters.LongConverter(null), java.lang.Long.class);
         org.apache.commons.beanutils.ConvertUtils.register(new org.apache.commons.beanutils.converters.IntegerConverter(null), java.lang.Integer.class);
         org.apache.commons.beanutils.ConvertUtils.register(new org.apache.commons.beanutils.converters.ShortConverter(null), java.lang.Short.class);
+        org.apache.commons.beanutils.ConvertUtils.register(new CalendarConverter(), java.util.Calendar.class);
+        org.apache.commons.beanutils.ConvertUtils.register(new DateConverter(), java.util.Date.class);
     }
     
     /**
@@ -246,6 +248,80 @@ public class $className
         catch (final Exception exception)
         {
             throw new RuntimeException(exception);
+        }
+    }
+    
+    /**
+     * A beanutils converter that converts java.util.Calendar objects to java.util.Date instances.
+     */
+    private static final class DateConverter
+        implements org.apache.commons.beanutils.Converter
+    {
+        public DateConverter()
+        {
+        }
+
+        /**
+         * @see org.apache.commons.beanutils.Converter#convert(java.lang.Class, java.lang.Object)
+         */
+        public Object convert(
+            Class type,
+            Object value)
+            throws org.apache.commons.beanutils.ConversionException
+        {
+            if (value != null)
+            {
+                try
+                {
+                    if (value instanceof java.util.Calendar)
+                    {
+                        value = ((java.util.Calendar)value).getTime();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new org.apache.commons.beanutils.ConversionException(ex);
+                }
+            }
+            return value;
+        }
+    }
+    
+    /**
+     * A beanutils converter that converts java.util.Date objects to java.util.Calendar instances.
+     */
+    private static final class CalendarConverter
+        implements org.apache.commons.beanutils.Converter
+    {
+        public CalendarConverter()
+        {
+        }
+
+        /**
+         * @see org.apache.commons.beanutils.Converter#convert(java.lang.Class, java.lang.Object)
+         */
+        public Object convert(
+            Class type,
+            Object value)
+            throws org.apache.commons.beanutils.ConversionException
+        {
+            if (value != null)
+            {
+                try
+                {
+                    if (value instanceof java.util.Date)
+                    {
+                        java.util.Calendar calendar = java.util.Calendar.getInstance();
+                        calendar.setTime((java.util.Date)value);
+                        value = calendar;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new org.apache.commons.beanutils.ConversionException(ex);
+                }
+            }
+            return value;
         }
     }
 }
