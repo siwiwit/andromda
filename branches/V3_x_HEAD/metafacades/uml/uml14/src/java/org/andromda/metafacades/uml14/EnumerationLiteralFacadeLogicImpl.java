@@ -57,4 +57,14 @@ public class EnumerationLiteralFacadeLogicImpl
     {
         return StringUtils.trimToEmpty(this.getName(modelValue));
     }
+
+    
+    /**
+     * @see org.andromda.metafacades.uml14.EnumerationLiteralFacadeLogic#handleGetEnumerationValue()
+     */
+    protected String handleGetEnumerationValue() {
+        String value = null;
+        value = "\"" + this.getValue() + "\"";
+        return value;
+    }
 }
