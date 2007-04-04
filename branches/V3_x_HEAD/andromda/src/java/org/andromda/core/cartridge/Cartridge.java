@@ -504,6 +504,8 @@ public class Cartridge
      * The forward slash constant.
      */
     private static final String FORWARD_SLASH = "/";
+    
+    private static final String PATH_PATTERN = "\\*.*";
 
     /**
      * Writes the contents of <code>resourceUrl</code> to the outlet specified by <code>resource</code>.
@@ -520,10 +522,18 @@ public class Cartridge
         {
             // - make sure we don't have any back slashes
             final String resourceUri = ResourceUtils.normalizePath(resourceUrl.toString());
-            final String uriSuffix =
-                resourceUri.substring(
-                    resourceUri.lastIndexOf(FORWARD_SLASH),
-                    resourceUri.length());
+            String uriSuffix = resource.getPath().replaceAll(PATH_PATTERN, "");;
+            if (resourceUri.indexOf(uriSuffix) != -1)
+            {
+                uriSuffix = resourceUri.substring(resourceUri.indexOf(uriSuffix) + uriSuffix.length(), resourceUri.length());
+            }       
+            else
+            {
+                uriSuffix =
+                    resourceUri.substring(
+                        resourceUri.lastIndexOf(FORWARD_SLASH),
+                        resourceUri.length());
+            }
 
             final Map templateContext = new LinkedHashMap();
             this.populateTemplateContext(templateContext);
@@ -549,7 +559,7 @@ public class Cartridge
                             this.getTemplateEngine().getEvaluatedExpression(
                                 resource.getOutputPattern(),
                                 templateContext));
-                    
+
                     final boolean lastModifiedCheck = resource.isLastModifiedCheck();
                     // - if we have the last modified check set, then make sure the last modified time is greater than the outputFile
                     if (!lastModifiedCheck || (lastModifiedCheck && ResourceUtils.getLastModifiedTime(resourceUrl) > outputFile.lastModified()))
