@@ -42,7 +42,16 @@ public class $className
                 {
                     final SearchParameter searchParameter = parameters[ctr];
                     
-                    final Object value = this.getValue(entityType, searchParameter);
+                    Object value;
+                    switch (searchParameter.getComparator())
+                    {
+                        case SearchParameter.IN_COMPARATOR :
+                            value = searchParameter.getValue();
+                            break;
+                        default :
+                            value = this.getValue(entityType, searchParameter); 
+                            break;
+                    }
     
                     // - now add the parameter.
                     final CriteriaSearchParameter parameter =
