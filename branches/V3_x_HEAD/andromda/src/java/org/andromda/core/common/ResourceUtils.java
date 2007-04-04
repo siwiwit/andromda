@@ -388,7 +388,7 @@ public class ResourceUtils
             {
                 try
                 {
-                    return file.toURL();
+                    return file.toURI().toURL();
                 }
                 catch (final MalformedURLException exception)
                 {
@@ -502,7 +502,7 @@ public class ResourceUtils
                 else
                 {
                     final File file = new File(path);
-                    url = file.exists() ? file.toURL() : new URL(path);
+                    url = file.exists() ? file.toURI().toURL() : new URL(path);
                 }
             }
             catch (MalformedURLException exception)

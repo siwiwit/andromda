@@ -50,7 +50,7 @@ public abstract class BasePlugin
                 this.getNamespace(),
                 NamespaceProperties.MERGE_LOCATION,
                 false);
-        this.mergeLocation = mergeProperty != null ? new File(mergeProperty.getValue()).toURL() : null;
+        this.mergeLocation = mergeProperty != null ? new File(mergeProperty.getValue()).toURI().toURL() : null;
         if (this.mergeLocation != null)
         {
             this.getTemplateEngine().setMergeLocation(this.getMergeLocation().getFile());

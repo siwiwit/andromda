@@ -210,7 +210,7 @@ public class Mappings
     {
         final Mappings mappings =
             (Mappings)XmlObjectFactory.getInstance(Mappings.class).getObject(new FileReader(mappingsFile));
-        mappings.resource = mappingsFile.toURL();
+        mappings.resource = mappingsFile.toURI().toURL();
         return mappings;
     }
 

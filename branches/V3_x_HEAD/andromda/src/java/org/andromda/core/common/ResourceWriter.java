@@ -325,7 +325,7 @@ public class ResourceWriter
             final File historyFile = new File(getHistoryStorage());
             if (historyFile.exists() && historyFile.lastModified() >= time)
             {
-                final String history = ResourceUtils.getContents(new File(getHistoryStorage()).toURL());
+                final String history = ResourceUtils.getContents(new File(getHistoryStorage()).toURI().toURL());
                 final String[] files = history.split(",");
                 long lastModified = 0;
                 for (int ctr = 0; ctr < files.length; ctr++)
