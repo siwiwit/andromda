@@ -175,7 +175,9 @@
     <!-- cartridge-property merge-point -->
 
     <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
-    <condition name="daoInheritanceEnabled">$daoInheritanceEnabled.equalsIgnoreCase("true")</condition>
+    <condition name="daoInheritanceEnabled">
+        #if ($daoInheritanceEnabled.equalsIgnoreCase("true") &amp;&amp; !$enableTemplating.equalsIgnoreCase("true"))true#end
+    </condition>
     <condition name="acegiServiceSecurity">$acegiServiceSecurity.equalsIgnoreCase("true")</condition>
     <condition name="richClient">$richClient.equalsIgnoreCase("true")</condition>
     <condition name="ejbsEnabled">$stringUtils.isNotBlank($session-ejbs)</condition>
