@@ -10,7 +10,7 @@
     </mapping>
     <mapping>
         <from>datatype::Date</from>
-        <to>DATE</to>
+        <to>DATETIME</to>
     </mapping>
     <mapping>
         <from>datatype::Time</from>
