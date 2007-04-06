@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -10,57 +10,25 @@
     <artifactId>${applicationId}-app</artifactId>
     <packaging>ear</packaging>
     <name>$applicationName Application</name>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${pom.groupId}</groupId>
-                <artifactId>${applicationId}-common</artifactId>
-                <exclusions>
-                    <exclusion>
-                        <groupId>${pom.groupId}</groupId>
-                        <artifactId>${applicationId}-mda</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.andromda.profiles.uml14</groupId>
-                        <artifactId>andromda-profile</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>commons-digester</groupId>
-                <artifactId>commons-digester</artifactId>
-                <exclusions>
-                    <exclusion>
-                        <groupId>xml-apis</groupId>
-                        <artifactId>xml-apis</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-common</artifactId>
-            <version>${pom.version}</version>            
+            <version>${pom.version}</version>
         </dependency>
 #if (!$transactionPersistenceType.equals("none"))
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-core</artifactId>
-            <version>${pom.version}</version>  
-            <type>ejb</type>          
+            <version>${pom.version}</version>
+            <type>ejb</type>
         </dependency>
 #end
 #if ($web)
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-web</artifactId>
-            <version>${pom.version}</version>            
+            <version>${pom.version}</version>
             <type>war</type>
         </dependency>
 #end
@@ -68,20 +36,20 @@
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-webservice</artifactId>
-            <version>${pom.version}</version>      
-            <type>war</type>      
+            <version>${pom.version}</version>
+            <type>war</type>
         </dependency>
 #end
 #if ($workflow)
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-workflow</artifactId>
-            <version>${pom.version}</version>            
+            <version>${pom.version}</version>
         </dependency>
 #end
         <dependency>
             <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>    
+            <artifactId>commons-logging</artifactId>
         </dependency>
     </dependencies>
     <build>
@@ -149,6 +117,62 @@
                     </modules>
                 </configuration>
             </plugin>
+#if ($axisVersion.equals("2"))
+            <!-- remove the 'javax.xml.namespace.QName' class from any jar that bundles it,
+                 it causes classloading issues with containers that alreadly have it -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>remove problem classes</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                            <configuration>
+                                <tasks>
+                                    <property name="dependencyClasspath" refid="maven.runtime.classpath"/>
+                                    <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${dependencyClasspath}"/>
+                                    <copy file="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/axis2-saaj-1.1.1.jar"
+                                        tofile="${pom.basedir}/target/jarjar/axis2-saaj-1.1.1.jar"/>
+                                    <jarjar jarfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/axis2-saaj-1.1.1.jar">
+                                        <zipfileset src="${pom.basedir}/target/jarjar/axis2-saaj-1.1.1.jar"/>
+                                        <zap pattern="javax.xml.namespace.QName"/>
+                                    </jarjar>
+                                    <copy file="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/stax-api-1.0.1.jar"
+                                        tofile="${pom.basedir}/target/jarjar/stax-api-1.0.1.jar"/>
+                                    <jarjar jarfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/stax-api-1.0.1.jar">
+                                        <zipfileset src="${pom.basedir}/target/jarjar/stax-api-1.0.1.jar"/>
+                                        <zap pattern="javax.xml.namespace.QName"/>
+                                    </jarjar>
+                                    <copy file="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/woden-1.0.0M6.jar"
+                                        tofile="${pom.basedir}/target/jarjar/woden-1.0.0M6.jar"/>
+                                    <jarjar jarfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/woden-1.0.0M6.jar">
+                                        <zipfileset src="${pom.basedir}/target/jarjar/woden-1.0.0M6.jar"/>
+                                        <zap pattern="javax.xml.namespace.QName"/>
+                                    </jarjar>
+                                    <copy file="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/xbean-2.2.0.jar"
+                                        tofile="${pom.basedir}/target/jarjar/xbean-2.2.0.jar"/>
+                                    <jarjar jarfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/xbean-2.2.0.jar">
+                                        <zipfileset src="${pom.basedir}/target/jarjar/xbean-2.2.0.jar"/>
+                                        <zap pattern="javax.xml.namespace.QName"/>
+                                    </jarjar>
+                                     <zip destfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}.ear"
+                                         basedir="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}" update="true" />
+                                </tasks>
+                            </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.tonicsystems</groupId>
+                        <artifactId>jarjar</artifactId>
+                        <version>0.6</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+#end
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
