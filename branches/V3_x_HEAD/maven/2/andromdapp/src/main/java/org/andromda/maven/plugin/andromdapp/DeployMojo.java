@@ -17,7 +17,7 @@ import org.codehaus.plexus.util.DirectoryScanner;
  * Provides the deployment of applications to a given directory.
  *
  * @goal deploy
- * @phase install
+ * @phase package
  * @author Chad Brandon
  */
 public class DeployMojo
