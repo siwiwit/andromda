@@ -54,21 +54,21 @@
         outputCondition="axis2"/>
     
     <resource
-        path="resources/webservice/axis2/views/*.jsp"
+        path="resources/webservice/axis2/views/webapp/**/*"
         outputPattern="{0}"
         outlet="configuration"
         overwrite="true"
         outputCondition="axis2"/>
     
     <resource
-        path="resources/webservice/axis1/views/*.jsp"
+        path="resources/webservice/axis1/views/**/*"
         outputPattern="{0}"
         outlet="configuration"
         overwrite="true"
         outputCondition="axis1"/>
     
     <resource
-        path="resources/webservice/xfire/views/*.jsp"
+        path="resources/webservice/xfire/views/**/*"
         outputPattern="{0}"
         outlet="configuration"
         overwrite="true"
@@ -149,7 +149,7 @@
         
     <template
         path="templates/webservice/axis2/axis2.xml.vsl"
-        outputPattern="WEB-INF/axis2.xml"
+        outputPattern="WEB-INF/conf/axis2.xml"
         outlet="configuration"
         overwrite="true"
         outputToSingleFile="true"
