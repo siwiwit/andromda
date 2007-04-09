@@ -54,6 +54,14 @@
         outputCondition="axis2"/>
     
     <resource
+        path="resources/webservice/axis2/services/*.aar"
+        outputPattern="WEB-INF/services/{0}"
+        outlet="configuration"
+        overwrite="true"
+        lastModifiedCheck="true"
+        outputCondition="axis2"/>
+    
+    <resource
         path="resources/webservice/axis2/views/webapp/**/*"
         outputPattern="{0}"
         outlet="configuration"
