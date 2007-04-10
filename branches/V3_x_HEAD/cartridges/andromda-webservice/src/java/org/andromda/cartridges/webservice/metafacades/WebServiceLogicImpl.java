@@ -18,6 +18,7 @@ import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Introspector;
 import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
+import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.OperationFacade;
@@ -201,7 +202,6 @@ public class WebServiceLogicImpl
         // (such as association ends) we
         // add the non array types to the types
         types.addAll(nonArrayTypes);
-
         return types;
     }
 
@@ -233,18 +233,18 @@ public class WebServiceLogicImpl
                 // only continue if the model element has a type
                 if (parameterType != null)
                 {
-                    Set allTypes = new HashSet();
+                    final Set allTypes = new HashSet();
                     allTypes.add(parameterType);
 
                     // add all generalizations and specializations of the type
-                    Collection generalizations = parameterType.getAllGeneralizations();
+                    final Collection generalizations = parameterType.getAllGeneralizations();
 
                     if (generalizations != null)
                     {
                         allTypes.addAll(generalizations);
                     }
 
-                    Collection specializations = parameterType.getAllSpecializations();
+                    final Collection specializations = parameterType.getAllSpecializations();
 
                     if (specializations != null)
                     {
@@ -312,7 +312,7 @@ public class WebServiceLogicImpl
         catch (final Throwable throwable)
         {
             final String message = "Error performing loadTypes";
-            logger.error(message, throwable);
+            logger.error(throwable);
             throw new MetafacadeException(message, throwable);
         }
     }
@@ -346,6 +346,10 @@ public class WebServiceLogicImpl
                 classifier = ((AssociationEndFacade)modelElement).getType();
             }
         }
+        else if (modelElement instanceof AttributeFacade)
+        {
+            classifier = ((AttributeFacade)modelElement).getType();
+        }
         else if (modelElement instanceof ClassifierFacade)
         {
             classifier = (ClassifierFacade)modelElement;
@@ -373,29 +377,38 @@ public class WebServiceLogicImpl
                         public boolean evaluate(Object object)
                         {
                             boolean valid = false;
-                            if (object != null)
+                            ClassifierFacade type = null;
+                            if (object instanceof AssociationEndFacade)
                             {
-                                ClassifierFacade type = null;
-                                if (object instanceof AssociationEndFacade)
+                                AssociationEndFacade end = (AssociationEndFacade)object;
+                                if (end.isMany())
                                 {
-                                    AssociationEndFacade end = (AssociationEndFacade)object;
-                                    if (end.isMany())
-                                    {
-                                        type = ((AssociationEndFacade)object).getType();
-                                    }
+                                    type = ((AssociationEndFacade)object).getType();
                                 }
-                                else if (object instanceof ClassifierFacade)
+                            } 
+                            else if (object instanceof AttributeFacade)
+                            {
+                                type = ((AttributeFacade)object).getType();
+                            }
+                            else if (object instanceof ParameterFacade)
+                            {
+                                type = ((ParameterFacade)object).getType();
+                            }
+                            if (object instanceof ClassifierFacade)
+                            {
+                                type = (ClassifierFacade)object;
+                                if (type.isArrayType())
                                 {
-                                    type = (ClassifierFacade)object;
-                                    if (type.isArrayType())
-                                    {
-                                        type = type.getNonArray();
-                                    }
-                                    else
-                                    {
-                                        type = null;
-                                    }
+                                    type = type.getNonArray();
                                 }
+                                else
+                                {
+                                    type = null;
+                                }
+                            }
+                            if (type != null)
+                            {
+
                                 if (type != null)
                                 {
                                     valid = type.equals(compareType);
@@ -447,12 +460,12 @@ public class WebServiceLogicImpl
     /**
      * We use this comparator to actually elimate duplicates instead of sorting like a comparator is normally used.
      */
-    private final class TypeComparator
+    final class TypeComparator
         implements Comparator
     {
         private final Collator collator = Collator.getInstance();
 
-        private TypeComparator()
+        TypeComparator()
         {
             collator.setStrength(Collator.PRIMARY);
         }
@@ -652,12 +665,12 @@ public class WebServiceLogicImpl
     /**
      * Used to sort operations by <code>name</code>.
      */
-    private final static class OperationNameComparator
+    final static class OperationNameComparator
         implements Comparator
     {
         private final Collator collator = Collator.getInstance();
 
-        private OperationNameComparator()
+        OperationNameComparator()
         {
             collator.setStrength(Collator.PRIMARY);
         }
