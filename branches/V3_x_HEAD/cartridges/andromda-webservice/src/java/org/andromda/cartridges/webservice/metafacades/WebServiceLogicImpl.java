@@ -397,18 +397,13 @@ public class WebServiceLogicImpl
                             if (object instanceof ClassifierFacade)
                             {
                                 type = (ClassifierFacade)object;
-                                if (type.isArrayType())
-                                {
-                                    type = type.getNonArray();
-                                }
-                                else
-                                {
-                                    type = null;
-                                }
+                            }
+                            if (type.isArrayType())
+                            {
+                                type = type.getNonArray();
                             }
                             if (type != null)
                             {
-
                                 if (type != null)
                                 {
                                     valid = type.equals(compareType);
