@@ -879,6 +879,25 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                 // do nothing;
         }
     }
+    
+    protected $entity.fullyQualifiedEntityName toEntity(java.lang.Object[] row)
+    {
+        $entity.fullyQualifiedEntityName target = null;
+        if (row != null)
+        {
+            final int numberOfObjects = row.length;
+            for (int ctr = 0; ctr < numberOfObjects; ctr++)
+            {
+                final java.lang.Object object = row[ctr];
+                if (object instanceof $entity.fullyQualifiedEntityName)
+                {
+                    target = ($entity.fullyQualifiedEntityName)object;
+                    break;
+                }
+            }
+        }
+        return target;
+    }
 
 #foreach ($valueObjectRef in $entity.valueObjectReferences)
     /**
@@ -900,21 +919,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      */
     protected $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(java.lang.Object[] row)
     {
-        $valueObjectRef.targetElement.fullyQualifiedName target = null;
-        if (row != null)
-        {
-            final int numberOfObjects = row.length;
-            for (int ctr = 0; ctr < numberOfObjects; ctr++)
-            {
-                final java.lang.Object object = row[ctr];
-                if (object instanceof $entity.fullyQualifiedEntityName)
-                {
-                    target = this.${valueObjectRef.transformationMethodName}(($entity.fullyQualifiedEntityName)object);
-                    break;
-                }
-            }
-        }
-        return target;
+        return this.${valueObjectRef.transformationMethodName}(this.toEntity(row));
     }
 
     /**
