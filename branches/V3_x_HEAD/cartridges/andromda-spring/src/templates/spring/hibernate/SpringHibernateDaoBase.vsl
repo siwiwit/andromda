@@ -703,8 +703,8 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #if ($finder.returnType.collectionType)
             if (pageNumber > 0 && pageSize > 0)
             {
-                criteriaSearch.getConfiguration().setFirstResult(calculateFirstResult(pageNumber, pageSize));
-                criteriaSearch.getConfiguration().setMaximumResultSize(pageSize);
+                criteriaSearch.getConfiguration().setFirstResult(new java.lang.Integer(calculateFirstResult(pageNumber, pageSize)));
+                criteriaSearch.getConfiguration().setMaximumResultSize(new java.lang.Integer(pageSize));
             }
 #end
 #set($criteriaClass = $criteriaArgument.type)
