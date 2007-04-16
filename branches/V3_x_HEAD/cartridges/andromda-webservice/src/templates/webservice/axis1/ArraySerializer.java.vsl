@@ -82,14 +82,30 @@ public class $className
         context.setItemQName(
             new QName(
                 name.getNamespaceURI(),
-                StringUtils.uncapitalize(arrayClass.getComponentType().getName().replaceAll(
-                        ".*\\.",
-                        "")),
+                this.getArrayComponentTypeName(arrayClass, context),
                 name.getPrefix()));
         super.serialize(
             name,
             attributes,
             value,
             context);
+    }
+    
+    private String getArrayComponentTypeName(final Class arrayClass, final SerializationContext context)
+    {
+        final Class componentType = arrayClass.getComponentType();
+        String name;
+        QName componentTypeName = context.getTypeMapping().getTypeQName(componentType);
+        if (componentTypeName != null)
+        {
+            name = componentTypeName.getLocalPart();
+        }
+        else
+        {
+            name = componentType.getName();
+        }
+        return StringUtils.uncapitalize(name).replaceAll(
+            ".*\\.",
+        "");
     }
 }
