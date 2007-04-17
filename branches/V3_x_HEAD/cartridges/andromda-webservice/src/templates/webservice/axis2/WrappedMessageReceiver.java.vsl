@@ -23,6 +23,7 @@ import org.apache.axis2.databinding.typemapping.SimpleTypeMapper;
 import org.apache.axis2.description.AxisMessage;
 import org.apache.axis2.description.AxisOperation;
 import org.apache.axis2.description.AxisService;
+import org.apache.axis2.engine.ObjectSupplier;
 import org.apache.axis2.receivers.AbstractInOutSyncMessageReceiver;
 import org.apache.axis2.wsdl.WSDLConstants;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -71,13 +72,13 @@ public class $className
                     break;
                 }
             }
-            Object resObject = null;
+            Object responseObject = null;
             if (inAxisMessage != null)
             {
                 if (inAxisMessage.getElementQName() == null)
                 {
                     // method accept empty SOAPbody
-                    resObject =
+                    responseObject =
                         method.invoke(
                             obj,
                             new Object[0]);
@@ -105,15 +106,7 @@ public class $className
                             "qualified element. But received a namespace qualified element");
                     }
 
-                    Object[] objectArray =
-                        RPCUtil.processRequest(
-                            methodElement,
-                            method,
-                            inMessage.getAxisService().getObjectSupplier());
-                    resObject =
-                        method.invoke(
-                            obj,
-                            objectArray);
+                    responseObject = method.invoke(obj, deserialize(methodElement, method, service.getObjectSupplier()));
                 }
             }
 
@@ -135,10 +128,9 @@ public class $className
                     getOperationResponseName(method),
                     ns);
 
-            // Java Beans
             final OMElement returnElement =
                 getOMElement(
-                    resObject,
+                    responseObject,
                     getOperationReturnName(method),
                     service.isElementFormDefault(),
                     factory,
@@ -330,5 +322,117 @@ public class $className
             ""));
         }
         return elementName;
+    }
+    
+    /**
+     * Deserializes the arguments of <code>element</code> to the arguments of the given <code>method</code>.
+     * 
+     * @param element the XML OMElement 
+     * @param method the method from which to deserialize the arguments.
+     * @param objectSupplier the "object supplier" used to construct objects from given classes.
+     * @return the deserialized arguments.
+     */
+    public static Object[] deserialize(final OMElement element, final Method method, final ObjectSupplier objectSupplier)
+    {
+        int ctr = 0;
+        final Class[] types = method.getParameterTypes();
+        final Object[] arguments = new Object[types.length];
+        for (final Iterator iterator = element.getChildElements(); iterator.hasNext(); ctr++)
+        {
+            final OMElement childElement = (OMElement)iterator.next();
+            final Class type = types[ctr];
+            arguments[ctr] = deserialize(childElement, type, objectSupplier);
+        }
+        return arguments;
+    }
+    
+    /**
+     * Deserializes the given <code>element</code> to the given <code>type</code>.
+     * 
+     * @param element the XML OMElement 
+     * @param type the java type.
+     * @param objectSupplier the "object supplier" used to construct objects from given classes.
+     * @return the deserialized object.
+     */
+    public static Object deserialize(OMElement element, final Class type, final ObjectSupplier objectSupplier)
+    {
+        Object bean = null;
+        if (SimpleTypeMapper.isSimpleType(type))
+        {
+             bean = SimpleTypeMapper.getSimpleTypeObject(
+                type,
+                element);
+        }
+        else if (type == byte[].class)
+        {
+            bean = Base64.decode(element.getText());
+        }
+        else
+        {
+            if (type.isArray())
+            {
+                int childCount = 0;
+                for (final Iterator iterator = element.getChildElements(); iterator.hasNext(); iterator.next())
+                {
+                    childCount++;
+                }
+                Object arrayElements = Array.newInstance(type.getComponentType(), childCount);
+                childCount = 0;
+                for (final Iterator iterator = element.getChildElements(); iterator.hasNext(); childCount++)
+                {
+                    Array.set(arrayElements, childCount, deserialize((OMElement)iterator.next(), type.getComponentType(), objectSupplier));
+                }
+                bean = arrayElements;
+            }
+            else
+            {
+                try
+                {
+                    bean = objectSupplier.getObject(type);
+                    final java.beans.PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(type);
+                    for (int ctr = 0; ctr < descriptors.length; ctr++)
+                    {
+                        final java.beans.PropertyDescriptor descriptor = descriptors[ctr];
+                        final String name = descriptor.getName();
+                        if (!CLASS.equals(name))
+                        {
+                            final OMElement propertyElement = findElementByName(element, name);
+                            if (propertyElement != null)
+                            {
+                                PropertyUtils.setProperty(bean, name, deserialize(propertyElement, descriptor.getPropertyType(), objectSupplier));
+                            }
+                        }
+                    }
+                }
+                catch (final Throwable throwable)
+                {
+                    throw new RuntimeException(throwable);
+                }
+            }
+        }
+        return bean;
+    }
+    
+    /**
+     * Finds an element having the given <code>name</code> from the child elements on the given
+     * <code>element</code>.
+     * 
+     * @param element the element to search.
+     * @param name the name of the element to find.
+     * @return the found element or null if one couldn't be found.
+     */
+    private static OMElement findElementByName(final OMElement element, final String name)
+    {
+        OMElement found = null;
+        for (final Iterator iterator = element.getChildElements(); iterator.hasNext();)
+        {
+            final OMElement child = (OMElement)iterator.next();
+            if (child.getLocalName().equals(name))
+            {
+                found = child;
+                break;
+            }
+        }
+        return found;
     }
 }
