@@ -195,6 +195,9 @@
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-seam</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/../app/target/src/resources/lib/jboss-seam.jar</systemPath>
         </dependency>
 #end
         <dependency>
@@ -444,9 +447,6 @@
 #if ($ejb3)
             <resource>
                 <directory>src/main/resources</directory>
-                <includes>
-                    <include>META-INF/persistence.xml</include>
-                </includes>
             </resource>
 #end
         </resources>

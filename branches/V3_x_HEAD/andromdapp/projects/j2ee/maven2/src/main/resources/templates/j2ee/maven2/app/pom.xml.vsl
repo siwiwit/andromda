@@ -51,6 +51,29 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
+#if ($jbossSeam)
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/resources/lib/jboss-seam.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.el</groupId>
+            <artifactId>el-ri</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/resources/lib/el-ri.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/resources/lib/el-api.jar</systemPath>
+        </dependency>
+#end
     </dependencies>
     <build>
         <finalName>${application.id}-${pom.version}</finalName>
@@ -70,24 +93,38 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.3</version>
                 <configuration>
                     <includes>**/*.xml</includes>
                     <excludes>**/jboss-app.xml</excludes>
+#if ($ejb3)
+                    <version>5</version>
+#else
                     <version>1.4</version>
+#end
                     <modules>
 #if ($jbossSeam)
-                        <javaModule>
-                            <groupId>org.jboss</groupId>
+                        <jarModule>
+                            <groupId>com.sun.el</groupId>
+                            <artifactId>el-ri</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>javax.el</groupId>
+                            <artifactId>el-api</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.jboss.seam</groupId>
                             <artifactId>jboss-seam</artifactId>
                             <includeInApplicationXml>true</includeInApplicationXml>
-                        </javaModule>
+                        </jarModule>
 #end
-                        <javaModule>
+                        <jarModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-common</artifactId>
                             <includeInApplicationXml>true</includeInApplicationXml>
-                        </javaModule>
+                        </jarModule>
 #if (!$transactionPersistenceType.equals("none"))
                         <ejbModule>
                             <groupId>${pom.groupId}</groupId>
@@ -109,10 +146,10 @@
                         </webModule>
 #end
 #if ($workflow)
-                        <javaModule>
+                        <jarModule>
                             <groupId>${pom.groupId}</groupId>
                             <artifactId>${applicationId}-workflow</artifactId>
-                        </javaModule>
+                        </jarModule>
 #end
                     </modules>
                 </configuration>

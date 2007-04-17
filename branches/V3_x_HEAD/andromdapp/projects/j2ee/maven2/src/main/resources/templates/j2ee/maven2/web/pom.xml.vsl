@@ -78,6 +78,57 @@
             <artifactId>displaytag</artifactId>
         </dependency>
 #elseif ($jsf)
+#if ($jbossSeam)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-seam-debug</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/jboss-seam-debug.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-seam-ui</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/jboss-seam-ui.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces</groupId>
+            <artifactId>tomahawk</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/tomahawk.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.trinidad</groupId>
+            <artifactId>trinidad-api</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/trinidad-api-1.0.1-incubating-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.trinidad</groupId>
+            <artifactId>trinidad-impl</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/trinidad-impl-1.0.1-incubating-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.cyberneko</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/nekohtml.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.ajax4jsf</groupId>
+            <artifactId>ajax4jsf</artifactId>
+            <version>1.1.1</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/ajax4jsf.jar</systemPath>
+        </dependency>
+#else
         <dependency>
             <groupId>org.apache.myfaces</groupId>
             <artifactId>myfaces-api</artifactId>
@@ -110,16 +161,11 @@
             <scope>system</scope>
             <systemPath>${pom.basedir}/target/src/WEB-INF/lib/andromda-jsf-cartridge-components.jar</systemPath>
         </dependency>
+#end
         <dependency>
             <groupId>org.andromda</groupId>
             <artifactId>andromda-utils</artifactId>
         </dependency>
-#if ($jbossSeam)
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-seam</artifactId>
-        </dependency>
-#end
 #end
         <dependency>
           <groupId>javax.servlet</groupId>

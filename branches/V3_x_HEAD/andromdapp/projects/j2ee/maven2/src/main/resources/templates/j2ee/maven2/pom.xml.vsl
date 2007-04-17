@@ -69,7 +69,6 @@
             </dependency>
 #end
 #if ($jbossSeam)
-
             <dependency>
                 <groupId>org.andromda.profiles.uml14</groupId>
                 <artifactId>andromda-profile-seam</artifactId>
@@ -213,6 +212,38 @@
                 </exclusions>
             </dependency>
 #end
+#if ($jbossSeam)
+            <dependency>
+                <groupId>org.andromda.cartridges</groupId>
+                <artifactId>andromda-jsf-cartridge-components</artifactId>
+                <version>$andromdaVersion</version>
+                <scope>runtime</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>myfaces</groupId>
+                        <artifactId>myfaces-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>myfaces</groupId>
+                        <artifactId>myfaces-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>myfaces</groupId>
+                        <artifactId>tomahawk</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>jsp-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.andromda.cartridges</groupId>
+                <artifactId>andromda-seam-cartridge</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>runtime</scope>
+            </dependency>
+#end
 #if (!$transactionPersistenceType.equals("none"))
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
@@ -265,7 +296,7 @@
 #end
             </dependency>
 #if ($ejb3)
-            <!-- JBoss specific dependencies -->
+            <!-- JBoss Dependencies -->
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-j2ee</artifactId>
@@ -333,7 +364,7 @@
                 <scope>runtime</scope>
             </dependency>
 #if ($jsr181Webservice)
-            <!-- Webservice JBossWS dependencies -->
+            <!-- Webservice JBossWS Dependencies -->
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jbossws-client</artifactId>
@@ -347,7 +378,7 @@
                 <scope>provided</scope>
             </dependency>
 #end
-            <!-- Dependencies needed for Embedded Microcontainer, used in testing -->
+            <!-- Embedded Microcontainer Dependencies -->
             <dependency>
            	    <groupId>org.jboss.microcontainer</groupId>
            	    <artifactId>hibernate-all</artifactId>
@@ -384,7 +415,7 @@
                 <version>1.2</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- Hibernate persistence engine dependencies -->
+            <!-- Hibernate Dependencies -->
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate</artifactId>
@@ -607,16 +638,24 @@
 #end
 #if ($jsf)
 #if ($jbossSeam)
-            <!-- JBoss Seam depdencies -->
+            <!-- MyFaces Dependencies -->
             <dependency>
-                <groupId>org.jboss</groupId>
-                <artifactId>jboss-seam</artifactId>
-                <version>1.1.0-GA</version>
+                <groupId>org.apache.myfaces.core</groupId>
+                <artifactId>myfaces-api</artifactId>
+                <version>1.1.5</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.myfaces.core</groupId>
+                <artifactId>myfaces-impl</artifactId>
+                <version>1.1.5</version>
+                <scope>provided</scope>
             </dependency>
 #end
 #end
 #if ($axis)
 #if ($axisVersion.equals("1"))
+            <!-- Axis1 Dependencies -->
             <dependency>
                 <groupId>axis</groupId>
                 <artifactId>axis</artifactId>
