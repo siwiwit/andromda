@@ -1,4 +1,4 @@
-#set ($className = "RPCWrappedMessageReceiver")
+#set ($className = "WrappedMessageReceiver")
 #if ($stringUtils.isNotBlank($webserviceTypesPackage))
 package $webserviceTypesPackage;
 #end
@@ -37,7 +37,7 @@ import org.apache.commons.logging.LogFactory;
 public class $className
     extends AbstractInOutSyncMessageReceiver 
 {
-    private static Log log = LogFactory.getLog($className.class);
+    private static Log log = LogFactory.getLog(${className}.class);
 
     /**
      * @see org.apache.axis2.receivers.AbstractInOutSyncMessageReceiver#invokeBusinessLogic(org.apache.axis2.context.MessageContext, org.apache.axis2.context.MessageContext)
@@ -322,8 +322,13 @@ public class $className
 
     private static String getArrayElementName(final Class componentType)
     {
-        return StringUtils.uncapitalize(componentType.getName().replaceAll(
+        String elementName = TypeMappings.getSchemaType(componentType);
+        if (StringUtils.isBlank(elementName))
+        {
+            elementName = StringUtils.uncapitalize(componentType.getName().replaceAll(
                 ".*\\.",
-                ""));
+            ""));
+        }
+        return elementName;
     }
 }

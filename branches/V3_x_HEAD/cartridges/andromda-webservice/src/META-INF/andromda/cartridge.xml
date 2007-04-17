@@ -172,6 +172,20 @@
     </template>
     
     <template
+        path="templates/webservice/axis2/TypeMappings.java.vsl"
+        outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
+        outlet="webservice-types"
+        overwrite="true"
+        outputCondition="axis2"/>
+    
+    <!--template
+        path="templates/webservice/axis2/WrappedMessageReceiver.java.vsl"
+        outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
+        outlet="webservice-types"
+        overwrite="true"
+        outputCondition="axis2"/-->
+    
+    <template
         path="templates/webservice/axis2/services.xml.vsl"
         outputPattern="WEB-INF/services/webservices/META-INF/services.xml"
         outlet="configuration"

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.andromda.cartridges.webservice.WebServiceGlobals;
 import org.andromda.cartridges.webservice.WebServiceUtils;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Introspector;
@@ -24,6 +25,7 @@ import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.OperationFacade;
 import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.ServiceOperation;
+import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.collections.Closure;
@@ -860,5 +862,48 @@ public class WebServiceLogicImpl
     protected String handleGetFullyQualifiedTestImplementationName()
     {
         return this.getTestPackageName() + '.' + this.getTestImplementationName();
+    }
+
+    /**
+
+     * @see org.andromda.cartridges.webservice.metafacades.WebService#getSchemaMappings()
+     */
+    protected TypeMappings handleGetSchemaMappings()
+    {
+        final String propertyName = WebServiceGlobals.SCHEMA_TYPE_MAPPINGS_URI;
+        Object property = this.getConfiguredProperty(propertyName);
+        TypeMappings mappings = null;
+        String uri = null;
+        if (property instanceof String)
+        {
+            uri = (String)property;
+            try
+            {
+                mappings = TypeMappings.getInstance(uri);
+                mappings.setArraySuffix(this.getArraySuffix());
+                this.setProperty(propertyName, mappings);
+            }
+            catch (Throwable th)
+            {
+                String errMsg = "Error getting '" + propertyName + "' --> '" + uri + "'";
+                logger.error(errMsg, th);
+                // don't throw the exception
+            }
+        }
+        else
+        {
+            mappings = (TypeMappings)property;
+        }
+        return mappings;
+    }
+    
+    /**
+     * Gets the array suffix from the configured metafacade properties.
+     *
+     * @return the array suffix.
+     */
+    private String getArraySuffix()
+    {
+        return String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ARRAY_NAME_SUFFIX));
     }
 }
