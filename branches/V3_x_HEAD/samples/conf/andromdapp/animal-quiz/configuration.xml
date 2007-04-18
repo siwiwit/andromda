@@ -11,13 +11,12 @@
         <property name="applicationType">ear</property>
         <property name="transactionPersistenceType">spring</property>
         <property name="workflow">no</property>
-        <property name="hibernateVersion">2</property>
+        <property name="springVersion">2</property>
         <property name="web">yes</property>
         <property name="webType">struts</property>
         <property name="webservice">yes</property>
         <property name="soapStack">axis</property>
-        <property name="axisVersion">1</property>
-        <property name="springVersion">1</property>
+        <property name="axisVersion">2</property>
         <property name="model">jar:file:${project.basedir}/src/main/uml/AnimalQuiz.xml.zip!/AnimalQuiz.xml</property>
         <property name="configurationUri">${project.basedir}/src/main/config/andromda.xml</property>
         <property name="databaseType">hypersonic</property>
