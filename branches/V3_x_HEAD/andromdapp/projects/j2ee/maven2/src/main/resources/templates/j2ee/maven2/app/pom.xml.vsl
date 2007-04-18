@@ -51,6 +51,12 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
+#if ($axisVersion.equals("2"))
+        <dependency>
+            <groupId>com.tonicsystems</groupId>
+            <artifactId>jarjar</artifactId>
+            <version>0.6</version>
+        </dependency>
 #if ($jbossSeam)
         <dependency>
             <groupId>org.jboss.seam</groupId>
@@ -159,7 +165,7 @@
                  it causes classloading issues with containers that alreadly have it -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.0</version>
+                <version>1.1</version>
                 <executions>
                     <execution>
                         <id>remove problem classes</id>
@@ -201,13 +207,6 @@
                             </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.tonicsystems</groupId>
-                        <artifactId>jarjar</artifactId>
-                        <version>0.6</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 #end
             <plugin>
