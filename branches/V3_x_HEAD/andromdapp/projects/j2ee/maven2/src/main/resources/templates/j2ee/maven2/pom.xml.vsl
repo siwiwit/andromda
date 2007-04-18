@@ -688,7 +688,7 @@
                 <groupId>org.apache.axis2</groupId>
                 <artifactId>axis2-kernel</artifactId>
                 <version>1.1.1</version>
-                <scope>runtime</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.axis2</groupId>
@@ -706,7 +706,7 @@
                 <groupId>org.apache.axis2</groupId>
                 <artifactId>axis2-adb</artifactId>
                 <version>1.1.1</version>
-                <scope>runtime</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.axis2</groupId>
@@ -754,7 +754,7 @@
                 <groupId>org.apache.ws.commons.axiom</groupId>
                 <artifactId>axiom-api</artifactId>
                 <version>1.2.2</version>
-                <scope>runtime</scope>
+                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
