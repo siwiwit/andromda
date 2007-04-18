@@ -8,6 +8,9 @@ $controller.getDocumentation(" * ")
 public abstract class $controller.name
     implements java.io.Serializable
 {
+
+    private static final org.apache.commons.logging.Log logger = org.apache.commons.logging.LogFactory.getLog(${controller.name}.class);
+
 #foreach ($operation in $controller.operations)
     /**
 $operation.getDocumentation("     * ")
@@ -70,7 +73,7 @@ $operation.getDocumentation("     * ")
                 form.reset();
 #end
             }
-            catch (final Throwable throwable)
+            catch (final java.lang.Throwable throwable)
             {
                 contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", currentForm);
                 final String message = ${managedBeansPackage}.Messages.get(
@@ -78,12 +81,13 @@ $operation.getDocumentation("     * ")
                 this.addErrorMessage(message);
             }
         }
-        catch (final Throwable throwable)
+        catch (final java.lang.Throwable throwable)
         {
             contextWrapper.getCurrentInstance().getProcessScope().put("$action.formKey", currentForm);
             this.addExceptionMessage(throwable);
             // - set the forward to null so that we stay on the current view
             forward = null;
+            logger.error(throwable);
         }
         return forward;
 #end
