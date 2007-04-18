@@ -371,18 +371,12 @@ public class $className
         {
             if (type.isArray())
             {
-                int childCount = 0;
+                final Collection elements = new ArrayList();
                 for (final Iterator iterator = element.getChildElements(); iterator.hasNext(); iterator.next())
                 {
-                    childCount++;
+                    elements.add(deserialize((OMElement)iterator.next(), type.getComponentType(), objectSupplier));
                 }
-                Object arrayElements = Array.newInstance(type.getComponentType(), childCount);
-                childCount = 0;
-                for (final Iterator iterator = element.getChildElements(); iterator.hasNext(); childCount++)
-                {
-                    Array.set(arrayElements, childCount, deserialize((OMElement)iterator.next(), type.getComponentType(), objectSupplier));
-                }
-                bean = arrayElements;
+                bean = elements.toArray((Object[])Array.newInstance(type.getComponentType(), 0));
             }
             else
             {
