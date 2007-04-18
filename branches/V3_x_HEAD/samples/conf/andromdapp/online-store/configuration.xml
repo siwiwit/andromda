@@ -11,7 +11,6 @@
         <property name="applicationType">ear</property>
         <property name="transactionPersistenceType">none</property>
         <property name="workflow">no</property>
-        <property name="hibernateVersion">3</property>
         <property name="web">yes</property>
         <property name="webType">struts</property>
         <property name="webservice">no</property>
