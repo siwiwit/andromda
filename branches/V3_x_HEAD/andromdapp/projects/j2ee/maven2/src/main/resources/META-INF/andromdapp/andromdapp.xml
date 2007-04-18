@@ -184,6 +184,22 @@
                     <response>none</response>
                 </responses>
             </prompt>
+            <prompt id="springVersion">
+                <text>Please enter the Spring version to use (enter '1' for 1.x or '2' for 2.x)</text>
+                <shortText>Spring Framework version</shortText>
+                <preconditions>
+                    <condition id="transactionPersistenceType" equal="spring"/>
+                </preconditions>
+                <responses>
+                    <response>1</response>
+                    <response>2</response>
+                </responses>
+                <conditions>
+                    <condition equal="2">
+                        <setProperty id="hibernateVersion">3</setProperty>
+                    </condition>
+                </conditions>
+            </prompt>
             <prompt id="databaseType" setResponseAsTrue="true">
                 <text>Please enter the database backend for the persistence layer</text>
                 <shortText>Database backend</shortText>
