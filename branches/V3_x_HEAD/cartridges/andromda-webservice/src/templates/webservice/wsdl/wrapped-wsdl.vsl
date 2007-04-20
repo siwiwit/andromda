@@ -160,7 +160,7 @@ $otherEnd.getDocumentation("                                ", 64, false)
 #end
 
     <!-- Port Type -->
-    <wsdl:portType name="$service.qName">
+    <wsdl:portType name="${service.qName}PortType">
 #foreach ($operation in $service.allowedOperations)
         <wsdl:operation name="$operation.name">
 
@@ -183,7 +183,7 @@ $operation.getDocumentation("                ", 64, false)
 
 #set ($serviceBindingName = "${service.qName}SoapBinding")
     <!-- WSDL Binding -->
-    <wsdl:binding name="$serviceBindingName" type="${service.namespacePrefix}:${service.qName}">
+    <wsdl:binding name="$serviceBindingName" type="${service.namespacePrefix}:${service.qName}PortType">
         <wsdlsoap:binding style="document" transport="$documentStyleTransportNamespace"/>
 #foreach ($operation in $service.allowedOperations)
         <wsdl:operation name="$operation.name">

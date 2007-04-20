@@ -1,6 +1,6 @@
-<beans xmlns="http://xfire.codehaus.org/config/1.0">
+<beans#if (!$spring2) xmlns="http://xfire.codehaus.org/config/1.0"#end>
 #foreach ($service in $services)
-    <service>
+    <service#if ($spring2) xmlns="http://xfire.codehaus.org/config/1.0"#end>
         <name>$service.qName</name>
         <namespace>$service.namespace</namespace>
         <serviceClass>$service.rpcClassName</serviceClass>

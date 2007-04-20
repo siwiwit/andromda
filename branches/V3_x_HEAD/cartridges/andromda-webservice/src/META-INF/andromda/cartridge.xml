@@ -37,6 +37,7 @@
     <property reference="soapStack"/>
     <property reference="axis2WrappedMessageReceiver"/>
     <property reference="axis2DefaultMessageReceiver"/>
+    <property reference="springVersion"/>
     <!-- cartridge-property merge-point -->
     
     <condition name="xfire">$soapStack.equalsIgnoreCase("xfire")</condition>
@@ -44,6 +45,7 @@
     <condition name="axis1">#if ($soapStack.equalsIgnoreCase("axis") &amp;&amp; $axisVersion.equals("1"))true#end</condition>
     <condition name="axis2">#if ($soapStack.equalsIgnoreCase("axis") &amp;&amp; $axisVersion.equals("2"))true#end</condition>
     <condition name="securityEnabled">$stringUtils.isNotBlank($securityRealm)</condition>
+    <condition name="spring2">$springVersion.equals("2")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
