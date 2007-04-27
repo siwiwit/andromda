@@ -1,0 +1,225 @@
+package org.axis2test4;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.wsdl.Definition;
+import javax.wsdl.Port;
+import javax.wsdl.Service;
+import javax.wsdl.extensions.soap.SOAPAddress;
+import javax.wsdl.factory.WSDLFactory;
+import javax.wsdl.xml.WSDLReader;
+import javax.xml.namespace.QName;
+
+import org.apache.axiom.om.OMElement;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.client.ServiceClient;
+import org.apache.axis2.client.async.Callback;
+import org.apache.axis2.engine.DefaultObjectSupplier;
+
+/**
+ * A webservice client using Axis2 libraries that allows you to invoke operations on wrapped
+ * style services.
+ * 
+ * @author Chad Brandon
+ */
+public class WebServiceClient
+    extends ServiceClient
+{
+    private Class serviceClass;
+    private Definition definition;
+
+    public WebServiceClient(
+        final String wsdlUrl,
+        final Class serviceClass)
+        throws AxisFault
+    {
+        super();
+        this.serviceClass = serviceClass;
+        try
+        {
+            final WSDLReader reader = WSDLFactory.newInstance().newWSDLReader();
+            this.definition = reader.readWSDL(wsdlUrl);
+            this.setTargetEPR(new EndpointReference(
+                this.findEndPointAddress()));
+        }
+        catch (Exception exception)
+        {
+            throw new AxisFault(exception);
+        }
+        this.serviceClass = serviceClass;
+    }
+    
+    /**
+     * Finds the end point address of the service.
+     * 
+     * @return the service end point address.
+     */
+    private String findEndPointAddress()
+    {
+        String address = null;
+        final Map services = this.definition.getServices();
+        for (final Iterator iterator = services.keySet().iterator(); iterator.hasNext();)
+        {
+            final QName name = (QName)iterator.next();
+            if (this.serviceClass.getSimpleName().equals(name.getLocalPart()))
+            {
+                final Service service = (Service)services.get(name);
+                final Map ports = service.getPorts();
+                for (final Iterator portIterator = ports.keySet().iterator(); portIterator.hasNext();)
+                {
+                    final String portName = (String)portIterator.next();
+                    final Port port = (Port)ports.get(portName);
+                    for (final Iterator addressIterator = port.getExtensibilityElements().iterator(); addressIterator.hasNext();)
+                    {
+                        final Object element = addressIterator.next();
+                        if (element instanceof SOAPAddress)
+                        {
+                            address = ((SOAPAddress)element).getLocationURI();
+                        }
+                    }
+                }
+            } 
+        }
+        return address;
+    }
+
+    /**
+     * Invokes the operation identified by the given <code>operationName</code> with the 
+     * given <code>arguments</code>.
+     * 
+     * @param operationName the name of the operation to invoke.
+     * @param the arguments of the operation.
+     * 
+     * @throws AxisFault
+     */
+    public Object invokeBlocking(
+        String operationName,
+        Object[] arguments)
+        throws AxisFault
+    {
+        
+        final Method method = this.getMethod(operationName, arguments);
+        final OMElement omElement =
+            Axis2ClientUtils.getOMElement(
+                this.definition,
+                this.serviceClass,
+                method,
+                arguments);
+        final OMElement response = super.sendReceive(omElement);
+        Object result = null;
+        if (method.getReturnType() != void.class)
+        {
+            result = Axis2ClientUtils.deserialize(
+                response.getFirstElement(),
+                method.getReturnType(),
+                new DefaultObjectSupplier());
+        }
+        return result;
+    }
+
+    /**
+     * Invoke the nonblocking/Asynchronous call
+     *
+     * @param operationName
+     * @param arguments     -  This should be OM Element (payload) invocation behaves accordingly
+     * @param callback
+     * @throws org.apache.axis2.AxisFault
+     */
+    public void invokeNonBlocking(
+        String operationName,
+        Object[] arguments,
+        Callback callback)
+        throws AxisFault
+    {
+        final Method method = this.getMethod(operationName, arguments);
+        final OMElement omElement =
+            Axis2ClientUtils.getOMElement(
+                this.definition,
+                this.serviceClass,
+                method,
+                arguments);
+        super.sendReceiveNonBlocking(
+            omElement,
+            callback);
+    }
+
+    public void invokeRobust(
+        String operationName,
+        Object[] arguments)
+        throws AxisFault
+    {
+        final Method method = this.getMethod(operationName, arguments);
+        final OMElement omElement =
+            Axis2ClientUtils.getOMElement(
+                this.definition,
+                this.serviceClass,
+                method,
+                arguments);
+        super.sendRobust(omElement);
+    }
+    
+    private Map methods = new HashMap();
+    
+    private Method getMethod(final String name, final Object[] arguments)
+    {
+        Method found = (Method)methods.get(name);
+        if (found == null)
+        {
+            for (final Iterator iterator = this.getAllMethods().iterator(); iterator.hasNext();)
+            {
+                final Method method = (Method)iterator.next();
+                if (method.getName().equals(name) && arguments.length ==  method.getParameterTypes().length)
+                {
+                    found = method;
+                    this.methods.put(name, found);
+                    break;
+                }
+            }
+        }
+        return found;
+    }
+    
+
+    /**
+     * Loads all methods from the given <code>clazz</code> (this includes
+     * all super class methods, public, private and protected).
+     *
+     * @param clazz the class to retrieve the methods.
+     * @return the loaded methods.
+     */
+    private List getAllMethods()
+    {
+        final Set methods = new LinkedHashSet();
+        loadMethods(this.serviceClass, methods);
+        return new ArrayList(methods);
+    }
+    
+    /**
+     * Loads all methods from the given <code>clazz</code> (this includes
+     * all super class methods).
+     *
+     * @param methods the list to load full of methods.
+     * @param clazz the class to retrieve the methods.
+     */
+    private void loadMethods(
+        final Class clazz,
+        final Set methods)
+    {
+        methods.addAll(Arrays.asList(clazz.getDeclaredMethods()));
+        if (clazz.getSuperclass() != null)
+        {
+            loadMethods(
+                    clazz.getSuperclass(),
+                    methods);
+        }
+    }
+}
