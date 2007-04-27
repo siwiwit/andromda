@@ -162,28 +162,28 @@
             <artifactId>hibernate-annotations</artifactId>
         </dependency>
         <dependency>
-  	        <groupId>net.sf.ehcache</groupId>
-  	        <artifactId>ehcache</artifactId>
+              <groupId>net.sf.ehcache</groupId>
+              <artifactId>ehcache</artifactId>
         </dependency>
         <dependency>
-       	    <groupId>org.jboss.microcontainer</groupId>
-       	    <artifactId>hibernate-all</artifactId>
+               <groupId>org.jboss.microcontainer</groupId>
+               <artifactId>hibernate-all</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.microcontainer</groupId>
             <artifactId>jboss-ejb3-all</artifactId>
         </dependency>
         <dependency>
-      	    <groupId>org.jboss.microcontainer</groupId>
-       	    <artifactId>thirdparty-all</artifactId>
+              <groupId>org.jboss.microcontainer</groupId>
+               <artifactId>thirdparty-all</artifactId>
         </dependency>
         <dependency>
-      	    <groupId>org.jboss.microcontainer</groupId>
-       	    <artifactId>jms-ra</artifactId>
+              <groupId>org.jboss.microcontainer</groupId>
+               <artifactId>jms-ra</artifactId>
         </dependency>
         <dependency>
-      	    <groupId>org.jboss.microcontainer</groupId>
-       	    <artifactId>jcainflow</artifactId>
+              <groupId>org.jboss.microcontainer</groupId>
+               <artifactId>jcainflow</artifactId>
         </dependency>
 #else
         <dependency>
@@ -239,7 +239,7 @@
         <dependency>
             <groupId>org.apache.woden</groupId>
             <artifactId>woden</artifactId>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.apache.ws.commons.axiom</groupId>
             <artifactId>axiom-api</artifactId>
@@ -291,27 +291,27 @@
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
-        </dependency>            
+        </dependency>
         <dependency>
             <groupId>org.jibx</groupId>
             <artifactId>jibx-run</artifactId>
-        </dependency>       
+        </dependency>
         <dependency>
             <groupId>org.apache.ws.commons.neethi</groupId>
             <artifactId>neethi</artifactId>
-        </dependency>              
+        </dependency>
         <dependency>
             <groupId>stax</groupId>
             <artifactId>stax-api</artifactId>
-        </dependency>            
+        </dependency>
         <dependency>
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
-        </dependency>                      
+        </dependency>
         <dependency>
             <groupId>xmlbeans</groupId>
             <artifactId>xbean</artifactId>
-        </dependency>                          
+        </dependency>
         <dependency>
             <groupId>org.apache.ws.commons</groupId>
             <artifactId>XmlSchema</artifactId>
@@ -416,14 +416,14 @@
         </resources>
 #if ($ejb3)
         <testSourceDirectory>src/test/java</testSourceDirectory>
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-				<includes>
-					<include>*.*</include>
-				</includes>
-			</testResource>
-		</testResources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+            </testResource>
+        </testResources>
 #end
     </build>
 </project>
