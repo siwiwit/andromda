@@ -12,7 +12,9 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
+import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.util.Base64;
 import org.apache.axiom.soap.SOAPEnvelope;
@@ -133,7 +135,6 @@ public class $className
                     responseObject,
                     getOperationReturnName(method),
                     service.isElementFormDefault(),
-                    factory,
                     ns);
 
             responseElement.addChild(returnElement);
@@ -171,132 +172,7 @@ public class $className
         }
     }
 
-    /**
-     * Constructs and OMElement from the given bean
-     *
-     * @param bean the bean to introspect
-     * @param elementName the name of the element
-     * @param qualified whether or not the resulting document should be qualified
-     * @param factory the SOAP factory instance used to create the OMElement
-     * @param namespace the namespace to add to each element.
-     */
-    public static OMElement getOMElement(
-        final Object bean,
-        final String elementName,
-        final boolean qualified,
-        final SOAPFactory factory,
-        final OMNamespace namespace)
-    {
-        return getOMElement(
-            bean,
-            elementName,
-            qualified,
-            factory,
-            namespace,
-            new ArrayList());
-    }
-
     private static final String CLASS = "class";
-
-    /**
-     * Constructs and OMElement from the given bean
-     *
-     * @param bean the bean to introspect
-     * @param elementName the name of the element\
-     * @param qualified whether or not the resulting document should be qualified
-     * @param factory the SOAP factory instance used to create the OMElement
-     * @param namespace the namespace to add to each element.
-     * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
-     *        to prevent endless recursion.
-     */
-    private static OMElement getOMElement(
-        final Object bean,
-        final String elementName,
-        final boolean qualified,
-        final SOAPFactory factory,
-        final OMNamespace namespace,
-        final Collection evaluatingBeans)
-    {
-        final OMElement element = factory.createOMElement(
-                elementName,
-                namespace);
-        if (bean != null && evaluatingBeans != null && !evaluatingBeans.contains(bean))
-        {
-            evaluatingBeans.add(bean);
-            if (SimpleTypeMapper.isSimpleType(bean))
-            {
-                element.addChild(
-                    factory.createOMText(SimpleTypeMapper.getStringValue(bean)));
-            }
-            else if (bean instanceof byte[])
-            {
-                element.addChild(factory.createOMText(Base64.encode((byte[])bean)));
-            }
-            else 
-            {
-                final Class beanType = bean.getClass();
-                if (beanType.isArray())
-                {
-                    final String arrayComponentName = getArrayElementName(beanType.getComponentType());
-                    for (int ctr = 0; ctr < Array.getLength(bean); ctr++)
-                    {
-                        element.addChild(
-                            getOMElement(
-                                Array.get(bean, ctr),
-                                arrayComponentName,
-                                qualified,
-                                factory,
-                                namespace,
-                                evaluatingBeans));
-                    }
-                }    
-                try
-                {
-                    final java.util.Map properties = PropertyUtils.describe(bean);
-                    for (final Iterator iterator = properties.keySet().iterator(); iterator.hasNext();)
-                    {
-                        final String name = (String)iterator.next();
-                        final java.beans.PropertyDescriptor descriptor =
-                            org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptor(
-                                bean,
-                                name);
-                        if (descriptor != null)
-                        {
-                            final Object value = properties.get(name);
-                            if (!CLASS.equals(name))
-                            {
-                                if (value != null)
-                                {
-                                    boolean addToDocument = true;
-                                    if (value.getClass().isArray())
-                                    {
-                                        addToDocument = Array.getLength(value) > 0;
-                                    }
-                                    if (addToDocument)
-                                    {
-                                        element.addChild(
-                                            getOMElement(
-                                                value,
-                                                name,
-                                                qualified,
-                                                factory,
-                                                namespace,
-                                                evaluatingBeans));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (final Throwable throwable)
-                {
-                    throw new RuntimeException(throwable);
-                }
-            }
-            evaluatingBeans.remove(bean);
-        }
-        return element;
-    }
 
     private static final String RESPONSE = "Response";
 
@@ -372,7 +248,7 @@ public class $className
             if (type.isArray())
             {
                 final Collection elements = new ArrayList();
-                for (final Iterator iterator = element.getChildElements(); iterator.hasNext(); iterator.next())
+                for (final Iterator iterator = element.getChildElements(); iterator.hasNext();)
                 {
                     elements.add(deserialize((OMElement)iterator.next(), type.getComponentType(), objectSupplier));
                 }
@@ -428,5 +304,123 @@ public class $className
             }
         }
         return found;
+    }
+    
+    /**
+     * Constructs and OMElement from the given bean
+     *
+     * @param bean the bean to introspect
+     * @param elementName the name of the element
+     * @param qualified whether or not the resulting document should be qualified
+     * @param factory the SOAP factory instance used to create the OMElement
+     * @param namespace the namespace to add to each element.
+     */
+    public static OMElement getOMElement(
+        final Object bean,
+        final String elementName,
+        final boolean qualified,
+        final OMNamespace namespace)
+    {
+        final OMFactory factory = OMAbstractFactory.getOMFactory();
+        return getOMElement(
+            bean,
+            elementName,
+            qualified,
+            factory,
+            namespace,
+            new ArrayList());
+    }
+
+    /**
+     * Constructs and OMElement from the given bean
+     *
+     * @param bean the bean to introspect
+     * @param elementName the name of the element
+     * @param qualified whether or not the resulting document should be qualified
+     * @param factory the SOAP factory instance used to create the OMElement
+     * @param namespace the namespace to add to each element.
+     * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
+     *        to prevent endless recursion.
+     */
+    private static OMElement getOMElement(
+        final Object bean,
+        final String elementName,
+        final boolean qualified,
+        final OMFactory factory,
+        final OMNamespace namespace,
+        final Collection evaluatingBeans)
+    {
+        final OMElement element = factory.createOMElement(
+                elementName,
+                namespace);
+        if (bean != null && evaluatingBeans != null && !evaluatingBeans.contains(bean))
+        {
+            evaluatingBeans.add(bean);
+            if (SimpleTypeMapper.isSimpleType(bean))
+            {
+                element.addChild(
+                    factory.createOMText(SimpleTypeMapper.getStringValue(bean)));
+            }
+            else if (bean instanceof byte[])
+            {
+                element.addChild(factory.createOMText(Base64.encode((byte[])bean)));
+            }
+            else 
+            {
+                final Class beanType = bean.getClass();
+                if (beanType.isArray())
+                {
+                    final String arrayComponentName = getArrayElementName(beanType.getComponentType());
+                    for (int ctr = 0; ctr < Array.getLength(bean); ctr++)
+                    {
+                        element.addChild(
+                            getOMElement(
+                                Array.get(bean, ctr),
+                                arrayComponentName,
+                                qualified,
+                                factory,
+                                namespace,
+                                evaluatingBeans));
+                    }
+                }    
+                try
+                {
+                    final java.util.Map properties = PropertyUtils.describe(bean);
+                    for (final Iterator iterator = properties.keySet().iterator(); iterator.hasNext();)
+                    {
+                        final String name = (String)iterator.next();
+                        if (!CLASS.equals(name))
+                        {
+                            final Object value = properties.get(name);
+                            if (value != null)
+                            {
+                                boolean addToDocument = true;
+                                if (value.getClass().isArray())
+                                {
+                                    addToDocument = Array.getLength(value) > 0;
+                                }
+                                if (addToDocument)
+                                {
+                                    element.addChild(
+                                        getOMElement(
+                                            value,
+                                            name,
+                                            qualified,
+                                            factory,
+                                            namespace,
+                                            evaluatingBeans));
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (final Throwable throwable)
+                {
+                    throw new RuntimeException(throwable);
+                }
+            }
+            evaluatingBeans.remove(bean);
+        }
+        return element;
     }
 }
