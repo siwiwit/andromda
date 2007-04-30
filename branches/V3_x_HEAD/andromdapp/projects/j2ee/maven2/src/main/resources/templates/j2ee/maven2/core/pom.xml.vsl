@@ -162,28 +162,28 @@
             <artifactId>hibernate-annotations</artifactId>
         </dependency>
         <dependency>
-              <groupId>net.sf.ehcache</groupId>
-              <artifactId>ehcache</artifactId>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
         </dependency>
         <dependency>
-               <groupId>org.jboss.microcontainer</groupId>
-               <artifactId>hibernate-all</artifactId>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>hibernate-all</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.microcontainer</groupId>
             <artifactId>jboss-ejb3-all</artifactId>
         </dependency>
         <dependency>
-              <groupId>org.jboss.microcontainer</groupId>
-               <artifactId>thirdparty-all</artifactId>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>thirdparty-all</artifactId>
         </dependency>
         <dependency>
-              <groupId>org.jboss.microcontainer</groupId>
-               <artifactId>jms-ra</artifactId>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jms-ra</artifactId>
         </dependency>
         <dependency>
-              <groupId>org.jboss.microcontainer</groupId>
-               <artifactId>jcainflow</artifactId>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jcainflow</artifactId>
         </dependency>
 #else
         <dependency>
@@ -261,18 +261,6 @@
             <artifactId>commons-httpclient</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-xjc</artifactId>
-        </dependency>
-        <dependency>
             <groupId>httpcomponents-httpcore</groupId>
             <artifactId>jakarta-httpcore</artifactId>
         </dependency>
@@ -291,10 +279,6 @@
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jibx</groupId>
-            <artifactId>jibx-run</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.ws.commons.neethi</groupId>
