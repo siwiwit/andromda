@@ -196,13 +196,7 @@
                                         <zipfileset src="${pom.basedir}/target/jarjar/woden-1.0.0M6.jar"/>
                                         <zap pattern="javax.xml.namespace.QName"/>
                                     </jarjar>
-                                    <copy file="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/xbean-2.2.0.jar"
-                                        tofile="${pom.basedir}/target/jarjar/xbean-2.2.0.jar"/>
-                                    <jarjar jarfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/xbean-2.2.0.jar">
-                                        <zipfileset src="${pom.basedir}/target/jarjar/xbean-2.2.0.jar"/>
-                                        <zap pattern="javax.xml.namespace.QName"/>
-                                    </jarjar>
-                                     <zip destfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}.ear"
+                                    <zip destfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}.ear"
                                          basedir="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}" update="true" />
                                 </tasks>
                             </configuration>
