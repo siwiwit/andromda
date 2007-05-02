@@ -54,13 +54,13 @@
 <I>Engaged modules</I><ul>
     <%
         for (int i = 0; i < modules.size(); i++) {
-            QName modulDesc = (QName) modules.get(i);
+            String modulDesc = (String) modules.get(i);
     %>
-    <li><%=modulDesc.getLocalPart()%></li>
+    <li><%=modulDesc%></li>
     <%
         }
     %></ul><%
         }
     }
 %>
-<jsp:include page="include/adminfooter.jsp"/>
+<jsp:include page="include/adminfooter.inc"/>

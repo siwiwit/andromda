@@ -33,7 +33,7 @@
     request.getSession().setAttribute(Constants.SERVICE_GROUP_MAP,null);
 %>
 <h1>Engage Module for a Service Group</h1>
-<p>To engage a module for a set of services grouped as an axis service group,
+<p>To engage a module for a set of services grouped as an axis service group,</p>
 
     <ol>
         <li>select the module you want to engage </li>
@@ -41,7 +41,7 @@
         <li>click "Engage".</li>
     </ol>
 
-    </p>
+
 <%
 	if (!moduleCol.iterator().hasNext()) {%>
 		<p>No modules are present to be engaged.</p>
@@ -61,7 +61,7 @@
                     <%
                 for (Iterator iterator = moduleCol.iterator(); iterator.hasNext();) {
                     AxisModule axisOperation = (AxisModule) iterator.next();
-                    String modulename = axisOperation.getName().getLocalPart();
+                    String modulename = axisOperation.getName();
             %> <option  align="left" value="<%=modulename%>"><%=modulename%></option>
                     <%
                 }
@@ -133,5 +133,5 @@
 		}
 	}
 %>
-<jsp:include page="include/adminfooter.jsp"></jsp:include>
+<jsp:include page="include/adminfooter.inc"></jsp:include>
 

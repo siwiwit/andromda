@@ -30,7 +30,6 @@
 
 <h1>Available Services</h1>
 <% String prefix = request.getAttribute("frontendHostUrl") + (String)request.getSession().getAttribute(Constants.SERVICE_PATH) + "/";
-    String restPrefix = request.getAttribute("frontendHostUrl") + "rest/";
 %>
 <%
     HashMap serviceMap = (HashMap) request.getSession().getAttribute(Constants.SERVICE_MAP);
@@ -49,45 +48,20 @@
 <font color="blue">Service EPR : </font><font color="black"><%=prefix + axisService.getName()%></font><br>
 <%
     // do we need to enable REST in the main servlet so that it handles both REST and SOAP messages
-    boolean enableRESTInAxis2MainServlet = false;
     boolean disableREST = false;
-    boolean disableSeperateEndpointForREST = false;
     AxisConfiguration axisConfiguration = axisService.getAxisConfiguration();
 
-    Parameter parameter = axisConfiguration.getParameter(Constants.Configuration.ENABLE_REST_IN_AXIS2_MAIN_SERVLET);
-    if (parameter != null) {
-        enableRESTInAxis2MainServlet = !JavaUtils.isFalseExplicitly(parameter.getValue());
-    }
+    Parameter parameter ;
 
     // do we need to completely disable REST support
     parameter = axisConfiguration.getParameter(Constants.Configuration.DISABLE_REST);
     if (parameter != null) {
         disableREST = !JavaUtils.isFalseExplicitly(parameter.getValue());
     }
-
-    // Do we need to have a separate endpoint for REST
-    parameter = axisConfiguration.getParameter(Constants.Configuration.DISABLE_SEPARATE_ENDPOINT_FOR_REST);
-    if (parameter != null) {
-        disableSeperateEndpointForREST = !JavaUtils.isFalseExplicitly(parameter.getValue());
-    }
-
-    if (enableRESTInAxis2MainServlet) {
+    if (!disableREST) {
 %>
-<font color="blue">Service REST epr : </font><font color="black"><%=prefix + axisService.getName()%></font>
-<%
-    }
-    if (!disableREST && !disableSeperateEndpointForREST) {
-        if (!enableRESTInAxis2MainServlet) {
-%>
-<font color="blue">Service REST epr : </font><font color="black"><%=restPrefix + axisService.getName()%></font>
-<%
-} else {
-%>
-<br/>
-<font color="blue"> : </font><font color="black"><%=restPrefix + axisService.getName()%></font>
-<%
 
-    }
+<%
 %>
 <%
     }
@@ -110,7 +84,7 @@
 <%
     for (Iterator iteratorm = engagedModules.iterator(); iteratorm.hasNext();) {
         AxisModule axisOperation = (AxisModule) iteratorm.next();
-        moduleName = axisOperation.getName().getLocalPart();
+        moduleName = axisOperation.getName();
         if (!modules_present) {
             modules_present = true;
 %>
@@ -144,7 +118,7 @@
     <%
         for (Iterator iterator2 = engagedModules.iterator(); iterator2.hasNext();) {
             AxisModule moduleDecription = (AxisModule) iterator2.next();
-            moduleName = moduleDecription.getName().getLocalPart();
+            moduleName = moduleDecription.getName();
     %><li><%=moduleName%> :: <a href="axis2-admin/disengageModule?type=operation&serviceName=<%=serviceName%>&operation=<%=axisOperation.getName().getLocalPart()%>&module=<%=moduleName%>">Disengage</a></li><br><%
     }
 %></ul><%
@@ -176,4 +150,4 @@
 %> No services listed! Try hitting refresh. <%
     }
 %>
-<jsp:include page="include/adminfooter.jsp" />
+<jsp:include page="include/adminfooter.inc" />

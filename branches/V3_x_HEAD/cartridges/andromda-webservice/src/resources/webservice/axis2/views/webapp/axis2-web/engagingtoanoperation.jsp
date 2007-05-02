@@ -28,13 +28,13 @@
     String status = (String)request.getSession().getAttribute(Constants.ENGAGE_STATUS);
 %>
 <h1>Engage Module for an Operation</h1>
-<p>To engage a module for an  axis operation,
+<p>To engage a module for an  axis operation,</p>
     <ol>
             <li>select the module you want to engage </li>
             <li>select the axis operation you like the module to be engaged.</li>
             <li>click "Engage".</li>
         </ol>
-</p>
+
 <form method="get" name="selectModuleForm" action="axis2-admin/listOperations">
 <table border="0" width="100%" cellspacing="1" cellpadding="1">
     <tr>
@@ -55,7 +55,7 @@
                 Collection moduleCol =  moduels.values();
                 for (Iterator iterator = moduleCol.iterator(); iterator.hasNext();) {
                     AxisModule axisOperation = (AxisModule) iterator.next();
-                    String modulename = axisOperation.getName().getLocalPart();
+                    String modulename = axisOperation.getName();
             %> <option  align="left" value="<%=modulename%>"><%=modulename%></option>
              <%
                 }
@@ -122,4 +122,4 @@
            </tr>
       </table>
    </form>
-<jsp:include page="include/adminfooter.jsp"></jsp:include>
+<jsp:include page="include/adminfooter.inc"></jsp:include>
