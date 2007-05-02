@@ -14,9 +14,6 @@ public class Axis2ProxyFactoryBean
 {
     private Object serviceProxy;
 
-    /**
-     * @see org.axis2test4.Axis2PortClientInterceptor#afterPropertiesSet()
-     */
     public void afterPropertiesSet()
         throws AxisFault
     {
