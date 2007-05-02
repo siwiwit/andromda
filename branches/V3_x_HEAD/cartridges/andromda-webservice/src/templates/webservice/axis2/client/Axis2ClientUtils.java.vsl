@@ -32,12 +32,19 @@ import org.w3c.dom.NodeList;
  */
 public class Axis2ClientUtils
 {
-    public static OMElement getOMElement(
+    /**
+     * Gets the appropriate OM element for the given method
+     * @param definition the WSDL definition.
+     * @param method the method corresponding to the OMElement to create.
+     * @param arguments the arguments to pass to the method.
+     * @return the constructed OMElement
+     */
+    public static OMElement getOperationOMElement(
         final Definition definition,
-        final Class serviceClass,
         final Method method,
         final Object[] arguments)
     {
+        final Class serviceClass = method.getDeclaringClass();
         OMElement operationOMElement = null;
         try
         {
@@ -55,6 +62,7 @@ public class Axis2ClientUtils
                 getOMElement(
                     definition,
                     operationSchema,
+                    null,
                     null,
                     operationName);
             if (operationElement == null)
@@ -96,11 +104,11 @@ public class Axis2ClientUtils
                 final OMElement element = getOMElement(
                         definition,
                         operationSchema,
+                        argument,
                         arguments[ctr],
                         argumentName);
                 operationOMElement.addChild(element);
             }
-            System.out.println(operationOMElement);
         }
         catch (Exception exception)
         {
@@ -113,15 +121,16 @@ public class Axis2ClientUtils
     /**
      * Constructs and OMElement from the given bean
      *
+     * @param definition the WSDL definition
+     * @param schema the current schema from which to retrieve the om element.
+     * @param componentElement, the current componentElemnet of the WSDL definition.
      * @param bean the bean to introspect
-     * @param elementName the name of the element
-     * @param qualified whether or not the resulting document should be qualified
-     * @param factory the SOAP factory instance used to create the OMElement
      * @param namespace the namespace to add to each element.
      */
     public static OMElement getOMElement(
         final Definition definition,
         final Schema schema,
+        final Element componentElement,
         final Object bean,
         final String elementName)
     {
@@ -129,21 +138,22 @@ public class Axis2ClientUtils
         return getOMElement(
             definition,
             schema,
-            null,
+            componentElement,
             bean,
             elementName,
             factory,
-            new ArrayList());
+            new ArrayList<Object>());
     }
 
     /**
      * Constructs and OMElement from the given bean
      *
+     * @param definition the WSDL definition
+     * @param schema the current schema from which to retrieve the om element.
+     * @param componentElement, the current componentElemnet of the WSDL definition.
      * @param bean the bean to introspect
      * @param elementName the name of the element
-     * @param qualified whether or not the resulting document should be qualified
      * @param factory the SOAP factory instance used to create the OMElement
-     * @param namespace the namespace to add to each element.
      * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
      *        to prevent endless recursion.
      */
@@ -154,7 +164,7 @@ public class Axis2ClientUtils
         final Object bean,
         final String elementName,
         final OMFactory factory,
-        final Collection evaluatingBeans)
+        final Collection<Object> evaluatingBeans)
     {
         final String componentElementName = componentElement != null ? componentElement.getAttribute(NAME) : null;
         if (StringUtils.isNotBlank(componentElementName))
@@ -329,22 +339,25 @@ public class Axis2ClientUtils
         final String value)
     {
         Element element = null;
-        final Types types = definition.getTypes();
-        final Collection elements = types.getExtensibilityElements();
-        for (final Iterator iterator = elements.iterator(); iterator.hasNext();)
+        if (value != null)
         {
-            final Object object = iterator.next();
-            if (object instanceof Schema)
+            final Types types = definition.getTypes();
+            final Collection elements = types.getExtensibilityElements();
+            for (final Iterator iterator = elements.iterator(); iterator.hasNext();)
             {
-                final Schema schema = (Schema)object;
-                element =
-                    getElementByAttribute(
-                        schema.getElement(),
-                        attribute,
-                        value);
-                if (element != null)
+                final Object object = iterator.next();
+                if (object instanceof Schema)
                 {
-                    break;
+                    final Schema schema = (Schema)object;
+                    element =
+                        getElementByAttribute(
+                            schema.getElement(),
+                            attribute,
+                            value);
+                    if (element != null)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -353,7 +366,7 @@ public class Axis2ClientUtils
 
     private static Schema[] getSchemas(final Definition definition)
     {
-        Collection schemas = new ArrayList();
+        final Collection<Schema> schemas = new ArrayList<Schema>();
         final Types types = definition.getTypes();
         final Collection elements = types.getExtensibilityElements();
         for (final Iterator iterator = elements.iterator(); iterator.hasNext();)
@@ -361,10 +374,10 @@ public class Axis2ClientUtils
             final Object object = iterator.next();
             if (object instanceof Schema)
             {
-                schemas.add(object);
+                schemas.add((Schema)object);
             }
         }
-        return (Schema[])schemas.toArray(new Schema[0]);
+        return schemas.toArray(new Schema[0]);
     }
 
     private static Element getElementByAttribute(
@@ -419,36 +432,42 @@ public class Axis2ClientUtils
         final String value)
     {
         Element found = null;
-        if (element != null)
+        if (element != null && value != null)
         {
-            final NodeList nodes = element.getChildNodes();
-            for (int ctr = 0; ctr < nodes.getLength(); ctr++)
+            final String foundAttribute = element.getAttribute(attribute);
+            if (value.equals(foundAttribute))
             {
-                final Node node = nodes.item(ctr);
-                if (node instanceof Element)
+                found = element;
+            }
+            else
+            {
+                final NodeList nodes = element.getChildNodes();
+                for (int ctr = 0; ctr < nodes.getLength(); ctr++)
                 {
-                    final String foundAttribute = ((Element)node).getAttribute(attribute);
-                    if (value.equals(foundAttribute))
+                    final Node node = nodes.item(ctr);
+                    if (node instanceof Element)
                     {
-                        found = (Element)node;
-                        break;
+                        found =
+                            getElementByAttribute(
+                                (Element)node,
+                                attribute,
+                                value);
+                        if (found != null)
+                        {
+                            break;
+                        }
                     }
-                    found =
-                        getElementByAttribute(
-                            (Element)node,
-                            attribute,
-                            value);
                 }
             }
         }
         return found;
     }
 
-    private static List getElementsWithAttribute(
+    private static List<Element> getElementsWithAttribute(
         final Element element,
         final String attribute)
     {
-        List found = new ArrayList();
+        final List<Element> found = new ArrayList<Element>();
         if (element != null)
         {
             final String foundAttribute = element.getAttribute(attribute);
@@ -597,7 +616,7 @@ public class Axis2ClientUtils
         {
             if (type.isArray())
             {
-                final Collection elements = new ArrayList();
+                final Collection<Object> elements = new ArrayList<Object>();
                 for (final Iterator iterator = element.getChildElements(); iterator.hasNext();)
                 {
                     OMElement omElement = (OMElement)iterator.next();
