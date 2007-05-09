@@ -61,7 +61,7 @@ public class ParameterFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return !this.hasStereotype(UMLProfile.STEREOTYPE_NULLABLE);
+        return !this.hasStereotype(UMLProfile.STEREOTYPE_NULLABLE) && this.getLower() >= 1;
     }
 
     /**
@@ -176,7 +176,7 @@ public class ParameterFacadeLogicImpl
     }
 
     /**
-     * Get the UML upper multiplicity Not implemented for UML1.4
+     * Get the UML upper multiplicity Not available for UML1.4
      */
     protected int handleGetUpper()
     {
@@ -184,7 +184,7 @@ public class ParameterFacadeLogicImpl
     }
 
     /**
-     * Get the UML lower multiplicity Not implemented for UML1.4
+     * Get the UML lower multiplicity Not available for UML1.4
      */
     protected int handleGetLower()
     {
