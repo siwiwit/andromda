@@ -178,10 +178,10 @@
                                 <tasks>
                                     <property name="dependencyClasspath" refid="maven.runtime.classpath"/>
                                     <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${dependencyClasspath}"/>
-                                    <copy file="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/axis2-1.1.1.jar"
-                                        tofile="${pom.basedir}/target/jarjar/axis2-1.1.1.jar"/>
-                                    <jarjar jarfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/axis2-1.1.1.jar">
-                                        <zipfileset src="${pom.basedir}/target/jarjar/axis2-1.1.1.jar"/>
+                                    <copy file="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/axis2-1.2.jar"
+                                        tofile="${pom.basedir}/target/jarjar/axis2-1.2.jar"/>
+                                    <jarjar jarfile="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/axis2-1.2.jar">
+                                        <zipfileset src="${pom.basedir}/target/jarjar/axis2-1.2.jar"/>
                                         <zap pattern="javax.xml.namespace.QName"/>
                                     </jarjar>
                                     <copy file="${pom.basedir}/target/${pom.parent.artifactId}-${pom.version}/stax-api-1.0.1.jar"
