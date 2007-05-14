@@ -10,8 +10,10 @@
     <!-- JNDI DataSource for J2EE environments -->
     <bean id="dataSource" class="$jndiDataSourceClass">
         <property name="jndiName"><value>$dataSource</value></property>
-        <property name="cache"><value>false</value></property>
+#if ($stringUtils.isNotBlank($jndiDataSourceCaching))
+        <property name="cache"><value>$jndiDataSourceCaching</value></property>
         <property name="proxyInterface"><value>javax.sql.DataSource</value></property>
+#end
     </bean>
 
     <!-- ====================== End of DATASOURCE DEFINITION ====================== -->

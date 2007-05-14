@@ -629,6 +629,14 @@
                     The name of the class to use when using a JNDI data source for data access.
                 </documentation>
             </property>
+            <property name="jndiDataSourceCaching" required="false">
+                <documentation>
+                    Enables to turn off the caching of the jndi datasource (value <code>false</code>) if using the default
+                    data source class <code>org.springframework.jndi.JndiObjectFactoryBean</code>.
+                    Usefull for allowing hot redeployment of JNDI objects. If not specified,
+                    no additional code is generated with default behaviour <strong>cache enabled</strong>.
+                </documentation>
+            </property>
             <property name="jdbcDataSourceClass">
                 <default>org.springframework.jdbc.datasource.DriverManagerDataSource</default>
                 <documentation>

@@ -95,6 +95,7 @@
     <property reference="serviceRemoteServer"/>
     <property reference="securityRealm"/>
     <property reference="jndiDataSourceClass"/>
+    <property reference="jndiDataSourceCaching"/>
     <property reference="jdbcDataSourceClass"/>
     <property reference="jdbcDataSourceDestroyMethod"/>
     <property reference="parameterRequiredCheck"/>

@@ -57,6 +57,7 @@
                 <property name="jmsCacheLevelName">CACHE_SESSION</property>
                 <property name="jmsMaxIncomingMessagesPerReceive">100</property>
                 <property name="hibernateEnableCache">true</property>
+                <property name="jndiDataSourceCaching">false</property>
             </properties>
         </namespace>
     </namespaces>
