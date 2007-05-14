@@ -746,7 +746,7 @@
             <property name="jmsMessageListenerAdapterImplementation">
                 <default>org.springframework.jms.listener.adapter.MessageListenerAdapter</default>
                 <documentation>
-                    The Spring message listener adaptor implementation.  
+                    The Spring message listener adaptor implementation.
                     See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/listener/adapter/MessageListenerAdapter.html">API docs</a>.
                 </documentation>
             </property>
@@ -777,7 +777,7 @@
             <property name="jmsDurableSubscriptionName" required="false">
                 <documentation>
                     The name used to identify the durable subscription. To be applied in case of a topic (pub-sub domain) with subscription durability activated.
-                    The durable subscription name needs to be unique within this client's JMS client id. Default is the class name of the specified message listener. 
+                    The durable subscription name needs to be unique within this client's JMS client id. Default is the class name of the specified message listener.
                 </documentation>
             </property>
             <property name="jmsTransactionsEnabled" required="false">
@@ -789,7 +789,7 @@
             <property name="jmsCacheLevelName" required="false">
                 <default></default>
                 <documentation>
-                    Sets the cache level name.  
+                    Sets the cache level name.
                     See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/listener/DefaultMessageListenerContainer.html#setCacheLevelName(java.lang.String)">setCacheLevelName(java.lang.String)</a>
                 </documentation>
             </property>
@@ -808,8 +808,14 @@
             <property name="jmsSessionTransacted">
                 <default>true</default>
                 <documentation>
-                    Set the transaction mode that is used when creating a JMS Session. 
+                    Set the transaction mode that is used when creating a JMS Session.
                     See <a href="http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/jms/support/JmsAccessor.html#">setSessionTransacted(boolean)</a>
+                </documentation>
+            </property>
+            <property name="jmsActiveMqDurableTopicPrefetch">
+                <default>100</default>
+                <documentation>
+                    Sets the default durable topic prefetch policy.
                 </documentation>
             </property>
         </propertyGroup>
@@ -945,10 +951,10 @@
                 <default>16</default>
                 <documentation>
                     hibernate.default_batch_fetch_size
-                    Set a default size for Hibernate batch fetching of associations. Recommended values: 4, 8, 16 
+                    Set a default size for Hibernate batch fetching of associations. Recommended values: 4, 8, 16
                 </documentation>
             </property>
-               
+
             <property name="hibernateJdbcBatchSize" required="false">
                 <documentation>
                     A nonzero value enables use of JDBC2 batch updates by Hibernate. ex: recommended values between 5 and 30

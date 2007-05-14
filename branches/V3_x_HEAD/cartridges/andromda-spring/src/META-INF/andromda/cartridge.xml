@@ -154,10 +154,10 @@
     <property reference="jmsProviderUrl"/>
     <property reference="jmsInitialContextFactory"/>
     <property reference="jmsUrlPackagePrefixes"/>
-    <property reference="jmsConnectionFactory"/>    
+    <property reference="jmsConnectionFactory"/>
     <property reference="jmsTopicNamePrefix"/>
-    <property reference="jmsQueueNamePrefix"/>   
-    <property reference="jmsTemplateImplementation"/> 
+    <property reference="jmsQueueNamePrefix"/>
+    <property reference="jmsTemplateImplementation"/>
     <property reference="applicationContextJms"/>
     <property reference="jmsReceiveTimeout"/>
     <property reference="jmsProvider"/>
@@ -172,7 +172,8 @@
     <property reference="jmsMaxIncomingMessagesPerReceive"/>
     <property reference="jmsRecoveryInterval"/>
     <property reference="jmsSessionTransacted"/>
-    
+    <property reference="jmsActiveMqDurableTopicPrefetch"/>
+
     <!-- cartridge-property merge-point -->
 
     <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
@@ -198,7 +199,7 @@
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
-    
+
      <template
         path="templates/spring/SpringServiceLocator.vsl"
         outputPattern="$generatedFile"
@@ -218,7 +219,7 @@
             </modelElement>
         </modelElements>
     </template>
-   
+
      <template
         path="templates/spring/SpringServiceLocator.vsl"
         outputPattern="$generatedFile"
@@ -1038,7 +1039,7 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <template
         path="templates/spring/hibernate/search/SearchParameter.java.vsl"
         outputPattern="$generatedFile"
@@ -1051,7 +1052,7 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <template
         path="templates/spring/hibernate/search/Search.java.vsl"
         outputPattern="$generatedFile"
@@ -1064,7 +1065,7 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <template
         path="templates/spring/hibernate/search/PropertySearch.java.vsl"
         outputPattern="$generatedFile"
@@ -1077,7 +1078,7 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <template
         path="templates/spring/paging/PaginationResult.java.vsl"
         outputPattern="$generatedFile"
@@ -1090,7 +1091,7 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <template
         path="templates/spring/hibernate/HibernateSearch.vsl"
         outputPattern="$generatedFile"
@@ -1165,7 +1166,7 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
      <template
         path="templates/spring/SpringBeanLocator.java.vsl"
         outputPattern="$generatedFile"
@@ -1173,9 +1174,9 @@
         overwrite="true"
         outputToSingleFile="true"
         outputOnEmptyElements="true"/>
-    
+
     <!-- JMS -->
-    
+
     <template
         path="templates/spring/jms/applicationContext-jms.xml.vsl"
         outputPattern="$applicationContextJms"
@@ -1200,7 +1201,7 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <template
         path="templates/spring/jms/MessageListener.java.vsl"
         outputPattern="$generatedFile"

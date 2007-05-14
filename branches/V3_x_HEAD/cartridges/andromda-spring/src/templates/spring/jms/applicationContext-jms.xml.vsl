@@ -4,7 +4,7 @@
 <beans>
 
     <!-- ========================= JMS DEFINITIONS ========================= -->
-    
+
 #if ($jbossMq)
     <!-- JNDI Environment Template -->
     <bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">
@@ -16,7 +16,7 @@
             </props>
         </property>
     </bean>
-    
+
 #end
 #foreach ($destination in $destinations)
 #if ($jbossMq)
@@ -60,22 +60,21 @@
         <property name="defaultListenerMethod">
             <value>$operation.name</value>
         </property>
-    </bean>  
-    
+    </bean>
+
 #end
     <bean id="${operation.messageListenerBeanName}ListenerContainer" class="$jmsMessageListenerContainerImplementation">
         <property name="connectionFactory">
             <bean class="org.springframework.jms.connection.SingleConnectionFactory">
                 <property name="targetConnectionFactory">
 #if ($jbossMq)
-    			                <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                    <bean class="org.springframework.jndi.JndiObjectFactoryBean">
                         <property name="jndiTemplate">
                             <ref bean="jndiTemplate"/>
                         </property>
                         <property name="jndiName">
                             <value>$jmsConnectionFactory</value>
                         </property>
-    			                </bean>
 #elseif ($activeMq)
                     <bean class="org.apache.activemq.spring.ActiveMQConnectionFactory">
                         <property name="brokerURL">
@@ -86,9 +85,16 @@
                             <value>$stringUtils.lowerCamelCaseName($jmsClientId)$stringUtils.capitalize($operation.messageListenerBeanName)</value>
                         </property>
 #end
+                        <property name="prefetchPolicy">
+                            <bean class="org.apache.activemq.ActiveMQPrefetchPolicy">
+                                <property name="durableTopicPrefetch">
+                                    <value>$jmsActiveMqDurableTopicPrefetch</value>
+                                </property>
+                            </bean>
+                        </property>
 #end
                     </bean>
-                </property>            
+                </property>
             </bean>
         </property>
         <property name="recoveryInterval">
@@ -144,14 +150,14 @@
         </property>
 #end
     </bean>
-    
-#if ($operation.arguments.empty)    
+
+#if ($operation.arguments.empty)
     <bean id="$operation.messageListenerBeanName" class="$operation.fullyQualifiedMessageListenerName">
         <property name="$operation.owner.beanName">
             <ref bean="$operation.owner.beanName"/>
         </property>
     </bean>
-    
+
 #end
 #end
 #foreach ($destination in $destinations)
@@ -159,14 +165,14 @@
     <bean id="$destination.templateBeanName" class="$jmsTemplateImplementation">
         <property name="connectionFactory">
 #if ($jbossMq)
-    			        <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
                 <property name="jndiTemplate">
                     <ref bean="jndiTemplate"/>
                 </property>
                 <property name="jndiName">
                     <value>$jmsConnectionFactory</value>
                 </property>
-    			        </bean>
+            </bean>
 #elseif ($activeMq)
             <bean class="org.apache.activemq.pool.PooledConnectionFactory">
                 <property name="connectionFactory">
