@@ -96,10 +96,10 @@
                             </bean>
                         </property>
 #end
+                        <property name="optimizeAcknowledge">
+                            <value>$operation.optimizeAcknowledge</value>
+                        </property>
                     </bean>
-                </property>
-                <property name="optimizeAcknowledge">
-                    <value>$operation.optimizeAcknowledge</value>
                 </property>
             </bean>
         </property>
