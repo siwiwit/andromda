@@ -66,8 +66,9 @@ public class Profile
      * @param name the profile name to retrieve.
      * @return the value.
      */
-    public String get(final String name)
+    public String get(String name)
     {
+        name = name != null ? name.trim() : null;
         // - attempt to get the profile value from the profile defined
         //   by the profile mappings uri first
         String value = (String)this.elements.get(name);
@@ -102,7 +103,7 @@ public class Profile
         for (final Iterator iterator = profiles.iterator(); iterator.hasNext();)
         {
             final Profile profile = (Profile)iterator.next();
-            
+
             String namespace = profile.getNamespace();
             if (Namespaces.instance().isShared(namespace))
             {
