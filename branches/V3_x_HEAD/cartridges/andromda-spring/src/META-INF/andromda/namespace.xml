@@ -815,7 +815,13 @@
             <property name="jmsActiveMqDurableTopicPrefetch">
                 <default>100</default>
                 <documentation>
-                    Sets the default durable topic prefetch policy.
+                    Sets the default durable topic prefetch policy for ActiveMQ.
+                </documentation>
+            </property>
+            <property name="jmsActiveMqQueuePrefetch">
+                <default>1000</default>
+                <documentation>
+                    Sets the default queue prefetch policy for ActiveMQ.
                 </documentation>
             </property>
         </propertyGroup>

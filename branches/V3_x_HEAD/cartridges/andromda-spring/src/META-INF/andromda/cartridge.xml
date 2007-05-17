@@ -173,6 +173,7 @@
     <property reference="jmsRecoveryInterval"/>
     <property reference="jmsSessionTransacted"/>
     <property reference="jmsActiveMqDurableTopicPrefetch"/>
+    <property reference="jmsActiveMqQueuePrefetch"/>
 
     <!-- cartridge-property merge-point -->
 

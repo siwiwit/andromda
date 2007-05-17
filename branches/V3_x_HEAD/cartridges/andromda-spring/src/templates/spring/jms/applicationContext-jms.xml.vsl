@@ -90,6 +90,9 @@
                                 <property name="durableTopicPrefetch">
                                     <value>$jmsActiveMqDurableTopicPrefetch</value>
                                 </property>
+                                <property name="queuePrefetch">
+                                    <value>$jmsActiveMqQueuePrefetch</value>
+                                </property>
                             </bean>
                         </property>
 #end
