@@ -7,6 +7,8 @@ import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.andromda.utils.StringUtilsHelper;
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -59,10 +61,10 @@ public class SpringServiceOperationLogicImpl
         }
         return signature;
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.OperationFacade#getCall()
-     * 
+     *
      * Overridden to provide the message argument (when necessary)
      */
     public java.lang.String getCall()
@@ -78,10 +80,10 @@ public class SpringServiceOperationLogicImpl
         }
         return call;
     }
-    
+
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getSignature(java.lang.String)
-     * 
+     *
      * Overridden to provide the appropriate incoming message (if needed).
      */
     public String getSignature(String modifier)
@@ -97,10 +99,10 @@ public class SpringServiceOperationLogicImpl
         }
         return signature;
     }
-    
+
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperationLogic#getSignature(boolean)
-     * 
+     *
      * Overridden to provide the appropriate incoming message (if needed).
      */
     public java.lang.String getSignature(final boolean withArgumentNames)
@@ -116,11 +118,11 @@ public class SpringServiceOperationLogicImpl
         }
         return signature;
     }
-    
+
     /**
-     * 
+     *
      * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperationLogic#getSignature()
-     * 
+     *
      * Overridden to provide the appropriate incoming message (if needed).
      */
     public String getSignature()
@@ -235,7 +237,7 @@ public class SpringServiceOperationLogicImpl
     {
         return this.getMessageImplementationCall("session");
     }
-    
+
     private String getMessageImplementationCall(String firstArgument)
     {
         final StringBuffer buffer = new StringBuffer();
@@ -256,7 +258,7 @@ public class SpringServiceOperationLogicImpl
             buffer.append(argumentNames);
         }
         buffer.append(")");
-        return this.getImplementationOperationName(buffer.toString());  
+        return this.getImplementationOperationName(buffer.toString());
     }
 
     /**
@@ -266,26 +268,26 @@ public class SpringServiceOperationLogicImpl
     {
         return this.getMessagingImplementationSignature("javax.jms.Session session");
     }
-    
+
     private String getMessagingImplementationSignature(final String firstArgument)
     {
         return this.getMessagingOperationSignature(this.getImplementationName(), firstArgument, null);
     }
-    
+
     /**
      * Gets the signature for an incoming message operation.
-     * 
+     *
      * @return the signature
      */
     private String getIncomingMessageSignature(String modifier)
     {
         return this.getMessagingOperationSignature(this.getName(), "javax.jms.Message message", modifier);
     }
-    
+
     /**
      * Constructs the incoming or outgoing messaging operation signature given the <code>operationName</code>
      * and the <code>firstArgument</code>.
-     * 
+     *
      * @param operationName the name of the operation.
      * @param firstArgument the argument that will be the first argument in the operation signature.
      * @param modifier the modifier to add to each argument (if null or empty, it isn't added).
@@ -320,7 +322,7 @@ public class SpringServiceOperationLogicImpl
         signature.append(")");
         return signature.toString();
     }
-   
+
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#getIncomingMessageImplementationCall()
      */
@@ -375,7 +377,7 @@ public class SpringServiceOperationLogicImpl
      */
     protected String handleGetMessageListenerName()
     {
-        return this.getOwner().getName() + 
+        return this.getOwner().getName() +
             StringUtilsHelper.upperCamelCaseName(this.getName());
     }
 
@@ -394,7 +396,7 @@ public class SpringServiceOperationLogicImpl
     {
         return this.getName() + MESSAGE_LISTENER_CONTAINER_SUFFIX;
     }
-    
+
     /**
      * The suffix for the listener container.
      */
@@ -406,5 +408,35 @@ public class SpringServiceOperationLogicImpl
     protected String handleGetMessageListenerContainerBeanName()
     {
         return this.getMessageListenerBeanName() + MESSAGE_LISTENER_CONTAINER_SUFFIX;
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringDependency#getSessionAcknowledgeMode()
+     */
+    protected String handleGetSessionAcknowledgeMode()
+    {
+        // use the attribute name by default
+        String mode = null;
+
+        // if there is a tagged value, use it instead
+        Object value = findTaggedValue(SpringProfile.TAGGEDVALUEVALUE_MESSAGING_SESSION_ACKNOWLEDGE_MODE);
+        System.out.println("the tag!!!: " + SpringProfile.TAGGEDVALUEVALUE_MESSAGING_SESSION_ACKNOWLEDGE_MODE);
+        System.out.println("the value!!: " + value);
+        if (value != null)
+        {
+            mode = ObjectUtils.toString(value);
+        }
+
+        return mode;
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#isOptimizeAcknowledge()
+     */
+    protected boolean handleIsOptimizeAcknowledge()
+    {
+        System.out.println("the tag!!!: " + SpringProfile.TAGGEDVALUEVALUE_ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE);
+        System.out.println("the value!!: " + SpringProfile.TAGGEDVALUEVALUE_ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE);
+        return BooleanUtils.toBoolean(ObjectUtils.toString(this.findTaggedValue(SpringProfile.TAGGEDVALUEVALUE_ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE)));
     }
 }

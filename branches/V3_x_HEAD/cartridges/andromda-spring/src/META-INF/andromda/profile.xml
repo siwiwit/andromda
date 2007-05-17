@@ -262,6 +262,30 @@
                     <value>an integer</value>
                 </allowedValues>
             </element>
+            <element name="ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE">
+                <documentation>
+                    Use this tagged value to set the sessop flag on an incoming
+                    connection when using ActiveMQ.
+                </documentation>
+                <value>@andromda.activemq.optimizeAcknowledge</value>
+                <appliedOnElement>A transition going into a service operation from a messaging destination</appliedOnElement>
+                <allowedValues>
+                    <value>true</value>
+                    <value>false</value>
+                </allowedValues>
+            </element>
+            <element name="MESSAGING_SESSION_ACKNOWLEDGE_MODE">
+                <documentation>
+                    Use this tagged value to set the session acknowledge mode.
+                </documentation>
+                <value>@andromda.messaging.sessionAcknowledgeMode</value>
+                <appliedOnElement>A transition going into a service operation from a messaging destination</appliedOnElement>
+                <allowedValues>
+                    <value>AUTO_ACKNOWLEDGE</value>
+                    <value>CLIENT_ACKNOWLEDGE</value>
+                    <value>DUPS_OK_ACKNOWLEDGE</value>
+                </allowedValues>
+            </element>
         </elementGroup>
         <elementGroup name="Constants">
             <documentation>

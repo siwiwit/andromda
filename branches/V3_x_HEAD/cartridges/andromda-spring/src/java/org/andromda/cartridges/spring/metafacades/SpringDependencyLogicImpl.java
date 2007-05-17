@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.andromda.cartridges.spring.SpringHibernateUtils;
-import org.andromda.cartridges.spring.metafacades.SpringGlobals;
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.apache.commons.collections.CollectionUtils;

@@ -98,6 +98,9 @@
 #end
                     </bean>
                 </property>
+                <property name="optimizeAcknowledge">
+                    <value>$operation.optimizeAcknowledge</value>
+                </property>
             </bean>
         </property>
         <property name="recoveryInterval">
@@ -150,6 +153,11 @@
 #if ($stringUtils.isNotBlank($jmsDurableSubscriptionName))
         <property name="durableSubscriptionName">
             <value>$jmsDurableSubscriptionName</value>
+        </property>
+#end
+#if ($stringUtils.isNotBlank($operation.sessionAcknowledgeMode))
+        <property name="sessionAcknowledgeModeName">
+            <value>$operation.sessionAcknowledgeMode</value>
         </property>
 #end
     </bean>
