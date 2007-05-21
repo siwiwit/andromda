@@ -420,8 +420,6 @@ public class SpringServiceOperationLogicImpl
 
         // if there is a tagged value, use it instead
         Object value = findTaggedValue(SpringProfile.TAGGEDVALUEVALUE_MESSAGING_SESSION_ACKNOWLEDGE_MODE);
-        System.out.println("the tag!!!: " + SpringProfile.TAGGEDVALUEVALUE_MESSAGING_SESSION_ACKNOWLEDGE_MODE);
-        System.out.println("the value!!: " + value);
         if (value != null)
         {
             mode = ObjectUtils.toString(value);
@@ -435,8 +433,6 @@ public class SpringServiceOperationLogicImpl
      */
     protected boolean handleIsOptimizeAcknowledge()
     {
-        System.out.println("the tag!!!: " + SpringProfile.TAGGEDVALUEVALUE_ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE);
-        System.out.println("the value!!: " + SpringProfile.TAGGEDVALUEVALUE_ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE);
         return BooleanUtils.toBoolean(ObjectUtils.toString(this.findTaggedValue(SpringProfile.TAGGEDVALUEVALUE_ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE)));
     }
 }
