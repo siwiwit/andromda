@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
+import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.FrontEndUseCase;
 import org.andromda.metafacades.uml.GeneralizableElementFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.Service;
@@ -14,8 +16,6 @@ import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.uml2.Classifier;
-import org.eclipse.uml2.UseCase;
 
 
 /**
@@ -82,30 +82,17 @@ public class RoleLogicImpl
                 }) != null;
 
         // - if no references on any services, try the FrontEndUseCases
-        // used like in uml1.4, throws a stack overflow error
         if (!present)
         {
-            final Collection associationEnds = UmlUtilities.getAssociationEnds(
-                    (Classifier)this.metaObject,
-                    false);
+            final Collection associationEnds = this.getAssociationEnds();
             for (final Iterator iterator = associationEnds.iterator(); iterator.hasNext() && !present;)
             {
-                final AssociationEnd associationEnd = (AssociationEnd)iterator.next();
-                final Object otherEnd = UmlUtilities.getOppositeAssociationEnd(associationEnd).getType();
-                if (otherEnd instanceof UseCase)
-                {
-                    UseCase uc = (UseCase)otherEnd;
-                    if (UmlUtilities.containsStereotype(uc, UMLProfile.STEREOTYPE_FRONT_END_USECASE) ||
-                    	    UmlUtilities.containsStereotype(uc, UMLProfile.STEREOTYPE_FRONT_END_APPLICATION))
-                    {
-                        present = true;
-                    }
-                }
+                final AssociationEndFacade associationEnd = (AssociationEndFacade)iterator.next();
+                present = associationEnd.getOtherEnd().getType() instanceof FrontEndUseCase;
             }
 
             // - a generalized role is still a role, and therefore is associated
             // with the FrontEndUseCase
-            // TODO: The generalized actors have to be Role too, isn't it ?
             if (!present)
             {
                 present = !this.getGeneralizedActors().isEmpty();
