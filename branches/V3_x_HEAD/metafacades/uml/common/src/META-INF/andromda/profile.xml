@@ -153,7 +153,7 @@
             </element>
             <element name="QUEUE">
                 <documentation>
-                    The node flagged with this stereotype represents a Queue message destination 
+                    The node flagged with this stereotype represents a Queue message destination
                     (i.e. JMS, etc).
                 </documentation>
                 <value>Queue</value>
@@ -161,7 +161,7 @@
             </element>
             <element name="TOPIC">
                 <documentation>
-                    The node flagged with this stereotype represents a Topic message destination 
+                    The node flagged with this stereotype represents a Topic message destination
                     (i.e. JMS, etc).
                 </documentation>
                 <value>Topic</value>
@@ -266,6 +266,18 @@
 			        Enumeration Literal
 			    </appliedOnElement>
 			</element>
+			<element name="PERSISTENCE_ASSOCIATION_END_PRIMARY">
+			    <documentation>
+                  Indicates whether or not the association end is considered "primary" used for things like indicating which side of a one-to-one
+                  association should get the foreign key.
+			    </documentation>
+			    <value>
+			        @andromda.persistence.associationEnd.primary
+			    </value>
+			    <appliedOnElement>
+			        AssociationEnd
+			    </appliedOnElement>
+			</element>
             <element name="PRESENTATION_CONTROLLER_USECASE">
                 <documentation>
                     The value should correspond to the use-case holding the activity graph
@@ -288,7 +300,7 @@
             </element>
             <element name="PRESENTATION_TABLE_COLUMNS">
                 <documentation>
-                    The collection will be displayed in scrollable tabular format. 
+                    The collection will be displayed in scrollable tabular format.
                     Each column in this table will be mapped to a property of the object
                     type contained in the collection. So you will need to make sure all objects
                     have accessor methods for the property you list in this tagged value.

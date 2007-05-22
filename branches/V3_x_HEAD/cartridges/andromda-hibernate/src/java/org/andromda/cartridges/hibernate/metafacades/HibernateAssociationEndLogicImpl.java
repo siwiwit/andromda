@@ -12,6 +12,7 @@ import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -107,7 +108,9 @@ public class HibernateAssociationEndLogicImpl
      */
     protected boolean handleIsOne2OnePrimary()
     {
-        return (this.isOne2One() && (this.isAggregation() || this.isComposition()));
+        return (this.isOne2One() && (this.isAggregation() || this.isComposition()) ||
+            BooleanUtils.toBoolean(ObjectUtils.toString(
+                this.findTaggedValue(HibernateProfile.TAGGEDVALUE_PERSISTENCE_ASSOCIATION_END_PRIMARY))));
     }
 
     /**
@@ -297,14 +300,14 @@ public class HibernateAssociationEndLogicImpl
             inverse = this.isMany2One();
 
             // for many-to-many we just put the flag on the side that
-            // is aggregation or composition and on the lexically longer 
+            // is aggregation or composition and on the lexically longer
             // fully qualified name for it's type on other types of relations
             if (this.isMany2Many() && !inverse)
             {
                 if (this.isAggregation() || this.isComposition())
                 {
                     inverse = false;
-                } 
+                }
                 else if (this.getOtherEnd().isAggregation() || this.getOtherEnd().isComposition()) {
                     inverse = true;
                 }

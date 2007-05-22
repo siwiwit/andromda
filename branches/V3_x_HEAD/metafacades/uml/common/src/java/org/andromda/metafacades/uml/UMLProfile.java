@@ -136,12 +136,12 @@ public class UMLProfile
      * Represents an exception on a "front-end" view.
      */
     public static final String STEREOTYPE_FRONT_END_EXCEPTION = profile.get("FRONT_END_EXCEPTION");
-    
+
     /**
      * Represents a "Queue" message destination.
      */
     public static final String STEREOTYPE_QUEUE = profile.get("QUEUE");
-    
+
     /**
      * Represents a "Topic" message destination.
      */
@@ -219,13 +219,13 @@ public class UMLProfile
      */
     public static final String TAGGEDVALUE_PERSISTENCE_ENUMERATION_MEMBER_VARIABLE = profile.get(
         "PERSISTENCE_ENUMERATION_MEMBER_VARIABLE");
-    
+
     /**
      * Used on an enumeration literal to define the enumeration literal parameters.
      */
     public static final String TAGGEDVALUE_PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS = profile.get(
         "PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS");
-    
+
     /**
      * Used to assign the controller to the activity (when it can not be assigned explicity).
      */
@@ -300,6 +300,12 @@ public class UMLProfile
      */
     public static final String TAGGEDVALUE_PERSISTENCE_COLUMN_UNIQUE_GROUP = profile.get("COLUMN_UNIQUE_GROUP");
 
+    /**
+     * Indicates whether or not the association end is considered "primary" used for things like indicating
+     * which side of a one-to-one association should get the foreign key.
+     */
+    public static final String TAGGEDVALUE_PERSISTENCE_ASSOCIATION_END_PRIMARY = profile.get("PERSISTENCE_ASSOCIATION_END_PRIMARY");
+
     /* ----------------- Data Types -------------------- */
 
     /**
@@ -366,7 +372,7 @@ public class UMLProfile
      * this type.
      */
     public static final String CLOB_TYPE_NAME = profile.get("CLOB_TYPE");
-    
+
     /**
      * Used to identify a map type in the model, any other type that will be identified as a map type must specialize
      * this type.
