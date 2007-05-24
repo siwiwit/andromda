@@ -297,10 +297,47 @@ public class UmlUtilities
     }
 
     /**
+     * Returns <code>true</code> if the given association end's type is an ancestor of the classifier, or just the
+     * argument classifier if follow is <code>false</code>.
+     *
+     * @param property this method returns false if this argument is not an association end
+     */
+    public static boolean isAssociationEndAttachedToType(
+        final Classifier classifier,
+        final Property property,
+        final boolean follow)
+    {
+        boolean attachedToType = false;
+
+        if (property.getAssociation() != null)
+        {
+            attachedToType = classifier.equals(property.getType());
+            if (follow && !attachedToType)
+            {
+                final List parents = classifier.getGenerals();
+                for (final Iterator iterator = parents.iterator(); iterator.hasNext();)
+                {
+                    final Object parent = iterator.next();
+                    if (parent instanceof Classifier)
+                    {
+                        attachedToType =
+                            isAssociationEndAttachedToType(
+                                (Classifier)parent,
+                                property,
+                                follow);
+                    }
+                }
+            }
+        }
+        return attachedToType;
+    }
+
+    /**
      * Gets a collection containing all of the associationEnds for this
      * class/interface. Superclass properties will be included if
      * <code>follow</code> is true. Overridden properties will be omitted.
      * <p/>
+     * cejeanne: Changed the way association end are found.
      *
      * @param classifier the UML class instance from which to retrieve all properties
      * @param follow     whether or not the inheritance hierarchy should be followed
@@ -311,27 +348,27 @@ public class UmlUtilities
         final boolean follow)
     {
         final List associationEnds = new ArrayList();
-        final List members = new ArrayList(classifier.getMembers());
-        for (final Iterator propertyIterator = members.iterator(); propertyIterator.hasNext();)
+        final List allProperties = getAllMetaObjectsInstanceOf(
+                Property.class,
+                classifier.getModel());
+
+        for (final Iterator propertyIterator = allProperties.iterator(); propertyIterator.hasNext();)
         {
-            final Object element = propertyIterator.next();
-            if (element instanceof Property)
+            final Property property = (Property)propertyIterator.next();
+
+            // only treat association ends, ignore attributes
+            if (property.getAssociation() != null && isAssociationEndAttachedToType(
+                    classifier,
+                    property,
+                    follow))
             {
-                final Property property = (Property)element;
-                // only treat association ends, ignore attributes
-                if (property.getAssociation() != null)
-                {
-                    final Property associationEnd = UmlUtilities.getOppositeAssociationEnd(property);
-                    // - classifier.getMembers() returns inherited association ends as well (that's why
-                    //   we need to make sure the classifier equals the type if follow isn't true)
-                    if (follow || classifier.equals(associationEnd.getType()))
-                    {
-                        associationEnds.add(associationEnd);
-                    }
-                }
+                associationEnds.add(property);
             }
         }
-        // - NO need to transform to association ends since getOppositeAssociationEnd already does that
+
+        CollectionUtils.transform(
+            associationEnds,
+            ELEMENT_TRANSFORMER);
         return associationEnds;
     }
 
