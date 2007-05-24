@@ -49,6 +49,10 @@ public class UMLModelAccessFacade
             "modelElement",
             model.getClass());
         this.model = (UML2Resource)model;
+        // TODO: - clear the meta objects cache (yes this is a performance
+        //       hack that at some point should be improved), either that
+        //       or since we're moving to A4 soon it won't matter
+        UmlUtilities.clearAllMetaObjectsCache();
     }
 
     /**

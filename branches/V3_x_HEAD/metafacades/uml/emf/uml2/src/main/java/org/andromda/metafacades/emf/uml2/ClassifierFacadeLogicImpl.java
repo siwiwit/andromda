@@ -688,24 +688,24 @@ public class ClassifierFacadeLogicImpl
      */
     protected Object handleGetNonArray()
     {
-        ClassifierFacade nonArrayType = this;
+        ClassifierFacade nonArrayType = (ClassifierFacade)this.THIS();
 
         String arraySuffix = this.getArraySuffix();
 
         if (this.getFullyQualifiedName().indexOf(arraySuffix) != -1)
         {
-            PackageFacade rootPF = this.getRootPackage();
+            PackageFacade packageFacade = this.getRootPackage();
             String fullQualifiedName = this.getFullyQualifiedName(true);
 
             if (this.logger.isDebugEnabled())
             {
                 this.logger.debug(
                     "Looking for non-array type of element " + fullQualifiedName + " with array suffix " + arraySuffix +
-                    ", root: " + rootPF);
+                    ", root: " + packageFacade);
                 this.logger.debug("Metaobject: " + this.metaObject + " its model is : " + this.metaObject.getModel());
             }
             nonArrayType =
-                (ClassifierFacade)rootPF.findModelElement(StringUtils.replace(
+                (ClassifierFacade)packageFacade.findModelElement(StringUtils.replace(
                         fullQualifiedName,
                         arraySuffix,
                         ""));
@@ -718,11 +718,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected Object handleGetArray()
     {
-        if (this.logger.isDebugEnabled())
-        {
-            this.logger.debug("Entered getArray for " + this.metaObject);
-        }
-        ClassifierFacade arrayType = this;
+        ClassifierFacade arrayType = (ClassifierFacade)this.THIS();
         if (this.metaObject instanceof PrimitiveType)
         {
             String name = this.getFullyQualifiedName(true);
@@ -1018,7 +1014,7 @@ public class ClassifierFacadeLogicImpl
         final GeneralizableElementFacade superClass = this.getGeneralization();
         return superClass instanceof ClassifierFacade ? superClass : null;
     }
- 
+
     protected boolean handleIsEmbeddedValue()
     {
         return this.hasStereotype(UMLProfile.STEREOTYPE_EMBEDDED_VALUE);

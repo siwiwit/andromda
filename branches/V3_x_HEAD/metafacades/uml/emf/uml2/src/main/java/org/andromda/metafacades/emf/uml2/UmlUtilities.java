@@ -2,9 +2,9 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,8 +46,6 @@ import org.eclipse.uml2.Profile;
 import org.eclipse.uml2.Property;
 import org.eclipse.uml2.Slot;
 import org.eclipse.uml2.Stereotype;
-import org.eclipse.uml2.Type;
-import org.eclipse.uml2.TypedElement;
 import org.eclipse.uml2.UML2Package;
 import org.eclipse.uml2.ValueSpecification;
 import org.eclipse.uml2.util.UML2Resource;
@@ -149,6 +147,8 @@ public class UmlUtilities
             }
         };
 
+    private static Map allMetaObjectsCache = new HashMap();
+
     /**
      * List all meta objects instances of a given meta class It's a way to
      * achieve refAllOfType method in a JMI implementation. Please take care of the
@@ -162,20 +162,38 @@ public class UmlUtilities
         final java.lang.Class metaClass,
         final Model model)
     {
-        LinkedList metaObjects = new LinkedList();
-        for (Iterator it = model.eAllContents(); it.hasNext();)
+        List metaObjects = (List)allMetaObjectsCache.get(metaClass);
+        if (metaObjects == null)
         {
-            Object metaObject = it.next();
-            if (metaClass.isInstance(metaObject))
+            metaObjects = new ArrayList();
+
+            for (Iterator it = model.eAllContents(); it.hasNext();)
             {
-                metaObjects.add(metaObject);
+                Object metaObject = it.next();
+                if (metaClass.isInstance(metaObject))
+                {
+                    metaObjects.add(metaObject);
+                }
             }
-        }
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("getAllMetaObjectsInstanceOf class: " + metaClass + ". Found: " + metaObjects.size());
+
+            if (logger.isDebugEnabled())
+            {
+                logger.debug("getAllMetaObjectsInstanceOf class: " + metaClass + ". Found: " + metaObjects.size());
+            }
+            allMetaObjectsCache.put(metaClass, metaObjects);
         }
         return metaObjects;
+    }
+
+    /**
+     * This clears the meta objects cache.  Even though this
+     * isn't the "cleanest" way to handle things, we need this
+     * for performance reasons (getAllMetaObjectsInstanceOf is WAY
+     * to slow otherwise).
+     */
+    public static void clearAllMetaObjectsCache()
+    {
+        allMetaObjectsCache.clear();
     }
 
     /**
@@ -223,61 +241,24 @@ public class UmlUtilities
     }
 
     /**
-     * Retrieves the name of the type for the given <code>element</code>.
-     *
-     * @param element the element for which to retrieve the type.
-     * @return the type name.
-     * @deprecated - it is not used. Do we need to keep it ?
-     */
-    public static String getType(final TypedElement element)
-    {
-        final Type elementType = element.getType();
-        String type = elementType.getName();
-        if (type != null && type.trim().length() > 0)
-        {
-            if (element instanceof MultiplicityElement)
-            {
-                MultiplicityElement multiplicity = (MultiplicityElement)element;
-                if (multiplicity.isMultivalued())
-                {
-                    type = type + "[";
-                    if (multiplicity.getLower() > 0)
-                    {
-                        type = type + multiplicity.getLower() + "..";
-                    }
-                    if (multiplicity.getUpper() == -1)
-                    {
-                        type = type + "*]";
-                    }
-                    else
-                    {
-                        type = type + multiplicity.getUpper() + "]";
-                    }
-                }
-            }
-        }
-        return type;
-    }
-
-    /**
      * Gets a collection containing all of the attributes for this
      * class/interface. Superclass properties will included if
      * <code>follow</code> is true. Overridden properties will be omitted.
      *
-     * @param umlClassifier the UML class instance from which to retrieve all properties
+     * @param classifier the UML class instance from which to retrieve all properties
      * @param follow        whether or not the inheritance hierarchy should be followed
      * @return all retrieved attributes.
      */
     public static List getAttributes(
-        final Classifier umlClassifier,
+        final Classifier classifier,
         final boolean follow)
     {
         final Map attributeMap = new LinkedHashMap(); // preserve ordering
-        final List members = new ArrayList(umlClassifier.getOwnedMembers());
+        final List members = new ArrayList(classifier.getOwnedMembers());
 
         if (follow)
         {
-            members.addAll(umlClassifier.getInheritedMembers());
+            members.addAll(classifier.getInheritedMembers());
         }
 
         for (final Iterator memberIterator = members.iterator(); memberIterator.hasNext();)
@@ -291,7 +272,7 @@ public class UmlUtilities
                 {
                     if (logger.isDebugEnabled())
                     {
-                        logger.debug("Attribute found for " + umlClassifier.getName() + ": " + property.getName());
+                        logger.debug("Attribute found for " + classifier.getName() + ": " + property.getName());
                         if (attributeMap.containsKey(property.getName()))
                         {
                             logger.warn(
@@ -316,49 +297,10 @@ public class UmlUtilities
     }
 
     /**
-     * Returns <code>true</code> if the given association end's type is an ancestor of the classifier, or just the
-     * argument classifier if follow is <code>false</code>.
-     *
-     * @param property this method returns false if this argument is not an association end
-     */
-    public static boolean isAssociationEndAttachedToType(
-        final Classifier classifier,
-        final Property property,
-        final boolean follow)
-    {
-        boolean attachedToType = false;
-
-        if (property.getAssociation() != null)
-        {
-            attachedToType = classifier.equals(property.getType());
-
-            if (follow && !attachedToType)
-            {
-                final List parents = classifier.getGenerals();
-                for (int i = 0; i < parents.size() && !attachedToType; i++)
-                {
-                    if (parents.get(i) instanceof Classifier)
-                    {
-                        final Classifier parent = (Classifier)parents.get(i);
-                        attachedToType =
-                            isAssociationEndAttachedToType(
-                                parent,
-                                property,
-                                follow);
-                    }
-                }
-            }
-        }
-
-        return attachedToType;
-    }
-
-    /**
      * Gets a collection containing all of the associationEnds for this
      * class/interface. Superclass properties will be included if
      * <code>follow</code> is true. Overridden properties will be omitted.
      * <p/>
-     * cejeanne: Changed the way association end are found.
      *
      * @param classifier the UML class instance from which to retrieve all properties
      * @param follow     whether or not the inheritance hierarchy should be followed
@@ -369,27 +311,27 @@ public class UmlUtilities
         final boolean follow)
     {
         final List associationEnds = new ArrayList();
-        final List allProperties = getAllMetaObjectsInstanceOf(
-                Property.class,
-                classifier.getModel());
-
-        for (final Iterator propertyIterator = allProperties.iterator(); propertyIterator.hasNext();)
+        final List members = new ArrayList(classifier.getMembers());
+        for (final Iterator propertyIterator = members.iterator(); propertyIterator.hasNext();)
         {
-            final Property property = (Property)propertyIterator.next();
-
-            // only treat association ends, ignore attributes
-            if (property.getAssociation() != null && isAssociationEndAttachedToType(
-                    classifier,
-                    property,
-                    follow))
+            final Object element = propertyIterator.next();
+            if (element instanceof Property)
             {
-                associationEnds.add(property);
+                final Property property = (Property)element;
+                // only treat association ends, ignore attributes
+                if (property.getAssociation() != null)
+                {
+                    final Property associationEnd = UmlUtilities.getOppositeAssociationEnd(property);
+                    // - classifier.getMembers() returns inherited association ends as well (that's why
+                    //   we need to make sure the classifier equals the type if follow isn't true)
+                    if (follow || classifier.equals(associationEnd.getType()))
+                    {
+                        associationEnds.add(associationEnd);
+                    }
+                }
             }
         }
-
-        CollectionUtils.transform(
-            associationEnds,
-            ELEMENT_TRANSFORMER);
+        // - NO need to transform to association ends since getOppositeAssociationEnd already does that
         return associationEnds;
     }
 
@@ -794,23 +736,25 @@ public class UmlUtilities
      */
     static AssociationEnd getOppositeAssociationEnd(final Property associationEnd)
     {
-        Object opposite = null;
-        Association association = associationEnd.getAssociation();
-
-        if (association != null)
+        Object opposite = associationEnd.getOpposite();
+        if (opposite == null)
         {
-            Collection ends = association.getMemberEnds();
-            for (final Iterator endIterator = ends.iterator(); endIterator.hasNext();)
+            Association association = associationEnd.getAssociation();
+
+            if (association != null)
             {
-                final Object end = endIterator.next();
-                if (end != null && !associationEnd.equals(end))
+                Collection ends = association.getMemberEnds();
+                for (final Iterator endIterator = ends.iterator(); endIterator.hasNext();)
                 {
-                    opposite = end;
-                    break;
+                    final Object end = endIterator.next();
+                    if (end != null && !associationEnd.equals(end))
+                    {
+                        opposite = end;
+                        break;
+                    }
                 }
             }
         }
-
         return new AssociationEndImpl((Property)opposite);
     }
 
@@ -994,7 +938,7 @@ public class UmlUtilities
      * <code>fullyQualifiedName</code>. If the model element can <strong>NOT
      * </strong> be found, <code>null</code> will be returned instead.
      *
-     * @param rs                 the resource set to search in
+     * @param resourceSet                 the resource set to search in
      * @param fullyQualifiedName the fully qualified name of the element to search for.
      * @param separator          the PSM separator used for qualifying the name (example ".").
      * @param modelName          a flag indicating whether or not a search shall be performed
@@ -1003,7 +947,7 @@ public class UmlUtilities
      * @return the found model element
      */
     static Object findByFullyQualifiedName(
-        final ResourceSet rs,
+        final ResourceSet resourceSet,
         final String fullyQualifiedName,
         final String separator,
         final boolean modelName)
@@ -1011,7 +955,7 @@ public class UmlUtilities
         Object modelElement;
         modelElement =
             findByPredicate(
-                rs,
+                resourceSet,
                 new Predicate()
                 {
                     public boolean evaluate(final Object object)

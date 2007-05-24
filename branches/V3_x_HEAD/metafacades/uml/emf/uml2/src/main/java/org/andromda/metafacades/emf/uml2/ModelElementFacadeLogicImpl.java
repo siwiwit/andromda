@@ -690,7 +690,6 @@ public class ModelElementFacadeLogicImpl
         // A more efficient implmentation of this would have been to use getClientDependencies() and getTemplateBindings()
     	// But it would have required the same filtering
     	// This way, the code is the "same" as getTargettingDependencies
-
         ArrayList dependencies = new ArrayList();
         dependencies.addAll(UmlUtilities.getAllMetaObjectsInstanceOf(
                 DirectedRelationship.class,

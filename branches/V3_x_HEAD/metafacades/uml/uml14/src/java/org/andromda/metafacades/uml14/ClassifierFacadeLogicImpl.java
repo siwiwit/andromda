@@ -618,7 +618,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected Object handleGetNonArray()
     {
-        ClassifierFacade nonArrayType = this;
+        ClassifierFacade nonArrayType = (ClassifierFacade)this.THIS();
         if (this.getFullyQualifiedName().indexOf(this.getArraySuffix()) != -1)
         {
             nonArrayType =
@@ -636,7 +636,7 @@ public class ClassifierFacadeLogicImpl
      */
     protected Object handleGetArray()
     {
-        ClassifierFacade arrayType = this;
+        ClassifierFacade arrayType = (ClassifierFacade)this.THIS();
         String name = this.getFullyQualifiedName(true);
         if (name.indexOf(this.getArraySuffix()) == -1)
         {

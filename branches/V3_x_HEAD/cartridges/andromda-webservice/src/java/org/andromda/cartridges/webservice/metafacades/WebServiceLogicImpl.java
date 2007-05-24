@@ -173,6 +173,7 @@ public class WebServiceLogicImpl
      */
     protected java.util.Collection handleGetTypeMappingElements()
     {
+        long startTime = System.currentTimeMillis();
         final Collection parameterTypes = new LinkedHashSet();
         for (final Iterator iterator = this.getAllowedOperations().iterator(); iterator.hasNext();)
         {
@@ -216,7 +217,7 @@ public class WebServiceLogicImpl
      * non array types to override things such as association ends in the
      * <code>types</code> collection.
      * </p>
-     * 
+     *
      * @param type the type
      * @param types the collection to load.
      * @param nonArrayTypes the collection of non array types.
@@ -310,10 +311,11 @@ public class WebServiceLogicImpl
                     }
                 }
             }
-        } 
+        }
         catch (final Throwable throwable)
         {
             final String message = "Error performing loadTypes";
+            throwable.printStackTrace();
             logger.error(throwable);
             throw new MetafacadeException(message, throwable);
         }
@@ -328,7 +330,7 @@ public class WebServiceLogicImpl
      * within the <code>types</code> collection. If so, we return true,
      * otherwise we return false.
      * </p>
-     * 
+     *
      * @param types the previously collected types.
      * @param modelElement the model element to check to see if it represents a
      *        <code>many</code> type
@@ -339,35 +341,7 @@ public class WebServiceLogicImpl
         final Collection types,
         final Object modelElement)
     {
-        ClassifierFacade classifier = null;
-        if (modelElement instanceof AssociationEndFacade)
-        {
-            AssociationEndFacade end = (AssociationEndFacade)modelElement;
-            if (end.isMany())
-            {
-                classifier = ((AssociationEndFacade)modelElement).getType();
-            }
-        }
-        else if (modelElement instanceof AttributeFacade)
-        {
-            classifier = ((AttributeFacade)modelElement).getType();
-        }
-        else if (modelElement instanceof ClassifierFacade)
-        {
-            classifier = (ClassifierFacade)modelElement;
-        }
-        else if (modelElement instanceof ParameterFacade)
-        {
-            classifier = ((ParameterFacade)modelElement).getType();
-        }
-        if (classifier != null)
-        {
-            if (classifier.isArrayType())
-            {
-                classifier = classifier.getNonArray();
-            }
-        }
-        final ClassifierFacade compareType = classifier;
+        final ClassifierFacade compareType = this.getClassifier(modelElement);
         boolean containsManyType = false;
         if (compareType != null)
         {
@@ -378,44 +352,50 @@ public class WebServiceLogicImpl
                     {
                         public boolean evaluate(Object object)
                         {
-                            boolean valid = false;
-                            ClassifierFacade type = null;
-                            if (object instanceof AssociationEndFacade)
-                            {
-                                AssociationEndFacade end = (AssociationEndFacade)object;
-                                if (end.isMany())
-                                {
-                                    type = ((AssociationEndFacade)object).getType();
-                                }
-                            } 
-                            else if (object instanceof AttributeFacade)
-                            {
-                                type = ((AttributeFacade)object).getType();
-                            }
-                            else if (object instanceof ParameterFacade)
-                            {
-                                type = ((ParameterFacade)object).getType();
-                            }
-                            if (object instanceof ClassifierFacade)
-                            {
-                                type = (ClassifierFacade)object;
-                            }
-                            if (type.isArrayType())
-                            {
-                                type = type.getNonArray();
-                            }
-                            if (type != null)
-                            {
-                                if (type != null)
-                                {
-                                    valid = type.equals(compareType);
-                                }
-                            }
-                            return valid;
+                            return compareType.equals(getClassifier(object));
                         }
                     }) != null;
         }
         return containsManyType;
+    }
+
+    /**
+     * Attempts to get the classifier attached to the given <code>element</code>.
+     *
+     * @param element the element from which to retrieve the classifier.
+     * @return the classifier if found, null otherwise
+     */
+    private ClassifierFacade getClassifier(final Object element)
+    {
+        ClassifierFacade type = null;
+        if (element instanceof AssociationEndFacade)
+        {
+            AssociationEndFacade end = (AssociationEndFacade)element;
+            if (end.isMany())
+            {
+                type = ((AssociationEndFacade)element).getType();
+            }
+        }
+        else if (element instanceof AttributeFacade)
+        {
+            type = ((AttributeFacade)element).getType();
+        }
+        else if (element instanceof ParameterFacade)
+        {
+            type = ((ParameterFacade)element).getType();
+        }
+        if (element instanceof ClassifierFacade)
+        {
+            type = (ClassifierFacade)element;
+        }
+        if (type != null)
+        {
+            if (type.isArrayType())
+            {
+                type = type.getNonArray();
+            }
+        }
+        return type;
     }
 
     /**
@@ -896,7 +876,7 @@ public class WebServiceLogicImpl
         }
         return mappings;
     }
-    
+
     /**
      * Gets the array suffix from the configured metafacade properties.
      *
