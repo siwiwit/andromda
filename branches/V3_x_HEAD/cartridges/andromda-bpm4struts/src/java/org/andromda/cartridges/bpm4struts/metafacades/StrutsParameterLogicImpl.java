@@ -801,7 +801,7 @@ public class StrutsParameterLogicImpl
         // in case of a custom array just add the attributes
         if (this.isCustomArrayTable())
         {
-            final Collection attributes = this.getType().getNonArray().getAttributes();
+            final Collection attributes = this.getType().getNonArray().getAttributes(true);
             for (final Iterator attributeIterator = attributes.iterator(); attributeIterator.hasNext();)
             {
                 final ModelElementFacade attribute = (ModelElementFacade)attributeIterator.next();
