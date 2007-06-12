@@ -173,7 +173,6 @@ public class WebServiceLogicImpl
      */
     protected java.util.Collection handleGetTypeMappingElements()
     {
-        long startTime = System.currentTimeMillis();
         final Collection parameterTypes = new LinkedHashSet();
         for (final Iterator iterator = this.getAllowedOperations().iterator(); iterator.hasNext();)
         {
