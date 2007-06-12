@@ -1,4 +1,4 @@
-package org.andromda.cartridges.spring.webservice.client;
+package org.andromda.cartridges.support.webservice.client;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

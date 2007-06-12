@@ -1,4 +1,4 @@
-package org.andromda.cartridges.spring.webservice.client;
+package org.andromda.cartridges.support.webservice.client;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package org.andromda.cartridges.spring.webservice.client;
+package org.andromda.cartridges.support.webservice.client;
 
 import org.apache.axis2.AxisFault;
 import org.springframework.aop.framework.ProxyFactory;
