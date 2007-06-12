@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -52,7 +52,7 @@
             <artifactId>log4j</artifactId>
             <version>1.2.12</version>
         </dependency>
-    </dependencies> 
+    </dependencies>
     <build>
         <pluginManagement>
             <plugins>
@@ -76,7 +76,7 @@
                 <plugin>
                     <extensions>true</extensions>
                     <groupId>org.andromda.maven.plugins</groupId>
-                    <artifactId>andromda-cartridge-plugin</artifactId>  
+                    <artifactId>andromda-cartridge-plugin</artifactId>
                     <version>${pom.version}</version>
                     <executions>
                         <execution>
@@ -87,7 +87,7 @@
                                 <configurationUri>file:${basedir}/conf/test/andromda.xml</configurationUri>
                             </configuration>
                         </execution>
-                    </executions> 
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.andromda.maven.plugins.site</groupId>
@@ -100,17 +100,17 @@
                                 <goal>profile-xsl</goal>
                             </goals>
                             <configuration>
-                                <profileDocumentPath>${pom.basedir}/src/META-INF/andromda/profile.xml</profileDocumentPath> 
-                            </configuration> 
+                                <profileDocumentPath>${pom.basedir}/src/META-INF/andromda/profile.xml</profileDocumentPath>
+                            </configuration>
                         </execution>
                         <execution>
                             <id>namespace-transform</id>
                             <goals>
                                 <goal>namespace-xsl</goal>
                             </goals>
-                            <configuration> 
+                            <configuration>
                                 <namespaceDocumentPath>${pom.basedir}/src/META-INF/andromda/namespace.xml</namespaceDocumentPath>
-                            </configuration> 
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -138,7 +138,7 @@
                     <exclude>**/*.java</exclude>
                 </excludes>
             </resource>
-        </resources>  
+        </resources>
     </build>
     <modules>
         <module>andromda-bpm4struts</module>
@@ -153,6 +153,7 @@
         <module>andromda-webservice</module>
         <module>andromda-xmlschema</module>
         <module>manageable-entities</module>
+        <module>support</module>
         <module>testsuite</module>
     </modules>
     <properties>
