@@ -187,15 +187,6 @@
 					</tasks>
 				</configuration>
 			</plugin>
-			<!-- AMW Add JDK source/target since switching CC jdk to 1.5 -->
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-compiler-plugin</artifactId>
-               <configuration>
-                  <source>1.4</source>
-                  <target>1.4</target>
-               </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
