@@ -292,6 +292,10 @@
             <groupId>org.apache.ws.commons</groupId>
             <artifactId>XmlSchema</artifactId>
         </dependency>
+        <dependency>
+            <groupId>woodstox</groupId>
+            <artifactId>wstx-asl</artifactId>
+        </dependency>
 #end
 #elseif ($xfire)
         <dependency>
