@@ -224,6 +224,7 @@
                                     <rule pattern="org.apache.axiom.om.**" result="org.apache.axioma.om.@1"/>
                                     <rule pattern="org.apache.axiom.soap.impl.llom.**" result="org.apache.axioma.soap.impl.llom.@1"/>
                                     <rule pattern="org.apache.axis2.deployment.**" result="org.apache.axis2a.deployment.@1"/>
+                                    <rule pattern="META*.services.*" result="META@1.servicesa.@1"/>
                                 </jarjar>
                             </tasks>
                         </configuration>
