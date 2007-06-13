@@ -136,7 +136,7 @@
                             <inclusion>
                                 <groupId>org.apache.axis2</groupId>
                                 <artifactId>axis2</artifactId>
-                                <filter>!javax/xml/namespace/QName*</filter>
+                                <filter>!javax/xml/namespace/QName*,!**/*.xsl</filter>
                             </inclusion>
                             <inclusion>
                                 <groupId>org.apache.ws.commons.axiom</groupId>
@@ -204,7 +204,13 @@
                                 <jarjar jarfile="${project.build.directory}/${pom.artifactId}-${pom.version}.jar">
                                     <fileset dir="${pom.basedir}/src/main/resources"/>
                                     <zipfileset src="${project.build.directory}/webservice-client.jar"
-                                        excludes="**/*/axis2_default.xml,**/*/javax.xml.stream.XMLInputFactory,**/*/javax.xml.stream.XMLOutputFactory"/>
+                                        excludes="**/*/axis2_default.xml,
+                                                  **/*/javax.xml.stream.XMLInputFactory,
+                                                  **/*/javax.xml.stream.XMLOutputFactory,
+                                                  **/*/pom.xml,
+                                                  **/*/pom.properties,
+                                                  **/*.html,
+                                                  **/*.mar"/>
                                     <rule pattern="org.apache.axis2.receivers.**" result="org.apache.axis2a.receivers.@1"/>
                                     <rule pattern="org.apache.axis2.transport.jms.**" result="org.apache.axis2a.transport.jms.@1"/>
                                     <rule pattern="org.apache.axis2.transport.tcp.**" result="org.apache.axis2a.transport.tcp.@1"/>
@@ -217,6 +223,7 @@
                                     <rule pattern="com.ctc.wstx.compat.**" result="com.ctc.wstxa.compat.@1"/>
                                     <rule pattern="org.apache.axiom.om.**" result="org.apache.axioma.om.@1"/>
                                     <rule pattern="org.apache.axiom.soap.impl.llom.**" result="org.apache.axioma.soap.impl.llom.@1"/>
+                                    <rule pattern="org.apache.axis2.deployment.**" result="org.apache.axis2a.deployment.@1"/>
                                 </jarjar>
                             </tasks>
                         </configuration>
