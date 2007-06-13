@@ -15,11 +15,11 @@ import org.apache.commons.codec.binary.Base64;
  * Interceptor for accessing a specific port of a web service.
  */
 public class Axis2PortClientInterceptor
+    extends org.springframework.beans.factory.support.AbstractBeanDefinition
     implements MethodInterceptor,
         InitializingBean
 {
     protected final Log logger = LogFactory.getLog(Axis2PortClientInterceptor.class);
-    private boolean lookupServiceOnStartup = true;
     private final Object preparationMonitor = new Object();
     private String username;
 
@@ -173,16 +173,13 @@ public class Axis2PortClientInterceptor
     }
 
     /**
-     * Prepares the JAX-RPC service and port if the "lookupServiceOnStartup"
-     * is turned on (which it is by default).
+     * Prepares the JAX-RPC service and port if the "lazyInit"
+     * isn't false.
      */
     public void afterPropertiesSet()
         throws AxisFault
     {
-        if (this.lookupServiceOnStartup)
-        {
-            this.prepare();
-        }
+        this.prepare();
     }
 
     private WebServiceClient client;
@@ -210,18 +207,6 @@ public class Axis2PortClientInterceptor
     }
 
     /**
-     * Return whether this client interceptor has already been prepared,
-     * i.e. has already looked up the JAX-RPC service and port.
-     */
-    protected boolean isPrepared()
-    {
-        synchronized (this.preparationMonitor)
-        {
-            return this.client != null;
-        }
-    }
-
-    /**
      * Translates the method invocation into a JAX-RPC service invocation.
      * Uses traditional RMI stub invocation if a JAX-RPC port stub is available;
      * falls back to JAX-RPC dynamic calls else.
@@ -237,35 +222,6 @@ public class Axis2PortClientInterceptor
             return "Axis2 proxy for WSDL [" + this.getWsdlUrl() + "] of service [" +
             this.getServiceInterface().getName() + "]";
         }
-
-        // Lazily prepare client if appropriate.
-        if (!this.lookupServiceOnStartup)
-        {
-            if (!isPrepared())
-            {
-                try
-                {
-                    prepare();
-                }
-                catch (AxisFault exception)
-                {
-                    System.out.println("converting the exception!!!: " + exception);
-                    throw RmiClientInterceptorUtils.convertRmiAccessException(
-                        invocation.getMethod(),
-                        exception,
-                        this.getServiceInterface().getName());
-                }
-            }
-        }
-        else
-        {
-            if (!this.isPrepared())
-            {
-                throw new IllegalStateException(this.getClass().getName() + " is not properly initialized - " +
-                    "invoke 'prepare' before attempting any operations");
-            }
-        }
-
         if (logger.isDebugEnabled())
         {
             logger.debug(
