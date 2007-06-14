@@ -41,11 +41,18 @@ public class $enumeration.name
     private static final long serialVersionUID = ${enumeration.serialVersionUID}L;
 
 #end
+##special handling of byte and short as enumeration value type:
+##the java compiler will always promote these types to int
+##so we have to cast these values to prevent compile errors
+#set($intCast = "")
+#if($enumeration.literalType.primitive && ($enumeration.literalType.fullyQualifiedName.equals("byte") || $enumeration.literalType.fullyQualifiedName.equals("short")))
+#set($intCast = "(${enumeration.literalType.fullyQualifiedName})")
+#end
 #foreach ($literal in $enumeration.literals)
     /**
 $literal.getDocumentation("     * ")
      */
-    public static final $enumeration.name $literal.name = new ${enumeration.name}($literal.enumerationValue);
+    public static final $enumeration.name $literal.name = new ${enumeration.name}(${intCast}${literal.enumerationValue});
 
 #end
     private $enumeration.literalType.fullyQualifiedName value;
