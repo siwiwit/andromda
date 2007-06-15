@@ -233,6 +233,7 @@ public class $className
     public static Object deserialize(OMElement element, final Class type, final ObjectSupplier objectSupplier)
     {
         Object bean = null;
+        System.out.println("type: " + type  + " is simple type: " + isSimpleType(type));
         if (isSimpleType(type))
         {
              bean = SimpleTypeMapper.getSimpleTypeObject(
@@ -434,10 +435,23 @@ public class $className
      */
     private static boolean isSimpleType(final Object bean)
     {
-        boolean simpleType = SimpleTypeMapper.isSimpleType(bean);
+        return isSimpleType(bean != null ? bean.getClass() : null);
+    }
+
+    /**
+     * First delegate to the Axis2 simple type mapper, if that says
+     * its simple, it is, otherwise check to see if the type is an enumeration (typesafe
+     * or Java5 version).
+     *
+     * @param type the type to check.
+     * @return true/false
+     */
+    private static boolean isSimpleType(final Class type)
+    {
+        boolean simpleType = SimpleTypeMapper.isSimpleType(type);
         if (!simpleType)
         {
-            simpleType = isEnumeration(bean);
+            simpleType = isEnumeration(type);
         }
         return simpleType;
     }
@@ -445,17 +459,16 @@ public class $className
     private static final String FROM = "from";
 
     /**
-     * Indicates whether or not the given bean represents an enumeration.
+     * Indicates whether or not the given type represents an enumeration.
      *
-     * @param bean the bean to check.
+     * @param type the type to check.
      * @return true/false
      */
-    private static boolean isEnumeration(final Object bean)
+    private static boolean isEnumeration(final Class type)
     {
         boolean enumeration = false;
-        if (bean != null)
+        if (type != null)
         {
-            final Class type = bean.getClass();
             enumeration = type.isEnum();
             if (!enumeration)
             {
