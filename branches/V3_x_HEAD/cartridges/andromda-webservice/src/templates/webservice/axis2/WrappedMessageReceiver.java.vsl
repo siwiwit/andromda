@@ -233,7 +233,6 @@ public class $className
     public static Object deserialize(OMElement element, final Class type, final ObjectSupplier objectSupplier)
     {
         Object bean = null;
-        System.out.println("type: " + type  + " is simple type: " + isSimpleType(type));
         if (isSimpleType(type))
         {
              bean = SimpleTypeMapper.getSimpleTypeObject(
