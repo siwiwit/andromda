@@ -196,7 +196,7 @@ public class Axis2ClientUtils
                     definition,
                     NAME,
                     bean.getClass().getSimpleName());
-            if (SimpleTypeMapper.isSimpleType(bean))
+            if (isSimpleType(bean))
             {
                 omElement.addChild(factory.createOMText(SimpleTypeMapper.getStringValue(bean)));
             }
@@ -574,17 +574,18 @@ public class Axis2ClientUtils
      * @param type the java type.
      * @param objectSupplier the "object supplier" used to construct objects from given classes.
      * @return the deserialized object.
+     * @throws Exception
      */
     public static Object deserialize(
         OMElement element,
         final Class type,
-        final ObjectSupplier objectSupplier)
+        final ObjectSupplier objectSupplier) throws Exception
     {
         Object bean = null;
-        if (SimpleTypeMapper.isSimpleType(type))
+        if (isSimpleType(type))
         {
             bean =
-                SimpleTypeMapper.getSimpleTypeObject(
+                getSimpleTypeObject(
                     type,
                     element);
         }
@@ -671,5 +672,131 @@ public class Axis2ClientUtils
             }
         }
         return found;
+    }
+
+    /**
+     * First delegate to the Axis2 simple type mapper, if that says
+     * its simple, it is, otherwise check to see if the type is an enumeration (typesafe
+     * or Java5 version).
+     *
+     * @param bean the bean to check.
+     * @return true/false
+     */
+    private static boolean isSimpleType(final Object bean)
+    {
+        return isSimpleType(bean != null ? bean.getClass() : null);
+    }
+
+    /**
+     * First delegate to the Axis2 simple type mapper, if that says
+     * its simple, it is, otherwise check to see if the type is an enumeration (typesafe
+     * or Java5 version).
+     *
+     * @param type the type to check.
+     * @return true/false
+     */
+    private static boolean isSimpleType(final Class type)
+    {
+        return java.util.Calendar.class.isAssignableFrom(type) ||
+               java.util.Date.class.isAssignableFrom(type) ||
+               SimpleTypeMapper.isSimpleType(type) ||
+               isEnumeration(type);
+    }
+
+    /**
+     * Constructs a type object for the given type and element.
+     *
+     * @param type the class type to construct.
+     * @param element the element containing the value.
+     * @return the constructed object or null if one couldn't be constructed.
+     * @throws Exception
+     */
+    public static Object getSimpleTypeObject(Class type, OMElement element)
+        throws Exception
+    {
+        Object object = SimpleTypeMapper.getSimpleTypeObject(type, element);
+        if (object == null && type != null && element != null)
+        {
+            if (type.isEnum())
+            {
+
+            }
+            else
+            {
+                final Method fromMethod = getEnumerationFromMethod(type);
+                if (fromMethod != null)
+                {
+                    object = fromMethod.invoke(type, new Object[]{element.getText()});
+                }
+            }
+        }
+        return object;
+    }
+
+    private static final String FROM = "from";
+
+    /**
+     * Indicates whether or not the given type represents an enumeration.
+     *
+     * @param type the type to check.
+     * @return true/false
+     */
+    private static boolean isEnumeration(final Class type)
+    {
+        return isEnumeration(type, getEnumerationFromMethod(type));
+    }
+
+    /**
+     * Indicates whether or not the given type represents an enumeration by checking
+     * whether the type is an actual "enum" class or the "fromMethod" is not null.
+     *
+     * @param type the type to check.
+     * @param the "from" method used to construct a typesafe enumeration from it's simple type.
+     * @return true/false
+     */
+    private static boolean isEnumeration(final Class type, final Method fromMethod)
+    {
+        boolean enumeration = false;
+        if (type != null)
+        {
+            enumeration = type.isEnum();
+            if (!enumeration)
+            {
+                enumeration = fromMethod != null;
+            }
+        }
+        return enumeration;
+    }
+
+    /**
+     * Gets the "from" method for a type safe enumeration.
+     *
+     * @param type the type.
+     * @return the "from" method (i.e. fromString, etc).
+     */
+    private static Method getEnumerationFromMethod(final Class type)
+    {
+        Method fromMethod = null;
+        if (type != null)
+        {
+            // - check for the typesafe enum pattern
+            for (final Method method : type.getMethods())
+            {
+                if (method.getName().startsWith(FROM))
+                {
+                    final Class[] parameterTypes = method.getParameterTypes();
+                    if (parameterTypes.length == 1)
+                    {
+                        final Class parameterType = parameterTypes[0];
+                        if (method.getName().equals(FROM + parameterType.getSimpleName()))
+                        {
+                            fromMethod = method;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return fromMethod;
     }
 }

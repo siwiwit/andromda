@@ -288,11 +288,18 @@ public class WebServiceClient
 
         if (method.getReturnType() != void.class)
         {
-            result =
-                Axis2ClientUtils.deserialize(
-                    response.getFirstElement(),
-                    method.getReturnType(),
-                    new DefaultObjectSupplier());
+            try
+            {
+                result =
+                    Axis2ClientUtils.deserialize(
+                        response.getFirstElement(),
+                        method.getReturnType(),
+                        new DefaultObjectSupplier());
+            }
+            catch (Exception exception)
+            {
+                throw new AxisFault(exception);
+            }
         }
         omElement = null;
         response = null;
