@@ -447,12 +447,10 @@ public class $className
      */
     private static boolean isSimpleType(final Class type)
     {
-        boolean simpleType = SimpleTypeMapper.isSimpleType(type);
-        if (!simpleType)
-        {
-            simpleType = isEnumeration(type);
-        }
-        return simpleType;
+        return java.util.Calendar.class.isAssignableFrom(type) ||
+               java.util.Date.class.isAssignableFrom(type) ||
+               SimpleTypeMapper.isSimpleType(type) ||
+               isEnumeration(type);
     }
 
     private static final String FROM = "from";
