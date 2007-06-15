@@ -703,6 +703,8 @@ public class Axis2ClientUtils
                isEnumeration(type);
     }
 
+    private static final String VALUE_OF = "valueOf";
+
     /**
      * Constructs a type object for the given type and element.
      *
@@ -711,6 +713,7 @@ public class Axis2ClientUtils
      * @return the constructed object or null if one couldn't be constructed.
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public static Object getSimpleTypeObject(Class type, OMElement element)
         throws Exception
     {
@@ -719,7 +722,9 @@ public class Axis2ClientUtils
         {
             if (type.isEnum())
             {
-
+                object = type.getMethod(
+                    VALUE_OF, new Class[]{java.lang.String.class}).invoke(
+                        type, element.getText());
             }
             else
             {

@@ -58,13 +58,13 @@ public class $className
 
             Class ImplClass = obj.getClass();
 
-            AxisOperation op = inMessage.getOperationContext().getAxisOperation();
-            AxisService service = inMessage.getAxisService();
-            OMElement methodElement = inMessage.getEnvelope().getBody().getFirstElement();
-            AxisMessage inAxisMessage = op.getMessage(WSDLConstants.MESSAGE_LABEL_IN_VALUE);
+            final AxisOperation operation = inMessage.getOperationContext().getAxisOperation();
+            final AxisService service = inMessage.getAxisService();
+            final OMElement methodElement = inMessage.getEnvelope().getBody().getFirstElement();
+            final AxisMessage inAxisMessage = operation.getMessage(WSDLConstants.MESSAGE_LABEL_IN_VALUE);
             String messageNameSpace = null;
             QName elementQName;
-            String methodName = op.getName().getLocalPart();
+            String methodName = operation.getName().getLocalPart();
             Method[] methods = ImplClass.getMethods();
             for (int i = 0; i < methods.length; i++)
             {
@@ -115,60 +115,60 @@ public class $className
             SOAPFactory factory = getSOAPFactory(inMessage);
 
             // Handling the response
-            AxisMessage outaxisMessage = op.getMessage(WSDLConstants.MESSAGE_LABEL_OUT_VALUE);
-            if (outaxisMessage != null)
+            AxisMessage outAxisMessage = operation.getMessage(WSDLConstants.MESSAGE_LABEL_OUT_VALUE);
+            if (outAxisMessage != null)
             {
-                messageNameSpace = outaxisMessage.getElementQName().getNamespaceURI();
+                messageNameSpace = outAxisMessage.getElementQName().getNamespaceURI();
             }
 
-            OMNamespace ns = factory.createOMNamespace(
+            OMNamespace namespace = factory.createOMNamespace(
                     messageNameSpace,
                     service.getSchematargetNamespacePrefix());
             SOAPEnvelope envelope = factory.getDefaultEnvelope();
 
             OMElement responseElement = factory.createOMElement(
                     getOperationResponseName(method),
-                    ns);
+                    namespace);
 
             final OMElement returnElement =
                 getOMElement(
                     responseObject,
                     getOperationReturnName(method),
                     service.isElementFormDefault(),
-                    ns);
+                    namespace);
 
             responseElement.addChild(returnElement);
             envelope.getBody().addChild(responseElement);
             outMessage.setEnvelope(envelope);
         }
-        catch (InvocationTargetException e)
+        catch (InvocationTargetException exception)
         {
-            String msg = null;
-            Throwable cause = e.getCause();
+            String message = null;
+            Throwable cause = exception.getCause();
             if (cause != null)
             {
-                msg = cause.getMessage();
+                message = cause.getMessage();
             }
-            if (msg == null)
+            if (message == null)
             {
-                msg = "Exception occurred while trying to invoke service method " + method.getName();
+                message = "Exception occurred while trying to invoke service method " + method.getName();
             }
             log.error(
-                msg,
-                e);
+                message,
+                exception);
             if (cause instanceof AxisFault)
             {
                 throw (AxisFault)cause;
             }
-            throw new AxisFault(msg);
+            throw new AxisFault(message);
         }
-        catch (Exception e)
+        catch (Exception exception)
         {
-            String msg = "Exception occurred while trying to invoke service method " + method.getName();
+            String message = "Exception occurred while trying to invoke service method " + method.getName();
             log.error(
-                msg,
-                e);
-            throw new AxisFault(msg, e);
+                message,
+                exception);
+            throw new AxisFault(message, exception);
         }
     }
 
@@ -209,6 +209,7 @@ public class $className
      * @return the deserialized arguments.
      */
     public static Object[] deserialize(final OMElement element, final Method method, final ObjectSupplier objectSupplier)
+        throws Exception
     {
         int ctr = 0;
         final Class[] types = method.getParameterTypes();
@@ -231,11 +232,12 @@ public class $className
      * @return the deserialized object.
      */
     public static Object deserialize(OMElement element, final Class type, final ObjectSupplier objectSupplier)
+        throws Exception
     {
         Object bean = null;
         if (isSimpleType(type))
         {
-             bean = SimpleTypeMapper.getSimpleTypeObject(
+             bean = getSimpleTypeObject(
                 type,
                 element);
         }
@@ -453,6 +455,41 @@ public class $className
                isEnumeration(type);
     }
 
+    private static final String VALUE_OF = "valueOf";
+
+    /**
+     * Constructs a type object for the given type and element.
+     *
+     * @param type the class type to construct.
+     * @param element the element containing the value.
+     * @return the constructed object or null if one couldn't be constructed.
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public static Object getSimpleTypeObject(Class type, OMElement element)
+        throws Exception
+    {
+        Object object = SimpleTypeMapper.getSimpleTypeObject(type, element);
+        if (object == null && type != null && element != null)
+        {
+            if (type.isEnum())
+            {
+                object = type.getMethod(
+                    VALUE_OF, new Class[]{java.lang.String.class}).invoke(
+                        type, element.getText());
+            }
+            else
+            {
+                final Method fromMethod = getEnumerationFromMethod(type);
+                if (fromMethod != null)
+                {
+                    object = fromMethod.invoke(type, new Object[]{element.getText()});
+                }
+            }
+        }
+        return object;
+    }
+
     private static final String FROM = "from";
 
     /**
@@ -463,30 +500,60 @@ public class $className
      */
     private static boolean isEnumeration(final Class type)
     {
+        return isEnumeration(type, getEnumerationFromMethod(type));
+    }
+
+    /**
+     * Indicates whether or not the given type represents an enumeration by checking
+     * whether the type is an actual "enum" class or the "fromMethod" is not null.
+     *
+     * @param type the type to check.
+     * @param the "from" method used to construct a typesafe enumeration from it's simple type.
+     * @return true/false
+     */
+    private static boolean isEnumeration(final Class type, final Method fromMethod)
+    {
         boolean enumeration = false;
         if (type != null)
         {
             enumeration = type.isEnum();
             if (!enumeration)
             {
-                // - check for the typesafe enum pattern
-                for (final Method method : type.getMethods())
+                enumeration = fromMethod != null;
+            }
+        }
+        return enumeration;
+    }
+
+    /**
+     * Gets the "from" method for a type safe enumeration.
+     *
+     * @param type the type.
+     * @return the "from" method (i.e. fromString, etc).
+     */
+    private static Method getEnumerationFromMethod(final Class type)
+    {
+        Method fromMethod = null;
+        if (type != null)
+        {
+            // - check for the typesafe enum pattern
+            for (final Method method : type.getMethods())
+            {
+                if (method.getName().startsWith(FROM))
                 {
-                    if (method.getName().startsWith(FROM))
+                    final Class[] parameterTypes = method.getParameterTypes();
+                    if (parameterTypes.length == 1)
                     {
-                        final Class[] parameterTypes = method.getParameterTypes();
-                        if (parameterTypes.length == 1)
+                        final Class parameterType = parameterTypes[0];
+                        if (method.getName().equals(FROM + parameterType.getSimpleName()))
                         {
-                            final Class parameterType = parameterTypes[0];
-                            if (method.getName().equals(FROM + parameterType.getSimpleName()))
-                            {
-                                enumeration = true;
-                            }
+                            fromMethod = method;
+                            break;
                         }
                     }
                 }
             }
         }
-        return enumeration;
+        return fromMethod;
     }
 }
