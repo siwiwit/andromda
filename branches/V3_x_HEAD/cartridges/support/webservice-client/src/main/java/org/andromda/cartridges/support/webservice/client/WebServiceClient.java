@@ -200,7 +200,7 @@ public class WebServiceClient
         int status = client.executeMethod(get);
 
         InputSource inputSource = null;
-        boolean authenticated = (status > 0) && (status < 400);
+        boolean authenticated = status > 0 && status < 400;
         if (authenticated)
         {
             inputSource = new InputSource(get.getResponseBodyAsStream());
