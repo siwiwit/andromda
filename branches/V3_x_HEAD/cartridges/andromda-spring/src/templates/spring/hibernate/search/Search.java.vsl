@@ -7,17 +7,17 @@ package $springTypesPackage;
 
 /**
  * Stores the information necessary to performa a property search.
- * 
+ *
  * @see PropertySearch
  */
 public class $className
     implements java.io.Serializable
 {
     private static final long serialVersionUID = -8060934999137370126L;
-    
+
     /**
      * Constructs the search object.
-     * 
+     *
      * @param parameters the parameters to use.
      * @param pageNumber the page number (if paging results).
      * @param pageSize the page size (if paging results).
@@ -27,13 +27,16 @@ public class $className
     {
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
-        this.parameters.addAll(java.util.Arrays.asList(parameters));
+        if (parameters != null)
+        {
+            this.parameters.addAll(java.util.Arrays.asList(parameters));
+        }
         this.eagerFetching = eagerFetching;
     }
-    
+
     /**
      * Constructs the search object.
-     * 
+     *
      * @param parameters the parameters to use.
      * @param pageNumber the page number (if paging results).
      * @param pageSize the page size (if paging results).
@@ -42,20 +45,20 @@ public class $className
     {
         this(parameters, pageNumber, pageSize, false);
     }
-    
+
     /**
      * Constructs the search object.
-     * 
+     *
      * @param parameters the parameters to use.
      */
     public ${className}(SearchParameter[] parameters)
     {
         this(parameters, -1, -1, false);
     }
-    
+
     /**
      * Constructs the search object.
-     * 
+     *
      * @param parameters the parameters to use.
      */
     public ${className}(SearchParameter[] parameters, boolean eagerFetching)
@@ -64,20 +67,20 @@ public class $className
     }
 
     private int pageNumber;
-    
+
     /**
      * Gets the page number (if paging the results).
-     * 
+     *
      * @return the page number.
      */
     public int getPageNumber()
     {
         return this.pageNumber;
     }
-    
+
     /**
      * Sets the page number (if paging the results).
-     * 
+     *
      * @return the current search instance.
      */
     public Search setPageNumber(int pageNumber)
@@ -85,24 +88,24 @@ public class $className
         this.pageNumber = pageNumber;
         return this;
     }
-    
+
     private int pageSize;
-    
+
     /**
      * Gets the size of the page (if paging the results).
-     * 
+     *
      * @return the page size.
      */
     public int getPageSize()
     {
         return this.pageSize;
     }
-    
+
     /**
      * Sets the size of the page (if paging the results).
-     * 
+     *
      * @param pageSize the page size.
-     * 
+     *
      * @return the current search instance.
      */
     public Search setPageSize(int pageSize)
@@ -123,9 +126,9 @@ public class $className
 
     /**
      * Sets the search parameters for this search object.
-     * 
+     *
      * @param parameters
-     * 
+     *
      * @param returns the current search instance.
      */
     public Search setParameters(SearchParameter[] parameters)
@@ -133,13 +136,36 @@ public class $className
         this.parameters = new java.util.ArrayList#if ($enableTemplating)<SearchParameter>#end(java.util.Arrays.asList(parameters));
         return this;
     }
-    
+
+    /**
+     * Constructs the search object.
+     *
+     * @param parameters the parameters to use.
+     */
+    public Search()
+    {
+        this(null, -1, -1, false);
+    }
+
+    /**
+     * Adds a search parameter to the search.
+     *
+     * @param searchParameter the search parameter to add.
+     *
+     * @return the current search instance.
+     */
+    public Search addSearchParameter(final SearchParameter searchParameter)
+    {
+        this.parameters.add(searchParameter);
+        return this;
+    }
+
     private boolean eagerFetching;
 
     /**
      * Whether or not eager fetching is enabled (if it is enabled, all associations
      * queried will be fetched eagerly).
-     * 
+     *
      * @return true/false
      */
     public boolean isEagerFetching()
@@ -150,24 +176,24 @@ public class $className
     /**
      * Sets whether or not eager fetching is enabled (if it is enabled, all associations
      * queried will be fetched eagerly).
-     * 
+     *
      * @param eagerFetching whether or not to eager fetch the results.
-     * 
+     *
      * @return the current search instance.
      */
     public Search setEagerFetching(boolean eagerFetching)
     {
         this.eagerFetching = eagerFetching;
         return this;
-    }   
-    
+    }
+
     /**
      * Adds an "order by" clause for the search.
-     * 
+     *
      * @param propertyName the property name to order by.
      * @param order the order.  Use: {@link SearchParameter#ORDER_ASC},
      *        {@link SearchParameter#ORDER_DESC}, or {@link SearchParameter#ORDER_UNSET}.
-     *        
+     *
      * @return the current search instance.
      */
     public Search addOrderBy(final String propertyName, final int order)
@@ -175,13 +201,13 @@ public class $className
         this.parameters.add(new SearchParameter(propertyName, null, -1, -1, order));
         return this;
     }
-    
+
     /**
      * Adds an "order by" clause for the search.
-     * 
+     *
      * @param propertyName the property name to order by.
      * @param descending true/false; true for descending ordering, false for ascending ordering.
-     * 
+     *
      * @return the current search instance.
      */
     public Search addOrderBy(String propertyName, final boolean descending)
@@ -189,26 +215,26 @@ public class $className
         this.addOrderBy(propertyName, descending ? SearchParameter.ORDER_DESC : SearchParameter.ORDER_ASC);
         return this;
     }
-    
+
     private boolean useSqlLimiting = false;
 
     /**
      * Whether or not to use sql limiting (if paging is being used).  If this is set to false, then
      * paging will be based on the actual entities returned instead of using SQL to limit the results.
-     * 
+     *
      * @return true/false
      */
     public boolean isUseSqlLimiting()
     {
         return useSqlLimiting;
     }
-    
+
     /**
      * Sets whether or not to use sql limiting (if paging is being used).  If this is set to false, then
      * paging will be based on the actual entities returned instead of using SQL to limit the results.
-     * 
+     *
      * @param useSqlPaging whether or not to use SQL paging (default is <code>false</code>).
-     * 
+     *
      * @return the current search instance.
      */
     public Search setUseSqlLimiting(boolean useSqlPaging)
