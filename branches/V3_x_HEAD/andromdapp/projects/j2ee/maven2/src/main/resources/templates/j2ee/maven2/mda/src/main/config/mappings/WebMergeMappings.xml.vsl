@@ -84,6 +84,7 @@
         <from><![CDATA[<!-- servlet merge-point -->]]></from>
         <to>
             <![CDATA[
+#if (!$ear)
 #if ($axis1)
     <servlet>
         <display-name>Apache-Axis Servlet</display-name>
@@ -125,6 +126,7 @@
         <servlet-class>org.codehaus.xfire.transport.http.XFireConfigurableServlet</servlet-class>
     </servlet>
 #end
+#end
             ]]>
         </to>
     </mapping>
@@ -132,6 +134,7 @@
         <from><![CDATA[<!-- servlet-mapping merge-point -->]]></from>
         <to>
             <![CDATA[
+#if (!$ear)
 #if ($axis)
     <servlet-mapping>
         <servlet-name>AxisServlet</servlet-name>
@@ -170,6 +173,7 @@
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 #end
+#end
             ]]>
         </to>
     </mapping>
@@ -205,6 +209,7 @@
         <from><![CDATA[<!-- mime-type merge-point -->]]></from>
         <to>
             <![CDATA[
+#if (!$ear)
 #if ($axis1)
     <mime-mapping>
         <extension>wsdl</extension>
@@ -214,6 +219,7 @@
         <extension>xsd</extension>
         <mime-type>text/xml</mime-type>
     </mime-mapping>
+#end
 #end
             ]]>
         </to>
