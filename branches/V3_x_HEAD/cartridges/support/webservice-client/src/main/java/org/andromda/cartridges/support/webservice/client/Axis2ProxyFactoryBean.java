@@ -1,6 +1,5 @@
 package org.andromda.cartridges.support.webservice.client;
 
-import org.apache.axis2.AxisFault;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 
@@ -18,7 +17,6 @@ public class Axis2ProxyFactoryBean
      * @see org.axis2test4.Axis2PortClientInterceptor#afterPropertiesSet()
      */
     public void afterPropertiesSet()
-        throws AxisFault
     {
         if (this.getServiceInterface() == null)
         {

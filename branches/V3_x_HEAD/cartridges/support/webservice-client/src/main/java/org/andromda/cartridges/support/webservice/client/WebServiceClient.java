@@ -40,23 +40,36 @@ import org.xml.sax.InputSource;
  * @author Chad Brandon
  */
 public class WebServiceClient
-    extends ServiceClient
 {
+    /**
+     * The actual class to use for the webservice.
+     */
     private Class serviceClass;
+
+    /**
+     * The WSDL definition.
+     */
     private Definition definition;
+
+    /**
+     * The monitor used for synchronization of the definition (to make it thread-safe).
+     */
     private final Object definitionMonitor = new Object();
+
+    /**
+     * The underlying service client.
+     */
+    private ServiceClient serviceClient;
 
     /**
      * Constructs a new client taking a WSDL and serviceClass
      *
      * @param wsdlUrl the URL to the WSDL for the service.
      * @param serviceClass the class used for communicating with the service (i.e. can be a regular java object).
-     * @throws AxisFault
      */
     public WebServiceClient(
         final String wsdlUrl,
         final Class serviceClass)
-        throws AxisFault
     {
         this(wsdlUrl, serviceClass, null, null);
     }
@@ -68,14 +81,12 @@ public class WebServiceClient
      * @param serviceClass the class used for communicating with the service (i.e. can be a regular java object).
      * @param username the username to access to the service (if its protected by basic auth).
      * @param password the password to access the service (if its protected by basic auth).
-     * @throws AxisFault
      */
     public WebServiceClient(
         final String wsdlUrl,
         final Class serviceClass,
         final String username,
         final String password)
-        throws AxisFault
     {
         this(wsdlUrl, null, serviceClass, username, password);
     }
@@ -88,7 +99,6 @@ public class WebServiceClient
      * @param serviceClass the class used for communicating with the service (i.e. can be a regular java object).
      * @param username the username to access to the service (if its protected by basic auth).
      * @param password the password to access the service (if its protected by basic auth).
-     * @throws AxisFault
      */
     public WebServiceClient(
         final String wsdlUrl,
@@ -96,12 +106,11 @@ public class WebServiceClient
         final Class serviceClass,
         final String username,
         final String password)
-        throws AxisFault
     {
-        super();
-        this.serviceClass = serviceClass;
         try
         {
+            this.serviceClient = new ServiceClient();
+            this.serviceClass = serviceClass;
             final WSDLReader reader = WSDLFactory.newInstance().newWSDLReader();
             if (username != null && username.trim().length() > 0)
             {
@@ -112,10 +121,10 @@ public class WebServiceClient
                 authenticator.setUsername(username);
                 authenticator.setPassword(password);
                 authenticator.setPreemptiveAuthentication(true);
-                this.getOptions().setProperty(
+                this.serviceClient.getOptions().setProperty(
                     HTTPConstants.AUTHENTICATE,
                     authenticator);
-                synchronized(this.definitionMonitor)
+                synchronized (this.definitionMonitor)
                 {
                     this.definition =
                         this.readProtectedWsdl(
@@ -127,7 +136,7 @@ public class WebServiceClient
             }
             else
             {
-                synchronized(this.definitionMonitor)
+                synchronized (this.definitionMonitor)
                 {
                     this.definition = reader.readWSDL(wsdlUrl);
                 }
@@ -141,11 +150,11 @@ public class WebServiceClient
             {
                 portAddress = this.findEndPointAddress();
             }
-            this.setTargetEPR(new EndpointReference(portAddress));
+            serviceClient.setTargetEPR(new EndpointReference(portAddress));
         }
         catch (Exception exception)
         {
-            throw new AxisFault(exception);
+            this.handleException(exception);
         }
     }
 
@@ -156,7 +165,7 @@ public class WebServiceClient
      */
     public void setTimeout(long seconds)
     {
-        this.getOptions().setTimeOutInMilliSeconds(seconds * 1000);
+        this.serviceClient.getOptions().setTimeOutInMilliSeconds(seconds * 1000);
     }
 
     /**
@@ -167,52 +176,59 @@ public class WebServiceClient
      * @param username the username to authenticate with.
      * @param password the password to authenticate with.
      * @return the WSDL definition
-     * @throws Exception
      */
     private Definition readProtectedWsdl(
         final WSDLReader reader,
         String address,
         String username,
         String password)
-        throws Exception
     {
-        final org.apache.commons.httpclient.HttpClient client = new org.apache.commons.httpclient.HttpClient();
-        final org.apache.commons.httpclient.params.HttpClientParams params =
-            new org.apache.commons.httpclient.params.HttpClientParams();
-        params.setAuthenticationPreemptive(true);
-        client.setParams(params);
-
-        final org.apache.commons.httpclient.Credentials credentials =
-            new org.apache.commons.httpclient.UsernamePasswordCredentials(username, password);
-        final org.apache.commons.httpclient.auth.AuthScope scope =
-            new org.apache.commons.httpclient.auth.AuthScope(
-                new URL(address).getHost(),
-                org.apache.commons.httpclient.auth.AuthScope.ANY_PORT,
-                org.apache.commons.httpclient.auth.AuthScope.ANY_REALM);
-        client.getState().setCredentials(
-            scope,
-            credentials);
-
-        final org.apache.commons.httpclient.methods.GetMethod get =
-            new org.apache.commons.httpclient.methods.GetMethod(address);
-        get.setDoAuthentication(true);
-
-        int status = client.executeMethod(get);
-
-        InputSource inputSource = null;
-        boolean authenticated = status > 0 && status < 400;
-        if (authenticated)
+        Definition definition = null;
+        try
         {
-            inputSource = new InputSource(get.getResponseBodyAsStream());
+            final org.apache.commons.httpclient.HttpClient client = new org.apache.commons.httpclient.HttpClient();
+            final org.apache.commons.httpclient.params.HttpClientParams params =
+                new org.apache.commons.httpclient.params.HttpClientParams();
+            params.setAuthenticationPreemptive(true);
+            client.setParams(params);
+
+            final org.apache.commons.httpclient.Credentials credentials =
+                new org.apache.commons.httpclient.UsernamePasswordCredentials(username, password);
+            final org.apache.commons.httpclient.auth.AuthScope scope =
+                new org.apache.commons.httpclient.auth.AuthScope(
+                    new URL(address).getHost(),
+                    org.apache.commons.httpclient.auth.AuthScope.ANY_PORT,
+                    org.apache.commons.httpclient.auth.AuthScope.ANY_REALM);
+            client.getState().setCredentials(
+                scope,
+                credentials);
+
+            final org.apache.commons.httpclient.methods.GetMethod get =
+                new org.apache.commons.httpclient.methods.GetMethod(address);
+            get.setDoAuthentication(true);
+
+            int status = client.executeMethod(get);
+            InputSource inputSource = null;
+            boolean authenticated = status > 0 && status < 400;
+            if (authenticated)
+            {
+                inputSource = new InputSource(get.getResponseBodyAsStream());
+            }
+            else
+            {
+                throw new WebServiceClientException("Could not authenticate user: '" + username + "' to WSDL: '" +
+                    address + "'");
+            }
+            definition =
+                reader.readWSDL(
+                    address,
+                    inputSource);
+            get.releaseConnection();
         }
-        else
+        catch (Exception exception)
         {
-            throw new RuntimeException("Could not authenticate user: '" + username + "' to WSDL: '" + address + "'");
+            this.handleException(exception);
         }
-        final Definition definition = reader.readWSDL(
-                address,
-                inputSource);
-        get.releaseConnection();
         return definition;
     }
 
@@ -225,7 +241,7 @@ public class WebServiceClient
     {
         String address = null;
         Map services;
-        synchronized(this.definitionMonitor)
+        synchronized (this.definitionMonitor)
         {
             services = this.definition.getServices();
         }
@@ -264,31 +280,28 @@ public class WebServiceClient
      *
      * @param operationName the name of the operation to invoke.
      * @param the arguments of the operation.
-     *
-     * @throws AxisFault
      */
     public Object invokeBlocking(
         String operationName,
         Object[] arguments)
-        throws AxisFault
     {
         final Method method = this.getMethod(
                 operationName,
                 arguments);
         OMElement omElement;
-        synchronized(this.definitionMonitor)
+        synchronized (this.definitionMonitor)
         {
-            omElement = Axis2ClientUtils.getOperationOMElement(
-                this.definition,
-                method,
-                arguments);
+            omElement =
+                Axis2ClientUtils.getOperationOMElement(
+                    this.definition,
+                    method,
+                    arguments);
         }
-        OMElement response = super.sendReceive(omElement);
         Object result = null;
-
-        if (method.getReturnType() != void.class)
+        try
         {
-            try
+            OMElement response = this.serviceClient.sendReceive(omElement);
+            if (method.getReturnType() != void.class)
             {
                 result =
                     Axis2ClientUtils.deserialize(
@@ -296,13 +309,13 @@ public class WebServiceClient
                         method.getReturnType(),
                         new DefaultObjectSupplier());
             }
-            catch (Exception exception)
-            {
-                throw new AxisFault(exception);
-            }
+            omElement = null;
+            response = null;
         }
-        omElement = null;
-        response = null;
+        catch (Exception exception)
+        {
+            this.handleException(exception);
+        }
         return result;
     }
 
@@ -312,51 +325,82 @@ public class WebServiceClient
      * @param operationName
      * @param arguments
      * @param callback
-     * @throws org.apache.axis2.AxisFault
      */
     public void invokeNonBlocking(
         String operationName,
         Object[] arguments,
         Callback callback)
-        throws AxisFault
     {
         final Method method = this.getMethod(
                 operationName,
                 arguments);
         OMElement omElement;
-        synchronized(this.definitionMonitor)
+        synchronized (this.definitionMonitor)
         {
-            omElement = Axis2ClientUtils.getOperationOMElement(
-                this.definition,
-                method,
-                arguments);
+            omElement =
+                Axis2ClientUtils.getOperationOMElement(
+                    this.definition,
+                    method,
+                    arguments);
         }
-        super.sendReceiveNonBlocking(
-            omElement,
-            callback);
+        try
+        {
+            this.serviceClient.sendReceiveNonBlocking(
+                omElement,
+                callback);
+        }
+        catch (AxisFault exception)
+        {
+            this.handleException(exception);
+        }
         omElement = null;
     }
 
     public void invokeRobust(
         String operationName,
         Object[] arguments)
-        throws AxisFault
     {
         final Method method = this.getMethod(
                 operationName,
                 arguments);
         OMElement omElement;
-        synchronized(this.definitionMonitor)
+        synchronized (this.definitionMonitor)
         {
-            omElement = Axis2ClientUtils.getOperationOMElement(
-                this.definition,
-                method,
-                arguments);
+            omElement =
+                Axis2ClientUtils.getOperationOMElement(
+                    this.definition,
+                    method,
+                    arguments);
         }
-        super.sendRobust(omElement);
+        try
+        {
+            this.serviceClient.sendRobust(omElement);
+        }
+        catch (AxisFault exception)
+        {
+            this.handleException(exception);
+        }
         omElement = null;
     }
 
+    /**
+     * Reclaims any resources used by the client.
+     */
+    public void cleanup()
+    {
+        try
+        {
+            this.serviceClient.cleanup();
+        }
+        catch (AxisFault exception)
+        {
+            this.handleException(exception);
+        }
+    }
+
+    /**
+     * Stores the methods found on the {@link #serviceClass}.
+     */
     private Map<String, Method> methods = new HashMap<String, Method>();
 
     private Method getMethod(
@@ -416,5 +460,20 @@ public class WebServiceClient
                 clazz.getSuperclass(),
                 methods);
         }
+    }
+
+    /**
+     * Appropriate wraps or just re-throws the exception if already an instance
+     * of {@link WebServiceClientException}.
+     *
+     * @param exception the exception to wrap or re-throw as a WebServiceClientException
+     */
+    private void handleException(Exception exception)
+    {
+        if (!(exception instanceof WebServiceClientException))
+        {
+            exception = new WebServiceClientException(exception);
+        }
+        throw (WebServiceClientException)exception;
     }
 }

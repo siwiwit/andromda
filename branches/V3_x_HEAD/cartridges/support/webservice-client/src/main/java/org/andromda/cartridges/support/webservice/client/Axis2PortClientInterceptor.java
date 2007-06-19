@@ -2,7 +2,6 @@ package org.andromda.cartridges.support.webservice.client;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.axis2.AxisFault;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.support.AopUtils;
@@ -177,7 +176,6 @@ public class Axis2PortClientInterceptor
      * isn't false.
      */
     public void afterPropertiesSet()
-        throws AxisFault
     {
         this.prepare();
     }
@@ -188,7 +186,6 @@ public class Axis2PortClientInterceptor
      * Create and initialize the service for the specified WSDL.
      */
     public void prepare()
-        throws AxisFault
     {
         synchronized (this.preparationMonitor)
         {
@@ -241,7 +238,7 @@ public class Axis2PortClientInterceptor
                 this.client.cleanup();
             }
         }
-        catch (AxisFault exception)
+        catch (WebServiceClientException exception)
         {
             throw RmiClientInterceptorUtils.convertRmiAccessException(
                 invocation.getMethod(),
