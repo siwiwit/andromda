@@ -69,6 +69,7 @@
             </dependency>
 #end
 #if ($jbossSeam)
+#if ($modelType.equals("uml1.4"))
             <dependency>
                 <groupId>org.andromda.profiles.uml14</groupId>
                 <artifactId>andromda-profile-seam</artifactId>
@@ -76,6 +77,15 @@
                 <type>xml.zip</type>
                 <scope>runtime</scope>
             </dependency>
+#elseif ($modelType.equals("uml2"))
+            <dependency>
+                <groupId>org.andromda.profiles.uml2</groupId>
+                <artifactId>andromda-profile-seam</artifactId>
+                <version>1.1-SNAPSHOT</version>
+                <type>xml.zip</type>
+                <scope>runtime</scope>
+            </dependency>
+#end
 #end
 #if ($ejb)
             <dependency>
