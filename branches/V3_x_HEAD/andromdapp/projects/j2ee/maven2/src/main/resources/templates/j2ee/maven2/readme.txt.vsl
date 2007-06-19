@@ -1,5 +1,5 @@
 
-    
+
     A n d r o M D A  -  $andromdaVersion
 
 
@@ -23,7 +23,7 @@
     Magic Draw 11.5 is supported via its 'Export to EMF-UML2' feature. You'll notice
     that the andromda.xml is already configured to load these exported files. It expects
     that a model called '$applicationId' has been created within your Magic Draw model.
-    
+
     Important: before launching AndroMDA, be sure to have exported your model.
 
 #end
@@ -54,7 +54,7 @@
          |              importantly the cartridges which are listed in
          |              their own namespace; global settings are done in the
          |              'default' namespace
-         |     
+         |
          +-- /common
          |     |
          |     |    The COMMON module collects those resources and classes
@@ -125,8 +125,8 @@
          |              using the Spring cartridge; this includes both
          |              the Hibernate entities and the correponding
          |              *.hbm.xml mapping files as well as the service
-         |              and DAO base classes. You'll also find the DDL 
-         |              for creating and dropping your schema within this 
+         |              and DAO base classes. You'll also find the DDL
+         |              for creating and dropping your schema within this
          |              directory.
          |
 #end
@@ -143,7 +143,7 @@
          |     |        please note that these files contain properties
          |     |        that will be dynamically replaced during the build
          |     +-- /target
-         |     
+         |
 #end
 #if ($web)
          +-- /web
@@ -153,7 +153,7 @@
          |     |    that make up the presentation layer.
 #else
          |     |    The WEB module collects all resources and classes
-         |     |    that make up the presentation layer, as well as 
+         |     |    that make up the presentation layer, as well as
          |     |    bundling all other modules to create a deployable war.
 #end
          |     |
@@ -182,12 +182,20 @@
          +-- /webservice
          |     |
          |     |    The WEBSERVICE module collects those resources and
-         |     |    classes that use the AXIS framework
+#if ($axis)
+#if ($axisVersion.equals("1"))
+         |     |    classes that expose your webservices using the Axis framework
+#else
+         |     |    classes that expose your webservices using the Axis2 framework
+#end
+#elseif ($xfire)
+         |     |    classes that expose your webservices using the XFire framework
+#end
          |     |
          |     +-- pom.xml
          |     |        lists any dependencies for webservices
          |     +-- /target
-         |              generated files are emitted here
+         |              generated files (like the WSDLs, etc) are emitted here
          |
 #end
 #if ($ear)
@@ -227,13 +235,13 @@
             deployed
 
         %> mvn clean
-        
+
             cleans all generated files from each target directory
-            
+
         %> mvn install -Ddeploy
 
             rebuilds the entire application and deploys
-             
+
         %> mvn install -Denv=prod
 
             builds the entire application for the production environment, possible 'env' property values
@@ -270,7 +278,7 @@
 
             generates the DDL drop code and subsequently tells the database
             to drop the schema for the entities
-            
+
         %> mvn -f core/pom.xml andromdapp:schema -Dtasks=drop,create
 
             generates the drop and create DDL code and subsequently tells the database
@@ -319,11 +327,11 @@
 
             runs AndroMDA using only the Java cartridge, rebuilds the core
             module and web module and deploys afterwards
-            
+
         %> mvn -N andromdapp:build -Dconsole
-            
+
             runs the AndroMDApp build goal in 'console' mode, once running, this allows you to execute any goal or subproject
-            goal in the manner described above without having to specify the andromdapp:build goal or 
+            goal in the manner described above without having to specify the andromdapp:build goal or
             restarting maven (i.e. you can run the mda goal by typing 'mda', build the core module by type 'core', etc).
 
 
@@ -334,10 +342,10 @@
     this might be a directory looking like this:
 
         (Windows)
-        C:\Documents and Settings\\${author}\.m2\repository\\${applicationId}\
+        C:\Documents and Settings\${author}\.m2\repository\${applicationId}\
 
         (*nix)
-        /home/${author}/.maven/repository/${applicationId}/
+        /home/${author}/.m2/repository/${applicationId}/
 
     For questions or feature requests please use our forum:
     http://forum.andromda.org/
