@@ -210,7 +210,7 @@ public class WebServiceClient
             int status = client.executeMethod(get);
             if (status == 404)
             {
-                throw new WebServiceClientException("WSDL could not be found at: " + address);
+                throw new WebServiceClientException("WSDL could not be found at: '" + address + "'");
             }
             InputSource inputSource = null;
             boolean authenticated = status > 0 && status < 400;
