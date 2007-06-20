@@ -229,7 +229,7 @@ public class Axis2PortClientInterceptor
     {
         if (AopUtils.isToStringMethod(invocation.getMethod()))
         {
-            return "Axis2 proxy for Port [" + this.getWsdlUrl() + "] of service [" +
+            return "Axis2 proxy for Port [" + this.getPortAddress() + "] of service [" +
                 this.getServiceInterface().getName() + "]";
         }
         if (logger.isDebugEnabled())
