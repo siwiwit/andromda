@@ -8,6 +8,7 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.remoting.rmi.RmiClientInterceptorUtils;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -189,6 +190,18 @@ public class Axis2PortClientInterceptor
     {
         synchronized (this.preparationMonitor)
         {
+            if (this.getServiceInterface() == null)
+            {
+                throw new IllegalArgumentException("'serviceInterface' must be specified!");
+            }
+            if (StringUtils.isBlank(this.getPortAddress()))
+            {
+                throw new IllegalArgumentException("'portAddress' must be specified!");
+            }
+            if (StringUtils.isBlank(this.getWsdlUrl()))
+            {
+                throw new IllegalArgumentException("'wsdlUrl' must be specified!");
+            }
             if (this.client == null)
             {
                 this.client =
@@ -216,14 +229,14 @@ public class Axis2PortClientInterceptor
     {
         if (AopUtils.isToStringMethod(invocation.getMethod()))
         {
-            return "Axis2 proxy for WSDL [" + this.getWsdlUrl() + "] of service [" +
-            this.getServiceInterface().getName() + "]";
+            return "Axis2 proxy for Port [" + this.getWsdlUrl() + "] of service [" +
+                this.getServiceInterface().getName() + "]";
         }
         if (logger.isDebugEnabled())
         {
             logger.debug(
-                "Invoking operation '" + invocation.getMethod().getName() + "' on " +
-                this.getServiceInterface().getName());
+                "Invoking '" + invocation.getMethod().getName() + "' on port: '" +
+                this.getPortAddress() + "' through interface: '" + this.getServiceInterface().getName() + "'");
         }
         try
         {
