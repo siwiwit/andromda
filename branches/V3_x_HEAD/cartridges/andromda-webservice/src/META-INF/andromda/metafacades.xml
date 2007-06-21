@@ -43,7 +43,7 @@
     </metafacade>
     <metafacade class="org.andromda.cartridges.webservice.metafacades.WebServiceLogicImpl">
         <mapping>
-            <stereotype>WEB_SERVICE</stereotype>
+            <stereotype>WEBSERVICE</stereotype>
         </mapping>
     </metafacade>
     <metafacade class="org.andromda.cartridges.webservice.metafacades.WebServiceLogicImpl">
