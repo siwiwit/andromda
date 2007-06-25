@@ -95,15 +95,15 @@ public abstract class $service.baseName
     {
         this.$operation.messageListenerContainerReferenceName = $operation.messageListenerContainerReferenceName;
     }
-    
+
     /**
      * Gets the incoming message listener container for {@link #${operation.getSignature(false)})
      */
     protected $jmsMessageListenerContainerImplementation get$stringUtils.capitalize($operation.messageListenerContainerReferenceName)()
     {
         return this.$operation.messageListenerContainerReferenceName;
-    }    
-    
+    }
+
 #end
 #end
 #foreach ($operation in $service.implementationOperations)
@@ -269,7 +269,7 @@ public abstract class $service.baseName
      * Retrieves any incoming attachments in the webservice's request message (this only makes sense
      * when the operation this is called within is a web service exposed operation).
      */
-    protected javax.xml.soap.AttachmentPart[] getIncomingWebServiceAttachments()
+    protected javax.activation.DataHandler[] getIncomingWebServiceAttachments()
         throws java.lang.Exception
     {
         return $service.webServiceIncomingAttachmentHandlerCall;
@@ -288,7 +288,7 @@ public abstract class $service.baseName
         return (org.springframework.context.MessageSource)
             ${beanLocator}.instance().getBean("$messageSourceBeanName");
     }
-    
+
     /**
      * Gets the message having the given <code>key</code> in the underlying message bundle.
      *
@@ -298,9 +298,9 @@ public abstract class $service.baseName
     {
         return this.getMessages().getMessage(key, null, null);
     }
-    
+
     /**
-     * Gets the message having the given <code>key</code> and <code>arguments</code> in the 
+     * Gets the message having the given <code>key</code> and <code>arguments</code> in the
      * underlying message bundle.
      *
      * @param key the key of the message in the ${messageBundlePath}.properties message bundle.
@@ -310,7 +310,7 @@ public abstract class $service.baseName
     {
         return this.getMessages().getMessage(key, arguments, null);
     }
-    
+
     /**
      * Gets the message having the given <code>key</code> using the given <code>arguments</code>
      * for the given <code>locale</code>.
@@ -320,12 +320,12 @@ public abstract class $service.baseName
      * @param locale the locale of the messages to retrieve.
      */
     protected String getMessage(
-        final java.lang.String key, final java.lang.Object[] arguments, 
+        final java.lang.String key, final java.lang.Object[] arguments,
         final java.util.Locale locale)
     {
         return this.getMessages().getMessage(key, arguments, locale);
     }
-    
+
 #end
 #if ($ejbSecurityEnabled)
 #set ($principalStoreClassName = $principalStoreName)
@@ -342,7 +342,7 @@ public abstract class $service.baseName
     {
         return $principalStoreClassName.$isInRoleName();
     }
-    
+
 #end
 #end
 }

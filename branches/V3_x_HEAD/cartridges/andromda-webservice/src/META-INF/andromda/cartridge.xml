@@ -1,7 +1,7 @@
 <cartridge>
 
     <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine"/>
-    
+
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
     <templateObject name="escapeUtils" className="org.apache.commons.lang.StringEscapeUtils"/>
     <templateObject name="webServiceUtils" className="org.andromda.cartridges.webservice.WebServiceUtils"/>
@@ -39,7 +39,7 @@
     <property reference="axis2DefaultMessageReceiver"/>
     <property reference="springVersion"/>
     <!-- cartridge-property merge-point -->
-    
+
     <condition name="xfire">$soapStack.equalsIgnoreCase("xfire")</condition>
     <condition name="axis">$soapStack.equalsIgnoreCase("axis")</condition>
     <condition name="axis1">#if ($soapStack.equalsIgnoreCase("axis") &amp;&amp; $axisVersion.equals("1"))true#end</condition>
@@ -56,7 +56,7 @@
         overwrite="true"
         lastModifiedCheck="true"
         outputCondition="axis2"/>
-    
+
     <resource
         path="resources/webservice/axis2/services/*.aar"
         outputPattern="WEB-INF/services/{0}"
@@ -64,28 +64,28 @@
         overwrite="true"
         lastModifiedCheck="true"
         outputCondition="axis2"/>
-    
+
     <resource
         path="resources/webservice/axis2/views/webapp/**/*"
         outputPattern="{0}"
         outlet="configuration"
         overwrite="true"
         outputCondition="axis2"/>
-    
+
     <resource
         path="resources/webservice/axis1/views/**/*"
         outputPattern="{0}"
         outlet="configuration"
         overwrite="true"
         outputCondition="axis1"/>
-    
+
     <resource
         path="resources/webservice/xfire/views/**/*"
         outputPattern="{0}"
         outlet="configuration"
         overwrite="true"
         outputCondition="xfire"/>
-    
+
     <template
         path="templates/webservice/configuration/web.xml.vsl"
         outputPattern="WEB-INF/web.xml"
@@ -107,9 +107,9 @@
         outlet="configuration"
         overwrite="true"
         outputCondition="securityEnabled"/>
-    
+
     <!-- XFire support -->
-    
+
     <template
         path="templates/webservice/wsdl/wrapped-wsdl.vsl"
         outputPattern="{0}/{1}.wsdl"
@@ -123,8 +123,8 @@
                 </type>
             </modelElement>
         </modelElements>
-    </template>  
-    
+    </template>
+
     <template
         path="templates/webservice/xfire/services.xml.vsl"
         outputPattern="WEB-INF/classes/META-INF/xfire/services.xml"
@@ -141,9 +141,9 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <!-- Axis 2.x support -->
-    
+
     <template
         path="templates/webservice/wsdl/wrapped-wsdl.vsl"
         outputPattern="WEB-INF/services/webservices/META-INF/${service.fullyQualifiedName}.wsdl"
@@ -158,7 +158,7 @@
             </modelElement>
         </modelElements>
     </template>
-        
+
     <template
         path="templates/webservice/axis2/axis2.xml.vsl"
         outputPattern="WEB-INF/conf/axis2.xml"
@@ -174,21 +174,21 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <template
         path="templates/webservice/axis2/TypeMappings.java.vsl"
         outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
         outlet="webservice-types"
         overwrite="true"
         outputCondition="axis2"/>
-    
+
     <template
         path="templates/webservice/axis2/WrappedMessageReceiver.java.vsl"
         outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
         outlet="webservice-types"
         overwrite="true"
         outputCondition="axis2"/>
-    
+
     <template
         path="templates/webservice/axis2/services.xml.vsl"
         outputPattern="WEB-INF/services/webservices/META-INF/services.xml"
@@ -205,9 +205,9 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <!-- Axis 1.x support -->
-  
+
     <template
         path="templates/webservice/wsdl/wrapped-wsdl.vsl"
         outputPattern="{0}/{1}.wsdl"
@@ -221,7 +221,7 @@
                 </type>
             </modelElement>
         </modelElements>
-    </template>  
+    </template>
 
     <template
         path="templates/webservice/axis1/server-config.wsdd.vsl"
@@ -303,21 +303,28 @@
             </modelElement>
         </modelElements>
     </template>
-    
+
     <template
         path="templates/webservice/axis1/AttachmentHandler.java.vsl"
         outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
         outlet="webservice-types"
         overwrite="true"
         outputCondition="axis1"/>
-    
+
+    <template
+        path="templates/webservice/axis2/AttachmentHandler.java.vsl"
+        outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
+        outlet="webservice-types"
+        overwrite="true"
+        outputCondition="axis2"/>
+
     <template
         path="templates/webservice/axis1/ArraySerializer.java.vsl"
         outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
         outlet="webservice-types"
         overwrite="true"
         outputCondition="axis1"/>
-    
+
     <template
         path="templates/webservice/axis1/ArraySerializerFactory.java.vsl"
         outputPattern="$stringUtils.replace($webserviceTypesPackage, '.', '/')/${className}.java"
