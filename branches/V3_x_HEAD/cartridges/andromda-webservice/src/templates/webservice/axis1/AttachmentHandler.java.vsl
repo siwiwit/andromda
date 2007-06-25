@@ -79,7 +79,7 @@ public class $className
      * @return List of attachments or an empty array if none exist.
      */
     public static javax.activation.DataHandler[] getAttachments()
-        throws org.apache.axis.AxisFault
+        throws java.lang.Exception
     {
         final org.apache.axis.MessageContext messageContext = getCurrentMessageContext();
         final org.apache.axis.Message requestMessage = messageContext.getRequestMessage();
