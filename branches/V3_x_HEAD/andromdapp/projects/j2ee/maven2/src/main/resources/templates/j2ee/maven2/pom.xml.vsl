@@ -668,6 +668,16 @@
 #end
 #end
 #if ($axis)
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4</version>
+            </dependency>
 #if ($axisVersion.equals("1"))
             <!-- Axis1 Dependencies -->
             <dependency>
@@ -807,16 +817,6 @@
                 <scope>runtime</scope>
             </dependency>
 #end
-            <dependency>
-                <groupId>javax.activation</groupId>
-                <artifactId>activation</artifactId>
-                <version>1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>mail</artifactId>
-                <version>1.4</version>
-            </dependency>
 #elseif ($xfire)
             <dependency>
                 <groupId>org.codehaus.xfire</groupId>
