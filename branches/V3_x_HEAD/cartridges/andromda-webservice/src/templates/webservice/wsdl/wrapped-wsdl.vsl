@@ -13,6 +13,7 @@
     <wsdl:types>
         <xsd:schema elementFormDefault="qualified"
                     targetNamespace="$service.namespace"
+                    xmlns:${service.namespacePrefix}="$service.namespace"
                     xmlns="$xmlSchemaNamespace">
 #foreach ($operation in $service.allowedOperations)
             <xsd:element name="$operation.name">
@@ -107,7 +108,7 @@ $type.getDocumentation("                        ", 64, false)
                     </xsd:documentation>
                 </xsd:annotation>
 #*     *##set ($attributes = $type.getAttributes(true))
-#*     *##set ($otherEnds = $type.getNavigableConnectingEnds(true)) 
+#*     *##set ($otherEnds = $type.getNavigableConnectingEnds(true))
 #*     *##if (!$attributes.empty || !$otherEnds.empty)
                 <xsd:all>
 #*     *##foreach ($attribute in $attributes)
@@ -119,7 +120,7 @@ $attribute.getDocumentation("                                ", 64, false)
                         </xsd:annotation>
                     </xsd:element>
 #*     *##end
-#*     *##foreach ($otherEnd in $otherEnds) 
+#*     *##foreach ($otherEnd in $otherEnds)
 #*         *##set ($type = $otherEnd.type)
 #*         *##if ($otherEnd.many)
 #*             *##set ($schemaType = "${type.namespacePrefix}:${type.wsdlArrayName}")
