@@ -225,6 +225,9 @@
         </plugins>
     </build>
     <profiles>
+        <!-- This profile here will allow you to specify -Ddeploy=link in order deploy an exploded ear using symbolic links,
+             this allows you to easily edit things like jsp, xhtml, etc and just build the web module without having
+             to deploy the ear -->
         <profile>
             <id>link</id>
             <activation>
