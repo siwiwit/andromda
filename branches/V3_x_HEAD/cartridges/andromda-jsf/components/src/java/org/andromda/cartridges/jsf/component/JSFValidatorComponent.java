@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
-import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.validator.Validator;
@@ -41,6 +40,11 @@ public class JSFValidatorComponent
     extends UIComponentBase
 {
     private static final Log logger = LogFactory.getLog(JSFValidatorComponent.class);
+
+    public JSFValidatorComponent()
+    {
+        // - default constructor for faces-config.xml
+    }
 
     /**
      * A map of validators, representing all of the Commons Validators attached
@@ -111,15 +115,16 @@ public class JSFValidatorComponent
      *
      * @param component The component at the root of the component tree
      * @param context The FacesContext for this request
+     * @param formId the id of the form.
      */
     private void findValidators(
         final UIComponent component,
-        final FacesContext context)
+        final FacesContext context,
+        final UIComponent form)
     {
         if (component instanceof EditableValueHolder && this.canValidate(component))
         {
             final EditableValueHolder valueHolder = (EditableValueHolder)component;
-            final UIForm form = JSFValidator.findForm(component);
             if (form != null)
             {
                 final String componentId = component.getId();
@@ -147,7 +152,7 @@ public class JSFValidatorComponent
                                     final ValidatorAction action = JSFValidator.getValidatorAction(dependency);
                                     if (action != null)
                                     {
-                                        final JSFValidator validator = new JSFValidator(action);
+                                        final JSFValidator validator = new JSFValidator(form, action);
                                         final Arg[] args = field.getArgs(dependency);
                                         if (args != null)
                                         {
@@ -189,13 +194,14 @@ public class JSFValidatorComponent
             final UIComponent childComponent = (UIComponent)iterator.next();
             this.findValidators(
                 childComponent,
-                context);
+                context,
+                form);
         }
     }
-    
+
     /**
      * Indicates whether or not this component can be validated.
-     * 
+     *
      * @param component the component to check.
      * @return true/false
      */
@@ -216,10 +222,10 @@ public class JSFValidatorComponent
         }
         return canValidate;
     }
-    
+
     /**
      * Indicates whether or not the JSFValidator instance is present and if so returns true.
-     * 
+     *
      * @param valueHolder the value holder on which to check if its present.
      * @return true/false
      */
@@ -322,10 +328,10 @@ public class JSFValidatorComponent
     {
         this.getAttributes().put(CLIENT, functionName);
     }
-    
+
     /**
      * Gets whether or not client side validation shall be performed.
-     * 
+     *
      * @return true/false
      */
     private boolean isClient()
@@ -341,7 +347,7 @@ public class JSFValidatorComponent
      * @param context The FacesContext for this request
      */
     private final void writeValidationFunctions(
-        final UIForm form,
+        final UIComponent form,
         final ResponseWriter writer,
         final FacesContext context)
         throws IOException
@@ -350,7 +356,7 @@ public class JSFValidatorComponent
         writer.write("function ");
         writer.write("validate" + StringUtils.capitalize(form.getId()));
         writer.write("(form) { return bCancel || true\n");
-        
+
         // - for each validator type, write "&& fun(form);
         final Collection validatorTypes = new ArrayList(this.validators.keySet());
 
@@ -480,9 +486,9 @@ public class JSFValidatorComponent
      */
     private final Collection forms = new ArrayList();
 
-    private UIForm findForm(final String id)
+    private UIComponent findForm(final String id)
     {
-        UIForm form = null;
+        UIComponent form = null;
         UIComponent validator = null;
         try
         {
@@ -495,9 +501,9 @@ public class JSFValidatorComponent
         if (validator instanceof JSFValidatorComponent)
         {
             final UIComponent parent = validator.getParent();
-            if (parent instanceof UIForm)
+            if (parent instanceof UIComponent)
             {
-                form = (UIForm)parent;
+                form = (UIComponent)parent;
             }
         }
         return form;
@@ -538,12 +544,13 @@ public class JSFValidatorComponent
                     JAVASCRIPT_UTILITIES,
                     null,
                     null);
-                final UIForm form = this.findForm(this.getId());
+                final UIComponent form = this.findForm(this.getId());
                 if (form != null)
                 {
                     this.findValidators(
                         form,
-                        context);
+                        context,
+                        form);
                     if (this.isClient())
                     {
                         final ResponseWriter writer = context.getResponseWriter();

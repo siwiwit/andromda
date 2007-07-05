@@ -2,9 +2,7 @@ package org.andromda.cartridges.jsf.validator;
 
 import java.io.InputStream;
 import java.io.Serializable;
-
 import java.lang.reflect.Method;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,7 +11,6 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
@@ -37,15 +34,19 @@ public class JSFValidator
     private static final Log logger = LogFactory.getLog(JSFValidator.class);
 
     /**
-     * Constructs a new instance of this class with the given
+     * Constructs a new instance of this class with the given <code>form</code> and
      * <code>validatorAction</code>.
      *
+     * @param form
      * @param validatorAction
      */
-    public JSFValidator(final ValidatorAction validatorAction)
+    public JSFValidator(final UIComponent form, final ValidatorAction validatorAction)
     {
+        this.form = form;
         this.validatorAction = validatorAction;
     }
+
+    private UIComponent form;
 
     public JSFValidator()
     {
@@ -205,15 +206,13 @@ public class JSFValidator
      * This <code>validate</code> method is called by JSF to verify the
      * component to which the validator is attached.
      *
-     * @param context The faces context
-     * @param component The component to validate
+     * @see javax.faces.validator.Validator#validate(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
      */
     public void validate(
         final FacesContext context,
         final UIComponent component,
         final Object value)
     {
-        final UIForm form = findForm(component);
         if (form != null)
         {
             try
@@ -348,34 +347,12 @@ public class JSFValidator
     }
 
     /**
-     * Recursively finds the valueHolder's form (if the valueHolder is nested within a form).
-     *
-     * @param component the valueHolder for which to find the form.
-     * @return the form or null if there is no form for the valueHolder.
-     */
-    public static UIForm findForm(final UIComponent component)
-    {
-        UIForm form = null;
-        if (component != null)
-        {
-            if (component instanceof UIForm)
-            {
-                form = (UIForm)component;
-            }
-            else
-            {
-                form = findForm(component.getParent());
-            }
-        }
-        return form;
-    }
-
-    /**
      * @see java.lang.Object#toString()
      */
     public String toString()
     {
-        return super.toString() + "[" + this.validatorAction != null ? this.validatorAction.getName() : null + "]";
+        return super.toString() + ":form=" + form + ", validatorAction="
+            + this.validatorAction != null ? this.validatorAction.getName() : null;
     }
 
     private static final long serialVersionUID = -5627108517488240081L;
