@@ -169,6 +169,9 @@
     <metafacade class="org.andromda.metafacades.emf.uml2.UseCaseFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.UseCaseImpl"/>
     </metafacade>
+    <metafacade class="org.andromda.metafacades.emf.uml2.IncludeFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.IncludeImpl"/>
+    </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.ExtendFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.ExtendImpl"/>
     </metafacade>
