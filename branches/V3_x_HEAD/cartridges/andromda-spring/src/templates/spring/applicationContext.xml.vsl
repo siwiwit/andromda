@@ -20,7 +20,7 @@
         <property name="dataSource"><ref bean="dataSource"/></property>
         <property name="mappingLocations">
             <list>
-                <!-- applicationContext hibernateMappingLocations merge-point --> 
+                <!-- applicationContext hibernateMappingLocations merge-point -->
 #foreach($entity in $entities)
 #if ($entity.requiresHibernateMapping)
                 <value>classpath:${entity.packagePath}/${entity.entityName}.hbm.xml</value>
@@ -145,6 +145,7 @@
                 <value>hibernateInterceptor</value>
             </list>
         </property>
+        <!-- $entity.name entity property merge-point -->
     </bean>
 
 #end
@@ -223,6 +224,7 @@
 #end
             </list>
         </property>
+        <!-- $service.name service property merge-point -->
     </bean>
 
 #end
