@@ -135,6 +135,7 @@
 #end
 #end
 #end
+                <!-- $entity.name entity property merge-point -->
             </bean>
         </property>
         <property name="proxyInterfaces">
@@ -145,7 +146,6 @@
                 <value>hibernateInterceptor</value>
             </list>
         </property>
-        <!-- $entity.name entity property merge-point -->
     </bean>
 
 #end
@@ -203,6 +203,7 @@
                 <lookup-method name="get$stringUtils.capitalize($operation.messageListenerContainerReferenceName)" bean="$operation.messageListenerContainerBeanName"/>
 #end
 #end
+                <!-- $service.name service property merge-point -->
             </bean>
         </property>
         <property name="proxyInterfaces">
@@ -224,7 +225,6 @@
 #end
             </list>
         </property>
-        <!-- $service.name service property merge-point -->
     </bean>
 
 #end
