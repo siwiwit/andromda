@@ -49,7 +49,7 @@ public class StrutsJspLogicImpl
         }
         return packageName;
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.ModelElementFacade#getPackagePath()
      */
@@ -195,7 +195,7 @@ public class StrutsJspLogicImpl
 
     /**
      * Overridden since StrutsAction does not extend FrontEndAction.
-     * 
+     *
      * @see org.andromda.metafacades.uml.FrontEndView#getAllActionParameters()
      */
     public List getAllActionParameters()
@@ -212,7 +212,7 @@ public class StrutsJspLogicImpl
 
     /**
      * Overridden because StrutsAction does not extend FrontEndAction.
-     * 
+     *
      * @see org.andromda.metafacades.uml.FrontEndView#getActions()
      */
     public List getActions()
@@ -341,23 +341,6 @@ public class StrutsJspLogicImpl
         }
 
         return nonTableActions;
-    }
-
-    protected List handleGetTables()
-    {
-        final List tables = new ArrayList();
-
-        final List pageVariables = getPageVariables();
-        for (int i = 0; i < pageVariables.size(); i++)
-        {
-            final StrutsParameter pageVariable = (StrutsParameter)pageVariables.get(i);
-            if (pageVariable.isTable())
-            {
-                tables.add(pageVariable);
-            }
-        }
-
-        return tables;
     }
 
     private boolean normalizeMessages()

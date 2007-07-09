@@ -13,7 +13,7 @@
                         <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles</location>
                     </moduleSearchLocations>
                 </model>
-            </models>            
+            </models>
         </repository>
     </repositories>
     <namespaces>
@@ -38,6 +38,7 @@
                 <property name="distributable">true</property>
                 <property name="custom-resources">${test.output.dir}</property>
                 <property name="paginationResultClassName">org.andromda.spring.cartridge.PaginationResult</property>
+                <property name="viewType">jsp</property>
             </properties>
         </namespace>
     </namespaces>

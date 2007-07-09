@@ -137,7 +137,7 @@ public class FrontEndParameterLogicImpl
                 }
             }
         }
-        return isTable;
+        return isTable && this.getOperation() == null;
     }
 
     /**

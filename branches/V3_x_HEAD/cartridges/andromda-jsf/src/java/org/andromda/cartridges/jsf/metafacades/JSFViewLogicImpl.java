@@ -144,33 +144,11 @@ public class JSFViewLogicImpl
                     else if (forward instanceof JSFAction)
                     {
                         forwards.put(((JSFAction)forward).getName(), forward);
-                    }  
+                    }
                 }
             }
         }
         return new ArrayList(forwards.values());
-    }
-
-    /**
-     * @see org.andromda.cartridges.jsf.metafacades.JSFAction#isTableLink()
-     */
-    protected List handleGetTables()
-    {
-        final List tables = new ArrayList();
-        final List variables = this.getVariables();
-        for (int ctr = 0; ctr < variables.size(); ctr++)
-        {
-            final Object object = variables.get(ctr);
-            if (object instanceof JSFParameter)
-            {
-                final JSFParameter variable = (JSFParameter)object;
-                if (variable.isTable())
-                {
-                    tables.add(variable);
-                }
-            }
-        }
-        return tables;
     }
 
     /**
@@ -231,7 +209,7 @@ public class JSFViewLogicImpl
         }
         return actions;
     }
-    
+
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFView#getFormKey()
      */
@@ -259,7 +237,7 @@ public class JSFViewLogicImpl
     {
         return !this.getFormActions().isEmpty() || !this.getVariables().isEmpty();
     }
-    
+
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFView#isPopulatorRequired()
      */
@@ -278,7 +256,7 @@ public class JSFViewLogicImpl
         }
         return required;
     }
-    
+
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFView#isPopup()
      */
@@ -309,7 +287,7 @@ public class JSFViewLogicImpl
         }
         return present;
     }
-    
+
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFView#isHasNameOfUseCase()
      */

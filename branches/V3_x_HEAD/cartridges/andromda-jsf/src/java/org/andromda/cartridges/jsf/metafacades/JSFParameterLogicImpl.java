@@ -47,10 +47,10 @@ public class JSFParameterLogicImpl
      */
     public boolean isTable()
     {
-        return (super.isTable() || this.isPageableTable()) && !this.isSelectable() 
+        return (super.isTable() || this.isPageableTable()) && !this.isSelectable()
             && !this.isInputTable() && !this.isInputHidden();
     }
-    
+
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFParameter#isPageableTable()
      */
@@ -550,7 +550,7 @@ public class JSFParameterLogicImpl
                 final String typeName = type.getFullyQualifiedName();
 
                 // - if the parameter is not selectable but on a targetting page it IS selectable we must
-                //   allow the user to set the backing list too                 
+                //   allow the user to set the backing list too
                 final Collection views = this.getAction().getTargetViews();
                 for (final Iterator iterator = views.iterator(); iterator.hasNext() && !selectable;)
                 {
@@ -943,8 +943,8 @@ public class JSFParameterLogicImpl
                 final String name = this.getName();
                 final String typeName = type.getFullyQualifiedName();
 
-                // - if the backing value is not required for this parameter but on 
-                //   a targetting page it IS selectable we must allow the user to set the backing value as well                 
+                // - if the backing value is not required for this parameter but on
+                //   a targetting page it IS selectable we must allow the user to set the backing value as well
                 final Collection views = this.getAction().getTargetViews();
                 for (final Iterator iterator = views.iterator(); iterator.hasNext() && !required;)
                 {
@@ -1007,7 +1007,7 @@ public class JSFParameterLogicImpl
     {
         return ObjectUtils.toString(this.findTaggedValue(JSFProfile.TAGGEDVALUE_INPUT_TABLE_IDENTIFIER_COLUMNS)).trim();
     }
-    
+
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFParameter#getTableColumnActions(java.lang.String)
      */

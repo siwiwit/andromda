@@ -136,7 +136,7 @@ public class FrontEndParameterLogicImpl
                 }
             }
         }
-        return isTable;
+        return isTable && this.getOperation() == null;
     }
 
     /**
@@ -169,7 +169,7 @@ public class FrontEndParameterLogicImpl
         }
         return tableColumnNames;
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.FrontEndParameter#getTableColumns()
      */
@@ -189,7 +189,7 @@ public class FrontEndParameterLogicImpl
             });
         return tableColumns;
     }
-    
+
     /**
      * Gets all attributes for an array type that has a corresponding non-array
      * type.
@@ -207,7 +207,7 @@ public class FrontEndParameterLogicImpl
                 nonArrayAttributes.addAll(nonArrayType.getAttributes(true));
             }
         }
-        return nonArrayAttributes;        
+        return nonArrayAttributes;
     }
 
     /**
@@ -216,7 +216,7 @@ public class FrontEndParameterLogicImpl
     protected Collection handleGetTableAttributeNames()
     {
         final Collection tableAttributeNames = new ArrayList(this.getNonArrayAttributes());
-        CollectionUtils.transform(tableAttributeNames, 
+        CollectionUtils.transform(tableAttributeNames,
             new Transformer()
             {
                 public Object transform(final Object object)

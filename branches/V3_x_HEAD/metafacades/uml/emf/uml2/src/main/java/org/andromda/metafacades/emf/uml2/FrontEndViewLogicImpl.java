@@ -10,6 +10,7 @@ import java.util.Map;
 import org.andromda.metafacades.uml.ActivityGraphFacade;
 import org.andromda.metafacades.uml.EventFacade;
 import org.andromda.metafacades.uml.FrontEndAction;
+import org.andromda.metafacades.uml.FrontEndParameter;
 import org.andromda.metafacades.uml.FrontEndUseCase;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.StateMachineFacade;
@@ -154,5 +155,22 @@ public class FrontEndViewLogicImpl
             actionParameters.addAll(action.getParameters());
         }
         return actionParameters;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml14.FrontEndView#getTables()
+     */
+    protected List handleGetTables()
+    {
+        final List variables = new ArrayList(this.getVariables());
+        for (final Iterator iterator = variables.iterator(); iterator.hasNext();)
+        {
+            final FrontEndParameter parameter = (FrontEndParameter)iterator.next();
+            if (!parameter.isTable())
+            {
+                iterator.remove();
+            }
+        }
+        return variables;
     }
 }
