@@ -87,7 +87,7 @@ public class BeanComparator
             objectB);
 
         // we'll assume that if the first set of objects are equal types
-        // then all must be (this of course could turn out to be false, but may hinder 
+        // then all must be (this of course could turn out to be false, but may hinder
         // performance to check each object, each time).
         if (!areSameType)
         {
@@ -133,11 +133,25 @@ public class BeanComparator
             {
                 if (aValue == null)
                 {
-                    result = -1;
+                    if (sortCriteria.isNullsFirst())
+                    {
+                        result = -1;
+                    }
+                    else
+                    {
+                        result = 1;
+                    }
                 }
                 else if (bValue == null)
                 {
-                    result = 1;
+                    if (sortCriteria.isNullsFirst())
+                    {
+                        result = 1;
+                    }
+                    else
+                    {
+                        result = -1;
+                    }
                 }
                 else
                 {
