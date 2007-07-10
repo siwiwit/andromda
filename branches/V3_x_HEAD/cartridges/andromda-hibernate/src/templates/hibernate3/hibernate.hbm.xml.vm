@@ -21,7 +21,7 @@ ${indent}<property name="$attribute.name" type="$fullyQualifiedPropertyType"#if(
 #if($attribute.formula)
 ${indent}    <formula>$attribute.formula</formula>
 #else
-${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end/>
+${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end#if ($generateDatabaseDependentCode) sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end#end/>
 #end
 ${indent}</property>
 #else
@@ -29,7 +29,7 @@ ${indent}<property name="$attribute.name" #if($attribute.formula || $attribute.l
 #if($attribute.formula)
 ${indent}    <formula>$attribute.formula</formula>
 #else
-${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end/>
+${indent}    <column name="$attribute.concatColumnName($paramSqlPrefix, $attribute.columnName)" not-null="$attribute.required" unique="$attribute.unique"#if($attribute.uniqueGroup) unique-key="$attribute.uniqueGroup"#end#if ($generateDatabaseDependentCode) sql-type="$attribute.sqlType"#if($attribute.columnIndex) index="$attribute.columnIndex"#end#end/>
 ${indent}    <type name="${attribute.fullyQualifiedHibernateType}">
 #if ($attribute.type.enumeration)
                  <param name="enumClassName">${attribute.type.fullyQualifiedName}</param>
@@ -49,13 +49,13 @@ ${indent}</property>
 #if ($otherEnd.type.foreignHibernateGeneratorClass)
 ${indent}<one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
 #else
-${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end>
-${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required" sql-type="$otherEnd.sqlType" unique="true"/>
+${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end>
+${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#end unique="true"/>
 ${indent}</many-to-one>
 #end
 #else
 #if ($entity.foreignHibernateGeneratorClass)
-${indent}<one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end constrained="true"#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
+${indent}<one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end constrained="true"#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
 #else
 ${indent}<one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($sourceEnd.navigable) property-ref="$sourceEnd.name"#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
 #end
@@ -72,16 +72,16 @@ ${indent}<$otherEnd.collectionType name="$otherEnd.name"#if($otherEnd.lazy) lazy
 #if(($hibernateEnableCache.equalsIgnoreCase("true")) && ($hibernateEnableAssociationsCache.equalsIgnoreCase("true")))
 ${indent}    <cache usage="$sourceEnd.association.hibernateCacheType" />
 #end
-${indent}    <key foreign-key="$sourceEnd.foreignKeyConstraintName"#if ($otherEnd.list) not-null="$otherEnd.required"#end>
+${indent}    <key#if ($generateDatabaseDependentCode) foreign-key="$sourceEnd.foreignKeyConstraintName"#end#if ($otherEnd.list) not-null="$otherEnd.required"#end>
 #if (!$entity.compositeIdentifier)
-${indent}        <column name="$sourceEnd.columnName" sql-type="$sourceEnd.sqlType"/>
+${indent}        <column name="$sourceEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$sourceEnd.sqlType"#end/>
 #else
 #foreach ($identifier in $entity.identifiers)
-${indent}        <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+${indent}        <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
 #end
 #foreach ($sourceEnd in $entity.identifierAssociationEnds)
 #foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
 #end
 #end
 #end
@@ -95,16 +95,16 @@ ${indent}    <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.col
 ${indent}    <one-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName" not-found="$hibernateOneToManyNotFoundAction"/>
 ${indent}</$otherEnd.collectionType>
 #elseif ($sourceEnd.many2One && !$sourceEnd.identifiersPresent)
-${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end#if ($sourceEnd.list) insert="false" update="false" not-null="$otherEnd.required"#end>
+${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end not-null="$otherEnd.required"#end#if($otherEnd.lazy) lazy="proxy" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end#if ($sourceEnd.list) insert="false" update="false"#end>
 #if (!$otherEnd.type.compositeIdentifier)
-${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required" sql-type="$otherEnd.sqlType"/>
+${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#end/>
 #else
 #foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
 #end
 #foreach ($identyAssociationEnd in ${otherEnd.type.identifierAssociationEnds})
 #foreach ($identifier in ${identyAssociationEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
 #end
 #end
 #end
@@ -117,8 +117,8 @@ ${indent}<$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.associ
 #elseif ($otherEnd.list)
 ${indent}<$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" #if($otherEnd.lazy) lazy="true" fetch="select"#else lazy="false" fetch="$otherEnd.outerJoin"#end inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
 #end
-${indent}    <key foreign-key="$sourceEnd.foreignKeyConstraintName">
-${indent}        <column name="$sourceEnd.columnName" sql-type="$sourceEnd.sqlType"/>
+${indent}    <key#if ($generateDatabaseDependentCode) foreign-key="$sourceEnd.foreignKeyConstraintName"#end>
+${indent}        <column name="$sourceEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$sourceEnd.sqlType"#end/>
 ${indent}    </key>
 #if ($otherEnd.list)
 ${indent}    <list-index column="$otherEnd.collectionIndexName"/>
@@ -126,8 +126,8 @@ ${indent}    <list-index column="$otherEnd.collectionIndexName"/>
 #if ($otherEnd.map)
 ${indent}    <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.collectionIndexType"/>
 #end
-${indent}    <many-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName" foreign-key="$otherEnd.foreignKeyConstraintName">
-${indent}        <column name="$otherEnd.columnName" sql-type="$otherEnd.sqlType"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end/>
+${indent}    <many-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#end>
+${indent}        <column name="$otherEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#end/>
 ${indent}    </many-to-many>
 ${indent}</$otherEnd.collectionType>
 #end
@@ -141,16 +141,16 @@ ${indent}</$otherEnd.collectionType>
 ## Should only get get invoked for inheritance class or subclass.
 ${indent}<$entity.mappingClassName#if($mapSubclassesInSeparateFile) extends="$entity.generalization.fullyQualifiedEntityImplementationName"#end name="$entity.fullyQualifiedEntityImplementationName"#if($entity.tableRequired) table="$entity.tableName"#else discriminator-value="$entity.hibernateDiscriminatorValue"#end#if(!$entity.lazy) lazy="false"#end#if($entity.hibernateProxy) proxy="$entity.fullyQualifiedEntityImplementationName"#end dynamic-insert="$entity.dynamicInsert" dynamic-update="$entity.dynamicUpdate" abstract="$entity.abstract"#if ($stringUtils.isNotBlank($entity.schema)) schema="$entity.schema"#end>
 #if($entity.subclassKeyColumn)
-${indent}    <key foreign-key="${entity.tableName}IFKC">
+${indent}    <key#if ($generateDatabaseDependentCode) foreign-key="${entity.tableName}IFKC"#end>
 #if (!$entity.generalization.compositeIdentifier)
-${indent}        <column name="$entity.subclassKeyColumn" sql-type="$identifier.sqlType"/>
+${indent}        <column name="$entity.subclassKeyColumn"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
 #else
 #foreach ($identifier in $entity.identifiers)
-${indent}        <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+${indent}        <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
 #end
 #foreach ($sourceEnd in $entity.identifierAssociationEnds)
 #foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
 #end
 #end
 #end

@@ -59,16 +59,18 @@
     <property reference="xmlEncoding"/>
     <property reference="generateEntityEqualsAndHashCode"/>
     <property reference="hibernateProxy"/>
-    <!-- These 2 properties are only relevant for Hibernate 3 -->
-    <property reference="hibernateQueryFactory"/>
-    <property reference="hibernateOneToManyNotFoundAction"/>
     <property reference="toDoTag"/>
 	<property reference="typeSafeEnumsEnabled"/>
+    <!-- These 3 properties are only relevant for Hibernate 3 -->
+    <property reference="hibernateQueryFactory"/>
+    <property reference="hibernateOneToManyNotFoundAction"/>
+    <property reference="generateDatabaseDependentCode"/>
 
     <!-- cartridge-property merge-point-->
 
     <condition name="mapSubclassesInSeparateFile">$hibernateUtils.mapSubclassesInSeparateFile</condition>
 	<condition name="typeSafeEnumsEnabled">$typeSafeEnumsEnabled.equalsIgnoreCase("true")</condition>
+	<condition name="generateDatabaseDependentCode">$generateDatabaseDependentCode.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->

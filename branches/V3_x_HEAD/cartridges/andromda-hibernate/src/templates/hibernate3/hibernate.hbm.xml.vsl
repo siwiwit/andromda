@@ -19,7 +19,7 @@
 #if (!$entity.compositeIdentifier)
 #set ($identifier = $entity.identifiers.iterator().next())
         <id name="$identifier.name" type="$identifier.type.fullyQualifiedHibernateType" unsaved-value="$identifier.type.javaNullString"#if ($identifier.xmlTagName) node="$identifier.xmlTagName"#end>
-            <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+            <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
             <generator class="$entity.hibernateGeneratorClass">
 #if ($entity.sequenceHibernateGeneratorClass)
                 <param name="sequence">${entity.tableName}${sequenceIdentifierSuffix}</param>
@@ -32,13 +32,13 @@
         <composite-id name="$stringUtils.uncapitalize($entity.name)Pk" class="${entity.fullyQualifiedEntityName}PK">
 #foreach ($identifier in $entity.identifiers)
             <key-property name="$identifier.name" type="$identifier.type.fullyQualifiedName">
-                <column name="$identifier.columnName" sql-type="$identifier.sqlType" not-null="true"/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end not-null="true"/>
             </key-property>
 #end
 #foreach ($sourceEnd in $entity.identifierAssociationEnds)
             <key-many-to-one name="$sourceEnd.otherEnd.name" class="$sourceEnd.otherEnd.type.fullyQualifiedEntityImplementationName" >
 #foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName" sql-type="$identifier.sqlType"/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
 #end
             </key-many-to-one>
 #end

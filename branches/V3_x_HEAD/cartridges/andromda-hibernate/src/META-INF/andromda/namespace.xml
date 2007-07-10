@@ -762,6 +762,16 @@
                      </ul>
                 </documentation>
             </property>
+            <!-- This property is only relevant for Hibernate 3 -->
+            <property name="generateDatabaseDependentCode">
+                <default>true</default>
+                <documentation>
+                    Indicates whether or not to generate code dependent on the defined (with <a href="#hibernateDialect">hibernateDialect</a>) database system,
+                    like <code>sql-type</code>, <code>index</code> and <code>foreign-key</code> attributes for all properties.
+                    These attributes are useful for DDL-schema generation but aren't at runtime.
+                    (This property is only supported for hibernate 3 code generation)
+                </documentation>
+            </property>
         </propertyGroup>
     </properties>
 </namespace>
