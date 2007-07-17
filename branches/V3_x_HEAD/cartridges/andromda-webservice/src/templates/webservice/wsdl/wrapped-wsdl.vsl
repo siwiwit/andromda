@@ -107,8 +107,12 @@ $literal.getDocumentation("                                ", 64, false)
 $type.getDocumentation("                        ", 64, false)
                     </xsd:documentation>
                 </xsd:annotation>
-#*     *##set ($attributes = $type.getAttributes(true))
-#*     *##set ($otherEnds = $type.getNavigableConnectingEnds(true))
+#*     *##if ($type.generalization && !$extensionInheritanceDisabled)
+                <xsd:complexContent>
+                <xsd:extension base="${type.generalization.namespacePrefix}:$type.generalization.qName">
+#*     *##end
+#*     *##set ($attributes = $type.getAttributes($extensionInheritanceDisabled))
+#*     *##set ($otherEnds = $type.getNavigableConnectingEnds($extensionInheritanceDisabled))
 #*     *##if (!$attributes.empty || !$otherEnds.empty)
                 <xsd:all>
 #*     *##foreach ($attribute in $attributes)
@@ -137,6 +141,10 @@ $otherEnd.getDocumentation("                                ", 64, false)
 #end
                 </xsd:all>
 #end
+#*     *##if ($type.generalization && !$extensionInheritanceDisabled)
+                </xsd:extension>
+                </xsd:complexContent>
+#*     *##end
             </xsd:complexType>
 #end
 #end
