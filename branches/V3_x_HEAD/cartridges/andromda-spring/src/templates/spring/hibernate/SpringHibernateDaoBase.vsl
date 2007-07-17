@@ -919,8 +919,13 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
     public final ${valueObjectRef.targetElement.fullyQualifiedName}[] ${valueObjectRef.transformationToArrayMethodName}(java.util.Collection entities)
     {
-        this.${valueObjectRef.transformationToCollectionMethodName}(entities);
-        return (${valueObjectRef.targetElement.fullyQualifiedName}[])entities.toArray(new ${valueObjectRef.targetElement.fullyQualifiedName}[0]);
+        ${valueObjectRef.targetElement.fullyQualifiedName}[] result = null;
+        if (entities != null)
+        {
+            this.${valueObjectRef.transformationToCollectionMethodName}(entities);
+            result = (${valueObjectRef.targetElement.fullyQualifiedName}[])entities.toArray(new ${valueObjectRef.targetElement.fullyQualifiedName}[0]);
+        }
+        return result;
     }
 
     /**
