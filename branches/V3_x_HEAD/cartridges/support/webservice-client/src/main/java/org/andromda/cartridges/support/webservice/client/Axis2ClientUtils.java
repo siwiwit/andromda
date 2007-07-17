@@ -57,56 +57,59 @@ public class Axis2ClientUtils
                     definition,
                     NAME,
                     operationName);
-            operationOMElement =
-                getOMElement(
-                    definition,
-                    operationSchema,
-                    null,
-                    null,
-                    operationName);
-            if (operationElement == null)
+            if (operationSchema != null)
             {
-                throw new RuntimeException("No operation with name '" + operationName + "' can be found on service: " +
-                    serviceName);
-            }
-            final List argumentElements = Axis2ClientUtils.getElementsWithAttribute(
-                    operationElement,
-                    TYPE);
-            final Class[] parameterTypes = method.getParameterTypes();
-            if (argumentElements.size() != arguments.length)
-            {
-                throw new RuntimeException("Operation: " + operationName + " takes " + parameterTypes.length +
-                    " argument(s), and 'arguments' only contains: " + arguments.length);
-            }
-
-            // - declare all the namespaces
-            final Schema[] schemas = getSchemas(definition);
-            for (int ctr = 0; ctr < schemas.length; ctr++)
-            {
-                final Schema schema = schemas[ctr];
-                final String namespace = Axis2ClientUtils.getTargetNamespace(schema);
-                final String prefix = getNamespacePrefix(
-                        definition,
-                        namespace);
-                operationOMElement.declareNamespace(
-                    namespace,
-                    prefix);
-            }
-
-            // - add the argument children
-            for (int ctr = 0; ctr < argumentElements.size(); ctr++)
-            {
-                final Element argument = (Element)argumentElements.get(ctr);
-                final String argumentName = getAttributeValue(
-                        argument,
-                        NAME);
-                final OMElement element = getOMElement(
+                operationOMElement =
+                    getOMElement(
                         definition,
                         operationSchema,
-                        argument,
-                        arguments[ctr],
-                        argumentName);
-                operationOMElement.addChild(element);
+                        null,
+                        null,
+                        operationName);
+                if (operationElement == null)
+                {
+                    throw new RuntimeException("No operation with name '" + operationName + "' can be found on service: " +
+                        serviceName);
+                }
+                final List argumentElements = Axis2ClientUtils.getElementsWithAttribute(
+                        operationElement,
+                        TYPE);
+                final Class[] parameterTypes = method.getParameterTypes();
+                if (argumentElements.size() != arguments.length)
+                {
+                    throw new RuntimeException("Operation: " + operationName + " takes " + parameterTypes.length +
+                        " argument(s), and 'arguments' only contains: " + arguments.length);
+                }
+
+                // - declare all the namespaces
+                final Schema[] schemas = getSchemas(definition);
+                for (int ctr = 0; ctr < schemas.length; ctr++)
+                {
+                    final Schema schema = schemas[ctr];
+                    final String namespace = Axis2ClientUtils.getTargetNamespace(schema);
+                    final String prefix = getNamespacePrefix(
+                            definition,
+                            namespace);
+                    operationOMElement.declareNamespace(
+                        namespace,
+                        prefix);
+                }
+
+                // - add the argument children
+                for (int ctr = 0; ctr < argumentElements.size(); ctr++)
+                {
+                    final Element argument = (Element)argumentElements.get(ctr);
+                    final String argumentName = getAttributeValue(
+                            argument,
+                            NAME);
+                    final OMElement element = getOMElement(
+                            definition,
+                            operationSchema,
+                            argument,
+                            arguments[ctr],
+                            argumentName);
+                    operationOMElement.addChild(element);
+                }
             }
         }
         catch (Exception exception)
@@ -286,10 +289,15 @@ public class Axis2ClientUtils
 
     private static boolean isQualified(Schema schema)
     {
-        final String qualified = Axis2ClientUtils.getAttributeValue(
+        boolean isQualified = false;
+        if (schema != null)
+        {
+            final String qualified = Axis2ClientUtils.getAttributeValue(
                 schema.getElement(),
                 ELEMENT_FORM_DEFAULT);
-        return QUALIFIED.equalsIgnoreCase(qualified);
+            isQualified = QUALIFIED.equalsIgnoreCase(qualified);
+        }
+        return isQualified;
     }
 
     private static String getTargetNamespace(Schema schema)

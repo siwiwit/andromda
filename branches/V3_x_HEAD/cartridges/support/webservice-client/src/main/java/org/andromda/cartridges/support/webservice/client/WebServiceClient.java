@@ -52,6 +52,11 @@ public class WebServiceClient
     private Definition definition;
 
     /**
+     * The WSDL url.
+     */
+    private String wsdlUrl;
+
+    /**
      * The monitor used for synchronization of the definition (to make it thread-safe).
      */
     private final Object definitionMonitor = new Object();
@@ -111,6 +116,7 @@ public class WebServiceClient
         {
             this.serviceClient = new ServiceClient();
             this.serviceClass = serviceClass;
+            this.wsdlUrl = wsdlUrl;
             final WSDLReader reader = WSDLFactory.newInstance().newWSDLReader();
             if (username != null && username.trim().length() > 0)
             {
@@ -292,15 +298,7 @@ public class WebServiceClient
         final Method method = this.getMethod(
                 operationName,
                 arguments);
-        OMElement omElement;
-        synchronized (this.definitionMonitor)
-        {
-            omElement =
-                Axis2ClientUtils.getOperationOMElement(
-                    this.definition,
-                    method,
-                    arguments);
-        }
+        OMElement omElement = this.getOperationElement(method, arguments);
         Object result = null;
         try
         {
@@ -324,6 +322,33 @@ public class WebServiceClient
     }
 
     /**
+     * Retrieves the operation element from the internal WSDL definition.  If it can't be found
+     * an exception is thrown indicating the name of the operation not found.
+     *
+     * @param method the method to invoke.
+     * @param arguments the arguments of the method
+     * @return the found operation element
+     */
+    private OMElement getOperationElement(final Method method, Object[] arguments)
+    {
+        OMElement element = null;
+        synchronized (this.definitionMonitor)
+        {
+            element =
+                Axis2ClientUtils.getOperationOMElement(
+                    this.definition,
+                    method,
+                    arguments);
+        }
+        if (element == null)
+        {
+            throw new WebServiceClientException("No operation named '" + method.getName()
+                + "' was found in WSDL: " + this.wsdlUrl);
+        }
+        return element;
+    }
+
+    /**
      * Invoke the nonblocking/Asynchronous call
      *
      * @param operationName
@@ -338,15 +363,7 @@ public class WebServiceClient
         final Method method = this.getMethod(
                 operationName,
                 arguments);
-        OMElement omElement;
-        synchronized (this.definitionMonitor)
-        {
-            omElement =
-                Axis2ClientUtils.getOperationOMElement(
-                    this.definition,
-                    method,
-                    arguments);
-        }
+        OMElement omElement = this.getOperationElement(method, arguments);
         try
         {
             this.serviceClient.sendReceiveNonBlocking(
@@ -367,15 +384,7 @@ public class WebServiceClient
         final Method method = this.getMethod(
                 operationName,
                 arguments);
-        OMElement omElement;
-        synchronized (this.definitionMonitor)
-        {
-            omElement =
-                Axis2ClientUtils.getOperationOMElement(
-                    this.definition,
-                    method,
-                    arguments);
-        }
+        OMElement omElement = this.getOperationElement(method, arguments);
         try
         {
             this.serviceClient.sendRobust(omElement);
