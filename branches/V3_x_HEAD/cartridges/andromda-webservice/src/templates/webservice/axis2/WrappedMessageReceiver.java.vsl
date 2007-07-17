@@ -114,16 +114,16 @@ public class $className
 
             SOAPFactory factory = getSOAPFactory(inMessage);
 
+            OMNamespace namespace = null;
             // Handling the response
             AxisMessage outAxisMessage = operation.getMessage(WSDLConstants.MESSAGE_LABEL_OUT_VALUE);
-            if (outAxisMessage != null)
+            if (service.isElementFormDefault() && outAxisMessage != null)
             {
-                messageNameSpace = outAxisMessage.getElementQName().getNamespaceURI();
+                namespace = factory.createOMNamespace(
+                    outAxisMessage.getElementQName().getNamespaceURI(),
+                    service.getSchematargetNamespacePrefix());
             }
 
-            OMNamespace namespace = factory.createOMNamespace(
-                    messageNameSpace,
-                    service.getSchematargetNamespacePrefix());
             SOAPEnvelope envelope = factory.getDefaultEnvelope();
 
             OMElement responseElement = factory.createOMElement(
@@ -134,7 +134,6 @@ public class $className
                 getOMElement(
                     responseObject,
                     getOperationReturnName(method),
-                    service.isElementFormDefault(),
                     namespace);
 
             responseElement.addChild(returnElement);
@@ -320,14 +319,12 @@ public class $className
     public static OMElement getOMElement(
         final Object bean,
         final String elementName,
-        final boolean qualified,
         final OMNamespace namespace)
     {
         final OMFactory factory = OMAbstractFactory.getOMFactory();
         return getOMElement(
             bean,
             elementName,
-            qualified,
             factory,
             namespace,
             new ArrayList<Object>());
@@ -347,7 +344,6 @@ public class $className
     private static OMElement getOMElement(
         final Object bean,
         final String elementName,
-        final boolean qualified,
         final OMFactory factory,
         final OMNamespace namespace,
         final Collection<Object> evaluatingBeans)
@@ -379,7 +375,6 @@ public class $className
                             getOMElement(
                                 Array.get(bean, ctr),
                                 arrayComponentName,
-                                qualified,
                                 factory,
                                 namespace,
                                 evaluatingBeans));
@@ -396,22 +391,13 @@ public class $className
                             final Object value = properties.get(name);
                             if (value != null)
                             {
-                                boolean addToDocument = true;
-                                if (value.getClass().isArray())
-                                {
-                                    addToDocument = Array.getLength(value) > 0;
-                                }
-                                if (addToDocument)
-                                {
-                                    element.addChild(
-                                        getOMElement(
-                                            value,
-                                            name,
-                                            qualified,
-                                            factory,
-                                            namespace,
-                                            evaluatingBeans));
-                                }
+                                element.addChild(
+                                    getOMElement(
+                                        value,
+                                        name,
+                                        factory,
+                                        namespace,
+                                        evaluatingBeans));
                             }
                         }
                     }
