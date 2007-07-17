@@ -130,7 +130,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     {
         return this.loadAll(transform, -1, -1);
     }
-    
+
     /**
      * @see ${entity.fullyQualifiedDaoName}#loadAll(int, int)
      */
@@ -138,7 +138,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     {
         return this.loadAll($entity.daoNoTransformationConstantName, pageNumber, pageSize);
     }
-    
+
     /**
      * @see ${entity.fullyQualifiedDaoName}#loadAll(int, int, int)
      */
@@ -161,7 +161,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             throw super.convertHibernateAccessException(ex);
         }
     }
-    
+
     private int calculateFirstResult(int pageNumber, int pageSize)
     {
         int firstResult = 0;
@@ -171,7 +171,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
         return firstResult;
     }
-    
+
 ## Only add these methods if the entity isn't abstract
 #if (!$entity.abstract)
     /**
@@ -213,7 +213,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                     }
                 },
                 true);
-        
+
         return this.load(transform, ($identifier.type.fullyQualifiedName)newID);
     }
 
@@ -502,7 +502,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #else
 #set ($queryOperations = $entity.queryOperations)
 #end
-##    
+##
 #foreach ($finder in $queryOperations)
 #set ($returnType = $finder.returnType.fullyQualifiedName)
     /**
@@ -519,7 +519,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
         return $finderCall
     }
-    
+
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
@@ -554,7 +554,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #end
         return $finderCall
     }
-   
+
 #if ($finder.returnType.collectionType)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
@@ -566,7 +566,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     {
         return this.${finder.name}($entity.daoNoTransformationConstantName, pageNumber, pageSize#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
     }
-    
+
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(String, int, int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
@@ -608,7 +608,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      */
 #if ($enableTemplating)
     @SuppressWarnings("unchecked")
-#end	 
+#end
     $finder.visibility $returnType ${finder.name}(final int transform, final java.lang.String queryString#if ($finder.returnType.collectionType), int pageNumber, int pageSize#end#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
         throws $finder.exceptionList
@@ -839,7 +839,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #if($daoInheritance)
 #set($transformReferences = $entity.allValueObjectReferences)
 #else
-#set($transformReferences = $entity.valueObjectReferences)	
+#set($transformReferences = $entity.valueObjectReferences)
 #end
 #foreach ($valueObjectRef in $transformReferences)
                 case ${valueObjectRef.transformationConstantName} :
@@ -879,7 +879,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                 // do nothing;
         }
     }
-    
+
     protected $entity.fullyQualifiedEntityName toEntity(java.lang.Object[] row)
     {
         $entity.fullyQualifiedEntityName target = null;
@@ -909,6 +909,18 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         {
             org.apache.commons.collections.CollectionUtils.transform(entities, ${valueObjectRef.transformationAnonymousName});
         }
+    }
+
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToArrayMethodName}(java.util.Collection)
+     */
+#if ($enableTemplating)
+    @SuppressWarnings("unchecked")
+#end
+    public final ${valueObjectRef.targetElement.fullyQualifiedName}[] ${valueObjectRef.transformationToArrayMethodName}(java.util.Collection entities)
+    {
+        this.${valueObjectRef.transformationToCollectionMethodName}(entities);
+        return (${valueObjectRef.targetElement.fullyQualifiedName}[])entities.toArray(new ${valueObjectRef.targetElement.fullyQualifiedName}[0]);
     }
 
     /**
@@ -1006,7 +1018,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         this.${valueObjectRef.transformationMethodName}(entity, target);
         return target;
     }
-    
+
     /**
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToEntityMethodName}($valueObjectRef.targetElement.fullyQualifiedName, $entity.fullyQualifiedEntityName)
      */
@@ -1029,13 +1041,13 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
 #*            *##else
         // No conversion for target.${entityProperty.name} (can't convert source.${property.getterName}():${property.type.fullyQualifiedName} to $entityProperty.type.fullyQualifiedName)
-#*            *##end        
+#*            *##end
 #*        *##end
 #*    *##end
 #**##end
 #end
     }
-    
+
 #end
     /**
      * Gets the current <code>principal</code> if one has been set,
@@ -1084,7 +1096,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             throw super.convertHibernateAccessException(ex);
         }
     }
-    
+
     /**
      * @see ${entity.fullyQualifiedDaoName}#search(int, int, $fullyQualifiedSearchClassName)
      */
@@ -1092,7 +1104,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     {
         return this.search($entity.daoNoTransformationConstantName, pageNumber, pageSize, search);
     }
-    
+
     /**
      * @see ${entity.fullyQualifiedDaoName}#search(int, $fullyQualifiedSearchClassName)
      */
@@ -1111,7 +1123,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             throw super.convertHibernateAccessException(ex);
         }
     }
-    
+
     /**
      * @see ${entity.fullyQualifiedDaoName}#search($fullyQualifiedSearchClassName)
      */
@@ -1119,6 +1131,6 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     {
         return this.search($entity.daoNoTransformationConstantName, search);
     }
-    
+
     // spring-hibernate-dao-base merge-point
 }

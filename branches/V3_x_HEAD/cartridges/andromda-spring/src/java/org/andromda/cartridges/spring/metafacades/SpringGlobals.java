@@ -54,9 +54,14 @@ public class SpringGlobals
     final static String TRANSFORMATION_METHOD_PREFIX = "to";
 
     /**
-     * The suffix given to transformation method names.
+     * The suffix given to collection transformation method names.
      */
     static final String TRANSFORMATION_TO_COLLECTION_METHOD_SUFFIX = "Collection";
+
+    /**
+     * The suffix given to array method names.
+     */
+    static final String TRANSFORMATION_TO_ARRAY_METHOD_SUFFIX = "Array";
 
     /**
      * Defines the prefix given to the transformation constants.
@@ -147,7 +152,7 @@ public class SpringGlobals
      * Default service exceptions
      */
     static final String DEFAULT_SERVICE_EXCEPTIONS = "defaultServiceExceptions";
-    
+
     /**
      * Property for configuring the JMS destination template accessor name.
      */

@@ -76,7 +76,12 @@ public interface $entity.daoName
      * Converts this DAO's entity to a Collection of instances of type {@link $valueObjectRef.targetElement.fullyQualifiedName}.
      */
     public void ${valueObjectRef.transformationToCollectionMethodName}(java.util.Collection entities);
-    
+
+    /**
+     * Converts this DAO's entity to an array of instances of type {@link $valueObjectRef.targetElement.fullyQualifiedName}.
+     */
+    public ${valueObjectRef.targetElement.fullyQualifiedName}[] ${valueObjectRef.transformationToArrayMethodName}(java.util.Collection entities);
+
     /**
      * Copies the fields of {@link $valueObjectRef.targetElement.fullyQualifiedName} to the specified entity.
      * @param copyIfNull If FALSE, the value object's field will not be copied to the entity if the value is NULL. If TRUE,
@@ -142,7 +147,7 @@ public interface $entity.daoName
      * @return the loaded entities.
      */
     public java.util.Collection loadAll(final int transform);
-    
+
     /**
      * <p>
      * Does the same thing as {@link #loadAll()} with an
@@ -156,7 +161,7 @@ public interface $entity.daoName
      * @return the loaded entities.
      */
     public java.util.Collection loadAll(final int pageNumber, final int pageSize);
-    
+
     /**
      * <p>
      * Does the same thing as {@link #loadAll(int)} with an
@@ -395,7 +400,7 @@ $operation.getDocumentation("     * ")
     $operation.visibility $returnType ${operation.name}(String queryString, int pageNumber, int pageSize#if(!$operation.arguments.empty), ${operation.typedArgumentList}#end);
 #end
 
-#else 
+#else
 #set ($returnType = "java.lang.Object")
 #end
     /**
@@ -481,7 +486,7 @@ $operation.getDocumentation("     * ")
         throws $operation.exceptionList;
 #else
     $operation.visibility $returnType ${operation.name}(final int transform#if(!$operation.arguments.empty), ${operation.getTypedArgumentList('final')}#end);
-    
+
 #end
 #if ($operation.returnType.collectionType)
     /**
@@ -542,7 +547,7 @@ $operation.getDocumentation("     * ")
      * @return any found results from the search wrapped in a {@link $fullyQualifiedPagingResultName} instance.
      */
     public $fullyQualifiedPagingResultName search(final int pageNumber, final int pageSize, final $fullyQualifiedSearchClassName search);
-    
+
     /**
      * Does the same thing as {@link #search($fullyQualifiedSearchClassName)} but with an
      * additional flag called <code>transform</code>. If this flag is set to <code>$entity.daoNoTransformationConstantName</code> then
@@ -557,7 +562,7 @@ $operation.getDocumentation("     * ")
      * @return any found results from the search.
      */
     public java.util.Set search(final int transform, final $fullyQualifiedSearchClassName search);
-    
+
     /**
      * Performs a search using the parameters specified in the given <code>search</code> object.
      *
@@ -565,6 +570,6 @@ $operation.getDocumentation("     * ")
      * @return any found results from the search.
      */
     public java.util.Set search(final $fullyQualifiedSearchClassName search);
-    
+
     // spring-dao merge-point
 }

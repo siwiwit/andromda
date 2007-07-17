@@ -145,6 +145,15 @@ public class SpringDependencyLogicImpl
     }
 
     /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringDependency#getTransformationToArrayMethodName()
+     */
+    protected String handleGetTransformationToArrayMethodName()
+    {
+        return SpringGlobals.TRANSFORMATION_METHOD_PREFIX + StringUtils.capitalize(this.getName()) +
+            SpringGlobals.TRANSFORMATION_TO_ARRAY_METHOD_SUFFIX;
+    }
+
+    /**
      * @see org.andromda.cartridges.spring.metafacades.SpringDependency#getDaoName()
      */
     protected String handleGetDaoName()
