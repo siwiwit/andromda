@@ -251,23 +251,15 @@ public class Axis2ClientUtils
                             final Object value = properties.get(name);
                             if (value != null)
                             {
-                                boolean addToDocument = true;
-                                if (value.getClass().isArray())
-                                {
-                                    addToDocument = Array.getLength(value) > 0;
-                                }
-                                if (addToDocument)
-                                {
-                                    omElement.addChild(
-                                        getOMElement(
-                                            definition,
-                                            schema,
-                                            currentComponentElement,
-                                            value,
-                                            name,
-                                            factory,
-                                            evaluatingBeans));
-                                }
+                                omElement.addChild(
+                                    getOMElement(
+                                        definition,
+                                        schema,
+                                        currentComponentElement,
+                                        value,
+                                        name,
+                                        factory,
+                                        evaluatingBeans));
                             }
                         }
                     }
