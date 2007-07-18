@@ -130,11 +130,10 @@ public class $className
             final OMElement responseElement = factory.createOMElement(
                     getOperationResponseName(method),
                     targetNamespace);
-#if (!$extensionInheritanceDisabled)
+
             final OMNamespace xsiNamespace = factory.createOMNamespace(XSI_NS, XSI_PREFIX);
             namespaces.put(XSI_PREFIX,  xsiNamespace);
             responseElement.declareNamespace(xsiNamespace);
-#end
 
             final OMElement returnElement =
                 getOMElement(
@@ -338,12 +337,26 @@ public class $className
             namespaces,
             new ArrayList<Object>());
     }
-#if (!$extensionInheritanceDisabled)
 
+    /**
+     * The schema instance namespace.
+     */
     private static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+
+    /**
+     * The prefix for the schema instance namespace.
+     */
     private static final String XSI_PREFIX = "xsi";
+
+    /**
+     * The name of the xsi:type attribute.
+     */
     private static final String TYPE = "type";
-#end
+
+    /**
+     * Used to seperate a namespace prefix and name in a QName.
+     */
+    private static final String NS_SEPARATOR = ":";
 
     /**
      * Constructs and OMElement from the given bean
@@ -397,16 +410,14 @@ public class $className
                                 evaluatingBeans));
                     }
                 }
-#if (!$extensionInheritanceDisabled)
                 else
                 {
                     final String attributeValue = targetNamespace != null ?
-                        targetNamespace.getPrefix() + ":" + beanType.getSimpleName() : beanType.getSimpleName();
+                        targetNamespace.getPrefix() + NS_SEPARATOR + beanType.getSimpleName() : beanType.getSimpleName();
                     // - add the type attribute for complex types (lets the client know the appropriate type
                     //   when deserializing
                     element.addAttribute(TYPE, attributeValue, namespaces.get(XSI_PREFIX));
                 }
-#end
                 try
                 {
                     final java.util.Map properties = PropertyUtils.describe(bean);
