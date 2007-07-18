@@ -304,7 +304,6 @@ public class Axis2ClientUtils
                 }
                 catch (final Throwable throwable)
                 {
-                    throwable.printStackTrace();
                     throw new RuntimeException(throwable);
                 }
             }
