@@ -107,7 +107,8 @@ $literal.getDocumentation("                                ", 64, false)
 $type.getDocumentation("                        ", 64, false)
                     </xsd:documentation>
                 </xsd:annotation>
-#*     *##if ($type.generalization && !$extensionInheritanceDisabled)
+#set ($extensionRequired = $type.generalization && !$extensionInheritanceDisabled)
+#*     *##if ($extensionRequired)
                 <xsd:complexContent>
                 <xsd:extension base="${type.generalization.namespacePrefix}:$type.generalization.qName">
 #*     *##end
@@ -141,7 +142,7 @@ $otherEnd.getDocumentation("                                ", 64, false)
 #end
                 </xsd:all>
 #end
-#*     *##if ($type.generalization && !$extensionInheritanceDisabled)
+#*     *##if ($extensionRequired)
                 </xsd:extension>
                 </xsd:complexContent>
 #*     *##end
