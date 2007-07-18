@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.wsdl.Definition;
 import javax.wsdl.Types;
 import javax.wsdl.extensions.schema.Schema;
+import javax.xml.namespace.QName;
 
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
@@ -68,7 +69,7 @@ public class Axis2ClientUtils
                 final OMNamespace xsiNamespace = factory.createOMNamespace(XSI_NS, XSI_PREFIX);
                 namespaces.put(XSI_PREFIX, xsiNamespace);
 
-                final Schema[] schemas = getSchemas(definition);
+                final Collection<Schema> schemas = getSchemas(definition);
                 for (final Schema schema : schemas)
                 {
                     final String namespace = Axis2ClientUtils.getTargetNamespace(schema);
@@ -219,11 +220,6 @@ public class Axis2ClientUtils
         if (bean != null && evaluatingBeans != null && !evaluatingBeans.contains(bean))
         {
             evaluatingBeans.add(bean);
-            final Element currentComponentElement =
-                Axis2ClientUtils.getElementByAttribute(
-                    definition,
-                    NAME,
-                    bean.getClass().getSimpleName());
             if (isSimpleType(bean))
             {
                 omElement.addChild(factory.createOMText(SimpleTypeMapper.getStringValue(bean)));
@@ -234,10 +230,16 @@ public class Axis2ClientUtils
             }
             else
             {
+                final Element currentComponentElement =
+                    Axis2ClientUtils.getElementByAttribute(
+                        definition,
+                        NAME,
+                        bean.getClass().getSimpleName());
                 final Class beanType = bean.getClass();
                 if (beanType.isArray())
                 {
-                    final Element arrayElement = Axis2ClientUtils.getElementByAttribute(
+                    final Element arrayElement = Axis2ClientUtils.getRequiredElementByAttribute(
+                            definition,
                             componentElement,
                             NAME,
                             elementName);
@@ -302,6 +304,7 @@ public class Axis2ClientUtils
                 }
                 catch (final Throwable throwable)
                 {
+                    throwable.printStackTrace();
                     throw new RuntimeException(throwable);
                 }
             }
@@ -389,6 +392,38 @@ public class Axis2ClientUtils
 
     private static final String NAME = "name";
     private static final String TYPE = "type";
+    private static final String BASE = "base";
+
+    private static Element getRequiredElementByAttribute(
+        final Definition definition,
+        final Element container,
+        final String attribute,
+        final String value)
+    {
+        Element element = null;
+        if (container != null)
+        {
+            element = Axis2ClientUtils.getElementByAttribute(
+                container,
+                attribute,
+                value);
+        }
+        // - try finding the element on an inherited type
+        if (element == null)
+        {
+            final String xsiTypeName = Axis2ClientUtils.getAttributeValueFromChildElement(container, BASE, 0);
+            final String typeName = getXsiTypeNameWithoutPrefix(xsiTypeName);
+            element = Axis2ClientUtils.getElementByAttribute(
+                Axis2ClientUtils.getElementByAttribute(definition, NAME, typeName),
+                attribute,
+                value);
+        }
+        if (element == null)
+        {
+            throw new RuntimeException("'" + value + "' was not found on element '" + container.getAttribute(NAME) + "'");
+        }
+        return element;
+    }
 
     private static Element getElementByAttribute(
         final Definition definition,
@@ -421,7 +456,7 @@ public class Axis2ClientUtils
         return element;
     }
 
-    private static Schema[] getSchemas(final Definition definition)
+    private static Collection<Schema> getSchemas(final Definition definition)
     {
         final Collection<Schema> schemas = new ArrayList<Schema>();
         final Types types = definition.getTypes();
@@ -434,7 +469,7 @@ public class Axis2ClientUtils
                 schemas.add((Schema)object);
             }
         }
-        return schemas.toArray(new Schema[0]);
+        return schemas;
     }
 
     private static Element getElementByAttribute(
@@ -492,7 +527,7 @@ public class Axis2ClientUtils
         if (element != null && value != null)
         {
             final String foundAttribute = element.getAttribute(attribute);
-            if (value.equals(foundAttribute))
+            if (StringUtils.isNotBlank(value) && value.equals(foundAttribute))
             {
                 found = element;
             }
@@ -642,7 +677,7 @@ public class Axis2ClientUtils
      */
     public static Object deserialize(
         OMElement element,
-        final Class type,
+        Class type,
         final ObjectSupplier objectSupplier) throws Exception
     {
         Object bean = null;
@@ -679,6 +714,7 @@ public class Axis2ClientUtils
             {
                 try
                 {
+                    type = getAppropriateType(element, type);
                     bean = objectSupplier.getObject(type);
                     final java.beans.PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(type);
                     for (int ctr = 0; ctr < descriptors.length; ctr++)
@@ -711,6 +747,54 @@ public class Axis2ClientUtils
             }
         }
         return bean;
+    }
+
+    private static final String PACKAGE_SEPARATOR = ".";
+
+    /**
+     * Gets the appropriate type from checking the xsi:type (if present).  Currently
+     * this just assumes any types in a hierarchy are in the same package.
+     *
+     * @param element the element from which to retrieve the type.
+     * @param type the current type.
+     * @return the appropriate type.
+     * @throws ClassNotFoundException
+     */
+    private static Class getAppropriateType(final OMElement element, Class type) throws ClassNotFoundException
+    {
+        final String xsiTypeName = element.getAttributeValue(new QName(XSI_NS, TYPE));
+        if (xsiTypeName != null)
+        {
+            final String typeName = getXsiTypeNameWithoutPrefix(xsiTypeName);
+            if (!typeName.equals(type.getSimpleName()))
+            {
+                // TODO: need to handle types that aren't in the same package
+                type = Thread.currentThread().getContextClassLoader().loadClass(
+                    type.getPackage().getName() + PACKAGE_SEPARATOR + typeName);
+            }
+        }
+        return type;
+    }
+
+    /**
+     * Strips the namespace prefix from the given xsiTypeName.
+     *
+     * @param xsiTypeName the xsi:type name.
+     * @return the stripped name.
+     */
+    private static String getXsiTypeNameWithoutPrefix(final String xsiTypeName)
+    {
+        String typeName;
+        String[] names = xsiTypeName.split(NS_SEPARATOR);
+        if (names.length > 1)
+        {
+            typeName = names[1];
+        }
+        else
+        {
+            typeName = names[0];
+        }
+        return typeName;
     }
 
     /**
