@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import javax.wsdl.extensions.schema.Schema;
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
+import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.util.Base64;
 import org.apache.axis2.databinding.typemapping.SimpleTypeMapper;
 import org.apache.axis2.engine.ObjectSupplier;
@@ -59,13 +61,32 @@ public class Axis2ClientUtils
                     operationName);
             if (operationSchema != null)
             {
+                final OMFactory factory = OMAbstractFactory.getOMFactory();
+
+                // - collect all the namespaces
+                final Map<String, OMNamespace> namespaces = new HashMap<String, OMNamespace>();
+                final OMNamespace xsiNamespace = factory.createOMNamespace(XSI_NS, XSI_PREFIX);
+                namespaces.put(XSI_PREFIX, xsiNamespace);
+
+                final Schema[] schemas = getSchemas(definition);
+                for (final Schema schema : schemas)
+                {
+                    final String namespace = Axis2ClientUtils.getTargetNamespace(schema);
+                    final String prefix = getNamespacePrefix(
+                            definition,
+                            namespace);
+                    namespaces.put(prefix, factory.createOMNamespace(namespace, prefix));
+                }
+
                 operationOMElement =
                     getOMElement(
                         definition,
                         operationSchema,
                         null,
                         null,
-                        operationName);
+                        operationName,
+                        factory,
+                        namespaces);
                 if (operationElement == null)
                 {
                     throw new RuntimeException("No operation with name '" + operationName + "' can be found on service: " +
@@ -82,17 +103,10 @@ public class Axis2ClientUtils
                 }
 
                 // - declare all the namespaces
-                final Schema[] schemas = getSchemas(definition);
-                for (int ctr = 0; ctr < schemas.length; ctr++)
+                operationOMElement.declareNamespace(xsiNamespace);
+                for (final OMNamespace namespace : namespaces.values())
                 {
-                    final Schema schema = schemas[ctr];
-                    final String namespace = Axis2ClientUtils.getTargetNamespace(schema);
-                    final String prefix = getNamespacePrefix(
-                            definition,
-                            namespace);
-                    operationOMElement.declareNamespace(
-                        namespace,
-                        prefix);
+                    operationOMElement.declareNamespace(namespace);
                 }
 
                 // - add the argument children
@@ -107,7 +121,9 @@ public class Axis2ClientUtils
                             operationSchema,
                             argument,
                             arguments[ctr],
-                            argumentName);
+                            argumentName,
+                            factory,
+                            namespaces);
                     operationOMElement.addChild(element);
                 }
             }
@@ -126,16 +142,19 @@ public class Axis2ClientUtils
      * @param schema the current schema from which to retrieve the om element.
      * @param componentElement, the current componentElemnet of the WSDL definition.
      * @param bean the bean to introspect
-     * @param namespace the namespace to add to each element.
+     * @param elementName the name of the element to construct.
+     * @param the factory used for element construction.
+     * @param namespaces all available namespaces.
      */
     public static OMElement getOMElement(
         final Definition definition,
         final Schema schema,
         final Element componentElement,
         final Object bean,
-        final String elementName)
+        final String elementName,
+        final OMFactory factory,
+        final Map<String, OMNamespace> namespaces)
     {
-        final OMFactory factory = OMAbstractFactory.getOMFactory();
         return getOMElement(
             definition,
             schema,
@@ -143,6 +162,7 @@ public class Axis2ClientUtils
             bean,
             elementName,
             factory,
+            namespaces,
             new ArrayList<Object>());
     }
 
@@ -154,7 +174,8 @@ public class Axis2ClientUtils
      * @param componentElement, the current componentElemnet of the WSDL definition.
      * @param bean the bean to introspect
      * @param elementName the name of the element
-     * @param factory the SOAP factory instance used to create the OMElement
+     * @param factory the OM factory instance used to create the element.
+     * @param namespaces all available namespaces.
      * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
      *        to prevent endless recursion.
      */
@@ -165,6 +186,7 @@ public class Axis2ClientUtils
         final Object bean,
         final String elementName,
         final OMFactory factory,
+        final Map<String, OMNamespace> namespaces,
         final Collection<Object> evaluatingBeans)
     {
         final String componentElementName = componentElement != null ? componentElement.getAttribute(NAME) : null;
@@ -179,18 +201,21 @@ public class Axis2ClientUtils
                 schema = currentSchema;
             }
         }
-        final boolean qualified = isQualified(schema);
-        final String namespace = Axis2ClientUtils.getTargetNamespace(schema);
-        final String namespacePrefix = getNamespacePrefix(
-                definition,
-                namespace);
+
+        OMNamespace omNamespace = null;
+        if (isQualified(schema))
+        {
+            final String namespace = Axis2ClientUtils.getTargetNamespace(schema);
+            final String namespacePrefix = getNamespacePrefix(
+                    definition,
+                    namespace);
+            omNamespace = namespaces.get(namespacePrefix);
+        }
 
         final OMElement omElement =
             factory.createOMElement(
                 elementName,
-                qualified ? factory.createOMNamespace(
-                    namespace,
-                    namespacePrefix) : null);
+                omNamespace);
         if (bean != null && evaluatingBeans != null && !evaluatingBeans.contains(bean))
         {
             evaluatingBeans.add(bean);
@@ -237,8 +262,18 @@ public class Axis2ClientUtils
                                     ctr),
                                 arrayComponentName,
                                 factory,
+                                namespaces,
                                 evaluatingBeans));
                     }
+                }
+                else
+                {
+
+
+                    final String attributeValue = omNamespace != null ?
+                        omNamespace.getPrefix() + NS_SEPARATOR + beanType.getSimpleName() : beanType.getSimpleName();
+                    // - add the xsi:type attribute for complex types
+                    omElement.addAttribute(TYPE, attributeValue, namespaces.get(XSI_PREFIX));
                 }
                 try
                 {
@@ -259,6 +294,7 @@ public class Axis2ClientUtils
                                         value,
                                         name,
                                         factory,
+                                        namespaces,
                                         evaluatingBeans));
                             }
                         }
@@ -275,9 +311,38 @@ public class Axis2ClientUtils
     }
 
     private static final String ELEMENT_FORM_DEFAULT = "elementFormDefault";
+
+    /**
+     * Indicates whether or not a xml document is qualified.
+     */
     private static final String QUALIFIED = "qualified";
+
+    /**
+     * The attribute that stores the target namespace.
+     */
     private static final String TARGET_NAMESPACE = "targetNamespace";
 
+    /**
+     * The schema instance namespace.
+     */
+    private static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+
+    /**
+     * The prefix for the schema instance namespace.
+     */
+    private static final String XSI_PREFIX = "xsi";
+
+    /**
+     * Used to seperate a namespace prefix and name in a QName.
+     */
+    private static final String NS_SEPARATOR = ":";
+
+    /**
+     * Indicates whether or not the schema is qualified.
+     *
+     * @param schema the schema to check.
+     * @return true/false
+     */
     private static boolean isQualified(Schema schema)
     {
         boolean isQualified = false;
