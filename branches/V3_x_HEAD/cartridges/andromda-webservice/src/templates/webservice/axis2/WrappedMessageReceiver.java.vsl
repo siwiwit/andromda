@@ -8,7 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -54,23 +56,19 @@ public class $className
         try
         {
             // get the implementation class for the Web Service
-            Object obj = getTheImplementationObject(inMessage);
-
-            Class ImplClass = obj.getClass();
-
+            Object object = getTheImplementationObject(inMessage);
             final AxisOperation operation = inMessage.getOperationContext().getAxisOperation();
             final AxisService service = inMessage.getAxisService();
             final OMElement methodElement = inMessage.getEnvelope().getBody().getFirstElement();
             final AxisMessage inAxisMessage = operation.getMessage(WSDLConstants.MESSAGE_LABEL_IN_VALUE);
             String messageNameSpace = null;
             QName elementQName;
-            String methodName = operation.getName().getLocalPart();
-            Method[] methods = ImplClass.getMethods();
-            for (int i = 0; i < methods.length; i++)
+            final String methodName = operation.getName().getLocalPart();
+            for (final Method compareMethod : object.getClass().getMethods())
             {
-                if (methods[i].getName().equals(methodName))
+                if (compareMethod.getName().equals(methodName))
                 {
-                    method = methods[i];
+                    method = compareMethod;
                     break;
                 }
             }
@@ -82,7 +80,7 @@ public class $className
                     // method accept empty SOAPbody
                     responseObject =
                         method.invoke(
-                            obj,
+                            object,
                             new Object[0]);
                 }
                 else
@@ -108,33 +106,41 @@ public class $className
                             "qualified element. But received a namespace qualified element");
                     }
 
-                    responseObject = method.invoke(obj, deserialize(methodElement, method, service.getObjectSupplier()));
+                    responseObject = method.invoke(object, deserialize(methodElement, method, service.getObjectSupplier()));
                 }
             }
 
-            SOAPFactory factory = getSOAPFactory(inMessage);
+            final SOAPFactory factory = getSOAPFactory(inMessage);
 
-            OMNamespace namespace = null;
+            final Map<String, OMNamespace> namespaces = new HashMap<String, OMNamespace>();
+#if (!$extensionInheritanceDisabled)
+            namespaces.put(XSI_PREFIX,  factory.createOMNamespace(XSI_NS, XSI_PREFIX));
+#end
+            OMNamespace targetNamespace = null;
             // Handling the response
             AxisMessage outAxisMessage = operation.getMessage(WSDLConstants.MESSAGE_LABEL_OUT_VALUE);
+
+            final String targetNamespacePrefix = service.getSchematargetNamespace();
             if (service.isElementFormDefault() && outAxisMessage != null)
             {
-                namespace = factory.createOMNamespace(
+                targetNamespace = factory.createOMNamespace(
                     outAxisMessage.getElementQName().getNamespaceURI(),
-                    service.getSchematargetNamespacePrefix());
+                    targetNamespacePrefix);
+                namespaces.put(targetNamespacePrefix, targetNamespace);
             }
 
-            SOAPEnvelope envelope = factory.getDefaultEnvelope();
+            final SOAPEnvelope envelope = factory.getDefaultEnvelope();
 
-            OMElement responseElement = factory.createOMElement(
+            final OMElement responseElement = factory.createOMElement(
                     getOperationResponseName(method),
-                    namespace);
+                    targetNamespace);
 
             final OMElement returnElement =
                 getOMElement(
                     responseObject,
                     getOperationReturnName(method),
-                    namespace);
+                    targetNamespace,
+                    namespaces);
 
             responseElement.addChild(returnElement);
             envelope.getBody().addChild(responseElement);
@@ -314,21 +320,29 @@ public class $className
      * @param elementName the name of the element
      * @param qualified whether or not the resulting document should be qualified
      * @param factory the SOAP factory instance used to create the OMElement
-     * @param namespace the namespace to add to each element.
+     * @param targetNamespace the target namespace.
      */
     public static OMElement getOMElement(
         final Object bean,
         final String elementName,
-        final OMNamespace namespace)
+        final OMNamespace targetNamespace,
+        final Map<String, OMNamespace> namespaces)
     {
         final OMFactory factory = OMAbstractFactory.getOMFactory();
         return getOMElement(
             bean,
             elementName,
             factory,
-            namespace,
+            targetNamespace,
+            namespaces,
             new ArrayList<Object>());
     }
+#if (!$extensionInheritanceDisabled)
+
+    private static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+    private static final String XSI_PREFIX = "xsi";
+    private static final String TYPE = "type";
+#end
 
     /**
      * Constructs and OMElement from the given bean
@@ -337,7 +351,7 @@ public class $className
      * @param elementName the name of the element
      * @param qualified whether or not the resulting document should be qualified
      * @param factory the SOAP factory instance used to create the OMElement
-     * @param namespace the namespace to add to each element.
+     * @param targetNamespace the target namespace.
      * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
      *        to prevent endless recursion.
      */
@@ -345,12 +359,13 @@ public class $className
         final Object bean,
         final String elementName,
         final OMFactory factory,
-        final OMNamespace namespace,
+        final OMNamespace targetNamespace,
+        final Map<String, OMNamespace> namespaces,
         final Collection<Object> evaluatingBeans)
     {
         final OMElement element = factory.createOMElement(
                 elementName,
-                namespace);
+                targetNamespace);
         if (bean != null && evaluatingBeans != null && !evaluatingBeans.contains(bean))
         {
             evaluatingBeans.add(bean);
@@ -376,10 +391,21 @@ public class $className
                                 Array.get(bean, ctr),
                                 arrayComponentName,
                                 factory,
-                                namespace,
+                                targetNamespace,
+                                namespaces,
                                 evaluatingBeans));
                     }
                 }
+#if (!$extensionInheritanceDisabled)
+                else
+                {
+                    final String attributeValue = targetNamespace != null ?
+                        targetNamespace.getPrefix() + ":" + beanType.getSimpleName() : beanType.getSimpleName();
+                    // - add the type attribute for complex types (lets the client know the appropriate type
+                    //   when deserializing
+                    element.addAttribute(TYPE, attributeValue, namespaces.get(XSI_PREFIX));
+                }
+#end
                 try
                 {
                     final java.util.Map properties = PropertyUtils.describe(bean);
@@ -396,7 +422,8 @@ public class $className
                                         value,
                                         name,
                                         factory,
-                                        namespace,
+                                        targetNamespace,
+                                        namespaces,
                                         evaluatingBeans));
                             }
                         }
