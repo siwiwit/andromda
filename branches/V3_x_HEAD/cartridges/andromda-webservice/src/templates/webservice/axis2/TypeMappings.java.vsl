@@ -5,12 +5,12 @@ package $webserviceTypesPackage;
 
 /**
  * Stores the java mapping to schema type mappings.
- * 
+ *
  * @author Chad Brandon
  */
 class $className
 {
-    private static final java.util.Map mappings = new java.util.HashMap();
+    private static final java.util.Map<Class, String> mappings = new java.util.HashMap<Class, String>();
     static
     {
         mappings.put(java.lang.Boolean.class, "boolean");
@@ -34,15 +34,15 @@ class $className
         mappings.put(java.lang.Short.class, "short");
         mappings.put(java.lang.Object.class, "anyType");
     }
-    
+
     /**
      * Gets the appropriate schema type from the given <code>javaType</code>.
-     * 
+     *
      * @param javaType the java type from which to get the schema type.
      * @return the schema type mapping.
      */
-    static String getSchemaType(Class javaType)
+    static String getSchemaType(final Class javaType)
     {
-        return (String)mappings.get(javaType);
+        return mappings.get(javaType);
     }
 }
