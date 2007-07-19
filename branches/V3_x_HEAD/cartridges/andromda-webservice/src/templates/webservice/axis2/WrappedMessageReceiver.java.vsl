@@ -236,7 +236,7 @@ public class $className
      * @param objectSupplier the "object supplier" used to construct objects from given classes.
      * @return the deserialized object.
      */
-    public static Object deserialize(OMElement element, final Class type, final ObjectSupplier objectSupplier)
+    public static Object deserialize(OMElement element, Class type, final ObjectSupplier objectSupplier)
         throws Exception
     {
         Object bean = null;
@@ -265,6 +265,7 @@ public class $className
             {
                 try
                 {
+                    type = getAppropriateType(element, type);
                     bean = objectSupplier.getObject(type);
                     final java.beans.PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(type);
                     for (int ctr = 0; ctr < descriptors.length; ctr++)
@@ -417,38 +418,96 @@ public class $className
                     // - add the type attribute for complex types (lets the client know the appropriate type
                     //   when deserializing
                     element.addAttribute(TYPE, attributeValue, namespaces.get(XSI_PREFIX));
-                }
-                try
-                {
-                    final java.util.Map properties = PropertyUtils.describe(bean);
-                    for (final Iterator iterator = properties.keySet().iterator(); iterator.hasNext();)
+                    try
                     {
-                        final String name = (String)iterator.next();
-                        if (!CLASS.equals(name))
+                        final java.util.Map properties = PropertyUtils.describe(bean);
+                        for (final Iterator iterator = properties.keySet().iterator(); iterator.hasNext();)
                         {
-                            final Object value = properties.get(name);
-                            if (value != null)
+                            final String name = (String)iterator.next();
+                            if (!CLASS.equals(name))
                             {
-                                element.addChild(
-                                    getOMElement(
-                                        value,
-                                        name,
-                                        factory,
-                                        targetNamespace,
-                                        namespaces,
-                                        evaluatingBeans));
+                                final Object value = properties.get(name);
+                                if (value != null)
+                                {
+                                    element.addChild(
+                                        getOMElement(
+                                            value,
+                                            name,
+                                            factory,
+                                            targetNamespace,
+                                            namespaces,
+                                            evaluatingBeans));
+                                }
                             }
                         }
                     }
-                }
-                catch (final Throwable throwable)
-                {
-                    throw new RuntimeException(throwable);
+                    catch (final Throwable throwable)
+                    {
+                        throw new RuntimeException(throwable);
+                    }
                 }
             }
             evaluatingBeans.remove(bean);
         }
         return element;
+    }
+
+    /**
+     * The java package separator character.
+     */
+    private static final String PACKAGE_SEPARATOR = ".";
+
+    /**
+     * The XSI Qname.
+     */
+    private static final QName XSI_NS_QNAME = new QName(XSI_NS, TYPE);
+
+    /**
+     * Gets the appropriate type from checking the xsi:type (if present).  Currently
+     * this just assumes any types in a hierarchy are in the same package.
+     *
+     * @param element the element from which to retrieve the type.
+     * @param type the current type.
+     * @return the appropriate type.
+     * @throws ClassNotFoundException
+     */
+    private static Class getAppropriateType(final OMElement element, Class type) throws ClassNotFoundException
+    {
+        final String xsiTypeName = element.getAttributeValue(XSI_NS_QNAME);
+        if (xsiTypeName != null)
+        {
+            final String typeName = getLocalName(xsiTypeName);
+            if (!typeName.equals(type.getSimpleName()))
+            {
+                // TODO: need to handle types that aren't in the same package (we should look up the
+                // mapped class here instead of assuming the same package)
+                type = Thread.currentThread().getContextClassLoader().loadClass(
+                    type.getPackage().getName() + PACKAGE_SEPARATOR + typeName);
+            }
+        }
+        return type;
+    }
+
+    /**
+     * Strips the prefix from a type name in the given form: prefix:localName
+     * to get the local name.
+     *
+     * @param typeName the type name with an optional prefix
+     * @return the local name.
+     */
+    private static String getLocalName(final String typeName)
+    {
+        String localName;
+        String[] names = typeName.split(NS_SEPARATOR);
+        if (names.length > 1)
+        {
+            localName = names[1];
+        }
+        else
+        {
+            localName = names[0];
+        }
+        return localName;
     }
 
     /**
