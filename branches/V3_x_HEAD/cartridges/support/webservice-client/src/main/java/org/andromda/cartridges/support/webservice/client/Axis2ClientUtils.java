@@ -304,6 +304,7 @@ public class Axis2ClientUtils
                 }
                 catch (final Throwable throwable)
                 {
+                    throwable.printStackTrace();
                     throw new RuntimeException(throwable);
                 }
             }
@@ -411,7 +412,7 @@ public class Axis2ClientUtils
         if (element == null)
         {
             final String xsiTypeName = Axis2ClientUtils.getAttributeValueFromChildElement(container, BASE, 0);
-            final String typeName = getXsiTypeNameWithoutPrefix(xsiTypeName);
+            final String typeName = getLocalName(xsiTypeName);
             element = Axis2ClientUtils.getElementByAttribute(
                 Axis2ClientUtils.getElementByAttribute(definition, NAME, typeName),
                 attribute,
@@ -748,7 +749,15 @@ public class Axis2ClientUtils
         return bean;
     }
 
+    /**
+     * The java package separator character.
+     */
     private static final String PACKAGE_SEPARATOR = ".";
+
+    /**
+     * The XSI Qname.
+     */
+    private static final QName XSI_NS_QNAME = new QName(XSI_NS, TYPE);
 
     /**
      * Gets the appropriate type from checking the xsi:type (if present).  Currently
@@ -761,10 +770,10 @@ public class Axis2ClientUtils
      */
     private static Class getAppropriateType(final OMElement element, Class type) throws ClassNotFoundException
     {
-        final String xsiTypeName = element.getAttributeValue(new QName(XSI_NS, TYPE));
+        final String xsiTypeName = element.getAttributeValue(XSI_NS_QNAME);
         if (xsiTypeName != null)
         {
-            final String typeName = getXsiTypeNameWithoutPrefix(xsiTypeName);
+            final String typeName = getLocalName(xsiTypeName);
             if (!typeName.equals(type.getSimpleName()))
             {
                 // TODO: need to handle types that aren't in the same package
@@ -776,24 +785,25 @@ public class Axis2ClientUtils
     }
 
     /**
-     * Strips the namespace prefix from the given xsiTypeName.
+     * Strips the prefix from a type name in the given form: prefix:localName
+     * to get the local name.
      *
-     * @param xsiTypeName the xsi:type name.
-     * @return the stripped name.
+     * @param typeName the type name with an optional prefix
+     * @return the local name.
      */
-    private static String getXsiTypeNameWithoutPrefix(final String xsiTypeName)
+    private static String getLocalName(final String typeName)
     {
-        String typeName;
-        String[] names = xsiTypeName.split(NS_SEPARATOR);
+        String localName;
+        String[] names = typeName.split(NS_SEPARATOR);
         if (names.length > 1)
         {
-            typeName = names[1];
+            localName = names[1];
         }
         else
         {
-            typeName = names[0];
+            localName = names[0];
         }
-        return typeName;
+        return localName;
     }
 
     /**
