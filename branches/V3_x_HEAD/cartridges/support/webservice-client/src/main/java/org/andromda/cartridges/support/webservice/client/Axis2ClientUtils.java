@@ -755,9 +755,9 @@ public class Axis2ClientUtils
     private static final String PACKAGE_SEPARATOR = ".";
 
     /**
-     * The XSI Qname.
+     * The xsi:type Qname.
      */
-    private static final QName XSI_NS_QNAME = new QName(XSI_NS, TYPE);
+    private static final QName XSI_TYPE_QNAME = new QName(XSI_NS, TYPE);
 
     /**
      * Gets the appropriate type from checking the xsi:type (if present).  Currently
@@ -770,13 +770,14 @@ public class Axis2ClientUtils
      */
     private static Class getAppropriateType(final OMElement element, Class type) throws ClassNotFoundException
     {
-        final String xsiTypeName = element.getAttributeValue(XSI_NS_QNAME);
+        final String xsiTypeName = element.getAttributeValue(XSI_TYPE_QNAME);
         if (xsiTypeName != null)
         {
             final String typeName = getLocalName(xsiTypeName);
             if (!typeName.equals(type.getSimpleName()))
             {
-                // TODO: need to handle types that aren't in the same package
+                // TODO: need to handle types that aren't in the same package (we should look up the
+                // mapped class here instead of assuming the same package)
                 type = Thread.currentThread().getContextClassLoader().loadClass(
                     type.getPackage().getName() + PACKAGE_SEPARATOR + typeName);
             }
