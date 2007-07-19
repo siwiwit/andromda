@@ -47,6 +47,7 @@ public class $className
     /**
      * @see org.apache.axis2.receivers.AbstractInOutSyncMessageReceiver#invokeBusinessLogic(org.apache.axis2.context.MessageContext, org.apache.axis2.context.MessageContext)
      */
+    @SuppressWarnings("unchecked")
     public void invokeBusinessLogic(
         MessageContext inMessage,
         MessageContext outMessage)
@@ -106,7 +107,8 @@ public class $className
                             "qualified element. But received a namespace qualified element");
                     }
 
-                    responseObject = method.invoke(object, deserialize(methodElement, method, service.getObjectSupplier()));
+                    responseObject = method.invoke(object, deserialize(methodElement, method,
+                        service.getObjectSupplier(), service.getNameSpacesMap()));
                 }
             }
 
@@ -211,9 +213,11 @@ public class $className
      * @param element the XML OMElement
      * @param method the method from which to deserialize the arguments.
      * @param objectSupplier the "object supplier" used to construct objects from given classes.
+     * @param namespaces a map containing all available namespaces keyed by prefix.
      * @return the deserialized arguments.
      */
-    public static Object[] deserialize(final OMElement element, final Method method, final ObjectSupplier objectSupplier)
+    public static Object[] deserialize(final OMElement element, final Method method,
+        final ObjectSupplier objectSupplier, final Map<String, String> namespaces)
         throws Exception
     {
         int ctr = 0;
@@ -223,7 +227,7 @@ public class $className
         {
             final OMElement childElement = (OMElement)iterator.next();
             final Class type = types[ctr];
-            arguments[ctr] = deserialize(childElement, type, objectSupplier);
+            arguments[ctr] = deserialize(childElement, type, objectSupplier, namespaces);
         }
         return arguments;
     }
@@ -234,9 +238,11 @@ public class $className
      * @param element the XML OMElement
      * @param type the java type.
      * @param objectSupplier the "object supplier" used to construct objects from given classes.
+     * @param namespaces a map containing all available namespaces keyed by prefix.
      * @return the deserialized object.
      */
-    public static Object deserialize(OMElement element, Class type, final ObjectSupplier objectSupplier)
+    public static Object deserialize(OMElement element, Class type, final ObjectSupplier objectSupplier,
+        final Map<String, String> namespaces)
         throws Exception
     {
         Object bean = null;
@@ -257,7 +263,7 @@ public class $className
                 final Collection<Object> elements = new ArrayList<Object>();
                 for (final Iterator iterator = element.getChildElements(); iterator.hasNext();)
                 {
-                    elements.add(deserialize((OMElement)iterator.next(), type.getComponentType(), objectSupplier));
+                    elements.add(deserialize((OMElement)iterator.next(), type.getComponentType(), objectSupplier, namespaces));
                 }
                 bean = elements.toArray((Object[])Array.newInstance(type.getComponentType(), 0));
             }
@@ -265,7 +271,7 @@ public class $className
             {
                 try
                 {
-                    type = getAppropriateType(element, type);
+                    type = getAppropriateType(element, type, namespaces);
                     bean = objectSupplier.getObject(type);
                     final java.beans.PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(type);
                     for (int ctr = 0; ctr < descriptors.length; ctr++)
@@ -277,7 +283,8 @@ public class $className
                             final OMElement propertyElement = findElementByName(element, name);
                             if (propertyElement != null)
                             {
-                                PropertyUtils.setProperty(bean, name, deserialize(propertyElement, descriptor.getPropertyType(), objectSupplier));
+                                PropertyUtils.setProperty(bean, name, deserialize(propertyElement,
+                                    descriptor.getPropertyType(), objectSupplier, namespaces));
                             }
                         }
                     }
@@ -321,6 +328,7 @@ public class $className
      * @param elementName the name of the element
      * @param qualified whether or not the resulting document should be qualified
      * @param factory the SOAP factory instance used to create the OMElement
+     * @param namespaces all namespace instances keyed by prefix.
      * @param targetNamespace the target namespace.
      */
     public static OMElement getOMElement(
@@ -367,6 +375,7 @@ public class $className
      * @param qualified whether or not the resulting document should be qualified
      * @param factory the SOAP factory instance used to create the OMElement
      * @param targetNamespace the target namespace.
+     * @param namespaces all namespace instances keyed by prefix.
      * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
      *        to prevent endless recursion.
      */
@@ -468,10 +477,12 @@ public class $className
      *
      * @param element the element from which to retrieve the type.
      * @param type the current type.
+     * @param namespaces all namespace names keyed by prefix.
      * @return the appropriate type.
      * @throws ClassNotFoundException
      */
-    private static Class getAppropriateType(final OMElement element, Class type) throws ClassNotFoundException
+    private static Class getAppropriateType(final OMElement element, Class type,
+        final Map<String, String> namespaces) throws ClassNotFoundException
     {
         final String xsiTypeName = element.getAttributeValue(XSI_TYPE_QNAME);
         if (xsiTypeName != null)
@@ -480,7 +491,7 @@ public class $className
             if (!typeName.equals(type.getSimpleName()))
             {
                 // TODO: need to handle types that aren't in the same package (we should look up the
-                // mapped class here instead of assuming the same package)
+                // mapped class here by namespace instead of assuming the same package)
                 type = Thread.currentThread().getContextClassLoader().loadClass(
                     type.getPackage().getName() + PACKAGE_SEPARATOR + typeName);
             }
