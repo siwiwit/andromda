@@ -46,7 +46,7 @@ public class $className
      * @return the converted type or the <code>contents</code> instance, if conversion
      *         wasn't needed.
      */
-    private static javax.activation.DataHandler convertContents(Object contents, String contentType)\
+    private static javax.activation.DataHandler convertContents(Object contents, String contentType)
     {
         javax.activation.DataSource dataSource = null;
         if (contents instanceof byte[])
