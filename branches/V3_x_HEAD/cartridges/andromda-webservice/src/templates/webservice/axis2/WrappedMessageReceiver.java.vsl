@@ -183,19 +183,19 @@ public class $className
 
     private static final String RESPONSE = "Response";
 
-    private static String getOperationResponseName(final Method method)
+    protected static String getOperationResponseName(final Method method)
     {
         return method.getName() + RESPONSE;
     }
 
     private static final String RETURN = "Return";
 
-    private static String getOperationReturnName(final Method method)
+    protected static String getOperationReturnName(final Method method)
     {
         return method.getName() + RETURN;
     }
 
-    private static String getArrayElementName(final Class componentType)
+    protected static String getArrayElementName(final Class componentType)
     {
         String elementName = TypeMappings.getSchemaType(componentType);
         if (StringUtils.isBlank(elementName))
@@ -216,7 +216,7 @@ public class $className
      * @param namespaces a map containing all available namespaces keyed by prefix.
      * @return the deserialized arguments.
      */
-    public static Object[] deserialize(final OMElement element, final Method method,
+    protected Object[] deserialize(final OMElement element, final Method method,
         final ObjectSupplier objectSupplier, final Map<String, String> namespaces)
         throws Exception
     {
@@ -241,7 +241,7 @@ public class $className
      * @param namespaces a map containing all available namespaces keyed by prefix.
      * @return the deserialized object.
      */
-    public static Object deserialize(OMElement element, Class type, final ObjectSupplier objectSupplier,
+    protected Object deserialize(OMElement element, Class type, final ObjectSupplier objectSupplier,
         final Map<String, String> namespaces)
         throws Exception
     {
@@ -306,7 +306,7 @@ public class $className
      * @param name the name of the element to find.
      * @return the found element or null if one couldn't be found.
      */
-    private static OMElement findElementByName(final OMElement element, final String name)
+    protected static OMElement findElementByName(final OMElement element, final String name)
     {
         OMElement found = null;
         for (final Iterator iterator = element.getChildElements(); iterator.hasNext();)
@@ -331,7 +331,7 @@ public class $className
      * @param namespaces all namespace instances keyed by prefix.
      * @param targetNamespace the target namespace.
      */
-    public static OMElement getOMElement(
+    protected OMElement getOMElement(
         final Object bean,
         final String elementName,
         final OMNamespace targetNamespace,
@@ -379,7 +379,7 @@ public class $className
      * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
      *        to prevent endless recursion.
      */
-    private static OMElement getOMElement(
+    protected static OMElement getOMElement(
         final Object bean,
         final String elementName,
         final OMFactory factory,
@@ -481,7 +481,7 @@ public class $className
      * @return the appropriate type.
      * @throws ClassNotFoundException
      */
-    private static Class getAppropriateType(final OMElement element, Class type,
+    protected static Class getAppropriateType(final OMElement element, Class type,
         final Map<String, String> namespaces) throws ClassNotFoundException
     {
         final String xsiTypeName = element.getAttributeValue(XSI_TYPE_QNAME);
@@ -506,7 +506,7 @@ public class $className
      * @param typeName the type name with an optional prefix
      * @return the local name.
      */
-    private static String getLocalName(final String typeName)
+    protected static String getLocalName(final String typeName)
     {
         String localName;
         String[] names = typeName.split(NS_SEPARATOR);
@@ -529,7 +529,7 @@ public class $className
      * @param bean the bean to check.
      * @return true/false
      */
-    private static boolean isSimpleType(final Object bean)
+    protected static boolean isSimpleType(final Object bean)
     {
         return isSimpleType(bean != null ? bean.getClass() : null);
     }
@@ -542,7 +542,7 @@ public class $className
      * @param type the type to check.
      * @return true/false
      */
-    private static boolean isSimpleType(final Class type)
+    protected static boolean isSimpleType(final Class type)
     {
         return java.util.Calendar.class.isAssignableFrom(type) ||
                java.util.Date.class.isAssignableFrom(type) ||
@@ -561,7 +561,7 @@ public class $className
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public static Object getSimpleTypeObject(Class type, OMElement element)
+    protected Object getSimpleTypeObject(Class type, OMElement element)
         throws Exception
     {
         Object object = SimpleTypeMapper.getSimpleTypeObject(type, element);
@@ -593,7 +593,7 @@ public class $className
      * @param type the type to check.
      * @return true/false
      */
-    private static boolean isEnumeration(final Class type)
+    protected static boolean isEnumeration(final Class type)
     {
         return isEnumeration(type, getEnumerationFromMethod(type));
     }
@@ -606,7 +606,7 @@ public class $className
      * @param the "from" method used to construct a typesafe enumeration from it's simple type.
      * @return true/false
      */
-    private static boolean isEnumeration(final Class type, final Method fromMethod)
+    protected static boolean isEnumeration(final Class type, final Method fromMethod)
     {
         boolean enumeration = false;
         if (type != null)
@@ -626,7 +626,7 @@ public class $className
      * @param type the type.
      * @return the "from" method (i.e. fromString, etc).
      */
-    private static Method getEnumerationFromMethod(final Class type)
+    protected static Method getEnumerationFromMethod(final Class type)
     {
         Method fromMethod = null;
         if (type != null)
