@@ -24,7 +24,6 @@ public class $className
         final Object contents,
         final String contentType,
         boolean dime)
-        throws javax.xml.soap.SOAPException
     {
         if (contents != null)
         {
@@ -47,20 +46,13 @@ public class $className
      * @return the converted type or the <code>contents</code> instance, if conversion
      *         wasn't needed.
      */
-    private static javax.activation.DataHandler convertContents(Object contents, String contentType)
-        throws javax.xml.soap.SOAPException
+    private static javax.activation.DataHandler convertContents(Object contents, String contentType)\
     {
         javax.activation.DataSource dataSource = null;
         if (contents instanceof byte[])
         {
             dataSource = new javax.mail.util.ByteArrayDataSource((byte[])contents, contentType);
         }
-        /**
-        if (contents instanceof javax.xml.soap.AttachmentPart)
-        {
-            contents = ((javax.xml.soap.AttachmentPart)contents).getContent();
-        }
-         */
         return dataSource != null ? new javax.activation.DataHandler(dataSource) : null;
     }
 
