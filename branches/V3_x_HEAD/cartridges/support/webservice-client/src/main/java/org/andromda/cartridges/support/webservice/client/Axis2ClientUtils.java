@@ -19,8 +19,6 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
 import org.apache.axiom.om.util.Base64;
-import org.apache.axis2.databinding.typemapping.SimpleTypeMapper;
-import org.apache.axis2.engine.ObjectSupplier;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Element;
@@ -39,12 +37,14 @@ public class Axis2ClientUtils
      * @param definition the WSDL definition.
      * @param method the method corresponding to the OMElement to create.
      * @param arguments the arguments to pass to the method.
+     * @param typeMapper the {@link TypeMapper} instance to use for converting types.
      * @return the constructed OMElement
      */
     public static OMElement getOperationOMElement(
         final Definition definition,
         final Method method,
-        final Object[] arguments)
+        final Object[] arguments,
+        final TypeMapper typeMapper)
     {
         final Class serviceClass = method.getDeclaringClass();
         OMElement operationOMElement = null;
@@ -87,7 +87,8 @@ public class Axis2ClientUtils
                         null,
                         operationName,
                         factory,
-                        namespaces);
+                        namespaces,
+                        typeMapper);
                 if (operationElement == null)
                 {
                     throw new RuntimeException("No operation with name '" + operationName + "' can be found on service: " +
@@ -124,7 +125,8 @@ public class Axis2ClientUtils
                             arguments[ctr],
                             argumentName,
                             factory,
-                            namespaces);
+                            namespaces,
+                            typeMapper);
                     operationOMElement.addChild(element);
                 }
             }
@@ -146,6 +148,7 @@ public class Axis2ClientUtils
      * @param elementName the name of the element to construct.
      * @param the factory used for element construction.
      * @param namespaces all available namespaces.
+     * @param typeMapper the {@link TypeMapper} instance to use for converting types.
      */
     public static OMElement getOMElement(
         final Definition definition,
@@ -154,7 +157,8 @@ public class Axis2ClientUtils
         final Object bean,
         final String elementName,
         final OMFactory factory,
-        final Map<String, OMNamespace> namespaces)
+        final Map<String, OMNamespace> namespaces,
+        final TypeMapper typeMapper)
     {
         return getOMElement(
             definition,
@@ -164,6 +168,7 @@ public class Axis2ClientUtils
             elementName,
             factory,
             namespaces,
+            typeMapper,
             new ArrayList<Object>());
     }
 
@@ -177,6 +182,7 @@ public class Axis2ClientUtils
      * @param elementName the name of the element
      * @param factory the OM factory instance used to create the element.
      * @param namespaces all available namespaces.
+     * @param typeMapper the {@link TypeMapper} instance to use for converting types.
      * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
      *        to prevent endless recursion.
      */
@@ -188,6 +194,7 @@ public class Axis2ClientUtils
         final String elementName,
         final OMFactory factory,
         final Map<String, OMNamespace> namespaces,
+        final TypeMapper typeMapper,
         final Collection<Object> evaluatingBeans)
     {
         final String componentElementName = componentElement != null ? componentElement.getAttribute(NAME) : null;
@@ -220,9 +227,9 @@ public class Axis2ClientUtils
         if (bean != null && evaluatingBeans != null && !evaluatingBeans.contains(bean))
         {
             evaluatingBeans.add(bean);
-            if (isSimpleType(bean))
+            if (isSimpleType(bean, typeMapper))
             {
-                omElement.addChild(factory.createOMText(SimpleTypeMapper.getStringValue(bean)));
+                omElement.addChild(factory.createOMText(typeMapper.getStringValue(bean)));
             }
             else if (bean instanceof byte[])
             {
@@ -265,6 +272,7 @@ public class Axis2ClientUtils
                                 arrayComponentName,
                                 factory,
                                 namespaces,
+                                typeMapper,
                                 evaluatingBeans));
                     }
                 }
@@ -297,6 +305,7 @@ public class Axis2ClientUtils
                                         name,
                                         factory,
                                         namespaces,
+                                        typeMapper,
                                         evaluatingBeans));
                             }
                         }
@@ -304,7 +313,6 @@ public class Axis2ClientUtils
                 }
                 catch (final Throwable throwable)
                 {
-                    throwable.printStackTrace();
                     throw new RuntimeException(throwable);
                 }
             }
@@ -671,22 +679,19 @@ public class Axis2ClientUtils
      *
      * @param element the XML OMElement
      * @param type the java type.
-     * @param objectSupplier the "object supplier" used to construct objects from given classes.
+     * @param typeMapper the "object creator" used to construct objects from given classes.
      * @return the deserialized object.
      * @throws Exception
      */
     public static Object deserialize(
         OMElement element,
         Class type,
-        final ObjectSupplier objectSupplier) throws Exception
+        final TypeMapper typeMapper) throws Exception
     {
         Object bean = null;
-        if (isSimpleType(type))
+        if (typeMapper.isSimpleType(type))
         {
-            bean =
-                getSimpleTypeObject(
-                    type,
-                    element);
+            bean = getSimpleTypeObject(type, element, typeMapper);
         }
         else if (type == byte[].class)
         {
@@ -703,7 +708,7 @@ public class Axis2ClientUtils
                     elements.add(deserialize(
                             omElement,
                             type.getComponentType(),
-                            objectSupplier));
+                            typeMapper));
                 }
                 bean =
                     elements.toArray((Object[])Array.newInstance(
@@ -715,7 +720,7 @@ public class Axis2ClientUtils
                 try
                 {
                     type = getAppropriateType(element, type);
-                    bean = objectSupplier.getObject(type);
+                    bean = typeMapper.getObject(type);
                     final java.beans.PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(type);
                     for (int ctr = 0; ctr < descriptors.length; ctr++)
                     {
@@ -735,7 +740,7 @@ public class Axis2ClientUtils
                                     deserialize(
                                         propertyElement,
                                         descriptor.getPropertyType(),
-                                        objectSupplier));
+                                        typeMapper));
                             }
                         }
                     }
@@ -747,6 +752,27 @@ public class Axis2ClientUtils
             }
         }
         return bean;
+    }
+
+    /**
+     * Gets the object given the type, element and typeMapper.
+     * @param type the type of object to get.
+     * @param element the elemtn that has the value to populate the object with.
+     * @param typeMapper the mapper used for retriving the value if it can't be found
+     *        by the simple type mapper.
+     * @return the object
+     */
+    private static Object getSimpleTypeObject(Class type,
+        OMElement element, TypeMapper typeMapper)
+    {
+        Object object = org.apache.axis2.databinding.typemapping.SimpleTypeMapper.getSimpleTypeObject(
+            type,
+            element);
+        if (object == null && element != null)
+        {
+            object = typeMapper.getObject(type, element.getText());
+        }
+        return object;
     }
 
     /**
@@ -840,126 +866,8 @@ public class Axis2ClientUtils
      * @param bean the bean to check.
      * @return true/false
      */
-    private static boolean isSimpleType(final Object bean)
+    private static boolean isSimpleType(final Object bean, final TypeMapper typeMapper)
     {
-        return isSimpleType(bean != null ? bean.getClass() : null);
-    }
-
-    /**
-     * First delegate to the Axis2 simple type mapper, if that says
-     * its simple, it is, otherwise check to see if the type is an enumeration (typesafe
-     * or Java5 version).
-     *
-     * @param type the type to check.
-     * @return true/false
-     */
-    private static boolean isSimpleType(final Class type)
-    {
-        return java.util.Calendar.class.isAssignableFrom(type) ||
-               java.util.Date.class.isAssignableFrom(type) ||
-               SimpleTypeMapper.isSimpleType(type) ||
-               isEnumeration(type);
-    }
-
-    private static final String VALUE_OF = "valueOf";
-
-    /**
-     * Constructs a type object for the given type and element.
-     *
-     * @param type the class type to construct.
-     * @param element the element containing the value.
-     * @return the constructed object or null if one couldn't be constructed.
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    public static Object getSimpleTypeObject(Class type, OMElement element)
-        throws Exception
-    {
-        Object object = SimpleTypeMapper.getSimpleTypeObject(type, element);
-        if (object == null && type != null && element != null)
-        {
-            if (type.isEnum())
-            {
-                object = type.getMethod(
-                    VALUE_OF, new Class[]{java.lang.String.class}).invoke(
-                        type, element.getText());
-            }
-            else
-            {
-                final Method fromMethod = getEnumerationFromMethod(type);
-                if (fromMethod != null)
-                {
-                    object = fromMethod.invoke(type, new Object[]{element.getText()});
-                }
-            }
-        }
-        return object;
-    }
-
-    private static final String FROM = "from";
-
-    /**
-     * Indicates whether or not the given type represents an enumeration.
-     *
-     * @param type the type to check.
-     * @return true/false
-     */
-    private static boolean isEnumeration(final Class type)
-    {
-        return isEnumeration(type, getEnumerationFromMethod(type));
-    }
-
-    /**
-     * Indicates whether or not the given type represents an enumeration by checking
-     * whether the type is an actual "enum" class or the "fromMethod" is not null.
-     *
-     * @param type the type to check.
-     * @param the "from" method used to construct a typesafe enumeration from it's simple type.
-     * @return true/false
-     */
-    private static boolean isEnumeration(final Class type, final Method fromMethod)
-    {
-        boolean enumeration = false;
-        if (type != null)
-        {
-            enumeration = type.isEnum();
-            if (!enumeration)
-            {
-                enumeration = fromMethod != null;
-            }
-        }
-        return enumeration;
-    }
-
-    /**
-     * Gets the "from" method for a type safe enumeration.
-     *
-     * @param type the type.
-     * @return the "from" method (i.e. fromString, etc).
-     */
-    private static Method getEnumerationFromMethod(final Class type)
-    {
-        Method fromMethod = null;
-        if (type != null)
-        {
-            // - check for the typesafe enum pattern
-            for (final Method method : type.getMethods())
-            {
-                if (method.getName().startsWith(FROM))
-                {
-                    final Class[] parameterTypes = method.getParameterTypes();
-                    if (parameterTypes.length == 1)
-                    {
-                        final Class parameterType = parameterTypes[0];
-                        if (method.getName().equals(FROM + parameterType.getSimpleName()))
-                        {
-                            fromMethod = method;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        return fromMethod;
+        return typeMapper.isSimpleType(bean != null ? bean.getClass() : null);
     }
 }

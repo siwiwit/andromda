@@ -150,7 +150,7 @@ public class Axis2PortClientInterceptor
         this.wsdlUrl = wsdlUrl;
     }
 
-    public String portAddress;
+    private String portAddress;
 
     /**
      * Returns the port address (if not using a port address in the WSDL).
@@ -170,6 +170,30 @@ public class Axis2PortClientInterceptor
     public void setPortAddress(String portAddress)
     {
         this.portAddress = portAddress;
+    }
+
+    private TypeMapper typeMapper = new DefaultTypeMapper();
+
+    /**
+     * Sets the {@link TypeMapper} to use.  It only makes sense to set this
+     * if you want to change the default type mapping behavoir.
+     *
+     * @param typeMapper the typeMapper to set
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    public void setTypeMapper(Class typeMapper)
+        throws InstantiationException, IllegalAccessException
+    {
+        if (typeMapper == null)
+        {
+            throw new IllegalArgumentException("'typeMapper' can not be null");
+        }
+        if (!TypeMapper.class.isAssignableFrom(typeMapper))
+        {
+            throw new IllegalArgumentException("'typeMapper' must be an instance of: " + TypeMapper.class.getName());
+        }
+        this.typeMapper = (TypeMapper)typeMapper.newInstance();
     }
 
     /**
@@ -212,6 +236,7 @@ public class Axis2PortClientInterceptor
                         this.getUsername(),
                         this.getPassword());
                 this.client.setTimeout(this.getTimeout());
+                this.client.setTypeMapper(this.typeMapper);
             }
         }
     }

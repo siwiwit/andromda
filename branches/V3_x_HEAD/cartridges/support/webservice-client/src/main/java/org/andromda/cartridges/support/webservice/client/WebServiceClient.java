@@ -1,9 +1,7 @@
 package org.andromda.cartridges.support.webservice.client;
 
 import java.lang.reflect.Method;
-
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,7 +17,6 @@ import javax.wsdl.Service;
 import javax.wsdl.extensions.soap.SOAPAddress;
 import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
-
 import javax.xml.namespace.QName;
 
 import org.apache.axiom.om.OMElement;
@@ -27,7 +24,6 @@ import org.apache.axis2.AxisFault;
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.client.async.Callback;
-import org.apache.axis2.engine.DefaultObjectSupplier;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.axis2.transport.http.HttpTransportProperties.Authenticator;
 import org.xml.sax.InputSource;
@@ -65,6 +61,11 @@ public class WebServiceClient
      * The underlying service client.
      */
     private ServiceClient serviceClient;
+
+    /**
+     * The optional TypeMapper instance to set.
+     */
+    private TypeMapper typeMapper = new DefaultTypeMapper();
 
     /**
      * Constructs a new client taking a WSDL and serviceClass
@@ -162,6 +163,20 @@ public class WebServiceClient
         {
             this.handleException(exception);
         }
+    }
+
+    /**
+     * Sets the optional object creator implementation.
+     *
+     * @param typeMapper the type mapper used for mapping types.
+     */
+    public void setTypeMapper(final TypeMapper typeMapper)
+    {
+        if (typeMapper == null)
+        {
+            throw new IllegalArgumentException("'typeMapper' can not be null");
+        }
+        this.typeMapper = typeMapper;
     }
 
     /**
@@ -309,7 +324,7 @@ public class WebServiceClient
                     Axis2ClientUtils.deserialize(
                         response.getFirstElement(),
                         method.getReturnType(),
-                        new DefaultObjectSupplier());
+                        this.typeMapper);
             }
             omElement = null;
             response = null;
@@ -338,7 +353,8 @@ public class WebServiceClient
                 Axis2ClientUtils.getOperationOMElement(
                     this.definition,
                     method,
-                    arguments);
+                    arguments,
+                    this.typeMapper);
         }
         if (element == null)
         {
