@@ -31,7 +31,7 @@
                     </af:menuBar>
                 </f:facet>
                 <f:facet name="menu3">
-                    <h:form><jsp:directive.include file="/includes/menu.jspf"/></h:form>
+                    <af:form><jsp:directive.include file="/includes/menu.jspf"/></af:form>
                 </f:facet>
                 <f:facet name="appCopyright">
                     <jsp:directive.include file="/includes/footer.jspf"/>

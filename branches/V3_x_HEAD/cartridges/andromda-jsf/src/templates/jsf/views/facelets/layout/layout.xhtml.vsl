@@ -28,7 +28,7 @@
             </f:facet>
             <f:facet name="menu3">
                 <ui:insert name="menu">
-                    <h:form><ui:include src="menu.xhtml"/></h:form>
+                    <af:form><ui:include src="menu.xhtml"/></af:form>
                 </ui:insert>
             </f:facet>
             <f:facet name="appCopyright">

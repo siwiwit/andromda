@@ -34,7 +34,7 @@
                 </f:facet>
 #if (!$view.useCase.registrationUseCase)
                 <f:facet name="menu3">
-                    <h:form><jsp:directive.include file="/includes/menu.jspf"/></h:form>
+                    <af:form><jsp:directive.include file="/includes/menu.jspf"/></af:form>
                 </f:facet>
 #end
                 <f:facet name="appCopyright">
