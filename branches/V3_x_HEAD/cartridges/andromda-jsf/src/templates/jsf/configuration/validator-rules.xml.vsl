@@ -1159,7 +1159,7 @@
                          field.type == 'textarea' ||
                          field.type == 'password') &&
                         (field.value.length > 0)) {
-                        if (!checkEmail(form[field.value)) {
+                        if (!checkEmail(field.value)) {
                             if (i == 0) {
                                 focusField = field;
                             }
