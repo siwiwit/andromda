@@ -1074,7 +1074,7 @@
                          field.type == 'textarea' ||
                          field.type == 'password') &&
                         (field.value.length > 0)) {
-                        if (!luhnCheck(form[field.value)) {
+                        if (!luhnCheck(field.value)) {
                             if (i == 0) {
                                 focusField = field;
                             }
