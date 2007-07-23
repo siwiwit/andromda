@@ -2,17 +2,15 @@ package org.andromda.utils.beans.comparators;
 
 import java.io.InputStream;
 import java.io.Serializable;
-
 import java.lang.reflect.InvocationTargetException;
-
 import java.net.URL;
-
 import java.util.Comparator;
 import java.util.Properties;
 
 import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Introspector;
+import org.andromda.utils.beans.BeanSorter;
 import org.andromda.utils.beans.SortCriteria;
 import org.apache.commons.lang.StringUtils;
 
@@ -244,7 +242,7 @@ public class BeanComparator
         {
             if (this.comparator == null)
             {
-                final String comparatorName = comparators.getProperty(type.getName());
+                final String comparatorName = findComparatorName(type);
                 if (comparatorName != null && comparatorName.length() > 0)
                 {
                     this.comparator = (Comparator)ClassUtils.loadClass(comparatorName).newInstance();
@@ -260,6 +258,16 @@ public class BeanComparator
         {
             throw new ComparatorException(throwable);
         }
+    }
+
+    private String findComparatorName(final Class type)
+    {
+        String comparatorName = comparators.getProperty(type.getName());
+        if ((comparatorName == null || comparatorName.length() == 0) && type.getSuperclass() != null)
+        {
+            comparatorName = findComparatorName(type.getSuperclass());
+        }
+        return comparatorName;
     }
 
     /**
