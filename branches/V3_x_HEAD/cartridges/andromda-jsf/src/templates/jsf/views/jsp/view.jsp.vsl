@@ -8,7 +8,7 @@
           xmlns:xm="http://java.sun.com/jsp/jstl/xml"
           xmlns:fn="http://java.sun.com/jsp/jstl/functions"
           xmlns:a="http://www.andromda.org/cartridges/jsf"
-          xmlns:afh="http://xmlns.oracle.com/adf/faces/html" 
+          xmlns:afh="http://xmlns.oracle.com/adf/faces/html"
           xmlns:af="http://xmlns.oracle.com/adf/faces">
     <jsp:directive.page contentType="text/html;charset=utf-8"/>
     <jsp:directive.include file="/$jspIncludes"/>
@@ -18,11 +18,11 @@
     <f:view>
 
     <html>
-    
+
         <jsp:directive.include file="/includes/head.jspf"/>
 
         <body>
-        
+
             <af:panelPage title="#{title}">
                 <f:facet name="brandingApp">
                     <jsp:directive.include file="/includes/header.jsp"/>
@@ -34,7 +34,7 @@
                 </f:facet>
 #if (!$view.useCase.registrationUseCase)
                 <f:facet name="menu3">
-                    <jsp:directive.include file="/includes/menu.jspf"/>
+                    <h:form><jsp:directive.include file="/includes/menu.jspf"/></h:form>
                 </f:facet>
 #end
                 <f:facet name="appCopyright">
@@ -57,7 +57,7 @@
 #end
                 </t:div>
             </af:panelPage>
-    
+
         </body>
 
     </html>

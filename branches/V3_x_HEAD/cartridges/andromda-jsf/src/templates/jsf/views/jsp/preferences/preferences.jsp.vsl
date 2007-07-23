@@ -6,21 +6,21 @@
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
           xmlns:xm="http://java.sun.com/jsp/jstl/xml"
-          xmlns:afh="http://xmlns.oracle.com/adf/faces/html" 
+          xmlns:afh="http://xmlns.oracle.com/adf/faces/html"
           xmlns:af="http://xmlns.oracle.com/adf/faces">
     <jsp:directive.page contentType="text/html;charset=utf-8"/>
     <jsp:directive.include file="/$jspIncludes"/>
-    
+
     <fmt:message var="title" key="preferences.title" scope="request"/>
 
     <f:view>
 
     <html>
-        
+
         <jsp:directive.include file="/includes/head.jspf"/>
 
         <body>
-        
+
             <af:panelPage title="#{title}">
                 <f:facet name="brandingApp">
                     <jsp:directive.include file="/includes/header.jsp"/>
@@ -31,7 +31,7 @@
                     </af:menuBar>
                 </f:facet>
                 <f:facet name="menu3">
-                    <jsp:directive.include file="/includes/menu.jspf"/>
+                    <h:form><jsp:directive.include file="/includes/menu.jspf"/></h:form>
                 </f:facet>
                 <f:facet name="appCopyright">
                     <jsp:directive.include file="/includes/footer.jspf"/>
@@ -50,7 +50,7 @@
                             <f:selectItem itemLabel="Default" itemValue="default"/>
                         </af:selectOneChoice>
                         <af:inputText id="maxTableRows" value="#{${preferencesBeanName}.maxTableRows}" label="#{messages['preferences.max.table.rows']}:" columns="1">
-                            <f:validateLongRange minimum="5" maximum="100"/>  
+                            <f:validateLongRange minimum="5" maximum="100"/>
                         </af:inputText>
                         <f:facet name="footer">
                             <af:panelButtonBar>
@@ -62,8 +62,8 @@
             </af:panelPage>
 
         </body>
-    
+
     </html>
-    
+
     </f:view>
 </jsp:root>
