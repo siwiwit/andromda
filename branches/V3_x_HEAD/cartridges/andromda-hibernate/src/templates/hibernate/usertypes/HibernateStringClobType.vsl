@@ -44,7 +44,7 @@ public class $className
     /**
      * @see ${hibernateUtils.hibernateUserTypePackage}.UserType#returnedClass()
      */
-    public Class returnedClass()
+    public Class#if($enableTemplating)<?>#end returnedClass()
     {
         return String.class;
     }
