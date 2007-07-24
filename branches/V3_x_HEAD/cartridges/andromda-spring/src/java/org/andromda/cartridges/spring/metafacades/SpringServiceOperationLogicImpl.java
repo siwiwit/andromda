@@ -1,10 +1,14 @@
 package org.andromda.cartridges.spring.metafacades;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.andromda.cartridges.spring.SpringProfile;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.MetafacadeUtils;
+import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.BooleanUtils;
@@ -434,5 +438,27 @@ public class SpringServiceOperationLogicImpl
     protected boolean handleIsOptimizeAcknowledge()
     {
         return BooleanUtils.toBoolean(ObjectUtils.toString(this.findTaggedValue(SpringProfile.TAGGEDVALUEVALUE_ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE)));
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceOperation#isNullMessageConverterRequired()
+     */
+    protected boolean handleIsNullMessageConverterRequired()
+    {
+        boolean result = false;
+        
+        Collection arguments = getArguments();
+        if (arguments != null && arguments.size() == 1)
+        {
+            ParameterFacade parameter = (ParameterFacade)arguments.iterator().next();
+            String parameterType = parameter.getType().getFullyQualifiedName();
+            
+            Set jmsMessageTypes = new HashSet();
+            Collections.addAll(jmsMessageTypes, SpringGlobals.JMS_MESSAGE_TYPES);
+            
+            result = jmsMessageTypes.contains(parameterType);
+        }
+        
+        return result;
     }
 }
