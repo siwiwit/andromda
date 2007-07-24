@@ -218,5 +218,17 @@ public class SpringGlobals
      * The version for Hibernate 3.
      */
     public static final String HIBERNATE_VERSION_3 = "3";
+    
+    /**
+     * JMS Message types.
+     */
+    public static String[] JMS_MESSAGE_TYPES = new String[] { 
+        "javax.jms.Message",
+        "javax.jms.MapMessage", 
+        "javax.jms.TextMessage", 
+        "javax.jms.StreamMessage",
+        "javax.jms.BytesMessage",
+        "javax.jms.ObjectMessage"
+        };
 
 }
