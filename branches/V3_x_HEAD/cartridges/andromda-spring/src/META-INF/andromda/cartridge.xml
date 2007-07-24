@@ -92,6 +92,7 @@
     <property reference="serviceRemotePort"/>
     <property reference="serviceRemotePortJMS"/>
     <property reference="serviceRemoteContext"/>
+    <property reference="serviceRemoteUrlPattern"/>
     <property reference="serviceRemoteServer"/>
     <property reference="securityRealm"/>
     <property reference="jndiDataSourceClass"/>
@@ -868,6 +869,12 @@
                 <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity">
                     <property name="remotable"/>
                 </type>
+            </modelElement>
+            <modelElement variable="topics">
+                <type name="org.andromda.metafacades.uml.Topic"/>
+            </modelElement>
+            <modelElement variable="queues">
+                <type name="org.andromda.metafacades.uml.Queue"/>
             </modelElement>
         </modelElements>
     </template>
