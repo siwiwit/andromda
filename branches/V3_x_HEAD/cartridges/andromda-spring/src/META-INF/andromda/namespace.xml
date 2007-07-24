@@ -1305,6 +1305,11 @@
                     The context the exported services get published on.
                 </documentation>
             </property>
+            <property name="serviceRemoteUrlPattern" required="false">
+                <documentation>
+                    The url pattern associated to exported services. Typically "/services".
+                </documentation>
+            </property>
             <property name="serviceRemoteServer">
                 <default>localhost</default>
                 <documentation>
