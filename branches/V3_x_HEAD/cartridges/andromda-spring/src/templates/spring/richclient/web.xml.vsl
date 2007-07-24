@@ -17,6 +17,9 @@
 #if (!$manageables.empty)
             /WEB-INF/applicationContext-manageable.xml
 #end
+#if (!$queues.empty || !$topics.empty)
+            /WEB-INF/${applicationContextJms}
+#end
             <!-- root-contextConfigLocations merge-point -->
         </param-value>
     </context-param>
@@ -33,7 +36,7 @@
 
     <filter-mapping>
         <filter-name>${serviceRemoteContext}_HTTP_BASIC_Authorization_Filter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>$serviceRemoteUrlPattern/*</url-pattern>
     </filter-mapping>
 
 #end
@@ -56,7 +59,7 @@
 
     <servlet-mapping>
         <servlet-name>${serviceRemoteContext}</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>$serviceRemoteUrlPattern/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
