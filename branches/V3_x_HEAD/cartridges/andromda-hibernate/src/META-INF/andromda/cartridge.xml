@@ -7,7 +7,7 @@
         <!-- cartridge-macrolibrary merge-point-->
     </templateEngine>
 
-    <!-- define the template objects that are made availble to the template -->
+    <!-- define the template objects that are made available to the template -->
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
     <templateObject name="hibernateUtils" className="org.andromda.cartridges.hibernate.HibernateUtils">
         <property reference="hibernateVersion"/>
@@ -61,6 +61,7 @@
     <property reference="hibernateProxy"/>
     <property reference="toDoTag"/>
 	<property reference="typeSafeEnumsEnabled"/>
+    <property reference="enableTemplating"/>
     <!-- These 3 properties are only relevant for Hibernate 3 -->
     <property reference="hibernateQueryFactory"/>
     <property reference="hibernateOneToManyNotFoundAction"/>
@@ -71,6 +72,7 @@
     <condition name="mapSubclassesInSeparateFile">$hibernateUtils.mapSubclassesInSeparateFile</condition>
 	<condition name="typeSafeEnumsEnabled">$typeSafeEnumsEnabled.equalsIgnoreCase("true")</condition>
 	<condition name="generateDatabaseDependentCode">$generateDatabaseDependentCode.equalsIgnoreCase("true")</condition>
+    <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
