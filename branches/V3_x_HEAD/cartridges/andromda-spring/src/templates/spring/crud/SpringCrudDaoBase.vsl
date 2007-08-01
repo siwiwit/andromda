@@ -110,6 +110,11 @@ public final class $manageable.manageableDaoBaseName
 
 #end
 #if ($manageable.read)
+    public $manageable.fullyQualifiedEntityName readById($identifier.type.fullyQualifiedName $identifier.name)
+    {
+        return getDao().load($identifier.name);
+    }
+
     public java.util.List read($memberList)
     {
         final Session session = getSession(false);

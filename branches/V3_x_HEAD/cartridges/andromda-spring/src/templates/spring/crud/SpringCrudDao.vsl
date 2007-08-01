@@ -15,6 +15,8 @@ public interface $manageable.manageableDaoName
 
 #end
 #if ($manageable.read)
+    public $manageable.fullyQualifiedEntityName readById($identifier.type.fullyQualifiedName $identifier.name);
+
     public java.util.List read($memberList);
 
     public java.util.List readAll();

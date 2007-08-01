@@ -411,6 +411,34 @@
                     <value></value>
                 </allowedValues>
             </element>
+            <element name="MANAGEABLE_MAXIMUM_LIST_SIZE">
+                <documentation>
+                    The maximum number of rows to fetch from the database in a single operation. Tune this parameter
+                    to avoid downloading thousands of rows each time, most of the time the user will want to use
+                    the search facility to refine the result set
+                </documentation>
+                <value>@andromda.manageable.table.maxlistsize</value>
+                <appliedOnElement>A class with the <![CDATA[<<Manageable>>]]> stereotype</appliedOnElement>
+                <allowedValues>
+                    <value>a strictly positive integer</value>
+                    <value default="true">250</value>
+                </allowedValues>
+            </element>
+            <element name="MANAGEABLE_DISPLAY_NAME">
+                <documentation>
+                    The column representing this entity,by default the first <![CDATA[<<Unique>>]]> attribute found
+                    is taken but you might want to specify another column yourself. This value is used when one entity
+                    has a foreign key to another one and you want to select the value of this foreign key
+                    from a combobox and you would like to see a more meaningful label for each option, if no
+                    <![CDATA[<<Unique>>]]> attribute is found the identifier is used, which isn't very helpful.
+                </documentation>
+                <value>@andromda.manageable.table.displayname</value>
+                <appliedOnElement>A class with the <![CDATA[<<Manageable>>]]> stereotype</appliedOnElement>
+                <allowedValues>
+                    <value>any column name present in this entity</value>
+                    <value default="true">the name of the identifier column</value>
+                </allowedValues>
+            </element>
         </elementGroup>
     </elements>
 </profile>

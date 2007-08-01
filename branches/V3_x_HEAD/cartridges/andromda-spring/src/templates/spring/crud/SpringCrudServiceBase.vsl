@@ -46,6 +46,15 @@ public final class $manageable.manageableServiceBaseName
 
 #end
 #if ($manageable.read)
+    public $manageable.fullyQualifiedManageableValueObjectName readById(${identifier.type.fullyQualifiedName} $identifier.name)
+        throws Exception
+#if ($ejbViewType.equalsIgnoreCase("remote"))
+            , java.rmi.RemoteException
+#end
+    {
+        return toValueObject(dao.readById($identifier.name));
+    }
+
     public java.util.List read($memberList)
         throws Exception
 #if ($ejbViewType.equalsIgnoreCase("remote"))
