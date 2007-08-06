@@ -160,7 +160,7 @@
             <description>
                 Secures the $service.name web service.
             </description>
-            <url-pattern>${servicesPath}${service.name}</url-pattern>
+            <url-pattern>${servicesPath}${service.name}/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
 #foreach ($role in $service.allRoles)
