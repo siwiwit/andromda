@@ -180,7 +180,7 @@ public interface $entity.daoName
      * @param pageSize the size of the page to retrieve when paging results.
      * @return the loaded entities.
      */
-    public#if($enableTemplating) java.util.Collection<?>#else java.util.Collection#end loadAll(final int transform, final int pageNumber, final int pageSize);
+    public java.util.Collection#if($enableTemplating)<?>#end loadAll(final int transform, final int pageNumber, final int pageSize);
 
 ## Only add these methods if the entity isn't abstract
 #if (!$entity.abstract)
@@ -519,7 +519,7 @@ $operation.getDocumentation("     * ")
 #end
 #end
 #foreach ($operation in $entity.daoBusinessOperations)
-#set ($returnType = $operation.returnType.fullyQualifiedName)
+#set ($returnType = "${operation.returnType.fullyQualifiedName}#if($enableTemplating && $operation.returnType.collectionType)<?>#end")
     /**
 $operation.getDocumentation("     * ")
      */
