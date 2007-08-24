@@ -8,7 +8,7 @@
 #foreach ($service in $services)
     <service name="$service.qName">
         <description>
-            $service.getDocumentation("            ", 64, false)
+$service.getDocumentation("            ", 64, false)
         </description>
         <parameter name="ServiceClass" locked="false">$service.rpcClassName</parameter>
         <messageReceivers>

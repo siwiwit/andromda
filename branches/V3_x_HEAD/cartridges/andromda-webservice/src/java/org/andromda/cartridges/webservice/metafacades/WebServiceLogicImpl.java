@@ -885,4 +885,18 @@ public class WebServiceLogicImpl
     {
         return String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ARRAY_NAME_SUFFIX));
     }
+
+    protected Collection handleGetAllowedOperationExceptions()
+    {
+        final Collection exceptions = new HashSet();
+
+        // collect the exceptions of all allowed operations into a single set
+        for (Iterator i = this.getAllowedOperations().iterator(); i.hasNext();)
+        {
+            final OperationFacade operation = (OperationFacade)i.next();
+            exceptions.addAll(operation.getExceptions());
+        }
+
+        return exceptions;
+    }
 }

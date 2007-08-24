@@ -118,8 +118,8 @@
         outlet="wsdls"
         overwrite="true"
         outputCondition="xfire">
-        <modelElements variable="service">
-            <modelElement>
+        <modelElements>
+            <modelElement variable="service">
                 <type name="org.andromda.cartridges.webservice.metafacades.WebService">
                     <property name="allowedOperations"/>
                 </type>
@@ -152,8 +152,8 @@
         outlet="wsdls"
         overwrite="true"
         outputCondition="axis2">
-        <modelElements variable="service">
-            <modelElement>
+        <modelElements>
+            <modelElement variable="service">
                 <type name="org.andromda.cartridges.webservice.metafacades.WebService">
                     <property name="allowedOperations"/>
                 </type>
@@ -216,8 +216,8 @@
         outlet="wsdls"
         overwrite="true"
         outputCondition="axis1">
-        <modelElements variable="service">
-            <modelElement>
+        <modelElements>
+            <modelElement variable="service">
                 <type name="org.andromda.cartridges.webservice.metafacades.WebService">
                     <property name="allowedOperations"/>
                 </type>
