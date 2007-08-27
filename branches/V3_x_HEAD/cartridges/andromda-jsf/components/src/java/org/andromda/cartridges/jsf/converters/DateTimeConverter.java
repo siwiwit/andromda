@@ -48,7 +48,7 @@ public class DateTimeConverter
         {
             DateFormat format = new SimpleDateFormat(pattern);
             format.setTimeZone(this.getTimeZone());
-            result = format.format((Date)value);    
+            result = format.format((Date)value);
         }
         return result;
     }
@@ -89,7 +89,7 @@ public class DateTimeConverter
      * @param component the component from which to retrieve the type.
      * @return true/false
      */
-    private Class getComponentType(
+    protected Class getComponentType(
         final FacesContext context,
         final UIComponent component)
     {
@@ -108,7 +108,7 @@ public class DateTimeConverter
      * @param component the component from which to retrieve the value.
      * @return true/false
      */
-    private Object getComponentValue(
+    protected Object getComponentValue(
         final FacesContext context,
         final UIComponent component)
     {
@@ -120,9 +120,9 @@ public class DateTimeConverter
         }
         return value;
     }
-    
+
     private TimeZone timeZone;
-    
+
     /**
      * @see #getTimeZone()
      * @see javax.faces.convert.DateTimeConverter#restoreState(javax.faces.context.FacesContext, java.lang.Object)
@@ -144,7 +144,7 @@ public class DateTimeConverter
         values[4] = this.timeZone;
         return values;
     }
-    
+
     /**
      * @see #getTimeZone()
      * @see javax.faces.convert.DateTimeConverter#setTimeZone(java.util.TimeZone)
@@ -153,11 +153,11 @@ public class DateTimeConverter
     {
         this.timeZone = timeZone;
     }
-    
+
     /**
      * Overridden because the default timeZone is set as GMT, whereas it should be the default
      * for the operating system (at least in my opinion).
-     * 
+     *
      * @see javax.faces.convert.DateTimeConverter#getTimeZone()
      */
     public TimeZone getTimeZone()
