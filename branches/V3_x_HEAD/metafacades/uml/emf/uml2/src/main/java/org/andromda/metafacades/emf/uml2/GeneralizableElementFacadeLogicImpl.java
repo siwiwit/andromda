@@ -119,11 +119,12 @@ public class GeneralizableElementFacadeLogicImpl
      */
     protected java.util.Collection handleGetAllGeneralizations()
     {
-        Collection generalizations = new ArrayList();
-        for (GeneralizableElementFacade element = this.getGeneralization(); element != null;
-            element = element.getGeneralization())
+        final Collection generalizations = new ArrayList();
+        for (final Iterator iterator = this.getGeneralizations().iterator(); iterator.hasNext();)
         {
+            final GeneralizableElementFacade element = (GeneralizableElementFacade)iterator.next();
             generalizations.add(element);
+            generalizations.addAll(element.getAllGeneralizations());
         }
         return generalizations;
     }
@@ -133,7 +134,7 @@ public class GeneralizableElementFacadeLogicImpl
         final boolean follow)
     {
         Object value = this.findTaggedValue(tagName);
-        if (value == null) //TODO: If follow ?
+        if (value == null && follow)
         {
             for (GeneralizableElementFacade element = this.getGeneralization(); value == null && element != null;
                 element = element.getGeneralization())
@@ -141,6 +142,10 @@ public class GeneralizableElementFacadeLogicImpl
                 value = element.findTaggedValue(
                         tagName,
                         follow);
+                if (value != null)
+                {
+                    break;
+                }
             }
         }
         return value;

@@ -32,11 +32,12 @@ public class GeneralizableElementFacadeLogicImpl
      */
     public java.util.Collection handleGetAllGeneralizations()
     {
-        Collection generalizations = new ArrayList();
-        for (GeneralizableElementFacade element = this.getGeneralization();
-             element != null; element = element.getGeneralization())
+        final Collection generalizations = new ArrayList();
+        for (final Iterator iterator = this.getGeneralizations().iterator(); iterator.hasNext();)
         {
+            final GeneralizableElementFacade element = (GeneralizableElementFacade)iterator.next();
             generalizations.add(element);
+            generalizations.addAll(element.getAllGeneralizations());
         }
         return generalizations;
     }
@@ -141,7 +142,7 @@ public class GeneralizableElementFacadeLogicImpl
         }
         return allSpecializations;
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.GeneralizableElementFacade#findTaggedValue(java.lang.String, boolean)
      */
