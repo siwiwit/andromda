@@ -15,6 +15,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 
 
@@ -175,7 +176,7 @@ public class HibernateEntityLogicImpl
         {
             inheritance = superEntity.getHibernateInheritanceStrategy();
         }
-        
+
         inheritance = inheritance != null ? inheritance.toLowerCase() : null;
 
         if (StringUtils.isBlank(inheritance) || !inheritanceStrategies.contains(inheritance))
@@ -765,7 +766,7 @@ public class HibernateEntityLogicImpl
         }
         return version;
     }
-    
+
     /**
      * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#getHibernateVersionPropertySqlName()
      */
@@ -818,5 +819,28 @@ public class HibernateEntityLogicImpl
         }
 
         return value;
+    }
+
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#getSequenceName()
+     */
+    protected String handleGetSequenceName()
+    {
+        String sequenceName = this.getTableName();
+        final String sequenceSuffix = this.getSequenceSuffix();
+        final short maxLength = this.getMaxSqlNameLength() != null ?
+            (short)(this.getMaxSqlNameLength().shortValue() - this.getSequenceSuffix().length()) : 0;
+        if (maxLength > -0)
+        {
+            sequenceName = EntityMetafacadeUtils.ensureMaximumNameLength(sequenceName, new Short(maxLength)) + sequenceSuffix;
+        }
+        return sequenceName;
+    }
+
+    private static final String SEQUENCE_IDENTIFIER_SUFFIX = "sequenceIdentifierSuffix";
+
+    private String getSequenceSuffix()
+    {
+        return ObjectUtils.toString(this.getConfiguredProperty(SEQUENCE_IDENTIFIER_SUFFIX));
     }
 }

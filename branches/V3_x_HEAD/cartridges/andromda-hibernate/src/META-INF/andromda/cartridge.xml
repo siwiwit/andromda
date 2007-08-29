@@ -22,7 +22,6 @@
     <property reference="userTypesPackage"/>
     <!-- the name to give the service locator class -->
     <property reference="serviceLocatorName"/>
-    <property reference="sequenceIdentifierSuffix"/>
     <property reference="driver"/>
     <property reference="username"/>
     <property reference="password"/>
@@ -199,7 +198,7 @@
             </modelElement>
         </modelElements>
     </template>
-	
+
 	<template
         path="templates/hibernate3/hibernate.cfg.xml.vsl"
         outputPattern="hibernate.cfg.xml"
@@ -216,7 +215,7 @@
             </modelElement>
         </modelElements>
     </template>
-	
+
 	<template
         path="templates/hibernate3/usertypes/HibernateEnumType.vsl"
         outputPattern="$generatedFile"

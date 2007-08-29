@@ -38,6 +38,7 @@
         <property reference="hibernateMappingStrategy"/>
         <property reference="defaultEntityDiscriminatorColumn"/>
         <property reference="defaultEntityDiscriminatorType"/>
+        <property reference="sequenceIdentifierSuffix"/>
     </metafacade>
     <metafacade class="org.andromda.cartridges.hibernate.metafacades.HibernateAssociationEndLogicImpl">
         <mapping>
