@@ -12,6 +12,7 @@ import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.PackageFacade;
+import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.StringUtils;
@@ -51,8 +52,11 @@ public class UMLModelAccessFacade
         this.model = (UML2Resource)model;
         // TODO: - clear the meta objects cache (yes this is a performance
         //       hack that at some point should be improved), either that
-        //       or since we're moving to A4 soon it won't matter
+        //       or since we'll be moving to A4 at some point it might not matter.
         UmlUtilities.clearAllMetaObjectsCache();
+        // TODO: - clears out the foreign key cache (again probably not
+        //         the cleanest way, but the easiest at this point).
+        EntityMetafacadeUtils.clearForeignKeyConstraintNameCache();
     }
 
     /**

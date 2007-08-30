@@ -2,9 +2,9 @@ package org.andromda.metafacades.uml;
 
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
-
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 import org.andromda.core.common.ExceptionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -290,5 +290,116 @@ public class EntityMetafacadeUtils
             }
         }
         return value;
+    }
+
+    /**
+     * Constructs and returns the foreign key constraint name for the given <code>associationEnd</code>, <code>suffix</code>, <code>sqlNameSeperator</code>
+     * and <code>maxLengthProperty</code>.
+     *
+     * @param associationEnd the association end for which to construct the constraint name.
+     * @param suffix the suffix appeneded to the constraint name (if not limited by length).
+     * @param sqlNameSeperator the SQL name seperator to use (i.e. '_').
+     * @param maxLengthProperty the numeric value stored as a string indicating the max length the constraint may be.
+     * @return the constructed foreign key constraint name.
+     */
+    public static String getForeignKeyConstraintName(EntityAssociationEnd associationEnd, String suffix, String sqlNameSeperator, String maxLengthProperty)
+    {
+        String constraintName;
+
+        final Object taggedValueObject = associationEnd.findTaggedValue(
+                UMLProfile.TAGGEDVALUE_PERSISTENCE_FOREIGN_KEY_CONSTRAINT_NAME);
+        if (taggedValueObject == null)
+        {
+            // we construct our own foreign key constraint name here
+            StringBuffer buffer = new StringBuffer();
+
+            final ClassifierFacade type = associationEnd.getOtherEnd().getType();
+            if (type instanceof Entity)
+            {
+                Entity entity = (Entity)type;
+                buffer.append(entity.getTableName());
+            }
+            else
+            {
+                // should not happen
+                buffer.append(type.getName().toUpperCase());
+            }
+
+            buffer.append(sqlNameSeperator);
+            buffer.append(associationEnd.getColumnName());
+            constraintName = buffer.toString();
+
+            // we take into consideration the maximum length allowed
+            final short maxLength = (short)(Short.valueOf(maxLengthProperty).shortValue() - suffix.length());
+            buffer = new StringBuffer(EntityMetafacadeUtils.ensureMaximumNameLength(constraintName, new Short(maxLength)));
+            buffer.append(suffix);
+            constraintName = EntityMetafacadeUtils.getUniqueForeignKeyConstraintName(buffer.toString());
+        }
+        else
+        {
+            // use the tagged value
+            constraintName = taggedValueObject.toString();
+        }
+        return constraintName;
+    }
+
+    /**
+     * An interal static cache for foreign key names (allows us to keep track
+     * of which ones have been used).  Its not great that its static, but for now
+     * this is the easiest way to enforce this.
+     */
+    private static Collection foreignKeyConstraintNameCache = new ArrayList();
+
+    /**
+     * Retrieves a unique foreign key constraint name given the proposedName.  Compares the proposedName
+     * against any foreign key names already stored in an internal collection.
+     *
+     * @param proposedName the proposed foreign key name.
+     * @return the unique foreign key name.
+     */
+    private static String getUniqueForeignKeyConstraintName(String proposedName)
+    {
+        final char[] characters = proposedName.toCharArray();
+        int numericValue = 0;
+        for (int ctr = 0; ctr < characters.length; ctr++)
+        {
+            numericValue = numericValue + Character.getNumericValue(characters[0]);
+        }
+        return getUniqueForeignKeyConstraintName(proposedName, new Random(numericValue));
+    }
+
+    /**
+     * Retrieves a unique foreign key constraint name given the proposedName.  Compares the proposedName
+     * against any foreign key names already stored in an internal collection.
+     *
+     * @param proposedName the proposed foreign key name.
+     * @param random the Random number generator to use for enforcing uniqueness.
+     * @return the unique foreign key name.
+     */
+    private static String getUniqueForeignKeyConstraintName(String proposedName, final Random random)
+    {
+        String name;
+        if (foreignKeyConstraintNameCache.contains(proposedName))
+        {
+            final char[] characters = proposedName.toCharArray();
+            int randomInt = random.nextInt(characters.length);
+            char randomChar = Character.toUpperCase(characters[randomInt]);
+            proposedName = proposedName.substring(0, proposedName.length() - 1) + randomChar;
+            name = getUniqueForeignKeyConstraintName(proposedName, random);
+        }
+        else
+        {
+            name = proposedName;
+            foreignKeyConstraintNameCache.add(name);
+        }
+        return name;
+    }
+
+    /**
+     * Clears out the foreign key cache.
+     */
+    public static void clearForeignKeyConstraintNameCache()
+    {
+        foreignKeyConstraintNameCache.clear();
     }
 }

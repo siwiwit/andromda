@@ -11,6 +11,7 @@ import org.andromda.core.metafacade.MetafacadeBase;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.core.metafacade.ModelAccessFacade;
+import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.PackageFacade;
 import org.apache.commons.collections.CollectionUtils;
@@ -44,6 +45,9 @@ public class UMLModelAccessFacade
             "modelElement",
             model.getClass());
         this.model = (UmlPackage)model;
+        // TODO: - clears out the foreign key cache (probably not
+        //         the cleanest way, but the easiest at this point).
+        EntityMetafacadeUtils.clearForeignKeyConstraintNameCache();
     }
 
     /**
@@ -80,7 +84,7 @@ public class UMLModelAccessFacade
         final ModelElementFacade modelElementFacade = (ModelElementFacade)modelElement;
         final StringBuffer packageName = new StringBuffer(modelElementFacade.getPackageName(true));
 
-        // - if the model element is a package then the package name will be the name 
+        // - if the model element is a package then the package name will be the name
         //   of the package with its package name
         if (modelElement instanceof PackageFacade)
         {
@@ -203,7 +207,7 @@ public class UMLModelAccessFacade
                             final ModelElementFacade modelElementFacade = (ModelElementFacade)metafacade;
                             final StringBuffer packageName = new StringBuffer(modelElementFacade.getPackageName(true));
 
-                            // - if the model element is a package then the package name will be the name 
+                            // - if the model element is a package then the package name will be the name
                             //   of the package with its package name
                             if (metafacade instanceof PackageFacade)
                             {
