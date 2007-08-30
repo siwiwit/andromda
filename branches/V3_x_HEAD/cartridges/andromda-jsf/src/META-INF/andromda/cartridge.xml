@@ -176,6 +176,9 @@
             <modelElement variable="useCases">
                 <type name="org.andromda.metafacades.uml.FrontEndUseCase"/>
             </modelElement>
+            <modelElement variable="roles">
+                <type name="org.andromda.metafacades.uml.Role"/>
+            </modelElement>
         </modelElements>
     </template>
 

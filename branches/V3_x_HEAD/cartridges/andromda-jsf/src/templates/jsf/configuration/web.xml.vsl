@@ -134,7 +134,7 @@
     </context-param>
     <!-- context-param merge-point -->
     <!-- filter merge-point -->
-#if ($securityEnabled)
+#if ($securityEnabled && !$roles.empty)
     <filter>
         <filter-name>User Role Filter</filter-name>
         <filter-class>${managedBeansPackage}.UserRoleFilter</filter-class>
@@ -212,7 +212,7 @@
         <filter-name>MyFaces Extensions Filter</filter-name>
         <url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
     </filter-mapping>
-#if ($securityEnabled)
+#if ($securityEnabled && !$roles.empty)
     <filter-mapping>
         <filter-name>User Role Filter</filter-name>
         <url-pattern>*.${facesServletExtension}</url-pattern>
