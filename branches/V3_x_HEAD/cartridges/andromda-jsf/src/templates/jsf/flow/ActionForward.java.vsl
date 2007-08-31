@@ -40,12 +40,8 @@ public class $action.actionClassName
 #else
 #set ($useCase = $action)
 #end
-#if (!$useCase.allForwards.empty)
-        String forwardPath = ${managedBeansPackage}.UseCaseForwards.getPath(controller.${action.controllerAction}());
-        response.sendRedirect(request.getContextPath() + forwardPath);
-#else
-        controller.${action.controllerAction}();
-#end
+        final String forwardPath = ${managedBeansPackage}.UseCaseForwards.getPath(controller.${action.controllerAction}());
+        response.sendRedirect(request.getContextPath() + forwardPath + (request.getQueryString() != null ? "?" + request.getQueryString() : ""));
     }
 
     /**
