@@ -420,7 +420,7 @@
         </propertyGroup>
         <propertyGroup name="Other">
             <property name="hibernateVersion">
-                <default>2</default>
+                <default>3</default>
                 <documentation>
                     The version of Hibernate to use when generating.
                     Allowable values are:
