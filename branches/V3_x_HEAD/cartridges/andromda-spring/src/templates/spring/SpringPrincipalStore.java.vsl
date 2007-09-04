@@ -52,7 +52,7 @@ public final class PrincipalStore
         return principal;
 #else
         return#if(!$enableTemplating)(java.security.Principal)#end store.get();
-#end 
+#end
     }
 #if ($ejbSecurityEnabled)
 
@@ -84,7 +84,7 @@ public final class PrincipalStore
     {
         sessionContext.set(context);
     }
-    
+
 #foreach ($role in $roles)
 #set ($isInRoleName = "is${stringUtils.upperCamelCaseName($role.name.toLowerCase())}")
     /**
@@ -105,8 +105,26 @@ public final class PrincipalStore
         }
         return $isInRoleName;
     }
-    
+
 #end
+
+    /**
+     * Gets all roles belonging to the current principal.
+     *
+     * @return the names of the current principal roles.
+     */
+    public static java.lang.String[] getPrincipalRoles()
+    {
+        final java.util.Collection#if($enableTemplating)<java.lang.String>#end roles = new java.util.ArrayList#if($enableTemplating)<java.lang.String>#end();
+#foreach ($role in $roles)
+#set ($isInRoleName = "is${stringUtils.upperCamelCaseName($role.name.toLowerCase())}")
+        if ($isInRoleName())
+        {
+            roles.add("$role.name");
+        }
+#end
+        return #if(!$enableTemplating)(String[])#end roles.toArray(new String[0]);
+    }
 #end
 }
 #end

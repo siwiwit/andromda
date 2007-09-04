@@ -344,5 +344,15 @@ public abstract class $service.baseName
     }
 
 #end
+
+    /**
+     * Gets all roles belonging to the current principal.
+     *
+     * @return the names of the current principal roles.
+     */
+    public java.lang.String[] getPrincipalRoles()
+    {
+        return ${principalStoreClassName}.getPrincipalRoles();
+    }
 #end
 }
