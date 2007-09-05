@@ -18,7 +18,7 @@ package $springTypesPackage;
 public class $className
     implements java.io.Serializable
 {
-    private static final long serialVersionUID = -8060934999137370126L;
+    private static final long serialVersionUID = 8277265070757689152L;
 
     /**
      * Constructs the search object.
@@ -190,6 +190,18 @@ public class $className
     {
         this.eagerFetching = eagerFetching;
         return this;
+    }
+
+    /**
+     * Adds an "order by" clause for the search with default ascending order.
+     *
+     * @param propertyName the property name to order by.
+     *
+     * @return the current search instance.
+     */
+    public Search addOrderBy(final String propertyName)
+    {
+        return this.addOrderBy(propertyName, SearchParameter.ORDER_ASC);
     }
 
     /**
