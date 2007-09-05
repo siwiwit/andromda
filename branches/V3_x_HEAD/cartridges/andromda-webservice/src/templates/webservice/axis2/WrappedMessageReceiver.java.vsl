@@ -3,18 +3,6 @@
 package $webserviceTypesPackage;
 #end
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.xml.namespace.QName;
-
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
@@ -35,6 +23,21 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import javax.xml.namespace.QName;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This Axis2 message reciever is used instead of the default {@link org.apache.axis2.rpc.receivers.RPCMessageReceiver}
@@ -77,14 +80,14 @@ public class $className
         final OMNamespace xsiNamespace = factory.createOMNamespace(XSI_NS, XSI_PREFIX);
         namespaces.put(XSI_PREFIX,  xsiNamespace);
 
+        final String methodName = operation.getName().getLocalPart();
         Method method = null;
         try
         {
             final OMElement methodElement = inMessage.getEnvelope().getBody().getFirstElement();
             final AxisMessage inAxisMessage = operation.getMessage(WSDLConstants.MESSAGE_LABEL_IN_VALUE);
-            String messageNameSpace = null;
+            String messageNameSpace;
             QName elementQName;
-            final String methodName = operation.getName().getLocalPart();
             for (final Method compareMethod : object.getClass().getMethods())
             {
                 if (compareMethod.getName().equals(methodName))
@@ -150,27 +153,33 @@ public class $className
             envelope.getBody().addChild(responseElement);
             outMessage.setEnvelope(envelope);
         }
-        catch (InvocationTargetException exception)
-        {
-            final Throwable cause = exception.getCause();
-
-            final String faultCode = "Error calling " + operation.getName();
-            final String faultReason = cause.getMessage() == null
-                ? cause.getClass().getSimpleName() : cause.getMessage();
-
-            // the service operation threw an exception, we'll create the XML element here
-            final OMElement faultElement = getOMElement(cause, cause.getClass().getSimpleName(),
-                targetNamespace, namespaces );
-
-            throw new AxisFault(new QName(faultCode), faultReason, null, null, faultElement);
-        }
         catch (Exception exception)
         {
-            String message = "Exception occurred while trying to invoke service method " + method.getName();
-            log.error(
-                message,
-                exception);
-            throw new AxisFault(message, exception);
+           log.error("Exception occurred while trying to invoke service method " + methodName, exception);
+
+            // determine the exception triggered from the service implementation
+            final Throwable actualCause = exception instanceof InvocationTargetException
+                ? exception.getCause()
+                : exception;
+
+#if ($axis2GeneratedWrappedMessageReceiverRendersFaultsAsBeans)
+            // whether or not this is a custom exception (no need for the targetNamespace in the fault and
+            // the faultstring will be rendered with a FQ Name)
+            final boolean exceptionFromJdk = actualCause.getClass().getName().startsWith("java.");
+
+            // the <faultstring> element value (we can use exception.toString if we want to see the FQ name)
+            final String faultstring = exceptionFromJdk
+                ? actualCause.toString()
+                : actualCause.getClass().getSimpleName() + ": " + actualCause.getMessage();
+
+            // the service operation threw an exception, we'll create the XML element here
+            final OMElement faultElement = getOMElement(actualCause, actualCause.getClass().getSimpleName(),
+                exceptionFromJdk ? null : targetNamespace, namespaces );
+
+            throw new AxisFault(null, faultstring, null, null, faultElement);
+#else
+            throw new AxisFault(actualCause);
+#end
         }
     }
 
@@ -321,10 +330,9 @@ public class $className
      *
      * @param bean the bean to introspect
      * @param elementName the name of the element
-     * @param qualified whether or not the resulting document should be qualified
-     * @param factory the SOAP factory instance used to create the OMElement
-     * @param namespaces all namespace instances keyed by prefix.
      * @param targetNamespace the target namespace.
+     * @param namespaces all namespace instances keyed by prefix.
+     * @return a new element constructed with the specified arguments
      */
     protected OMElement getOMElement(
         final Object bean,
@@ -367,12 +375,12 @@ public class $className
      *
      * @param bean the bean to introspect
      * @param elementName the name of the element
-     * @param qualified whether or not the resulting document should be qualified
      * @param factory the SOAP factory instance used to create the OMElement
      * @param targetNamespace the target namespace.
      * @param namespaces all namespace instances keyed by prefix.
      * @param evaluatingBeans the collection in which to keep the beans that are evaluating in order
      *        to prevent endless recursion.
+     * @return a new element constructed with the specified arguments
      */
     protected static OMElement getOMElement(
         final Object bean,
@@ -428,9 +436,10 @@ public class $className
                         for (Map.Entry<String,Object> property : properties.entrySet())
                         {
                             final String name = property.getKey();
-                            if (!CLASS.equals(name))
+                            if (!CLASS.equals(name)) // do not render the class field
                             {
                                 final Object value = property.getValue();
+
                                 if (value != null)
                                 {
                                     element.addChild(
@@ -598,7 +607,7 @@ public class $className
      * whether the type is an actual "enum" class or the "fromMethod" is not null.
      *
      * @param type the type to check.
-     * @param the "from" method used to construct a typesafe enumeration from it's simple type.
+     * @param fromMethod the "from" method used to construct a typesafe enumeration from it's simple type.
      * @return true/false
      */
     protected static boolean isEnumeration(final Class type, final Method fromMethod)
@@ -652,8 +661,12 @@ public class $className
      * not declared by classes in the JDK will be considered (otherwise we could have used Jakarta Commons BeanUtils
      * to do this job for us), this makes sense because a bean modeled in UML and generated by AndroMDA will only
      * need to expose the fields which have been attributed to it.
+     * <p/>
+     * If the argument bean extends Exception but is not a class from the JDK, then the properties
+     * defined by in JDK will be ignored and only the customly defined ones will be taken into account.
+     * Regular exceptions from the JDK such as {@link IllegalArgumentException} will have all their properties mapped.
      *
-     * @param bean the bean to introspect
+     * @param bean the bean to introspect, must not be {@code null}
      * @return the property map
      * @throws RuntimeException in case an error occurred while retrieving a property value
      */
@@ -666,11 +679,17 @@ public class $className
         // get all public methods
         final Method[] methods = bean.getClass().getMethods();
 
+        // true if the bean is an exception from the JDK
+        // in this case we will simply include all known property in the returned map
+        // in case of a custom exception we only include properties specified by the user
+        // (so no stacktrace or message)
+        final boolean exceptionFromJdk = bean instanceof Exception && bean.getClass().getName().startsWith("java.");
+
         for (Method method : methods)
         {
             // do not take methods from the JDK into account, we only want to consider those that have been modeled
             // (eg. this could happen for <<Exception>> types, which would extend java.lang.Exception)
-            if (!method.getDeclaringClass().getName().startsWith("java."))
+            if (exceptionFromJdk || !method.getDeclaringClass().getName().startsWith("java."))
             {
                 // decide whether or not this method is a getter
                 int getterNameOffset;
@@ -698,13 +717,41 @@ public class $className
 
                     final String propertyName = String.valueOf(propertyNameCharacters);
 
-                    try
+                    // actual JDK exceptions only have the message and the stacktrace rendered
+                    if (exceptionFromJdk)
                     {
-                        propertyMap.put(propertyName, method.invoke(bean));
+                        final Exception exception = (Exception)bean;
+
+                        if ("message".equals(propertyName))
+                        {
+                            propertyMap.put(propertyName, exception.getMessage());
+                        }
+                        else if ("stackTrace".equals(propertyName))
+                        {
+                            // render the stacktrace into a string property
+                            final Writer writer = new StringWriter();
+                            exception.printStackTrace(new PrintWriter(writer));
+                            try
+                            {
+                                writer.close();
+                            }
+                            catch (IOException e)
+                            {
+                                log.error("Unable to print stacktrace into writer", e);
+                            }
+                            propertyMap.put(propertyName, writer.toString());
+                        }
                     }
-                    catch (Exception e)
+                    else
                     {
-                        throw new RuntimeException("Unable to build property map for " + bean, e);
+                        try
+                        {
+                            propertyMap.put(propertyName, method.invoke(bean));
+                        }
+                        catch (Exception e)
+                        {
+                            throw new RuntimeException("Unable to build property map for " + bean, e);
+                        }
                     }
                 }
             }

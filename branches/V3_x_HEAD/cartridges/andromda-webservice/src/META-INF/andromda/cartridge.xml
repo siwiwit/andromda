@@ -37,6 +37,7 @@
     <property reference="soapStack"/>
     <property reference="axis2WrappedMessageReceiver"/>
     <property reference="axis2DefaultMessageReceiver"/>
+    <property reference="axis2GeneratedWrappedMessageReceiverRendersFaultsAsBeans"/>
     <property reference="springVersion"/>
     <property reference="extensionInheritanceDisabled"/>
     <!-- cartridge-property merge-point -->
@@ -48,6 +49,7 @@
     <condition name="securityEnabled">$stringUtils.isNotBlank($securityRealm)</condition>
     <condition name="spring2">$springVersion.equals("2")</condition>
     <condition name="extensionInheritanceDisabled">$extensionInheritanceDisabled</condition>
+    <condition name="axis2GeneratedWrappedMessageReceiverRendersFaultsAsBeans">$axis2GeneratedWrappedMessageReceiverRendersFaultsAsBeans</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->

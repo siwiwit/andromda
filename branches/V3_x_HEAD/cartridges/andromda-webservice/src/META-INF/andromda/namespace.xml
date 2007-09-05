@@ -349,6 +349,17 @@
                      The message receiver used for any services other than "wrapped" style.
                  </documentation>
             </property>
+            <property name="axis2GeneratedWrappedMessageReceiverRendersFaultsAsBeans" required="false">
+                <default>false</default>
+                <documentation>
+                    When the generated wrapped message receiver is being used it will render faults as strong-typed
+                    beans into the 'details' section of the SOAP body. Exceptions from the JDK will only have their
+                    'message' and 'stackTrace' properties rendered, while custom exceptions only include the
+                    properties which have been modeled on them.
+                    Setting this property to 'false' will have each exception rendered as a plaintext Axis fault
+                    in which you will only find the stacktrace.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="XFire">
             <documentation>
