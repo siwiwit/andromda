@@ -989,7 +989,8 @@ public class ParameterChecks
         {
             final String equalFieldName = field.getVarValue("fieldName");
             final EditableValueHolder equalField = (EditableValueHolder)context.getViewRoot().findComponent(equalFieldName);
-            final Object equalFieldValue = equalField.getSubmittedValue();
+            final Object equalFieldValue = equalField.getSubmittedValue() != null ?
+                equalField.getSubmittedValue() : equalField.getValue();
 
             // - we just ignore null values because it means it wasn't a UIInput instance
             if (equalFieldValue != null && !equalFieldValue.equals(value))
