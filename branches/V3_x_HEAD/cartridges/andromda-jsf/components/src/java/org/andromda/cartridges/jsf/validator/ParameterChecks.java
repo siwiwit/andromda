@@ -10,8 +10,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.faces.component.UIInput;
-import javax.faces.component.ValueHolder;
+import javax.faces.component.EditableValueHolder;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -963,7 +962,7 @@ public class ParameterChecks
             }
         }
     }
-    
+
     /**
      *  Checks if the field's value is equal to another field's value on the same form.
      *
@@ -989,21 +988,16 @@ public class ParameterChecks
         if (StringUtils.isNotBlank(value))
         {
             final String equalFieldName = field.getVarValue("fieldName");
-            final ValueHolder equalField = (ValueHolder)context.getViewRoot().findComponent(equalFieldName);
-            Object equalFieldValue = null;
-            // - we check for whether or not its actually a UIInput because sometimes it isn't 
-            //   depending on the framework (even though it should be).
-            if (equalField instanceof UIInput)
-            {
-                equalFieldValue = ((UIInput)equalField).getSubmittedValue();
-            }
+            final EditableValueHolder equalField = (EditableValueHolder)context.getViewRoot().findComponent(equalFieldName);
+            final Object equalFieldValue = equalField.getSubmittedValue();
+
             // - we just ignore null values because it means it wasn't a UIInput instance
             if (equalFieldValue != null && !equalFieldValue.equals(value))
             {
                 errors.add(ValidatorMessages.getMessage(
                     action,
                     field,
-                    context)); 
+                    context));
             }
 
         }
