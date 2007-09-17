@@ -622,16 +622,23 @@
                for (x in oEqual)
                {
                    var field = form[oEqual[x][0]];
-                    if (!field)
-                    {
-                        return true;
-                    }
                    var value = field.value;
                    var equalFieldName = oEqual[x][2]("fieldName");
                    if ((field.type == 'hidden' || field.type == 'text' || field.type == 'textarea' || field.type == 'password') &&
                        (value.length > 0) && field.disabled == false)
                    {
-                        var equalField = document.getElementById(equalFieldName);
+                        var equalField =  document.getElementById(equalFieldName);
+                        if (!equalField)
+                        {
+                            // - try getting the field the way that trinidad identifies it (it doesn't give the element
+                            //   the prefix of the form name like regular JSF forms do).
+                            var formAndFieldName = equalFieldName.split(':');
+                            var formObject = document.getElementById(formAndFieldName[0]);
+                            if (formObject)
+                            {
+                                equalField = formObject.elements[formAndFieldName[1]];
+                            }
+                        }
                         if (equalField)
                         {
                             var valid = equalField.value == value;
