@@ -57,7 +57,7 @@ public class $criteriaSearchBaseName
 
         }
     }
-    
+
     /**
      * Exposes the root criteria to subclasses.
      */
@@ -95,7 +95,7 @@ public class $criteriaSearchBaseName
     {
         return new java.util.LinkedHashSet(this.executeAsList());
     }
-    
+
     /**
      * Executes a <code>HibernateQuery</code> using the currently defined
      * <code>CriteriaSearchParameter</code>s, and returns a java.util.List
@@ -159,7 +159,7 @@ public class $criteriaSearchBaseName
      * @param parameterPattern The pattern of the parameter (dot-seperated path e.g. person.address.street).
      * @throws ${hibernateUtils.basePackage}.HibernateException
      */
-    public void addParameter(Object parameterValue, String parameterPattern) 
+    public void addParameter(Object parameterValue, String parameterPattern)
         throws ${hibernateUtils.basePackage}.HibernateException
     {
         addParameter(new ${criteriaSearchBaseName}Parameter(parameterValue, parameterPattern));
@@ -175,7 +175,7 @@ public class $criteriaSearchBaseName
      * @param parameterPattern The pattern of the parameter (dot-seperated path e.g. person.address.street).
      * @throws ${hibernateUtils.basePackage}.HibernateException
      */
-    public void addParameter(String parameterValue, String parameterPattern) 
+    public void addParameter(String parameterValue, String parameterPattern)
         throws ${hibernateUtils.basePackage}.HibernateException
     {
         addParameter(new ${criteriaSearchBaseName}Parameter(parameterValue, parameterPattern));
@@ -188,14 +188,14 @@ public class $criteriaSearchBaseName
      * @param parameter The <code>${criteriaSearchBaseName}Parameter</code> to add.
      * @throws ${hibernateUtils.basePackage}.HibernateException
      */
-    public void addParameter(${criteriaSearchBaseName}Parameter parameter) 
+    public void addParameter(${criteriaSearchBaseName}Parameter parameter)
         throws ${hibernateUtils.basePackage}.HibernateException
     {
         if (considerParameter(parameter))
         {
             final ${hibernateUtils.basePackage}.Criteria parameterCriteria = this.getParameterCriteria(parameter);
             final java.lang.String parameterName = this.getParameterName(parameter);
-            
+
             // check the type parameter value to add
             if(parameter.getParameterValue() instanceof Object[])
             {
@@ -222,10 +222,10 @@ public class $criteriaSearchBaseName
             this.orderList.add(parameter);
         }
     }
-    
+
     /**
      * Retrieves the appropriate criteria object for the given <code>parameter</code>.
-     * 
+     *
      * @param parameter the parameter for which to retrieve the criteria.
      * @return the retrieved criteria.
      */
@@ -266,10 +266,10 @@ public class $criteriaSearchBaseName
         }
         return parameterCriteria;
     }
-    
+
     /**
      * Retrieves the appropriate nested parameter name for the given <code>parameter</code>.
-     * 
+     *
      * @param parameter the parameter for which to retrieve the parameter name.
      * @return the parameter name.
      */
@@ -326,9 +326,9 @@ public class $criteriaSearchBaseName
                     || (parameterValues != null && parameterValues.length > 0));
         }
         final int comparator = parameter.getComparator();
-        return (parameter.isSearchIfNull() || 
-            SearchParameter.NOT_NULL_COMPARATOR == comparator || 
-            SearchParameter.NULL_COMPARATOR == comparator) || 
+        return (parameter.isSearchIfNull() ||
+            SearchParameter.NOT_NULL_COMPARATOR == comparator ||
+            SearchParameter.NULL_COMPARATOR == comparator) ||
             (parameter.getParameterValue() != null);
     }
 
@@ -355,7 +355,7 @@ public class $criteriaSearchBaseName
                 criteria.add(${hibernateUtils.criterionPackage}.Expression.isNotNull(parameterName));
                 break;
             }
-            case ${criteriaSearchBaseName}Parameter.NULL_COMPARATOR: 
+            case ${criteriaSearchBaseName}Parameter.NULL_COMPARATOR:
             {
                 criteria.add(${hibernateUtils.criterionPackage}.Expression.isNull(parameterName));
                 break;
@@ -429,6 +429,14 @@ public class $criteriaSearchBaseName
                             }
                             break;
                         }
+                        case ${criteriaSearchBaseName}Parameter.NOT_IN_COMPARATOR:
+                        {
+                            if (parameterValue instanceof java.util.Collection)
+                            {
+                                criteria.add(${hibernateUtils.criterionPackage}.Expression.not(${hibernateUtils.criterionPackage}.Expression.in(parameterName, (java.util.Collection)parameterValue)));
+                            }
+                            break;
+                        }
 #if ($hibernateUtils.version3)
                         case ${criteriaSearchBaseName}Parameter.NOT_EQUAL_COMPARATOR:
                         {
@@ -443,7 +451,7 @@ public class $criteriaSearchBaseName
                     criteria.add(${hibernateUtils.criterionPackage}.Expression.isNull(parameterName));
                 }
             }
-        }    
+        }
     }
 
     /**
@@ -478,14 +486,14 @@ public class $criteriaSearchBaseName
                     if ((matchMode != null) && (parameterValues instanceof String[]))
                     {
                         String[] stringParameterValues = (String[]) parameterValues;
-                        for (int index = 0; index < parameterValues.length; index++) 
+                        for (int index = 0; index < parameterValues.length; index++)
                         {
-                            if (stringParameterValues[index] != null) 
+                            if (stringParameterValues[index] != null)
                             {
                                 disjunction.add(${hibernateUtils.criterionPackage}.Expression.like(
                                     parameterName, stringParameterValues[index], matchMode));
                             }
-                            else 
+                            else
                             {
                                 disjunction.add(${hibernateUtils.criterionPackage}.Expression
                                     .isNull(parameterName));
@@ -494,14 +502,14 @@ public class $criteriaSearchBaseName
                     }
                     else
                     {
-                        for (int index = 0; index < parameterValues.length; index++) 
+                        for (int index = 0; index < parameterValues.length; index++)
                         {
-                            if (parameterValues[index] != null) 
+                            if (parameterValues[index] != null)
                             {
                                 disjunction.add(${hibernateUtils.criterionPackage}.Expression.like(
                                     parameterName, parameterValues[index]));
                             }
-                            else 
+                            else
                             {
                                 disjunction.add(${hibernateUtils.criterionPackage}.Expression
                                         .isNull(parameterName));
@@ -516,7 +524,7 @@ public class $criteriaSearchBaseName
                     if ((matchMode != null) && (parameterValues instanceof String[]))
                     {
                         String[] stringParameterValues = (String[]) parameterValues;
-                        for (int index = 0; index < parameterValues.length; index++) 
+                        for (int index = 0; index < parameterValues.length; index++)
                         {
                             if (stringParameterValues[index] != null) {
                                 disjunction.add(${hibernateUtils.criterionPackage}.Expression.ilike(
@@ -530,14 +538,14 @@ public class $criteriaSearchBaseName
                     }
                     else
                     {
-                        for (int index = 0; index < parameterValues.length; index++) 
+                        for (int index = 0; index < parameterValues.length; index++)
                         {
-                            if (parameterValues[index] != null) 
+                            if (parameterValues[index] != null)
                             {
                                 disjunction.add(${hibernateUtils.criterionPackage}.Expression.ilike(
                                     parameterName, parameterValues[index]));
                             }
-                            else 
+                            else
                             {
                                 disjunction.add(${hibernateUtils.criterionPackage}.Expression
                                         .isNull(parameterName));
@@ -549,9 +557,9 @@ public class $criteriaSearchBaseName
                 case ${criteriaSearchBaseName}Parameter.EQUAL_COMPARATOR:
                 {
                     disjunction = ${hibernateUtils.disjunctionClassName}.disjunction();
-                    for (int index = 0; index < parameterValues.length; index++) 
+                    for (int index = 0; index < parameterValues.length; index++)
                     {
-                        if (parameterValues[index] != null) 
+                        if (parameterValues[index] != null)
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.eq(parameterName,
                                     parameterValues[index]));
@@ -565,14 +573,14 @@ public class $criteriaSearchBaseName
                 case ${criteriaSearchBaseName}Parameter.GREATER_THAN_OR_EQUAL_COMPARATOR:
                 {
                     disjunction = ${hibernateUtils.disjunctionClassName}.disjunction();
-                    for (int index = 0; index < parameterValues.length; index++) 
+                    for (int index = 0; index < parameterValues.length; index++)
                     {
-                        if (parameterValues[index] != null) 
+                        if (parameterValues[index] != null)
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.ge(parameterName,
                                     parameterValues[index]));
                         }
-                        else 
+                        else
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.isNull(parameterName));
                         }
@@ -582,14 +590,14 @@ public class $criteriaSearchBaseName
                 case ${criteriaSearchBaseName}Parameter.GREATER_THAN_COMPARATOR:
                 {
                     disjunction = ${hibernateUtils.disjunctionClassName}.disjunction();
-                    for (int index = 0; index < parameterValues.length; index++) 
+                    for (int index = 0; index < parameterValues.length; index++)
                     {
-                        if (parameterValues[index] != null) 
+                        if (parameterValues[index] != null)
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.gt(parameterName,
                                     parameterValues[index]));
                         }
-                        else 
+                        else
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.isNull(parameterName));
                         }
@@ -599,14 +607,14 @@ public class $criteriaSearchBaseName
                 case ${criteriaSearchBaseName}Parameter.LESS_THAN_OR_EQUAL_COMPARATOR:
                 {
                     disjunction = ${hibernateUtils.disjunctionClassName}.disjunction();
-                    for (int index = 0; index < parameterValues.length; index++) 
+                    for (int index = 0; index < parameterValues.length; index++)
                     {
-                        if (parameterValues[index] != null) 
+                        if (parameterValues[index] != null)
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.le(parameterName,
                                     parameterValues[index]));
                         }
-                        else 
+                        else
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.isNull(parameterName));
                         }
@@ -616,14 +624,14 @@ public class $criteriaSearchBaseName
                 case ${criteriaSearchBaseName}Parameter.LESS_THAN_COMPARATOR:
                 {
                     disjunction = ${hibernateUtils.disjunctionClassName}.disjunction();
-                    for (int index = 0; index < parameterValues.length; index++) 
+                    for (int index = 0; index < parameterValues.length; index++)
                     {
-                        if (parameterValues[index] != null) 
+                        if (parameterValues[index] != null)
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.lt(parameterName,
                                     parameterValues[index]));
                         }
-                        else 
+                        else
                         {
                             disjunction.add(${hibernateUtils.criterionPackage}.Expression.isNull(parameterName));
                         }
@@ -635,18 +643,23 @@ public class $criteriaSearchBaseName
                     criteria.add(${hibernateUtils.criterionPackage}.Expression.in(parameterName, parameterValues));
                     break;
                 }
+                case ${criteriaSearchBaseName}Parameter.NOT_IN_COMPARATOR:
+                {
+                    criteria.add(${hibernateUtils.criterionPackage}.Expression.not(${hibernateUtils.criterionPackage}.Expression.in(parameterName, parameterValues)));
+                    break;
+                }
 #if ($hibernateUtils.version3)
                 case ${criteriaSearchBaseName}Parameter.NOT_EQUAL_COMPARATOR:
                 {
                     conjunction = ${hibernateUtils.disjunctionClassName}.conjunction();
-                    for (int index = 0; index < parameterValues.length; index++) 
+                    for (int index = 0; index < parameterValues.length; index++)
                     {
-                        if (parameterValues[index] != null) 
+                        if (parameterValues[index] != null)
                         {
                             conjunction.add(${hibernateUtils.criterionPackage}.Expression.ne(parameterName,
                                     parameterValues[index]));
                         }
-                        else 
+                        else
                         {
                             conjunction.add(${hibernateUtils.criterionPackage}.Expression.isNotNull(parameterName));
                         }
@@ -656,11 +669,11 @@ public class $criteriaSearchBaseName
 #end
             }
 
-            if (disjunction != null) 
+            if (disjunction != null)
             {
                 criteria.add(disjunction);
             }
-            if (conjunction != null) 
+            if (conjunction != null)
             {
                 criteria.add(conjunction);
             }
@@ -693,7 +706,7 @@ public class $criteriaSearchBaseName
         {
             parentCriteria.setFetchMode(childEntityName, ${hibernateUtils.basePackage}.FetchMode.${hibernateUtils.eagerFetchMode});
         }
-        
+
         // Hibernate does not support a 'unique' identifier. As a search may contain outer joins,
         // duplicates in the resultList are possible. We eliminate any duplicates here, creating a
         // distinctified resultSet (Suggestion from Hibernate itself; see www.hibernate.org's FAQ's).

@@ -13,7 +13,7 @@ package $springTypesPackage;
 /**
  * Represents a generic search parameter that can be used with property
  * searches.
- * 
+ *
  * @see PropertySearch
  */
 public class $className
@@ -30,6 +30,7 @@ public class $className
     public static final int NOT_EQUAL_COMPARATOR = 8;
     public static final int NOT_NULL_COMPARATOR = 9;
     public static final int NULL_COMPARATOR = 10;
+    public static final int NOT_IN_COMPARATOR = 11;
 
     /** Order unset */
     public static final int ORDER_UNSET = -1;
@@ -54,7 +55,7 @@ public class $className
     {
        this(name, value, EQUAL_COMPARATOR);
     }
-    
+
     /**
      * Constructor taking name and comparator properties.
      */
@@ -87,7 +88,7 @@ public class $className
     {
         this(name, value, comparator, match, ORDER_UNSET);
     }
-    
+
     /**
      * Constructor taking name, value, comparator, order and match properties.
      */
@@ -100,7 +101,7 @@ public class $className
     {
         this(name, value, comparator, match, order, false);
     }
-    
+
     /**
      * Constructor taking all properties.
      */
@@ -201,12 +202,12 @@ public class $className
     {
         this.order = order;
     }
-    
+
     private boolean searchIfNull;
-    
+
     /**
      * Whether this parameter will be included in the search even if it is <code>null</code>.
-     * 
+     *
      * @return true/false
      */
     public boolean isSearchIfNull()
@@ -224,12 +225,12 @@ public class $className
     {
         this.searchIfNull = searchIfNull;
     }
-    
+
     private int match;
 
     /**
      * Gets the match attribute which controls how parameter values are matched (anywhere, start, end or exact).
-     * 
+     *
      * @return the match mode
      */
     public int getMatch()
@@ -239,7 +240,7 @@ public class $className
 
     /**
      * Sets the match mode attribute which controls how parameter values are matched (anywhere, start, end or exact).
-     * 
+     *
      * @return the match mode
      */
     public void setMatch(int match)

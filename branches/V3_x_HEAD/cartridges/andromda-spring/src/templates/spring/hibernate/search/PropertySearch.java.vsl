@@ -14,7 +14,7 @@ import java.util.StringTokenizer;
 
 
 /**
- * Provides the ability to search by properties. 
+ * Provides the ability to search by properties.
  */
 #if ($enableTemplating)
 @SuppressWarnings({"unchecked"})
@@ -23,7 +23,7 @@ public class $className
     extends CriteriaSearch
 {
     private Search search;
-    
+
     /**
      * Constructor for $className. Creates a <code>$className</code> instance
      * from the given arguments.
@@ -49,18 +49,21 @@ public class $className
                 for (int ctr = 0; ctr < parameters.length; ctr++)
                 {
                     final SearchParameter searchParameter = parameters[ctr];
-                    
+
                     Object value;
                     switch (searchParameter.getComparator())
                     {
                         case SearchParameter.IN_COMPARATOR :
                             value = searchParameter.getValue();
                             break;
+                        case SearchParameter.NOT_IN_COMPARATOR :
+                            value = searchParameter.getValue();
+                            break;
                         default :
-                            value = this.getValue(entityType, searchParameter); 
+                            value = this.getValue(entityType, searchParameter);
                             break;
                     }
-    
+
                     // - now add the parameter.
                     final CriteriaSearchParameter parameter =
                         new CriteriaSearchParameter(value,
@@ -70,10 +73,10 @@ public class $className
                     parameter.setSearchIfNull(searchParameter.isSearchIfNull());
                     switch (searchParameter.getMatch())
                     {
-                        case SearchParameter.MATCH_ANYWHERE : 
+                        case SearchParameter.MATCH_ANYWHERE :
                             parameter.setMatchMode(${hibernateUtils.criterionPackage}.MatchMode.ANYWHERE);
                             break;
-                        case SearchParameter.MATCH_START : 
+                        case SearchParameter.MATCH_START :
                             parameter.setMatchMode(${hibernateUtils.criterionPackage}.MatchMode.START);
                             break;
                         case SearchParameter.MATCH_END :
@@ -101,12 +104,12 @@ public class $className
             throw new RuntimeException(exception);
         }
     }
-    
+
     /**
      * Stores the total count when sql limiting isn't used.
      */
     private int totalCount;
-    
+
     /**
      * Gets the total possible count of objects returned in this
      * search.
@@ -180,7 +183,7 @@ public class $className
         }
         return firstResult;
     }
-    
+
     /**
      * Calculates the last result based upon page size and current
      * desired page.
@@ -199,9 +202,9 @@ public class $className
         }
         return lastResult;
     }
-    
+
     private static final String PERIOD = ".";
-    
+
     /**
      * Initializes the converters to behave the way we want when converting values (we don't
      * want empty strings converted to zeros, like beanutils does by default)
@@ -214,10 +217,10 @@ public class $className
         org.apache.commons.beanutils.ConvertUtils.register(new CalendarConverter(), java.util.Calendar.class);
         org.apache.commons.beanutils.ConvertUtils.register(new DateConverter(), java.util.Date.class);
     }
-    
+
     /**
      * Converts the value contained within the parameter to the type which Hibernate expects.
-     * 
+     *
      * @param entityType the class of the entity for which the search is being performed.
      * @param parameter the parameter from which to get the value.
      * @return the appropriate value.
@@ -226,48 +229,53 @@ public class $className
     {
         try
         {
-            final Object value = parameter.getValue();
-            Class propertyType = type;
-            for (final StringTokenizer tokenizer = new StringTokenizer(parameter.getName(), PERIOD); tokenizer.hasMoreTokens();)
+            Object value = parameter.getValue();
+            // - don't try to convert null values or classes
+            if (value != null && !value.getClass().equals(Class.class))
             {
-                final String token = tokenizer.nextToken().trim();
-                Class lastType = type;
-                type = CriteriaSearchProperties.getPropertyType(type, token);
-                if (!tokenizer.hasMoreTokens())
+                Class propertyType = type;
+                for (final StringTokenizer tokenizer = new StringTokenizer(parameter.getName(), PERIOD); tokenizer.hasMoreTokens();)
                 {
-                    break;
+                    final String token = tokenizer.nextToken().trim();
+                    Class lastType = type;
+                    type = CriteriaSearchProperties.getPropertyType(type, token);
+                    if (!tokenizer.hasMoreTokens())
+                    {
+                        break;
+                    }
+                    if (type == null)
+                    {
+                        throw new RuntimeException("No accessible property named '" + token + "', exists on: " + lastType.getName());
+                    }
+                    propertyType = type;
                 }
-                if (type == null)
+                final String name = parameter.getName().replaceAll(".*\\" + PERIOD, "");
+                final Object object = propertyType.newInstance();
+                // - copy the parameter to the property object so that when we retrieve it,
+                //  its of the correct type
+                org.apache.commons.beanutils.BeanUtils.copyProperty(
+                    object,
+                    name,
+                    value);
+                try
                 {
-                    throw new RuntimeException("No accessible property named '" + token + "', exists on: " + lastType.getName());
+                    value = org.apache.commons.beanutils.PropertyUtils.getProperty(
+                            object,
+                            name);
                 }
-                propertyType = type;
+                catch (final NoSuchMethodException noSuchMethodException)
+                {
+                    throw new RuntimeException("No accessible property named '" + name + "', exists on: " + propertyType.getName());
+                }
             }
-            final String name = parameter.getName().replaceAll(".*\\" + PERIOD, "");
-            final Object object = propertyType.newInstance();
-            // - copy the parameter to the property object so that when we retrieve it, 
-            //  its of the correct type
-            org.apache.commons.beanutils.BeanUtils.copyProperty(
-                object,
-                name,
-                value);
-            try
-            {
-                return org.apache.commons.beanutils.PropertyUtils.getProperty(
-                        object,
-                        name);
-            }
-            catch (final NoSuchMethodException noSuchMethodException)
-            {
-                throw new RuntimeException("No accessible property named '" + name + "', exists on: " + propertyType.getName());
-            }
+            return value;
         }
         catch (final Exception exception)
         {
             throw new RuntimeException(exception);
         }
     }
-    
+
     /**
      * A beanutils converter that converts java.util.Calendar objects to java.util.Date instances.
      */
@@ -303,7 +311,7 @@ public class $className
             return value;
         }
     }
-    
+
     /**
      * A beanutils converter that converts java.util.Date objects to java.util.Calendar instances.
      */
