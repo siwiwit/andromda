@@ -267,7 +267,7 @@ public class SpringServiceLogicImpl
      */
     protected boolean handleIsRemotable()
     {
-        return !this.isRemotingTypeNone();
+        return !this.isPrivate() && !this.isRemotingTypeNone();
     }
 
     /**
@@ -605,6 +605,15 @@ public class SpringServiceLogicImpl
     protected boolean handleIsConfigonly()
     {
         String value = (String)this.findTaggedValue(SpringProfile.TAGGEDVALUE_SERVICE_CONFIG_ONLY);
+        return BooleanUtils.toBoolean(StringUtils.trimToEmpty(value));
+    }
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServiceLogic#handleIsPrivate()
+     */
+    protected boolean handleIsPrivate()
+    {
+        String value = (String)this.findTaggedValue(SpringProfile.TAGGEDVALUE_SERVICE_PRIVATE);
         return BooleanUtils.toBoolean(StringUtils.trimToEmpty(value));
     }
 

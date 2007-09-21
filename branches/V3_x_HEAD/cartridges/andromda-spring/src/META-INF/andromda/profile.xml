@@ -182,6 +182,21 @@
                     <value>false</value>
                 </allowedValues>
             </element>
+            <element name="SPRING_SERVICE_PRIVATE">
+                <documentation>
+                    Set this tagged value to true in order to define the service as private. Private services are not 
+                    available through the ServiceLocator, are not exposed via remoting and their methods are not 
+                    intercepted by neither the transaction manager nor the security interceptor. The idea behind this 
+                    tagged value is to enable users to create services which could be used only via dependencies, not by 
+                    standalone instantiation.
+                </documentation>
+                <value>@andromda.service.private</value>
+                <appliedOnElement><![CDATA[<<Service>>]]></appliedOnElement>
+                <allowedValues>
+                    <value>true</value>
+                    <value>false</value>
+                </allowedValues>
+            </element>
             <element name="HIBERNATE_CRITERIA_NULLABLE">
                 <documentation>
                     If this tagged value is set to <code>true</code>, the tagged attribute will be considered in the

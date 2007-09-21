@@ -178,6 +178,68 @@ public class SpringUtils
     }
 
     /**
+     * Indicates if any private services are present.
+     *
+     * @param services the collection of services to check.
+     * @return true/false.
+     */
+    public boolean privateServicesPresent(final Collection services)
+    {
+        boolean present = services != null && !services.isEmpty();
+        if (present)
+        {
+            present =
+                CollectionUtils.find(
+                    services,
+                    new Predicate()
+                    {
+                        public boolean evaluate(final Object object)
+                        {
+                            boolean valid = false;
+                            if (object instanceof SpringService)
+                            {
+                                final SpringService service = (SpringService)object;
+                                valid = service.isPrivate();
+                            }
+                            return valid;
+                        }
+                    }) != null;
+        }
+        return present;
+    }
+    
+    /**
+     * Indicates if any public (non private) services are present.
+     *
+     * @param services the collection of services to check.
+     * @return true/false.
+     */
+    public boolean publicServicesPresent(final Collection services)
+    {
+        boolean present = services != null && !services.isEmpty();
+        if (present)
+        {
+            present =
+                CollectionUtils.find(
+                    services,
+                    new Predicate()
+                    {
+                        public boolean evaluate(final Object object)
+                        {
+                            boolean valid = false;
+                            if (object instanceof SpringService)
+                            {
+                                final SpringService service = (SpringService)object;
+                                valid = !service.isPrivate();
+                            }
+                            return valid;
+                        }
+                    }) != null;
+        }
+        return present;
+    }
+    
+    /**
      * Based on the given <code>value</code>, this method will return
      * a formatted Spring property (including the handling of 'null').
      *

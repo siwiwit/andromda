@@ -152,7 +152,7 @@
 #end
     <!-- ========================= Start of SERVICE DEFINITIONS ========================= -->
 
-#set ($enableSpringTransactions = ($enableSpringTransactionsWhenEjbsEnabled.equalsIgnoreCase("true") || !$ejbsEnabled) && !$services.empty)
+#set ($enableSpringTransactions = ($enableSpringTransactionsWhenEjbsEnabled.equalsIgnoreCase("true") || !$ejbsEnabled) && !$services.empty && $springUtils.publicServicesPresent($services))
 #if ($enableSpringTransactions)
     <!-- Service Transactional Interceptor -->
     <bean id="serviceTransactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
@@ -160,8 +160,10 @@
         <property name="transactionAttributeSource">
             <value>
 #foreach ($service in $services)
+#if (!$service.private)
 #foreach ($operation in $springUtils.filterUniqueByName($service.implementationOperations))
                 ${service.fullyQualifiedName}.${operation.name}=${operation.transactionType}
+#end
 #end
 #end
             </value>
@@ -211,7 +213,7 @@
         </property>
         <property name="interceptorNames">
             <list>
-#if ($acegiServiceSecurity)
+#if ($acegiServiceSecurity && !$service.private)
                 <value>serviceSecurityInterceptor</value>
 #end
 #if ($enableSpringTransactions)

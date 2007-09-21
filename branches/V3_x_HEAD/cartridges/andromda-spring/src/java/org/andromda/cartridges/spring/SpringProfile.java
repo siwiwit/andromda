@@ -111,6 +111,11 @@ public class SpringProfile
     public static final String TAGGEDVALUE_SERVICE_CONFIG_ONLY = profile.get("SPRING_SERVICE_CONFIG_ONLY");
 
     /**
+    * Define whether the service is private.
+    */
+    public static final String TAGGEDVALUE_SERVICE_PRIVATE = profile.get("SPRING_SERVICE_PRIVATE");
+    
+    /**
      * Optimize acknowledge flag for ActiveMQ connections.
      */
     public static final String TAGGEDVALUEVALUE_ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE = profile.get("ACTIVEMQ_OPTIMIZE_ACKNOWLEDGE");

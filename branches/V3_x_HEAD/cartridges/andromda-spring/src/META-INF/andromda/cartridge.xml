@@ -214,6 +214,7 @@
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">false</property>
                     <property name="abstract">false</property>
+                    <property name="private">false</property>
                 </type>
             </modelElement>
             <modelElement variable="manageables">
@@ -233,6 +234,7 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="richClient">true</property>
+                    <property name="private">false</property>
                 </type>
             </modelElement>
             <modelElement variable="manageables">
@@ -352,6 +354,22 @@
             <modelElement>
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="configonly">false</property>
+                    <property name="private">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/SpringService.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="services"
+        overwrite="true">
+        <modelElements variable="service">
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="configonly">false</property>
+                    <property name="private">true</property>
                 </type>
             </modelElement>
         </modelElements>
@@ -475,6 +493,23 @@
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="configonly">false</property>
                     <property name="allowDefaultServiceException"/>
+                    <property name="private">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/DefaultServiceException.vsl"
+        outputPattern="$generatedFile"
+        outlet="services"
+        overwrite="true">
+        <modelElements variable="service">
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="configonly">false</property>
+                    <property name="allowDefaultServiceException"/>
+                    <property name="private">true</property>
                 </type>
             </modelElement>
         </modelElements>
