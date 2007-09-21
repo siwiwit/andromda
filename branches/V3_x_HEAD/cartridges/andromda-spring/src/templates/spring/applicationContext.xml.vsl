@@ -168,6 +168,7 @@
 #end
             </value>
         </property>
+    <!-- applicationContext serviceTransactionInterceptor merge-point -->
     </bean>
 
 #end
