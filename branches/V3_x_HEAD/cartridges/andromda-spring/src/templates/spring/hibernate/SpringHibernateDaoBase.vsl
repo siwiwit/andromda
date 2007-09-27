@@ -538,7 +538,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #if($enableTemplating)
 #set ($returnType = "${finder.returnType.fullyQualifiedName}<?>")
 #end
-#else	
+#else
 #set ($returnType = "java.lang.Object")
 #end
     $finder.visibility $returnType ${finder.name}(final int transform#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
@@ -941,13 +941,17 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToArrayMethodName}(java.util.Collection)
      */
+#if ($enableTemplating)
+    @SuppressWarnings("unchecked")
+#end
     public final ${valueObjectRef.targetElement.fullyQualifiedName}[] ${valueObjectRef.transformationToArrayMethodName}(java.util.Collection#if($enableTemplating)<?>#end entities)
     {
         ${valueObjectRef.targetElement.fullyQualifiedName}[] result = null;
         if (entities != null)
         {
-            this.${valueObjectRef.transformationToCollectionMethodName}(entities);
-            result =#if(!$enableTemplating) (${valueObjectRef.targetElement.fullyQualifiedName}[])#end entities.toArray(new ${valueObjectRef.targetElement.fullyQualifiedName}[entities.size()]);
+            final java.util.Collection collection = new java.util.ArrayList(entities);
+            this.${valueObjectRef.transformationToCollectionMethodName}(collection);
+            result =#if(!$enableTemplating) (${valueObjectRef.targetElement.fullyQualifiedName}[])#end collection.toArray(new ${valueObjectRef.targetElement.fullyQualifiedName}[0]);
         }
         return result;
     }
