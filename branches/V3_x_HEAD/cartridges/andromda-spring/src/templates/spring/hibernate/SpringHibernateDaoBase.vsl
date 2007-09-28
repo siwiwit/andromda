@@ -951,7 +951,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         {
             final java.util.Collection collection = new java.util.ArrayList(entities);
             this.${valueObjectRef.transformationToCollectionMethodName}(collection);
-            result =#if(!$enableTemplating) (${valueObjectRef.targetElement.fullyQualifiedName}[])#end collection.toArray(new ${valueObjectRef.targetElement.fullyQualifiedName}[0]);
+            result = (${valueObjectRef.targetElement.fullyQualifiedName}[]) collection.toArray(new ${valueObjectRef.targetElement.fullyQualifiedName}[0]);
         }
         return result;
     }
