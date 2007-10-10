@@ -13,11 +13,8 @@ import java.util.Map;
 
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 
-import org.andromda.cartridges.jsf.validator.ValidatorMessages;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.Field;
