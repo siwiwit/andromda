@@ -47,7 +47,7 @@
                     as default service exceptions will be generated.
                 </documentation>
             </property>
-            <property name="daos">
+            <property name="daos" required="false">
                 <documentation>
                     The location to which Spring DAOs, and any support classes.
                     <p>
@@ -57,7 +57,7 @@
                     </p>
                 </documentation>
             </property>
-            <property name="dao-impls">
+            <property name="dao-impls" required="false">
                 <documentation>
                     The location to which Spring DAO implementation
                     classes will be generated (if there are any classifier scoped business
