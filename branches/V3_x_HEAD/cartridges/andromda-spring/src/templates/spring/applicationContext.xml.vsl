@@ -217,7 +217,7 @@
 #if ($enableSpringTransactions)
                 <value>serviceTransactionInterceptor</value>
 #end
-#if ($daosEnabled && $service.hibernateInterceptorEnabled)
+#if ((!$entities.empty || !$service.allEntityReferences.empty) && $service.hibernateInterceptorEnabled)
                 <value>hibernateInterceptor</value>
 #end
 #foreach($interceptor in $service.interceptors)

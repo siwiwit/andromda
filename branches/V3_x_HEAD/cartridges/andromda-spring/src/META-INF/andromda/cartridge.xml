@@ -691,7 +691,8 @@
         outlet="spring-configuration"
         overwrite="true"
         outputToSingleFile="true"
-        outputOnEmptyElements="false">
+        outputOnEmptyElements="false"
+        outputCondition="dataSourceEnabled">
         <modelElements>
             <modelElement variable="entities">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringEntity"/>
