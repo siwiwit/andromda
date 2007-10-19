@@ -17,6 +17,11 @@
     <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory" class="$sessionFactory">
         <property name="dataSource"><ref bean="dataSource"/></property>
+#if ($transactionManager.indexOf('JtaTransactionManager') != -1)
+        <property name="jtaTransactionManager">
+            <bean factory-bean="transactionManager" factory-method="getTransactionManager"/>
+        </property>
+#end
         <property name="mappingLocations">
             <list>
                 <!-- applicationContext hibernateMappingLocations merge-point -->
