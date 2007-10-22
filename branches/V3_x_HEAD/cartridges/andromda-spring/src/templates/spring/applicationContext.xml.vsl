@@ -14,15 +14,8 @@
 #set ($daosEnabled = $daosEnabled && !$entities.empty)
 ## only generate this stuff if 'daos' has been defined in a namespace
 #if ($daosEnabled)
-    <!-- Hibernate SessionFactory -->
-    <bean id="sessionFactory" class="$sessionFactory">
-        <property name="dataSource"><ref bean="dataSource"/></property>
-#if ($transactionManager.indexOf('JtaTransactionManager') != -1)
-        <property name="jtaTransactionManager">
-            <bean factory-bean="transactionManager" factory-method="getTransactionManager"/>
-        </property>
-#end
-        <property name="mappingLocations">
+    <bean id="hibernateMappingLocations" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
             <list>
                 <!-- applicationContext hibernateMappingLocations merge-point -->
 #foreach($entity in $entities)
@@ -31,8 +24,11 @@
 #end
 #end
             </list>
-        </property>
-        <property name="hibernateProperties">
+         </property>
+    </bean>
+
+    <bean id="hibernateProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
             <props>
 #if ($stringUtils.isNotBlank($hibernatePoolSize))
                 <prop key="hibernate.pool.size">$hibernatePoolSize</prop>
@@ -103,6 +99,18 @@
                 <!-- applicationContext hibernateProperties merge-point -->
             </props>
         </property>
+    </bean>
+
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory" class="$sessionFactory">
+        <property name="dataSource"><ref bean="dataSource"/></property>
+#if ($transactionManager.indexOf('JtaTransactionManager') != -1)
+        <property name="jtaTransactionManager">
+            <bean factory-bean="transactionManager" factory-method="getTransactionManager"/>
+        </property>
+#end
+        <property name="mappingLocations"><ref bean="hibernateMappingLocations"/></property>
+        <property name="hibernateProperties"><ref bean="hibernateProperties"/></property>
     </bean>
 
     <!-- The Hibernate interceptor -->
