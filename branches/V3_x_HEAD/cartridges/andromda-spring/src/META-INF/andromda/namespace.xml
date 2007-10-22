@@ -916,6 +916,11 @@
                     The fully qualified class name of the Hibernate TransactionFactory implementation
                 </documentation>
             </property>
+            <property name="hibernateTransactionFactoryClass" required="false">
+                <documentation>
+                    The name of the hibernate transaction factory class to use.
+                </documentation>
+            </property>
             <property name="hibernateUseOuterJoin" required="false">
                 <documentation>
                     Whether or not to use outer joins.
