@@ -47,6 +47,7 @@
     <property reference="hibernateQuerySubstitutions"/>
     <property reference="hibernateCacheProvider"/>
     <property reference="hibernateQueryCacheFactory"/>
+    <property reference="hibernateTransactionFactoryClass"/>
     <property reference="applicationContext"/>
     <property reference="applicationContextManageable"/>
     <property reference="applicationContextDataSource"/>
