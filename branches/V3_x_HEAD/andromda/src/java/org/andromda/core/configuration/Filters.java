@@ -1,13 +1,13 @@
 package org.andromda.core.configuration;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
 import org.andromda.core.metafacade.MetafacadeConstants;
+import org.andromda.core.metafacade.MetafacadeFactory;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -75,6 +75,8 @@ public class Filters
         return (Filter[])this.filters.toArray(new Filter[0]);
     }
 
+    private final MetafacadeFactory factory = MetafacadeFactory.getInstance();
+
     /**
      * Determines whether or not the <code>value</code> should be applied. If
      * <code>applyAll</code> is true, then this method will return false only if the Filter
@@ -89,10 +91,10 @@ public class Filters
         for (final Iterator iterator = this.filters.iterator(); iterator.hasNext();)
         {
             final Filter filter = (Filter)iterator.next();
-            if (match(value,
-                    filter.getValue()))
+            if (this.match(value, filter.getValue()))
             {
-                shouldApply = filter.isApply();
+                shouldApply = filter.isApply() && (filter.getNamespaceList().isEmpty() ||
+                    filter.getNamespaceList().contains(StringUtils.trim(factory.getNamespace())));
                 break;
             }
         }
@@ -109,7 +111,7 @@ public class Filters
     {
         return this.filters.isEmpty();
     }
-    
+
     /**
      * The double star constant.
      */
