@@ -907,6 +907,36 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
     }
 
+    /**
+     * @see ${entity.fullyQualifiedDaoName}#toEntities(java.util.Collection)
+     */
+    public void toEntities(final java.util.Collection#if($enableTemplating)<?>#end results)
+    {
+        if (results != null)
+        {
+            org.apache.commons.collections.CollectionUtils.transform(results, ENTITYTRANSFORMER);
+        }
+    }
+
+    /**
+     * This anonymous transformer is designed to transform report query results
+     * (which result in an array of entities) to {@link ${entity.fullyQualifiedEntityName}}
+     * using the Jakarta Commons-Collections Transformation API.
+     */
+    private org.apache.commons.collections.Transformer ENTITYTRANSFORMER =
+        new org.apache.commons.collections.Transformer()
+        {
+            public java.lang.Object transform(java.lang.Object input)
+            {
+                java.lang.Object result = null;
+                if (input instanceof java.lang.Object[])
+                {
+                    result = toEntity((java.lang.Object[])input);
+                }
+                return result;
+            }
+        };
+
     protected $entity.fullyQualifiedEntityName toEntity(java.lang.Object[] row)
     {
         $entity.fullyQualifiedEntityName target = null;

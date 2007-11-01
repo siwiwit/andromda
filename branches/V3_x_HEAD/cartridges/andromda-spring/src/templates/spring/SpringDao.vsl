@@ -51,6 +51,15 @@ public interface $entity.daoName
 
 #end
 #end
+
+    /**
+     * Transforms the given results to a collection of {@link com.lighthousepmg.plz.domain.messaging.persistence.CommunicationCategory}
+     * instances (this is useful when the returned results contains a row of data and you want just entities only).
+     *
+     * @param the query results.
+     */
+    public void toEntities(final java.util.Collection#if($enableTemplating)<?>#end results);
+
 #foreach ($valueObjectRef in $entity.valueObjectReferences)
     /**
      * This constant is used as a transformation flag; entities can be converted automatically into value objects
