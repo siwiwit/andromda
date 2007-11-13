@@ -11,7 +11,22 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.3-SNAPSHOT" date="2006-11-20" desc="First release candidate of version 3.3" description="First release candidate of version 3.3">
+        <release version="3.3-SNAPSHOT" date="not yet released" desc="First release candidate of version 3.3" description="First release candidate of version 3.3">
+            <action dev="draftdog" type="fix" issue="BPM-299">
+                Corrected possible collision in generated javascript validation routines.
+            </action>
+            <action dev="draftdog" type="update">
+                Introduced "axis2GeneratedWrappedMessageReceiverRendersFaultsAsBeans" namespace property to
+                the webservice cartridge, it allows users to select whether or not to render faults as regular beans
+                (similar to what is done in responses with value objects). The default is 'false' which means
+                this update is backward compatible with earlier versions of the cartridge.
+            </action>
+            <action dev="draftdog" type="update">
+                Updated webservices cartridge: simplified generated WSDL by avoiding the incremental numbering scheme
+                (we don't have support for overloading anyway). The WrappedMessageReceiver now returns exception
+                value objects in the fault detail message so that the client can properly access any additional data
+                other than the error message.
+            </action>
             <action dev="mattes3" type="fix">
                 The Freemarker template engine plug-in did not find the templates
                 when it ran in a multi-classloader environment like Maven. Now,
@@ -52,7 +67,7 @@
                 fixed thanks to a patch from Paul Pavlidis.
             </action>
             <action dev="draftdog" type="update" issue="JAVA-27">
-                The generated enumerations now supports Java generics when <![CDATA[<code>enableTemplating</code>]]> 
+                The generated enumerations now supports Java generics when <![CDATA[<code>enableTemplating</code>]]>
                 has been set to <![CDATA[<code>true</code>]]>. Thanks to a patch from Jens Vagts.
             </action>
             <action dev="draftdog" type="update" issue="HIB-162">
@@ -86,12 +101,12 @@
             </action>
             <action dev="draftdog" type="add">
                 <![CDATA[
-                    The Hibernate cartridge's namespace has two new outlets: <code>entity-mappings</code> and 
+                    The Hibernate cartridge's namespace has two new outlets: <code>entity-mappings</code> and
                     <code>user-types</code>.
-                    The <code>.hbm.xml</code> files will be emitted to the former while the latter will be used for 
-                    Hibernate enumeration user-types and the String Clob and Blob types. This will allow you to have 
+                    The <code>.hbm.xml</code> files will be emitted to the former while the latter will be used for
+                    Hibernate enumeration user-types and the String Clob and Blob types. This will allow you to have
                     your POJOs generated into a dedicated location such as <code>common/target/src</code>.
-                    The <code>andromdapp:generate</code> plugin has been updated to have both outlets point to the 
+                    The <code>andromdapp:generate</code> plugin has been updated to have both outlets point to the
                     generated code of the core component.
                 ]]>
             </action>
@@ -145,7 +160,7 @@
                 those properties that are required and/or read-only.
             </action>
             <action dev="draftdog" type="add">
-                A new namespace property has been introduced: <![CDATA[<code>columnNamePrefix</code>]]>. It allows you 
+                A new namespace property has been introduced: <![CDATA[<code>columnNamePrefix</code>]]>. It allows you
                 to have all column names prefixed with a certain character sequence.
             </action>
             <action dev="draftdog" type="add">
@@ -168,9 +183,9 @@
         </release>
         <release version="3.1" date="2005-11-10" desc="Version 3.1 final" description="Version 3.1 final">
             <action dev="cwbrandon" type="update">
-                The <![CDATA[UMLMetafacadeModel-<version>.xml.zip]]> has been renamed to 
+                The <![CDATA[UMLMetafacadeModel-<version>.xml.zip]]> has been renamed to
                 <![CDATA[andromda-metafacades-uml-<version>.xml.zip]]>.
-                This requires that you update any cartridge models that point to the old file name by doing a search 
+                This requires that you update any cartridge models that point to the old file name by doing a search
                 and replace in your XMI.
             </action>
             <action dev="draftdog" type="fix" issue="SITE-30">
@@ -322,7 +337,7 @@
             </action>
             <action dev="draftdog" type="add" issue="BPM-225">
                 Table links in bpm4struts are now allowed to target any arbitrary column, see the online store sample
-                for an implementation (the <![CDATA[<code>title</code>]]> column on the second page sends the 
+                for an implementation (the <![CDATA[<code>title</code>]]> column on the second page sends the
                 <![CDATA[<code>id</code>]]> value for that row when clicked).
             </action>
             <action dev="draftdog" type="add" issue="BPM-169">
@@ -389,7 +404,7 @@
             </action>
             <action dev="draftdog" type="add">
                 The <![CDATA[<a href="maven-andromdapp-plugin/index.html">andromdapp:generate</a>]]>
-                tool is now able to generate projects using the 
+                tool is now able to generate projects using the
                 <![CDATA[<a href="http://www.jbpm.org/">jBpm workflow engine</a>]]>,
                 selecting this option implies the use of Hibernate 3 (you will not longer be prompted for it).
             </action>
@@ -400,9 +415,9 @@
             </action>
             <action dev="cwbrandon" type="update">
                 <![CDATA[
-                    The BPM4Struts tagged values <em>@andromda.struts.usecase.activity</em> and 
+                    The BPM4Struts tagged values <em>@andromda.struts.usecase.activity</em> and
                     <e>@andromda.struts.controller.usecase</e> have been renamed
-                    to <em>@andromda.presentation.usecase.activity</em> and 
+                    to <em>@andromda.presentation.usecase.activity</em> and
                     <em>@andromda.presentation.controller.usecase</em>.
                 ]]>
             </action>
@@ -476,7 +491,7 @@
             </action>
             <action dev="cwbrandon" type="add">
                 The Spring cartridge can now generate for Hiberante 3 (as well as Hibernate 2 as before).  Version 2
-                is the default, in order to change the version to 3, you must set the 
+                is the default, in order to change the version to 3, you must set the
                 <![CDATA[<em>hibernateVersion</em>]]>
                 namespace property with a value of <![CDATA[<em>3</em>]]>.
             </action>
@@ -490,7 +505,7 @@
             </action>
             <action dev="carloslcuenca" type="add">
                 The Hibernate cartridge can now generate for Hibernate 3 (as well as Hibernate 2 as before).
-                Version 2 is the default, in order to change the version to 3, you need to define the 
+                Version 2 is the default, in order to change the version to 3, you need to define the
                 <![CDATA[<em>version</em>]]>
                 namespace property with a value of <![CDATA[<em>3</em>]]>.
             </action>
@@ -501,7 +516,7 @@
             </action>
             <action dev="cwbrandon" type="add" issue="CORE-67">
                 AndroMDA is now configured through a single XML configuration file.  This means both the Ant task and Maven
-                plugin just point to this file.  Please see the 
+                plugin just point to this file.  Please see the
                 <![CDATA[<a href="configuration.html">configuration</a>]]> documentation
                 for more information.
             </action>
@@ -514,17 +529,17 @@
                 possible to have all messages normalized before they are being rendered into the resource bundle. This
                 means that elements with the same name will use the same message key, previouly each element had its
                 own message key which could easily lead to very large resource bundles. This feature is disabled by
-                default but can be enabled by using the <![CDATA[<code>normalizeMessages</code>]]> namespace property 
+                default but can be enabled by using the <![CDATA[<code>normalizeMessages</code>]]> namespace property
                 and setting it to <![CDATA[<code>true</code>]]>.
             </action>
             <action dev="cwbrandon" type="add" issue="CORE-55">
-                Template merging now occurs before template processing happens, this means you can merge in dynamic 
+                Template merging now occurs before template processing happens, this means you can merge in dynamic
                 content into templates (previously it was only static content).
             </action>
             <action dev="draftdog" type="add" issue="BPM-186">
                 When using manageable entities it is now possible to have binary data uploaded into 'blob' fields,
-                just use <![CDATA[<code>datatype::Blob</code>]]> and a file-upload field will be generated automatically. 
-                It is not possible to actually show the value of a 'blob' field in the table, a default label will be 
+                just use <![CDATA[<code>datatype::Blob</code>]]> and a file-upload field will be generated automatically.
+                It is not possible to actually show the value of a 'blob' field in the table, a default label will be
                 shown instead.
             </action>
             <action dev="draftdog" type="update" issue="BPM-195">
@@ -532,7 +547,7 @@
                 associate any actors to it. This functionality replaces the <![CDATA[<<Unsecured>>]]> stereotype.
             </action>
             <action dev="cwbrandon" type="fix" issue="SPRING-73">
-                Fixed an issue that rendered the create method taking all required properties uncompilable when the 
+                Fixed an issue that rendered the create method taking all required properties uncompilable when the
                 multiplicity of an association end was 1..*.
             </action>
             <action dev="draftdog" type="fix">
@@ -586,8 +601,8 @@
         </release>
         <release version="3.0-RC2" date="2005-04-25" desc="Second release candidate for version 3.0" description="Second release candidate for version 3.0">
             <action dev="cwbrandon" type="add" issue="MAVEN-23">
-                The <![CDATA[<a href="maven-andromdapp-plugin/index.html">AndroMDA App Maven Plugin</a>]]> can now 
-                generate standalone war files (that can be deployed to 
+                The <![CDATA[<a href="maven-andromdapp-plugin/index.html">AndroMDA App Maven Plugin</a>]]> can now
+                generate standalone war files (that can be deployed to
                 <![CDATA[<a href="http://jakarta.apache.org/tomcat">Tomcat</a>]]>).
             </action>
             <action dev="freter" type="add" issue="HIB-87">
@@ -623,7 +638,7 @@
                 It is now possible to specify XSL transformation templates to be applied to the model(s) before model
                 processing begins, please see the
                 <![CDATA[<a href="maven-andromda-plugin/properties.html#maven_andromda_transformation_uri">AndroMDA Maven Plugin</a>]]>
-                or the <![CDATA[<a href="andromda-ant-task/index.html#transformation">AndroMDA Ant Task</a>]]> 
+                or the <![CDATA[<a href="andromda-ant-task/index.html#transformation">AndroMDA Ant Task</a>]]>
                 (depending on what you use) for more information.
             </action>
             <action dev="draftdog" type="add" issue="BPM-107">
@@ -641,7 +656,7 @@
             <action dev="cwbrandon" type="add" issue="CORE-59">
                 The encoding can now be set for both the Ant Task and the AndroMDA Maven plugin,
                 <![CDATA[<code>maven.andromda.outputEncoding</code>]]> is the required property for the Maven plugin,
-                 and the <![CDATA[<code>outputEncoding</code>]]> is the attribute for the Andromda Ant task.  
+                 and the <![CDATA[<code>outputEncoding</code>]]> is the attribute for the Andromda Ant task.
                  Please see the documentation for each for more information.
             </action>
             <action dev="draftdog" type="add" issue="BPM-168">
@@ -658,7 +673,7 @@
                 The meta cartridge now supports generation of multiple inheritance for metafacades.
             </action>
             <action dev="carloslcuenca" type="add">
-                The hibernate cartridge now allows to define indexes on the foreign key columns generated by entities 
+                The hibernate cartridge now allows to define indexes on the foreign key columns generated by entities
                 associations.
             </action>
             <action dev="draftdog" type="update" issue="BPM-162">
@@ -688,8 +703,8 @@
             </action>
             <action dev="draftdog" type="fix" issue="BPM-160">
                 Client-side validation for dates have been improved, the default one which is taken from
-                <![CDATA[<code>commons-validator</code>]]> only supports a very limited subset of the features one 
-                would expect. We are now explicitely overriding this JavaScript routine in 
+                <![CDATA[<code>commons-validator</code>]]> only supports a very limited subset of the features one
+                would expect. We are now explicitely overriding this JavaScript routine in
                 <![CDATA[<code>validator-rules.xml</code>]]>.
             </action>
             <action dev="draftdog" type="fix" issue="BPM-157">
@@ -697,25 +712,25 @@
                 be populated using the matching properties from the source form.
             </action>
             <action dev="cwbrandon" type="add">
-                The <![CDATA[<a href="andromda-spring-cartridge/index.html">Spring Cartridge</a>]]> DAO transformation 
+                The <![CDATA[<a href="andromda-spring-cartridge/index.html">Spring Cartridge</a>]]> DAO transformation
                 methods can
                 now be generated for UML datatypes as well (in addition to value objects), just draw a dependency
                 from an entity to a datatype, and the corresponding transform method will be generated on the DAO.
                 This is useful when you need to return a single field from an entity.
             </action>
             <action dev="cwbrandon" type="add">
-                The <![CDATA[<a href="andromda-spring-cartridge/index.html">Spring Cartridge</a>]]> DAOs now contain 
-                create and update operations that take a collection of entities (similar to the already existing DAO 
+                The <![CDATA[<a href="andromda-spring-cartridge/index.html">Spring Cartridge</a>]]> DAOs now contain
+                create and update operations that take a collection of entities (similar to the already existing DAO
                 remove operation).  Please note that this change requires you to upgrade Spring to 1.1.5 or above.
             </action>
             <action dev="cwbrandon" type="update">
                 When generating value objects for webservices, the webservice cartridge no longer generates its own
                 value objects but instead uses the ones generated from the java cartridge, it's just required
-                to set the 
+                to set the
                 <![CDATA[<a href="andromda-metafacades-uml/namespace.html#useArraysForMultiplicitiesOfTypeMany">useArraysForMultiplicitiesOfTypeMany</a>]]>
                 namespace property to true (so that arrays are generated for association ends with multiplicities
                 of type many) and make sure you have the
-                <![CDATA[<a href="andromda-java-cartridge/namespace.html#value-objects">value-objects</a>]]> namespace 
+                <![CDATA[<a href="andromda-java-cartridge/namespace.html#value-objects">value-objects</a>]]> namespace
                 property defined for the java cartridge.
             </action>
             <action dev="draftdog" type="fix" issue="HIB-82">
@@ -730,9 +745,9 @@
         <release version="3.0-RC1" date="2005-03-27" desc="First release candidate for version 3.0" description="First release candidate for version 3.0">
             <action dev="draftdog" type="add" issue="HIB-81">
                 The Hibernate cartridge now generates readable foreign key constraint names where possible. This
-                information is generated into the mapping files and is processed by the 
+                information is generated into the mapping files and is processed by the
                 <![CDATA[<code>SchemaExport</code>]]> tool when generating the database schema DDL. The
-                <![CDATA[<code>@andromda.persistence.foreignkey.constraint</code>]]> tagged value can be used to 
+                <![CDATA[<code>@andromda.persistence.foreignkey.constraint</code>]]> tagged value can be used to
                 override the default name.
             </action>
             <action dev="draftdog" type="add" issue="BPM-154">
@@ -769,7 +784,7 @@
             </action>
             <action dev="draftdog" type="add">
                 The bpm4struts cartridge now supports exporting to PDF, existing projects will need to include
-                the <![CDATA[<a href="http://www.ibiblio.org/maven/itext/jars/itext-0.99.jar">IText v0.99</a>]]> 
+                the <![CDATA[<a href="http://www.ibiblio.org/maven/itext/jars/itext-0.99.jar">IText v0.99</a>]]>
                 dependency.
                 Add this dependency to your <![CDATA[<code>/web/project.xml</code>]]>.
             </action>
@@ -886,9 +901,9 @@
                 DAO inheritance hiearchy when inheritance between entities is modeled.
             </action>
             <action dev="cwbrandon" type="update">
-                The <![CDATA[<a href="andromda-spring-cartridge/index.html">Spring Cartridge</a>]]> must now be used 
+                The <![CDATA[<a href="andromda-spring-cartridge/index.html">Spring Cartridge</a>]]> must now be used
                 in conjunction with the
-                <![CDATA[<a href="andromda-hibernate-cartridge/index.html">Hibernate Cartridge</a>]]> when using 
+                <![CDATA[<a href="andromda-hibernate-cartridge/index.html">Hibernate Cartridge</a>]]> when using
                 Hibernate persistence.
             </action>
             <action dev="cwbrandon" type="update" issue="BPM-136">
@@ -941,8 +956,8 @@
                 Eager loading of relationships is now correctly supported when using composition.
             </action>
             <action dev="draftdog" type="add">
-                Bpm4struts is now able to generate <![CDATA[<code>id</code>]]> attributes in the web.xml descriptor, 
-                just use the<![CDATA[ <a href="andromda-bpm4struts-cartridge/namespace.html">generateWebXmlIds</a>]]> 
+                Bpm4struts is now able to generate <![CDATA[<code>id</code>]]> attributes in the web.xml descriptor,
+                just use the<![CDATA[ <a href="andromda-bpm4struts-cartridge/namespace.html">generateWebXmlIds</a>]]>
                 namespace property.
             </action>
             <action dev="cwbrandon" type="add" issue="SPRING-23">
@@ -998,7 +1013,7 @@
             </action>
             <action dev="carloslcuenca" type="add" issue="HIB-34">
                 The <![CDATA[<a href="andromda-hibernate-cartridge/index.html">Hibernate</a>]]> and
-                <![CDATA[<a href="andromda-hibernate-spring/index.html">Spring</a>]]> cartridges are now able to define 
+                <![CDATA[<a href="andromda-hibernate-spring/index.html">Spring</a>]]> cartridges are now able to define
                 query cache settings.
             </action>
             <action dev="cwbrandon" type="fix">
@@ -1025,7 +1040,7 @@
                 in combination with the session because code is not executed in the expected order anymore.
             </action>
             <action dev="cwbrandon" type="add" issue="CORE-32">
-                All profile information has been externalized into mapping files.  This means that its now 
+                All profile information has been externalized into mapping files.  This means that its now
                 <![CDATA[<strong>VERY</strong>]]>
                 easy to change the default stereotype names, tagged values, or datatypes.  You can use the new
                 <![CDATA[<em>profileMappingsUri</em>]]> to point to a mappings file that overrides any default profile values.
@@ -1224,7 +1239,7 @@
                 message resources with a corresponding message, and next time the error occurs
                 this new message will be displayed (instead of the exception).
                 The exception handling pattern and a few other related properties are configurable,
-                you can learn more about them on 
+                you can learn more about them on
                 <![CDATA[<a href="andromda-bpm4struts-cartridge/namespace.html">BPM4Struts Namespace Properties</a>]]>.
                 <![CDATA[<strong>NOTE:</strong>]]> if the pattern can not be found in an exception processing
                 continues as normal and the exception will be displayed.

@@ -10,7 +10,7 @@
 <form-validation>
 
    <global>
-   
+
         <validator name="required"
                classname="org.apache.struts.validator.FieldChecks"
                   method="validateRequired"
@@ -67,7 +67,7 @@
                     fields[i++] = oRequired[x][1];
                     isValid = false;
                 }
-            } else if (field.type == "select-multiple") { 
+            } else if (field.type == "select-multiple") {
                 var numOptions = field.options.length;
                 lastSelected=-1;
                 for(loop=numOptions-1;loop>=0;loop--) {
@@ -119,7 +119,7 @@
         }
         return field;
     }
-       
+
     // Trim whitespace from left and right sides of s.
     function trim(s) {
         return s.replace( /^\s*/, "" ).replace( /\s*$/, "" );
@@ -385,7 +385,7 @@
                         }
                     }
 
-                    valid = isValidDate(day,month,year) && isValidTime(second,minute,hour);
+                    valid = isValidDate(day,month,year) && isValidDateTime(second,minute,hour);
                 }
 
                 if (!valid)
@@ -396,7 +396,7 @@
                 }
             }
         }
-        
+
         var bValid = true;
         if (fields.length > 0)
         {
@@ -429,7 +429,7 @@
         return true;
     }
 
-    function isValidTime(second, minute, hour) {
+    function isValidDateTime(second, minute, hour) {
         return (0<=hour && hour<24 && 0<=minute && minute<60 && 0<=second && second<60);
     }
 ]]>
