@@ -111,6 +111,11 @@
     <!-- The Hibernate interceptor -->
     <bean id="hibernateInterceptor" class="${hibernateUtils.springHibernatePackage}.HibernateInterceptor">
         <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+#if ($stringUtils.isNotBlank($hibernateInterceptorFlushMode))
+        <property name="flushMode">
+        	<value>$hibernateInterceptorFlushMode</value>
+        </property>
+#end
     </bean>
 
 #foreach($entity in $entities)

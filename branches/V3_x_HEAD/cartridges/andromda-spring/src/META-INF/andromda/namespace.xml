@@ -1051,6 +1051,19 @@
                    attempt to auto-generate conversions for date/time related attributes.
                 </documentation>
             </property>
+            <property name="hibernateInterceptorFlushMode" required="false">
+                <documentation>
+                    Specifies the FLUSH_MODE for the Hibernate Interceptor (<code>org.springframework.orm.hibernate.HibernateInterceptor</code>). 
+                    FLUSH_MODE determines the moment where all the generated SQL from a transaction should be flushed to the database. 
+                    <ul>
+                        Valid values are (<code>integer</code>):
+                        <li>0</li> FLUSH_NEVER
+                        <li>1</li> FLUSH_AUTO - default
+                        <li>2</li> FLUSH_EAGER
+                        <li>3</li> FLUSH_COMMIT
+                    </ul>
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Acegi Security">
             <documentation>
