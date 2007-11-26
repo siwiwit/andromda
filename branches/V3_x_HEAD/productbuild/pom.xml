@@ -37,14 +37,14 @@
     </licenses>
     <ciManagement>
         <system>continuum</system>
-        <notifiers>
+        <!--notifiers>
             <notifier>
                 <type>mail</type>
                 <configuration>
                     <address>committers@andromda.org</address>
                 </configuration>
             </notifier>
-        </notifiers>
+        </notifiers-->
     </ciManagement>
     <mailingLists>
         <mailingList>
