@@ -81,6 +81,7 @@
                 <property name="serviceRemoteServer">${remote.server}</property> 
                 <property name="serviceRemotePort">${remote.port}</property> 
                 <property name="serviceRemoteContext">${application.id}</property> 
+                <property name="serviceRemoteUrlPattern">/services</property>
                 
                 <property name="client">${source.client.codeGen.dir.java}</property>
                 <property name="client-config">${source.client.codeGen.dir.config}</property>
