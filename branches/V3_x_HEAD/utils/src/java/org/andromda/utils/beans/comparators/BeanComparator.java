@@ -67,7 +67,7 @@ public class BeanComparator
 
     // - The following variables are saved since we only need to check some things once
     //   within the method and checking each time slows performance.
-    private boolean areSameType = false;
+    private boolean assignableTypes = false;
 
     /**
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
@@ -87,15 +87,15 @@ public class BeanComparator
         // we'll assume that if the first set of objects are equal types
         // then all must be (this of course could turn out to be false, but may hinder
         // performance to check each object, each time).
-        if (!areSameType)
+        if (!assignableTypes)
         {
-            if (objectA.getClass() != objectB.getClass())
+            if (!objectA.getClass().isInstance(objectB) && !objectB.getClass().isInstance(objectA))
             {
                 String errMsg =
-                    methodName + " - objectA '" + objectA + "' and objectB '" + objectB + " must be of the same type";
+                    methodName + " - objectA '" + objectA + "' and objectB '" + objectB + " must be of assignable types ";
                 throw new ClassCastException(errMsg);
             }
-            areSameType = true;
+            assignableTypes = true;
         }
         try
         {
