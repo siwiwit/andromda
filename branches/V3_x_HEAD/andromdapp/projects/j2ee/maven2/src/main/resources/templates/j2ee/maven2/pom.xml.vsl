@@ -260,6 +260,12 @@
                 <artifactId>andromda-ocl-query-library</artifactId>
                 <version>$andromdaVersion</version>
                 <scope>runtime</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 #end
             <!-- This dependency provides the ability to implement your
