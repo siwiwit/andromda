@@ -167,7 +167,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
     }
 
-    private int calculateFirstResult(int pageNumber, int pageSize)
+    protected int calculateFirstResult(int pageNumber, int pageSize)
     {
         int firstResult = 0;
         if (pageNumber > 0)
