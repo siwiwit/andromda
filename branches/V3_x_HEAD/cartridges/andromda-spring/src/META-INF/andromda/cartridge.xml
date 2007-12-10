@@ -60,6 +60,7 @@
     <property reference="beanRefFactory"/>
     <property reference="beanRefFactoryId"/>
     <property reference="beanRefFactoryEjbId"/>
+    <property reference="beanNamePrefix"/>
     <property reference="transactionManager"/>
     <property reference="localTransactionManager"/>
     <property reference="userTransactionName"/>

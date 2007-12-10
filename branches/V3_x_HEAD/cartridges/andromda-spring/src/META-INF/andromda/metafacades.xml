@@ -27,6 +27,7 @@
     <property reference="richClient"/>
     <property reference="configPropertyPrefix"/>
     <property reference="jmsDestinationTemplatePattern"/>
+    <property reference="beanNamePrefix"/>
     <metafacade class="org.andromda.cartridges.spring.metafacades.SpringQueryOperationLogicImpl">
         <mapping>
             <stereotype>FINDER_METHOD</stereotype>

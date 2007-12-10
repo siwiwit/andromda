@@ -39,6 +39,11 @@ public class SpringGlobals
     final static String SERVICE_BASE_SUFFIX = "Base";
 
     /**
+     * The name prefix for all spring bean ids.   
+     */
+    final static String BEAN_NAME_PREFIX = "beanNamePrefix";
+    
+    /**
      * The bean name target suffix
      */
     final static String BEAN_NAME_TARGET_SUFFIX = "Target";

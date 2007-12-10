@@ -188,7 +188,8 @@ public class SpringServiceLogicImpl
      */
     protected java.lang.String handleGetBeanName(boolean targetSuffix)
     {
-        StringBuffer beanName = new StringBuffer(StringUtils.uncapitalize(StringUtils.trimToEmpty(this.getName())));
+        StringBuffer beanName = new StringBuffer(String.valueOf(this.getConfiguredProperty(SpringGlobals.BEAN_NAME_PREFIX)));
+        beanName.append(StringUtils.uncapitalize(StringUtils.trimToEmpty(this.getName())));
         if (targetSuffix)
         {
             beanName.append(SpringGlobals.BEAN_NAME_TARGET_SUFFIX);

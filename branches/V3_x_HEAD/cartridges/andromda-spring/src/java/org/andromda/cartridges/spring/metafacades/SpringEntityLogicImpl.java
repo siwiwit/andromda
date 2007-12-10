@@ -182,7 +182,8 @@ public class SpringEntityLogicImpl
     protected java.lang.String handleGetBeanName(boolean targetSuffix)
     {
         final String beanName = StringUtils.uncapitalize(StringUtils.trimToEmpty(this.getName()));
-        final StringBuffer beanNameBuffer = new StringBuffer(this.getDaoNamePattern().replaceAll("\\{0\\}", beanName));
+        StringBuffer beanNameBuffer = new StringBuffer(String.valueOf(this.getConfiguredProperty(SpringGlobals.BEAN_NAME_PREFIX))); 
+        beanNameBuffer.append(this.getDaoNamePattern().replaceAll("\\{0\\}", beanName));
         if (targetSuffix)
         {
             beanNameBuffer.append(SpringGlobals.BEAN_NAME_TARGET_SUFFIX);

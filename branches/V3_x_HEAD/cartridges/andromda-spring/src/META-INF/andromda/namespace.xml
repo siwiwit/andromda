@@ -512,6 +512,12 @@
                     The ID for the Spring bean reference factory that holds the EJB references.
                 </documentation>
             </property>
+            <property name="beanNamePrefix">
+                <default></default>
+                <documentation>
+                    The name prefix for all spring bean ids.
+                </documentation>
+            </property>
             <property name="transactionManager">
                 <default>org.springframework.transaction.jta.JtaTransactionManager</default>
                 <documentation>

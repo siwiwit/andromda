@@ -14,7 +14,7 @@
 #set ($daosEnabled = $daosEnabled && !$entities.empty)
 ## only generate this stuff if 'daos' has been defined in a namespace
 #if ($daosEnabled)
-    <bean id="hibernateMappingLocations" class="org.springframework.beans.factory.config.ListFactoryBean">
+    <bean id="${beanNamePrefix}hibernateMappingLocations" class="org.springframework.beans.factory.config.ListFactoryBean">
         <property name="sourceList">
             <list>
                 <!-- applicationContext hibernateMappingLocations merge-point -->
@@ -27,7 +27,7 @@
          </property>
     </bean>
 
-    <bean id="hibernateProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <bean id="${beanNamePrefix}hibernateProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <props>
 #if ($stringUtils.isNotBlank($hibernatePoolSize))
@@ -102,15 +102,15 @@
     </bean>
 
     <!-- Hibernate SessionFactory -->
-    <bean id="sessionFactory" class="$sessionFactory">
-        <property name="dataSource"><ref bean="dataSource"/></property>
-        <property name="mappingLocations"><ref bean="hibernateMappingLocations"/></property>
-        <property name="hibernateProperties"><ref bean="hibernateProperties"/></property>
+    <bean id="${beanNamePrefix}sessionFactory" class="$sessionFactory">
+        <property name="dataSource"><ref bean="${beanNamePrefix}dataSource"/></property>
+        <property name="mappingLocations"><ref bean="${beanNamePrefix}hibernateMappingLocations"/></property>
+        <property name="hibernateProperties"><ref bean="${beanNamePrefix}hibernateProperties"/></property>
     </bean>
 
     <!-- The Hibernate interceptor -->
-    <bean id="hibernateInterceptor" class="${hibernateUtils.springHibernatePackage}.HibernateInterceptor">
-        <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+    <bean id="${beanNamePrefix}hibernateInterceptor" class="${hibernateUtils.springHibernatePackage}.HibernateInterceptor">
+        <property name="sessionFactory"><ref bean="${beanNamePrefix}sessionFactory"/></property>
 #if ($stringUtils.isNotBlank($hibernateInterceptorFlushMode))
         <property name="flushMode">
         	<value>$hibernateInterceptorFlushMode</value>
@@ -123,7 +123,7 @@
     <bean id="$entity.getBeanName(false)" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="target">
             <bean class="$entity.fullyQualifiedDaoImplementationName">
-                <property name="sessionFactory"><ref local="sessionFactory"/></property>
+                <property name="sessionFactory"><ref local="${beanNamePrefix}sessionFactory"/></property>
 ## Because of a bug in Spring with circular references (and using AOP proxies),
 ## we need to use the lookup-method as a work-a-round for dependencies
 ## which represent circular references
@@ -158,7 +158,7 @@
         </property>
         <property name="interceptorNames">
             <list>
-                <value>hibernateInterceptor</value>
+                <value>${beanNamePrefix}hibernateInterceptor</value>
             </list>
         </property>
     </bean>
@@ -171,7 +171,7 @@
 #if ($enableSpringTransactions)
     <!-- Service Transactional Interceptor -->
     <bean id="serviceTransactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
-        <property name="transactionManager"><ref bean="transactionManager"/></property>
+        <property name="transactionManager"><ref bean="${beanNamePrefix}transactionManager"/></property>
         <property name="transactionAttributeSource">
             <value>
 #foreach ($service in $services)
@@ -228,13 +228,13 @@
         <property name="interceptorNames">
             <list>
 #if ($acegiServiceSecurity && !$service.private)
-                <value>serviceSecurityInterceptor</value>
+                <value>${beanNamePrefix}serviceSecurityInterceptor</value>
 #end
 #if ($enableSpringTransactions)
-                <value>serviceTransactionInterceptor</value>
+                <value>${beanNamePrefix}serviceTransactionInterceptor</value>
 #end
 #if ((!$entities.empty || !$service.allEntityReferences.empty) && $service.hibernateInterceptorEnabled)
-                <value>hibernateInterceptor</value>
+                <value>${beanNamePrefix}hibernateInterceptor</value>
 #end
 #foreach($interceptor in $service.interceptors)
                 <value>$interceptor</value>
@@ -249,8 +249,8 @@
 #if ($acegiServiceSecurity)
     <!-- ================= Start of ACEGI SERVICE SECURITY DEFINITIONS ================ -->
 
-    <bean id="serviceSecurityInterceptor" class="$acegiServiceSecurityInterceptor">
-        <property name="accessDecisionManager"><ref bean="serviceAccessDecisionManager"/></property>
+    <bean id="${beanNamePrefix}serviceSecurityInterceptor" class="$acegiServiceSecurityInterceptor">
+        <property name="accessDecisionManager"><ref bean="${beanNamePrefix}serviceAccessDecisionManager"/></property>
 #if ($stringUtils.isNotBlank($acegiAuthenticationManager))
         <property name="authenticationManager"><ref bean="$acegiAuthenticationManager"/></property>
 #end
@@ -271,18 +271,18 @@
         </property>
     </bean>
 
-    <bean id="serviceAccessDecisionManager" class="$acegiServiceAccessDecisionManager">
+    <bean id="${beanNamePrefix}serviceAccessDecisionManager" class="$acegiServiceAccessDecisionManager">
         <property name="allowIfAllAbstainDecisions">
             <value>false</value>
         </property>
         <property name="decisionVoters">
             <list>
-                <ref local="serviceDecisionVoter"/>
+                <ref local="${beanNamePrefix}serviceDecisionVoter"/>
             </list>
         </property>
     </bean>
 
-    <bean id="serviceDecisionVoter" class="$acegiServiceDecisionVoter">
+    <bean id="${beanNamePrefix}serviceDecisionVoter" class="$acegiServiceDecisionVoter">
         <property name="rolePrefix"><value>$acegiRolePrefix</value></property>
     </bean>
 
