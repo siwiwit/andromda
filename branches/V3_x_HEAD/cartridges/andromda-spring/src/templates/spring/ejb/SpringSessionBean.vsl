@@ -17,7 +17,7 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
 #end
     implements $service.fullyQualifiedName
 {
-#set ($businessObject = $stringUtils.uncapitalize($service.name))
+#set ($businessObject = $service.beanName)
     private $service.fullyQualifiedName $businessObject;
 
 #foreach ( $operation in $service.implementationOperations )
