@@ -23,7 +23,7 @@ public class $className
     /**
      * The prefix used for all bean ids.
      */
-    public static final BEAN_PREFIX = "${beanNamePrefix}"; 
+    public static final String BEAN_PREFIX = "${beanNamePrefix}"; 
 
     /**
      * The shared instance of this $className.
