@@ -170,7 +170,7 @@
 #set ($enableSpringTransactions = ($enableSpringTransactionsWhenEjbsEnabled.equalsIgnoreCase("true") || !$ejbsEnabled) && !$services.empty && $springUtils.publicServicesPresent($services))
 #if ($enableSpringTransactions)
     <!-- Service Transactional Interceptor -->
-    <bean id="serviceTransactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+    <bean id="${beanNamePrefix}serviceTransactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
         <property name="transactionManager"><ref bean="${beanNamePrefix}transactionManager"/></property>
         <property name="transactionAttributeSource">
             <value>
