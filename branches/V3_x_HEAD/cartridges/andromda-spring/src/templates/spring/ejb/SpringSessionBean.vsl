@@ -17,7 +17,7 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
 #end
     implements $service.fullyQualifiedName
 {
-#set ($businessObject = $service.beanName)
+#set ($businessObject = $stringUtils.uncapitalize($service.name))
     private $service.fullyQualifiedName $businessObject;
 
 #foreach ( $operation in $service.implementationOperations )
@@ -89,7 +89,7 @@ public#if($service.abstract) abstract#end class $service.ejbImplementationName
         super.onEjbCreate();
 #end
         this.${businessObject} = ($service.fullyQualifiedName)
-            getBeanFactory().getBean("${businessObject}");
+            getBeanFactory().getBean("${service.beanName}");
     }
 
 #set ($seeComment = "@see javax.ejb.SessionBean#setSessionContext(javax.ejb.SessionContext)")
