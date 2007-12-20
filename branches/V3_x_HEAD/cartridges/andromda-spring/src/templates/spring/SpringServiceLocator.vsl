@@ -21,6 +21,11 @@ public class $serviceLocatorName
     }
 
     /**
+     * The prefix used for all bean ids.
+     */
+    public static final String BEAN_PREFIX = "${beanNamePrefix}";
+
+    /**
      * The shared instance of this ${serviceLocatorName}.
      */
     private final static ${serviceLocatorName} instance = new ${serviceLocatorName}();
@@ -160,7 +165,7 @@ public class $serviceLocatorName
      */
     public final Object getService(String serviceName)
     {
-        return getContext().getBean(serviceName);
+        return getContext().getBean(BEAN_PREFIX + serviceName);
     }
 
 }
