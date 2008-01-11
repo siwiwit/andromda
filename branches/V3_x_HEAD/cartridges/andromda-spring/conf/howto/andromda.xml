@@ -8,7 +8,7 @@
                 <model>
                     <uri>${andromda.cartridge.howto.model.uri}</uri>
                     <moduleSearchLocations>
-                        <location patterns="**/*.xml.zip">${basedir}/../../profiles</location>
+                        <location patterns="**/*.xml.zip">${basedir}/../../profiles/uml-1.4</location>
                     </moduleSearchLocations>
                 </model>
             </models>            
