@@ -58,12 +58,14 @@ public class EclipseMojo
      */
     private MavenProject project;
 
+    private static final String POM_FILE_NAME = "pom.xml";
+
     /**
      * Defines the POMs to include when generating the eclipse files.
      *
      * @parameter
      */
-    private String[] includes = new String[] {"*/**/pom.xml"};
+    private String[] includes = new String[] {"*/**/" + POM_FILE_NAME};
 
     /**
      * Defines the POMs to exclude when generating the eclipse files.
@@ -71,10 +73,10 @@ public class EclipseMojo
      * @parameter
      */
     private String[] excludes = new String[0];
-    
+
     /**
      * Used to contruct Maven project instances from POMs.
-     * 
+     *
      * @component
      */
     private MavenProjectBuilder projectBuilder;
@@ -130,10 +132,10 @@ public class EclipseMojo
      * @parameter expression="${resolveTransitiveDependencies}"
      */
     private boolean resolveTransitiveDependencies = true;
-   
+
     /**
      * Allows non-generated configuration to be "merged" into the generated .classpath file.
-     * 
+     *
      * @parameter
      */
     private String classpathMerge;
@@ -179,10 +181,10 @@ public class EclipseMojo
             throw new MojoExecutionException("Error creating eclipse configuration", throwable);
         }
     }
-    
+
     /**
      * Collects all existing project compile source roots.
-     * 
+     *
      * @return a collection of collections
      */
     private Map collectProjectCompileSourceRoots()
@@ -196,9 +198,9 @@ public class EclipseMojo
         }
         return sourceRoots;
     }
-    
+
     private List projects = new ArrayList();
-    
+
     /**
      * Collects all projects from all POMs within the current project.
      *
@@ -206,7 +208,7 @@ public class EclipseMojo
      *
      * @throws MojoExecutionException
      */
-    private List collectProjects() 
+    private List collectProjects()
         throws Exception
     {
         if (projects.isEmpty())
@@ -226,7 +228,7 @@ public class EclipseMojo
                             this.projectBuilder.build(
                                 pom,
                                 this.session.getLocalRepository(),
-                                new DefaultProfileManager(this.session.getContainer()));                
+                                new DefaultProfileManager(this.session.getContainer()));
                     }
                     this.getLog().info("found project " + project.getId());
                     projects.add(project);
@@ -243,7 +245,7 @@ public class EclipseMojo
     /**
      * Processes the project compile source roots (adds all appropriate ones to the projects)
      * so that they're avialable to the eclipse mojos.
-     * 
+     *
      * @param projects the projects to process.
      * @return the source roots.
      * @throws Exception
@@ -382,11 +384,12 @@ public class EclipseMojo
         if (this.rootProject == null)
         {
             final MavenProject firstParent = this.project.getParent();
+            File rootFile = this.project.getFile();
             if (firstParent != null)
             {
-                for (this.rootProject = firstParent; 
-                     this.rootProject.getParent() != null; 
-                     this.rootProject = this.rootProject.getParent())
+                for (this.rootProject = firstParent, rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME);
+                     this.rootProject.getParent() != null;
+                     this.rootProject = this.rootProject.getParent(), rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME))
                 {
                     ;
                 }
@@ -394,6 +397,11 @@ public class EclipseMojo
             else
             {
                 this.rootProject = this.project;
+            }
+            // - if the project has no file defined, use the rootFile
+            if (this.rootProject.getFile() == null)
+            {
+                this.rootProject.setFile(rootFile);
             }
         }
         return this.rootProject;
