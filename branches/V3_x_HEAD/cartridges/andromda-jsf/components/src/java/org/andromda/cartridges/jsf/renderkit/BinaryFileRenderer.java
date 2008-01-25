@@ -14,7 +14,7 @@ import org.andromda.cartridges.jsf.component.BinaryFile;
 
 /**
  * A custom renderer for rendering a binary file.
- * 
+ *
  * @author Chad Brandon
  */
 public class BinaryFileRenderer
@@ -29,7 +29,7 @@ public class BinaryFileRenderer
     {
         return (HttpServletResponse)context.getExternalContext().getResponse();
     }
-    
+
     private static final int BUFFER_SIZE = 4096;
 
     /**
@@ -56,15 +56,19 @@ public class BinaryFileRenderer
                     "Content-disposition",
                     "attachment; filename=\"" + fileName + '"');
             }
-            
-            final Object value = fileComponent.getValue();
+
+            Object value = fileComponent.getValue();
             final String contentType = fileComponent.getContentType();
-            // - for IE we need to set the content type, content length and buffer size and 
+            // - for IE we need to set the content type, content length and buffer size and
             //   then the flush the response right away because it seems as if there is any lag time
             //   IE just displays a blank page. With mozilla based clients reports display correctly regardless.
             if (contentType != null && contentType.length() > 0)
             {
                 response.setContentType(contentType);
+            }
+            if (value instanceof String)
+            {
+                value = ((String)value).getBytes();
             }
             if (value instanceof byte[])
             {
@@ -83,7 +87,7 @@ public class BinaryFileRenderer
                 final byte[] buffer = new byte[BUFFER_SIZE];
                 response.setBufferSize(BUFFER_SIZE);
                 response.flushBuffer();
-                for (int ctr = 0; (ctr = report.read(buffer)) > 0;) 
+                for (int ctr = 0; (ctr = report.read(buffer)) > 0;)
                 {
                     stream.write(buffer, 0, ctr);
                 }
