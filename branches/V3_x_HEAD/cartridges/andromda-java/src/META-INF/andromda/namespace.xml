@@ -75,6 +75,13 @@
                     represents the name of the interface.
                 </documentation>
             </property>
+            <property name="generateEqualPropertiesMethod">
+                <default>false</default>
+                <documentation>
+                    When set to 'true' the cartridge will generate an equalProperties(..) method which can be used
+                    to compare a value object's properties to that of another instance's.
+                </documentation>
+            </property>
         </propertyGroup>
     </properties>
 </namespace>

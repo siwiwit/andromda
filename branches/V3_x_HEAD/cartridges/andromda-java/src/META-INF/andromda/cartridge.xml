@@ -2,16 +2,18 @@
 
     <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine"/>
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
-    <!-- cartridge-templateObject merge-point-->  
+    <!-- cartridge-templateObject merge-point-->
 
     <property reference="serializable"/>
     <property reference="enablePropertyConstructors"/>
     <property reference="toDoTag"/>
     <property reference="enableTemplating"/>
-    <!-- cartridge-property merge-point-->  
-    
+    <property reference="generateEqualPropertiesMethod"/>
+    <!-- cartridge-property merge-point-->
+
     <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
     <condition name="serializable">$serializable.equalsIgnoreCase("true")</condition>
+    <condition name="generateEqualPropertiesMethod">$generateEqualPropertiesMethod.equalsIgnoreCase("true")</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
@@ -86,7 +88,7 @@
             </modelElement>
         </modelElements>
     </template>
-	
+
 	<template
         path="templates/java/TypeSafeEnumeration.vsl"
         outputPattern="{0}/{1}.java"
@@ -111,10 +113,10 @@
                 <type name="org.andromda.metafacades.uml.ClassifierFacade">
                     <property name="interface"/>
                 </type>
-            </modelElement>           
-        </modelElements>  
+            </modelElement>
+        </modelElements>
     </template>
-    
+
     <template
         path="templates/java/InterfaceImpl.vsl"
         outputPattern="$generatedFile"
@@ -125,8 +127,8 @@
                 <type name="org.andromda.metafacades.uml.ClassifierFacade">
                     <property name="interface"/>
                 </type>
-            </modelElement>           
-        </modelElements>  
+            </modelElement>
+        </modelElements>
     </template>
 
     <!-- cartridge-template merge-point -->
