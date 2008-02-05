@@ -68,6 +68,7 @@
                                         <exclude>**/.cvsignore</exclude>
                                         <exclude>*</exclude>
                                         <exclude>**/*.log</exclude>
+                                        <exclude>timetracker/**</exclude>
                                     </excludes>
                                     <outputPath>samples/</outputPath>
                                 </location>
@@ -158,7 +159,7 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>                  
+                    </plugin>
                 </plugins>
             </build>
         </profile>
