@@ -14,6 +14,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParser;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.Reader;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ import java.util.Map;
  * 
  * Based taken from Apache Foundation Doxia Project.
  *
- * @version $Id: AndromdadocParser.java,v 1.1.2.3 2007-01-10 00:21:13 vancek Exp $
+ * @version $Id: AndromdadocParser.java,v 1.1.2.4 2008-02-05 00:59:02 carloslcuenca Exp $
  * 
  * @plexus.component role="org.apache.maven.doxia.parser.Parser" role-hint="andromdadoc"
  */
@@ -173,7 +174,7 @@ public class AndromdadocParser extends AbstractParser
                         parameters.put(parser.getAttributeName(i), parser.getAttributeValue(i));
                     }
 
-                    MacroRequest request = new MacroRequest(parameters);
+                    MacroRequest request = new MacroRequest(parameters, new File(""));
 
                     executeMacro(macroId, request, sink);
                 }

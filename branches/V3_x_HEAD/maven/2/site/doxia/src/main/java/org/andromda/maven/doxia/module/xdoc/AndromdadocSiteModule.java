@@ -4,10 +4,10 @@ package org.andromda.maven.doxia.module.xdoc;
  * Based on The Apache Software Foundation XdocModule
  */
 
-import org.apache.maven.doxia.site.module.SiteModule;
+import org.apache.maven.doxia.module.site.SiteModule;
 
 /**
- * @version $Id: AndromdadocSiteModule.java,v 1.1.2.3 2007-01-10 00:21:13 vancek Exp $
+ * @version $Id: AndromdadocSiteModule.java,v 1.1.2.4 2008-02-05 00:59:01 carloslcuenca Exp $
  * 
  * Based taken from Apache Foundation Doxia Project.
  * 
