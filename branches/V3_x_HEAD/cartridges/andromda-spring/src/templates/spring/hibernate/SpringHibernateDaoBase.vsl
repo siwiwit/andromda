@@ -933,6 +933,10 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                 {
                     result = toEntity((java.lang.Object[])input);
                 }
+                else if (input instanceof $entity.fullyQualifiedEntityName)
+                {
+                    result = input;
+                }
                 return result;
             }
         };
