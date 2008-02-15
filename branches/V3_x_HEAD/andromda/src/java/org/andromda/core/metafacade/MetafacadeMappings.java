@@ -1,5 +1,6 @@
 package org.andromda.core.metafacade;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,6 +33,7 @@ import org.apache.log4j.Logger;
  */
 public class MetafacadeMappings
     extends BaseNamespaceComponent
+    implements Serializable
 {
     /**
      * Holds the references to the child MetafacadeMapping instances.

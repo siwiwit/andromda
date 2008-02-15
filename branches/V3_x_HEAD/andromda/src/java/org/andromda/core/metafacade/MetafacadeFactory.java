@@ -1,5 +1,6 @@
 package org.andromda.core.metafacade;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ import org.apache.log4j.Logger;
  * @author Peter Friese
  */
 public class MetafacadeFactory
+    implements Serializable
 {
     /**
      * Caches the registered properties used within metafacades.
@@ -344,12 +346,12 @@ public class MetafacadeFactory
 
         if (metafacade != null)
         {
-            // if the requested metafacadeClass is different from the one in the mapping, contextRoot should be reset 
-            if (mapping != null && !mapping.getMetafacadeClass().equals(metafacadeClass)) 
-            { 
-                metafacade.setContextRoot(false); 
-                metafacade.resetMetafacadeContext(context); 
-            } 
+            // if the requested metafacadeClass is different from the one in the mapping, contextRoot should be reset
+            if (mapping != null && !mapping.getMetafacadeClass().equals(metafacadeClass))
+            {
+                metafacade.setContextRoot(false);
+                metafacade.resetMetafacadeContext(context);
+            }
             // we need to set some things each time
             // we change a metafacade's namespace
             final String metafacadeNamespace = metafacade.getNamespace();

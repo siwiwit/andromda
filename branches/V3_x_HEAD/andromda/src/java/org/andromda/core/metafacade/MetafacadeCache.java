@@ -1,5 +1,6 @@
 package org.andromda.core.metafacade;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
  * @author Chad Brandon
  */
 public final class MetafacadeCache
+    implements Serializable
 {
     /**
      * Constructs a new instance of this class.

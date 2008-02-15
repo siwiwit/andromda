@@ -1,5 +1,6 @@
 package org.andromda.core.profile;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
@@ -22,6 +23,7 @@ import org.andromda.core.namespace.BaseNamespaceComponent;
  */
 public class Profile
     extends BaseNamespaceComponent
+    implements Serializable
 {
     /**
      * The shared instance of this class.
