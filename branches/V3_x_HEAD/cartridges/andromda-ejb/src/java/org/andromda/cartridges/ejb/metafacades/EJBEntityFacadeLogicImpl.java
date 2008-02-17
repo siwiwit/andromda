@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 
 
 /**
- * <p/>
+ * <p>
  * Represents an entity EJB. </p> Metaclass facade implementation.
  */
 public class EJBEntityFacadeLogicImpl

@@ -184,12 +184,12 @@ $literal.getDocumentation("     * ")
     /**
      * This method allows the deserialization of an instance of this enumeration type to return the actual instance
      * that will be the singleton for the JVM in which the current thread is running.
-     * <p/>
+     * <p>
      * Doing this will allow users to safely use the equality operator <code>==</code> for enumerations because
      * a regular deserialized object is always a newly constructed instance and will therefore never be
      * an existing reference; it is this <code>readResolve()</code> method which will intercept the deserialization
      * process in order to return the proper singleton reference.
-     * <p/>
+     * <p>
      * This method is documented here:
      * <a href="http://java.sun.com/j2se/1.3/docs/guide/serialization/spec/input.doc6.html">Java
      * Object Serialization Specification</a>

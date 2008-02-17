@@ -208,7 +208,7 @@ public class WebServiceLogicImpl
     }
 
     /**
-     * <p/> Loads all <code>types</code> and <code>nonArrayTypes</code> for
+     * <p> Loads all <code>types</code> and <code>nonArrayTypes</code> for
      * the specified <code>type</code>. For each array type we collect the
      * <code>nonArrayType</code>. Non array types are loaded seperately so
      * that they are added at the end at the type collecting process. Since the
@@ -321,7 +321,7 @@ public class WebServiceLogicImpl
     }
 
     /**
-     * <p/> Checks to see if the <code>types</code> collection contains the
+     * <p> Checks to see if the <code>types</code> collection contains the
      * <code>modelElement</code>. It does this by checking to see if the
      * model element is either an association end or some type of model element
      * that has a type that's an array. If it's either an array <strong>OR

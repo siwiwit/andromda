@@ -38,7 +38,7 @@ public interface $entity.daoName
      * This constant is used as a transformation flag; entities can be converted automatically into value objects
      * or other types, different methods in a class implementing this interface support this feature: look for
      * an <code>int</code> parameter called <code>transform</code>.
-     * <p/>
+     * <p>
      * This specific flag denotes no transformation will occur.
      */
     public final static int $entity.daoNoTransformationConstantName = 0;
@@ -65,7 +65,7 @@ public interface $entity.daoName
      * This constant is used as a transformation flag; entities can be converted automatically into value objects
      * or other types, different methods in a class implementing this interface support this feature: look for
      * an <code>int</code> parameter called <code>transform</code>.
-     * <p/>
+     * <p>
      * This specific flag denotes entities must be transformed into objects of type
      * {@link $valueObjectRef.targetElement.fullyQualifiedName}.
      */
@@ -300,7 +300,7 @@ public interface $entity.daoName
      * <p>
      * Does the same thing as {@link #create($entity.getRequiredAttributeTypeList(true,false))} with an
      * additional flag called <code>transform</code>. If this flag is set to <code>$entity.daoNoTransformationConstantName</code> then
-     * the returned entity will <strong>NOT</strong be transformed. If this flag is any of the other constants
+     * the returned entity will <strong>NOT</strong> be transformed. If this flag is any of the other constants
      * defined here then the result <strong>WILL BE</strong> passed through an operation which can optionally
      * transform the entity (into a value object for example). By default, transformation does
      * not occur.
@@ -352,7 +352,7 @@ public interface $entity.daoName
     public void remove($identifier.type.fullyQualifiedName $identifier.name);
 
     /**
-     * Removes all entities in the given <code>entities<code> collection.
+     * Removes all entities in the given <code>entities</code> collection.
      */
     public void remove($entityCollectionType entities);
 

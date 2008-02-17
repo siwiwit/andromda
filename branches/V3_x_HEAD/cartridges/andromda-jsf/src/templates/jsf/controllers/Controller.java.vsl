@@ -505,10 +505,10 @@ $decisionTransition.getDocumentation("     * ")
 #set ($targetElement = $sessionObjectRef.targetElement)
     /**
      * Returns the current $targetElement.name from the session found in the argument request.
-     * <p/>
+     * <p>
      * In case an object was found in the session but it was not of the correct type, this method
      * will return <code>null</code>.
-     * <p/>
+     * <p>
      * If there is no session, it will be created; if the session does not contain the session-object
      * the object will be instantiated and subsequently stored in the session.
      */

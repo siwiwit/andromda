@@ -20,14 +20,14 @@ import org.andromda.metafacades.uml.EntityMetafacadeUtils;
 
 
 /**
- * <p/> Provides support for the hibernate inheritance strategies of class
+ * <p> Provides support for the hibernate inheritance strategies of class
  * (table per hierarchy), subclass (table per subclass in hierarchy) and
  * concrete (table per class). With concrete the strategy can be changed lower
  * down. Also provides for the root class being defined as an interface and the
  * attributes remapped to the subclasses. This is useful in the concrete case
  * becuase it has limitations in the associations.
  * </p>
- * <p/> Also provides support for not generating the entity factory which is
+ * <p> Also provides support for not generating the entity factory which is
  * useful when using subclass mode.
  * </p>
  *
@@ -176,7 +176,7 @@ public class HibernateEntityLogicImpl
         {
             inheritance = superEntity.getHibernateInheritanceStrategy();
         }
-
+        
         inheritance = inheritance != null ? inheritance.toLowerCase() : null;
 
         if (StringUtils.isBlank(inheritance) || !inheritanceStrategies.contains(inheritance))
@@ -766,7 +766,7 @@ public class HibernateEntityLogicImpl
         }
         return version;
     }
-
+    
     /**
      * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntity#getHibernateVersionPropertySqlName()
      */

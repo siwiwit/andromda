@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 /**
- * <p/>
+ * <p>
  *  A configurable pattern matching error handler retrieves exception mapping
  *  keys from an exception. This is used to retrieve keys from the back-end exceptions
  *  which can be mapped to exception messages keyed in an application resource

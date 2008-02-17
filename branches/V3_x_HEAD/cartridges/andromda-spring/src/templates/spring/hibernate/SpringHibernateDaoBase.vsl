@@ -121,7 +121,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#loadAll()
      */
 #if ($enableTemplating)
-    @SuppressWarnings({"unchecked"})
+    @java.lang.SuppressWarnings({"unchecked"})
 #end
     public $entityCollectionType loadAll()
     {
@@ -201,7 +201,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#create(int transform, org.dom4j.Element)
      */
 #if ($enableTemplating)
-    @SuppressWarnings({"unchecked"})
+    @java.lang.SuppressWarnings({"unchecked"})
 #end
     public java.lang.Object create(int transform, final org.dom4j.Element $argumentName)
     {
@@ -258,7 +258,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#create($entityCollectionType)
      */
 #if ($enableTemplating)
-    @SuppressWarnings({"unchecked"})
+    @java.lang.SuppressWarnings({"unchecked"})
 #end
     public $entityCollectionType create(final $entityCollectionType entities)
     {
@@ -517,7 +517,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#$finder.getSignature(false)
      */
 #if ($enableTemplating)
-    @SuppressWarnings({"unchecked"})
+    @java.lang.SuppressWarnings({"unchecked"})
 #end
     $finder.visibility $returnType $finder.signature
 #if ($finder.exceptionsPresent)
@@ -559,7 +559,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
 #if ($enableTemplating)
-    @SuppressWarnings({"unchecked"})
+    @java.lang.SuppressWarnings({"unchecked"})
 #end
     $finder.visibility $returnType ${finder.name}(final java.lang.String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -578,7 +578,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
 #if ($enableTemplating)
-    @SuppressWarnings({"unchecked"})
+    @java.lang.SuppressWarnings({"unchecked"})
 #end
     $finder.visibility $returnType ${finder.name}(final int pageNumber, final int pageSize#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -592,7 +592,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(String, int, int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
 #if ($enableTemplating)
-    @SuppressWarnings({"unchecked"})
+    @java.lang.SuppressWarnings({"unchecked"})
 #end
     $finder.visibility $returnType ${finder.name}(final String queryString, final int pageNumber, final int pageSize#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -634,7 +634,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if ($finder.returnType.collectionType), int, int#end#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
 #if ($enableTemplating)
-    @SuppressWarnings("unchecked")
+    @java.lang.SuppressWarnings("unchecked")
 #end
     $finder.visibility $returnType ${finder.name}(final int transform, final java.lang.String queryString#if ($finder.returnType.collectionType), int pageNumber, int pageSize#end#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
@@ -837,7 +837,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * that the {@link #$entity.daoNoTransformationConstantName} constant denotes no transformation, so the entity itself
      * will be returned.
 #if (!$entity.valueObjectReferences.empty)
-     * <p/>
+     * <p>
      * This method will return instances of these types:
      * <ul>
      *   <li>{@link $entity.fullyQualifiedName} - {@link #$entity.daoNoTransformationConstantName}</li>
@@ -885,7 +885,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * Transforms a collection of entities using the
      * {@link #transformEntity(int,$entity.fullyQualifiedName)}
      * method. This method does not instantiate a new collection.
-     * <p/>
+     * <p>
      * This method is to be used internally only.
      *
      * @param transform one of the constants declared in <code>$entity.fullyQualifiedDaoName</code>
@@ -976,7 +976,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#${valueObjectRef.transformationToArrayMethodName}(java.util.Collection)
      */
 #if ($enableTemplating)
-    @SuppressWarnings("unchecked")
+    @java.lang.SuppressWarnings("unchecked")
 #end
     public final ${valueObjectRef.targetElement.fullyQualifiedName}[] ${valueObjectRef.transformationToArrayMethodName}(java.util.Collection#if($enableTemplating)<?>#end entities)
     {
@@ -1144,7 +1144,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#search(int, int, int, $fullyQualifiedSearchClassName)
      */
 #if ($enableTemplating)
-    @SuppressWarnings("unchecked")
+    @java.lang.SuppressWarnings("unchecked")
 #end
     public $fullyQualifiedPagingResultName search(final int transform, final int pageNumber, final int pageSize, final $fullyQualifiedSearchClassName search)
     {
@@ -1195,7 +1195,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      * @see ${entity.fullyQualifiedDaoName}#search($fullyQualifiedSearchClassName)
      */
 #if ($enableTemplating)
-    @SuppressWarnings("unchecked")
+    @java.lang.SuppressWarnings("unchecked")
 #end
     public java.util.Set#if($enableTemplating)<#if($daoInheritance)? extends #end${rootEntityType}>#end search(final $fullyQualifiedSearchClassName search)
     {
