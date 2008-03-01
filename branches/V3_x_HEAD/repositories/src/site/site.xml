@@ -23,6 +23,6 @@
             <item name="EMF" href="andromda-repository-emf/index.html"/>	
             <item name="EMF-UML2" href="andromda-repository-emf-uml2/index.html"/>	
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

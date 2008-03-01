@@ -13,6 +13,6 @@
     	<links>
     		<item name="Validation Translation-Library" href="/index.html"/>
     	</links>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

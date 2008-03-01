@@ -10,7 +10,6 @@
     </bannerLeft>
     <publishDate format="dd MMM yyyy hh:mm zzz"/>
     <body>
-
         <menu name="Overview">
             <item name="What is AndroMDA?" href="/whatisit.html"/>
             <item name="Getting Started - Java" href="/getting-started/java/index.html"/>
@@ -19,7 +18,6 @@
             <item name="Samples" href="/samples.html"/>
             <item name="Release History" href="/changes-report.html"/>
         </menu>
-
         <menu name="Usage">
             <item name="Configuration" href="/configuration.html"/>
             <item name="How-to Guides" href="/howto-guides.html"/>
@@ -31,7 +29,6 @@
             <item name="UML Tools" href="/case-tools.html"/>
             <item name="FAQ" href="/faq.html"/>
         </menu>
-
         <menu name="Components">
             <item name="Core" href="/andromda-core/index.html"/>
             <item name="Cartridges" href="/andromda-cartridges/index.html"/>
@@ -40,13 +37,11 @@
             <item name="Repositories" href="/andromda-repositories/index.html"/>
             <item name="Template Engines" href="/andromda-templateengines/index.html"/>
         </menu>
-
         <menu name="Downloads">
             <item name="Releases" href="/releases.html"/>
             <item name="Continuous Builds" href="http://team.andromda.org/maven2/org/andromda/distributions/"/>
             <item name="Resources" href="/resources.html"/>
         </menu>
-
         <menu name="Community">
             <item name="Support Forum" href="http://forum.andromda.org"/>
             <item name="Mailing Lists" href="/mail-lists.html"/>
@@ -60,7 +55,6 @@
             <item name="Pictures" href="/pictures.html"/>
             <item name="Other Links" href="/otherlinks.html"/>
         </menu>
-
         <menu name="Developers">
             <item name="Building AndroMDA" href="/building.html"/>
             <item name="Coding / Patching" href="/coding-conventions.html"/>
@@ -69,12 +63,11 @@
             <item name="CVS Repository" href="/source-repository.html"/>
             <item name="Debugging" href="/dev-debugging.html"/>
         </menu>
-
         <menu name="Professional services">
             <item name="Consulting" href="/consulting.html"/>
             <item name="Training"   href="/training.html"/>
         </menu>
-        ${reports}
+        <menu ref="reports"/>
     </body>
 </project>
 

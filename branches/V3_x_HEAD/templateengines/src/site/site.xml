@@ -21,6 +21,6 @@
     	<menu name="Available Template Engines">
 			<item name="Velocity" href="andromda-templateengine-velocity/index.html"/>	
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

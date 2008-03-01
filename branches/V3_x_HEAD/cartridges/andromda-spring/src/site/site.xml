@@ -30,6 +30,6 @@
             <item name="Security" href="/howto8.html"/>
             <item name="Tips &amp; Tricks" href="/tips.html"/>
         </menu>
-        ${reports}
+        <menu ref="reports"/>
   	</body>
 </project>

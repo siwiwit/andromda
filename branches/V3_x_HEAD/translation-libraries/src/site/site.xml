@@ -15,19 +15,19 @@
       		<item name="Translation-Libraries" href="/index.html"/>
     	</links>
 		<menu name="Overview">
-			<item name="About" href="/index.html"/>
-			<item name="Contents" href="/contents.html"/>
-			<item name="Developing" href="/developing.html"/>
+			<item name="About" href="index.html"/>
+			<item name="Contents" href="contents.html"/>
+			<item name="Developing" href="developing.html"/>
     	</menu>
     	<menu name="Schemas">
-    		<item name="Descriptor" href="/descriptor-schema.html"/>
-    		<item name="Translation" href="/translation-schema.html"/>
-    		<item name="TranslationTest" href="/translation-test-schema.html"/>
+    		<item name="Descriptor" href="descriptor-schema.html"/>
+    		<item name="Translation" href="translation-schema.html"/>
+    		<item name="TranslationTest" href="translation-test-schema.html"/>
     	</menu>
     	<menu name="Translation-Libraries">
-			<item name="Query" href="/andromda-ocl-translation-libraries/andromda-ocl-query-library/index.html"/>
-			<item name="Validation" href="/andromda-ocl-translation-libraries/andromda-ocl-validation-library/index.html"/>
+			<item name="Query" href="andromda-ocl-translation-libraries/andromda-ocl-query-library/index.html"/>
+			<item name="Validation" href="andromda-ocl-translation-libraries/andromda-ocl-validation-library/index.html"/>
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

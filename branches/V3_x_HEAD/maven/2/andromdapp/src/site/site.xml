@@ -19,6 +19,6 @@
       		<item name="Properties" href="/properties.html"/>
 			<item name="Download" href="/download.html"/>
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

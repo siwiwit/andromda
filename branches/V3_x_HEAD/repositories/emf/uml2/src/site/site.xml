@@ -13,6 +13,6 @@
     	<links>
       		<item name="UML2 Repositories" href="/index.html"/>
     	</links>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

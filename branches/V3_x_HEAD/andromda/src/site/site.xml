@@ -14,6 +14,6 @@
     	    <item name="Home" href="../index.html"/>
       		<item name="Core" href="/index.html"/>
     	</links>
-    	${reports}
+        <menu ref="reports"/>
   	</body>
 </project>

@@ -21,6 +21,6 @@
         <menu name="How-to">
             <item name="Second Level Cache" href="/howto1.html"/>
         </menu>
-        ${reports}
+        <menu ref="reports"/>
   	</body>
 </project>

@@ -21,6 +21,6 @@
     		<item name="AndroMDA Cartridge Plugin" href="andromda-cartridge-plugin/index.html"/>
             <item name="AndroMDA Translation-Library Plugin" href="andromda-translation-library-plugin/index.html"/>
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

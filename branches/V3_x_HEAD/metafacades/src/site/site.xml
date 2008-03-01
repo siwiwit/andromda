@@ -30,6 +30,6 @@
         <menu name="Downloads">
             <item name="PDF" href="resources/andromda-metafacades.pdf"/>
         </menu>
-        ${reports}
+        <menu ref="reports"/>
   	</body>
 </project>

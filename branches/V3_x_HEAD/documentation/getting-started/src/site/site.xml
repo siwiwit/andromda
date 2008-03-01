@@ -10,7 +10,6 @@
     </bannerLeft>
     <publishDate format="dd MMM yyyy hh:mm zzz"/>
 	<body>
-
         <links>
             <item name="Home" href="../../index.html"/>
             <item name="MDA" href="http://www.omg.org/mda/"/>
@@ -19,7 +18,6 @@
             <item name="OCL" href="http://www.klasse.nl/ocl/index.html"/>
             <item name="XMI" href="http://www.omg.org/technology/documents/formal/xmi.htm"/>
         </links>
-
         <menu name="Getting Started">
             <item name="Introduction" href="/java/index.html"/>
             <item name="Sample Application" href="/java/sample-application.html"/>
@@ -33,6 +31,6 @@
             <item name="Complete the Model" href="/java/complete-timetracker-model.html"/>
             <item name="Enhance Console App" href="/java/enhance-console-app.html"/>
         </menu>
-        ${reports}
+        <menu ref="reports"/>
   	</body>
 </project>

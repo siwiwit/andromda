@@ -20,6 +20,6 @@
             <item name="Modeling" href="/modeling.html"/>
             <item name="Namespace" href="/namespace.html"/>
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

@@ -13,6 +13,6 @@
     	<links>
       		<item name="Velocity Engine" href="/index.html"/>
     	</links>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

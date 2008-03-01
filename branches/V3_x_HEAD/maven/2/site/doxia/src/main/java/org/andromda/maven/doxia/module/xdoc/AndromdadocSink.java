@@ -4,7 +4,7 @@ package org.andromda.maven.doxia.module.xdoc;
  * Based on The Apache Software Foundation XdocSink
  */
 
-import org.apache.maven.doxia.util.HtmlTools;
+import org.apache.maven.doxia.module.HtmlTools;
 import org.apache.maven.doxia.module.apt.AptParser;
 import org.apache.maven.doxia.sink.Sink;
 import org.apache.maven.doxia.sink.SinkAdapter;
@@ -19,7 +19,7 @@ import java.io.Writer;
  *
  * Based taken from Apache Foundation Doxia Project.
  * 
- * @version $Id: AndromdadocSink.java,v 1.1.2.4 2008-02-05 00:59:02 carloslcuenca Exp $
+ * @version $Id: AndromdadocSink.java,v 1.1.2.5 2008-03-01 14:37:21 vancek Exp $
  * 
  * @plexus.component role="org.apache.maven.doxia.sink.Sink" role-hint="andromdadoc"
  * 

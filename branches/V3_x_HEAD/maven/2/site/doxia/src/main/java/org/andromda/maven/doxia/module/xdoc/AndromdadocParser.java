@@ -24,7 +24,7 @@ import java.util.Map;
  * 
  * Based taken from Apache Foundation Doxia Project.
  *
- * @version $Id: AndromdadocParser.java,v 1.1.2.4 2008-02-05 00:59:02 carloslcuenca Exp $
+ * @version $Id: AndromdadocParser.java,v 1.1.2.5 2008-03-01 14:37:21 vancek Exp $
  * 
  * @plexus.component role="org.apache.maven.doxia.parser.Parser" role-hint="andromdadoc"
  */
@@ -174,7 +174,7 @@ public class AndromdadocParser extends AbstractParser
                         parameters.put(parser.getAttributeName(i), parser.getAttributeValue(i));
                     }
 
-                    MacroRequest request = new MacroRequest(parameters, new File(""));
+                    MacroRequest request = new MacroRequest(parameters);
 
                     executeMacro(macroId, request, sink);
                 }

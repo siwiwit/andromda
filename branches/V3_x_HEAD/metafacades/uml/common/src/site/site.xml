@@ -16,6 +16,6 @@
      	<menu name="Overview">
     		<item name="Profile" href="profile.html"/>
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

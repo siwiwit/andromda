@@ -16,6 +16,6 @@
      	<menu name="Overview">
             <item name="Namespace" href="namespace.html"/>
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

@@ -13,6 +13,6 @@
     	<links>
       		<item name="Freemarker Engine" href="/index.html"/>
     	</links>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>

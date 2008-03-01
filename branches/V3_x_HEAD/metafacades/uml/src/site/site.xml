@@ -18,6 +18,6 @@
 			<item name="UML 1.4 Metafacades" href="/andromda-metafacades-uml14/index.html"/>
             <item name="EMF UML2 Metafacades" href="/andromda-metafacades-emf-uml2/index.html"/>
     	</menu>
-        ${reports}
+        <menu ref="reports"/>
   	</body>
 </project>

@@ -38,6 +38,6 @@
     	<menu name="Samples">
     		<item name="Online-store" href="/samples.html#online-store"/>
     	</menu>
-    	${reports}
+    	<menu ref="reports"/>
   	</body>
 </project>
