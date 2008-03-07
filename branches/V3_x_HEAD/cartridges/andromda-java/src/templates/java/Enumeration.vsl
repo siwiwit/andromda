@@ -118,10 +118,10 @@ $literal.getDocumentation("     * ")
     public int compareTo(#if($enableTemplating)${enumeration.name}#else#**#Object#end that)
     {
 #if($enumeration.literalType.primitive)
-        return this.getValue() < (${cast}${that}).getValue() ? -1 :
-            (this.getValue() == ((${cast}${that}).getValue() ? 0 : 1);
+        return this.getValue() < (${cast}that).getValue() ? -1 :
+            (this.getValue() == ((${cast}that).getValue() ? 0 : 1);
 #else
-        return (this == that) ? 0 : this.getValue().compareTo((${cast}${that}).getValue());
+        return (this == that) ? 0 : this.getValue().compareTo((${cast}that).getValue());
 #end
     }
 
