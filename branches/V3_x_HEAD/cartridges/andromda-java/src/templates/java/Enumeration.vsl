@@ -19,6 +19,11 @@
 #end
 #set ($namesTemplateType = "<java.lang.String>")
 #end
+#if(!$enableTemplating)
+#set ($cast = "($enumeration.name)")
+#else
+#set ($cast = "")
+#end
 ##  -- end --
 #if ($stringUtils.isNotBlank($enumeration.packageName))
 package $enumeration.packageName;
@@ -31,7 +36,7 @@ public class $enumeration.name
 #if($enumeration.generalization)
     extends ${enumeration.generalization.fullyQualifiedName}
 #elseif ($serializable)
-    implements java.io.Serializable
+    implements java.io.Serializable, java.lang.Comparable${valueListTemplateType}
 #end
 {
 #if ($serializable)
@@ -89,7 +94,7 @@ $literal.getDocumentation("     * ")
 #if($enumeration.literalType.primitive)
 #set ($value = "new ${enumeration.literalType.wrapperName}(value)")
 #end
-        final $enumeration.name typeValue =#if(!$enableTemplating) (${enumeration.name})#end values.get($value);
+        final $enumeration.name typeValue = ${cast}values.get($value);
         if (typeValue == null)
         {
             throw new IllegalArgumentException("invalid value '" + value + "', possible values are: " + literals);
@@ -110,13 +115,13 @@ $literal.getDocumentation("     * ")
     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    public int compareTo(Object that)
+    public int compareTo(#if($enableTemplating)${enumeration.name}#else#**#Object#end that)
     {
 #if($enumeration.literalType.primitive)
-        return this.getValue() < (($enumeration.name)that).getValue() ? -1 :
-            (this.getValue() == (($enumeration.name)that).getValue() ? 0 : 1);
+        return this.getValue() < (${cast}${that}).getValue() ? -1 :
+            (this.getValue() == ((${cast}${that}).getValue() ? 0 : 1);
 #else
-        return (this == that) ? 0 : this.getValue().compareTo((($enumeration.name)that).getValue());
+        return (this == that) ? 0 : this.getValue().compareTo((${cast}${that}).getValue());
 #end
     }
 
