@@ -21,7 +21,6 @@ $enumeration.getDocumentation(" * ")
 public final class $enumeration.enumerationName
     extends $enumeration.name
     implements java.io.Serializable,
-               java.lang.Comparable#if($enableTemplating)<Object>#end,
                ${hibernateUtils.hibernateUserTypePackage}.EnhancedUserType
 {
 
