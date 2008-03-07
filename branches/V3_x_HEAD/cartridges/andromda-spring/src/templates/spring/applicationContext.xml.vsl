@@ -106,6 +106,7 @@
         <property name="dataSource"><ref bean="${beanNamePrefix}dataSource"/></property>
         <property name="mappingLocations"><ref bean="${beanNamePrefix}hibernateMappingLocations"/></property>
         <property name="hibernateProperties"><ref bean="${beanNamePrefix}hibernateProperties"/></property>
+        <!-- applicationContext sessionFactory merge-point -->
     </bean>
 
     <!-- The Hibernate interceptor -->
@@ -116,6 +117,7 @@
         	<value>$hibernateInterceptorFlushMode</value>
         </property>
 #end
+        <!-- applicationContext hibernateInterceptor merge-point -->
     </bean>
 
 #foreach($entity in $entities)
