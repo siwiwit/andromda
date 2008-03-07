@@ -446,12 +446,6 @@
         overwrite="true"/>
 
     <template
-        path="templates/jsf/utils/CollectionSorter.java.vsl"
-        outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
-        outlet="managed-beans"
-        overwrite="true"/>
-
-    <template
         path="templates/jsf/utils/AdfFacesContextWrapper.java.vsl"
         outputPattern="$stringUtils.replace($managedBeansPackage, '.', '/')/${className}.java"
         outlet="managed-beans"
