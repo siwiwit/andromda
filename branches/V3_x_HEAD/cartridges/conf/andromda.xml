@@ -9,14 +9,14 @@
                     <uri>${model.uri}</uri>
                     <moduleSearchLocations>
                         <location>${maven.repo.local}/andromda/xml.zips</location>
-                        <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles</location>
+                        <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
                         <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/metafacades</location>
                     </moduleSearchLocations>
                     <modelPackages>
                         <modelPackage process="false">org::andromda::metafacades::uml</modelPackage>
                     </modelPackages>
                 </model>
-            </models>            
+            </models>
         </repository>
     </repositories>
     <namespaces>
