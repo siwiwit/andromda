@@ -119,7 +119,7 @@ $literal.getDocumentation("     * ")
     {
 #if($enumeration.literalType.primitive)
         return this.getValue() < (${cast}that).getValue() ? -1 :
-            (this.getValue() == ((${cast}that).getValue() ? 0 : 1);
+            (this.getValue() == (${cast}that).getValue() ? 0 : 1);
 #else
         return (this == that) ? 0 : this.getValue().compareTo((${cast}that).getValue());
 #end
