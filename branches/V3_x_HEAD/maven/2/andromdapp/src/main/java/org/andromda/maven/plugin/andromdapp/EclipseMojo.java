@@ -4,21 +4,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Set;
 import java.util.Map;
-import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.andromda.core.common.ResourceUtils;
 import org.andromda.maven.plugin.andromdapp.eclipse.ClasspathWriter;
 import org.andromda.maven.plugin.andromdapp.eclipse.ProjectWriter;
 import org.andromda.maven.plugin.andromdapp.utils.ProjectUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
+import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Build;
@@ -379,7 +382,7 @@ public class EclipseMojo
      * @throws MojoExecutionException
      */
     private MavenProject getRootProject()
-        throws MojoExecutionException
+        throws MojoExecutionException, ArtifactResolutionException, ArtifactNotFoundException
     {
         if (this.rootProject == null)
         {
@@ -388,20 +391,20 @@ public class EclipseMojo
             if (firstParent != null)
             {
                 for (this.rootProject = firstParent, rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME);
-                     this.rootProject.getParent() != null;
+                     this.rootProject.getParent() != null && this.rootProject.getParent().getFile() != null;
                      this.rootProject = this.rootProject.getParent(), rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME))
                 {
                     ;
                 }
             }
+            // - if the project has no file defined, use the rootFile
+            if (this.rootProject != null && this.rootProject.getFile() == null && rootFile.exists())
+            {
+                this.rootProject.setFile(rootFile);
+            }
             else
             {
                 this.rootProject = this.project;
-            }
-            // - if the project has no file defined, use the rootFile
-            if (this.rootProject.getFile() == null)
-            {
-                this.rootProject.setFile(rootFile);
             }
         }
         return this.rootProject;
@@ -414,7 +417,7 @@ public class EclipseMojo
      * @throws MojoExecutionException
      */
     private List getPoms()
-        throws MojoExecutionException
+        throws Exception
     {
         final DirectoryScanner scanner = new DirectoryScanner();
         scanner.setBasedir(this.getRootProject().getBasedir());
