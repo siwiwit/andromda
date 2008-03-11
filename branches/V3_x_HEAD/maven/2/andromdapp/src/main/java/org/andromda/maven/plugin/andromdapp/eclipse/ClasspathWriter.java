@@ -90,10 +90,10 @@ public class ClasspathWriter
                     project.getPackaging());
             projectArtifactIds.add(projectArtifact.getId());
         }
-       
+
         // - write the source roots for the root project (if they are any)
         this.writeSourceRoots(this.project, rootDirectory, writer);
-        
+
         final Set allArtifacts = new LinkedHashSet(this.project.createArtifacts(
             artifactFactory,
             null,
@@ -167,8 +167,7 @@ public class ClasspathWriter
             final OrArtifactFilter filter = new OrArtifactFilter();
             filter.add(new ScopeArtifactFilter(Artifact.SCOPE_COMPILE));
             filter.add(new ScopeArtifactFilter(Artifact.SCOPE_PROVIDED));
-            // - comment out for now because its causing some weird side affects
-            // filter.add(new ScopeArtifactFilter(Artifact.SCOPE_TEST));
+            filter.add(new ScopeArtifactFilter(Artifact.SCOPE_TEST));
             final ArtifactResolutionResult result =
                 artifactResolver.resolveTransitively(
                     allArtifacts,
@@ -258,10 +257,10 @@ public class ClasspathWriter
         logger.info("Classpath file written --> '" + classpathFile + "'");
         IOUtil.close(fileWriter);
     }
-    
+
     /**
      * Writes the source roots for the given project.
-     * 
+     *
      * @param project the project for which to write the source roots.
      * @param rootDirectory the root project's base directory
      * @param writer the XMLWriter used to write the source roots.
