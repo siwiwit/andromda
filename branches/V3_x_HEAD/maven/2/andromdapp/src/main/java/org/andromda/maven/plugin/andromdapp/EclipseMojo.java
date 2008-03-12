@@ -16,7 +16,6 @@ import org.andromda.maven.plugin.andromdapp.eclipse.ClasspathWriter;
 import org.andromda.maven.plugin.andromdapp.eclipse.ProjectWriter;
 import org.andromda.maven.plugin.andromdapp.utils.ProjectUtils;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -30,7 +29,6 @@ import org.apache.maven.model.PluginExecution;
 import org.apache.maven.model.PluginManagement;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.profiles.DefaultProfileManager;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectBuilder;
 import org.apache.maven.project.ProjectBuildingException;
@@ -73,9 +71,9 @@ public class EclipseMojo
     /**
      * Defines the POMs to exclude when generating the eclipse files.
      *
-     * @parameter
+     * @parameter expression="${excludes}"
      */
-    private String[] excludes = new String[0];
+    private String excludes;
 
     /**
      * Used to contruct Maven project instances from POMs.
@@ -223,7 +221,7 @@ public class EclipseMojo
                 try
                 {
                     // - first attempt to get the existing project from the session
-                    MavenProject project = ProjectUtils.getProject(this.projectBuilder, this.session, pom, this.getLog());
+                    final MavenProject project = ProjectUtils.getProject(this.projectBuilder, this.session, pom, this.getLog());
                     if (project != null)
                     {
                         this.getLog().info("found project " + project.getId());
@@ -423,7 +421,7 @@ public class EclipseMojo
         final DirectoryScanner scanner = new DirectoryScanner();
         scanner.setBasedir(this.getRootProject().getBasedir());
         scanner.setIncludes(this.includes);
-        scanner.setExcludes(this.excludes);
+        scanner.setExcludes(this.excludes != null ? excludes.split(",") : null);
         scanner.scan();
 
         List poms = new ArrayList();
