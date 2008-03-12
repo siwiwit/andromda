@@ -515,14 +515,25 @@ public class BuildMojo
                     final MavenProject project = ProjectUtils.getProject(
                             this.projectBuilder,
                             this.session,
-                            pom);
-                    if (this.getLog().isDebugEnabled())
+                            pom,
+                            this.getLog());
+                    if (project != null)
                     {
-                        this.getLog().debug("Adding project " + project.getId());
+                        if (this.getLog().isDebugEnabled())
+                        {
+                            this.getLog().debug("Adding project " + project.getId());
+                        }
+                        projects.put(
+                            project,
+                            poms.get(pom));
                     }
-                    projects.put(
-                        project,
-                        poms.get(pom));
+                    else
+                    {
+                        if (this.getLog().isWarnEnabled())
+                        {
+                            this.getLog().warn("Could not load project from pom: " + pom + " - ignoring");
+                        }
+                    }
                 }
                 catch (ProjectBuildingException exception)
                 {

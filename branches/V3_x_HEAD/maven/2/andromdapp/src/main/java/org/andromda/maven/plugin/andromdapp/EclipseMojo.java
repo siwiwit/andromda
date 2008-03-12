@@ -223,18 +223,19 @@ public class EclipseMojo
                 try
                 {
                     // - first attempt to get the existing project from the session
-                    MavenProject project = ProjectUtils.getProject(this.projectBuilder, this.session, pom);
-                    if (project == null)
+                    MavenProject project = ProjectUtils.getProject(this.projectBuilder, this.session, pom, this.getLog());
+                    if (project != null)
                     {
-                        // - if we didn't find it in the session, create it
-                        project =
-                            this.projectBuilder.build(
-                                pom,
-                                this.session.getLocalRepository(),
-                                new DefaultProfileManager(this.session.getContainer()));
+                        this.getLog().info("found project " + project.getId());
+                        projects.add(project);
                     }
-                    this.getLog().info("found project " + project.getId());
-                    projects.add(project);
+                    else
+                    {
+                        if (this.getLog().isWarnEnabled())
+                        {
+                            this.getLog().warn("Could not load project from pom: " + pom + " - ignoring");
+                        }
+                    }
                 }
                 catch (ProjectBuildingException exception)
                 {

@@ -217,12 +217,23 @@ public class MavenExecuteMojo
                     final MavenProject project = ProjectUtils.getProject(
                             this.projectBuilder,
                             this.session,
-                            pom);
-                    if (this.getLog().isDebugEnabled())
+                            pom,
+                            this.getLog());
+                    if (project != null)
                     {
-                        getLog().debug("Adding project " + project.getId());
+                        if (this.getLog().isDebugEnabled())
+                        {
+                            getLog().debug("Adding project " + project.getId());
+                        }
+                        projects.add(project);
                     }
-                    projects.add(project);
+                    else
+                    {
+                        if (this.getLog().isWarnEnabled())
+                        {
+                            this.getLog().warn("Could not load project from pom: " + pom + " - ignoring");
+                        }
+                    }
                 }
                 catch (ProjectBuildingException exception)
                 {
