@@ -47,7 +47,7 @@
 	<classpathentry path="translation-libraries/ocl/testsuite/src/java" kind="src"/>
 	<classpathentry path="utils/src/java" kind="src"/>
 	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
-	<classpathentry path="M2_REPO/commons-lang/commons-lang/2.1/commons-lang-2.1.jar" kind="var"/>
+	<classpathentry path="M2_REPO/commons-lang/commons-lang/2.3/commons-lang-2.3.jar" kind="var"/>
 	<classpathentry path="M2_REPO/log4j/log4j/1.2.12/log4j-1.2.12.jar" kind="var"/>
 	<classpathentry path="M2_REPO/ant/ant/1.6.5/ant-1.6.5.jar" kind="var"/>
 	<classpathentry path="M2_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1.jar" kind="var"/>
