@@ -14,9 +14,8 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.validator.Validator;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
+import org.andromda.cartridges.jsf.utils.ComponentUtils;
 import org.andromda.cartridges.jsf.validator.JSFValidator;
 import org.andromda.cartridges.jsf.validator.JSFValidatorException;
 import org.andromda.cartridges.jsf.validator.ValidatorMessages;
@@ -99,9 +98,14 @@ public class JSFValidatorComponent
         }
     }
 
-    private HttpServletRequest getRequest()
+    private Object getContextAttribute(final String attributeName)
     {
-        return (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        return ComponentUtils.getAttribute(FacesContext.getCurrentInstance().getExternalContext().getContext(), attributeName);
+    }
+
+    private void setContextAttribute(final String attributeName, final String attributeValue)
+    {
+        ComponentUtils.setAttribute(FacesContext.getCurrentInstance().getExternalContext().getContext(), attributeName, attributeValue);
     }
 
     /**
@@ -524,11 +528,10 @@ public class JSFValidatorComponent
     public void encodeBegin(final FacesContext context)
         throws IOException
     {
-        final ServletContext servletContext = this.getRequest().getSession().getServletContext();
-        boolean validationResourcesPresent = servletContext.getAttribute(RULES_NOT_PRESENT) == null;
+        boolean validationResourcesPresent = this.getContextAttribute(RULES_NOT_PRESENT) == null;
         if (validationResourcesPresent && JSFValidator.getValidatorResources() == null)
         {
-            servletContext.setAttribute(
+            this.setContextAttribute(
                 RULES_NOT_PRESENT,
                 "true");
             validationResourcesPresent = false;
