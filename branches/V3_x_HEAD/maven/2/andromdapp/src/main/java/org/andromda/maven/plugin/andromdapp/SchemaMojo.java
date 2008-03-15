@@ -101,11 +101,11 @@ public class SchemaMojo
      * @readonly
      */
     private ArtifactFactory factory;
-    
+
     /**
      * Whether or not scripts should be executed (if this is set to false, they will
      * only be generated, but not executed).
-     * 
+     *
      * @parameter expression="${executeScripts}"
      */
     private boolean executeScripts = true;
@@ -363,7 +363,7 @@ public class SchemaMojo
                 {
                     getLog().debug("adding to classpath '" + file + "'");
                 }
-                classpathUrls[ctr] = file.toURL();
+                classpathUrls[ctr] = file.toURI().toURL();
             }
 
             final URLClassLoader loader =
@@ -384,7 +384,7 @@ public class SchemaMojo
     {
         Thread.currentThread().setContextClassLoader(
             new URLClassLoader(
-                new URL[] {new File(this.jdbcDriverJar).toURL()},
+                new URL[] {new File(this.jdbcDriverJar).toURI().toURL()},
                 Thread.currentThread().getContextClassLoader()));
     }
 

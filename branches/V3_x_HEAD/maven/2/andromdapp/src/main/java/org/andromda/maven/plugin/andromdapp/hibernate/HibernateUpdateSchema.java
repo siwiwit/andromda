@@ -61,7 +61,7 @@ public class HibernateUpdateSchema
             temporaryProperitesFile.toString());
         arguments.add("--properties=" + temporaryProperitesFile);
     }
-    
+
     /**
      * The class loader containing the jdbc driver.
      */
@@ -82,7 +82,7 @@ public class HibernateUpdateSchema
                 "jdbcDriverJar");
         if (jdbcDriverJarLoader == null)
         {
-            jdbcDriverJarLoader = new URLClassLoader(new URL[] {new File(jdbcDriverJar).toURL()});
+            jdbcDriverJarLoader = new URLClassLoader(new URL[] {new File(jdbcDriverJar).toURI().toURL()});
         }
         return jdbcDriverJarLoader;
     }

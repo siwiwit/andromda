@@ -71,9 +71,9 @@ public class EclipseMojo
     /**
      * Defines the POMs to exclude when generating the eclipse files.
      *
-     * @parameter expression="${excludes}"
+     * @parameter expression="${exclude.poms}"
      */
-    private String excludes;
+    private String excludePoms;
 
     /**
      * Used to contruct Maven project instances from POMs.
@@ -421,7 +421,7 @@ public class EclipseMojo
         final DirectoryScanner scanner = new DirectoryScanner();
         scanner.setBasedir(this.getRootProject().getBasedir());
         scanner.setIncludes(this.includes);
-        scanner.setExcludes(this.excludes != null ? excludes.split(",") : null);
+        scanner.setExcludes(this.excludePoms != null ? excludePoms.split(",") : null);
         scanner.scan();
 
         List poms = new ArrayList();

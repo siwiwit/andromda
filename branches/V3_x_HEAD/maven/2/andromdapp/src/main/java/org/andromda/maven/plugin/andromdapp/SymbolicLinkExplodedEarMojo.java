@@ -2,9 +2,7 @@ package org.andromda.maven.plugin.andromdapp;
 
 import java.io.File;
 import java.io.FileReader;
-
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -66,11 +64,6 @@ public class SymbolicLinkExplodedEarMojo
      * Command to create a symbolic link on the Windows platform
      */
     private static final String LN_WINDOWS = "junction.exe";
-
-    /**
-     * Command to create a symbolic link on the Windows Vista platform.
-     */
-    private static final String LN_WINDOWS_VISTA = "mklink /D";
 
     /**
      * Command to create a symbolic link on the UNIX platform

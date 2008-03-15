@@ -187,7 +187,7 @@ public class ScriptClassGeneratorMojo
         throws MalformedURLException
     {
         final Set classpathUrls = new LinkedHashSet();
-        classpathUrls.add(new File(this.project.getBuild().getOutputDirectory()).toURL());
+        classpathUrls.add(new File(this.project.getBuild().getOutputDirectory()).toURI().toURL());
         if (classpathFiles != null && classpathFiles.size() > 0)
         {
             for (int ctr = 0; ctr < classpathFiles.size(); ++ctr)
@@ -197,7 +197,7 @@ public class ScriptClassGeneratorMojo
                 {
                     getLog().debug("adding to classpath '" + file + "'");
                 }
-                classpathUrls.add(file.toURL());
+                classpathUrls.add(file.toURI().toURL());
             }
         }
         final URLClassLoader loader =
