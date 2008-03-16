@@ -34,7 +34,7 @@ hibernate.version=2.1.8
 hibernate.version=3.0.5
 #end
 cglib.version=2.0.2
-dom4j.version=1.4
+dom4j.version=1.6.1
 odmg.version=3.0
 ehcache.version=1.1
 asm.version=1.4.3
