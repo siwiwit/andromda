@@ -6,7 +6,7 @@
 	<classpathentry kind="var" path="M2_REPO/org/andromda/andromda-utils/3.2-RC1-SNAPSHOT/andromda-utils-3.2-RC1-SNAPSHOT.jar"/>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/andromda/translationlibraries/andromda-ocl-validation-library/3.2-RC1-SNAPSHOT/andromda-ocl-validation-library-3.2-RC1-SNAPSHOT.jar"/>
-	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1/commons-logging-1.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/jmi/jmi/20030918/jmi-20030918.jar"/>
 	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.12/log4j-1.2.12.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.3/commons-lang-2.3.jar"/>

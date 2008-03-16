@@ -9,7 +9,7 @@
 	<classpathentry output="web/target/classes" kind="src" path="web/target/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="D:/maven/repository/hibernate/jars/hibernate-3.0.5.jar"/>
-	<classpathentry kind="lib" path="D:/maven/repository/commons-logging/jars/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="D:/maven/repository/commons-logging/jars/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="D:/maven/repository/commons-lang/jars/commons-lang-2.3.jar"/>
 	<classpathentry kind="lib" path="D:/maven/repository/commons-collections/jars/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="D:/maven/repository/springframework/jars/spring-1.2.5.jar"/>
