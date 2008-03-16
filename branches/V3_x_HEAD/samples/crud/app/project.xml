@@ -74,7 +74,7 @@
         <dependency>
             <groupId>hibernate</groupId>
             <artifactId>hibernate</artifactId>
-            <version>3.0.5</version>
+            <version>3.2.6.ga</version>
             <properties>
                 <ear.bundle>true</ear.bundle>
             </properties>

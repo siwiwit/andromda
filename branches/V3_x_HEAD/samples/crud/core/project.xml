@@ -63,7 +63,7 @@
         <dependency>
             <groupId>hibernate</groupId>
             <artifactId>hibernate</artifactId>
-            <version>3.0.5</version>
+            <version>3.2.6.ga</version>
             <properties>
                 <ejb.manifest.classpath>true</ejb.manifest.classpath>
             </properties>
