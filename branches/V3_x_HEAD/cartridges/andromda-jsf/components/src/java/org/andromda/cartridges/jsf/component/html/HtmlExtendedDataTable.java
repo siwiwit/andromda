@@ -26,7 +26,7 @@ public class HtmlExtendedDataTable
     extends HtmlDataTable
 {
     /**
-     * Overriden to provid population of the backingValue's items with the value's items (and
+     * Overriden to provide population of the backingValue's items with the value's items (and
      * updating the model afterwards).
      *
      * @see javax.faces.component.UIData#getValue()
