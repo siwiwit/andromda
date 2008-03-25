@@ -22,7 +22,12 @@
 #if (!$manageables.empty)
                 <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
 #end
-#if ($richClient)
+#foreach ($service in $services)
+#if ($service.remotable)
+#set ($remotingEnabled = true)
+#end
+#end
+#if ($remotingEnabled)
                 <value>${applicationContextServer}</value>
 #if ($acegiServiceSecurity)
                 <value>$stringUtils.replace($applicationContextServerAuthentication, '/', '.')</value>
