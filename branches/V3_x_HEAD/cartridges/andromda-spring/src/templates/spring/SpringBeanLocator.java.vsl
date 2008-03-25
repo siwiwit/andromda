@@ -19,11 +19,11 @@ public class $className
     {
         // shouldn't be instantiated
     }
-	
+
     /**
      * The prefix used for all bean ids.
      */
-    public static final String BEAN_PREFIX = "${beanNamePrefix}"; 
+    public static final String BEAN_PREFIX = "${beanNamePrefix}";
 
     /**
      * The shared instance of this $className.
@@ -44,17 +44,17 @@ public class $className
      * The bean factory reference instance.
      */
     private org.springframework.beans.factory.access.BeanFactoryReference beanFactoryReference;
-    
+
     /**
      * The bean factory reference location.
      */
     private String beanFactoryReferenceLocation;
-    
+
     /**
      * The bean factory reference id.
      */
     private String beanRefFactoryReferenceId;
-    
+
     /**
      * Initializes the Spring application context from the default settings.
      */
@@ -95,12 +95,12 @@ public class $className
         // - initialize the context
         this.getContext();
     }
-    
+
     /**
      * The default bean reference factory location.
      */
     private final String DEFAULT_BEAN_REFERENCE_LOCATION = "$beanRefFactory";
-    
+
     /**
      * The default bean reference factory ID.
      */
@@ -109,7 +109,7 @@ public class $className
     /**
      * Gets the Spring ApplicationContext.
      */
-    protected synchronized org.springframework.context.ApplicationContext getContext()
+    public synchronized org.springframework.context.ApplicationContext getContext()
     {
         if (this.beanFactoryReference == null)
         {

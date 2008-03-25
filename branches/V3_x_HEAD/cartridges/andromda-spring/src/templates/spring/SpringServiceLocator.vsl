@@ -44,12 +44,12 @@ public class $serviceLocatorName
      * The bean factory reference instance.
      */
     private org.springframework.beans.factory.access.BeanFactoryReference beanFactoryReference;
-    
+
     /**
      * The bean factory reference location.
      */
     private String beanFactoryReferenceLocation;
-    
+
     /**
      * The bean factory reference id.
      */
@@ -83,7 +83,7 @@ public class $serviceLocatorName
         this.beanFactoryReferenceLocation = beanFactoryReferenceLocation;
         this.beanFactoryReference = null;
     }
-    
+
 #if($stringUtils.isNotEmpty($serviceLocatorDefaultFactoryId))
 #set ($factoryId = $serviceLocatorDefaultFactoryId)
 #elseif($ejbsEnabled)
@@ -95,7 +95,7 @@ public class $serviceLocatorName
      * The default bean reference factory location.
      */
     private final String DEFAULT_BEAN_REFERENCE_LOCATION = "$beanRefFactory";
-    
+
     /**
      * The default bean reference factory ID.
      */
@@ -104,7 +104,7 @@ public class $serviceLocatorName
     /**
      * Gets the Spring ApplicationContext.
      */
-    protected synchronized org.springframework.context.ApplicationContext getContext()
+    public synchronized org.springframework.context.ApplicationContext getContext()
     {
         if (this.beanFactoryReference == null)
         {

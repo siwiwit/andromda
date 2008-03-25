@@ -8,10 +8,13 @@ package $springTypesPackage;
 /**
  * A class that represents a "paged result" of data out of a larger set, ie.
  * a list of objects together with info to indicate the starting row and
- * the full size of the dataset. 
+ * the full size of the dataset.
  */
 public class $className
+    implements java.io.Serializable
 {
+    private static final long serialVersionUID = 8766771253773009362L;
+
     private long totalSize;
     private java.lang.Object[] data;
 
@@ -38,7 +41,7 @@ public class $className
     {
         return this.totalSize;
     }
-    
+
     /**
      * Sets the total size of this pagination's complete set.
      *
@@ -57,7 +60,7 @@ public class $className
     {
         return this.data;
     }
-    
+
     /**
      * Sets the data for this pagination result.
      *
