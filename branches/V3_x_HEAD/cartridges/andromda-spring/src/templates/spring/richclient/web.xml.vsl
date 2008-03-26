@@ -36,7 +36,7 @@
 
     <filter-mapping>
         <filter-name>${serviceRemoteContext}_HTTP_BASIC_Authorization_Filter</filter-name>
-        <url-pattern>/${serviceRemoteUrlPattern}/*</url-pattern>
+        <url-pattern>${serviceRemoteUrlPattern}/*</url-pattern>
     </filter-mapping>
 
 #end
@@ -59,7 +59,7 @@
 
     <servlet-mapping>
         <servlet-name>${serviceRemoteContext}</servlet-name>
-        <url-pattern>/${serviceRemoteUrlPattern}/*</url-pattern>
+        <url-pattern>${serviceRemoteUrlPattern}/*</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -1334,9 +1334,9 @@
                 </documentation>
             </property>
             <property name="serviceRemoteUrlPattern" required="false">
-                <default>remoting</default>
+                <default>/remoting</default>
                 <documentation>
-                    The url pattern associated to exported services. i.e. "services".
+                    The url pattern associated to exported services. i.e. "/services".
                 </documentation>
             </property>
             <property name="serviceRemoteServer">
