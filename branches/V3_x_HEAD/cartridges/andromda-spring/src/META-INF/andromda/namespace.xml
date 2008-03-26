@@ -154,6 +154,12 @@
                     The location where AndroMDA merge mapping stub files should be generated.
                 </documentation>
             </property>
+            <property name="remoting-war-support" required="false">
+                <documentation>
+                    The location where any remoting support files to be bundled in the war
+                    used to expose the remote services will be generated.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Other">
             <property name="webServiceOutgoingAttachmentHandlerCallPattern" required="false">
@@ -1059,8 +1065,8 @@
             </property>
             <property name="hibernateInterceptorFlushMode" required="false">
                 <documentation>
-                    Specifies the FLUSH_MODE for the Hibernate Interceptor (<code>org.springframework.orm.hibernate.HibernateInterceptor</code>). 
-                    FLUSH_MODE determines the moment where all the generated SQL from a transaction should be flushed to the database. 
+                    Specifies the FLUSH_MODE for the Hibernate Interceptor (<code>org.springframework.orm.hibernate.HibernateInterceptor</code>).
+                    FLUSH_MODE determines the moment where all the generated SQL from a transaction should be flushed to the database.
                     <ul>
                         Valid values are (<code>integer</code>):
                         <li>0</li> FLUSH_NEVER
@@ -1338,6 +1344,18 @@
                 <default>localhost</default>
                 <documentation>
                     The remote server the Spring services get published on.
+                </documentation>
+            </property>
+            <property name="remoteDispatcherServletName">
+                <default>RemoteDispatcherServlet</default>
+                <documentation>
+                    The name to give the remote dispatcher servlet.
+                </documentation>
+            </property>
+            <property name="remoteWebApplicationContextName">
+                <default>RemoteWebApplicationContext</default>
+                <documentation>
+                    The name to give the remote web application context class.
                 </documentation>
             </property>
         </propertyGroup>

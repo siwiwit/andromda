@@ -5,7 +5,11 @@
            "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-
+#foreach ($service in $services)
+#if ($service.remotable)
+#set ($remotingEnabled = true)
+#end
+#end
     <bean id="$beanRefFactoryId"
          class="org.springframework.context.support.ClassPathXmlApplicationContext">
         <constructor-arg>
@@ -22,12 +26,7 @@
 #if (!$manageables.empty)
                 <value>$stringUtils.replace($applicationContextManageable, '/', '.')</value>
 #end
-#foreach ($service in $services)
-#if ($service.remotable)
-#set ($remotingEnabled = true)
-#end
-#end
-#if ($remotingEnabled)
+#if ($remotingEnabled && !$ejbsEnabled)
                 <value>${applicationContextServer}</value>
 #if ($acegiServiceSecurity)
                 <value>$stringUtils.replace($applicationContextServerAuthentication, '/', '.')</value>
@@ -52,6 +51,9 @@
 #if ($localEjbsPresent)
                 <value>$stringUtils.replace($applicationContextLocalEjb, '/', '.')</value>
 #end
+#end
+#if ($remotingEnabled && $ejbsEnabled)
+                <value>${applicationContextServer}</value>
 #end
                 <!-- beanRefFactoryEjb merge-point -->
            </list>

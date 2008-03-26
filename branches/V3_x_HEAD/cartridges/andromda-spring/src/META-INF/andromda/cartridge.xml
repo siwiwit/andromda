@@ -178,6 +178,9 @@
     <property reference="jmsSessionTransacted"/>
     <property reference="jmsActiveMqDurableTopicPrefetch"/>
     <property reference="jmsActiveMqQueuePrefetch"/>
+    <property reference="remoting-war-support"/>
+    <property reference="remoteDispatcherServletName"/>
+    <property reference="remoteWebApplicationContextName"/>
 
     <!-- cartridge-property merge-point -->
 
@@ -1131,13 +1134,7 @@
         outputPattern="$generatedFile"
         outlet="service-interfaces"
         overwrite="true"
-        outputToSingleFile="true">
-        <modelElements variable="entities">
-            <modelElement>
-                <type name="org.andromda.cartridges.spring.metafacades.SpringEntity"/>
-            </modelElement>
-        </modelElements>
-    </template>
+        outputToSingleFile="true"/>
 
     <template
         path="templates/spring/hibernate/HibernateSearch.vsl"
@@ -1221,6 +1218,20 @@
         overwrite="true"
         outputToSingleFile="true"
         outputOnEmptyElements="true"/>
+
+     <template
+        path="templates/spring/remoting/RemoteDispatcherServlet.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="remoting-war-support"
+        overwrite="true"
+        outputToSingleFile="true"/>
+
+     <template
+        path="templates/spring/remoting/RemoteWebApplicationContext.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="remoting-war-support"
+        overwrite="true"
+        outputToSingleFile="true"/>
 
     <!-- JMS -->
 
