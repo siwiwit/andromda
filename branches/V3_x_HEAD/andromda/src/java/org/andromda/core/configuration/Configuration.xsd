@@ -131,10 +131,6 @@
                 <xs:element ref="property" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
-        <xs:unique name="uniquePropertyName">
-            <xs:selector xpath="property"/>
-            <xs:field xpath="@name"/>
-        </xs:unique>
     </xs:element>
     <xs:element name="property">
         <xs:complexType>

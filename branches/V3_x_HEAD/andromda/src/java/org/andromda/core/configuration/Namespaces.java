@@ -134,7 +134,28 @@ public class Namespaces
         final String namespaceName,
         final String propertyName)
     {
-        return this.getProperty(
+        final Collection<Property> properties = this.getProperties(
+            namespaceName,
+            propertyName);
+        return properties == null || properties.isEmpty() ?
+            null : properties.iterator().next();
+    }
+
+    /**
+     * Retrieves a property from the Namespace with the namespaceName. If the <code>ignore</code> attribute of the
+     * Property instance is set to <code>true</code> then lookup of the property will not be attempted and null will
+     * just be returned instead. If the propety is not found and <code>ignore<code> is not <code>true</code> a warning
+     * message is logged.
+     *
+     * @param namespaceName name of the Plugin to which the namespace applies
+     * @param propertyName  name of the namespace property to find.
+     * @return String the namespace property value.
+     */
+    public Collection<Property> getProperties(
+        final String namespaceName,
+        final String propertyName)
+    {
+        return this.getProperties(
             namespaceName,
             propertyName,
             true);
@@ -148,9 +169,32 @@ public class Namespaces
      * @param namespaceName name of the Plugin to which the namespace applies
      * @param propertyName  name of the namespace property to find.
      * @param showWarning   true/false if we'd like to display a warning if the property/namespace can not be found.
-     * @return String the namespace property value.
+     * @return the collection of properties.
      */
     public Property getProperty(
+        final String namespaceName,
+        final String propertyName,
+        final boolean showWarning)
+    {
+        final Collection<Property> properties = this.getProperties(
+            namespaceName,
+            propertyName,
+            showWarning);
+        return properties == null || properties.isEmpty() ?
+            null : properties.iterator().next();
+    }
+
+    /**
+     * Retrieves a property from the Namespace with the namespaceName. If the <code>ignore</code> attribute of the
+     * Property instance is set to <code>true</code> then lookup of the property will not be attempted and null will
+     * just be returned instead.
+     *
+     * @param namespaceName name of the Plugin to which the namespace applies
+     * @param propertyName  name of the namespace property to find.
+     * @param showWarning   true/false if we'd like to display a warning if the property/namespace can not be found.
+     * @return the collection of properties.
+     */
+    public Collection<Property> getProperties(
         final String namespaceName,
         final String propertyName,
         final boolean showWarning)
@@ -162,11 +206,11 @@ public class Namespaces
             "propertyName",
             propertyName);
 
-        Property property = null;
-        final Namespace namespace = (Namespace)namespaces.get(namespaceName);
+        Collection<Property> property = null;
+        final Namespace namespace = (Namespace)this.namespaces.get(namespaceName);
         if (namespace != null)
         {
-            property = namespace.getProperty(propertyName);
+            property = namespace.getProperties(propertyName);
         }
 
         // - since we couldn't find a Namespace for the specified cartridge,
@@ -178,10 +222,10 @@ public class Namespaces
             {
                 logger.debug("no namespace with name '" + namespaceName + "' found, looking for '" + Namespaces.DEFAULT + "'");
             }
-            defaultNamespace = (Namespace)namespaces.get(Namespaces.DEFAULT);
+            defaultNamespace = (Namespace)this.namespaces.get(Namespaces.DEFAULT);
             if (defaultNamespace != null)
             {
-                property = defaultNamespace.getProperty(propertyName);
+                property = defaultNamespace.getProperties(propertyName);
             }
         }
 
@@ -201,10 +245,10 @@ public class Namespaces
         }
         return property;
     }
-    
+
     /**
      * Retrieves all property definitions for the given namespace.
-     * 
+     *
      * @param namespaceName the name of the namespace.
      * @return the list of properties contained in the namespace.
      */
