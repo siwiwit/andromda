@@ -9,7 +9,7 @@
         <to>
             <![CDATA[
 <servlet>
-    <servlet-name>$remoteServicesServletPath</servlet-name>
+    <servlet-name>$serviceRemoteUrlPattern</servlet-name>
     <servlet-class>${springTypesPackage}.${remoteDispatcherServletName}</servlet-class>
     <load-on-startup>1</load-on-startup>
 </servlet>
@@ -22,8 +22,8 @@
         <to>
             <![CDATA[
 <servlet-mapping>
-    <servlet-name>$remoteServicesServletPath</servlet-name>
-    <url-pattern>/$remoteServicesServletPath/*</url-pattern>
+    <servlet-name>$serviceRemoteUrlPattern</servlet-name>
+    <url-pattern>/$serviceRemoteUrlPattern/*</url-pattern>
 </servlet-mapping>
 <!-- servlet-mapping merge-point -->
             ]]>
@@ -38,7 +38,7 @@
     <web-resource-collection>
         <web-resource-name>$service.name</web-resource-name>
         <description>Secures the $service.name Spring remotable service.</description>
-        <url-pattern>/$remoteServicesServletPath/${service.name}/*</url-pattern>
+        <url-pattern>/$serviceRemoteUrlPattern/${service.name}/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
 #foreach ($role in $service.allRoles)

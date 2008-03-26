@@ -4,8 +4,8 @@
 <beans>
 
     <!-- ========================= Start of BEAN POSTPROCESSORS ======================== -->
-#set ($propertiesFile = "${stringUtils.substringBeforeLast($applicationContextClient, '.')}.properties")
 
+#set ($propertiesFile = "${stringUtils.substringBeforeLast($applicationContextClient, '.')}.properties")
     <bean id="propertyPlaceholderConfigurer"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
@@ -37,25 +37,52 @@
 
 #foreach($service in $services)
 #if($service.remotable)
+#if($service.remotingTypeLingo)
+    <!-- $service.name Remote Service Local Proxy with inner $service.name Remote Service invoker -->
+    <bean id="$service.getBeanName(false)" class="org.logicblaze.lingo.jms.JmsProxyFactoryBean">
+        <property name="serviceInterface"><value>$service.fullyQualifiedName</value></property>
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="destination">
+            <bean class="org.activemq.message.ActiveMQQueue">
+                <constructor-arg index="0">
+                    <value>$service.fullyQualifiedName</value>
+                </constructor-arg>
+            </bean>
+        </property>
+        <!-- enable async one ways on the client -->
+        <property name="remoteInvocationFactory" ref="invocationFactory"/>
+    </bean>
+
+#else
     <!-- $service.name Remote Service Local Proxy with inner $service.name Remote Service invoker -->
     <bean id="$service.getBeanName(false)" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="target">
 #if($service.remotingTypeHttpInvoker)
             <bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="httpInvokerRequestExecutor">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeHessian)
             <bean class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="proxyFactory">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeBurlap)
             <bean class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">
+#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+                <property name="proxyFactory">
+                    <ref local="clientRequestInterceptor"/>
+                </property>
+#end
 #elseif($service.remotingTypeRmi)
             <bean class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
 #end
                 <property name="serviceUrl"><value>$service.remoteUrl</value></property>
                 <property name="serviceInterface"><value>$service.fullyQualifiedName</value></property>
-#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
-                <property name="httpInvokerRequestExecutor">
-                    <ref local="httpInvokerRequestExecutor"/>
-                </property>
-#end
             </bean>
         </property>
         <property name="proxyInterfaces"><value>$service.fullyQualifiedName</value></property>
@@ -68,6 +95,7 @@
 #end
     </bean>
 
+#end
 #end
 #end
 #foreach ($manageable in $manageables)
@@ -99,14 +127,32 @@
 
 #end
 #if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
-    <bean id="httpInvokerRequestExecutor" class="$clientHttpInvokerExecutor"/>
+    <bean id="clientRequestInterceptor" class="$clientHttpInvokerExecutor"/>
+
+#end
+#if($lingoRemotableServicesPresent)
+    <!-- Lingo invocation factory -->
+    <bean id="invocationFactory"
+        class="org.logicblaze.lingo.LingoRemoteInvocationFactory">
+        <constructor-arg>
+            <bean class="org.logicblaze.lingo.SimpleMetadataStrategy">
+                <!-- enable async one ways -->
+                <constructor-arg value="true"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- JMS connection factory for Lingo remoting -->
+    <bean id="jmsFactory" class="org.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePortJMS}"/>
+    </bean>
 
 #end
 #if($acegiServiceSecurity)
     <bean id="${serviceRemoteContext}RemoteAuthenticationManagerService"
         class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl">
-            <value>http://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePort}/${${configPropertyPrefix}remoteContext}/RemoteAuthenticationManagerService</value>
+            <value>${${configPropertyPrefix}remoteHttpScheme}://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePort}/${${configPropertyPrefix}remoteContext}/RemoteAuthenticationManagerService</value>
         </property>
         <property name="serviceInterface">
             <value>org.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>

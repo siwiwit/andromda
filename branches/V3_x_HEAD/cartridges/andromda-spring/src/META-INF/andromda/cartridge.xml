@@ -97,6 +97,9 @@
     <property reference="serviceRemoteContext"/>
     <property reference="serviceRemoteUrlPattern"/>
     <property reference="serviceRemoteServer"/>
+    <property reference="remoteHttpServiceScheme"/>
+    <property reference="remoteRmiServiceScheme"/>
+    <property reference="remoteTcpServiceScheme"/>
     <property reference="securityRealm"/>
     <property reference="jndiDataSourceClass"/>
     <property reference="jndiDataSourceCaching"/>
@@ -181,7 +184,6 @@
     <property reference="remoting-war-support"/>
     <property reference="remoteDispatcherServletName"/>
     <property reference="remoteWebApplicationContextName"/>
-    <property reference="remoteServicesServletPath"/>
 
     <!-- cartridge-property merge-point -->
 
@@ -281,27 +283,7 @@
     </template>
 
     <template
-        path="templates/spring/SpringClientServiceLocator.vsl"
-        outputPattern="$generatedFile"
-        outlet="services"
-        overwrite="true"
-        outputToSingleFile="true"
-        outputOnEmptyElements="false">
-        <modelElements>
-            <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
-                    <property name="remotable"/>
-                    <property name="richClient">false</property>
-                </type>
-            </modelElement>
-            <modelElement variable="manageables">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
-            </modelElement>
-        </modelElements>
-    </template>
-
-    <template
-        path="templates/spring/SpringClientServiceLocator.vsl"
+        path="templates/spring/remoting/client/SpringClientServiceLocator.vsl"
         outputPattern="$generatedFile"
         outlet="client"
         overwrite="true"
@@ -311,7 +293,6 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="remotable"/>
-                    <property name="richClient">true</property>
                 </type>
             </modelElement>
             <modelElement variable="manageables">
@@ -756,27 +737,7 @@
     </template>
 
     <template
-        path="templates/spring/applicationContext-client.xml.vsl"
-        outputPattern="$applicationContextClient"
-        outlet="spring-configuration"
-        overwrite="true"
-        outputToSingleFile="true"
-        outputOnEmptyElements="false">
-        <modelElements>
-            <modelElement variable="services">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
-                    <property name="remotable"/>
-                    <property name="richClient">false</property>
-                </type>
-            </modelElement>
-            <modelElement variable="manageables">
-                <type name="org.andromda.cartridges.spring.metafacades.SpringManageableEntity"/>
-            </modelElement>
-        </modelElements>
-    </template>
-
-    <template
-        path="templates/spring/richclient/applicationContext-client.xml.vsl"
+        path="templates/spring/remoting/client/applicationContext-client.xml.vsl"
         outputPattern="$applicationContextClient"
         outlet="client-config"
         overwrite="true"
@@ -786,7 +747,6 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="remotable"/>
-                    <property name="richClient">true</property>
                 </type>
             </modelElement>
             <modelElement variable="manageables">
@@ -861,7 +821,7 @@
     </template>
 
     <template
-        path="templates/spring/richclient/applicationContext-client-authentication.xml.vsl"
+        path="templates/spring/remoting/client/applicationContext-client-authentication.xml.vsl"
         outputPattern="$applicationContextClientAuthentication"
         outlet="client-config"
         overwrite="true"
@@ -871,14 +831,14 @@
         <modelElements>
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
-                    <property name="richClient">true</property>
+                    <property name="remotable"/>
                 </type>
             </modelElement>
         </modelElements>
     </template>
 
     <template
-        path="templates/spring/richclient/applicationContext-client.properties.vsl"
+        path="templates/spring/remoting/client/applicationContext-client.properties.vsl"
         outputPattern="$generatedFile"
         outlet="client-config"
         overwrite="true"
@@ -888,7 +848,6 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="remotable"/>
-                    <property name="richClient">true</property>
                 </type>
             </modelElement>
         </modelElements>

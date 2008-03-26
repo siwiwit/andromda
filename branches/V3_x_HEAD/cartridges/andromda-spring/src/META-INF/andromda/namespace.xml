@@ -103,14 +103,12 @@
             </property>
             <property name="client" required="false">
                 <documentation>
-                    The location where client side code is generated if using a Rich Client environment
-                    (i.e. the richClient namespace entry is "true").
+                    The location where client side code is generated if using Spring remoting.
                 </documentation>
             </property>
             <property name="client-config" required="false">
                 <documentation>
-                    The location where client side configuration files are generated if using a Rich Client environment
-                    (i.e. the richClient namespace entry is "true").
+                    The location where client side configuration files are generated if using Spring remoting.
                 </documentation>
             </property>
             <property name="client-test" required="false">
@@ -1336,14 +1334,33 @@
                 </documentation>
             </property>
             <property name="serviceRemoteUrlPattern" required="false">
+                <default>remoting</default>
                 <documentation>
-                    The url pattern associated to exported services. Typically "/services".
+                    The url pattern associated to exported services. i.e. "services".
                 </documentation>
             </property>
             <property name="serviceRemoteServer">
                 <default>localhost</default>
                 <documentation>
                     The remote server the Spring services get published on.
+                </documentation>
+            </property>
+            <property name="remoteHttpServiceScheme" required="false">
+                <default>http</default>
+                <documentation>
+                    The scheme for any HTTP remotable services (i.e. http or https).
+                </documentation>
+            </property>
+            <property name="remoteRmiServiceScheme" required="false">
+                <default>rmi</default>
+                <documentation>
+                    The scheme for any RMI remotable services.
+                </documentation>
+            </property>
+            <property name="remoteTcpServiceScheme" required="false">
+                <default>tcp</default>
+                <documentation>
+                    The scheme for any TCP remotable services.
                 </documentation>
             </property>
             <property name="remoteDispatcherServletName">
@@ -1356,12 +1373,6 @@
                 <default>RemoteWebApplicationContext</default>
                 <documentation>
                     The name to give the remote web application context class.
-                </documentation>
-            </property>
-            <property name="remoteServicesServletPath">
-                <default>remoting</default>
-                <documentation>
-                    The path at which the remote services will be made available.
                 </documentation>
             </property>
         </propertyGroup>

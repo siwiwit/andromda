@@ -346,7 +346,7 @@ public class SpringServiceLogicImpl
         else if (this.isRemotingTypeHttpInvoker() || this.isRemotingTypeHessian() || this.isRemotingTypeBurlap())
         {
             // server
-            result = "http://${" + propertyPrefix + "remoteServer}";
+            result = "${" + propertyPrefix + "remoteHttpScheme)://${" + propertyPrefix + "remoteServer}";
 
             // port
             if (hasServiceRemotePort())
@@ -365,13 +365,13 @@ public class SpringServiceLogicImpl
         }
         else if (this.isRemotingTypeLingo())
         {
-            result = "tcp://${" + propertyPrefix + "remoteServer}";
+            result = "${" + propertyPrefix + "remoteTcpScheme)://${" + propertyPrefix + "remoteServer}";
             result += "/${" + propertyPrefix + "remotePortJMS}";
         }
         else if (this.isRemotingTypeRmi())
         {
             // server
-            result = "rmi://${" + propertyPrefix + "remoteServer}";
+            result = "${" + propertyPrefix + "remoteRmiScheme)://${" + propertyPrefix + "remoteServer}";
 
             // port
             if (hasServiceRemotePort())
