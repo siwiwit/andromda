@@ -1,6 +1,0 @@
-<!-- Merge this file into servlet merge-point of war web.xml -->
-<servlet>
-    <servlet-name>$remoteServicesServletPath</servlet-name>
-    <servlet-class>${springTypesPackage}.${remoteDispatcherServletName}</servlet-class>
-    <load-on-startup>1</load-on-startup>
-</servlet>
