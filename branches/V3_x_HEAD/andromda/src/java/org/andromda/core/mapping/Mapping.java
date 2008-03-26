@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.ResourceUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -55,25 +56,28 @@ public class Mapping
      */
     public String getTo()
     {
+        final StringBuffer to = new StringBuffer();
+        if (StringUtils.isNotBlank(this.to))
+        {
+            to.append(this.to);
+        }
         if (!this.paths.isEmpty())
         {
             try
             {
-                final StringBuffer pathsContents = new StringBuffer();
                 for (final Iterator iterator = this.paths.iterator(); iterator.hasNext();)
                 {
-                    pathsContents.append(
+                    to.append(
                         ResourceUtils.getContents(
                             new FileReader(this.mappings.getCompletePath((String)iterator.next()))));
                 }
-                this.to = pathsContents.toString();
             }
             catch (final FileNotFoundException exception)
             {
                 throw new MappingsException(exception);
             }
         }
-        return this.to;
+        return to.toString();
     }
 
     /**

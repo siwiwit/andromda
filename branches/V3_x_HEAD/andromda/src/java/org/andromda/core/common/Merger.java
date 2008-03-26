@@ -86,8 +86,7 @@ public class Merger
                             for (final Iterator fromsIterator = froms.iterator(); fromsIterator.hasNext();)
                             {
                                 final String from = StringUtils.trimToEmpty((String)fromsIterator.next());
-
-                                if (StringUtils.isNotEmpty(from))
+                                if (StringUtils.isNotEmpty(from) && string.contains(from))
                                 {
                                     final String to = mapping.getTo() != null ? mapping.getTo().trim() : "";
                                     string = StringUtils.replace(string, from, to);
