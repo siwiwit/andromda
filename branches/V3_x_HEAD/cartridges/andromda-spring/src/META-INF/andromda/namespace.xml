@@ -1358,6 +1358,12 @@
                     The name to give the remote web application context class.
                 </documentation>
             </property>
+            <property name="remoteServicesServletPath">
+                <default>remoting</default>
+                <documentation>
+                    The path at which the remote services will be made available.
+                </documentation>
+            </property>
         </propertyGroup>
     </properties>
 </namespace>

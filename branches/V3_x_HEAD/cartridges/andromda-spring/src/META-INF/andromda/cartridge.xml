@@ -181,6 +181,7 @@
     <property reference="remoting-war-support"/>
     <property reference="remoteDispatcherServletName"/>
     <property reference="remoteWebApplicationContextName"/>
+    <property reference="remoteServicesServletPath"/>
 
     <!-- cartridge-property merge-point -->
 
@@ -1229,6 +1230,37 @@
      <template
         path="templates/spring/remoting/RemoteWebApplicationContext.java.vsl"
         outputPattern="$generatedFile"
+        outlet="remoting-war-support"
+        overwrite="true"
+        outputToSingleFile="true"/>
+
+     <template
+        path="templates/spring/remoting/remoting-security-constraints.xml.vsl"
+        outputPattern="remoting-security-constraints.xml"
+        outlet="remoting-war-support"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="allRoles"/>
+                    <property name="remotable"/>
+                </type>
+            </modelElement>
+        </modelElements>
+     </template>
+
+     <template
+        path="templates/spring/remoting/remoting-servlet.xml.vsl"
+        outputPattern="remoting-servlet.xml"
+        outlet="remoting-war-support"
+        overwrite="true"
+        outputToSingleFile="true"/>
+
+     <template
+        path="templates/spring/remoting/remoting-servlet-mapping.xml.vsl"
+        outputPattern="remoting-servlet-mapping.xml"
         outlet="remoting-war-support"
         overwrite="true"
         outputToSingleFile="true"/>

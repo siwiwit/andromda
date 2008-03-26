@@ -1,0 +1,5 @@
+<!-- Merge this file into servlet-mapping merge-point of war web.xml -->
+<servlet-mapping>
+    <servlet-name>$remoteServicesServletPath</servlet-name>
+    <url-pattern>/$remoteServicesServletPath/*</url-pattern>
+</servlet-mapping>

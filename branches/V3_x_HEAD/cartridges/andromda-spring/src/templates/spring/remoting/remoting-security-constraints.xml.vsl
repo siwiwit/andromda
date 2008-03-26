@@ -1,0 +1,18 @@
+<!-- Merge this file into security-constraint merge-point of war web.xml -->
+#foreach ($service in $services)
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>$service.name</web-resource-name>
+        <description>Secures the $service.name Spring remotable service.</description>
+        <url-pattern>/$remoteServicesServletPath/${service.name}/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+#foreach ($role in $service.allRoles)
+        <role-name>$role.name</role-name>
+#end
+    </auth-constraint>
+    <user-data-constraint>
+        <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+</security-constraint>
+#end
