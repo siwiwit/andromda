@@ -61,6 +61,8 @@
                 <property name="jmsMaxIncomingMessagesPerReceive">100</property>
                 <property name="hibernateEnableCache">true</property>
                 <property name="jndiDataSourceCaching">false</property>
+                <property name="remoteServiceUsername">theUsername</property>
+                <property name="remoteServicePassword">thePassword</property>
             </properties>
         </namespace>
     </namespaces>

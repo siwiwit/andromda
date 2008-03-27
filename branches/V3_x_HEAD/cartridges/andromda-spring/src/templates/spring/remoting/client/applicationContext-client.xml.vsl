@@ -57,23 +57,24 @@
     <!-- $service.name Remote Service Local Proxy with inner $service.name Remote Service invoker -->
     <bean id="$service.getBeanName(false)" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="target">
+#set ($clientRequestInterceptorRequired = $stringUtils.isNotBlank($clientHttpInvokerExecutor) || $remoteUsernameAuthenticationEnabled)
 #if($service.remotingTypeHttpInvoker)
             <bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+#if($clientRequestInterceptorRequired)
                 <property name="httpInvokerRequestExecutor">
                     <ref local="clientRequestInterceptor"/>
                 </property>
 #end
 #elseif($service.remotingTypeHessian)
             <bean class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
-#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+#if($clientRequestInterceptorRequired)
                 <property name="proxyFactory">
                     <ref local="clientRequestInterceptor"/>
                 </property>
 #end
 #elseif($service.remotingTypeBurlap)
             <bean class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">
-#if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
+#if($clientRequestInterceptorRequired)
                 <property name="proxyFactory">
                     <ref local="clientRequestInterceptor"/>
                 </property>
@@ -129,6 +130,16 @@
 #if($stringUtils.isNotBlank($clientHttpInvokerExecutor))
     <bean id="clientRequestInterceptor" class="$clientHttpInvokerExecutor"/>
 
+#elseif ($remoteUsernameAuthenticationEnabled)
+    <bean id="clientRequestInterceptor" class="${springTypesPackage}.${remoteAuthenticatingHttpInvokerRequestExecutorName}">
+        <property name="username">
+            <value>${${configPropertyPrefix}username}</value>
+        </property>
+        <property name="password">
+            <value>${${configPropertyPrefix}password}</value>
+        </property>
+    </bean>
+
 #end
 #if($lingoRemotableServicesPresent)
     <!-- Lingo invocation factory -->
@@ -144,7 +155,7 @@
 
     <!-- JMS connection factory for Lingo remoting -->
     <bean id="jmsFactory" class="org.activemq.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="tcp://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePortJMS}"/>
+        <property name="brokerURL" value="${${configPropertyPrefix}remoteTcpScheme}://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePortJMS}"/>
     </bean>
 
 #end

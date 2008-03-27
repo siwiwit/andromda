@@ -8,3 +8,7 @@ ${configPropertyPrefix}remoteContext=${serviceRemoteContext}${serviceRemoteUrlPa
 #if($lingoRemotableServicesPresent)
 ${configPropertyPrefix}remotePortJMS=$serviceRemotePortJMS
 #end
+#if ($remoteUsernameAuthenticationEnabled)
+${configPropertyPrefix}username=$remoteServiceUsername
+${configPropertyPrefix}password=$remoteServicePassword
+#end

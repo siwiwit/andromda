@@ -184,6 +184,9 @@
     <property reference="remoting-war-support"/>
     <property reference="remoteDispatcherServletName"/>
     <property reference="remoteWebApplicationContextName"/>
+    <property reference="remoteServiceUsername"/>
+    <property reference="remoteServicePassword"/>
+    <property reference="remoteAuthenticatingHttpInvokerRequestExecutorName"/>
 
     <!-- cartridge-property merge-point -->
 
@@ -207,6 +210,7 @@
     <condition name="jmsTransactionsEnabled">$jmsTransactionsEnabled.equalsIgnoreCase("true")</condition>
     <condition name="dataSourceEnabled">$dataSourceEnabled.equalsIgnoreCase("true")</condition>
     <condition name="enableCaching">$hibernateEnableCache.equalsIgnoreCase("true")</condition>
+    <condition name="remoteUsernameAuthenticationEnabled">$stringUtils.isNotBlank($remoteServiceUsername)</condition>
     <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
@@ -1200,6 +1204,24 @@
         overwrite="true"
         outputToSingleFile="true"
         outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="allRoles"/>
+                    <property name="remotable"/>
+                </type>
+            </modelElement>
+        </modelElements>
+     </template>
+
+     <template
+        path="templates/spring/remoting/client/AuthenticatingHttpInvokerRequestExecutor.java.vsl"
+        outputPattern="$generatedFile"
+        outlet="client"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false"
+        outputCondition="remoteUsernameAuthenticationEnabled">
         <modelElements>
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">

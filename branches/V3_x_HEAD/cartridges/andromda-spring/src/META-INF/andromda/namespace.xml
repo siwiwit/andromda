@@ -1375,6 +1375,24 @@
                     The name to give the remote web application context class.
                 </documentation>
             </property>
+            <property name="remoteServiceUsername" required="false">
+                <documentation>
+                    The optional username to use for authenticating to the
+                    remotable services.
+                </documentation>
+            </property>
+            <property name="remoteServicePassword" required="false">
+                <documentation>
+                    The optional password to use for authenticating to the
+                    remotable services.
+                </documentation>
+            </property>
+            <property name="remoteAuthenticatingHttpInvokerRequestExecutorName" required="false">
+                <default>AuthenticatingHttpInvokerRequestExecutor</default>
+                <documentation>
+                    The name to give the AuthenticatingHttpInvokerRequestExecutor class.
+                </documentation>
+            </property>
         </propertyGroup>
     </properties>
 </namespace>
