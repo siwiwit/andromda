@@ -136,7 +136,7 @@ public class SpringManageableEntityLogicImpl
         else if (this.isRemotingTypeHttpInvoker() || this.isRemotingTypeHessian() || this.isRemotingTypeBurlap())
         {
             // server
-            result.append("${" + propertyPrefix + "remoteHttpScheme)://${");
+            result.append("${" + propertyPrefix + "remoteHttpScheme}://${");
             result.append(propertyPrefix);
             result.append("remoteServer}");
 
@@ -163,7 +163,7 @@ public class SpringManageableEntityLogicImpl
         else if (this.isRemotingTypeRmi())
         {
             // server
-            result.append("${" + propertyPrefix + "remoteRmiScheme)://${");
+            result.append("${" + propertyPrefix + "remoteRmiScheme}://${");
             result.append(propertyPrefix);
             result.append("remoteServer}");
 
