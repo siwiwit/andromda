@@ -1081,8 +1081,12 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
      */
     public $valueObjectRef.targetElement.fullyQualifiedName ${valueObjectRef.transformationMethodName}(final $entity.fullyQualifiedName entity)
     {
-        final $valueObjectRef.targetElement.fullyQualifiedName target = new ${valueObjectRef.targetElement.fullyQualifiedName}();
-        this.${valueObjectRef.transformationMethodName}(entity, target);
+        $valueObjectRef.targetElement.fullyQualifiedName target = null;
+        if (entity != null)
+        {
+            target = new ${valueObjectRef.targetElement.fullyQualifiedName}();
+            this.${valueObjectRef.transformationMethodName}(entity, target);
+        }
         return target;
     }
 
