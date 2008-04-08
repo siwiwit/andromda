@@ -1158,7 +1158,9 @@
         outlet="$outlet"
         overwrite="true">
         <modelElements variable="class">
-            <modelElement stereotype="CRITERIA"/>
+            <modelElement>
+                <type name="org.andromda.cartridges.spring.metafacades.SpringCriteriaSearch"/>
+            </modelElement>
         </modelElements>
     </template>
 
