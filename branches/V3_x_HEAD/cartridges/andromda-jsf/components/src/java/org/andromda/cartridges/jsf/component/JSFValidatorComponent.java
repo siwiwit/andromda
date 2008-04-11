@@ -131,13 +131,14 @@ public class JSFValidatorComponent
             final EditableValueHolder valueHolder = (EditableValueHolder)component;
             if (form != null)
             {
+                final String formId = form.getId();
                 final String componentId = component.getId();
                 final ValidatorResources resources = JSFValidator.getValidatorResources();
                 if (resources != null)
                 {
                     final Form validatorForm = resources.getForm(
                             Locale.getDefault(),
-                            form.getId());
+                            formId);
                     if (validatorForm != null)
                     {
                         final java.util.List validatorFields = validatorForm.getFields();
@@ -156,7 +157,7 @@ public class JSFValidatorComponent
                                     final ValidatorAction action = JSFValidator.getValidatorAction(dependency);
                                     if (action != null)
                                     {
-                                        final JSFValidator validator = new JSFValidator(form, action);
+                                        final JSFValidator validator = new JSFValidator(formId, action);
                                         final Arg[] args = field.getArgs(dependency);
                                         if (args != null)
                                         {

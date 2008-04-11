@@ -40,13 +40,15 @@ public class JSFValidator
      * @param form
      * @param validatorAction
      */
-    public JSFValidator(final UIComponent form, final ValidatorAction validatorAction)
+    public JSFValidator(final String formId, final ValidatorAction validatorAction)
     {
-        this.form = form;
+        this.formId = formId;
         this.validatorAction = validatorAction;
     }
 
-    private UIComponent form;
+    private String formId;
+
+    //private UIComponent form;
 
     public JSFValidator()
     {
@@ -213,13 +215,13 @@ public class JSFValidator
         final UIComponent component,
         final Object value)
     {
-        if (form != null)
+        if (this.formId != null)
         {
             try
             {
                 final Form validatorForm = getValidatorResources().getForm(
                     Locale.getDefault(),
-                    form.getId());
+                    this.formId);
                 if (validatorForm != null)
                 {
                     final Field field = this.getFormField(validatorForm, component.getId());
@@ -243,12 +245,12 @@ public class JSFValidator
                     }
                     else
                     {
-                        logger.error("No field with id '" + component.getId() + "' found on form '" + form.getId() + "'");
+                        logger.error("No field with id '" + component.getId() + "' found on form '" + this.formId + "'");
                     }
                 }
                 else
                 {
-                    logger.error("No validator form could be found with id '" + form.getId() + "'");
+                    logger.error("No validator form could be found with id '" + this.formId + "'");
                 }
             }
             catch (final ValidatorException exception)
@@ -351,8 +353,8 @@ public class JSFValidator
      */
     public String toString()
     {
-        return super.toString() + ":form=" + form + ", validatorAction="
-            + this.validatorAction != null ? this.validatorAction.getName() : null;
+        return super.toString() + ":formId=" + formId + ", validatorAction="
+            + (this.validatorAction != null ? this.validatorAction.getName() : null);
     }
 
     private static final long serialVersionUID = -5627108517488240081L;
