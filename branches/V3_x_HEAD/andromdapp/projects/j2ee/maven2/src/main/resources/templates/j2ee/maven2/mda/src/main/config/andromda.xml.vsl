@@ -176,7 +176,7 @@
                 -->
             </properties>
         </namespace>
-#else
+#elseif ($spring)
         <namespace name="spring">
             <properties>
                 <property name="dataSource">${dataSource}</property>
