@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda</groupId>
         <artifactId>andromda</artifactId>
-        <version>3.3-SNAPSHOT</version>
+        <version>3.3</version>
     </parent>
     <groupId>org.andromda.taglibs</groupId>
     <artifactId>andromda-taglibs</artifactId>

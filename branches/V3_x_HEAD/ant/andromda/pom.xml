@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.ant</groupId>
         <artifactId>andromda-ant-support</artifactId>
-        <version>3.3-SNAPSHOT</version>
+        <version>3.3</version>
     </parent>
     <artifactId>andromda-ant</artifactId>
     <packaging>jar</packaging>

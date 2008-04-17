@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.cartridges</groupId>
         <artifactId>andromda-cartridges</artifactId>
-        <version>3.3-SNAPSHOT</version>
+        <version>3.3</version>
     </parent>
     <artifactId>andromda-webservice-cartridge</artifactId>
     <packaging>andromda-cartridge</packaging>
