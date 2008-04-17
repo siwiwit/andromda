@@ -279,7 +279,7 @@
                 <a href="maven-andromdapp-plugin/index.html">here</a>.
             </p>
             <p>
-                <code>maven plugin:download -DgroupId=andromda -DartifactId=maven-andromdapp-plugin -Dversion=3.3-SNAPSHOT</code>
+                <code>maven plugin:download -DgroupId=andromda -DartifactId=maven-andromdapp-plugin -Dversion=3.3</code>
             </p>
             <pre class="console">
 

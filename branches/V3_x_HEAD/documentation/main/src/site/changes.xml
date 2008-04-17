@@ -11,7 +11,7 @@
         <title>Recent AndroMDA changes</title>
     </properties>
     <body>
-        <release version="3.3-SNAPSHOT" date="not yet released" desc="First release candidate of version 3.3" description="First release candidate of version 3.3">
+        <release version="3.3" date="not yet released" desc="First release candidate of version 3.3" description="First release candidate of version 3.3">
             <action dev="draftdog" type="fix" issue="BPM-299">
                 Corrected possible collision in generated javascript validation routines.
             </action>
