@@ -394,12 +394,12 @@ public class EclipseMojo
                      this.rootProject = this.rootProject.getParent(), rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME))
                 {
                     ;
+                }            
+                // - if the project has no file defined, use the rootFile
+                if (this.rootProject != null && this.rootProject.getFile() == null && rootFile.exists())
+                {
+                	this.rootProject.setFile(rootFile);
                 }
-            }
-            // - if the project has no file defined, use the rootFile
-            if (this.rootProject != null && this.rootProject.getFile() == null && rootFile.exists())
-            {
-                this.rootProject.setFile(rootFile);
             }
             else
             {
