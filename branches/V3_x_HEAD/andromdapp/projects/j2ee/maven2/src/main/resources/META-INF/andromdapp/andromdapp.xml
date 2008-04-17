@@ -162,11 +162,6 @@
                     <response>ear</response>
                     <response>war</response>
                 </responses>
-                <conditions>
-                    <condition equal="war">
-                        <setProperty id="transactionPersistenceType">spring</setProperty>
-                    </condition>
-                </conditions>
             </prompt>
         </promptGroup>
         <promptGroup name="Component Types">
@@ -174,12 +169,26 @@
                 Provides the choice of components with the application.
             </documentation>
             <prompt id="transactionPersistenceType" setResponseAsTrue="true">
-                <text>Please enter the type of transactional/persistence cartridge to use</text>
+                <text>Please enter the type of transactional/persistence cartridge to use (enter 'none' if you don't want to use one)</text>
                 <shortText>Persistence cartridge</shortText>
+                <preconditions>
+                    <condition id="applicationType" equal="ear"/>
+                </preconditions>
                 <responses>
                     <response>hibernate</response>
                     <response>ejb</response>
                     <response>ejb3</response>
+                    <response>spring</response>
+                    <response>none</response>
+                </responses>
+            </prompt>
+            <prompt id="transactionPersistenceType" setResponseAsTrue="true">
+                <text>Please enter the type of transactional/persistence cartridge to use (enter 'none' if you don't want to use one)</text>
+                <shortText>Persistence cartridge</shortText>
+                <preconditions>
+                    <condition id="applicationType" equal="war"/>
+                </preconditions>
+                <responses>
                     <response>spring</response>
                     <response>none</response>
                 </responses>
@@ -292,6 +301,9 @@
             <prompt id="webservice">
                 <text>Would you like to be able to expose your services as web services?</text>
                 <shortText>Enable web services</shortText>
+                <preconditions>
+                    <condition id="transactionPersistenceType" notEqual="none"/>
+                </preconditions>
                 <responses type="java.lang.Boolean">
                     <response>yes</response>
                     <response>no</response>
