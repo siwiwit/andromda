@@ -4,7 +4,7 @@
     <skin>
         <groupId>org.andromda.maven.plugins.site</groupId>
         <artifactId>andromda-site-skin</artifactId>
-        <version>3.3-SNAPSHOT</version>
+        <version>3.3</version>
     </skin>
     <bannerLeft>
         <name></name>
