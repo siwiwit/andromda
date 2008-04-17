@@ -1,11 +1,5 @@
 <classpath>
   <classpathentry kind="src" path="src/main/uml"/>
-  <classpathentry kind="lib" path="/home/carlos/workspace/andromda-all/andromda/target/andromda-core-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="lib" path="/home/carlos/workspace/andromda-all/etc/web/taglibs/breadcrumbs/target/andromda-breadcrumbs-taglib-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="lib" path="/home/carlos/workspace/andromda-all/etc/web/taglibs/collections/target/andromda-collections-taglib-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="lib" path="/home/carlos/workspace/andromda-all/etc/web/taglibs/formatting/target/andromda-formatting-taglib-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="lib" path="/home/carlos/workspace/andromda-all/translation-libraries/ocl/andromda-validation/target/andromda-ocl-validation-library-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="lib" path="/home/carlos/workspace/andromda-all/utils/target/andromda-utils-3.3-SNAPSHOT.jar"/>
   <classpathentry kind="var" path="M2_REPO/avalon-framework/avalon-framework/4.1.3/avalon-framework-4.1.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1.jar"/>
@@ -17,11 +11,16 @@
   <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.12/log4j-1.2.12.jar"/>
   <classpathentry kind="var" path="M2_REPO/logkit/logkit/1.0.1/logkit-1.0.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/andromda/cartridges/andromda-bpm4struts-cartridge/3.3-SNAPSHOT/andromda-bpm4struts-cartridge-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/andromda/cartridges/andromda-java-cartridge/3.3-SNAPSHOT/andromda-java-cartridge-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/andromda/cartridges/andromda-meta-cartridge/3.3-SNAPSHOT/andromda-meta-cartridge-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/andromda/metafacades/andromda-metafacades-uml/3.3-SNAPSHOT/andromda-metafacades-uml-3.3-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/andromda/translationlibraries/andromda-ocl-translation-core/3.3-SNAPSHOT/andromda-ocl-translation-core-3.3-SNAPSHOT.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/andromda-core/3.3/andromda-core-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/andromda-utils/3.3/andromda-utils-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/cartridges/andromda-bpm4struts-cartridge/3.3/andromda-bpm4struts-cartridge-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/cartridges/andromda-java-cartridge/3.3/andromda-java-cartridge-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/metafacades/andromda-metafacades-uml/3.3/andromda-metafacades-uml-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/taglibs/andromda-breadcrumbs-taglib/3.3/andromda-breadcrumbs-taglib-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/taglibs/andromda-collections-taglib/3.3/andromda-collections-taglib-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/taglibs/andromda-formatting-taglib/3.3/andromda-formatting-taglib-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/translationlibraries/andromda-ocl-translation-core/3.3/andromda-ocl-translation-core-3.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/andromda/translationlibraries/andromda-ocl-validation-library/3.3/andromda-ocl-validation-library-3.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/xalan/xalan/2.7.0/xalan-2.7.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/xerces/xercesImpl/2.6.0/xercesImpl-2.6.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar"/>
