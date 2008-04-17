@@ -301,9 +301,6 @@
             <prompt id="webservice">
                 <text>Would you like to be able to expose your services as web services?</text>
                 <shortText>Enable web services</shortText>
-                <preconditions>
-                    <condition id="transactionPersistenceType" notEqual="none"/>
-                </preconditions>
                 <responses type="java.lang.Boolean">
                     <response>yes</response>
                     <response>no</response>
