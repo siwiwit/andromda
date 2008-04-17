@@ -14,7 +14,7 @@
 	      		(i.e. maven.repo.remote=http://www.ibiblio.org/maven,http://team.andromda.org/maven).
 	      		Then type:
 	 			<source>	
-	maven plugin:download -DgroupId=andromda -DartifactId=andromda-translation-library-plugin -Dversion=3.2
+	maven plugin:download -DgroupId=andromda -DartifactId=andromda-translation-library-plugin -Dversion=3.3
 	 			</source>     	
 	      	</p>
     	</section>
