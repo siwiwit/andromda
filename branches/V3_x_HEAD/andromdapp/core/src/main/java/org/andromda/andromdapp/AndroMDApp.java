@@ -27,13 +27,13 @@ import org.andromda.core.common.XmlObjectFactory;
  */
 public class AndroMDApp
 {
-    
+
     /**
      * An AndroMDApp configuration that contains some internal configuration information (like the AndroMDA
      * version, and other common properties).
      */
     private static final String INTERNAL_CONFIGURATION_URI = "META-INF/andromdapp/configuration.xml";
-    
+
     /**
      * Runs the AndroMDApp generation process.
      */
@@ -141,7 +141,7 @@ public class AndroMDApp
             this.configurations.add(factory.getObject(ResourceUtils.toURL(configurationUri)));
         }
     }
-    
+
     /**
      * Adds the configuration contents stored as a String.
      *
@@ -153,7 +153,7 @@ public class AndroMDApp
         {
             final XmlObjectFactory factory = XmlObjectFactory.getInstance(Configuration.class);
             this.configurations.add(factory.getObject(configuration));
-        }        
+        }
     }
 
     /**
@@ -205,9 +205,9 @@ public class AndroMDApp
             }
         }
 
-        andromdapp.setConfigurations(this.configurations);        
+        andromdapp.setConfigurations(this.configurations);
         andromdapp.initialize();
-        
+
         final Map templateContext = andromdapp.getTemplateContext();
 
         final XmlObjectFactory factory = XmlObjectFactory.getInstance(AndroMDApp.class);
@@ -218,12 +218,12 @@ public class AndroMDApp
         andromdapp.addToTemplateContext(templateContext);
         return andromdapp.processResources(write);
     }
-    
+
     /**
      * Identifies the AndroMDApp type (used to override the prompting of the type).
      */
     private static final String APPLICATION_TYPE = "andromdappType";
-    
+
     /**
      * Removes all structure generated from the previous run.
      */
@@ -247,15 +247,15 @@ public class AndroMDApp
                 throw (AndroMDAppException)throwable;
             }
             throw new AndroMDAppException(throwable);
-        }      
+        }
     }
-    
+
     /**
      * Deletes the given file and any empty parent directories
      * that the file might be contained within.
-     * 
+     *
      * @param file the file to remove.
-     * @throws MalformedURLException 
+     * @throws MalformedURLException
      */
     private void deleteFile(final File file) throws MalformedURLException
     {
@@ -266,7 +266,7 @@ public class AndroMDApp
             {
                 if (file.delete())
                 {
-                    AndroMDALogger.info("Removed: '" + file.toURL() + "'");
+                    AndroMDALogger.info("Removed: '" + file.toURI().toURL() + "'");
                 }
                 this.deleteFile(file.getParentFile());
             }

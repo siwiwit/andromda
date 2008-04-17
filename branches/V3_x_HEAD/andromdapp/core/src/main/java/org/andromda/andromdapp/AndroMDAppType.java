@@ -246,7 +246,7 @@ public class AndroMDAppType
         }
         return this.templateEngine;
     }
-    
+
     /**
      * Stores the template engine exclusions.
      */
@@ -267,7 +267,7 @@ public class AndroMDAppType
             path,
             AndroMDAppUtils.stringToArray(patterns));
     }
-    
+
     /**
      * Gets the template engine exclusions.
      *
@@ -411,7 +411,7 @@ public class AndroMDAppType
                                         path + "' with template context '" + this.templateContext + "'", throwable);
                                 }
                                 writer.flush();
-                                this.printText(MARGIN + "Output: '" + outputFile.toURL() + "'");
+                                this.printText(MARGIN + "Output: '" + outputFile.toURI().toURL() + "'");
                                 ResourceWriter.instance().writeStringToFile(
                                     writer.toString(),
                                     outputFile);
@@ -439,7 +439,7 @@ public class AndroMDAppType
                                     ResourceWriter.instance().writeUrlToFile(
                                         resource,
                                         outputFile.toString());
-                                    this.printText(MARGIN + "Output: '" + outputFile.toURL() + "'");
+                                    this.printText(MARGIN + "Output: '" + outputFile.toURI().toURL() + "'");
                                 }
                                 processedResources.add(outputFile);
                             }
@@ -457,7 +457,7 @@ public class AndroMDAppType
             if (this.isWriteable(directoryPath))
             {
                 directory.mkdirs();
-                this.printText(MARGIN + "Output: '" + directory.toURL() + "'");
+                this.printText(MARGIN + "Output: '" + directory.toURI().toURL() + "'");
             }
         }
 
@@ -465,7 +465,7 @@ public class AndroMDAppType
         {
             // - write the "instructions can be found" information
             this.printLine();
-            this.printText(MARGIN + "New application generated to --> '" + rootDirectory.toURL() + "'");
+            this.printText(MARGIN + "New application generated to --> '" + rootDirectory.toURI().toURL() + "'");
             if (this.instructions != null && this.instructions.trim().length() > 0)
             {
                 File instructions = new File(
@@ -477,7 +477,7 @@ public class AndroMDAppType
                         "', please make sure you have the correct instructions defined in your descriptor --> '" +
                         this.resource + "'");
                 }
-                this.printText(MARGIN + "Instructions for your new application --> '" + instructions.toURL() + "'");
+                this.printText(MARGIN + "Instructions for your new application --> '" + instructions.toURI().toURL() + "'");
             }
             this.printLine();
         }
