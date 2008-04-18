@@ -9,11 +9,14 @@ import java.io.StringWriter;
 import java.net.URL;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ComponentContainer;
@@ -333,14 +336,16 @@ public class AndroMDAppType
                             resourceDirectory,
                             false,
                             null);
+                    final Set newContents = new LinkedHashSet();
                     locations.put(
                         location,
-                        contents);
+                        newContents);
                     for (final ListIterator contentsIterator = contents.listIterator(); contentsIterator.hasNext();)
                     {
                         final String path = (String)contentsIterator.next();
                         if (!path.endsWith(FORWARD_SLASH))
                         {
+                            boolean hasNewPath = false;
                             for (final Iterator mappingIterator = this.mappings.iterator(); mappingIterator.hasNext();)
                             {
                                 final Mapping mapping = (Mapping)mappingIterator.next();
@@ -357,15 +362,15 @@ public class AndroMDAppType
                                         ResourceWriter.instance().writeUrlToFile(
                                             absolutePath,
                                             ResourceUtils.normalizePath(TEMPORARY_MERGE_LOCATION + '/' + newPath));
-                                        contentsIterator.set(newPath);
+                                        newContents.add(newPath);
+                                        hasNewPath = true;
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
-                            // - remove any directories from the contents
-                            contentsIterator.remove();
+                            if (!hasNewPath)
+                            {
+                                newContents.add(path);
+                            }
                         }
                     }
                 }
@@ -376,7 +381,7 @@ public class AndroMDAppType
         for (final Iterator iterator = locations.keySet().iterator(); iterator.hasNext();)
         {
             final String location = (String)iterator.next();
-            final List contents = (List)locations.get(location);
+            final Collection contents = (Collection)locations.get(location);
             if (contents != null)
             {
                 for (final Iterator contentsIterator = contents.iterator(); contentsIterator.hasNext();)
@@ -386,7 +391,6 @@ public class AndroMDAppType
                             path,
                             location,
                             "");
-
                     if (this.isWriteable(projectRelativePath))
                     {
                         if (this.isValidTemplate(path))
