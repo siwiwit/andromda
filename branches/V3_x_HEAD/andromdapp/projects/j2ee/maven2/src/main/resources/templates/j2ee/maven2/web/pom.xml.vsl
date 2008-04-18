@@ -129,6 +129,7 @@
             <systemPath>${pom.basedir}/target/src/WEB-INF/lib/ajax4jsf.jar</systemPath>
         </dependency>
 #else
+#if ($jsf1)
         <dependency>
             <groupId>org.apache.myfaces</groupId>
             <artifactId>myfaces-api</artifactId>
@@ -161,6 +162,45 @@
             <scope>system</scope>
             <systemPath>${pom.basedir}/target/src/WEB-INF/lib/andromda-jsf-cartridge-components.jar</systemPath>
         </dependency>
+#elseif ($jsf2)
+        <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-jsf-cartridge-components</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-jsf2-cartridge-components</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.core</groupId>
+            <artifactId>myfaces-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.el</groupId>
+            <artifactId>el-ri</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.tomahawk</groupId>
+            <artifactId>tomahawk</artifactId>
+            <version>1.1.7-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/target/src/WEB-INF/lib/tomahawk-1.1.7-SNAPSHOT.jar</systemPath>
+        </dependency>
+#if ($portlet)
+            <dependency>
+                <groupId>javax.portlet</groupId>
+                <artifactId>portlet-api</artifactId>
+            </dependency>
+#end
+#end
 #end
         <dependency>
             <groupId>org.andromda</groupId>
@@ -217,6 +257,9 @@
 #end
     </dependencies>
     <build>
+#if ($war)
+        <finalName>${application.id}-${pom.version}</finalName>
+#end
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -249,11 +292,11 @@
                             <fileset dir="${pom.basedir}/src/main">
                                 <include name="css/**"/>
                                 <include name="images/**"/>
-                            </fileset>                            
+                            </fileset>
 #if ($jsf)
                             <fileset dir="${pom.basedir}/src/main">
                                 <include name="skins/**"/>
-                            </fileset>	
+                            </fileset>
 #end
                         </copy>
 #if ($facelets)

@@ -91,10 +91,17 @@
             <artifactId>andromda-bpm4struts-cartridge</artifactId>
         </dependency>
 #elseif ($jsf)
+#if ($jsf1)
         <dependency>
             <groupId>org.andromda.cartridges</groupId>
             <artifactId>andromda-jsf-cartridge</artifactId>
         </dependency>
+#elseif ($jsf2)
+        <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-jsf2-cartridge</artifactId>
+        </dependency>
+#end
 #end
 #if ($jbossSeam)
         <dependency>
@@ -192,10 +199,10 @@
 #end
         <web.generated.dir>${pom.basedir}/../web/target/src</web.generated.dir>
         <web.manual.dir>${pom.basedir}/../web/src/main</web.manual.dir>
-        <web.manual.java.dir>${web.manual.dir}/java</web.manual.java.dir> 
-#if ($workflow)     
+        <web.manual.java.dir>${web.manual.dir}/java</web.manual.java.dir>
+#if ($workflow)
         <workflow.generated.dir>${pom.basedir}/../workflow/target/src</workflow.generated.dir>
-        <workflow.manual.dir>${pom.basedir}/../workflow/src/main</workflow.manual.dir>    
+        <workflow.manual.dir>${pom.basedir}/../workflow/src/main</workflow.manual.dir>
 #end
 #if ($webservice && !$jsr181Webservice)
 #if ($war)
@@ -207,7 +214,7 @@
         <webservice.generated.wsdl.dir>${webservice.generated.dir}/WEB-INF/classes</webservice.generated.wsdl.dir>
 #end
 #end
-        <common.generated.dir>${pom.basedir}/../common/target/src</common.generated.dir>      
+        <common.generated.dir>${pom.basedir}/../common/target/src</common.generated.dir>
 #if ($ejb3)
         <application.config.dir>${pom.basedir}/../app/src/main/config</application.config.dir>
         <application.metainf.dir>${pom.basedir}/../app/src/main/application/META-INF</application.metainf.dir>

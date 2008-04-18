@@ -363,10 +363,17 @@
             </properties>
         </namespace>
 #else
+#if ($jsf1)
         <namespace name="jsf">
+#elseif ($jsf2)
+        <namespace name="jsf2">
+#end
             <properties>
 #if ($webservice && !$jsr181Webservice)
                 <property name="languageMappingsUri">AxisJavaMappings</property>
+#end
+#if ($portlet)
+                <property name="portletContainer">$portletContainer</property>
 #end
                 <property name="viewType">$viewType</property>
                 <property name="applicationName">${application.name}</property>

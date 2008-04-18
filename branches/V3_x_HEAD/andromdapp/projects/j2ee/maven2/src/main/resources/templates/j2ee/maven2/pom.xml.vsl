@@ -192,12 +192,63 @@
                 <scope>runtime</scope>
             </dependency>
 #elseif ($jsf)
+#if ($jsf1)
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-jsf-cartridge</artifactId>
                 <version>$andromdaVersion</version>
                 <scope>runtime</scope>
             </dependency>
+#elseif ($jsf2)
+            <dependency>
+                <groupId>org.andromda.cartridges</groupId>
+                <artifactId>andromda-jsf-cartridge-components</artifactId>
+                <version>$andromdaVersion</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.andromda.cartridges</groupId>
+                <artifactId>andromda-jsf2-cartridge</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.andromda.cartridges</groupId>
+                <artifactId>andromda-jsf2-cartridge-components</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.myfaces.core</groupId>
+                <artifactId>myfaces-api</artifactId>
+                <version>1.1.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.myfaces.core</groupId>
+                <artifactId>myfaces-impl</artifactId>
+                <version>1.1.5</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>el-api</artifactId>
+                <version>1.0</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.el</groupId>
+                <artifactId>el-ri</artifactId>
+                <version>1.0</version>
+                <scope>runtime</scope>
+            </dependency>
+#if ($portlet)
+            <dependency>
+                <groupId>javax.portlet</groupId>
+                <artifactId>portlet-api</artifactId>
+                <version>1.0</version>
+                <scope>provided</scope>
+            </dependency>
+#end
+#end
             <dependency>
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-utils</artifactId>
@@ -1410,6 +1461,13 @@
             <name>AndroMDA Repository</name>
             <url>http://team.andromda.org/maven2</url>
         </repository>
+#if ($jsf2)
+        <repository>
+            <id>stockholm</id>
+            <name>University Of Stockholm Repository</name>
+            <url>http://maven.it.su.se/it.su.se/maven2</url>
+        </repository>
+#end
     </repositories>
     <pluginRepositories>
         <pluginRepository>
