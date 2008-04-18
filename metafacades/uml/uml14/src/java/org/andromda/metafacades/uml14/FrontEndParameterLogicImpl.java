@@ -127,17 +127,16 @@ public class FrontEndParameterLogicImpl
             isTable = type.isCollectionType() || type.isArrayType();
             if (isTable)
             {
+                final String tableTaggedValue = ObjectUtils.toString(this.findTaggedValue(UMLProfile.TAGGEDVALUE_PRESENTATION_IS_TABLE));
                 isTable =
-                    Boolean.valueOf(
-                        ObjectUtils.toString(this.findTaggedValue(UMLProfile.TAGGEDVALUE_PRESENTATION_IS_TABLE)))
-                           .booleanValue();
+                    StringUtils.isNotBlank(tableTaggedValue) ? Boolean.valueOf(tableTaggedValue.trim()).booleanValue() : true;
                 if (!isTable)
                 {
                     isTable = !this.getTableColumnNames().isEmpty();
                 }
             }
         }
-        return isTable;
+        return isTable && this.getOperation() == null;
     }
 
     /**
@@ -170,7 +169,7 @@ public class FrontEndParameterLogicImpl
         }
         return tableColumnNames;
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.FrontEndParameter#getTableColumns()
      */
@@ -190,7 +189,7 @@ public class FrontEndParameterLogicImpl
             });
         return tableColumns;
     }
-    
+
     /**
      * Gets all attributes for an array type that has a corresponding non-array
      * type.
@@ -205,10 +204,10 @@ public class FrontEndParameterLogicImpl
             final ClassifierFacade nonArrayType = type.getNonArray();
             if (nonArrayType != null)
             {
-                nonArrayAttributes.addAll(nonArrayType.getAttributes());
+                nonArrayAttributes.addAll(nonArrayType.getAttributes(true));
             }
         }
-        return nonArrayAttributes;        
+        return nonArrayAttributes;
     }
 
     /**
@@ -217,7 +216,7 @@ public class FrontEndParameterLogicImpl
     protected Collection handleGetTableAttributeNames()
     {
         final Collection tableAttributeNames = new ArrayList(this.getNonArrayAttributes());
-        CollectionUtils.transform(tableAttributeNames, 
+        CollectionUtils.transform(tableAttributeNames,
             new Transformer()
             {
                 public Object transform(final Object object)

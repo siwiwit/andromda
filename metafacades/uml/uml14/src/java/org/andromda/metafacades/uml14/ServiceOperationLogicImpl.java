@@ -1,9 +1,11 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.Destination;
 import org.andromda.metafacades.uml.Role;
 import org.andromda.metafacades.uml.Service;
 import org.apache.commons.collections.Closure;
@@ -13,9 +15,9 @@ import org.apache.commons.collections.Transformer;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.ServiceOperationFacade.
+ * MetafacadeLogic implementation for org.andromda.metafacades.uml.ServiceOperation.
  *
- * @see org.andromda.metafacades.uml.ServiceOperationFacade
+ * @see org.andromda.metafacades.uml.ServiceOperation
  */
 public class ServiceOperationLogicImpl
     extends ServiceOperationLogic
@@ -29,7 +31,7 @@ public class ServiceOperationLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ServiceOperationFacade#getRoles()
+     * @see org.andromda.metafacades.uml.ServiceOperation#getRoles()
      */
     public java.util.Collection handleGetRoles()
     {
@@ -38,7 +40,7 @@ public class ServiceOperationLogicImpl
         {
             roles.addAll(((Service)this.getOwner()).getRoles());
         }
-        Collection operationRoles = this.getTargetDependencies();
+        final Collection operationRoles = new ArrayList(this.getTargetDependencies());
         CollectionUtils.filter(
             operationRoles,
             new Predicate()
@@ -79,7 +81,7 @@ public class ServiceOperationLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ServiceOperationFacade#handleGetService()
+     * @see org.andromda.metafacades.uml.ServiceOperation#getService()
      */
     protected Object handleGetService()
     {
@@ -89,5 +91,63 @@ public class ServiceOperationLogicImpl
             owner = (Service)this.getOwner();
         }
         return owner;
+    }
+    
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#isMessageOperation()
+     */
+    public boolean handleIsMessageOperation()
+    {
+        return this.isIncomingMessageOperation() || this.isOutgoingMessageOperation();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#isIncomingMessageOperation()
+     */
+    public boolean handleIsIncomingMessageOperation()
+    {
+        return this.getIncomingDestination() != null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#isOutgoingMessageOperation()
+     */
+    public boolean handleIsOutgoingMessageOperation()
+    {
+        return this.getOutgoingDestination() != null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#getIncomingDestination()
+     */
+    public Object handleGetIncomingDestination()
+    {
+        final Collection dependencies = this.getTargetDependencies();
+        final DependencyFacade dependency = (DependencyFacade)
+            CollectionUtils.find(dependencies, 
+                new Predicate() {
+    
+                    public boolean evaluate(Object object)
+                    {
+                        return ((DependencyFacade)object).getSourceElement() instanceof Destination;
+                    }});
+        return dependency != null ? dependency.getSourceElement() : null;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ServiceOperation#getOutgoingDestination()
+     */
+    public Object handleGetOutgoingDestination()
+    {
+        final Collection dependencies = this.getSourceDependencies();
+        final DependencyFacade dependency = (DependencyFacade)
+        CollectionUtils.find(dependencies, 
+            new Predicate() {
+
+                public boolean evaluate(Object object)
+                {
+                    return ((DependencyFacade)object).getTargetElement() instanceof Destination;
+                }});
+        return dependency != null ? dependency.getTargetElement() : null;
     }
 }

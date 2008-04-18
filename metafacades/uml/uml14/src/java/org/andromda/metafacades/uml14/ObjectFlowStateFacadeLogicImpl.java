@@ -30,10 +30,6 @@ public class ObjectFlowStateFacadeLogicImpl
                 compositeState = compositeState.getContainer();
             }
         }
-        else
-        {
-            stateMachine = compositeState.getStateMachine();
-        }
 
         return stateMachine;
     }

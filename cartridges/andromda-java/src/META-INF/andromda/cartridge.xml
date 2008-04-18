@@ -1,12 +1,20 @@
 <cartridge>
 
+    <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine"/>
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
-    <!-- cartridge-templateObject merge-point-->  
+    <!-- cartridge-templateObject merge-point-->
 
     <property reference="serializable"/>
     <property reference="enablePropertyConstructors"/>
     <property reference="toDoTag"/>
-    <!-- cartridge-property merge-point-->  
+    <property reference="enableTemplating"/>
+    <property reference="generateEqualPropertiesMethod"/>
+    <!-- cartridge-property merge-point-->
+
+    <condition name="enableTemplating">$enableTemplating.equalsIgnoreCase("true")</condition>
+    <condition name="serializable">$serializable.equalsIgnoreCase("true")</condition>
+    <condition name="generateEqualPropertiesMethod">$generateEqualPropertiesMethod.equalsIgnoreCase("true")</condition>
+    <!-- condition merge-point-->
 
     <!-- cartridge-resource merge-point -->
 
@@ -74,7 +82,23 @@
         overwrite="true">
         <modelElements variable="enumeration">
             <modelElement>
-                <type name="org.andromda.metafacades.uml.EnumerationFacade"/>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
+                	<property name="typeSafe">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+	<template
+        path="templates/java/TypeSafeEnumeration.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="enumerations"
+        overwrite="true">
+        <modelElements variable="enumeration">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.EnumerationFacade">
+                	<property name="typeSafe"/>
+                </type>
             </modelElement>
         </modelElements>
     </template>
@@ -89,8 +113,22 @@
                 <type name="org.andromda.metafacades.uml.ClassifierFacade">
                     <property name="interface"/>
                 </type>
-            </modelElement>           
-        </modelElements>  
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/java/InterfaceImpl.vsl"
+        outputPattern="$generatedFile"
+        outlet="interface-impls"
+        overwrite="true">
+        <modelElements variable="interface">
+            <modelElement>
+                <type name="org.andromda.metafacades.uml.ClassifierFacade">
+                    <property name="interface"/>
+                </type>
+            </modelElement>
+        </modelElements>
     </template>
 
     <!-- cartridge-template merge-point -->

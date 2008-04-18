@@ -47,7 +47,17 @@ public class JSFParameterLogicImpl
      */
     public boolean isTable()
     {
-        return super.isTable() && !this.isInputTable();
+        return (super.isTable() || this.isPageableTable()) && !this.isSelectable()
+            && !this.isInputTable() && !this.isInputHidden();
+    }
+
+    /**
+     * @see org.andromda.cartridges.jsf.metafacades.JSFParameter#isPageableTable()
+     */
+    protected boolean handleIsPageableTable()
+    {
+        final Object value = this.findTaggedValue(JSFProfile.TAGGEDVALUE_TABLE_PAGEABLE);
+        return Boolean.valueOf(ObjectUtils.toString(value)).booleanValue();
     }
 
     /**
@@ -258,19 +268,27 @@ public class JSFParameterLogicImpl
                 final Collection actionParameters = action.getParameters();
                 for (final Iterator parameterIterator = actionParameters.iterator(); parameterIterator.hasNext();)
                 {
-                    final JSFParameter parameter = (JSFParameter)parameterIterator.next();
-                    final String parameterName = parameter.getName();
-                    if (parameterName != null)
+                    final Object object = parameterIterator.next();
+                    if (object instanceof JSFParameter)
                     {
-                        // never overwrite column specific table links
-                        // the hyperlink table links working on a real column get priority
-                        final JSFParameter existingParameter = (JSFParameter)tableColumnsMap.get(parameterName);
-                        if (existingParameter == null ||
-                            (action.isHyperlink() && parameterName.equals(action.getTableLinkColumnName())))
+                        final JSFParameter parameter = (JSFParameter)object;
+                        final String parameterName = parameter.getName();
+                        if (parameterName != null)
                         {
-                            tableColumnsMap.put(
-                                parameterName,
-                                parameter);
+                            // never overwrite column specific table links
+                            // the hyperlink table links working on a real column get priority
+                            final Object existingObject = tableColumnsMap.get(parameterName);
+                            if (existingObject instanceof JSFParameter)
+                            {
+                                final JSFParameter existingParameter = (JSFParameter)existingObject;
+                                if (existingParameter == null ||
+                                    (action.isHyperlink() && parameterName.equals(action.getTableLinkColumnName())))
+                                {
+                                    tableColumnsMap.put(
+                                        parameterName,
+                                        parameter);
+                                }
+                            }
                         }
                     }
                 }
@@ -532,7 +550,7 @@ public class JSFParameterLogicImpl
                 final String typeName = type.getFullyQualifiedName();
 
                 // - if the parameter is not selectable but on a targetting page it IS selectable we must
-                //   allow the user to set the backing list too                 
+                //   allow the user to set the backing list too
                 final Collection views = this.getAction().getTargetViews();
                 for (final Iterator iterator = views.iterator(); iterator.hasNext() && !selectable;)
                 {
@@ -541,17 +559,21 @@ public class JSFParameterLogicImpl
                     for (final Iterator parameterIterator = parameters.iterator();
                         parameterIterator.hasNext() && !selectable;)
                     {
-                        final JSFParameter parameter = (JSFParameter)parameterIterator.next();
-                        final String parameterName = parameter.getName();
-                        final ClassifierFacade parameterType = parameter.getType();
-                        if (parameterType != null)
+                        final Object object = parameterIterator.next();
+                        if (object instanceof JSFParameter)
                         {
-                            final String parameterTypeName = parameterType.getFullyQualifiedName();
-                            if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                            final JSFParameter parameter = (JSFParameter)object;
+                            final String parameterName = parameter.getName();
+                            final ClassifierFacade parameterType = parameter.getType();
+                            if (parameterType != null)
                             {
-                                selectable =
-                                    parameter.isInputMultibox() || parameter.isInputSelect() ||
-                                    parameter.isInputRadio();
+                                final String parameterTypeName = parameterType.getFullyQualifiedName();
+                                if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                                {
+                                    selectable =
+                                        parameter.isInputMultibox() || parameter.isInputSelect() ||
+                                        parameter.isInputRadio();
+                                }
                             }
                         }
                     }
@@ -568,12 +590,16 @@ public class JSFParameterLogicImpl
                 final Collection formFields = action.getFormFields();
                 for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !selectable;)
                 {
-                    final JSFParameter parameter = (JSFParameter)fieldIterator.next();
-                    if (!parameter.equals(this))
+                    final Object object = fieldIterator.next();
+                    if (object instanceof JSFParameter)
                     {
-                        if (name.equals(parameter.getName()))
+                        final JSFParameter parameter = (JSFParameter)object;
+                        if (!parameter.equals(this))
                         {
-                            selectable = parameter.isSelectable();
+                            if (name.equals(parameter.getName()))
+                            {
+                                selectable = parameter.isSelectable();
+                            }
                         }
                     }
                 }
@@ -826,7 +852,8 @@ public class JSFParameterLogicImpl
     {
         return JSFUtils.getValidatorVars(
             ((ModelElementFacade)this.THIS()),
-            this.getType());
+            this.getType(),
+            null);
     }
 
     /**
@@ -872,7 +899,7 @@ public class JSFParameterLogicImpl
         final ClassifierFacade type = this.getType();
         if (type != null)
         {
-            attributes = type.getAttributes();
+            attributes = type.getAttributes(true);
         }
         return attributes == null ? Collections.EMPTY_LIST : attributes;
     }
@@ -896,7 +923,7 @@ public class JSFParameterLogicImpl
      */
     protected boolean handleIsEqualValidator()
     {
-        final String equal = JSFUtils.getEqual((ModelElementFacade)this.THIS());
+        final String equal = JSFUtils.getEqual((ModelElementFacade)this.THIS(), null);
         return equal != null && equal.trim().length() > 0;
     }
 
@@ -916,8 +943,8 @@ public class JSFParameterLogicImpl
                 final String name = this.getName();
                 final String typeName = type.getFullyQualifiedName();
 
-                // - if the backing value is not required for this parameter but on 
-                //   a targetting page it IS selectable we must allow the user to set the backing value as well                 
+                // - if the backing value is not required for this parameter but on
+                //   a targetting page it IS selectable we must allow the user to set the backing value as well
                 final Collection views = this.getAction().getTargetViews();
                 for (final Iterator iterator = views.iterator(); iterator.hasNext() && !required;)
                 {
@@ -926,15 +953,19 @@ public class JSFParameterLogicImpl
                     for (final Iterator parameterIterator = parameters.iterator();
                         parameterIterator.hasNext() && !required;)
                     {
-                        final JSFParameter parameter = (JSFParameter)parameterIterator.next();
-                        final String parameterName = parameter.getName();
-                        final ClassifierFacade parameterType = parameter.getType();
-                        if (parameterType != null)
+                        final Object object = parameterIterator.next();
+                        if (object instanceof JSFParameter)
                         {
-                            final String parameterTypeName = parameterType.getFullyQualifiedName();
-                            if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                            final JSFParameter parameter = (JSFParameter)object;
+                            final String parameterName = parameter.getName();
+                            final ClassifierFacade parameterType = parameter.getType();
+                            if (parameterType != null)
                             {
-                                required = parameter.isInputTable();
+                                final String parameterTypeName = parameterType.getFullyQualifiedName();
+                                if (name.equals(parameterName) && typeName.equals(parameterTypeName))
+                                {
+                                    required = parameter.isInputTable();
+                                }
                             }
                         }
                     }
@@ -951,12 +982,16 @@ public class JSFParameterLogicImpl
                 final Collection formFields = action.getFormFields();
                 for (final Iterator fieldIterator = formFields.iterator(); fieldIterator.hasNext() && !required;)
                 {
-                    final JSFParameter parameter = (JSFParameter)fieldIterator.next();
-                    if (!parameter.equals(this))
+                    final Object object = fieldIterator.next();
+                    if (object instanceof JSFParameter)
                     {
-                        if (name.equals(parameter.getName()))
+                        final JSFParameter parameter = (JSFParameter)object;
+                        if (!parameter.equals(this))
                         {
-                            required = parameter.isBackingValueRequired();
+                            if (name.equals(parameter.getName()))
+                            {
+                                required = parameter.isBackingValueRequired();
+                            }
                         }
                     }
                 }
@@ -972,7 +1007,7 @@ public class JSFParameterLogicImpl
     {
         return ObjectUtils.toString(this.findTaggedValue(JSFProfile.TAGGEDVALUE_INPUT_TABLE_IDENTIFIER_COLUMNS)).trim();
     }
-    
+
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFParameter#getTableColumnActions(java.lang.String)
      */

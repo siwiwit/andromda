@@ -1,5 +1,14 @@
 package org.andromda.repositories.emf;
 
+import org.andromda.core.common.ResourceFinder;
+import org.andromda.core.metafacade.ModelAccessFacade;
+import org.andromda.core.repository.RepositoryFacade;
+import org.andromda.core.repository.RepositoryFacadeException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -8,19 +17,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.andromda.core.common.ComponentContainer;
-import org.andromda.core.common.ResourceFinder;
-import org.andromda.core.metafacade.ModelAccessFacade;
-import org.andromda.core.repository.RepositoryFacade;
-import org.andromda.core.repository.RepositoryFacadeException;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 /**
@@ -35,12 +31,14 @@ public abstract class EMFRepositoryFacade
     /**
      * Stores the resources (i.e. models) loaded into EMF.
      */
-    protected final ResourceSet resourceSet = new ResourceSetImpl();
+    private ResourceSet resourceSet;
+    
+    protected ModelAccessFacade modelFacade;
 
     /**
      * Stores the actual loaded model.
      */
-    private Object model;
+    protected Resource model;
 
     /**
      * The options for loading the model.
@@ -58,40 +56,45 @@ public abstract class EMFRepositoryFacade
     }
 
     /**
-     * Reads the model with the given <code>uri</code> into the EModelElement
-     * instance.
+     * Reads the model with the given <code>uri</code>.
      *
      * @param uri the URI to the model
-     * @return the model element instance.
      */
-    protected EObject readModel(final String uri)
+    protected void readModel(final String uri)
     {
-        EObject modelPackage = null;
         try
         {
-            final Resource resource = resourceSet.createResource(EMFRepositoryFacadeUtils.createUri(uri));
-            if (resource == null)
+            model = resourceSet.createResource(EMFRepositoryFacadeUtils.createUri(uri));
+            if (model == null)
             {
                 throw new RepositoryFacadeException("'" + uri + "' is an invalid model");
             }
-            resource.load(this.getLoadOptions());
-            EcoreUtil.resolveAll(resource);
-            modelPackage =
-                (EObject)EcoreUtil.getObjectByType(
-                    resource.getContents(),
-                    EcorePackage.eINSTANCE.getEObject());
+            model.load(this.getLoadOptions());
+            EcoreUtil.resolveAll(model);
         }
         catch (final Exception exception)
         {
             throw new RepositoryFacadeException(exception);
         }
-        return modelPackage;
     }
 
     /**
      * @see org.andromda.core.repository.RepositoryFacade#open()
      */
-    public abstract void open();
+    public void open()
+    {
+        this.resourceSet = this.createNewResourceSet();
+    }
+
+    /**
+     * Creates and returns a new resource suitable suitable for loading models into EMF.
+     * This callback is used when (re-)initializing this repository so that it can be reused between different
+     * AndroMDA runs, once a resource set is used for a model it becomes 'polluted' so that subsequent models
+     * will see things from the previous runs, which might mess up the processing.
+     *
+     * @return a new resource set to be used by this repository
+     */
+    protected abstract ResourceSet createNewResourceSet();
 
     /**
      * @see org.andromda.core.repository.RepositoryFacade#close()
@@ -108,7 +111,7 @@ public abstract class EMFRepositoryFacade
     /**
      * @see org.andromda.core.repository.RepositoryFacade#readModel(java.lang.String[], java.lang.String[])
      */
-    public void readModel(
+    public final void readModel(
         String[] modelUris,
         String[] moduleSearchPaths)
     {
@@ -137,13 +140,13 @@ public abstract class EMFRepositoryFacade
                 }
             }
         }
-        resourceSet.setURIConverter(new EMFURIConverter(moduleSearchPathList));
-        if (modelUris != null && modelUris.length > 0)
+        this.resourceSet.setURIConverter(new EMFURIConverter(moduleSearchPathList));
+        if (modelUris.length > 0)
         {
             final int numberOfModelUris = modelUris.length;
             for (int ctr = 0; ctr < numberOfModelUris; ctr++)
             {
-                model = this.readModel(modelUris[ctr]);
+                this.readModel(modelUris[ctr]);
             }
         }
     }
@@ -199,45 +202,11 @@ public abstract class EMFRepositoryFacade
     }
 
     /**
-     * The model access facade instance.
-     */
-    private ModelAccessFacade modelFacade = null;
-
-    /**
-     * @see org.andromda.core.repository.RepositoryFacade#getModel(java.lang.Class)
-     */
-    public ModelAccessFacade getModel(Class type)
-    {
-        if (this.modelFacade == null)
-        {
-            try
-            {
-                this.modelFacade =
-                    (ModelAccessFacade)ComponentContainer.instance().newComponent(
-                        type,
-                        ModelAccessFacade.class);
-            }
-            catch (final Throwable throwable)
-            {
-                throw new RepositoryFacadeException(throwable);
-            }
-        }
-        if (this.model != null)
-        {
-            this.modelFacade.setModel(this.model);
-        }
-        else
-        {
-            this.modelFacade = null;
-        }
-        return this.modelFacade;
-    }
-
-    /**
      * @see org.andromda.core.repository.RepositoryFacade#clear()
      */
     public void clear()
     {
-        model = null;
+        this.model = null;
+        this.resourceSet = this.createNewResourceSet();
     }
 }

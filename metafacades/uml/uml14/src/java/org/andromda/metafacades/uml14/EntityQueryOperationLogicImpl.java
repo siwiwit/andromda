@@ -18,7 +18,7 @@ public class EntityQueryOperationLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.EntityFinderMethodFacade#getQuery(java.lang.String)
+     * @see org.andromda.metafacades.uml.EntityQueryOperation#getQuery(java.lang.String)
      */
     protected java.lang.String handleGetQuery(String translation)
     {

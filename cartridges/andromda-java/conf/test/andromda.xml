@@ -8,10 +8,11 @@
                 <model>
                     <uri>${test.model.uri}</uri>
                     <moduleSearchLocations>
-                        <location patterns="**/*.xml.zip">${basedir}/../../profiles</location>
+                        <location patterns="**/*.xml.zip">${basedir}/../../profiles/uml-1.4</location>
+                        <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles/uml-1.4</location>
                     </moduleSearchLocations>
                 </model>
-            </models>            
+            </models>
         </repository>
     </repositories>
     <namespaces>
@@ -27,8 +28,10 @@
                 <property name="exceptions">${test.output.dir}</property>
                 <property name="enumerations">${test.output.dir}</property>
                 <property name="interfaces">${test.output.dir}</property>
+                <property name="interface-impls">${test.output.dir}</property>
                 <property name="mergeMappingsUri">file:${test.src.dir}/mappings/MergeMappings.xml</property>
                 <property name="useArraysForMultiplicitiesOfTypeMany">true</property>
+                <property name="generateEqualPropertiesMethod">true</property>
             </properties>
         </namespace>
     </namespaces>

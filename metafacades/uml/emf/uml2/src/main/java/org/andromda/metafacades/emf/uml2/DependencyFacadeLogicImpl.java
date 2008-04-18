@@ -1,8 +1,11 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.DependencyFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.DependencyFacade.
  *
  * @see org.andromda.metafacades.uml.DependencyFacade
  */
@@ -10,10 +13,30 @@ public class DependencyFacadeLogicImpl
     extends DependencyFacadeLogic
 {
     public DependencyFacadeLogicImpl(
-        org.eclipse.uml2.Dependency metaObject,
-        String context)
+        final org.eclipse.uml2.DirectedRelationship metaObject,
+        final String context)
     {
         super(metaObject, context);
+    }
+
+    /**
+     * Gets the name in the following manner.
+     * <ol>
+     * <li>If the dependency has a name return it.</li>
+     * <li>If the dependency does <strong>NOT </strong> have a name, get the
+     * target element's and return its name uncapitalized.</li>
+     * </ol>
+     *
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
+     */
+    public String handleGetName()
+    {
+        String name = super.handleGetName();
+        if (StringUtils.isBlank(name) && this.getTargetElement() != null)
+        {
+            name = StringUtils.uncapitalize(this.getTargetElement().getName());
+        }
+        return name;
     }
 
     /**
@@ -21,8 +44,7 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.String handleGetGetterName()
     {
-        // TODO: put your implementation here.
-        return null;
+        return "get" + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -30,8 +52,7 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.String handleGetSetterName()
     {
-        // TODO: put your implementation here.
-        return null;
+        return "set" + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -39,8 +60,7 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.Object handleGetTargetElement()
     {
-        // TODO: add your implementation here!
-        return null;
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getTargets().toArray()[0]);
     }
 
     /**
@@ -48,7 +68,6 @@ public class DependencyFacadeLogicImpl
      */
     protected java.lang.Object handleGetSourceElement()
     {
-        // TODO: add your implementation here!
-        return null;
+        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getSources().toArray()[0]);
     }
 }

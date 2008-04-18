@@ -182,8 +182,10 @@ public class StringUtilsHelperTest
             {
                 new String[] {null, ""}, new String[] {"", ""}, new String[] {"               ", ""},
                 new String[] {"key", "keys"}, new String[] {"word", "words"}, new String[] {"property", "properties"},
-                new String[] {"bus", "busses"}, new String[] {"cross", "crosses"}, new String[] {"lackey", "lackeys"},
-                new String[] {"noun", "nouns"}
+                new String[] {"bus", "buses"}, new String[] {"cross", "crosses"}, new String[] {"lackey", "lackeys"},
+                new String[] {"noun", "nouns"}, new String[] {"knife", "knives"}, new String[] {"child", "children"},
+                new String[] {"person", "people"}, new String[] {"foot", "feet"}, new String[] {"woman", "women"},
+                new String[] {"series", "series"},
             };
 
         for (int i = 0; i < fixture.length; i++)

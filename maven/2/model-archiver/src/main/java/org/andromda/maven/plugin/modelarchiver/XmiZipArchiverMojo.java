@@ -21,6 +21,7 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
@@ -82,7 +83,7 @@ public class XmiZipArchiverMojo
      * @description "the maven project to use"
      */
     private MavenProject project;
-    
+
     /**
      * Artifact factory, needed to download source jars for inclusion in
      * classpath.
@@ -117,6 +118,23 @@ public class XmiZipArchiverMojo
      * @required
      */
     protected String replacementExtensions;
+
+    /**
+     * Whether or not to do replacement of embedded model HREF reference extensions.
+     *
+     * @parameter expression=true
+     * @required
+     */
+    protected boolean replaceExtensions;
+
+    /**
+     * The maven project's helper.
+     *
+     * @parameter expression="${component.org.apache.maven.project.MavenProjectHelper}"
+     * @required
+     * @readonly
+     */
+    private MavenProjectHelper projectHelper;
 
     /**
      * Whether or not the model should have a jar created with it as well.
@@ -170,6 +188,7 @@ public class XmiZipArchiverMojo
         getLog().debug("workDirectory[" + workDirectory + "]");
         getLog().debug("outputDirectory[" + outputDirectory + "]");
         getLog().debug("finalName[" + finalName + "]");
+        getLog().debug("replaceExtensions[" + replaceExtensions + "]");
 
         try
         {
@@ -215,15 +234,19 @@ public class XmiZipArchiverMojo
                                 }
                                 extractedFile.renameTo(newFile);
                                 String contents = IOUtils.toString(new FileReader(newFile));
-                                for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
+                                if (replaceExtensions)
                                 {
-                                    final String version = escapePattern(this.project.getVersion());
-                                    final String extension = escapePattern(replacementExtensions[ctr3]);
-                                    final String extensionPattern = "((\\-" + version + ")?)" + extension;
-                                    final String newExtension = "\\-" + version + extension;
-                                    contents = contents.replaceAll(
-                                            extensionPattern,
-                                            newExtension);
+                                    for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
+                                    {
+                                        final String version = escapePattern(this.project.getVersion());
+                                        final String extension = escapePattern(replacementExtensions[ctr3]);
+                                        final String extensionPattern = "((\\-" + version + ")?)" + extension;
+                                        final String newExtension = "\\-" + version + extension;
+                                        contents =
+                                            contents.replaceAll(
+                                                extensionPattern,
+                                                newExtension);
+                                    }
                                 }
                                 final FileWriter fileWriter = new FileWriter(newFile);
                                 fileWriter.write(contents);
@@ -245,12 +268,16 @@ public class XmiZipArchiverMojo
             {
                 final File workDirectory = new File(this.workDirectory);
                 this.getLog().info("Building model jar " + finalName);
-                
-                final Artifact jarArtifact = artifactFactory.createArtifact( project.getGroupId(),
-                    project.getArtifactId(),
-                    project.getVersion(), null, "jar");
 
-                File modelJar = new File(workDirectory, finalName + ".jar");
+                final Artifact jarArtifact =
+                    artifactFactory.createArtifact(
+                        project.getGroupId(),
+                        project.getArtifactId(),
+                        project.getVersion(),
+                        null,
+                        ATTACHED_ARTIFACT_TYPE);
+
+                File modelJar = new File(workDirectory, finalName + "." + ATTACHED_ARTIFACT_TYPE);
 
                 final MavenArchiver modelJarArchiver = new MavenArchiver();
 
@@ -271,9 +298,12 @@ public class XmiZipArchiverMojo
                 this.installModelJar(
                     jarArtifact,
                     modelJar);
-                project.addAttachedArtifact(jarArtifact);
+                projectHelper.attachArtifact(
+                    project,
+                    ATTACHED_ARTIFACT_TYPE,
+                    null,
+                    modelJar);
             }
-
         }
         catch (final Throwable throwable)
         {
@@ -282,8 +312,13 @@ public class XmiZipArchiverMojo
     }
 
     /**
+     * The type of the attached artifact.
+     */
+    private static final String ATTACHED_ARTIFACT_TYPE = "jar";
+
+    /**
      * Installs the model jar for this xml.zip artifact into the local repository.
-     * 
+     *
      * @param artifact the artifact to install.
      * @param source the source of the artifact.
      * @throws IOException
@@ -315,11 +350,13 @@ public class XmiZipArchiverMojo
      */
     private static String escapePattern(String pattern)
     {
-        pattern = StringUtils.replace(
+        pattern =
+            StringUtils.replace(
                 pattern,
                 ".",
                 "\\.");
-        pattern = StringUtils.replace(
+        pattern =
+            StringUtils.replace(
                 pattern,
                 "-",
                 "\\-");
@@ -363,7 +400,7 @@ public class XmiZipArchiverMojo
     /**
      * Writes the given given <code>model</code> archive file and includes
      * the file given by the <code>path</code>
-     * 
+     *
      * @param modelArchive the model archive.
      * @param path the path of the model to write.
      * @throws IOException
@@ -384,7 +421,8 @@ public class XmiZipArchiverMojo
         final java.io.FileInputStream inputStream = new java.io.FileInputStream(path);
         final byte[] buffer = new byte[1024];
         int n = 0;
-        while ((n = inputStream.read(
+        while ((n =
+                inputStream.read(
                     buffer,
                     0,
                     buffer.length)) > 0)

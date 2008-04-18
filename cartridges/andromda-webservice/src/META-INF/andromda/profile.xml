@@ -16,7 +16,7 @@
                 <value>Service</value>
                 <appliedOnElement>class</appliedOnElement>
             </element>
-            <element name="WEB_SERVICE">
+            <element name="WEBSERVICE">
                 <documentation>
                     Creates a WSDD service fragment and exposes ALL methods of the element
                     as a web service.

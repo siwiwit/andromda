@@ -76,7 +76,7 @@ public class TypeMappings
      */
     public String getTo(String from)
     {
-        from = StringUtils.deleteWhitespace(StringUtils.trimToEmpty(from));
+        from = StringUtils.trimToEmpty(from);
         String initialFrom = from;
 
         String to = null;

@@ -56,10 +56,10 @@ $operation.getDocumentation("     * ")
 #set ($accessorSuffix = $stringUtils.capitalize($sessionObject.name))
     /**
      * Returns the current $sessionObject.name from the session found in the argument request.
-     * <p/>
+     * <p>
      * In case an object was found in the session but it was not of the correct type, this method
      * will return <code>null</code>.
-     * <p/>
+     * <p>
      * If there is no session, it will be created; if the session would not contain a session-object
      * the object will be instantiated and subsequently stored in the session.
      */

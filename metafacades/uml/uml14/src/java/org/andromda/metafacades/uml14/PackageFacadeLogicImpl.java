@@ -25,7 +25,7 @@ public class PackageFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.PackageFacade#handleGetClasses()
+     * @see org.andromda.metafacades.uml.PackageFacade#getClasses()
      */
     public java.util.Collection handleGetClasses()
     {
@@ -39,7 +39,7 @@ public class PackageFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.PackageFacade#handleGetSubPackages()
+     * @see org.andromda.metafacades.uml.PackageFacade#getSubPackages()
      */
     protected Collection handleGetSubPackages()
     {
@@ -53,7 +53,7 @@ public class PackageFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.PackageFacade#handleGetModelElements()
+     * @see org.andromda.metafacades.uml.PackageFacade#getModelElements()
      */
     protected Collection handleGetModelElements()
     {
@@ -62,7 +62,7 @@ public class PackageFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.ModelFacade#findModelElement(java.lang.String)
+     * @see org.andromda.metafacades.uml.PackageFacade#findModelElement(java.lang.String)
      */
     public ModelElementFacade handleFindModelElement(final String fullyQualifiedName)
     {
@@ -74,7 +74,7 @@ public class PackageFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.PackageFacadeLogic#getOwnedElements()
+     * @see org.andromda.metafacades.uml.PackageFacade#getOwnedElements()
      */
     protected Collection handleGetOwnedElements()
     {

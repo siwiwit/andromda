@@ -293,7 +293,7 @@ public abstract class AbstractConfigurationMojo
      *
      * @parameter expression="${project.build.plugins}"
      * @required
-     * @readonlya
+     * @readonly
      */
     protected abstract List getPlugins();
 

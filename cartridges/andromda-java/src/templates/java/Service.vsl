@@ -11,12 +11,15 @@ package $service.packageName;
 $service.getDocumentation(" * ")
  */
 public interface $service.name
-#if($service.generalization)
+#if ($service.generalization)
     extends $service.generalization.fullyQualifiedName
+#end
+#if (!$service.interfaceAbstractions.empty)
+    implements ${service.implementedInterfaceList}
 #end
 {
 
-#foreach ( $operation in $service.operations )
+#foreach ($operation in $service.operations)
     /**
 $operation.getDocumentation("     * ")
      */

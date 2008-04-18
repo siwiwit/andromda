@@ -124,7 +124,7 @@ public class ConstraintFacadeLogicImpl
         boolean htmlStyle)
     {
         String documentation = super.getDocumentation(indent, lineLength, htmlStyle);
-        boolean isBlank = false;
+        boolean isBlank;
 
         if (htmlStyle)
         {

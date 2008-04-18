@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.andromda.core.common.ResourceUtils;
@@ -17,6 +19,8 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
 import org.apache.maven.artifact.repository.ArtifactRepository;
+import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
+import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Build;
@@ -25,7 +29,6 @@ import org.apache.maven.model.PluginExecution;
 import org.apache.maven.model.PluginManagement;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.profiles.DefaultProfileManager;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectBuilder;
 import org.apache.maven.project.ProjectBuildingException;
@@ -56,23 +59,25 @@ public class EclipseMojo
      */
     private MavenProject project;
 
+    private static final String POM_FILE_NAME = "pom.xml";
+
     /**
      * Defines the POMs to include when generating the eclipse files.
      *
      * @parameter
      */
-    private String[] includes = new String[] {"*/**/pom.xml"};
+    private String[] includes = new String[] {"*/**/" + POM_FILE_NAME};
 
     /**
      * Defines the POMs to exclude when generating the eclipse files.
      *
-     * @parameter
+     * @parameter expression="${exclude.poms}"
      */
-    private String[] excludes = new String[0];
-    
+    private String excludePoms;
+
     /**
      * Used to contruct Maven project instances from POMs.
-     * 
+     *
      * @component
      */
     private MavenProjectBuilder projectBuilder;
@@ -128,7 +133,13 @@ public class EclipseMojo
      * @parameter expression="${resolveTransitiveDependencies}"
      */
     private boolean resolveTransitiveDependencies = true;
-   
+
+    /**
+     * Allows non-generated configuration to be "merged" into the generated .classpath file.
+     *
+     * @parameter
+     */
+    private String classpathMerge;
 
     /**
      * @see org.apache.maven.plugin.Mojo#execute()
@@ -142,21 +153,28 @@ public class EclipseMojo
             final ProjectWriter projectWriter = new ProjectWriter(rootProject,
                     this.getLog());
             projectWriter.write();
+            final Map originalCompileSourceRoots = this.collectProjectCompileSourceRoots();
             final List projects = this.collectProjects();
-            if (!projects.isEmpty())
+            this.processCompileSourceRoots(projects);
+            final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
+                    this.getLog());
+            classpathWriter.write(
+                projects,
+                this.repositoryVariableName,
+                this.artifactFactory,
+                this.artifactResolver,
+                this.localRepository,
+                this.artifactMetadataSource,
+                this.classpathArtifactTypes,
+                this.project.getRemoteArtifactRepositories(),
+                this.resolveTransitiveDependencies,
+                this.classpathMerge);
+            // - reset to the original source roots
+            for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
             {
-                final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
-                        this.getLog());
-                classpathWriter.write(
-                    projects,
-                    this.repositoryVariableName,
-                    this.artifactFactory,
-                    this.artifactResolver,
-                    this.localRepository,
-                    this.artifactMetadataSource,
-                    this.classpathArtifactTypes,
-                    this.project.getRemoteArtifactRepositories(),
-                    this.resolveTransitiveDependencies);
+                final MavenProject project = (MavenProject)iterator.next();
+                project.getCompileSourceRoots().clear();
+                project.getCompileSourceRoots().addAll((List)originalCompileSourceRoots.get(project));
             }
         }
         catch (Throwable throwable)
@@ -166,50 +184,91 @@ public class EclipseMojo
     }
 
     /**
+     * Collects all existing project compile source roots.
+     *
+     * @return a collection of collections
+     */
+    private Map collectProjectCompileSourceRoots()
+        throws Exception
+    {
+        final Map sourceRoots = new LinkedHashMap();
+        for (final Iterator iterator = this.collectProjects().iterator(); iterator.hasNext();)
+        {
+            final MavenProject project = (MavenProject)iterator.next();
+            sourceRoots.put(project, new ArrayList(project.getCompileSourceRoots()));
+        }
+        return sourceRoots;
+    }
+
+    private List projects = new ArrayList();
+
+    /**
      * Collects all projects from all POMs within the current project.
      *
-     * @return all collection Maven project instances.
+     * @return all applicable Maven project instances.
      *
      * @throws MojoExecutionException
      */
     private List collectProjects()
         throws Exception
     {
-        final List projects = new ArrayList();
-
-        final List poms = this.getPoms();
-        for (ListIterator iterator = poms.listIterator(); iterator.hasNext();)
+        if (projects.isEmpty())
         {
-            final File pom = (File)iterator.next();
-            try
+            final List poms = this.getPoms();
+            for (ListIterator iterator = poms.listIterator(); iterator.hasNext();)
             {
-                // - first attempt to get the existing project from the session
-                MavenProject project = ProjectUtils.getProject(this.projectBuilder, this.session, pom);
-                if (project == null)
+                final File pom = (File)iterator.next();
+                try
                 {
-                    // - if we didn't find it in the session, create it
-                    project =
-                        this.projectBuilder.build(
-                            pom,
-                            this.session.getLocalRepository(),
-                            new DefaultProfileManager(this.session.getContainer()));                
+                    // - first attempt to get the existing project from the session
+                    final MavenProject project = ProjectUtils.getProject(this.projectBuilder, this.session, pom, this.getLog());
+                    if (project != null)
+                    {
+                        this.getLog().info("found project " + project.getId());
+                        projects.add(project);
+                    }
+                    else
+                    {
+                        if (this.getLog().isWarnEnabled())
+                        {
+                            this.getLog().warn("Could not load project from pom: " + pom + " - ignoring");
+                        }
+                    }
                 }
-                final Set compileSourceRoots = new LinkedHashSet(project.getCompileSourceRoots());
-                compileSourceRoots.addAll(this.getExtraSourceDirectories(project));
-                project.getCompileSourceRoots().clear();
-                project.getCompileSourceRoots().addAll(compileSourceRoots);
-                this.getLog().info("Processing project " + project.getId());
-                projects.add(project);
-            }
-            catch (ProjectBuildingException exception)
-            {
-                throw new MojoExecutionException("Error loading " + pom, exception);
+                catch (ProjectBuildingException exception)
+                {
+                    throw new MojoExecutionException("Error loading " + pom, exception);
+                }
             }
         }
         return projects;
     }
-    
-    //buildFromRepository(Artifact artifact, List remoteArtifactRepositories, ArtifactRepository localRepository, boolean allowStubModel)
+
+    /**
+     * Processes the project compile source roots (adds all appropriate ones to the projects)
+     * so that they're avialable to the eclipse mojos.
+     *
+     * @param projects the projects to process.
+     * @return the source roots.
+     * @throws Exception
+     */
+    private void processCompileSourceRoots(final List projects)
+        throws Exception
+    {
+        for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
+        {
+            final MavenProject project = (MavenProject)iterator.next();
+            final Set compileSourceRoots = new LinkedHashSet(project.getCompileSourceRoots());
+            compileSourceRoots.addAll(this.getExtraSourceDirectories(project));
+            final String testSourceDirectory = project.getBuild().getTestSourceDirectory();
+            if (testSourceDirectory != null && testSourceDirectory.trim().length() > 0)
+            {
+                compileSourceRoots.add(testSourceDirectory);
+            }
+            project.getCompileSourceRoots().clear();
+            project.getCompileSourceRoots().addAll(compileSourceRoots);
+        }
+    }
 
     /**
      * The artifact id for the multi source plugin.
@@ -322,21 +381,30 @@ public class EclipseMojo
      * @throws MojoExecutionException
      */
     private MavenProject getRootProject()
-        throws MojoExecutionException
+        throws MojoExecutionException, ArtifactResolutionException, ArtifactNotFoundException
     {
         if (this.rootProject == null)
         {
-            MavenProject root = null;
-            for (root = this.project.getParent(); root.getParent() != null; root = root.getParent())
+            final MavenProject firstParent = this.project.getParent();
+            File rootFile = this.project.getFile();
+            if (firstParent != null)
             {
-                ;
+                for (this.rootProject = firstParent, rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME);
+                     this.rootProject.getParent() != null && this.rootProject.getParent().getFile() != null;
+                     this.rootProject = this.rootProject.getParent(), rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME))
+                {
+                    ;
+                }            
+                // - if the project has no file defined, use the rootFile
+                if (this.rootProject != null && this.rootProject.getFile() == null && rootFile.exists())
+                {
+                	this.rootProject.setFile(rootFile);
+                }
             }
-            if (root == null)
+            else
             {
-                throw new MojoExecutionException("No parent could be retrieved for project --> " +
-                    this.project.getId() + "', you must specify a parent project");
+                this.rootProject = this.project;
             }
-            this.rootProject = root;
         }
         return this.rootProject;
     }
@@ -348,12 +416,12 @@ public class EclipseMojo
      * @throws MojoExecutionException
      */
     private List getPoms()
-        throws MojoExecutionException
+        throws Exception
     {
         final DirectoryScanner scanner = new DirectoryScanner();
         scanner.setBasedir(this.getRootProject().getBasedir());
         scanner.setIncludes(this.includes);
-        scanner.setExcludes(this.excludes);
+        scanner.setExcludes(this.excludePoms != null ? excludePoms.split(",") : null);
         scanner.scan();
 
         List poms = new ArrayList();

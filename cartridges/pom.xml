@@ -1,11 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.andromda</groupId>
         <artifactId>andromda</artifactId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.3</version>
     </parent>
     <groupId>org.andromda.cartridges</groupId>
     <artifactId>andromda-cartridges</artifactId>
@@ -26,6 +26,7 @@
             <groupId>org.andromda.metafacades</groupId>
             <artifactId>andromda-metafacades-uml</artifactId>
             <version>${pom.version}</version>
+            <type>xml.zip</type>
         </dependency>
         <dependency>
             <groupId>org.andromda.translationlibraries</groupId>
@@ -51,7 +52,7 @@
             <artifactId>log4j</artifactId>
             <version>1.2.12</version>
         </dependency>
-    </dependencies> 
+    </dependencies>
     <build>
         <pluginManagement>
             <plugins>
@@ -75,7 +76,7 @@
                 <plugin>
                     <extensions>true</extensions>
                     <groupId>org.andromda.maven.plugins</groupId>
-                    <artifactId>andromda-cartridge-plugin</artifactId>  
+                    <artifactId>andromda-cartridge-plugin</artifactId>
                     <version>${pom.version}</version>
                     <executions>
                         <execution>
@@ -86,7 +87,32 @@
                                 <configurationUri>file:${basedir}/conf/test/andromda.xml</configurationUri>
                             </configuration>
                         </execution>
-                    </executions> 
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.andromda.maven.plugins.site</groupId>
+                    <artifactId>andromda-site-plugin</artifactId>
+                    <version>${pom.version}</version>
+                    <executions>
+                        <execution>
+                            <id>profile-transform</id>
+                            <goals>
+                                <goal>profile-xsl</goal>
+                            </goals>
+                            <configuration>
+                                <profileDocumentPath>${pom.basedir}/src/META-INF/andromda/profile.xml</profileDocumentPath>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>namespace-transform</id>
+                            <goals>
+                                <goal>namespace-xsl</goal>
+                            </goals>
+                            <configuration>
+                                <namespaceDocumentPath>${pom.basedir}/src/META-INF/andromda/namespace.xml</namespaceDocumentPath>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -112,7 +138,7 @@
                     <exclude>**/*.java</exclude>
                 </excludes>
             </resource>
-        </resources>  
+        </resources>
     </build>
     <modules>
         <module>andromda-bpm4struts</module>
@@ -126,13 +152,17 @@
         <module>andromda-spring</module>
         <module>andromda-webservice</module>
         <module>andromda-xmlschema</module>
+        <module>manageable-entities</module>
+        <module>support</module>
         <module>testsuite</module>
     </modules>
     <properties>
-        <build.src>${pom.basedir}/target/src</build.src>
+        <maven.build.src>${pom.basedir}/target/src</maven.build.src>
         <java.src.dir>${pom.basedir}/src/java</java.src.dir>
         <test.src.dir>${pom.basedir}/src/test</test.src.dir>
         <src.dir>${pom.basedir}/src</src.dir>
         <test.output.dir>${pom.basedir}/target/cartridge-test/actual</test.output.dir>
+        <howto.output.dir>${pom.basedir}/target/site/howto</howto.output.dir>
+        <andromda.cartridge.howto.model.uri>jar:file:${src.dir}/site/resources/howto/HowToModel.xml.zip!/HowToModel.xml</andromda.cartridge.howto.model.uri>
     </properties>
 </project>

@@ -18,6 +18,14 @@
                 <value>metafacade</value>
                 <appliedOnElement>class</appliedOnElement>
             </element>
+            <element name="PSM_METACLASS">
+                <documentation>
+                    Denotes a class that represents a metaclass
+					in a PSM metamodel.
+                </documentation>
+                <value>PSMmetaclass</value>
+                <appliedOnElement>class</appliedOnElement>
+            </element>
         </elementGroup>
         <elementGroup name="Tagged Values">
             <element name="GENERALIZATION_PRECEDENCE">

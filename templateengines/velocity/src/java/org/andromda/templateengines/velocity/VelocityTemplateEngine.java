@@ -309,8 +309,6 @@ public class VelocityTemplateEngine
                 final StringWriter writer = new StringWriter();
                 this.velocityEngine.evaluate(this.velocityContext, writer, LOG_TAG, expression);
                 evaluatedExpression = writer.toString();
-                // - reset the velocity context
-                this.velocityContext = null;
             }
             catch (final Throwable throwable)
             {
@@ -400,7 +398,7 @@ public class VelocityTemplateEngine
      * <p/>
      * Error messages can now be traced to plugin activities. </p>
      */
-    private static class VelocityLoggingReceiver
+    static class VelocityLoggingReceiver
         implements LogSystem
     {
         /**

@@ -13,13 +13,12 @@
 #else
     <packaging>jar</packaging>
 #end
-    <name>$applicationName Core Business Tier</name>
+    <name>${applicationName} Core Business Tier</name>
     <dependencies>
         <dependency>
             <groupId>${pom.groupId}</groupId>
             <artifactId>${applicationId}-common</artifactId>
             <version>${pom.version}</version>
-            <scope>compile</scope>
         </dependency>
 #if ($workflow)
         <dependency>
@@ -44,37 +43,45 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-hibernate</artifactId>
+            <artifactId>spring</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-remoting</artifactId>
-        </dependency>
-         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-dao</artifactId>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-support</artifactId>            
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>            
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
         </dependency>
 #end
 #if ($hibernateVersion.equals("2"))
         <dependency>
             <groupId>net.sf.hibernate</groupId>
             <artifactId>hibernate</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>odmg</groupId>
+            <artifactId>odmg</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ehcache</groupId>
+            <artifactId>ehcache</artifactId>
         </dependency>
 #else
         <dependency>
@@ -86,12 +93,10 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -100,17 +105,122 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+#if ($ejb3)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-j2ee</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb3x</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-remoting</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-aop-jdk50-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-aspect-jdk50-client</artifactId>
+        </dependency>
+#if ($jsr181Webservice)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jbossws-client</artifactId>
+        </dependency>
+#end
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>hibernate-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jboss-ejb3-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>thirdparty-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jms-ra</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jcainflow</artifactId>
+        </dependency>
+#else
         <dependency>
             <groupId>jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
         </dependency>
-#if ($webservice)
+#end
+#if ($jbossSeam)
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <version>unknown</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/../app/target/src/resources/lib/jboss-seam.jar</systemPath>
+        </dependency>
+#end
+        <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
+        </dependency>
+#if ($axis)
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+#if ($axisVersion.equals("1"))
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-discovery</groupId>
@@ -120,22 +230,77 @@
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-jaxrpc</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>axis</groupId>
-            <artifactId>axis-schema</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-saaj</artifactId>
-            <scope>compile</scope>
+        </dependency>
+#else
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2</artifactId>
         </dependency>
         <dependency>
-            <groupId>axis</groupId>
-            <artifactId>axis-wsdl4j</artifactId>
-            <scope>compile</scope>
+            <groupId>annogen</groupId>
+            <artifactId>annogen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.woden</groupId>
+            <artifactId>woden</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-dom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>backport-util-concurrent</groupId>
+            <artifactId>backport-util-concurrent</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>httpcomponents-httpcore</groupId>
+            <artifactId>jakarta-httpcore</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.neethi</groupId>
+            <artifactId>neethi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons</groupId>
+            <artifactId>XmlSchema</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>woodstox</groupId>
+            <artifactId>wstx-asl</artifactId>
+        </dependency>
+#end
+#elseif ($xfire)
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-all</artifactId>
         </dependency>
 #end
     </dependencies>
@@ -147,6 +312,7 @@
             </plugin>
 #if ($spring || $hibernate)
             <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromdapp-maven-plugin</artifactId>
                 <executions>
                     <execution>
@@ -161,6 +327,9 @@
                     <jdbcConnectionUrl>${jdbc.url}</jdbcConnectionUrl>
                     <jdbcUsername>${jdbc.username}</jdbcUsername>
                     <jdbcPassword>${jdbc.password}</jdbcPassword>
+                    <!-- set this to false if you don't want to execute
+                         the generated SQL scripts -->
+                    <executeScripts>true</executeScripts>
                     <properties>
                         <property>
                             <name>mappingsLocation</name>
@@ -207,6 +376,7 @@
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
+                    <generateClient>true</generateClient>
                 </configuration>
             </plugin>
 #end
@@ -218,6 +388,22 @@
                     <exclude>**/*.java</exclude>
                 </excludes>
             </resource>
+#if ($ejb3)
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+#end
         </resources>
+#if ($ejb3)
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+            </testResource>
+        </testResources>
+#end
     </build>
 </project>

@@ -1,5 +1,6 @@
 package org.andromda.core.metafacade;
 
+import java.io.Serializable;
 import java.net.URL;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Chad Brandon
  */
 public class MetafacadeImpls
+    implements Serializable
 {
     /**
      * The shared instance.
@@ -254,7 +256,7 @@ public class MetafacadeImpls
     /**
      * Stores the metafacade interface and implementation classes.
      */
-    private static final class MetafacadeClasses
+    static final class MetafacadeClasses
     {
         /**
          * Stores all <code>metafacade</code> implementation classes keyed by <code>metafacade</code> interface class.

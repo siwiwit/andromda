@@ -63,4 +63,12 @@ public class HibernateEnumerationLogicImpl
             this.getEnumerationName(),
             null);
     }
+    
+    /**
+     * @see org.andromda.cartridges.hibernate.metafacades.HibernateEnumeration#getVersion()
+     */
+    protected int handleGetVersion()
+    {
+        return Integer.parseInt((String)this.getConfiguredProperty(HibernateGlobals.HIBERNATE_VERSION));
+    }
 }

@@ -2,14 +2,15 @@ package org.andromda.metafacades.uml14;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.andromda.metafacades.uml.ActivityGraphFacade;
 import org.andromda.metafacades.uml.EventFacade;
 import org.andromda.metafacades.uml.FrontEndAction;
+import org.andromda.metafacades.uml.FrontEndParameter;
 import org.andromda.metafacades.uml.FrontEndUseCase;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.StateMachineFacade;
@@ -58,7 +59,7 @@ public class FrontEndViewLogicImpl
         }
         return actions;
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.FrontEndView#getUseCase()
      */
@@ -76,10 +77,10 @@ public class FrontEndViewLogicImpl
         }
         return useCase;
     }
-    
+
     /**
      * Override to create the package of the view.
-     * 
+     *
      * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetPackageName()
      */
     public String handleGetPackageName()
@@ -92,21 +93,18 @@ public class FrontEndViewLogicImpl
             if (graphUseCase instanceof FrontEndUseCase)
             {
                 final FrontEndUseCase useCase = (FrontEndUseCase)graphUseCase;
-                if (useCase != null)
-                {
-                    packageName = useCase.getPackageName();
-                }
+                packageName = useCase.getPackageName();
             }
         }
         return packageName;
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.FrontEndView#getVariables()
      */
     protected List handleGetVariables()
     {
-        final Map variablesMap = new HashMap();
+        final Map variablesMap = new LinkedHashMap();
         final Collection incoming = getIncoming();
         for (final Iterator iterator = incoming.iterator(); iterator.hasNext();)
         {
@@ -118,12 +116,12 @@ public class FrontEndViewLogicImpl
                 {
                     final ModelElementFacade modelElement = (ModelElementFacade)parameterIterator.next();
                     variablesMap.put(modelElement.getName(), modelElement);
-                }                
+                }
             }
         }
         return new ArrayList(variablesMap.values());
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.FrontEndView#getAllActionParameters()
      */
@@ -138,7 +136,7 @@ public class FrontEndViewLogicImpl
         }
         return actionParameters;
     }
-    
+
     /**
      * @see org.andromda.metafacades.uml.FrontEndView#getAllFormFields()
      */
@@ -152,5 +150,22 @@ public class FrontEndViewLogicImpl
             actionParameters.addAll(action.getParameters());
         }
         return actionParameters;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml14.FrontEndView#getTables()
+     */
+    protected List handleGetTables()
+    {
+        final List variables = new ArrayList(this.getVariables());
+        for (final Iterator iterator = variables.iterator(); iterator.hasNext();)
+        {
+            final FrontEndParameter parameter = (FrontEndParameter)iterator.next();
+            if (!parameter.isTable())
+            {
+                iterator.remove();
+            }
+        }
+        return variables;
     }
 }

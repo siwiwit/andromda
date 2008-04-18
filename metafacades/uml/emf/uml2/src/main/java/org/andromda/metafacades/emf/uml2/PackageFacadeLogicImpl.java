@@ -2,10 +2,14 @@ package org.andromda.metafacades.emf.uml2;
 
 import org.andromda.metafacades.uml.FilteredCollection;
 import org.andromda.metafacades.uml.ModelElementFacade;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ObjectUtils;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.PackageFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.PackageFacade.
  *
  * @see org.andromda.metafacades.uml.PackageFacade
  */
@@ -13,8 +17,8 @@ public class PackageFacadeLogicImpl
     extends PackageFacadeLogic
 {
     public PackageFacadeLogicImpl(
-        org.eclipse.uml2.Package metaObject,
-        String context)
+        final org.eclipse.uml2.Package metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -23,19 +27,22 @@ public class PackageFacadeLogicImpl
      * @see org.andromda.metafacades.uml.PackageFacade#findModelElement(java.lang.String)
      */
     protected org.andromda.metafacades.uml.ModelElementFacade handleFindModelElement(
-        java.lang.String fullyQualifiedName)
+        final java.lang.String fullyQualifiedName)
     {
         Object modelElement = null;
-        if (logger.isDebugEnabled())
+        if (this.logger.isDebugEnabled())
         {
-            logger.debug("Looking for >> " + fullyQualifiedName);
+            this.logger.debug("Looking for >> " + fullyQualifiedName);
         }
-        modelElement = UmlUtilities.findByName(
-                metaObject.eResource().getResourceSet(),
-                fullyQualifiedName);
-        if (logger.isDebugEnabled())
+        modelElement =
+            UmlUtilities.findByFullyQualifiedName(
+                this.metaObject.eResource().getResourceSet(),
+                fullyQualifiedName,
+                ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.NAMESPACE_SEPARATOR)),
+                true);
+        if (this.logger.isDebugEnabled())
         {
-            logger.debug("Found: '" + modelElement + "'");
+            this.logger.debug("Found: '" + modelElement + "'");
         }
         return (ModelElementFacade)this.shieldedElement(modelElement);
     }
@@ -45,9 +52,9 @@ public class PackageFacadeLogicImpl
      */
     protected java.util.Collection handleGetClasses()
     {
-        return new FilteredCollection(metaObject.getOwnedElements())
+        return new FilteredCollection(this.metaObject.getOwnedElements())
             {
-                public boolean evaluate(Object object)
+                public boolean evaluate(final Object object)
                 {
                     return object instanceof org.eclipse.uml2.Class;
                 }
@@ -59,7 +66,7 @@ public class PackageFacadeLogicImpl
      */
     protected java.util.Collection handleGetSubPackages()
     {
-        return metaObject.getNestedPackages();
+        return this.metaObject.getNestedPackages();
     }
 
     /**
@@ -67,7 +74,8 @@ public class PackageFacadeLogicImpl
      */
     protected java.util.Collection handleGetModelElements()
     {
-        return metaObject.getModel().getOwnedMembers();
+        return CollectionUtils.collect(this.metaObject.getModel()
+                .allOwnedElements(), UmlUtilities.ELEMENT_TRANSFORMER);
     }
 
     /**
@@ -75,6 +83,8 @@ public class PackageFacadeLogicImpl
      */
     protected java.util.Collection handleGetOwnedElements()
     {
-        return metaObject.getOwnedMembers();
+        return CollectionUtils.collect(
+            this.metaObject.getOwnedMembers(),
+            UmlUtilities.ELEMENT_TRANSFORMER);
     }
 }

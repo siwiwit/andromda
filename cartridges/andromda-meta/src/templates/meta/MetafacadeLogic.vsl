@@ -90,6 +90,36 @@ public abstract class $metafacade.logicName
 #end
 #end
 ##
+    /**
+     * @see org.andromda.core.metafacade.MetafacadeBase
+     */
+    public void resetMetafacadeContext(String context)
+    {
+        if (!this.contextRoot) // reset context only for non-root metafacades
+        {
+            context = getContext(context);  // to have same value as in original constructor call
+            setMetafacadeContext (context);
+#if ($metafacade.requiresInheritanceDelegatation)
+#foreach ($link in $metafacade.generalizationLinks)
+#set ($initializedCheck = "${link.name}Initialized")
+            if (this.$initializedCheck)
+            {
+                ((org.andromda.core.metafacade.MetafacadeBase)${link.name}).resetMetafacadeContext(context);
+            }
+#end
+#end
+        }
+    }
+##
+
+    /**
+     * @see $metafacade.fullyQualifiedName
+     */
+    public boolean is${metafacade.name}MetaType()
+    {
+        return true;
+    }
+    
 #if (!$metafacade.attributes.empty)
     // --------------- attributes ---------------------
 
@@ -268,6 +298,16 @@ public abstract class $metafacade.logicName
 #end
 ##
 #if ($metafacade.requiresInheritanceDelegatation)
+#foreach ($parent in $metafacade.allParents)
+    /**
+     * @see $parent.fullyQualifiedName
+     */
+    public boolean is${parent.name}MetaType()
+    {
+        return true;
+    }
+    
+#end
 #foreach ($link in $metafacade.generalizationLinks)
 #set ($generalizationCount = $velocityCount)
     // ----------- delegates to $link.parent.fullyQualifiedName ------------

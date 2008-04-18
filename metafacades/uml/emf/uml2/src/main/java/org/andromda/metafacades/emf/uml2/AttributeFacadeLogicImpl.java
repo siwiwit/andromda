@@ -1,21 +1,21 @@
 package org.andromda.metafacades.emf.uml2;
 
-import java.util.Collection;
-
 import org.andromda.metafacades.uml.ClassifierFacade;
-import org.andromda.metafacades.uml.ModelElementFacade;
+import org.andromda.metafacades.uml.EnumerationFacade;
+import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.uml2.MultiplicityElement;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.AttributeFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.AttributeFacade.
  *
  * @see org.andromda.metafacades.uml.AttributeFacade
  */
@@ -23,8 +23,8 @@ public class AttributeFacadeLogicImpl
     extends AttributeFacadeLogic
 {
     public AttributeFacadeLogicImpl(
-        org.eclipse.uml2.Property metaObject,
-        String context)
+        final Attribute metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -34,7 +34,7 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.String handleGetGetterName()
     {
-        return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtilsHelper.capitalize(this.getName());
+        return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -42,7 +42,7 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.String handleGetSetterName()
     {
-        return "set" + StringUtils.capitalize(metaObject.getName());
+        return "set" + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -50,7 +50,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsReadOnly()
     {
-        return metaObject.isReadOnly();
+        return this.metaObject.isReadOnly();
     }
 
     /**
@@ -58,9 +58,8 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.String handleGetDefaultValue()
     {
-        String ret = null;
-        ret = metaObject.getDefault();
-        return ret;
+        String defaultValue = this.metaObject.getDefault();
+        return defaultValue.equals("") ? null : defaultValue;
     }
 
     /**
@@ -68,23 +67,25 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsStatic()
     {
-        return metaObject.isStatic();
+        return this.metaObject.isStatic();
     }
 
     /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#isRequired()
-     */
-    protected boolean handleIsRequired()
-    {
-        return false;
-    }
-
-    /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#isMany()
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany()
      */
     protected boolean handleIsMany()
     {
-        return metaObject.isMultivalued();
+        // Because of MD11.5 (their multiplicity are String), we cannot use
+        // isMultiValued()
+        return this.getUpper() > 1 || this.getUpper() == MultiplicityElement.UNLIMITED_UPPER_BOUND;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isRequired()
+     */
+    protected boolean handleIsRequired()
+    {
+        return this.getLower() > 0;
     }
 
     /**
@@ -92,7 +93,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsChangeable()
     {
-        return metaObject.isReadOnly();
+        return !this.metaObject.isReadOnly();
     }
 
     /**
@@ -100,6 +101,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsAddOnly()
     {
+        // TODO: really nothing to do here ?
         return false;
     }
 
@@ -121,7 +123,7 @@ public class AttributeFacadeLogicImpl
         if (this.isEnumerationLiteral())
         {
             value = this.getDefaultValue();
-            value = (value == null) ? getName() : String.valueOf(value);
+            value = (value == null) ? this.getName() : String.valueOf(value);
         }
         if (this.getType().isStringType())
         {
@@ -130,6 +132,42 @@ public class AttributeFacadeLogicImpl
         return value;
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationMember()
+     */
+    protected boolean handleIsEnumerationMember()
+    {
+        boolean isMemberVariable = false;
+        final String isMemberVariableAsString = (String)this.findTaggedValue(
+                UMLProfile.TAGGEDVALUE_PERSISTENCE_ENUMERATION_MEMBER_VARIABLE);
+        if (StringUtils.isNotEmpty(isMemberVariableAsString) && BooleanUtils.toBoolean(isMemberVariableAsString))
+        {
+            isMemberVariable = true;
+        }
+        return isMemberVariable;
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleGetEnumerationLiteralParameters()
+     */
+    protected String handleGetEnumerationLiteralParameters()
+    {
+        return (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS);
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationLiteralParametersExist()
+     */
+    protected boolean handleIsEnumerationLiteralParametersExist()
+    {
+        boolean parametersExist = false;
+        if (StringUtils.isNotBlank(this.getEnumerationLiteralParameters()))
+        {
+            parametersExist = true;
+        }
+        return parametersExist;
+    }
+    
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getGetterSetterTypeName()
      */
@@ -140,8 +178,8 @@ public class AttributeFacadeLogicImpl
         {
             final TypeMappings mappings = this.getLanguageMappings();
             name =
-                isOrdered() ? mappings.getTo(UMLProfile.LIST_TYPE_NAME) : mappings.getTo(
-                    UMLProfile.COLLECTION_TYPE_NAME);
+                this.isOrdered() ? mappings.getTo(UMLProfile.LIST_TYPE_NAME)
+                                 : mappings.getTo(UMLProfile.COLLECTION_TYPE_NAME);
 
             // set this attribute's type as a template parameter if required
             if (BooleanUtils.toBoolean(
@@ -162,18 +200,7 @@ public class AttributeFacadeLogicImpl
      */
     protected boolean handleIsOrdered()
     {
-        return metaObject.isOrdered();
-    }
-
-    /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#findTaggedValue(java.lang.String, boolean)
-     */
-    protected java.lang.Object handleFindTaggedValue(
-        java.lang.String name,
-        boolean follow)
-    {
-        // TODO: put your implementation here.
-        return null;
+        return this.metaObject.isOrdered();
     }
 
     /**
@@ -181,7 +208,8 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.Object handleGetOwner()
     {
-        return metaObject.getClass_();
+        // This is sure for attribute
+        return this.metaObject.getClass_();
     }
 
     /**
@@ -197,7 +225,7 @@ public class AttributeFacadeLogicImpl
      */
     protected java.lang.Object handleGetType()
     {
-        return metaObject.getType();
+        return this.metaObject.getType();
     }
 
     /**
@@ -210,36 +238,87 @@ public class AttributeFacadeLogicImpl
 
     protected boolean handleIsDefaultValuePresent()
     {
-        // TODO Auto-generated method stub
-        return false;
+        return !(this.getDefaultValue() == null || this.getDefaultValue().equals(""));
+    }
+    
+    /**
+     * Overridden to provide different handling of the name if this attribute represents a literal.
+     *
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
+     */
+    protected String handleGetName()
+    {
+        final String mask = String.valueOf(this.getConfiguredProperty(
+            this.getOwner() instanceof EnumerationFacade
+                ? UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK
+                : UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK ));
+
+        return NameMasker.mask(super.handleGetName(), mask);
     }
 
-    protected boolean handleIsBindingDependenciesPresent()
+    /*  protected boolean handleIsBindingDependenciesPresent()
+      {
+          // TODO: Implement this with Templates.
+          // This method has been overriden. Why ?
+          return false;
+      }
+
+      protected boolean handleIsTemplateParametersPresent()
+      {
+          // TODO: This method has been overriden. Why ?
+          return false;
+      }
+
+      protected void handleCopyTaggedValues(final ModelElementFacade element)
+      {
+          // TODO: This method has been overriden. Why ?
+      }
+
+      protected Object handleGetTemplateParameter(final String parameterName)
+      {
+          // TODO: This method has been overriden. Why ?
+          return null;
+      }
+
+      protected Collection handleGetTemplateParameters()
+      {
+          // TODO: This method has been overriden. Why ?
+          return null;
+      } */
+
+    /**
+     * Get the UML upper multiplicity Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
     {
-        // TODO Auto-generated method stub
-        return false;
+        // MD11.5 Exports multiplicity as String
+        return UmlUtilities.parseMultiplicity(this.metaObject.getUpperValue());
     }
 
-    protected boolean handleIsTemplateParametersPresent()
+    /**
+     * Get the UML lower multiplicity Not implemented for UML1.4
+     */
+    protected int handleGetLower()
     {
-        // TODO Auto-generated method stub
-        return false;
+        // MD11.5 Exports multiplicity as String
+        return UmlUtilities.parseMultiplicity(this.metaObject.getLowerValue());
     }
 
-    protected void handleCopyTaggedValues(ModelElementFacade element)
+    protected Object handleFindTaggedValue(
+        String name,
+        final boolean follow)
     {
-        // TODO Auto-generated method stub
-    }
-
-    protected Object handleGetTemplateParameter(String parameterName)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    protected Collection handleGetTemplateParameters()
-    {
-        // TODO Auto-generated method stub
-        return null;
+        name = StringUtils.trimToEmpty(name);
+        Object value = this.findTaggedValue(name);
+        if (follow)
+        {
+            ClassifierFacade type = this.getType();
+            while (value == null && type != null)
+            {
+                value = type.findTaggedValue(name);
+                type = (ClassifierFacade)type.getGeneralization();
+            }
+        }
+        return value;
     }
 }

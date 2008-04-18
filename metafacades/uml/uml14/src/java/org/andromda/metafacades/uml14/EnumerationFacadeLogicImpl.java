@@ -4,6 +4,9 @@ import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Collection;
@@ -39,9 +42,51 @@ public class EnumerationFacadeLogicImpl
      */
     protected java.util.Collection handleGetLiterals()
     {
-        return this.getAttributes();
+        Collection literals = this.getAttributes();
+        CollectionUtils.filter(
+            literals,
+            new Predicate()
+            {
+                public boolean evaluate(Object object)
+                {
+                    boolean isLiteral = true;
+                    final AttributeFacade attribute = (AttributeFacade)object; 
+                    if (attribute.isEnumerationMember())
+                    {
+                        isLiteral = false;
+                    }
+                    return isLiteral;
+                }
+            }
+        );
+        return literals;
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationFacade#getMemberVariables()
+     */
+    protected java.util.Collection handleGetMemberVariables()
+    {
+        Collection variables = super.getAttributes();
+        CollectionUtils.filter(
+            variables,
+            new Predicate()
+            {
+                public boolean evaluate(Object object)
+                {
+                    boolean isMember = false;
+                    final AttributeFacade attribute = (AttributeFacade)object;
+                    if (attribute.isEnumerationMember())
+                    {
+                        isMember = true;
+                    }
+                    return isMember;
+                }
+            }
+        );
+        return variables;
+    }
+    
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getFromOperationSignature()
      */
@@ -57,7 +102,16 @@ public class EnumerationFacadeLogicImpl
         }
         return signature.toString();
     }
-
+    
+    /**
+     * @see org.andromda.metafacades.uml.EnumerationFacade#isTypeSafe()
+     */
+    protected boolean handleIsTypeSafe() 
+    {
+        return BooleanUtils.toBoolean(
+                String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.TYPE_SAFE_ENUMS_ENABLED)));
+    }
+    
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getFromOperationName()
      */

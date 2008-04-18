@@ -86,7 +86,7 @@ public class TemplateObject
     /**
      * Sets all the nested properties on the templateObject object.
      *
-     * @param templateObject
+     * @param templateObject the template object on which to populate properties.
      */
     protected void setProperties(final Object templateObject)
     {
@@ -156,7 +156,6 @@ public class TemplateObject
      * populate bean like properties of template objects.
      *
      * @param reference the name of the property reference.
-     * @param defaultValue the default value of the property reference.
      */
     public void addPropertyReference(final String reference)
     {

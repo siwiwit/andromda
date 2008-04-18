@@ -3,12 +3,18 @@
     <parent>
         <groupId>org.andromda</groupId>
         <artifactId>andromda</artifactId>
-        <version>4.0-M1-SNAPSHOT</version>
+        <version>3.3</version>
     </parent>
     <groupId>org.andromda.repositories</groupId>
     <artifactId>andromda-repositories</artifactId>
     <packaging>pom</packaging>
     <name>AndroMDA Repositories</name>
+    <scm>
+        <connection>scm:cvs:pserver:anonymous:@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all/repositories</connection>
+        <developerConnection>scm:cvs:ext:${cvs_username}@andromda.cvs.sourceforge.net:/cvsroot/andromda:andromda-all</developerConnection>
+        <tag>V3_x_HEAD</tag>
+        <url>http://andromda.cvs.sourceforge.net/</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.andromda</groupId>
@@ -42,14 +48,6 @@
         </dependency>
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>META-INF/**/*</include>
-                </includes>
-            </resource>
-        </resources>
         <testResources>
             <testResource>
                 <directory>src/test/java</directory>
@@ -66,8 +64,21 @@
         </testResources>
     </build>
     <modules>
-        <module>mdr</module>
+        <module>mdr/common</module>
+        <module>mdr/uml14</module>
         <module>emf</module>
         <module>emf/uml2</module>
     </modules>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin> 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

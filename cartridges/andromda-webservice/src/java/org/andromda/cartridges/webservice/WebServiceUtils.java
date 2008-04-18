@@ -53,7 +53,7 @@ public class WebServiceUtils
     }
 
     /**
-     * <p/> Creates and returns the schema type for the given <code>type</code>.
+     * <p> Creates and returns the schema type for the given <code>type</code>.
      * It finds the mapped schema type from the passed in
      * <code>schemaTypeMappings</code>.
      * </p>

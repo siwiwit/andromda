@@ -95,13 +95,8 @@ public class AssociationEndFacadeLogicImpl
      */
     private boolean isPluralizeAssociationEndNames()
     {
-        boolean pluralize = false;
         final Object value = this.getConfiguredProperty(UMLMetafacadeProperties.PLURALIZE_ASSOCIATION_END_NAMES);
-        if (value != null)
-        {
-            pluralize = Boolean.valueOf(String.valueOf(value)).booleanValue();
-        }
-        return pluralize;
+        return value != null && Boolean.valueOf(String.valueOf(value)).booleanValue();
     }
 
     /**
@@ -337,5 +332,22 @@ public class AssociationEndFacadeLogicImpl
     private String getDefaultMultiplicity()
     {
         return ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.DEFAULT_MULTIPLICITY));
+    }
+    
+    /**
+     * Get the UML upper multiplicity
+     * Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        throw new java.lang.UnsupportedOperationException("'upper' is not a UML1.4 feature");
+     }
+
+    /**
+     * Get the UML lower multiplicity
+     */
+    protected int handleGetLower()
+    {
+        return this.getMultiplicityRangeLower();
     }
 }

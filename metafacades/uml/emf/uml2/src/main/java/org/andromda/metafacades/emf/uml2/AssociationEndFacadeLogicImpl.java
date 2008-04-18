@@ -1,18 +1,22 @@
 package org.andromda.metafacades.emf.uml2;
 
+import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.TypeMappings;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.uml2.AggregationKind;
+import org.eclipse.uml2.MultiplicityElement;
 
 
 /**
- * MetafacadeLogic implementation for org.andromda.metafacades.uml.AssociationEndFacade.
+ * MetafacadeLogic implementation for
+ * org.andromda.metafacades.uml.AssociationEndFacade.
  *
  * @see org.andromda.metafacades.uml.AssociationEndFacade
  */
@@ -20,8 +24,8 @@ public class AssociationEndFacadeLogicImpl
     extends AssociationEndFacadeLogic
 {
     public AssociationEndFacadeLogicImpl(
-        org.eclipse.uml2.Property metaObject,
-        String context)
+        final AssociationEnd metaObject,
+        final String context)
     {
         super(metaObject, context);
     }
@@ -63,7 +67,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsAggregation()
     {
-        return metaObject.getAggregation().equals(AggregationKind.SHARED_LITERAL);
+        return UmlUtilities.getOppositeAssociationEnd(this.metaObject).getAggregation().equals(AggregationKind.SHARED_LITERAL);
     }
 
     /**
@@ -71,7 +75,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsComposition()
     {
-        return metaObject.getAggregation().equals(AggregationKind.COMPOSITE_LITERAL);
+        return UmlUtilities.getOppositeAssociationEnd(this.metaObject).getAggregation().equals(AggregationKind.COMPOSITE_LITERAL);
     }
 
     /**
@@ -79,7 +83,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsOrdered()
     {
-        return metaObject.isOrdered();
+        return this.metaObject.isOrdered();
     }
 
     /**
@@ -99,11 +103,49 @@ public class AssociationEndFacadeLogicImpl
     }
 
     /**
+     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
+     */
+    protected String handleGetName()
+    {
+        String name = super.handleGetName();
+
+        // if name is empty, then get the name from the type
+        if (StringUtils.isEmpty(name))
+        {
+            final ClassifierFacade type = this.getType();
+            if (type != null)
+            {
+                name = StringUtils.uncapitalize(StringUtils.trimToEmpty(type.getName()));
+            }
+            if (this.isMany() && this.isPluralizeAssociationEndNames())
+            {
+                name = StringUtilsHelper.pluralize(name);
+            }
+        }
+        final String nameMask =
+            String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK));
+        return NameMasker.mask(
+            name,
+            nameMask);
+    }
+
+    /**
+     * Indicates whether or not we should pluralize association end names.
+     *
+     * @return true/false
+     */
+    private boolean isPluralizeAssociationEndNames()
+    {
+        final Object value = this.getConfiguredProperty(UMLMetafacadeProperties.PLURALIZE_ASSOCIATION_END_NAMES);
+        return value != null && Boolean.valueOf(String.valueOf(value)).booleanValue();
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getGetterName()
      */
     protected java.lang.String handleGetGetterName()
     {
-        return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtilsHelper.capitalize(this.getName());
+        return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtils.capitalize(this.getName());
     }
 
     /**
@@ -125,14 +167,13 @@ public class AssociationEndFacadeLogicImpl
             final TypeMappings mappings = this.getLanguageMappings();
             if (mappings != null)
             {
-                name =
-                    this.isOrdered() ? mappings.getTo(UMLProfile.LIST_TYPE_NAME)
-                                     : mappings.getTo(UMLProfile.COLLECTION_TYPE_NAME);
+                name = mappings.getTo(this.isOrdered() ? UMLProfile.LIST_TYPE_NAME : UMLProfile.COLLECTION_TYPE_NAME);
             }
 
-            // set this association end's type as a template parameter if required
-            if (BooleanUtils.toBoolean(
-                ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING))))
+            // set this association end's type as a template parameter if
+            // required
+            if (this.getType() != null && BooleanUtils.toBoolean(
+                    ObjectUtils.toString(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING))))
             {
                 name = name + "<" + this.getType().getFullyQualifiedName() + ">";
             }
@@ -149,7 +190,9 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsMany()
     {
-        return metaObject.isMultivalued();
+        // Because of MD11.5 (their multiplicity are String), we cannot use
+        // isMultiValued()
+        return this.getUpper() > 1 || this.getUpper() == MultiplicityElement.UNLIMITED_UPPER_BOUND;
     }
 
     /**
@@ -157,7 +200,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected boolean handleIsRequired()
     {
-        return false;
+        return (this.getLower() > 0);
     }
 
     /**
@@ -189,6 +232,7 @@ public class AssociationEndFacadeLogicImpl
      */
     protected java.lang.Object handleGetType()
     {
+        // In uml1.4 facade, it returns getParticipant
         return this.metaObject.getType();
     }
 
@@ -198,5 +242,23 @@ public class AssociationEndFacadeLogicImpl
     public Object getValidationOwner()
     {
         return this.getType();
+    }
+
+    /**
+     * Get the UML upper multiplicity Not implemented for UML1.4
+     */
+    protected int handleGetUpper()
+    {
+        // MD11.5 Exports multiplicity as String
+        return UmlUtilities.parseMultiplicity(this.metaObject.getUpperValue());
+    }
+
+    /**
+     * Get the UML lower multiplicity Not implemented for UML1.4
+     */
+    protected int handleGetLower()
+    {
+        // MD11.5 Exports multiplicity as String
+        return UmlUtilities.parseMultiplicity(this.metaObject.getLowerValue());
     }
 }

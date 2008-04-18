@@ -1,5 +1,8 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.Collection;
+import java.util.Collections;
+
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.LinkEndFacade.
@@ -38,4 +41,11 @@ public class LinkEndFacadeLogicImpl
         return metaObject.getLink();
     }
 
+    /**
+     * @see org.andromda.metafacades.uml.LinkEndFacade#getInstances()
+     */
+    protected Collection handleGetInstances()
+    {
+        return Collections.singleton(this.getInstance());
+    }
 }
