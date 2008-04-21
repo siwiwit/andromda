@@ -225,11 +225,6 @@
         </dependency>
 #end
         <dependency>
-            <groupId>org.andromda</groupId>
-            <artifactId>andromda-script-wrappers</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
 #if ($ejb3)
             <groupId>org.jboss</groupId>
 #else

@@ -200,10 +200,6 @@
             <systemPath>${pom.basedir}/../app/target/src/resources/lib/jboss-seam.jar</systemPath>
         </dependency>
 #end
-        <dependency>
-            <groupId>org.andromda</groupId>
-            <artifactId>andromda-script-wrappers</artifactId>
-        </dependency>
 #if ($axis)
         <dependency>
             <groupId>wsdl4j</groupId>

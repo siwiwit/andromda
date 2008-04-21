@@ -319,15 +319,6 @@
                 </exclusions>
             </dependency>
 #end
-            <!-- This dependency provides the ability to implement your
-                 business logic in an interpreted manner during development on
-                 your local machine -->
-            <dependency>
-                <groupId>org.andromda</groupId>
-                <artifactId>andromda-script-wrappers</artifactId>
-                <version>$andromdaVersion</version>
-                <scope>runtime</scope>
-            </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
@@ -1351,45 +1342,6 @@
                 <webservice.port>8080</webservice.port>
 #end
             </properties>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.andromda.maven.plugins</groupId>
-                            <artifactId>andromdapp-maven-plugin</artifactId>
-                            <version>$andromdaVersion</version>
-                            <!-- provides the injection of the script wrapper support into the class files (this should only
-                                 be done when developing locally), uncomment this executions element to enable
-                            <executions>
-                                <execution>
-                                    <id>instrument-scripts</id>
-                                    <goals>
-                                        <goal>instrument-scripts</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                            -->
-                            <configuration>
-                                <scriptWrapper>org.andromda.scriptwrappers.GroovyScriptWrapper</scriptWrapper>
-                                <locations>
-                                    <location>
-                                        <rootPath>${pom.basedir}/src/main/java</rootPath>
-                                        <!-- adjust these to include or exclude specific files, by default
-                                             all files found in the rootPath are considered
-                                        <includes>
-                                            <include>relative/path/to/file/to/include/SomeClass.java</include>
-                                        </includes>
-                                        <excludes>
-                                            <exclude>relative/path/to/file/to/include/SomeClass.java</exclude>
-                                        </excludes>
-                                        -->
-                                    </location>
-                                </locations>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
         </profile>
         <profile>
             <id>development</id>
