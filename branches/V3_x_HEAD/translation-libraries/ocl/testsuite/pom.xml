@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.translationlibraries</groupId>
         <artifactId>andromda-ocl-translation-libraries</artifactId>
-        <version>3.3</version>
+        <version>3.4-SNAPSHOT</version>
     </parent>
     <artifactId>andromda-ocl-translation-testsuite</artifactId>
     <packaging>jar</packaging>

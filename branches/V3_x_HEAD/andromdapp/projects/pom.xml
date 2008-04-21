@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.andromda.andromdapp</groupId>
         <artifactId>andromda-andromdapp</artifactId>
-        <version>3.3</version>
+        <version>3.4-SNAPSHOT</version>
     </parent>
     <groupId>org.andromda.andromdapp.projects</groupId>
     <artifactId>andromda-andromdapp-projects</artifactId>
