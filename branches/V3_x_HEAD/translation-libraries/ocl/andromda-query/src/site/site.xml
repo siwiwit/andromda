@@ -3,7 +3,7 @@
     <skin>
         <groupId>org.andromda.maven.plugins.site</groupId>
         <artifactId>andromda-site-skin</artifactId>
-        <version>3.3</version>
+        <version>3.4-SNAPSHOT</version>s
     </skin>
     <bannerLeft>
         <name></name>
