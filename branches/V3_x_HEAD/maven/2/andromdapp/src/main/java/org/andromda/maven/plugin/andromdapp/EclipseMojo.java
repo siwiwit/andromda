@@ -76,6 +76,13 @@ public class EclipseMojo
     private String excludePoms;
 
     /**
+     * Defines the POMs to exclude when generating the eclipse files.
+     *
+     * @parameter
+     */
+    private String[] excludes = new String[0];
+
+    /**
      * Used to contruct Maven project instances from POMs.
      *
      * @component
@@ -394,7 +401,7 @@ public class EclipseMojo
                      this.rootProject = this.rootProject.getParent(), rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME))
                 {
                     ;
-                }            
+                }
                 // - if the project has no file defined, use the rootFile
                 if (this.rootProject != null && this.rootProject.getFile() == null && rootFile.exists())
                 {
@@ -421,7 +428,13 @@ public class EclipseMojo
         final DirectoryScanner scanner = new DirectoryScanner();
         scanner.setBasedir(this.getRootProject().getBasedir());
         scanner.setIncludes(this.includes);
-        scanner.setExcludes(this.excludePoms != null ? excludePoms.split(",") : null);
+
+        final List<String> excludes = new ArrayList<String>(Arrays.asList(this.excludes));
+        if (this.excludePoms != null)
+        {
+            excludes.addAll(Arrays.asList(excludePoms.split(",")));
+        }
+        scanner.setExcludes(excludes.toArray(new String[0]));
         scanner.scan();
 
         List poms = new ArrayList();
