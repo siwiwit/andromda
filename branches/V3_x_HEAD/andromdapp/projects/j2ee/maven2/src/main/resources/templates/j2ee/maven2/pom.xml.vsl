@@ -45,7 +45,7 @@
             <dependency>
                 <groupId>org.andromda.profiles.uml14</groupId>
                 <artifactId>andromda-profile</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <type>xml.zip</type>
                 <scope>runtime</scope>
             </dependency>
@@ -54,7 +54,7 @@
             <dependency>
                 <groupId>org.andromda.profiles.uml2</groupId>
                 <artifactId>andromda-profile</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <type>xml.zip</type>
                 <scope>runtime</scope>
             </dependency>
@@ -63,7 +63,7 @@
             <dependency>
                 <groupId>org.andromda.profiles.emf.uml2</groupId>
                 <artifactId>andromda-profile-common</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <type>uml2</type>
                 <scope>runtime</scope>
             </dependency>
@@ -91,7 +91,7 @@
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-ejb-cartridge</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
 #elseif ($ejb3)
@@ -105,7 +105,7 @@
             <dependency>
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-core</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -128,7 +128,7 @@
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-translation-core</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>log4j</groupId>
@@ -139,7 +139,7 @@
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-validation-library</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>log4j</groupId>
@@ -150,7 +150,7 @@
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-spring-cartridge</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
 #end
@@ -158,7 +158,7 @@
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-hibernate-cartridge</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
 #end
@@ -166,21 +166,21 @@
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-webservice-cartridge</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
 #end
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-java-cartridge</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
 #if ($workflow)
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-jbpm-cartridge</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
 #end
@@ -188,7 +188,7 @@
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-bpm4struts-cartridge</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
 #elseif ($jsf)
@@ -196,14 +196,14 @@
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-jsf-cartridge</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
 #elseif ($jsf2)
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-jsf-cartridge-components</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
@@ -252,7 +252,7 @@
             <dependency>
                 <groupId>org.andromda</groupId>
                 <artifactId>andromda-utils</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>xml-apis</groupId>
@@ -277,7 +277,7 @@
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-jsf-cartridge-components</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
                 <exclusions>
                     <exclusion>
@@ -309,7 +309,7 @@
             <dependency>
                 <groupId>org.andromda.translationlibraries</groupId>
                 <artifactId>andromda-ocl-query-library</artifactId>
-                <version>$andromdaVersion</version>
+                <version>${andromda.version}</version>
                 <scope>runtime</scope>
                 <exclusions>
                     <exclusion>
@@ -933,7 +933,7 @@
                 <plugin>
                     <groupId>org.andromda.maven.plugins</groupId>
                     <artifactId>andromda-multi-source-plugin</artifactId>
-                    <version>$andromdaVersion</version>
+                    <version>${andromda.version}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -950,12 +950,12 @@
                 <plugin>
                     <groupId>org.andromda.maven.plugins</groupId>
                     <artifactId>andromda-maven-plugin</artifactId>
-                    <version>$andromdaVersion</version>
+                    <version>${andromda.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.andromda.maven.plugins</groupId>
                     <artifactId>andromdapp-maven-plugin</artifactId>
-                    <version>$andromdaVersion</version>
+                    <version>${andromda.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -1012,6 +1012,7 @@
 #end
     </modules>
     <properties>
+        <andromda.version>$andromdaVersion</andromda.version>
         <!--
             Change this to generate to the correct MDA database mappings,
             For MySql use: MySQL
