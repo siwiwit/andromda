@@ -24,6 +24,12 @@
             <version>${pom.version}</version>
             <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
+            <version>${pom.version}</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
