@@ -258,6 +258,8 @@ public class ClasspathWriter
         IOUtil.close(fileWriter);
     }
 
+    private static final String DRIVE_PATTERN = ".*:";
+
     /**
      * Writes the source roots for the given project.
      *
@@ -265,11 +267,13 @@ public class ClasspathWriter
      * @param rootDirectory the root project's base directory
      * @param writer the XMLWriter used to write the source roots.
      */
-    private void writeSourceRoots(final MavenProject project, final String rootDirectory, final XMLWriter writer)
+    private void writeSourceRoots(final MavenProject project, String rootDirectory, final XMLWriter writer)
     {
+        // - strip the drive prefix (so we don't have to worry about replacement dependent on case)
+        rootDirectory = rootDirectory.replaceFirst(DRIVE_PATTERN, "");
         for (final Iterator sourceIterator = project.getCompileSourceRoots().iterator(); sourceIterator.hasNext();)
         {
-            final String sourceRoot = ResourceUtils.normalizePath((String)sourceIterator.next());
+            final String sourceRoot = ResourceUtils.normalizePath((String)sourceIterator.next()).replaceFirst(DRIVE_PATTERN, "");
             if (new File(sourceRoot).isDirectory())
             {
                 String sourceRootPath = StringUtils.replace(
