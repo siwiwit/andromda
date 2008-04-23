@@ -1206,5 +1206,33 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         return#if($enableTemplating) (java.util.Set<#if($daoInheritance)? extends #end${rootEntityType}>)#end this.search($entity.daoNoTransformationConstantName, search);
     }
 
+#if ($enableTemplating)
+    @java.lang.SuppressWarnings("unchecked")
+#end
+   /**
+    * Executes and returns the given Hibernate queryObject as a {@link $fullyQualifiedPagingResultName} instance.
+    */
+    protected $fullyQualifiedPagingResultName getPaginationResult(
+        final ${hibernateUtils.basePackage}.Query queryObject,
+        final int transform, int pageNumber, int pageSize)
+    {
+        try
+        {
+            final int totalCount = queryObject.list().size();
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                queryObject.setFirstResult(this.calculateFirstResult(pageNumber, pageSize));
+                queryObject.setMaxResults(pageSize);
+            }
+            java.util.Set results = new java.util.LinkedHashSet(queryObject.list());
+            transformEntities(transform, results);
+            return new ${fullyQualifiedPagingResultName}(results.toArray(new java.lang.Object[0]), totalCount);
+        }
+        catch (${hibernateUtils.basePackage}.HibernateException ex)
+        {
+            throw super.convertHibernateAccessException(ex);
+        }
+    }
+
     // spring-hibernate-dao-base merge-point
 }
