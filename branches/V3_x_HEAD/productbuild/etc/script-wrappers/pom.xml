@@ -5,7 +5,6 @@
         <artifactId>andromda</artifactId>
         <version>3.4-SNAPSHOT</version>
     </parent>
-    <groupId>org.andromda</groupId>
     <artifactId>andromda-script-wrappers</artifactId>
     <packaging>jar</packaging>
     <name>AndroMDA Script Wrappers</name>
