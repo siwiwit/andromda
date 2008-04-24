@@ -384,6 +384,7 @@
                 <property name="controller-impls">${web.manual.java.dir}</property>
                 <property name="messages">${web.generated.dir}</property>
                 <property name="configuration">${web.generated.dir}</property>
+                <property name="custom-configuration">${web.manual.dir}/resources</property>
                 <property name="libraries">${web.generated.dir}</property>
                 <property name="custom-resources">${web.manual.dir}</property>
                 <!-- uncomment to enable web tier security
