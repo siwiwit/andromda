@@ -14,6 +14,7 @@ import java.util.Set;
 import org.andromda.core.common.ResourceUtils;
 import org.andromda.maven.plugin.andromdapp.eclipse.ClasspathWriter;
 import org.andromda.maven.plugin.andromdapp.eclipse.ProjectWriter;
+import org.andromda.maven.plugin.andromdapp.eclipse.Variable;
 import org.andromda.maven.plugin.andromdapp.utils.ProjectUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -122,6 +123,11 @@ public class EclipseMojo
     protected ArtifactRepository localRepository;
 
     /**
+     * @parameter
+     */
+    protected Variable[] variables;
+
+    /**
      * @component
      */
     private ArtifactMetadataSource artifactMetadataSource;
@@ -175,6 +181,7 @@ public class EclipseMojo
                 this.classpathArtifactTypes,
                 this.project.getRemoteArtifactRepositories(),
                 this.resolveTransitiveDependencies,
+                this.variables,
                 this.classpathMerge);
             // - reset to the original source roots
             for (final Iterator iterator = projects.iterator(); iterator.hasNext();)

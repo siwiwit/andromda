@@ -67,6 +67,7 @@ public class ClasspathWriter
         final Set classpathArtifactTypes,
         final List remoteRepositories,
         final boolean resolveTransitiveDependencies,
+        final Variable[] variables,
         final String merge)
         throws Exception
     {
@@ -188,11 +189,25 @@ public class ClasspathWriter
             if (classpathArtifactTypes.contains(artifact.getType()))
             {
                 final File artifactFile = artifact.getFile();
-                final String path =
+                final String artifactPath = ResourceUtils.normalizePath(artifactFile.toString());
+                String path =
                     StringUtils.replace(
-                        ResourceUtils.normalizePath(artifactFile.toString()),
+                        artifactPath,
                         ResourceUtils.normalizePath(localRepository.getBasedir()),
-                        repositoryVariableName);
+                        VAR_PREFIX + repositoryVariableName);
+                if (path.equals(artifactPath))
+                {
+                    // - replace any variables if present
+                    if (variables != null)
+                    {
+                        for (final Variable variable : variables)
+                        {
+                            final String name = StringUtils.trimToEmpty(variable.getName());
+                            final String value = StringUtils.trimToEmpty(variable.getValue());
+                            path = StringUtils.replace(path, value, VAR_PREFIX + name);
+                        }
+                    }
+                }
                 iterator.set(path);
             }
             else
@@ -207,12 +222,12 @@ public class ClasspathWriter
         for (final Iterator iterator = allArtifactPaths.iterator(); iterator.hasNext();)
         {
             String path = (String)iterator.next();
-            if (path.startsWith(repositoryVariableName))
+            if (path.startsWith(VAR_PREFIX))
             {
                 this.writeClasspathEntry(
                     writer,
                     "var",
-                    path);
+                    path.split(VAR_PREFIX)[1]);
             }
             else
             {
@@ -257,6 +272,8 @@ public class ClasspathWriter
         logger.info("Classpath file written --> '" + classpathFile + "'");
         IOUtil.close(fileWriter);
     }
+
+    private static final String VAR_PREFIX = "var:";
 
     private static final String DRIVE_PATTERN = ".*:";
 
