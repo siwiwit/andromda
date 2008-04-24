@@ -258,7 +258,7 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>../${pom.artifactId}-${pom.version}</targetPath>
+                <targetPath>../${build.finalName}</targetPath>
                 <filtering>true</filtering>
             </resource>
         </resources>
