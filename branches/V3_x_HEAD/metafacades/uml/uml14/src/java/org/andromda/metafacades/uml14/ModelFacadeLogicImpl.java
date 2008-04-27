@@ -1,10 +1,5 @@
 package org.andromda.metafacades.uml14;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import org.andromda.metafacades.uml.ActivityGraphFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.UseCaseFacade;
@@ -14,6 +9,10 @@ import org.omg.uml.behavioralelements.activitygraphs.ActivityGraph;
 import org.omg.uml.behavioralelements.statemachines.CompositeState;
 import org.omg.uml.behavioralelements.usecases.UseCase;
 import org.omg.uml.foundation.core.ModelElement;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 /**
@@ -161,6 +160,11 @@ public class ModelFacadeLogicImpl
             new ActionStateWithStereotypeFilter(stereotypeName));
     }
 
+    protected Collection handleGetAllTransitions()
+    {
+        return this.metaObject.getStateMachines().getTransition().refAllOfType();
+    }
+
     private final static class ActionStateWithStereotypeFilter
         implements Predicate
     {
@@ -183,9 +187,8 @@ public class ModelFacadeLogicImpl
         Predicate collectionFilter)
     {
         final Set filteredCollection = new LinkedHashSet();
-        for (final Iterator iterator = collection.iterator(); iterator.hasNext();)
+        for (Object object : collection)
         {
-            Object object = iterator.next();
             if (collectionFilter.evaluate(object))
             {
                 filteredCollection.add(object);

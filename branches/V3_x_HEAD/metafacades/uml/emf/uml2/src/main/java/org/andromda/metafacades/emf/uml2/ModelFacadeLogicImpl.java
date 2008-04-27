@@ -251,4 +251,11 @@ public class ModelFacadeLogicImpl
             org.eclipse.uml2.Class.class,
             UmlUtilities.findModel(this.metaObject));
     }
+
+    protected Collection handleGetAllTransitions()
+    {
+        return UmlUtilities.getAllMetaObjectsInstanceOf(
+            org.eclipse.uml2.Transition.class,
+            UmlUtilities.findModel(this.metaObject));
+    }
 }
