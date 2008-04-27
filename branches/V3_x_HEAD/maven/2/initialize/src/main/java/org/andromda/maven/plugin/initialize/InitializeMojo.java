@@ -23,7 +23,7 @@ import org.codehaus.plexus.util.FileUtils;
  *
  * @author Chad Brandon
  * @goal initialize
- * @phase generate-resources
+ * @phase validate
  */
 public class InitializeMojo
     extends AbstractMojo
@@ -51,7 +51,7 @@ public class InitializeMojo
      * @description the directory where any local (those not kept in a remote repository) artifacts are kept.
      */
     protected String localArtifactDirectory;
-    
+
     /**
      * @parameter expression="${bootstrap.artifacts}"
      * @description Whether or not bootstrap artifacts should be installed, by default they are not.  If this is
@@ -101,7 +101,7 @@ public class InitializeMojo
                     final File repositoryFile = new File(
                             this.localRepository.getBasedir(),
                             newPath);
-    
+
                     if (bootstrapFile.lastModified() > repositoryFile.lastModified())
                     {
                         this.getLog().info("Installing bootstrap artifact " + bootstrapFile + " to " + repositoryFile);
