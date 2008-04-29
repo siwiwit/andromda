@@ -113,7 +113,7 @@
             <component-type>org.apache.myfaces.InputHtml</component-type>
             <renderer-type>org.apache.myfaces.InputHtml</renderer-type>
         </component>
-    </tag>    
+    </tag>
     <tag>
         <tag-name>message</tag-name>
         <component>
@@ -146,7 +146,7 @@
         <component>
             <component-type>org.apache.myfaces.HtmlNewspaperTable</component-type>
             <renderer-type>org.apache.myfaces.HtmlNewspaperTable</renderer-type>
-        </component>                
+        </component>
     </tag>
     <tag>
         <tag-name>panelLayout</tag-name>
@@ -195,7 +195,7 @@
             <component-type>org.apache.myfaces.HtmlRadio</component-type>
             <renderer-type>org.apache.myfaces.Radio</renderer-type>
         </component>
-    </tag> 
+    </tag>
     <tag>
         <tag-name>saveState</tag-name>
         <component>
@@ -210,19 +210,40 @@
         </component>
     </tag>
     <tag>
+        <tag-name>selectOneMenu</tag-name>
+        <component>
+            <component-type>org.apache.myfaces.HtmlSelectOneMenu</component-type>
+            <renderer-type>org.apache.myfaces.Menu</renderer-type>
+        </component>
+    </tag>
+    <tag>
+        <tag-name>selectOneListbox</tag-name>
+        <component>
+            <component-type>org.apache.myfaces.HtmlSelectOneListbox</component-type>
+            <renderer-type>org.apache.myfaces.Listbox</renderer-type>
+        </component>
+    </tag>
+    <tag>
+        <tag-name>selectManyListbox</tag-name>
+        <component>
+            <component-type>org.apache.myfaces.HtmlSelectManyListbox</component-type>
+            <renderer-type>org.apache.myfaces.Listbox</renderer-type>
+        </component>
+    </tag>
+    <tag>
         <tag-name>selectOneRadio</tag-name>
         <component>
             <component-type>org.apache.myfaces.HtmlSelectOneRadio</component-type>
             <renderer-type>org.apache.myfaces.Radio</renderer-type>
         </component>
-    </tag> 
+    </tag>
     <tag>
         <tag-name>stylesheet</tag-name>
         <component>
             <component-type>org.apache.myfaces.Stylesheet</component-type>
         </component>
     </tag>
-    <!-- Note that "tree" will not work as-is.  Tree either needs a facelets 
+    <!-- Note that "tree" will not work as-is.  Tree either needs a facelets
          TagHandler, or a refactoring of
          org.apache.myfaces.custom.tree.taglib.TreeTag
          and org.apache.myfaces.custom.tree.HtmlTree
