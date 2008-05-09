@@ -155,45 +155,56 @@ public class EclipseMojo
     private String classpathMerge;
 
     /**
+     * Whether or not processing should be skipped (this is if you just want to force AndroMDA
+     * not to run on your model).
+     *
+     * @parameter expression="${andromda.run.skip}"
+     */
+    private boolean skipProcessing = false;
+
+    /**
      * @see org.apache.maven.plugin.Mojo#execute()
      */
     public void execute()
         throws MojoExecutionException
     {
-        try
+        if (!this.skipProcessing)
         {
-            final MavenProject rootProject = this.getRootProject();
-            final ProjectWriter projectWriter = new ProjectWriter(rootProject,
-                    this.getLog());
-            projectWriter.write();
-            final Map originalCompileSourceRoots = this.collectProjectCompileSourceRoots();
-            final List projects = this.collectProjects();
-            this.processCompileSourceRoots(projects);
-            final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
-                    this.getLog());
-            classpathWriter.write(
-                projects,
-                this.repositoryVariableName,
-                this.artifactFactory,
-                this.artifactResolver,
-                this.localRepository,
-                this.artifactMetadataSource,
-                this.classpathArtifactTypes,
-                this.project.getRemoteArtifactRepositories(),
-                this.resolveTransitiveDependencies,
-                this.variables,
-                this.classpathMerge);
-            // - reset to the original source roots
-            for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
+            try
             {
-                final MavenProject project = (MavenProject)iterator.next();
-                project.getCompileSourceRoots().clear();
-                project.getCompileSourceRoots().addAll((List)originalCompileSourceRoots.get(project));
+                final MavenProject rootProject = this.getRootProject();
+                final ProjectWriter projectWriter = new ProjectWriter(rootProject,
+                        this.getLog());
+                projectWriter.write();
+                final Map originalCompileSourceRoots = this.collectProjectCompileSourceRoots();
+                final List projects = this.collectProjects();
+                this.processCompileSourceRoots(projects);
+                final ClasspathWriter classpathWriter = new ClasspathWriter(rootProject,
+                        this.getLog());
+                classpathWriter.write(
+                    projects,
+                    this.repositoryVariableName,
+                    this.artifactFactory,
+                    this.artifactResolver,
+                    this.localRepository,
+                    this.artifactMetadataSource,
+                    this.classpathArtifactTypes,
+                    this.project.getRemoteArtifactRepositories(),
+                    this.resolveTransitiveDependencies,
+                    this.variables,
+                    this.classpathMerge);
+                // - reset to the original source roots
+                for (final Iterator iterator = projects.iterator(); iterator.hasNext();)
+                {
+                    final MavenProject project = (MavenProject)iterator.next();
+                    project.getCompileSourceRoots().clear();
+                    project.getCompileSourceRoots().addAll((List)originalCompileSourceRoots.get(project));
+                }
             }
-        }
-        catch (Throwable throwable)
-        {
-            throw new MojoExecutionException("Error creating eclipse configuration", throwable);
+            catch (Throwable throwable)
+            {
+                throw new MojoExecutionException("Error creating eclipse configuration", throwable);
+            }
         }
     }
 
