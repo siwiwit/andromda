@@ -160,11 +160,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <excludes>
-                        <exclude>app/pom.xml</exclude>
-                        <exclude>mda/pom.xml</exclude>
-                        <exclude>webservice/pom.xml</exclude>
-                    </excludes>
 #if ($ejb3)
                     <classpathMerge>
                         <![CDATA[
