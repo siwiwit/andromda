@@ -261,6 +261,14 @@
                 <targetPath>../${build.finalName}</targetPath>
                 <filtering>true</filtering>
             </resource>
+#if ($jsf2)
+            <resource>
+                <directory>target/src</directory>
+                <includes>
+                    <include>org/andromda/**/*.properties</include>
+                </includes>
+            </resource>
+#end
         </resources>
         <plugins>
             <plugin>
