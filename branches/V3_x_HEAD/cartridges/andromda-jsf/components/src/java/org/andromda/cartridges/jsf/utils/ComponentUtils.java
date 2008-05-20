@@ -141,7 +141,7 @@ public class ComponentUtils
                 try
                 {
                     final Method method = object.getClass().getMethod("getAttribute", new Class[]{String.class});
-                    method.invoke(object, new Object[]{attributeName});
+                    attribute = method.invoke(object, new Object[]{attributeName});
                 }
                 catch (NoSuchMethodException exception)
                 {
@@ -164,11 +164,10 @@ public class ComponentUtils
      * @param attributeValue the value of the attribute to set.
      * @return the value of the attribute if one is present.
      */
-    public static Object setAttribute(final Object object, final String attributeName, final Object attributeValue)
+    public static void setAttribute(final Object object, final String attributeName, final Object attributeValue)
     {
         try
         {
-            Object attribute = null;
             if (object != null)
             {
                 try
@@ -180,7 +179,6 @@ public class ComponentUtils
                 {
                 }
             }
-            return attribute;
         }
         catch (Exception exception)
         {
