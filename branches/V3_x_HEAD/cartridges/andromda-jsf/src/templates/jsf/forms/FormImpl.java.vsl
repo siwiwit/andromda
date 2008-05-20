@@ -46,6 +46,7 @@ $field.getDocumentation("     * ")
         if (this.$field.name == null)
         {
             this.$field.name = new ${field.type.fullyQualifiedName}();
+            this.${field.setterName}(this.$field.name);
         }
 #end
         return this.${field.name};
@@ -150,7 +151,7 @@ $field.getDocumentation("     * ")
     {
         return this.${formMessagesProperty}.values();
     }
-    
+
     /**
      * Sets the current {@link javax.faces.application.FacesMessage} message
      * instances stored within this form.
