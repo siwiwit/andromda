@@ -15,7 +15,11 @@ package $service.ejbPackageName;
  * @see $service.fullyQualifiedName
  */
 public interface $service.name
+#if($service.generalization)
+    extends $service.generalization.fullyQualifiedEjbName
+#else
     extends $ejbSessionBeanBaseInterfaceRemote
+#end
 {
 #foreach ($operation in $service.operations)
     /**

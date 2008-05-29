@@ -19,7 +19,11 @@ package $service.ejbPackageName;
  * @see $service.fullyQualifiedName
  */
 public interface ${service.name}${localSuffix}
+#if($service.generalization)
+    extends $service.generalization.fullyQualifiedLocalEjbName
+#else
     extends $ejbSessionBeanBaseInterfaceLocal
+#end
 {
 #foreach ($operation in $service.operations)
     /**
