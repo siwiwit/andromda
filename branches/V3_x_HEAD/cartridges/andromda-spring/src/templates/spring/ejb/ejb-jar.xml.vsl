@@ -77,6 +77,37 @@
         </method-permission>
 
 #foreach ($operation in $service.implementationOperations)
+#renderMethodPermission($operation)
+
+#end
+#foreach ($superclass in $service.allGeneralizations)
+#foreach ($operation in $superclass.implementationOperations)
+#renderMethodPermission($operation)
+
+#end
+#end
+#end
+#if ($ejbTransactionsEnabled.equalsIgnoreCase("true"))
+#foreach ($service in $services)
+#foreach ($operation in $service.implementationOperations)
+#renderContainerTransaction($operation)
+
+#end
+#foreach ($superclass in $service.allGeneralizations)
+#foreach ($operation in $superclass.implementationOperations)
+#renderContainerTransaction($operation)
+
+#end
+#end
+#end
+#end
+    </assembly-descriptor>
+
+</ejb-jar>
+##
+##   This macro generates the method-permission fragments for each operation
+##
+#macro (renderMethodPermission $operation)
         <method-permission>
             <description><![CDATA[$operation.signature security constraint]]></description>
 #if (!$ejbSecurityEnabled || $operation.roles.empty)
@@ -104,12 +135,11 @@
 #end
             </method>
         </method-permission>
-
 #end
-#end
-#if ($ejbTransactionsEnabled.equalsIgnoreCase("true"))
-#foreach ($service in $services)
-#foreach ($operation in $service.implementationOperations)
+##
+##   This macro generates the method-permission fragments for each operation
+##
+#macro (renderContainerTransaction $operation)
         <container-transaction>
             <method>
                 <ejb-name>$service.name</ejb-name>
@@ -122,10 +152,4 @@
             </method>
             <trans-attribute>$operation.ejbTransactionType</trans-attribute>
         </container-transaction>
-
 #end
-#end
-#end
-    </assembly-descriptor>
-
-</ejb-jar>
