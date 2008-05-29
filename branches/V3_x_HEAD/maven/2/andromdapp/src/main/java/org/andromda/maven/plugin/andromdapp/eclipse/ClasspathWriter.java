@@ -182,8 +182,8 @@ public class ClasspathWriter
             allArtifacts.addAll(result.getArtifacts());
         }
 
-        final List allArtifactPaths = new ArrayList(allArtifacts);
-        for (final ListIterator iterator = allArtifactPaths.listIterator(); iterator.hasNext();)
+        final List artifactPathList = new ArrayList(allArtifacts);
+        for (final ListIterator iterator = artifactPathList.listIterator(); iterator.hasNext();)
         {
             final Artifact artifact = (Artifact)iterator.next();
             if (classpathArtifactTypes.contains(artifact.getType()))
@@ -217,9 +217,12 @@ public class ClasspathWriter
         }
 
         // - sort the paths
-        Collections.sort(allArtifactPaths);
+        Collections.sort(artifactPathList);
 
-        for (final Iterator iterator = allArtifactPaths.iterator(); iterator.hasNext();)
+        // - get rid of any duplicates
+        final Set artifactPaths = new LinkedHashSet(artifactPathList);
+
+        for (final Iterator iterator = artifactPaths.iterator(); iterator.hasNext();)
         {
             String path = (String)iterator.next();
             if (path.startsWith(VAR_PREFIX))
