@@ -3,6 +3,7 @@
     <templateEngine className="org.andromda.templateengines.velocity.VelocityTemplateEngine">
         <macrolibrary name="templates/spring/RenderPreconditions.vm"/>
         <macrolibrary name="templates/spring/ejb/SpringSessionBean.vm"/>
+        <macrolibrary name="templates/spring/ejb/ejb-jar.xml.vm"/>
         <!-- cartridge-macrolibrary merge-point-->
     </templateEngine>
 
