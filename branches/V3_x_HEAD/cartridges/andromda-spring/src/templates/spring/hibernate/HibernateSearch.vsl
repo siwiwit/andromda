@@ -381,6 +381,23 @@ public class $criteriaSearchBaseName
                             }
                             break;
                         }
+                        case ${criteriaSearchBaseName}Parameter.NOT_LIKE_COMPARATOR:
+                        {
+                            ${hibernateUtils.criterionPackage}.SimpleExpression expression;
+                            if ((matchMode != null) && (parameterValue instanceof String))
+                            {
+                                expression = ${hibernateUtils.criterionPackage}.Expression.like(
+                                    parameterName,
+                                    (String)parameterValue,
+                                    matchMode);
+                            }
+                            else
+                            {
+                                expression = ${hibernateUtils.criterionPackage}.Expression.like(parameterName, parameterValue);
+                            }
+                            criteria.add(${hibernateUtils.criterionPackage}.Expression.not(expression));
+                            break;
+                        }
                         case ${criteriaSearchBaseName}Parameter.INSENSITIVE_LIKE_COMPARATOR:
                         {
                             if ((matchMode != null) && (parameterValue instanceof String))
@@ -394,6 +411,23 @@ public class $criteriaSearchBaseName
                             {
                                 criteria.add(${hibernateUtils.criterionPackage}.Expression.ilike(parameterName, parameterValue));
                             }
+                            break;
+                        }
+                        case ${criteriaSearchBaseName}Parameter.NOT_INSENSITIVE_LIKE_COMPARATOR:
+                        {
+                            ${hibernateUtils.criterionPackage}.Criterion criterion;
+                            if ((matchMode != null) && (parameterValue instanceof String))
+                            {
+                                criterion = ${hibernateUtils.criterionPackage}.Expression.ilike(
+                                    parameterName,
+                                    (String)parameterValue,
+                                    matchMode);
+                            }
+                            else
+                            {
+                                criterion = ${hibernateUtils.criterionPackage}.Expression.ilike(parameterName, parameterValue);
+                            }
+                            criteria.add(${hibernateUtils.criterionPackage}.Expression.not(criterion));
                             break;
                         }
                         case ${criteriaSearchBaseName}Parameter.EQUAL_COMPARATOR:

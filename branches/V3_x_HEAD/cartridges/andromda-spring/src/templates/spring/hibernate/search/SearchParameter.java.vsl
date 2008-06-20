@@ -31,6 +31,8 @@ public class $className
     public static final int NOT_NULL_COMPARATOR = 9;
     public static final int NULL_COMPARATOR = 10;
     public static final int NOT_IN_COMPARATOR = 11;
+    public static final int NOT_LIKE_COMPARATOR = 12;
+    public static final int NOT_INSENSITIVE_LIKE_COMPARATOR = 13;
 
     /** Order unset */
     public static final int ORDER_UNSET = -1;
