@@ -3,7 +3,6 @@ package org.andromda.cartridges.jsf.metafacades;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -611,7 +610,7 @@ public class JSFParameterLogicImpl
     /**
      * Stores the initial value of each type.
      */
-    private final Map initialValues = new HashMap();
+    private final Map initialValues = new LinkedHashMap();
 
     /**
      * @see org.andromda.cartridges.jsf.metafacades.JSFParameter#getValueListDummyValue()

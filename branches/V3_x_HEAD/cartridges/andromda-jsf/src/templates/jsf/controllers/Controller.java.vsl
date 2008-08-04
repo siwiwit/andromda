@@ -29,13 +29,13 @@ $operation.getDocumentation("     * ")
      */
     protected $action.fullyQualifiedFormImplementationName $action.formImplementationGetter
     {
-        // - we do this in the case a button that submitted the form was set to immediate (this should be removed 
+        // - we do this in the case a button that submitted the form was set to immediate (this should be removed
         //   when we found a better way to handle this).
         final javax.faces.component.UIForm uiForm = this.findForm(this.getContext().getViewRoot(), "$action.formBeanName");
         this.populateComponentInputs(uiForm);
         return ($action.fullyQualifiedFormImplementationName)this.resolveVariable("$action.formBeanName");
     }
-    
+
 #end
     public java.lang.String ${action.triggerName}()
     {
@@ -55,7 +55,7 @@ $operation.getDocumentation("     * ")
             final $action.fullyQualifiedFormImplementationName form =
                 this.$action.formImplementationGetter;
 
-            // - pass any parameters from the previous form along 
+            // - pass any parameters from the previous form along
             ${managedBeansPackage}.${formPopulatorName}.populateForm(currentForm, form);
             // - populate the form with any request parameters that may match
             this.populateFormFromRequestParameters(form, form.getDateTimeFormatters());
@@ -206,11 +206,11 @@ $decisionTransition.getDocumentation("     * ")
     {
         return (javax.servlet.http.HttpSession)this.getContext().getExternalContext().getSession(create);
     }
-    
+
     /**
      * Attempts to resolve the variable, given, the <code>name</code> of
      * the variable using the faces context variable resolver instance.
-     * 
+     *
      * @return the resolved variable or null if not found.
      */
     protected java.lang.Object resolveVariable(final String name)
@@ -224,7 +224,7 @@ $decisionTransition.getDocumentation("     * ")
             final javax.servlet.http.HttpSession session = this.getSession(false);
             if (session != null)
             {
-                final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper = 
+                final ${managedBeansPackage}.AdfFacesContextWrapper contextWrapper =
                     (${managedBeansPackage}.AdfFacesContextWrapper)session.getAttribute("$adfContextAttributeName");
                 adfContext = contextWrapper != null ? contextWrapper.getCurrentInstance() : null;
             }
@@ -311,16 +311,15 @@ $decisionTransition.getDocumentation("     * ")
     protected void addMessage(final javax.faces.application.FacesMessage.Severity severity, final String message)
     {
         final javax.faces.application.FacesMessage facesMessage = new javax.faces.application.FacesMessage(severity, message, message);
-        final oracle.adf.view.faces.context.AdfFacesContext adfContext = oracle.adf.view.faces.context.AdfFacesContext.getCurrentInstance();
         final Object form = this.getCurrentActionForm();
         if (form != null)
         {
             try
             {
                 final java.lang.reflect.Method method = form.getClass().getMethod(
-                    "add${stringUtils.capitalize($formMessagesProperty)}", 
+                    "add${stringUtils.capitalize($formMessagesProperty)}",
                     new Class[]{javax.faces.application.FacesMessage.class});
-                method.invoke(form, new Object[]{facesMessage});  
+                method.invoke(form, new Object[]{facesMessage});
             }
             catch (final Exception exception)
             {
@@ -328,7 +327,7 @@ $decisionTransition.getDocumentation("     * ")
             }
         }
     }
-    
+
     /**
      * Copies all matching properties from the <code>fromForm</code> to the given
      * <code>toForm</code> overridding any previously set values.
@@ -337,12 +336,12 @@ $decisionTransition.getDocumentation("     * ")
     {
         ${managedBeansPackage}.${formPopulatorName}.populateForm(fromForm, toForm, true);
     }
-    
+
     /**
      * Retrieves the current action form while making sure the form is of the given
      * <code>type</code>.  If the action form is found, but not of the given type, null will
      * be returned.
-     * 
+     *
      * @param type the type of form to retrieve.
      * @return the found form.
      */
@@ -355,16 +354,16 @@ $decisionTransition.getDocumentation("     * ")
         }
         return form;
     }
-    
+
     /**
      * Retrieves the current action form instance.
-     * 
+     *
      * @return the current action form instance.
      */
     protected Object getCurrentActionForm()
     {
         return this.resolveVariable("$actionFormKey");
-    }    
+    }
 #if ($formPopulationOperationRequired)
 
     /**
@@ -405,7 +404,7 @@ $decisionTransition.getDocumentation("     * ")
                                 {
                                     // - try the default formatter (handles the default java.util.Date.toString() format)
                                     formatter = (java.text.DateFormat)formatters.get(null);
-                                    value = formatter.parse(parameter); 
+                                    value = formatter.parse(parameter);
                                 }
                             }
                             else
@@ -423,11 +422,11 @@ $decisionTransition.getDocumentation("     * ")
             throw new RuntimeException(throwable);
         }
     }
-    
+
     /**
      * Finds the form (if one is present) on the given <code>component</code> having the given
      * <code>id</code>.
-     * 
+     *
      * @param component the component to search.
      * @param id the id of the form.
      * @return the form or null if none was found.
@@ -462,12 +461,12 @@ $decisionTransition.getDocumentation("     * ")
         }
         return foundForm;
     }
-    
+
     /**
      * If the given <code>component</code> has an child input elements, this method findds
      * them all and populates them.  This is to get around the fact that when immediate is set to true
      * on a button that submits the form that the form isn't populated.
-     * 
+     *
      * @param component the component to populate.
      */
     private void populateComponentInputs(javax.faces.component.UIComponent component)
