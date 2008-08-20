@@ -15,6 +15,7 @@
             <dependency>
                 <groupId>${pom.groupId}</groupId>
                 <artifactId>timetracker-common</artifactId>
+                <version>${pom.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>${pom.groupId}</groupId>
