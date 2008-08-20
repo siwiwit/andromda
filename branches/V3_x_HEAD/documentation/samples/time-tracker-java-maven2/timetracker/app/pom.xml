@@ -10,39 +10,6 @@
     <artifactId>timetracker-app</artifactId>
     <packaging>ear</packaging>
     <name>TimeTracker Application</name>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${pom.groupId}</groupId>
-                <artifactId>timetracker-common</artifactId>
-                <version>${pom.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>${pom.groupId}</groupId>
-                        <artifactId>timetracker-mda</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.andromda.profiles.uml14</groupId>
-                        <artifactId>andromda-profile</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>commons-digester</groupId>
-                <artifactId>commons-digester</artifactId>
-                <exclusions>
-                    <exclusion>
-                        <groupId>xml-apis</groupId>
-                        <artifactId>xml-apis</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>${pom.groupId}</groupId>
