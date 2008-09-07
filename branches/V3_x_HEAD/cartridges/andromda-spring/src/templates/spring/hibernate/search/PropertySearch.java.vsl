@@ -219,6 +219,25 @@ public class $className
     }
 
     /**
+     * <p>Convert the value to an object of the specified class (if
+     * possible).</p>
+     *
+     * @param value Value to be converted (may be null)
+     * @param type Class of the value to be converted to
+     * @return The converted value
+     *
+     * @exception ConversionException if thrown by an underlying Converter
+     */
+    protected Object convert(Object value, Class type) {
+        org.apache.commons.beanutils.Converter converter = org.apache.commons.beanutils.ConvertUtils.lookup(type);
+        if (converter != null) {
+            return converter.convert(type, value);
+        } else {
+            return value;
+        }
+    }
+    
+    /**
      * Converts the value contained within the parameter to the type which Hibernate expects.
      *
      * @param entityType the class of the entity for which the search is being performed.
@@ -250,18 +269,8 @@ public class $className
                     propertyType = type;
                 }
                 final String name = parameter.getName().replaceAll(".*\\" + PERIOD, "");
-                final Object object = propertyType.newInstance();
-                // - copy the parameter to the property object so that when we retrieve it,
-                //  its of the correct type
-                org.apache.commons.beanutils.BeanUtils.copyProperty(
-                    object,
-                    name,
-                    value);
-                try
-                {
-                    value = org.apache.commons.beanutils.PropertyUtils.getProperty(
-                            object,
-                            name);
+                try{
+                    value = convert(value,propertyType.getMethod("get"+org.apache.commons.lang.StringUtils.capitalize(name)).getReturnType());
                 }
                 catch (final NoSuchMethodException noSuchMethodException)
                 {
