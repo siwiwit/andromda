@@ -22,7 +22,12 @@
             <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
             <generator class="$entity.hibernateGeneratorClass">
 #if ($entity.sequenceHibernateGeneratorClass)
-                <param name="sequence">$entity.sequenceName</param>
+#if($stringUtils.isNotBlank($entity.schema))
+#set($sequencePrefix = "${entity.schema}.")
+#else
+#set($sequencePrefix = "")
+#end
+                <param name="sequence">${sequencePrefix}${entity.sequenceName}</param>
 #elseif ($entity.foreignHibernateGeneratorClass)
                 <param name="property">$entity.parentEnd.name</param>
 #end
