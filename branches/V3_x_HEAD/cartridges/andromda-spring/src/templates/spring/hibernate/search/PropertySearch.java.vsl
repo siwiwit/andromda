@@ -230,11 +230,16 @@ public class $className
      */
     protected Object convert(Object value, Class type) {
         org.apache.commons.beanutils.Converter converter = org.apache.commons.beanutils.ConvertUtils.lookup(type);
-        if (converter != null) {
-            return converter.convert(type, value);
-        } else {
-            return value;
+        Object result;
+        if (converter != null)
+        {
+            result = converter.convert(type, value);
+        } 
+        else 
+        {
+            result = value;
         }
+        return result;
     }
     
     /**
