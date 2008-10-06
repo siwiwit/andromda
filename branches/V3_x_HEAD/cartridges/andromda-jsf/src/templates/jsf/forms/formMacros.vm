@@ -17,6 +17,7 @@
 #set ($backingListMethod = $stringUtils.capitalize($backingListName))
 #set ($valueListMethod = $stringUtils.capitalize($valueListName))
 #set ($labelListMethod = $stringUtils.capitalize($labelListName))
+
     /**
      * The <code>$field.name</code> field can be selected from a list,
      * this method allows you to retrieve the current elements from that list.
@@ -32,6 +33,7 @@
      * @see #set${labelListMethod}(java.util.Collection, String, String, Class)
      */
     public $listType get${backingListMethod}();
+
     /**
      * Convenient method to quickly set the value and label backing list for the
      * $field.name property. This method takes a collection of objects, as well as
@@ -111,6 +113,7 @@
      * @see #get${labelListMethod}()
      */
     public void set${backingListMethod}(java.util.Collection items, String valueProperty, String labelProperty);
+
     /**
      * The <code>$field.name</code> field can be selected from a list,
      * this method allows you to retrieve the values from that list.
@@ -119,6 +122,7 @@
      * @see #get${backingListMethod}()
      */
     public $listType get${valueListMethod}();
+
     /**
      * The <code>$field.name</code> field can be selected from a list,
      * this method allows you to set the values for that list.
@@ -127,6 +131,7 @@
      * @see #get${backingListMethod}()
      */
     public void set${valueListMethod}($listType $valueListName);
+
     /**
      * The <code>$field.name</code> field can be selected from a list,
      * this method allows you to retrieve the labels from that list.
@@ -135,6 +140,7 @@
      * @see #get${backingListMethod}()
      */
     public $listType get${labelListMethod}();
+
     /**
      * The <code>$field.name</code> field can be selected from a list,
      * this method allows you to set the labels for that list.
