@@ -48,6 +48,16 @@ public class SpringHibernateUtils
     }
 
     /**
+     * Gets the appropriate hibernate Restrictions/Expression fully qualified class name for the given <code>version</code>.
+     *
+     * @return the fully qualified Hibernate Restriction/Expression class name.
+     */
+    public String getRestrictionClass()
+    {
+        return getCriterionPackage() + (this.isVersion3() ? ".Restrictions" : ".Expression");
+    }
+
+    /**
      * Gets the appropriate Spring Hibernate package based on the given
      * <code>version</code>.
      *
