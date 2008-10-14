@@ -189,6 +189,7 @@
     <property reference="remoteServiceUsername"/>
     <property reference="remoteServicePassword"/>
     <property reference="remoteAuthenticatingHttpInvokerRequestExecutorName"/>
+    <property reference="springVersion"/>
 
     <!-- cartridge-property merge-point -->
 

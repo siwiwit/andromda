@@ -25,6 +25,14 @@ package $entity.packageName;
 #else
 #set ($entityCollectionType = "java.util.Collection")
 #end
+##check for spring version regarding the execute method to use
+#if($springVersion.compareTo("2.5") >= 0)
+	#set ($executeWithNativeSessionMethodname = "executeWithNativeSession")
+	#set ($executeWithNativeSessionParameter = "")
+	#else
+#set ($executeWithNativeSessionMethodname = "execute")
+		#set ($executeWithNativeSessionParameter = ", true")
+	#end
 
 /**
  * <p>
@@ -84,7 +92,7 @@ public abstract class $entity.daoBaseName
 #set ($xmlIndent = "    ")
         if (transform == TRANSFORM_XML)
         {
-            final java.lang.Object entity = this.getHibernateTemplate().execute(
+            final java.lang.Object entity = this.getHibernateTemplate().${executeWithNativeSessionMethodname}(
                     new org.springframework.orm.hibernate3.HibernateCallback()
                     {
                         public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session hibernateSession)
@@ -93,8 +101,7 @@ public abstract class $entity.daoBaseName
                             ${hibernateUtils.basePackage}.Session xmlSession = hibernateSession.getSession(${hibernateUtils.basePackage}.EntityMode.DOM4J);
                             return xmlSession.get(${entity.fullyQualifiedEntityImplementationName}.class, $argument);
                         }
-                    },
-                    true);
+                    }${executeWithNativeSessionParameter});
             return entity;
         }
         else
@@ -210,7 +217,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             throw new IllegalArgumentException(
                 "${entity.name}.create - '$argumentName' can not be null");
         }
-        java.lang.Object newID = this.getHibernateTemplate().execute(
+        java.lang.Object newID = this.getHibernateTemplate().${executeWithNativeSessionMethodname}((
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
                     public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session hibernateSession)
@@ -219,8 +226,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                         ${hibernateUtils.basePackage}.Session xmlSession = hibernateSession.getSession(${hibernateUtils.basePackage}.EntityMode.DOM4J);
                         return xmlSession.save("$entity.fullyQualifiedEntityImplementationName", $argumentName);
                     }
-                },
-                true);
+                }${executeWithNativeSessionParameter});
 
         return this.load(transform, ($identifier.type.fullyQualifiedName)newID);
     }
@@ -275,7 +281,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             throw new IllegalArgumentException(
                 "${entity.name}.create - 'entities' can not be null");
         }
-        this.getHibernateTemplate().execute(
+        this.getHibernateTemplate().${executeWithNativeSessionMethodname}(
             new ${hibernateUtils.springHibernatePackage}.HibernateCallback()
             {
                 public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session session)
@@ -287,8 +293,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                     }
                     return null;
                 }
-            },
-            true);
+            }${executeWithNativeSessionParameter});
         return entities;
     }
 
@@ -383,7 +388,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             throw new IllegalArgumentException(
                 "${entity.name}.update - '$argumentName' can not be null");
         }
-        this.getHibernateTemplate().execute(
+        this.getHibernateTemplate().${executeWithNativeSessionMethodname}(
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
                     public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session hibernateSession)
@@ -393,8 +398,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                         xmlSession.update("$entity.fullyQualifiedEntityImplementationName", $argumentName);
                         return null;
                     }
-                },
-                true);
+                }${executeWithNativeSessionParameter});
     }
 
 #end
@@ -408,7 +412,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             throw new IllegalArgumentException(
                 "${entity.name}.update - 'entities' can not be null");
         }
-        this.getHibernateTemplate().execute(
+        this.getHibernateTemplate().${executeWithNativeSessionMethodname}(
             new ${hibernateUtils.springHibernatePackage}.HibernateCallback()
             {
                 public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session session)
@@ -420,8 +424,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                     }
                     return null;
                 }
-            },
-            true);
+            }${executeWithNativeSessionParameter});
     }
 
     /**
@@ -448,7 +451,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
             throw new IllegalArgumentException(
                 "${entity.name}.remove - '$argumentName' can not be null");
         }
-        this.getHibernateTemplate().execute(
+        this.getHibernateTemplate().${executeWithNativeSessionMethodname}(
                 new org.springframework.orm.hibernate3.HibernateCallback()
                 {
                     public java.lang.Object doInHibernate(${hibernateUtils.basePackage}.Session hibernateSession)
@@ -458,8 +461,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                         xmlSession.delete($argumentName);
                         return null;
                     }
-                },
-                true);
+                }${executeWithNativeSessionParameter});
     }
 
 #end
@@ -516,7 +518,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#$finder.getSignature(false)
      */
-#if ($enableTemplating)
+#if ($enableTemplating && $finder.returnType.collectionType)
     @java.lang.SuppressWarnings({"unchecked"})
 #end
     $finder.visibility $returnType $finder.signature
@@ -558,7 +560,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(java.lang.String#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
-#if ($enableTemplating)
+#if ($enableTemplating && $finder.returnType.collectionType)
     @java.lang.SuppressWarnings({"unchecked"})
 #end
     $finder.visibility $returnType ${finder.name}(final java.lang.String queryString#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)

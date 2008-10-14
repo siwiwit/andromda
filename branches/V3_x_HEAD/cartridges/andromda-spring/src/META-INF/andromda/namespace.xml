@@ -160,6 +160,18 @@
             </property>
         </propertyGroup>
         <propertyGroup name="Other">
+            <property name="springVersion">
+                <default>2.0</default>
+                <documentation>
+                    The version of Spring to use/support when generating. Neccessary when api changes make
+                    some methods class deprecated.
+                    <ul>
+                        Permitted values are:
+                        <li>2.0</li>
+                        <li>2.5</li>
+                    </ul>
+                </documentation>
+            </property>
             <property name="webServiceOutgoingAttachmentHandlerCallPattern" required="false">
                 <documentation>
                     The pattern to use when constructing the call to the attachment handler (used for sending
