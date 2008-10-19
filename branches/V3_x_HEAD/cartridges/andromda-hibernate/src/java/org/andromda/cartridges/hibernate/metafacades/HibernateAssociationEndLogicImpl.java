@@ -189,7 +189,17 @@ public class HibernateAssociationEndLogicImpl
             if (Boolean.valueOf(String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.ENABLE_TEMPLATING)))
                        .booleanValue())
             {
-                getterSetterTypeName = getterSetterTypeName + "<" + this.getType().getFullyQualifiedName() + ">";
+                final StringBuilder lBuffer = new StringBuilder();
+                lBuffer.append(getterSetterTypeName);
+                lBuffer.append("<");
+                if (this.isMap())
+                {
+                    lBuffer.append(this.getCollectionIndexType());                    
+                    lBuffer.append(", ");
+                }
+                lBuffer.append(this.getType().getFullyQualifiedName());
+                lBuffer.append(">");
+                getterSetterTypeName = lBuffer.toString();            
             }
         }
 
