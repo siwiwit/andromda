@@ -1,7 +1,7 @@
 package org.andromda.core;
 
+import java.io.EOFException;
 import java.io.InputStream;
-
 import java.net.ConnectException;
 import java.net.URL;
 
@@ -178,11 +178,20 @@ public class AndroMDA
                 {
                     serverClient.start(configuration);
                 }
-                catch (final ConnectException exception)
+                catch (final Throwable throwable)
                 {
-                    // - if we can't connect to the server, it means
-                    //   we aren't running in client mode
-                    client = false;
+                    final Throwable cause = ExceptionUtils.getRootCause(throwable);
+                    if (cause instanceof ConnectException ||
+                        cause instanceof EOFException)
+                    {
+                        // - if we can't connect to the server, it means
+                        //   we aren't running in client mode
+                        client = false;
+                    }
+                    else
+                    {
+                        throw new RuntimeException(throwable);
+                    }
                 }
             }
             else
