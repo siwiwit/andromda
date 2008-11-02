@@ -15,7 +15,7 @@
         paths for these programs and other required directories are listed below. Please
         feel free to change the installation paths depending on your configuration and personal
         preferences. For example, you may choose to install programs on the D: drive instead
-        of the C: drive. However, note that some programs don’t work well if there are spaces
+        of the C: drive. However, note that some programs don't work well if there are spaces
         in their pathname. So, try to stick to the suggestions below as much as possible.
     </p>
     <table>
@@ -29,15 +29,15 @@
             <td>Maven local repository </td>
         </tr>
         <tr>
-            <td><code>C:\Program Files\Apache Software Foundation\maven-2.0.5</code> </td>
+            <td><code>C:\Program Files\Apache Software Foundation\maven-2.0.8</code> </td>
             <td>Maven program </td>
         </tr>
         <tr>
-            <td><code>C:\Program Files\Java\jdk1.5.0_xx</code> </td>
+            <td><code>C:\Program Files\Java\jdk1.6.0_xx</code> </td>
             <td>Java Development Kit (xx is the update number) </td>
         </tr>
         <tr>
-            <td><code>C:\Program Files\Java\jre1.5.0_xx</code> </td>
+            <td><code>C:\Program Files\Java\jre1.6.0_xx</code> </td>
             <td>Java Runtime Engine (xx is the update number) </td>
         </tr>
         <tr>
@@ -49,7 +49,7 @@
             <td>Eclipse IDE (optional) </td>
         </tr>
         <tr>
-            <td><code>C:\jboss-4.0.4</code> </td>
+            <td><code>C:\jboss-4.0.5</code> </td>
             <td>JBoss Application Server </td>
         </tr>
     </table>
@@ -85,7 +85,7 @@
         </li>
         <li>Make sure you have set the <code>JAVA_HOME</code> variable and that it is pointing
             to the directory where you installed the JDK. If not, add/edit the variable and
-            set it to the correct value (e.g. C:\Program Files\Java\jdk1.5.0_06).</li>
+            set it to the correct value (e.g. C:\Program Files\Java\jdk1.6.0_06).</li>
     </ol>
     <h4>Install Maven</h4>
     <p>
@@ -105,17 +105,18 @@
             the build and deploy processes (very similar to the .NET Global Assembly Cache concept).</li>
     </ol>
     <p>
-        Install Maven 2.0.5 by following the steps below. (Note that as of this writing,
-        the latest version of Maven is 2.0.7, but it has a minor issue with AndroMDA 3.2
-        - this has been fixed in the latest snapshot release. Advanced users may wish to
-        install Maven 2.0.7, but you will have to manually delete the <code>&lt;dependencyManagement&gt;</code>
-        section in app\pom.xml.)
+        Install Maven 2.0.8 by following the steps below. (Note that as of this writing,
+        the latest version of Maven is 2.0.9, but it has a minor issue with AndroMDA 3.3 
+        project generator. 
+        - Advanced users may wish to install Maven 2.0.9, but you will have to manually 
+        change the model file path from <code>file:${project.build.sourceDirectory}/</code> to
+        <code>file:${pom.basedir}/src/main/uml/</code> in mda\pom.xml.)
     </p>
     <ol>
-        <li>Click <a href="http://maven.apache.org/download.html" target="_blank">here</a> to
-            point your browser to the Maven download page. Download the file called <code>maven-2.0.5-bin.zip</code>.</li>
+        <li>Click <a href="http://archive.apache.org/dist/maven/binaries/apache-maven-2.0.8-bin.zip">here</a> to
+            download Maven 2.0.8.</li>
         <li>Unzip this file at <code>C:\Program Files\Apache Software Foundation</code>. A directory
-            called <code>maven-2.0.5</code> will be created which contains the Maven program.</li>
+            called <code>maven-2.0.8</code> will be created which contains the Maven program.</li>
     </ol>
     <p>
         Note: If you are behind a proxy server, you will have to configure Maven to use
@@ -125,23 +126,23 @@
     <h4>Install JBoss Application Server</h4>
     <p>
         <a href="http://labs.jboss.com/portal/jbossas" target="_blank">JBoss Application Server</a>
-        is a widely used open source Java application server. Install JBoss 4.0.4 by following
+        is a widely used open source Java application server. Install JBoss 4.0.5 by following
         the steps below.
     </p>
     <ol>
         <li>Click <a href="http://labs.jboss.com/portal/jbossas/download" target="_blank">here</a>
             to point your browser to the JBoss download page.</li>
         <li>Click the <em>Download</em> button on the row that lists JBoss Application Server
-            version 4.0.4. This should take you to the download page on the SourceForge site.</li>
-        <li>Click on the link named "jboss-4.0.4.GA.zip" to download this file.</li>
-        <li>Unzip this file at <code>C:\</code>. A directory called <code>jboss-4.0.4.GA</code>
+            version 4.0.5. This should take you to the download page on the SourceForge site.</li>
+        <li>Click on the link named "jboss-4.0.5.GA.zip" to download this file.</li>
+        <li>Unzip this file at <code>C:\</code>. A directory called <code>jboss-4.0.5.GA</code>
             will be created which contains the JBoss application server. Rename this directory
-            to <code>jboss-4.0.4</code> (just to make the name a little shorter).</li>
+            to <code>jboss-4.0.5</code> (just to make the name a little shorter).</li>
         <li>If you are planning to install the Oracle database on your machine, then you must
             change the JBoss HTTP port, which defaults to 8080. The reason is that Oracle also
             defaults to this port and it is not easy to change Oracle's configuration. In order
             to change JBoss' HTTP port, edit the file called <code>server.xml</code> under the
-            directory <code>C:\jboss-4.0.4\server\default\deploy\jbossweb-tomcat55.sar</code>
+            directory <code>C:\jboss-4.0.5\server\default\deploy\jbossweb-tomcat55.sar</code>
             and change all occurences of the number "8080" to something else, say "9090". This
             will resolve the conflict between JBoss and Oracle. If you have followed this step
             then you must use port 9090 whenever you are instructed to use port 8080 in this
@@ -161,17 +162,17 @@
         </tr>
         <tr>
             <td>JAVA_HOME</td>
-            <td>Java installation directory, e.g. <code>C:\Program Files\Java\jdk1.5.0_06</code></td>
+            <td>Java installation directory, e.g. <code>C:\Program Files\Java\jdk1.6.0_06</code></td>
             <td>Yes</td>
         </tr>
         <tr>
             <td>JBOSS_HOME</td>
-            <td>JBoss installation directory, e.g. <code>C:\jboss-4.0.4</code></td>
+            <td>JBoss installation directory, e.g. <code>C:\jboss-4.0.5</code></td>
             <td>Yes</td>
         </tr>
         <tr>
             <td>M2_HOME</td>
-            <td>Maven installation directory, e.g. <code>C:\Program Files\Apache Software Foundation\maven-2.0.5</code></td>
+            <td>Maven installation directory, e.g. <code>C:\Program Files\Apache Software Foundation\maven-2.0.8</code></td>
             <td>Yes</td>
         </tr>
         <tr>
@@ -216,7 +217,7 @@
         <li>Execute the following command to make sure you can run Maven:<br />
             <code>mvn --version</code></li>
         <li>Maven should display the following output:<br />
-            <code>Maven version: 2.0.5</code>.</li>
+            <code>Maven version: 2.0.8</code>.</li>
         <li>Now execute the following command to create a temporary project:<br />
             <code>mvn archetype:create -DgroupId=testapp -DartifactId=testapp</code><br />
             Make sure that you get a <code>BUILD SUCCESSFUL</code> message at the end. Sometimes
@@ -237,7 +238,7 @@
         generated by the plugin. Install the plugin by following the steps below.
     </p>
     <ol>
-        <li>Click <a href="http://team.andromda.org/maven2/org/andromda/maven/plugins/andromdapp-maven-plugin/3.2/andromdapp-maven-plugin-install-3.2.zip">
+        <li>Click <a href="http://team.andromda.org/maven2/org/andromda/maven/plugins/andromdapp-maven-plugin/3.3/andromdapp-maven-plugin-install-3.3.zip">
             here</a> to download the the AndroMDA plugin installer.</li>
         <li>Unzip the contents of the installer into your Maven repository at <code>C:\Documents
             and Settings\<strong>your user name</strong>\.m2\repository</code>.</li>
@@ -255,13 +256,28 @@
     &lt;packaging&gt;jar&lt;/packaging&gt;
     &lt;name&gt;test&lt;/name&gt;
 
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.andromda.profiles.uml14&lt;/groupId&gt;
+            &lt;artifactId&gt;andromda-profile&lt;/artifactId&gt;
+            &lt;type&gt;xml.zip&lt;/type&gt;
+            &lt;version&gt;3.3&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.andromda.profiles.uml14&lt;/groupId&gt;
+            &lt;artifactId&gt;andromda-profile&lt;/artifactId&gt;
+            &lt;type&gt;xml.zip&lt;/type&gt;
+            &lt;version&gt;3.3&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
     &lt;build&gt;
         &lt;defaultGoal&gt;compile&lt;/defaultGoal&gt;
         &lt;plugins&gt;
             &lt;plugin&gt;
                 &lt;groupId&gt;org.andromda.maven.plugins&lt;/groupId&gt;
                 &lt;artifactId&gt;andromdapp-maven-plugin&lt;/artifactId&gt;
-                &lt;version&gt;3.2&lt;/version&gt;
+                &lt;version&gt;3.3&lt;/version&gt;
             &lt;/plugin&gt;
         &lt;/plugins&gt;
     &lt;/build&gt;
@@ -306,7 +322,7 @@
         <li><a href="/index.php?option=com_content&amp;task=view&amp;id=114&amp;Itemid=42"
             target="_blank">MagicDraw 9.x</a> (UML 1.4/XMI 1.2)</li>
         <li><a href="/index.php?option=com_content&amp;task=view&amp;id=150&amp;Itemid=42"
-            target="_blank">MagicDraw 11.5</a> (UML 2/EMF)</li>
+            target="_blank">MagicDraw 15.5</a> (UML 2/EMF)</li>
         <li><a href="/index.php?option=com_content&amp;task=view&amp;id=158&amp;Itemid=42"
             target="_blank">RSM 6 (Rational Software Modeler/Architect)</a> (UML 2/EMF)</li>
     </ul>
@@ -333,7 +349,7 @@
             MySQL Connector/J version 5.0.4</a>, the MySQL JDBC driver. Unzip it at <code>C:\Program
                 Files\MySQL</code>.</li>
         <li>Copy the MySQL driver from <code>C:\Program Files\MySQL\mysql-connector-java-5.0.4\mysql-connector-java-5.0.4-bin.jar</code>
-            to the JBoss lib directory located at <code>C:\jboss-4.0.4\server\default\lib</code>.
+            to the JBoss lib directory located at <code>C:\jboss-4.0.5\server\default\lib</code>.
             Rename the copied file to <code>mysql-connector-java-5.0.4.jar</code>, removing
             the "-bin" to make it consistent with Maven naming conventions. (Recheck the target
             directory - JBoss has multiple lib directories under its root directory.) This allows

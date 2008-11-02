@@ -71,21 +71,21 @@
             </ol>
         </li>
         <li>Let's start the JBoss server so we can deploy the TimeTracker application to it.
-            To do this, open a second Command Prompt in the JBoss bin directory (<code>C:\jboss-4.0.4\bin</code>)
+            To do this, open a second Command Prompt in the JBoss bin directory (<code>C:\jboss-4.0.5\bin</code>)
             and execute the command <code>run</code>. JBoss will take some time to start up.
             Wait for a message similar to this to make sure JBoss has started successfully:<br />
-            <code>19:50:01,285 INFO [Server] JBoss (MX MicroKernel) [4.0.4.GA (build: CVSTag=JBoss_4_0_4_GA
+            <code>19:50:01,285 INFO [Server] JBoss (MX MicroKernel) [4.0.5.GA (build: CVSTag=JBoss_4_0_4_GA
                 date=200605151000)] Started in 39s:517ms</code>.</li>
         <li>Now we are ready to deploy the finished application to the JBoss server. Go to the
             previous Command Prompt (in the directory <code>C:\timetracker-completed</code>)
             and execute the command:<br />
             <code>mvn -f app/pom.xml -Ddeploy</code><br />
             You will notice that the TimeTracker EAR (Executable Archive) file is copied over
-            to the JBoss deploy directory (<code>C:\jboss-4.0.4\server\default\deploy</code>)
+            to the JBoss deploy directory (<code>C:\jboss-4.0.5\server\default\deploy</code>)
             and the JBoss console displays several messages indicating that it is deploying
             the application. Wait for a message similar to this to make sure TimeTracker has
             started successfully:<br />
-            <code>19:59:53,767 INFO [EARDeployer] Started J2EE application: file:/D:/jboss-4.0.4/server/default/deploy/timetracker-1.0-SNAPSHOT.ear</code></li>
+            <code>19:59:53,767 INFO [EARDeployer] Started J2EE application: file:/D:/jboss-4.0.5/server/default/deploy/timetracker-1.0-SNAPSHOT.ear</code></li>
         <li>Now we are ready to test the application. Open a browser and make it point to http://localhost:8080/timetracker.
             (If you have changed the JBoss HTTP port, then replace 8080 with the appropriate
             port number.) The login page should appear.</li>

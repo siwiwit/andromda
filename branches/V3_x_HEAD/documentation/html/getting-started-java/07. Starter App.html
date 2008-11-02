@@ -32,7 +32,7 @@
             your own name in response to the first question :-).</li>
     </ol>
     <pre>
-C:\>mvn org.andromda.maven.plugins:andromdapp-maven-plugin:3.2:generate
+C:\>mvn org.andromda.maven.plugins:andromdapp-maven-plugin:3.3:generate
 [INFO] Scanning for projects...
 [INFO] Searching repository for plugin with prefix: 'andromdapp'.
 [INFO] ----------------------------------------------------------------------------
@@ -57,7 +57,7 @@ Which kind of modeling tool will you use? [uml1.4, uml2, emf-uml2]:
 Use the list below to enter the correct choice:
     ArgoUML:        uml1.4
     MagicDraw 9.x:  uml1.4
-    MagicDraw 11.5: uml2
+    MagicDraw 15.5: uml2
     RSM 6:          emf-uml2
 uml1.4
 
@@ -81,6 +81,9 @@ Please enter the type of transactional/persistence cartridge to use
 [hibernate, ejb, ejb3, spring, none]:
 spring
 
+Please enter the Spring version to use (enter '1' for 1.x or '2' for 2.x) [1, 2]: 
+2
+
 Please enter the database backend for the persistence layer
 [hypersonic, mysql, oracle, db2, informix, mssql, pointbase,
  postgres, sybase, sabdb, progress, derby]:
@@ -89,10 +92,6 @@ mysql
 Will your project need workflow engine capabilities?
 (it uses jBPM and Hibernate3)? [yes, no]:
 no
-
-Please enter the hibernate version number
-(enter '2' for 2.1.x or '3' for 3.0.x) [2, 3]:
-3
 
 Will your project have a web user interface? [yes, no]:
 yes
