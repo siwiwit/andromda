@@ -1,3 +1,4 @@
+## IMPORTANT!!! We can remove this when we upgrade to AndroMDA 3.4
 // license-header java merge-point
 //
 // Attention: Generated code! Do not modify by hand!
@@ -17,6 +18,9 @@ public class ${class.name}
     extends ${class.generalization.fullyQualifiedName}
 #else
     extends java.lang.RuntimeException
+#end
+#if (!$class.interfaceAbstractions.empty)
+    implements $class.implementedInterfaceList
 #end
 {
     /**
