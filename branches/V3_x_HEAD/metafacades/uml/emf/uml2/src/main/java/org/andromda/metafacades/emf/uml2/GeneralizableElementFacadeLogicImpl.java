@@ -153,7 +153,7 @@ public class GeneralizableElementFacadeLogicImpl
 
     protected Object handleGetGeneralizationRoot()
     {
-        GeneralizableElementFacade generalizableElement = this;
+        GeneralizableElementFacade generalizableElement = (GeneralizableElementFacade)THIS();
 
         while (generalizableElement.getGeneralization() != null)
         {
