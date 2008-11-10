@@ -166,7 +166,7 @@
             <value>${${configPropertyPrefix}remoteHttpScheme}://${${configPropertyPrefix}remoteServer}:${${configPropertyPrefix}remotePort}/${${configPropertyPrefix}remoteContext}/RemoteAuthenticationManagerService</value>
         </property>
         <property name="serviceInterface">
-            <value>org.acegisecurity.providers.rcp.RemoteAuthenticationManager</value>
+            <value>${acegiRemoteAuthenticationManagerServiceInterface}</value>
         </property>
     </bean>
 

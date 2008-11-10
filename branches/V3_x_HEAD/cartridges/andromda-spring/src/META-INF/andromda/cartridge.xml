@@ -123,6 +123,7 @@
     <property reference="acegiServiceDecisionVoter"/>
     <property reference="acegiRolePrefix"/>
     <property reference="acegiAuthenticationManager"/>
+    <property reference="acegiRemoteAuthenticationManagerServiceInterface"/>
     <property reference="acegiRunAsManager"/>
     <property reference="acegiAuthenticationDaoBeanName"/>
     <property reference="acegiAuthenticationManagerImplClass"/>

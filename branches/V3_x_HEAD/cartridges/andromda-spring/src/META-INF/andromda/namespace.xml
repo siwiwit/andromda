@@ -1116,6 +1116,13 @@
                     The name of the class to use for the acegi security access decision voter.
                 </documentation>
             </property>
+            <property name="acegiRemoteAuthenticationManagerServiceInterface">
+                <default>org.acegisecurity.providers.rcp.RemoteAuthenticationManager</default>
+                <documentation>
+                    The name of the class to use for the acegi security remote authentication manager
+                    (in the client remote context).
+                </documentation>
+            </property>
             <property name="acegiRolePrefix">
                 <default>ROLE_</default>
                 <documentation>
