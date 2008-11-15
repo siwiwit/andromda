@@ -82,7 +82,8 @@
         </plugins>
     </build>
     <properties>
-        <model.uri>file:${project.build.sourceDirectory}/timetracker.xmi</model.uri>
+	    <!--<model.uri>file:${project.build.sourceDirectory}/timetracker.xmi</model.uri>-->
+	    <model.uri>file:${pom.basedir}/src/main/uml/timetracker.xmi</model.uri>
         <filter></filter>
         <validation>true</validation>
         <conf.dir>${pom.basedir}/src/main/config</conf.dir>
