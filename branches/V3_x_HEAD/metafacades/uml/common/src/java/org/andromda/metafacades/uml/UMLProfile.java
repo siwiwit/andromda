@@ -296,9 +296,14 @@ public class UMLProfile
     public static final String TAGGEDVALUE_MANAGEABLE_RESOLVEABLE = profile.get("MANAGEABLE_RESOLVEABLE");
 
     /**
-     * Indicates whether or not the underlying entity keys should be resolved when referencing it.
+     * Indicates the unique constraint name grouping the columns.
      */
     public static final String TAGGEDVALUE_PERSISTENCE_COLUMN_UNIQUE_GROUP = profile.get("COLUMN_UNIQUE_GROUP");
+
+    /**
+     * Indicates the unique constraint name grouping the columns.
+     */
+    public static final String TAGGEDVALUE_PERSISTENCE_ASSOCIATION_END_UNIQUE_GROUP = profile.get("ASSOCIATION_END_UNIQUE_GROUP");
 
     /**
      * Indicates whether or not the association end is considered "primary" used for things like indicating

@@ -50,7 +50,7 @@ ${indent}</property>
 ${indent}<one-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName" #if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy"#else lazy="false"#end fetch="$otherEnd.outerJoin"#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end/>
 #else
 ${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#end#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if($otherEnd.lazy) lazy="proxy"#else lazy="false"#end fetch="$otherEnd.outerJoin"#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($otherEnd.embedXML) embed-xml="$otherEnd.embedXML"#end>
-${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#end unique="true"/>
+${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#end unique="true"#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end/>
 ${indent}</many-to-one>
 #end
 #else
@@ -74,14 +74,14 @@ ${indent}    <cache usage="$sourceEnd.association.hibernateCacheType" />
 #end
 ${indent}    <key#if ($generateDatabaseDependentCode) foreign-key="$sourceEnd.foreignKeyConstraintName"#end#if ($otherEnd.list) not-null="$otherEnd.required"#end>
 #if (!$entity.compositeIdentifier)
-${indent}        <column name="$sourceEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$sourceEnd.sqlType"#end/>
+${indent}        <column name="$sourceEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$sourceEnd.sqlType"#end#if($sourceEnd.uniqueGroup) unique-key="$sourceEnd.uniqueGroup"#end/>
 #else
 #foreach ($identifier in $entity.identifiers)
-${indent}        <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
+${indent}        <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if($sourceEnd.uniqueGroup) unique-key="$sourceEnd.uniqueGroup"#end/>
 #end
 #foreach ($sourceEnd in $entity.identifierAssociationEnds)
 #foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if($sourceEnd.uniqueGroup) unique-key="$sourceEnd.uniqueGroup"#end/>
 #end
 #end
 #end
@@ -97,14 +97,14 @@ ${indent}</$otherEnd.collectionType>
 #elseif ($sourceEnd.many2One && !$sourceEnd.identifiersPresent)
 ${indent}<many-to-one name="$otherEnd.name" class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end not-null="$otherEnd.required"#end#if($otherEnd.lazy) lazy="proxy"#else lazy="false"#end fetch="$otherEnd.outerJoin"#if ($otherEnd.xmlTagName) node="$otherEnd.xmlTagName"#end#if ($sourceEnd.embedXML) embed-xml="$sourceEnd.embedXML"#end#if ($sourceEnd.list) insert="false" update="false"#end>
 #if (!$otherEnd.type.compositeIdentifier)
-${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#end/>
+${indent}    <column name="$otherEnd.columnName" not-null="$otherEnd.required"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#end#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end/>
 #else
 #foreach ($identifier in ${sourceEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end/>
 #end
 #foreach ($identyAssociationEnd in ${otherEnd.type.identifierAssociationEnds})
 #foreach ($identifier in ${identyAssociationEnd.otherEnd.type.identifiers})
-                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
+                <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end/>
 #end
 #end
 #end
@@ -118,7 +118,7 @@ ${indent}<$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.associ
 ${indent}<$otherEnd.collectionType name="$otherEnd.name" table="$otherEnd.association.tableName" lazy="$otherEnd.lazy" fetch="$otherEnd.outerJoin" inverse="$otherEnd.hibernateInverse"#if ($otherEnd.hibernateCascade) cascade="$otherEnd.hibernateCascade"#end#if ($otherEnd.whereClause) where="$otherEnd.whereClause"#end>
 #end
 ${indent}    <key#if ($generateDatabaseDependentCode) foreign-key="$sourceEnd.foreignKeyConstraintName"#end>
-${indent}        <column name="$sourceEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$sourceEnd.sqlType"#end/>
+${indent}        <column name="$sourceEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$sourceEnd.sqlType"#end#if($sourceEnd.uniqueGroup) unique-key="$sourceEnd.uniqueGroup"#end/>
 ${indent}    </key>
 #if ($otherEnd.list)
 ${indent}    <list-index column="$otherEnd.collectionIndexName"/>
@@ -127,7 +127,7 @@ ${indent}    <list-index column="$otherEnd.collectionIndexName"/>
 ${indent}    <map-key column="$otherEnd.collectionIndexName" type="$otherEnd.collectionIndexType"/>
 #end
 ${indent}    <many-to-many class="$otherEnd.type.fullyQualifiedEntityImplementationName"#if ($generateDatabaseDependentCode) foreign-key="$otherEnd.foreignKeyConstraintName"#end>
-${indent}        <column name="$otherEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#end/>
+${indent}        <column name="$otherEnd.columnName"#if ($generateDatabaseDependentCode) sql-type="$otherEnd.sqlType"#if($otherEnd.columnIndex) index="$otherEnd.columnIndex"#end#end#if($otherEnd.uniqueGroup) unique-key="$otherEnd.uniqueGroup"#end/>
 ${indent}    </many-to-many>
 ${indent}</$otherEnd.collectionType>
 #end

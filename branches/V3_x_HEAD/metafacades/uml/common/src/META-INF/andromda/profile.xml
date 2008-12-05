@@ -278,6 +278,10 @@
 			        AssociationEnd
 			    </appliedOnElement>
 			</element>
+            <element name="ASSOCIATION_END_UNIQUE_GROUP">
+                <documentation>The name of the unique constrain group that this unique association end belongs</documentation>
+                <value>@andromda.persistence.associationEnd.uniqueGroup</value>
+            </element>
             <element name="PRESENTATION_CONTROLLER_USECASE">
                 <documentation>
                     The value should correspond to the use-case holding the activity graph

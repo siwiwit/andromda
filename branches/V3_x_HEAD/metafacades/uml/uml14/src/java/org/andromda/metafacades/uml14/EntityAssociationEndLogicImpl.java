@@ -181,4 +181,12 @@ public class EntityAssociationEndLogicImpl
     protected boolean handleIsIdentifiersPresent() {
         return this.hasStereotype(UMLProfile.STEREOTYPE_IDENTIFIER);
     }
+    
+    /**
+     * @see org.andromda.metafacades.uml.EntityAssociationEnd#getUniqueGroup()
+     */
+    protected String handleGetUniqueGroup() {
+        final String group = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_ASSOCIATION_END_UNIQUE_GROUP);
+        return group != null ? StringUtils.trimToEmpty(group) : null;
+    }
 }
