@@ -16,7 +16,7 @@
         <property name="web">yes</property>
         <property name="webType">struts</property>
         <property name="webservice">no</property>
-        <property name="model">jar:file:${project.build.sourceDirectory}/CarRentalSystem.xml.zip!/CarRentalSystem.xml</property>
+        <property name="model">jar:file:${project.basedir}/src/main/uml/CarRentalSystem.xml.zip!/CarRentalSystem.xml</property>
         <property name="configurationUri">${project.basedir}/src/main/config/andromda.xml</property>
         <property name="databaseType">hypersonic</property>
         <property name="distributionManagementRepositoryUrl">$${project.distributionManagement.repository.url}</property>
