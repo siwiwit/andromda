@@ -48,6 +48,7 @@ public final class $manageable.manageableDaoBaseName
 
 #end
 #foreach ($associatedClass in $manageable.allAssociatedClasses)
+#if($associatedClass.manageable)
     private java.util.Set find${associatedClass.name}ByIds(${associatedClass.manageableIdentifier.type.fullyQualifiedName}[] ids)
     {
         final Session session = this.getSession(false);
@@ -63,6 +64,7 @@ public final class $manageable.manageableDaoBaseName
         }
     }
 
+#end
 #end
 #if ($manageable.create)
     public $manageable.fullyQualifiedEntityName create($memberList)
