@@ -846,6 +846,17 @@
                     Sets the default queue prefetch policy for ActiveMQ.
                 </documentation>
             </property>
+            <property name="manageableSearchMatchMode">
+                <default>start</default>
+                <documentation>
+                    Specifies the match mode to be used in CRUD searches.
+                    <ul>
+                        Valid values are (<code>string</code>):
+                        <li>start</li> Start of the word
+                        <li>anywhere</li> Anywhere in the word
+                    </ul>
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Hibernate">
             <documentation>

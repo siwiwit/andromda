@@ -184,6 +184,7 @@
     <property reference="jmsSessionTransacted"/>
     <property reference="jmsActiveMqDurableTopicPrefetch"/>
     <property reference="jmsActiveMqQueuePrefetch"/>
+    <property reference="manageableSearchMatchMode"/>
     <property reference="remoting-war-support"/>
     <property reference="remoteDispatcherServletName"/>
     <property reference="remoteWebApplicationContextName"/>

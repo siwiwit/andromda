@@ -117,6 +117,11 @@ public final class $manageable.manageableDaoBaseName
         return getDao().load($identifier.name);
     }
 
+#if($manageableSearchMatchMode == 'anywhere')
+#set($matchMode = 'MatchMode.ANYWHERE')
+#else
+#set($matchMode = 'MatchMode.START')
+#end
     public java.util.List read($memberList)
     {
         final Session session = getSession(false);
@@ -135,7 +140,7 @@ public final class $manageable.manageableDaoBaseName
 #else
             if ($member.name != null)
 #if ($member.type.stringType)
-                criteria.add(Expression.ilike("$member.name", $member.name, MatchMode.START));
+                criteria.add(Expression.ilike("$member.name", $member.name, $matchMode));
 #elseif ($member.type.dateType)
             {
                 // we check whether or not the user supplied time information within this particular date argument
