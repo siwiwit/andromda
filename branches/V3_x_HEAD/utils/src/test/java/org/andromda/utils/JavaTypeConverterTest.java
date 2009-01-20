@@ -28,6 +28,7 @@ public class JavaTypeConverterTest
     
     private final static ExpectedResult[] expected =
     {
+        new ExpectedResult("java.lang.Character", "java.lang.String", "(sourceVal == null ? null : sourceVal.toString())"),
         new ExpectedResult("java.lang.Integer", "double", "(double)(sourceVal == null ? 0 : sourceVal.intValue())"),
         new ExpectedResult("java.lang.Integer", "double[]", null),
         new ExpectedResult("java.lang.Integer", "float", "(float)(sourceVal == null ? 0 : sourceVal.intValue())"),
@@ -746,6 +747,7 @@ public class JavaTypeConverterTest
         new ExpectedResult("java.lang.String", "java.math.BigInteger[]", null),
         new ExpectedResult("java.lang.String", "java.math.BigDecimal", "new java.math.BigDecimal(sourceVal)"),
         new ExpectedResult("java.lang.String", "java.math.BigDecimal[]", null),
+        new ExpectedResult("java.lang.String", "java.lang.Character", "(sourceVal == null || sourceVal.length() == 0 ? null : java.lang.Character.valueOf(sourceVal.charAt(0)))"),
         new ExpectedResult("java.lang.String[]", "int", null),
         new ExpectedResult("java.lang.String[]", "int[]", null),
         new ExpectedResult("java.lang.String[]", "long", null),
@@ -1093,13 +1095,15 @@ public class JavaTypeConverterTest
         new ExpectedResult("java.lang.Object", "java.lang.Long", "sourceVal == null ? null : sourceVal.toString()"),
         new ExpectedResult("java.lang.Object", "java.lang.Float", "sourceVal == null ? null : sourceVal.toString()"),
         new ExpectedResult("java.lang.Object", "java.lang.Double", "sourceVal == null ? null : sourceVal.toString()"),
-        new ExpectedResult("java.lang.Object", "java.lang.Character", "sourceVal == null ? null : sourceVal.toString()"),
+        new ExpectedResult("java.lang.Object", "java.lang.Character", "(sourceVal == null || sourceVal.toString().length() == 0 ? null : java.lang.Character.valueOf(sourceVal.toString().charAr(0)))"),
         new ExpectedResult("java.lang.String", "java.lang.Object", "sourceVal"),
         new ExpectedResult("java.lang.Integer", "java.lang.Object", "sourceVal"),
         new ExpectedResult("java.lang.Long", "java.lang.Object", "sourceVal"),
         new ExpectedResult("java.lang.Float", "java.lang.Object", "sourceVal"),
         new ExpectedResult("java.lang.Double", "java.lang.Object", "sourceVal"),
         new ExpectedResult("java.lang.Character", "java.lang.Object", "sourceVal"),
+        new ExpectedResult("java.lang.Character", "char", "(sourceVal == null ? 0 : sourceVal.charValue())"),
+        new ExpectedResult("char", "java.lang.Character", "java.lang.Character.valueOf(sourceVal)"),
     };
     
     public void testTypeConversion()

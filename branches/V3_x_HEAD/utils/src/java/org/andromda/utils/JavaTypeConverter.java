@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 /**
  * A utility object used by the code generator when it needs to convert an object
@@ -13,6 +14,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class JavaTypeConverter
 {
+    private static final Logger logger = Logger.getLogger(JavaTypeConverter.class);
+    
     private ArrayList javaTypeConversionIgnoreList = new ArrayList();
     
     /** 
@@ -180,19 +183,24 @@ public class JavaTypeConverter
             new ConversionEntry("long", "java.sql.Time", "new java.sql.Time({0})"),
             new ConversionEntry("long", "java.sql.Timestamp", "new java.sql.Timestamp({0})"),
             new ConversionEntry("long", "java.util.Date", "new java.util.Date({0})"),
+
+            new ConversionEntry("java.lang.Character", "java.lang.String", "({0} == null ? null : {0}.toString())"),
+            new ConversionEntry("java.lang.String", "java.lang.Character", "({0} == null || {0}.length() == 0 ? null : java.lang.Character.valueOf({0}.charAt(0)))"),
             
             new ConversionEntry("java.lang.Object", "java.lang.String", "{0} == null ? null : {0}.toString()"),
             new ConversionEntry("java.lang.Object", "java.lang.Integer", "{0} == null ? null : {0}.toString()"),
             new ConversionEntry("java.lang.Object", "java.lang.Long", "{0} == null ? null : {0}.toString()"),
             new ConversionEntry("java.lang.Object", "java.lang.Float", "{0} == null ? null : {0}.toString()"),
             new ConversionEntry("java.lang.Object", "java.lang.Double", "{0} == null ? null : {0}.toString()"),
-            new ConversionEntry("java.lang.Object", "java.lang.Character", "{0} == null ? null : {0}.toString()"),
+            new ConversionEntry("java.lang.Object", "java.lang.Character", "({0} == null || {0}.toString().length() == 0 ? null : java.lang.Character.valueOf({0}.toString().charAr(0)))"),
             new ConversionEntry("java.lang.String", "java.lang.Object", "{0}"),
             new ConversionEntry("java.lang.Integer", "java.lang.Object", "{0}"),
             new ConversionEntry("java.lang.Long", "java.lang.Object", "{0}"),
             new ConversionEntry("java.lang.Float", "java.lang.Object", "{0}"),
             new ConversionEntry("java.lang.Double", "java.lang.Object", "{0}"),
             new ConversionEntry("java.lang.Character", "java.lang.Object", "{0}"),
+            new ConversionEntry("java.lang.Character", "char", "({0} == null ? 0 : {0}.charValue())"),
+            new ConversionEntry("char", "java.lang.Character", "java.lang.Character.valueOf({0})"),
         };
 
     /**
@@ -223,6 +231,7 @@ public class JavaTypeConverter
         }
         else
         {
+            logger.debug("Attempting to convert " + sourceType + " to " + targetType);
             convertedValue = null;
 
             for (int i = 0; i < conversionTable.length && convertedValue == null; i++)
@@ -245,6 +254,9 @@ public class JavaTypeConverter
                 if (primitiveSource.equals("integer"))
                 {
                     primitiveSource = "int";
+                }
+                else if (primitiveSource.equals("character")) {
+                    primitiveSource = "char";
                 }
 
                 String interimValue = typeConvert(
@@ -269,6 +281,9 @@ public class JavaTypeConverter
                 if (primitiveTarget.equals("integer"))
                 {
                     primitiveTarget = "int";
+                }
+                else if (primitiveTarget.equals("character")) {
+                    primitiveTarget = "char";
                 }
                 
                 String interimValue = typeConvert(
