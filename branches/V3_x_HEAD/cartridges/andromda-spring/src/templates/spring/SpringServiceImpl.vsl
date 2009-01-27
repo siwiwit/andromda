@@ -1,5 +1,5 @@
-#set ($generatedFile = "${service.packagePath}/${service.implementationName}.java")
-// license-header java merge-point
+// license-header ${implementationLanguage} merge-point
+#set ($generatedFile = "${service.packagePath}/${service.implementationName}.${implementationLanguage}")
 /**
  * This is only generated once! It will never be overwritten.
  * You can (and have to!) safely modify it by hand.

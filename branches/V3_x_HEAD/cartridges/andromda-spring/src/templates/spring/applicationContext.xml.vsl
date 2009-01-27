@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="$xmlEncoding"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-
-<beans>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
 
     <!-- ========================= GENERAL DEFINITIONS ========================= -->
 
@@ -121,40 +122,50 @@
     </bean>
 
 #foreach($entity in $entities)
-    <!-- $entity.name Entity Proxy with inner $entity.name Entity implementation -->
-    <bean id="$entity.getBeanName(false)" class="org.springframework.aop.framework.ProxyFactoryBean">
-        <property name="target">
-            <bean class="$entity.fullyQualifiedDaoImplementationName">
-                <property name="sessionFactory"><ref local="${beanNamePrefix}sessionFactory"/></property>
+#if($implementationLanguage == "groovy" && $entity.daoImplementationRequired)
+#set($propertyPrefix="lang:")
+    <lang:groovy id="$entity.fullyQualifiedDaoImplementationName" script-source="classpath:${entity.packagePath}/${entity.daoImplementationName}.groovy">
+#else
+#set($propertyPrefix="")
+    <bean id="$entity.fullyQualifiedDaoImplementationName" class="$entity.fullyQualifiedDaoImplementationName">
+#end
+        <${propertyPrefix}property name="sessionFactory"><ref local="${beanNamePrefix}sessionFactory"/></${propertyPrefix}property>
 ## Because of a bug in Spring with circular references (and using AOP proxies),
 ## we need to use the lookup-method as a work-a-round for dependencies
 ## which represent circular references
 #if(!$daoInheritanceEnabled)
 #foreach($entityRef in $entity.entityReferences)
 #if (!$entityRef.circularReference)
-                <property name="$entityRef.daoName"><ref bean="$entityRef.targetElement.getBeanName(false)"/></property>
+        <${propertyPrefix}property name="$entityRef.daoName"><ref bean="$entityRef.targetElement.getBeanName(false)"/></${propertyPrefix}property>
 #end
 #end
 #foreach($entityRef in $entity.entityReferences)
 #if ($entityRef.circularReference)
-                <lookup-method name="$entityRef.daoGetterName" bean="$entityRef.targetElement.getBeanName(false)"/>
+        <${propertyPrefix}lookup-method name="$entityRef.daoGetterName" bean="$entityRef.targetElement.getBeanName(false)"/>
 #end
 #end
 #else
 #foreach($entityRef in $entity.allEntityReferences)
 #if (!$entityRef.circularReference)
-                <property name="$entityRef.daoName"><ref bean="$entityRef.targetElement.getBeanName(false)"/></property>
+        <${propertyPrefix}property name="$entityRef.daoName"><ref bean="$entityRef.targetElement.getBeanName(false)"/></${propertyPrefix}property>
 #end
 #end
 #foreach($entityRef in $entity.allEntityReferences)
 #if ($entityRef.circularReference)
-                <lookup-method name="$entityRef.daoGetterName" bean="$entityRef.targetElement.getBeanName(false)"/>
+        <${propertyPrefix}lookup-method name="$entityRef.daoGetterName" bean="$entityRef.targetElement.getBeanName(false)"/>
 #end
 #end
 #end
-                <!-- $entity.name entity property merge-point -->
-            </bean>
-        </property>
+        <!-- $entity.name entity property merge-point -->
+#if($implementationLanguage == "groovy" && $entity.daoImplementationRequired)
+    </lang:groovy>
+#else
+    </bean>
+#end
+        
+    <!-- $entity.name Entity Proxy with inner $entity.name Entity implementation -->
+    <bean id="$entity.getBeanName(false)" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="$entity.fullyQualifiedDaoImplementationName"/>
         <property name="proxyInterfaces">
             <value>$entity.fullyQualifiedDaoName</value>
         </property>
@@ -190,40 +201,50 @@
 
 #end
 #foreach($service in $services)
-    <!-- $service.name Service Proxy with inner $service.name Service Implementation -->
-    <bean id="$service.getBeanName(false)" class="org.springframework.aop.framework.ProxyFactoryBean">
-        <property name="target">
-            <bean class="$service.fullyQualifiedImplementationName">
+#if($implementationLanguage == "groovy")
+#set($propertyPrefix="lang:")
+    <lang:groovy id="$service.fullyQualifiedImplementationName" script-source="classpath:${service.packagePath}/${service.implementationName}.groovy">
+#else
+#set($propertyPrefix="")
+    <bean id="$service.fullyQualifiedImplementationName" class="$service.fullyQualifiedImplementationName">
+#end
 #foreach($entityRef in $service.allEntityReferences)
-                <property name="$entityRef.daoName"><ref bean="$entityRef.targetElement.getBeanName(false)"/></property>
+        <${propertyPrefix}property name="$entityRef.daoName"><ref bean="$entityRef.targetElement.getBeanName(false)"/></${propertyPrefix}property>
 #end
 ## Because of a bug in Spring with circular references (and using AOP proxies),
 ## we need to use the lookup-method as a work-a-round for dependencies
 ## which represent circular references
 #foreach($serviceRef in $service.allServiceReferences)
 #if (!$serviceRef.circularReference)
-                <property name="$serviceRef.name"><ref bean="$serviceRef.targetElement.beanName"/></property>
+        <${propertyPrefix}property name="$serviceRef.name"><ref bean="$serviceRef.targetElement.beanName"/></${propertyPrefix}property>
 #end
 #end
 #foreach($serviceRef in $service.allServiceReferences)
 #if ($serviceRef.circularReference)
-                <lookup-method name="$serviceRef.getterName" bean="$serviceRef.targetElement.beanName"/>
+        <${propertyPrefix}lookup-method name="$serviceRef.getterName" bean="$serviceRef.targetElement.beanName"/>
 #end
 #end
 #foreach($destination in $service.allMessagingDestinations)
-                <property name="$destination.templateBeanName">
-                    <ref bean="$destination.templateBeanName"/>
-                </property>
+        <${propertyPrefix}property name="$destination.templateBeanName">
+            <ref bean="$destination.templateBeanName"/>
+        </${propertyPrefix}property>
 #end
 #foreach ($operation in $service.operations)
 #if ($operation.incomingMessageOperation)
 ## Set this as lookup methods (otherwise we'll have a circular refrence back to the container listener)
-                <lookup-method name="get$stringUtils.capitalize($operation.messageListenerContainerReferenceName)" bean="$operation.messageListenerContainerBeanName"/>
+        <${propertyPrefix}lookup-method name="get$stringUtils.capitalize($operation.messageListenerContainerReferenceName)" bean="$operation.messageListenerContainerBeanName"/>
 #end
 #end
-                <!-- $service.name service property merge-point -->
-            </bean>
-        </property>
+        <!-- $service.name service property merge-point -->
+#if($implementationLanguage == "groovy")
+    </lang:groovy>
+#else
+    </bean>
+#end
+
+    <!-- $service.name Service Proxy with inner $service.name Service Implementation -->
+    <bean id="$service.getBeanName(false)" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="$service.fullyQualifiedImplementationName"/>
         <property name="proxyInterfaces">
             <value>$service.fullyQualifiedName</value>
         </property>
