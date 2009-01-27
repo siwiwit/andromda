@@ -57,6 +57,12 @@
             <groupId>commons-pool</groupId>
             <artifactId>commons-pool</artifactId>
         </dependency>
+#if($groovy)
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all-minimal</artifactId>
+        </dependency>
+#end
 #end
 #if ($hibernateVersion.equals("2"))
         <dependency>
@@ -378,6 +384,12 @@
 #end
         </plugins>
         <resources>
+#if ($groovy)
+            <resource>
+                <directory>src/main/groovy</directory>
+                <filtering>false</filtering>
+            </resource>
+#end
             <resource>
                 <directory>target/src</directory>
                 <excludes>

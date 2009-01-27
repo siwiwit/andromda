@@ -176,9 +176,9 @@
         <model.uri>$model</model.uri>
 #else
 #if ($repositoryType.equals("uml1.4"))
-		<model.uri>file:${project.build.sourceDirectory}/${applicationId}.xmi</model.uri>
+		<model.uri>file:${pom.basedir}/src/main/uml/${applicationId}.xmi</model.uri>
 #else
-		<model.uri>file:${project.build.sourceDirectory}/${applicationId}.uml2</model.uri>
+		<model.uri>file:${pom.basedir}/src/main/uml/${applicationId}.uml2</model.uri>
 #end
 #end
         <filter></filter>
@@ -186,7 +186,10 @@
         <conf.dir>${pom.basedir}/src/main/config</conf.dir>
         <!-- cartridge output locations -->
         <core.generated.dir>${pom.basedir}/../core/target/src</core.generated.dir>
-        <core.manual.dir>${pom.basedir}/../core/src/main/java</core.manual.dir>
+        <core.manual.java.dir>${pom.basedir}/../core/src/main/java</core.manual.java.dir>
+#if ($groovy)
+        <core.manual.groovy.dir>${pom.basedir}/../core/src/main/groovy</core.manual.groovy.dir>
+#end
 #if ($ejb3)
         <core.manual.test.resources>${pom.basedir}/../core/src/test/resources</core.manual.test.resources>
         <core.generated.test.dir>${pom.basedir}/../core/target/src</core.generated.test.dir>

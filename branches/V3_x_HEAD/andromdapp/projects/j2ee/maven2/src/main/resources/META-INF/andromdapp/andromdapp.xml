@@ -218,6 +218,18 @@
                     </condition>
                 </conditions>
             </prompt>
+            <prompt id="implementationLanguage" setResponseAsTrue="true">
+                <text>Please enter the programming language to be used in service and dao implementations</text>
+                <shortText>Implementation language</shortText>
+                <preconditions>
+                    <condition id="transactionPersistenceType" equal="spring"/>
+                    <condition id="springVersion" equal="2"/>
+                </preconditions>
+                <responses>
+                    <response>java</response>
+                    <response>groovy</response>
+                </responses>
+            </prompt>
             <prompt id="databaseType" setResponseAsTrue="true">
                 <text>Please enter the database backend for the persistence layer</text>
                 <shortText>Database backend</shortText>

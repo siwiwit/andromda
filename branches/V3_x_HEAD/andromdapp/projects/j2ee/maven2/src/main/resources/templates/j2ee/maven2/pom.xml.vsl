@@ -153,6 +153,13 @@
                 <version>${andromda.version}</version>
                 <scope>runtime</scope>
             </dependency>
+#if($groovy)
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all-minimal</artifactId>
+                <version>1.5.7</version>
+            </dependency>
+#end
 #end
 #if ($spring || $hibernate)
             <dependency>
