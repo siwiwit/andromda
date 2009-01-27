@@ -12,6 +12,7 @@
         <property name="transactionPersistenceType">spring</property>
         <property name="workflow">no</property>
         <property name="springVersion">2</property>
+        <property name="implementationLanguage">java</property>
         <property name="web">yes</property>
         <property name="webType">struts</property>
         <property name="webservice">yes</property>

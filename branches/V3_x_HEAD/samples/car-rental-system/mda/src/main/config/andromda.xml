@@ -39,11 +39,11 @@
                 <property name="hibernateQueryCacheFactory">net.sf.hibernate.cache.StandardQueryCacheFactory</property>
                 <property name="springTypesPackage">${application.package}</property>
                 <property name="daos">${core.generated.dir}</property>
-                <property name="dao-impls">${core.manual.dir}</property>
+                <property name="dao-impls">${core.manual.java.dir}</property>
                 <property name="spring-configuration">${core.generated.dir}</property>
                 <property name="services">${core.generated.dir}</property>
                 <property name="service-interfaces">${common.generated.dir}</property>
-                <property name="service-impls">${core.manual.dir}</property>
+                <property name="service-impls">${core.manual.java.dir}</property>
                 <!-- to remove any dependency on EJB, comment the following property -->
                 <property name="session-ejbs">${core.generated.dir}</property>
                 <!-- uncomment to enable EJB security -->
@@ -59,7 +59,7 @@
                 <property name="defaultHibernateGeneratorClass">${hibernate.generatorClass}</property>
                 <property name="hibernateDefaultCascade">none</property>
                 <property name="entities">${core.generated.dir}</property>
-                <property name="entity-impls">${core.manual.dir}</property>
+                <property name="entity-impls">${core.manual.java.dir}</property>
                 <property name="entity-mappings">${core.generated.dir}</property>
                 <property name="user-types">${core.generated.dir}</property>
                 <property name="customTypesPackage">${application.package}</property>
