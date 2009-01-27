@@ -688,6 +688,12 @@
                     The suffix to append to the names of generated value objects used in CRUD (manageable entities).
                 </documentation>
             </property>
+            <property name="implementationLanguage">
+                <default>java</default>
+                <documentation>
+                    Indicates the programming language being used in classes generated to be completed by hand (service and dao implementation,for example).
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="JMS">
             <documentation>

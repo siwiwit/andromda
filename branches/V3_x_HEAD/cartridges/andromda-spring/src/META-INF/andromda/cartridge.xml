@@ -109,6 +109,7 @@
     <property reference="jdbcDataSourceDestroyMethod"/>
     <property reference="parameterRequiredCheck"/>
     <property reference="xmlEncoding"/>
+    <property reference="implementationLanguage"/>
     <property reference="session-ejbs"/>
     <property reference="session-ejb-interfaces"/>
     <property reference="advice-impls"/>
