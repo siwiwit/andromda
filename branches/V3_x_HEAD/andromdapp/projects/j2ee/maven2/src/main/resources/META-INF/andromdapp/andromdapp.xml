@@ -338,6 +338,22 @@
                     </condition>
                 </conditions>
             </prompt>
+            <prompt id="ajaxLibraryType" setResponseAsTrue="true">
+                <text>Would you like to add ICEFaces support to your portlet?</text>
+                <shortText>Add ICEFaces support</shortText>
+                <preconditions>
+                    <condition id="portlet" equal="true"/>
+                </preconditions>
+                <responses type="java.lang.Boolean">
+                    <response>yes</response>
+                    <response>no</response>
+                </responses>
+                <conditions>
+                    <condition equal="yes">
+                        <setProperty id="ajaxLibrary">icefaces</setProperty>
+                    </condition>
+                </conditions>
+            </prompt>
             <prompt id="jbossSeam" setResponseAsTrue="false">
                 <text>Would you like to use the JBoss Seam application framework?</text>
                 <shortText>Enable JBoss Seam</shortText>

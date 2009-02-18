@@ -259,6 +259,26 @@
                 <version>1.0</version>
                 <scope>provided</scope>
             </dependency>
+#if ($ajaxLibrary.equals("icefaces"))
+            <dependency>
+                <groupId>org.icefaces</groupId>
+                <artifactId>icefaces</artifactId>
+                <version>1.7.2.SP1</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.icefaces</groupId>
+                <artifactId>icefaces-comps</artifactId>
+                <version>1.7.2.SP1</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.icefaces</groupId>
+                <artifactId>icefaces-facelets</artifactId>
+                <version>1.7.2.SP1</version>
+                <scope>runtime</scope>
+            </dependency>
+#end
 #else
             <dependency>
                 <groupId>org.apache.myfaces.trinidad</groupId>
@@ -1449,6 +1469,13 @@
             <name>University Of Stockholm Repository</name>
             <url>http://maven.it.su.se/it.su.se/maven2</url>
         </repository>
+#if ($ajaxLibrary.equals("icefaces"))
+        <repository>
+            <id>jboss</id>
+            <name>JBoss Repository</name>
+            <url>http://repository.jboss.com/maven2</url>
+        </repository>
+#end
 #end
     </repositories>
     <pluginRepositories>

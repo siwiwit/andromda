@@ -192,10 +192,24 @@
             <artifactId>el-ri</artifactId>
         </dependency>
 #if ($portlet)
-            <dependency>
-                <groupId>javax.portlet</groupId>
-                <artifactId>portlet-api</artifactId>
-            </dependency>
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+        </dependency>
+#if ($ajaxLibrary.equals("icefaces"))
+        <dependency>
+            <groupId>org.icefaces</groupId>
+            <artifactId>icefaces</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.icefaces</groupId>
+            <artifactId>icefaces-comps</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.icefaces</groupId>
+            <artifactId>icefaces-facelets</artifactId>
+        </dependency>
+#end
 #else
         <dependency>
             <groupId>com.sun.facelets</groupId>

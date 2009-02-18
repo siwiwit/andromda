@@ -388,7 +388,12 @@
                 <property name="messages">${web.generated.dir}</property>
                 <property name="configuration">${web.generated.dir}</property>
                 <property name="custom-configuration">${web.manual.dir}/resources</property>
+#if ($ajaxLibrary.equals("icefaces"))
+                <property name="ajaxLibrary">icefaces</property>
+                <property name="portletClass">com.icesoft.faces.webapp.http.portlet.MainPortlet</property>
+#else
                 <property name="libraries">${web.generated.dir}</property>
+#end
                 <property name="custom-resources">${web.manual.dir}</property>
                 <!-- uncomment to enable web tier security
                 <property name="securityRealm">${application.id}</property>
