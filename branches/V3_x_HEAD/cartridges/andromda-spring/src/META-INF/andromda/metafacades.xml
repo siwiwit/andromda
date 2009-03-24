@@ -9,6 +9,7 @@
     <property reference="daoImplementationNamePattern"/>
     <property reference="ejbJndiNamePrefix"/>
     <property reference="ejbPackageNamePattern"/>
+    <property reference="implementationPackageNamePattern"/>
     <property reference="defaultServiceExceptionNamePattern"/>
     <property reference="defaultServiceExceptions"/>
     <property reference="serviceInterceptors"/>

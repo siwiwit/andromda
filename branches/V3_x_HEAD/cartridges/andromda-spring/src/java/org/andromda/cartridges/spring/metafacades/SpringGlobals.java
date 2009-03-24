@@ -79,6 +79,11 @@ public class SpringGlobals
     static final String IMPLEMENTATION_OPERATION_NAME_PATTERN = "implementationOperationNamePattern";
 
     /**
+     * The name pattern for service implementation class packages
+     */
+    static final String IMPLEMENTATION_PACKAGE_NAME_PATTERN = "implementationPackageNamePattern";
+    
+    /**
      * The pattern used to construct the DAO base name.
      */
     static final String DAO_BASE_PATTERN = "daoBaseNamePattern";

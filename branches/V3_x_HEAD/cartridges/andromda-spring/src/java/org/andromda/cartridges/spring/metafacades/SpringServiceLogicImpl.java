@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Chad Brandon
  * @author Peter Friese
+ * @author Jens Vagts
  * @see org.andromda.cartridges.spring.metafacades.SpringService
  */
 public class SpringServiceLogicImpl
@@ -123,11 +124,48 @@ public class SpringServiceLogicImpl
     protected java.lang.String handleGetFullyQualifiedImplementationName()
     {
         return SpringMetafacadeUtils.getFullyQualifiedName(
-            this.getPackageName(),
+            this.getImplementationPackageName(),
             this.getName(),
             SpringGlobals.IMPLEMENTATION_SUFFIX);
     }
 
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringServic#getImplementationPackageName()
+     */
+	protected String handleGetImplementationPackageName() {
+        String implementationPackageName =
+            MessageFormat.format(
+                this.getImplemenationPackageNamePattern(),
+                new Object[] {StringUtils.trimToEmpty(this.getPackageName())});
+        if (StringUtils.isBlank(this.getPackageName()))
+        {
+        	implementationPackageName = implementationPackageName.replaceAll(
+                    "^\\.",
+                    "");
+        }
+        return implementationPackageName;
+	}
+
+    /**
+     * @see org.andromda.cartridges.spring.metafacades.SpringService#getImplementationPackagePath()
+     */
+	protected String handleGetImplementationPackagePath()
+	{
+		 return this.getImplementationPackageName().replace(
+		            '.',
+		            '/');
+	}
+	
+    /**
+     * Gets the <code>implementationPackageNamePattern</code> for this SpringService.
+     *
+     * @return the defined package pattern.
+     */
+    protected String getImplemenationPackageNamePattern()
+    {
+        return (String)this.getConfiguredProperty(SpringGlobals.IMPLEMENTATION_PACKAGE_NAME_PATTERN);
+    }
+	
     /**
      * @see org.andromda.cartridges.spring.metafacades.SpringService#getBaseName()
      */
@@ -142,7 +180,7 @@ public class SpringServiceLogicImpl
     protected java.lang.String handleGetFullyQualifiedBaseName()
     {
         return SpringMetafacadeUtils.getFullyQualifiedName(
-            this.getPackageName(),
+            this.getImplementationPackageName(),
             this.getName(),
             SpringGlobals.SERVICE_BASE_SUFFIX);
     }
@@ -231,7 +269,10 @@ public class SpringServiceLogicImpl
      */
     protected String handleGetFullyQualifiedWebServiceDelegatorName()
     {
-        return this.getFullyQualifiedName() + SpringGlobals.WEB_SERVICE_DELEGATOR_SUFFIX;
+		return SpringMetafacadeUtils.getFullyQualifiedName(
+		          this.getImplementationPackageName(),
+		          this.getName(),
+		          SpringGlobals.WEB_SERVICE_DELEGATOR_SUFFIX);    	
     }
 
     /**

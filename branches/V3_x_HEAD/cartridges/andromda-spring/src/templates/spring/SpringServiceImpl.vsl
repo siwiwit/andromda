@@ -1,11 +1,11 @@
 // license-header ${implementationLanguage} merge-point
-#set ($generatedFile = "${service.packagePath}/${service.implementationName}.${implementationLanguage}")
+#set ($generatedFile = "${service.implementationPackagePath}/${service.implementationName}.${implementationLanguage}")
 /**
  * This is only generated once! It will never be overwritten.
  * You can (and have to!) safely modify it by hand.
  */
-#if ($stringUtils.isNotBlank($service.packageName))
-package $service.packageName;
+#if ($stringUtils.isNotBlank($service.implementationPackageName))
+package $service.implementationPackageName;
 #end
 
 /**
