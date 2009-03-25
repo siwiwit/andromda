@@ -8,7 +8,7 @@
 
 	<!-- applicationContext-osgi-export merge-point -->	
 			
-    <!-- ========================= Start of OSGI SERVICE EXPORT DEFINITIONS ========================= -->
+    <!-- ========================= Start of OSGI SERVICE EXPORT DEFINITIONS ======================= -->
 
 #foreach($service in $services)
     <!-- export $service.name -->
