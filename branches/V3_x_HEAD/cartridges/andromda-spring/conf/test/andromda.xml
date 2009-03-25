@@ -33,6 +33,7 @@
                 <property name="spring-configuration">${test.output.dir}</property>
                 <property name="client-config">${test.output.dir}</property>
                 <property name="client">${test.output.dir}</property>
+                <property name="osgi">${test.output.dir}</property>
                 <property name="securityRealm">SomeDomain</property>
                 <property name="dataSource">java:/DefaultDS</property>
                 <property name="username">auser</property>

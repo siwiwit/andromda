@@ -158,13 +158,19 @@
                     used to expose the remote services will be generated.
                 </documentation>
             </property>
+            <property name="osgi" required="false">
+                <documentation>
+                    The location to which OSGi related files (e.g. the Spring applicationContext-osgi-export.xml)
+                    will be generated.
+                </documentation>
+            </property>
         </propertyGroup>
         <propertyGroup name="Other">
             <property name="springVersion">
                 <default>2.0</default>
                 <documentation>
                     The version of Spring to use/support when generating. Neccessary when api changes make
-                    some methods class deprecated.
+                    some classes and/or methods deprecated.
                     <ul>
                         Permitted values are:
                         <li>2.0</li>
@@ -518,6 +524,14 @@
                     file that contains the bean proxy definitions for accessing the
                     ejb service wrappers (if generated with ejbViewType='local' or 'both') via local ejb interfaces
                     (i.e. some/path/applicationContext-localejb.xml)
+                </documentation>
+            </property>
+            <property name="applicationContextOsgiExport" required="false">
+                <default>applicationContext-osgi-export.xml</default>
+                <documentation>
+                    The name/path of the application context resource
+                    file that contains the spring osgi export definitions for all defined
+                    services.
                 </documentation>
             </property>
             <property name="beanRefFactory">

@@ -59,6 +59,8 @@
     <property reference="applicationContextLocalEjb"/>
     <property reference="applicationContextServer"/>
     <property reference="applicationContextClient"/>
+    <property reference="applicationContextOsgiExport"/>
+    <property reference="osgi"/>
     <property reference="beanRefFactory"/>
     <property reference="beanRefFactoryId"/>
     <property reference="beanRefFactoryEjbId"/>
@@ -858,6 +860,22 @@
             <modelElement variable="services">
                 <type name="org.andromda.cartridges.spring.metafacades.SpringService">
                     <property name="remotable"/>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+
+    <template
+        path="templates/spring/osgi/applicationContext-osgi-export.xml.vsl"
+        outputPattern="$applicationContextOsgiExport"
+        outlet="osgi"
+        overwrite="true"
+        outputToSingleFile="true"
+        outputOnEmptyElements="false">
+        <modelElements>
+            <modelElement variable="services">
+                <type name="org.andromda.cartridges.spring.metafacades.SpringService">
+                    <property name="abstract">false</property>
                 </type>
             </modelElement>
         </modelElements>
