@@ -216,13 +216,7 @@
             <dependency>
                 <groupId>org.andromda.cartridges</groupId>
                 <artifactId>andromda-jsf2-cartridge</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.andromda.cartridges</groupId>
-                <artifactId>andromda-jsf2-cartridge-components</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
