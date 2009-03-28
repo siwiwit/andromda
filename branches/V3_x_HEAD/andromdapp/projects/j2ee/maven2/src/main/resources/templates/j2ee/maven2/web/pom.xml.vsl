@@ -168,6 +168,10 @@
             <artifactId>andromda-jsf-cartridge-components</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-jsf2-cartridge-components</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
         </dependency>
