@@ -137,7 +137,7 @@ public class EclipseMojo
      *
      * @parameter
      */
-    private Set classpathArtifactTypes = new LinkedHashSet(Arrays.asList(new String[] {"jar"}));
+    private Set classpathArtifactTypes = new LinkedHashSet(Arrays.asList(new String[] {"jar","ejb"}));
 
     /**
      * Whether or not transitive dependencies shall be included in any resources (i.e. .classpath
