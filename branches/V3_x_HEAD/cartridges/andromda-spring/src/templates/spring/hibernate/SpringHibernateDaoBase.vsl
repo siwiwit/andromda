@@ -33,6 +33,22 @@ package $entity.packageName;
 #set ($executeWithNativeSessionMethodname = "execute")
 		#set ($executeWithNativeSessionParameter = ", true")
 	#end
+##
+##
+#if($entity.compositeIdentifier)
+#set($identifierTypeName="${entity.fullyQualifiedEntityName}PK")
+#set($identifierCapitalizedName="${entity.name}Pk")
+#set($identifierName=${stringUtils.uncapitalize($identifierCapitalizedName)})
+#set($identifierTypePrimitive = false)
+#else
+#set($identifierTypeName="${entity.identifiers.iterator().next().type.fullyQualifiedName}")
+#set($identifierName="${entity.identifiers.iterator().next().name}")
+#set($identifierCapitalizedName=${stringUtils.capitalize($identifierName)})
+#set($identifierTypePrimitive = $entity.identifiers.iterator().next().type.primitive)
+#if($identifierTypePrimitive)
+#set($identifierTypeWrapperName = $entity.identifiers.iterator().next().type.wrapperName)
+#end
+#end
 
 /**
  * <p>
@@ -74,13 +90,13 @@ public abstract class $entity.daoBaseName
 #set ($identifier = $entity.identifiers.iterator().next())
 #set ($argumentName = $stringUtils.uncapitalize($entity.name))
     /**
-     * @see ${entity.fullyQualifiedDaoName}#load(int, $identifier.type.fullyQualifiedName)
+     * @see ${entity.fullyQualifiedDaoName}#load(int, ${identifierTypeName})
      */
-    public java.lang.Object load(final int transform, final $identifier.type.fullyQualifiedName $identifier.name)
+    public java.lang.Object load(final int transform, final ${identifierTypeName} ${identifierName})
     {
-#set ($argument = $identifier.name)
-#if($identifier.type.primitive)
-#set ($argument = "new ${identifier.type.wrapperName}(${identifier.name})")
+#set ($argument = ${identifierName})
+#if($identifierTypePrimitive)
+#set ($argument = "new ${identifierTypeWrapperName}(${identifierName})")
 #else
         if ($argument == null)
         {
@@ -117,11 +133,11 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
     }
 
     /**
-     * @see ${entity.fullyQualifiedDaoName}#load($identifier.type.fullyQualifiedName)
+     * @see ${entity.fullyQualifiedDaoName}#load(${identifierTypeName})
      */
-    public $rootEntityType load($identifier.type.fullyQualifiedName $identifier.name)
+    public $rootEntityType load(${identifierTypeName} ${identifierName})
     {
-        return ($entity.fullyQualifiedEntityName)this.load($entity.daoNoTransformationConstantName, $identifier.name);
+        return ($entity.fullyQualifiedEntityName)this.load($entity.daoNoTransformationConstantName, ${identifierName});
     }
 
     /**
@@ -228,7 +244,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                     }
                 }${executeWithNativeSessionParameter});
 
-        return this.load(transform, ($identifier.type.fullyQualifiedName)newID);
+        return this.load(transform, (${identifierTypeName})newID);
     }
 
 #end
@@ -244,10 +260,10 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
 #if ($hibernateUtils.xmlPersistenceActive)
 #set ($identifierProperty = "identifier")
-#if($identifier.type.primitive)
-#set ($identifierProperty = "(($identifier.type.wrapperName)$identifierProperty).${identifier.type.fullyQualifiedName}Value()")
+#if($identifierTypePrimitive)
+#set ($identifierProperty = "(($identifierTypeWrapperName)$identifierProperty).${identifierTypeName}Value()")
 #else
-#set ($identifierProperty = "($identifier.type.fullyQualifiedName)$identifierProperty")
+#set ($identifierProperty = "(${identifierTypeName})$identifierProperty")
 #end
         java.lang.Object identifier = this.getHibernateTemplate().save($argumentName);
         if (transform == TRANSFORM_XML)
@@ -466,21 +482,21 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 
 #end
     /**
-     * @see ${entity.fullyQualifiedDaoName}#remove($identifier.type.fullyQualifiedName)
+     * @see ${entity.fullyQualifiedDaoName}#remove(${identifierTypeName})
      */
-    public void remove($identifier.type.fullyQualifiedName $identifier.name)
+    public void remove(${identifierTypeName} ${identifierName})
     {
-#set ($argument = $identifier.name)
-#if($identifier.type.primitive)
-#set ($argument = "new ${identifier.type.wrapperName}(${identifier.name})")
+#set ($argument = ${identifierName})
+#if($identifierTypePrimitive)
+#set ($argument = "new ${identifierTypeWrapperName}(${identifierName})")
 #else
         if ($argument == null)
         {
             throw new IllegalArgumentException(
-                "${entity.name}.remove - '$identifier.name' can not be null");
+                "${entity.name}.remove - '${identifierName}' can not be null");
         }
 #end
-#set ($loadCall = "this.load($identifier.name)")
+#set ($loadCall = "this.load(${identifierName})")
 #if ($entity.generalization && $daoInheritance)
 #set ($loadCall = "($entity.fullyQualifiedEntityName)${loadCall}")
 #end
@@ -533,6 +549,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         return $finderCall
     }
 
+#if ($finder.returnType.collectionType || !$finder.criteriaFinder)
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
@@ -554,6 +571,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         return this.${finder.name}(transform, "$finder.getQuery($entity)"#if(!$finder.arguments.empty), ${finder.argumentNames}#end);
 #end
     }
+#end
 
 #set ($returnType = "${finder.returnType.fullyQualifiedName}#if($enableTemplating && $finder.returnType.collectionType)<${entity.fullyQualifiedEntityName}>#end")
 #if(!$finder.criteriaFinder)
@@ -700,7 +718,9 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
                     result = results.iterator().next();
                 }
             }
-            result = transformEntity(transform, ($entity.fullyQualifiedName)result);
+            if(transform != $entity.daoNoTransformationConstantName){ ##with this test we can use queries returning other types than collections or the entity
+            	result = transformEntity(transform, ($entity.fullyQualifiedName)result);
+            }
             return result;
 #else
             transformEntities(transform, results);
@@ -713,9 +733,17 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         }
     }
 #else
+#if($finder.returnType.collectionType)
+#set ($returnType = "${finder.returnType.fullyQualifiedName}#if($enableTemplating)<?>#end")
+#else
+#set ($returnType = "java.lang.Object")
+#end
     /**
      * @see ${entity.fullyQualifiedDaoName}#${finder.name}(int, java.lang.String#if ($finder.returnType.collectionType), int, int#end#if(!$finder.arguments.empty), ${finder.argumentTypeNames}#end)
      */
+#if ($enableTemplating)
+    @java.lang.SuppressWarnings("unchecked")
+#end
     $finder.visibility $returnType ${finder.name}(final int transform#if ($finder.returnType.collectionType), final int pageNumber, final int pageSize#end#if(!$finder.arguments.empty), ${finder.getTypedArgumentList('final')}#end)
 #if ($finder.exceptionsPresent)
         throws $finder.exceptionList
@@ -769,8 +797,16 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #else
             java.util.List results = criteriaSearch.executeAsList();
 #end
+#if($finder.returnType.collectionType)
             transformEntities(transform, results);
             return results;
+#else
+            switch(results.size()){
+                case 0: return null;
+                case 1: return transformEntity(transform, ($entity.fullyQualifiedName)results.iterator().next());
+                default: throw new org.hibernate.NonUniqueResultException(results.size());
+            }
+#end
         }
         catch (${hibernateUtils.basePackage}.HibernateException ex)
         {
@@ -1035,7 +1071,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #set ($entityProperties = $entity.allProperties)
 #foreach ($property in $valueObjectRef.targetElement.allProperties)
 #* *##foreach ($entityProperty in $entityProperties)
-#*    *##if ($property.name.equals($entityProperty.name))
+#*    *##if ($property.name.equals($entityProperty.name) && (!$entity.compositeIdentifier || !$entityProperty.identifier))
 #*        *##set ($entityPropertyGetterValue = false)
 #*        *##set ($entityPropertyGetterValue = $converter.typeConvert($entityProperty.type.fullyQualifiedName, "source.${entityProperty.getterName}()", $property.type.fullyQualifiedName))
 #*        *##if ($entityPropertyGetterValue)
@@ -1074,7 +1110,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
 #foreach ($entityProperty in $entityAttributes)
 #* *##if (!$entityProperty.readOnly)
 #*    *##foreach ($property in $valueObjectRef.targetElement.allProperties)
-#*        *##if ($property.name.equals($entityProperty.name))
+#*        *##if ($property.name.equals($entityProperty.name) && (!$entity.compositeIdentifier || !$entityProperty.identifier))
 #*            *##set ($propertyGetterValue = false)
 #*            *##set ($propertyGetterValue = $converter.typeConvert($property.type.fullyQualifiedName, "source.${property.getterName}()", $entityProperty.type.fullyQualifiedName))
 #*            *##if ($propertyGetterValue)

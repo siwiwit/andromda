@@ -118,16 +118,24 @@ public interface $entity.daoName
     public void ${valueObjectRef.transformationToEntityCollectionMethodName}(java.util.Collection#if($enableTemplating)<?>#end instances);
 
 #end
-#set ($identifier = $entity.identifiers.iterator().next())
+#if($entity.compositeIdentifier)
+#set($identifierTypeName="${entity.fullyQualifiedEntityName}PK")
+#set($identifierCapitalizedName="${entity.name}Pk")
+#set($identifierName=${stringUtils.uncapitalize($identifierCapitalizedName)})
+#else
+#set($identifierTypeName="${entity.identifiers.iterator().next().type.fullyQualifiedName}")
+#set($identifierName="${entity.identifiers.iterator().next().name}")
+#set($identifierCapitalizedName=${stringUtils.capitalize($identifierName)})
+#end
 #set ($argumentName = $stringUtils.uncapitalize($entity.name))
     /**
      * Loads an instance of $entity.fullyQualifiedEntityName from the persistent store.
      */
-    public $rootEntityType load($identifier.type.fullyQualifiedName $identifier.name);
+    public $rootEntityType load(${identifierTypeName} ${identifierName});
 
     /**
      * <p>
-     * Does the same thing as {@link #load($identifier.type.fullyQualifiedName)} with an
+     * Does the same thing as {@link #load(${identifierTypeName})} with an
      * additional flag called <code>transform</code>. If this flag is set to <code>$entity.daoNoTransformationConstantName</code> then
      * the returned entity will <strong>NOT</strong> be transformed. If this flag is any of the other constants
      * defined in this class then the result <strong>WILL BE</strong> passed through an operation which can
@@ -135,10 +143,10 @@ public interface $entity.daoName
      * not occur.
      * </p>
      *
-     * @param $identifier.name the identifier of the entity to load.
+     * @param ${identifierName} the identifier of the entity to load.
      * @return either the entity or the object transformed from the entity.
      */
-    public Object load(int transform, $identifier.type.fullyQualifiedName $identifier.name);
+    public Object load(int transform, ${identifierTypeName} ${identifierName});
 
     /**
      * Loads all entities of type {@link ${entity.fullyQualifiedEntityName}}.
@@ -349,7 +357,7 @@ public interface $entity.daoName
      * Removes the instance of $entity.fullyQualifiedEntityName having the given
      * <code>identifier</code> from the persistent store.
      */
-    public void remove($identifier.type.fullyQualifiedName $identifier.name);
+    public void remove(${identifierTypeName} ${identifierName});
 
     /**
      * Removes all entities in the given <code>entities</code> collection.
@@ -490,6 +498,11 @@ $operation.getDocumentation("     * ")
 
 #end
 #else
+#if($operation.returnType.collectionType)
+#set ($returnType = "${operation.returnType.fullyQualifiedName}#if($enableTemplating)<?>#end")
+#else
+#set ($returnType = "java.lang.Object")
+#end
     /**
      * <p>
      * Does the same thing as {@link #${operation.getSignature(false)}} with an
