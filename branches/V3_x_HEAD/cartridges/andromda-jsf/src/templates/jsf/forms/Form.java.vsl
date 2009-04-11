@@ -34,7 +34,7 @@ $field.getDocumentation("     * ")
 $field.getDocumentation("     * ")
      */
     public void ${field.setterName}($fieldTypeName $field.name);
-#if (!$field.complex && $field.selectable)
+#if ($field.selectable || $field.type.enumeration)
 #renderBackingListSupport($field "")
 #end
 #if ($field.backingValueRequired)

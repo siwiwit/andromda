@@ -42,7 +42,7 @@ $field.getDocumentation("     * ")
      */
     public $fieldTypeName ${field.getterName}()
     {
-#if ($field.complex)
+#if ($field.complex && !$field.type.enumeration)
         if (this.$field.name == null)
         {
             this.$field.name = new ${field.type.fullyQualifiedName}();
@@ -77,11 +77,11 @@ $field.getDocumentation("     * ")
         this.$field.name = $field.name;
         this.$field.formAttributeSetProperty = true;
     }
-#if (!$field.complex && !$field.defaultValuePresent)
 #renderBackingListImplSupport($field "")
-#end
+#if (!$field.type.enumeration)
 #foreach ($attribute in $field.attributes)
 #renderBackingListImplSupport($attribute $field)
+#end
 #end
 
 #end
