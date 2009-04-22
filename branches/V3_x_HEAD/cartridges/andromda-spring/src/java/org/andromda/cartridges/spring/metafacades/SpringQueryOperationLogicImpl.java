@@ -119,16 +119,20 @@ public class SpringQueryOperationLogicImpl
         if (StringUtils.isEmpty(queryString))
         {
             ModelElementFacade owner;
+            String entityName = null;
             if (entity == null)
             {
                 owner = this.getOwner();
+                entityName = owner.getFullyQualifiedName(); 
             }
             else
             {
                 owner = entity;
+                //retrieve the entity implementation for proper hibernate mapping resolving 
+                entityName = entity.getFullyQualifiedEntityImplementationName();
             }
             String variableName = StringUtils.uncapitalize(owner.getName());
-            queryString = "from " + owner.getFullyQualifiedName() + " as " + variableName;
+            queryString = "from " + entityName + " as " + variableName;
             if (this.getArguments().size() > 0)
             {
                 queryString = queryString + " where";
