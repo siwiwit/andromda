@@ -205,4 +205,11 @@ public class HibernateGlobals
     * The default Hibernate dicriminator columntype
     */
     static final String ENTITY_DISCRIMINATOR_TYPE = "defaultEntityDiscriminatorType";
+    
+    /**
+     * Optional definition of the package name where all Hibernate enumeration types are
+     * to be generated. This will overrride the default model package name where the
+     * enumeration class itself will still be placed.
+     */
+    static final String ENUM_TYPES_PACKAGE = "enumTypesPackage";
 }

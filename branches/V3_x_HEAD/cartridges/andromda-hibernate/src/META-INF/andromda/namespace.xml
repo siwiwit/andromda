@@ -721,6 +721,13 @@
                     Defines the package for the Hibernate user types
                 </documentation>
             </property>
+            <property name="enumTypesPackage" required="false">
+                <documentation>
+                    Optional definition of the package name where all Hibernate enumeration types are
+                    to be generated. This will overrride the default model package name where the
+                    enumeration class itself will still be placed.
+                </documentation>
+            </property>
             <property name="serviceLocatorName">
                 <default>ServiceLocator</default>
                 <documentation>

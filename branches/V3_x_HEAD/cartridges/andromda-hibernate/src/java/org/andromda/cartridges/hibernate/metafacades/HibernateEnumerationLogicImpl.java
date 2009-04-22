@@ -59,9 +59,21 @@ public class HibernateEnumerationLogicImpl
     protected String handleGetFullyQualifiedHibernateEnumerationType()
     {
         return HibernateMetafacadeUtils.getFullyQualifiedName(
-            this.getPackageName(),
+            this.getHibernateEnumerationPackageName(),
             this.getEnumerationName(),
             null);
+    }
+    
+    /**
+     * Check for optional defined enumTypesPackage (overrides modeled package name) 
+     */
+    private String getHibernateEnumerationPackageName() {
+    	String enumPackageName = (String) this.getConfiguredProperty(HibernateGlobals.ENUM_TYPES_PACKAGE);
+    	if (enumPackageName != null) {
+    		return enumPackageName;
+    	} else {
+        	return super.getPackageName();
+    	}
     }
     
     /**

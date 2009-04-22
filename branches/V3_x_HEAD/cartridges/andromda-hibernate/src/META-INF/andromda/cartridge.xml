@@ -20,6 +20,8 @@
     <property reference="customTypesPackage"/>
     <!-- contains the package for the Hibernate user types -->
     <property reference="userTypesPackage"/>
+    <!-- optional hibernate enum types package -->
+    <property reference="enumTypesPackage" />
     <!-- the name to give the service locator class -->
     <property reference="serviceLocatorName"/>
     <property reference="driver"/>
