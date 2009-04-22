@@ -1149,7 +1149,7 @@ $xmlIndent        return transformEntity(transform, ($entity.fullyQualifiedName)
         return $principalStoreCall
     }
 
-#set ($fullyQualifiedPagingResultName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "PaginationResult"))
+#set ($fullyQualifiedPagingResultName = $springUtils.getFullyQualifiedClassName($springCommonTypesPackage, "PaginationResult"))
 #set ($fullyQualifiedSearchClassName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "Search"))
 #set ($fullyQualifiedPropertySearchClassName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "PropertySearch"))
     /**

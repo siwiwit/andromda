@@ -1,8 +1,8 @@
 #set ($className = "PaginationResult")
 #set ($generatedFile = "${className}.java")
-#if($stringUtils.isNotEmpty($springTypesPackage))
-package $springTypesPackage;
-#set ($generatedFile = "${stringUtils.replace($springTypesPackage,'.','/')}/${generatedFile}")
+#if($stringUtils.isNotEmpty($springCommonTypesPackage))
+package $springCommonTypesPackage;
+#set ($generatedFile = "${stringUtils.replace($springCommonTypesPackage,'.','/')}/${generatedFile}")
 #end
 
 /**

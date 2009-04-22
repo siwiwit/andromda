@@ -73,6 +73,7 @@
     <property reference="serviceLocatorName"/>
     <property reference="serviceLocatorDefaultFactoryId"/>
     <property reference="springTypesPackage"/>
+    <property reference="springCommonTypesPackage"/>
     <property reference="springPresentationTypesPackage"/>
     <property reference="manageableServiceLocatorName"/>
     <property reference="clientServiceLocatorName"/>

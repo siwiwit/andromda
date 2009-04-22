@@ -553,7 +553,7 @@ $operation.getDocumentation("     * ")
 #end
 
 #end
-#set ($fullyQualifiedPagingResultName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "PaginationResult"))
+#set ($fullyQualifiedPagingResultName = $springUtils.getFullyQualifiedClassName($springCommonTypesPackage, "PaginationResult"))
 #set ($fullyQualifiedSearchClassName = $springUtils.getFullyQualifiedClassName($springTypesPackage, "Search"))
 
     /**

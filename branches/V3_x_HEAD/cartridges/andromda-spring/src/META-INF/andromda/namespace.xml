@@ -600,6 +600,13 @@
                     The package to which extra types are generated (i.e. ServiceLocator).
                 </documentation>
             </property>
+            <property name="springCommonTypesPackage" required="false">
+                <default>org.andromda.spring</default>
+                <documentation>
+                    Optional definition of the package name where all common visible (to the client)
+                    extra types are to be generated (e.g. PaginationResult).
+                </documentation>
+            </property>
             <property name="springPresentationTypesPackage">
                 <default>org.andromda.spring.presentation</default>
                 <documentation>
