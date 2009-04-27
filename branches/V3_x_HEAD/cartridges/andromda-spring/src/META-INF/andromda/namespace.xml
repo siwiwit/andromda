@@ -534,6 +534,14 @@
                     services.
                 </documentation>
             </property>
+            <property name="applicationContextOsgiImport" required="false">
+                <default>applicationContext-osgi-import.xml</default>
+                <documentation>
+                    The name/path of the application context resource
+                    file that contains the spring osgi import definitions for all defined
+                    services.
+                </documentation>
+            </property>
             <property name="beanRefFactory">
                 <default>beanRefFactory.xml</default>
                 <documentation>
