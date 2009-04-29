@@ -555,7 +555,6 @@ public class JSFValidatorComponent
                     {
                         final ResponseWriter writer = context.getResponseWriter();
                         this.writeScriptStart(context, form);
-                        writer.write("alert('test');");
                         this.writeValidationFunctions(
                             form,
                             writer,
