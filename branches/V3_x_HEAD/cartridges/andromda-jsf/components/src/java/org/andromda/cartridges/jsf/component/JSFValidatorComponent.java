@@ -266,21 +266,19 @@ public class JSFValidatorComponent
      *
      * @param writer A response writer
      */
-    private final void writeScriptStart(final ResponseWriter writer)
+    private final void writeScriptStart(final FacesContext context, UIComponent component)
         throws IOException
     {
+        final ResponseWriter writer = context.getResponseWriter();
+        String id = component.getClientId(context);
         writer.startElement(
             "script",
-            this);
+            component);
         writer.writeAttribute(
             "type",
             "text/javascript",
             null);
-        writer.writeAttribute(
-            "language",
-            "Javascript1.1",
-            null);
-        writer.write("\n<!--\n");
+        writer.writeAttribute("id", id + ":validation-code", null);
     }
 
     /**
@@ -291,7 +289,6 @@ public class JSFValidatorComponent
     private void writeScriptEnd(ResponseWriter writer)
         throws IOException
     {
-        writer.write("\n-->\n");
         writer.endElement("script");
     }
 
@@ -358,9 +355,8 @@ public class JSFValidatorComponent
         throws IOException
     {
         writer.write("var bCancel = false;\n");
-        writer.write("function ");
-        writer.write("validate" + StringUtils.capitalize(form.getId()));
-        writer.write("(form) { return bCancel || true\n");
+        writer.write("self.validate" + StringUtils.capitalize(form.getId()) + " = ");
+        writer.write("function(form) { return bCancel || true\n");
 
         // - for each validator type, write "&& fun(form);
         final Collection validatorTypes = new ArrayList(this.validators.keySet());
@@ -558,7 +554,8 @@ public class JSFValidatorComponent
                     if (this.isClient())
                     {
                         final ResponseWriter writer = context.getResponseWriter();
-                        this.writeScriptStart(writer);
+                        this.writeScriptStart(context, form);
+                        writer.write("alert('test');");
                         this.writeValidationFunctions(
                             form,
                             writer,
