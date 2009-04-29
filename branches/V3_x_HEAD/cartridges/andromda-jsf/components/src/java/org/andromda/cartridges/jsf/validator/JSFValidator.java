@@ -48,8 +48,6 @@ public class JSFValidator
 
     private String formId;
 
-    //private UIComponent form;
-
     public JSFValidator()
     {
         // - default constructor for faces-config.xml
@@ -357,5 +355,5 @@ public class JSFValidator
             + (this.validatorAction != null ? this.validatorAction.getName() : null);
     }
 
-    private static final long serialVersionUID = -5627108517488240081L;
+    private static final long serialVersionUID = 1;
 }
