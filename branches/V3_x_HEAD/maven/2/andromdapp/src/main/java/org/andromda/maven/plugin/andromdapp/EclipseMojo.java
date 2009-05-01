@@ -412,7 +412,7 @@ public class EclipseMojo
         {
             final MavenProject firstParent = this.project.getParent();
             File rootFile = this.project.getFile();
-            if (firstParent != null)
+            if (firstParent != null && firstParent.getFile() != null )
             {
                 for (this.rootProject = firstParent, rootFile = new File(rootFile.getParentFile().getParentFile(), POM_FILE_NAME);
                      this.rootProject.getParent() != null && this.rootProject.getParent().getFile() != null;
