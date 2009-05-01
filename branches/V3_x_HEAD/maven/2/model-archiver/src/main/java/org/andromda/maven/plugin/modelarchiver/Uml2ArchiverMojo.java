@@ -90,7 +90,7 @@ public class Uml2ArchiverMojo
     /**
      * Whether or not to do replacement of embedded model HREF reference extensions.
      *
-     * @parameter expression=false
+     * @parameter expression="false"
      * @required
      */
     protected boolean replaceExtensions;

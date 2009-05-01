@@ -122,7 +122,7 @@ public class XmiZipArchiverMojo
     /**
      * Whether or not to do replacement of embedded model HREF reference extensions.
      *
-     * @parameter expression=true
+     * @parameter expression="true"
      * @required
      */
     protected boolean replaceExtensions;
