@@ -391,6 +391,7 @@
 #if ($ajaxLibrary.equals("icefaces"))
                 <property name="ajaxLibrary">icefaces</property>
                 <property name="portletClass">com.icesoft.faces.webapp.http.portlet.MainPortlet</property>
+                <property name="fileTypeName">com.icesoft.faces.component.inputfile.InputFile</property>
 #else
                 <property name="libraries">${web.generated.dir}</property>
 #end
