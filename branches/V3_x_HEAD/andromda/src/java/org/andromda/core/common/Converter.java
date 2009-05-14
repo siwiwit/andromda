@@ -2,9 +2,9 @@ package org.andromda.core.common;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -12,6 +12,7 @@ import java.util.Map;
  * java.lang.String -> java.lang.Integer, etc).
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class Converter
 {
@@ -19,6 +20,11 @@ public class Converter
      * The prefix of the 'valueOf' method available on wrapper classes.
      */
     private static final String VALUE_OF_METHOD_NAME = "valueOf";
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(Converter.class);
 
     /**
      * Attempts to convert the <code>object</code> to the <code>expectedType</code>.
@@ -31,6 +37,7 @@ public class Converter
         Object object,
         Class expectedType)
     {
+        Method method = null;
         try
         {
             if (expectedType == String.class)
@@ -48,7 +55,6 @@ public class Converter
                 {
                     expectedType = (Class)primitiveWrappers.get(expectedType);
                 }
-                Method method = null;
                 try
                 {
                     method = expectedType.getDeclaredMethod(
@@ -80,8 +86,20 @@ public class Converter
                 }
             }
         }
-        catch (final Throwable throwable)
+        catch (Throwable throwable)
         {
+            if (throwable.getCause()!=null)
+            {
+                throwable = throwable.getCause();
+            }
+            // At least output the location where the error happened, not the entire stack trace.
+            StackTraceElement[] trace = throwable.getStackTrace();
+            String location = " AT " + trace[0].getClassName() + "." + trace[0].getMethodName() + ":" + trace[0].getLineNumber();
+            if (throwable.getMessage()!=null)
+            {
+                location += " " + throwable.getMessage();
+            }
+            logger.error("Converter " + throwable + " invoking " + object + " METHOD " + method + " WITH " + expectedType.getName() + location);
             throw new IntrospectorException(throwable);
         }
         return object;
