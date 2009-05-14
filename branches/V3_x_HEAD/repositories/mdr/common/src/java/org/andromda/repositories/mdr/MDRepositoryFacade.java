@@ -4,19 +4,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.URL;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.jmi.model.ModelPackage;
 import javax.jmi.model.MofPackage;
 import javax.jmi.reflect.RefPackage;
 import javax.jmi.xmi.MalformedXMIException;
 import javax.jmi.xmi.XmiReader;
-
 import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.common.ExceptionUtils;
@@ -44,7 +40,7 @@ import org.netbeans.api.xmi.XMIWriterFactory;
 public class MDRepositoryFacade
     implements RepositoryFacade
 {
-    private static Logger logger = Logger.getLogger(MDRepositoryFacade.class);
+    private static final Logger logger = Logger.getLogger(MDRepositoryFacade.class);
     private ModelAccessFacade modelFacade = null;
     private MDRepository repository = null;
     protected URL metamodelUri;

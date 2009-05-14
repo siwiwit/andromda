@@ -32,7 +32,7 @@ public class MDRXmiReferenceResolverContext
     extends XmiContext
 {
     private String[] moduleSearchPaths;
-    private static Logger logger = Logger.getLogger(MDRXmiReferenceResolverContext.class);
+    private static final Logger logger = Logger.getLogger(MDRXmiReferenceResolverContext.class);
     private static final HashMap urlMap = new HashMap();
 
     /**
