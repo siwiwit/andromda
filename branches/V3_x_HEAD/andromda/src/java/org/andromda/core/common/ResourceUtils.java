@@ -5,17 +5,15 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.io.IOException;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -23,7 +21,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -32,10 +29,11 @@ import org.apache.log4j.Logger;
  * Provides utilities for loading resources.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class ResourceUtils
 {
-    private final static Logger logger = Logger.getLogger(ResourceUtils.class);
+    private static final Logger logger = Logger.getLogger(ResourceUtils.class);
     
     /**
      * All archive files start with this prefix.
@@ -127,9 +125,9 @@ public class ResourceUtils
      * @param resource the resource from which to retrieve the contents
      * @return a list of Strings containing the names of every nested resource found in this resource.
      */
-    public static List getClassPathArchiveContents(final URL resource)
+    public static List<String> getClassPathArchiveContents(final URL resource)
     {
-        final List contents = new ArrayList();
+        final List<String> contents = new ArrayList<String>();
         if (isArchive(resource))
         {
             final ZipFile archive = getArchive(resource);
@@ -155,7 +153,7 @@ public class ResourceUtils
      *               levels will be ignored).
      * @return a list of Strings containing the names of every nested resource found in this resource.
      */
-    public static List getDirectoryContents(
+    public static List<String> getDirectoryContents(
         final URL resource,
         final int levels)
     {
@@ -166,7 +164,7 @@ public class ResourceUtils
     }
 
     /**
-     * The character used for substituing whitespace in paths.
+     * The character used for substituting whitespace in paths.
      */
     private static final String PATH_WHITESPACE_CHARACTER = "%20";
 
@@ -199,12 +197,12 @@ public class ResourceUtils
      * @param includeSubdirectories whether or not to include subdirectories in the contents.
      * @return a list of Strings containing the names of every nested resource found in this resource.
      */
-    public static List getDirectoryContents(
+    public static List<String> getDirectoryContents(
         final URL resource,
         final int levels,
         boolean includeSubdirectories)
     {
-        final List contents = new ArrayList();
+        final List<String> contents = new ArrayList<String>();
         if (resource != null)
         {
             // - create the file and make sure we remove any path white space characters
@@ -223,11 +221,11 @@ public class ResourceUtils
                     includeSubdirectories);
 
                 // - remove the root path from each file
-                for (final ListIterator iterator = contents.listIterator(); iterator.hasNext();)
+                for (final ListIterator<String> iterator = contents.listIterator(); iterator.hasNext();)
                 {
                     iterator.set(
                         StringUtils.replace(
-                            ((File)iterator.next()).getPath().replace(
+                            (new File(iterator.next())).getPath().replace(
                                 '\\',
                                 '/'),
                             pluginDirectory.getPath().replace(
@@ -249,7 +247,7 @@ public class ResourceUtils
      */
     private static void loadFiles(
         final File directory,
-        final List fileList,
+        final List<String> fileList,
         boolean includeSubdirectories)
     {
         if (directory != null)
@@ -262,7 +260,7 @@ public class ResourceUtils
                     File file = files[ctr];
                     if (!file.isDirectory())
                     {
-                        fileList.add(file);
+                        fileList.add(file.toString());
                     }
                     else if (includeSubdirectories)
                     {
@@ -280,6 +278,7 @@ public class ResourceUtils
      * Returns true/false on whether or not this <code>resource</code> represents an archive or not (i.e. jar, or zip,
      * etc).
      *
+     * @param resource 
      * @return true if its an archive, false otherwise.
      */
     public static boolean isArchive(final URL resource)
@@ -292,6 +291,7 @@ public class ResourceUtils
     /**
      * If this <code>resource</code> is an archive file, it will return the resource as an archive.
      *
+     * @param resource 
      * @return the archive as a ZipFile
      */
     public static ZipFile getArchive(final URL resource)
@@ -437,7 +437,7 @@ public class ResourceUtils
                 URLConnection uriConnection = resource.openConnection();
                 lastModified = uriConnection.getLastModified();
 
-                // - we need to set the urlConnection to null and explicity
+                // - we need to set the urlConnection to null and explicitly
                 //   call garbage collection, otherwise the JVM won't let go
                 //   of the URL resource
                 uriConnection = null;
@@ -616,6 +616,7 @@ public class ResourceUtils
      * @param url the URL to read
      * @param fileLocation the location which to write.
      * @param encoding the optional encoding
+     * @throws IOException if error writing file
      */
     public static void writeUrlToFile(
         final URL url,
@@ -715,16 +716,17 @@ public class ResourceUtils
      * And returns absolute or relative paths depending on the value of <code>absolute</code>.
      *
      * @param url the URL of the directory.
-     * @param absolute whether or not the returned content paths should be absoluate (if
+     * @param absolute whether or not the returned content paths should be absolute (if
      *        false paths will be relative to URL).
+     * @param patterns 
      * @return a collection of paths.
      */
-    public static List getDirectoryContents(
+    public static List<String> getDirectoryContents(
         final URL url,
         boolean absolute,
         final String[] patterns)
     {
-        List contents = ResourceUtils.getDirectoryContents(
+        List<String> contents = ResourceUtils.getDirectoryContents(
                 url,
                 0,
                 true);
@@ -732,9 +734,9 @@ public class ResourceUtils
         // - first see if its a directory
         if (!contents.isEmpty())
         {
-            for (final ListIterator iterator = contents.listIterator(); iterator.hasNext();)
+            for (final ListIterator<String> iterator = contents.listIterator(); iterator.hasNext();)
             {
-                String path = (String)iterator.next();
+                String path = iterator.next().toString();
                 if (!matchesAtLeastOnePattern(
                         path,
                         patterns))
@@ -760,9 +762,9 @@ public class ResourceUtils
                     delimiter + ".*",
                     delimiter);
             contents = ResourceUtils.getClassPathArchiveContents(url);
-            for (final ListIterator iterator = contents.listIterator(); iterator.hasNext();)
+            for (final ListIterator<String> iterator = contents.listIterator(); iterator.hasNext();)
             {
-                final String relativePath = (String)iterator.next();
+                final String relativePath = iterator.next().toString();
                 final String fullPath = archivePath + relativePath;
                 if (!fullPath.startsWith(urlAsString) || fullPath.equals(urlAsString + FORWARD_SLASH))
                 {
@@ -789,16 +791,17 @@ public class ResourceUtils
      * returns true if no patterns are defined.
      *
      * @param path the path to match on.
+     * @param patterns 
      * @return true/false
      */
     public static boolean matchesAtLeastOnePattern(
         final String path,
         final String[] patterns)
     {
-        boolean matches = patterns == null || patterns.length == 0;
+        boolean matches = (patterns == null || patterns.length == 0);
         if (!matches)
         {
-            if (patterns.length > 0)
+            if (patterns!=null && patterns.length > 0)
             {
                 final int patternNumber = patterns.length;
                 for (int ctr = 0; ctr < patternNumber; ctr++)
@@ -829,15 +832,15 @@ public class ResourceUtils
         long time,
         final File directory)
     {
-        final List files = new ArrayList();
+        final List<String> files = new ArrayList<String>();
         ResourceUtils.loadFiles(
             directory,
             files,
             true);
         boolean changed = files.isEmpty();
-        for (final Iterator iterator = files.iterator(); iterator.hasNext();)
+        for (final Iterator<String> iterator = files.iterator(); iterator.hasNext();)
         {
-            final File file = (File)iterator.next();
+            final File file = new File(iterator.next());
             changed = file.lastModified() < time;
             if (changed)
             {

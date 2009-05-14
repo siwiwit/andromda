@@ -8,7 +8,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-
 import org.andromda.core.common.ClassUtils;
 import org.andromda.core.profile.Profile;
 import org.apache.commons.lang.StringUtils;
@@ -19,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
  * (that is: instances of this class below to an instance of {@link MetafacadeMappings}).
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class MetafacadeMapping
 {
@@ -40,7 +40,7 @@ public class MetafacadeMapping
     /**
      * Sets the metafacadeClassName for this mapping.
      *
-     * @param metafacadeClassName The name of the metafaacde class to set.
+     * @param metafacadeClassName The name of the metafacade class to set.
      */
     public void setMetafacadeClassName(final String metafacadeClassName)
     {
@@ -128,7 +128,7 @@ public class MetafacadeMapping
     /**
      * The stereotypes to which this mapping applies (all stereotypes must be present for this mapping to apply).
      */
-    private final List stereotypes = new ArrayList();
+    private final List<String> stereotypes = new ArrayList<String>();
 
     /**
      * Adds a <code>stereotype</code> to the stereotypes.
@@ -145,9 +145,9 @@ public class MetafacadeMapping
      *
      * @return the names of the stereotypes
      */
-    final List getStereotypes()
+    final List<String> getStereotypes()
     {
-        for (final ListIterator iterator = this.stereotypes.listIterator(); iterator.hasNext();)
+        for (final ListIterator<String> iterator = this.stereotypes.listIterator(); iterator.hasNext();)
         {
             iterator.set(Profile.instance().get((String)iterator.next()));
         }
@@ -167,7 +167,7 @@ public class MetafacadeMapping
     /**
      * Used to hold references to language mapping classes.
      */
-    private final Collection propertyReferences = new LinkedHashSet();
+    private final Collection<String> propertyReferences = new LinkedHashSet<String>();
 
     /**
      * Adds a mapping property reference. These are used to populate metafacade impl classes with mapping files, etc.
@@ -183,8 +183,9 @@ public class MetafacadeMapping
 
     /**
      * Returns all mapping references for this MetafacadeMapping instance.
+     * @return this.propertyReferences
      */
-    public Collection getPropertyReferences()
+    public Collection<String> getPropertyReferences()
     {
         return this.propertyReferences;
     }
@@ -225,7 +226,7 @@ public class MetafacadeMapping
      * Stores a collection of all property groups added through {@link #addPropertyReferences(java.util.Collection)}. These are
      * property groups added from other mappings that return true when executing {@link #match(MetafacadeMapping)}.
      */
-    private final Collection mappingPropertyGroups = new ArrayList();
+    private final Collection<PropertyGroup> mappingPropertyGroups = new ArrayList<PropertyGroup>();
 
     /**
      * Adds the <code>propertyGroup</code> to the existing mapping property groups within this mapping.
@@ -239,8 +240,9 @@ public class MetafacadeMapping
 
     /**
      * Returns all mapping property groups for this MetafacadeMapping instance.
+     * @return this.mappingPropertyGroups
      */
-    final Collection getMappingPropertyGroups()
+    final Collection<PropertyGroup> getMappingPropertyGroups()
     {
         return this.mappingPropertyGroups;
     }
@@ -272,7 +274,7 @@ public class MetafacadeMapping
      *
      * @param propertyReferences the property references to add.
      */
-    public void addPropertyReferences(final Collection propertyReferences)
+    public void addPropertyReferences(final Collection<String> propertyReferences)
     {
         if (propertyReferences != null)
         {
@@ -344,6 +346,8 @@ public class MetafacadeMapping
     /**
      * Indicates whether or not the <code>mapping</code> matches this mapping. It matches on the following: <ul>
      * <li>metafacadeClass</li> <li>mappingClassName</li> <li>stereotypes</li> </ul>
+     * @param mapping 
+     * @return match this.getMappingClassName().equals(mapping.getMappingClassName())
      */
     final boolean match(final MetafacadeMapping mapping)
     {
@@ -352,7 +356,7 @@ public class MetafacadeMapping
             this.getStereotypes().equals(mapping.getStereotypes()) && this.getContext().equals(mapping.getContext());
 
         // - if they match and the mappingClassNames are both non-null, verify they match
-        if (match && this.mappingClassName != null && mapping.mappingClassName != null)
+        if (match && this.mappingClassName != null && mapping != null && mapping.mappingClassName != null)
         {
             match = this.getMappingClassName().equals(mapping.getMappingClassName());
         }
@@ -360,7 +364,7 @@ public class MetafacadeMapping
     }
 
     /**
-     * @see java.lang.Object#toString()
+     * @see Object#toString()
      */
     public String toString()
     {
@@ -378,7 +382,7 @@ public class MetafacadeMapping
      */
     static final class PropertyGroup
     {
-        private final Map properties = new LinkedHashMap();
+        private final Map<String, Property> properties = new LinkedHashMap<String, Property>();
 
         /**
          * Adds a property to the internal collection of properties.
@@ -401,19 +405,19 @@ public class MetafacadeMapping
          *
          * @return the properties collection.
          */
-        final Collection getProperties()
+        final Collection<Property> getProperties()
         {
             return this.properties.values();
         }
 
         /**
-         * @see java.lang.Object#toString()
+         * @see Object#toString()
          */
         public String toString()
         {
             final StringBuffer toString = new StringBuffer();
             char seperator = ':';
-            for (final Iterator iterator = this.getProperties().iterator(); iterator.hasNext();)
+            for (final Iterator<Property> iterator = this.getProperties().iterator(); iterator.hasNext();)
             {
                 final Property property = (Property)iterator.next();
                 toString.append(property.getName());

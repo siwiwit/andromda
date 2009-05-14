@@ -2,7 +2,6 @@ package org.andromda.core.metafacade;
 
 import java.io.Serializable;
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,7 +9,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.Constants;
 import org.andromda.core.common.ExceptionUtils;
@@ -26,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
  * on one or the other.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class MetafacadeImpls
     implements Serializable
@@ -38,7 +37,7 @@ public class MetafacadeImpls
     /**
      * Stores each metafacade classes instance keyed by namespace.
      */
-    private final Map metafacadeClasses = new LinkedHashMap();
+    private final Map<String, MetafacadeClasses> metafacadeClasses = new LinkedHashMap<String, MetafacadeClasses>();
 
     /**
      * Returns the shared instance of this class.
@@ -73,7 +72,7 @@ public class MetafacadeImpls
         MetafacadeConstants.METAFACADE_IMPLEMENTATION_SUFFIX + ClassUtils.CLASS_EXTENSION;
 
     /**
-     * Discovers and loads all metafacade implementation classes and interfaces in each avaiable namespace registry into
+     * Discovers and loads all metafacade implementation classes and interfaces in each available namespace registry into
      * each given namespace in the <code>modelTypeNamespaces</code> list.
      * Note that this method must be called before any metafacade implementation classes will be able to be retrieved
      * when calling {@link #getMetafacadeClass(String)}or {@link #getMetafacadeImplClass(String)}.
@@ -227,7 +226,7 @@ public class MetafacadeImpls
      * MetafacadeImplsException if a metafacade class can not be found for the <code>metafacadeImplClass</code>
      *
      * @param metafacadeImplClass the name of the metafacade implementation class.
-     * @return the metafacacade Class
+     * @return the metafacade Class
      */
     public Class getMetafacadeClass(final String metafacadeImplClass)
     {
@@ -243,7 +242,7 @@ public class MetafacadeImpls
      * <code>metafacadeClass</code>
      *
      * @param metafacadeClass the name of the metafacade class.
-     * @return the metafacacade implementation Class
+     * @return the metafacade implementation Class
      */
     public Class getMetafacadeImplClass(final String metafacadeClass)
     {
@@ -261,19 +260,19 @@ public class MetafacadeImpls
         /**
          * Stores all <code>metafacade</code> implementation classes keyed by <code>metafacade</code> interface class.
          */
-        Map implsByMetafacades = new LinkedHashMap();
+        Map<String, String> implsByMetafacades = new LinkedHashMap<String, String>();
 
         /**
          * Stores all <code>metafacade</code> interface classes keyed by <code>metafacade</code> implementation class.
          */
-        Map metafacadesByImpls = new LinkedHashMap();
+        Map<String, String> metafacadesByImpls = new LinkedHashMap<String, String>();
 
         /**
          * Retrieves the metafacade class from the passed in <code>metafacadeImplClass</code>. Will return a
          * MetafacadeImplsException if a metafacade class can not be found for the <code>metafacadeImplClass</code>
          *
          * @param metafacadeImplClass the name of the metafacade implementation class.
-         * @return the metafacacade Class
+         * @return the metafacade Class
          */
         Class getMetafacadeClass(final String metafacadeImplClass)
         {
@@ -304,7 +303,7 @@ public class MetafacadeImpls
          * <code>metafacadeClass</code>
          *
          * @param metafacadeClass the name of the metafacade class.
-         * @return the metafacacade implementation Class
+         * @return the metafacade implementation Class
          */
         Class getMetafacadeImplClass(final String metafacadeClass)
         {
@@ -339,7 +338,7 @@ public class MetafacadeImpls
         }
 
         /**
-         * @see java.lang.Object#toString()
+         * @see Object#toString()
          */
         public String toString()
         {

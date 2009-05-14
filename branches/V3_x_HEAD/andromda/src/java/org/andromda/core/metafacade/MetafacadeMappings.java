@@ -11,7 +11,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ClassUtils;
 import org.andromda.core.common.ComponentContainer;
@@ -28,6 +27,7 @@ import org.apache.log4j.Logger;
  * to <code>metamodel</code> objects.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  * @see MetafacadeMapping
  * @see org.andromda.core.common.XmlObjectFactory
  */
@@ -38,13 +38,13 @@ public class MetafacadeMappings
     /**
      * Holds the references to the child MetafacadeMapping instances.
      */
-    private final Collection mappings = new ArrayList();
+    private final Collection<MetafacadeMapping> mappings = new ArrayList<MetafacadeMapping>();
 
     /**
      * Holds the namespace MetafacadeMappings. This are child MetafacadeMappings
      * keyed by namespace name.
      */
-    private final Map namespaceMetafacadeMappings = new HashMap();
+    private final Map<String, MetafacadeMappings> namespaceMetafacadeMappings = new HashMap<String, MetafacadeMappings>();
 
     /**
      * The default meta facade to use when there isn't a mapping found.
@@ -104,6 +104,7 @@ public class MetafacadeMappings
     /**
      * Gets the class of the metafacade interface that belongs to the given
      * <code>metafacadeClass</code>.
+     * @param metafacadeClass 
      *
      * @return the metafacade interface Class.
      */
@@ -126,7 +127,7 @@ public class MetafacadeMappings
      * Stores mappings by the metafacade class so that we can retrieve the
      * inherited metafacade classes.
      */
-    private final Map mappingsByMetafacadeClass = new HashMap();
+    private final Map<Class, MetafacadeMapping> mappingsByMetafacadeClass = new HashMap<Class, MetafacadeMapping>();
 
     /**
      * Copies all data from <code>mappings<code> to this instance.
@@ -138,12 +139,12 @@ public class MetafacadeMappings
         ExceptionUtils.checkNull(
             "mappings",
             mappings);
-        for (final Iterator iterator = mappings.mappings.iterator(); iterator.hasNext();)
+        for (final Iterator<MetafacadeMapping> iterator = mappings.mappings.iterator(); iterator.hasNext();)
         {
             final MetafacadeMapping mapping = (MetafacadeMapping)iterator.next();
             this.addMapping(mapping);
         }
-        final Collection propertyReferences = mappings.getPropertyReferences();
+        final Collection<String> propertyReferences = mappings.getPropertyReferences();
         if (propertyReferences != null && !propertyReferences.isEmpty())
         {
             this.propertyReferences.addAll(propertyReferences);
@@ -154,14 +155,14 @@ public class MetafacadeMappings
     /**
      * Contains references to properties populated in the Namespaces.
      */
-    private final Collection propertyReferences = new LinkedHashSet();
+    private final Collection<String> propertyReferences = new LinkedHashSet<String>();
 
     /**
      * Gets all property references defined in this mappings instance.
      *
      * @return the map of property references (names and values).
      */
-    public Collection getPropertyReferences()
+    public Collection<String> getPropertyReferences()
     {
         return this.propertyReferences;
     }
@@ -190,7 +191,7 @@ public class MetafacadeMappings
      * @param stereotypes the stereotypes to check.
      * @param context the context within the namespace for which the mapping
      *        applies (has 'root' in the name because of the fact that we also
-     *        search the context inheritance hiearchy started with this 'root'
+     *        search the context inheritance hierarchy started with this 'root'
      *        context).
      * @return MetafacadeMapping (or null if none was found matching the
      *         criteria).
@@ -198,7 +199,7 @@ public class MetafacadeMappings
     protected MetafacadeMapping getMapping(
         final Object mappingObject,
         final String context,
-        final Collection stereotypes)
+        final Collection<String> stereotypes)
     {
         MetafacadeMapping mapping = this.getMapping(
                 null,
@@ -228,7 +229,7 @@ public class MetafacadeMappings
      * The cache containing the hierarchies for each mapping object so that we
      * don't need to retrieve more than once.
      */
-    private final Map mappingObjectHierachyCache = new HashMap();
+    private final Map mappingObjectHierarchyCache = new HashMap();
 
     /**
      * The pattern used for substituting the package name.
@@ -241,7 +242,7 @@ public class MetafacadeMappings
     private static final String METAFACADE_NAME_REPLACE_PATTERN = "\\{1\\}";
 
     /**
-     * Retrieves the hiearchy of class names of the given
+     * Retrieves the hierarchy of class names of the given
      * <code>mappingObject</code>.
      *
      * @param mappingObject the object from which to retrieve the hierarchy.
@@ -249,15 +250,15 @@ public class MetafacadeMappings
      */
     protected List getMappingObjectHierarchy(final Object mappingObject)
     {
-        List hierarchy = (List)this.mappingObjectHierachyCache.get(mappingObject);
+        List hierarchy = (List)this.mappingObjectHierarchyCache.get(mappingObject);
         if (hierarchy == null)
         {
-            // - we construct the mapping object name from the interface
-            //  (using the implementation name pattern).
+            // - we construct the mapping object name from the metafacade interface
+            //  (using the underlying UML implementation name pattern).
             final String pattern = this.getMetaclassPattern();
             if (StringUtils.isNotBlank(pattern))
             {
-                hierarchy = new ArrayList(ClassUtils.getAllInterfaces(mappingObject.getClass()));
+                hierarchy = new ArrayList<Class>(ClassUtils.getAllInterfaces(mappingObject.getClass()));
                 for (final ListIterator iterator = hierarchy.listIterator(); iterator.hasNext();)
                 {
                     final Class metafacadeInterface = (Class)iterator.next();
@@ -275,7 +276,7 @@ public class MetafacadeMappings
                             name) : metafacadeInterface.getName();
                     iterator.set(metafacadeImplementationName);
                 }
-                this.mappingObjectHierachyCache.put(
+                this.mappingObjectHierarchyCache.put(
                     mappingObject,
                     hierarchy);
             }
@@ -347,7 +348,7 @@ public class MetafacadeMappings
      * @param stereotypes the stereotypes to check.
      * @param context the context within the namespace for which the mapping
      *        applies (has 'root' in the name because of the fact that we also
-     *        search the context inheritance hiearchy started with this 'root'
+     *        search the context inheritance hierarchy started with this 'root'
      *        context).
      * @return MetafacadeMapping (or null if none was found matching the
      *         criteria).
@@ -356,11 +357,11 @@ public class MetafacadeMappings
         final String mappingClassName,
         final Object mappingObject,
         final String context,
-        final Collection stereotypes)
+        final Collection<String> stereotypes)
     {
         final String metaclassName = mappingClassName != null ? mappingClassName : mappingObject.getClass().getName();
 
-        // - verfiy we can at least find the meta class, so we don't perform the
+        // - Verify we can at least find the meta class, so we don't perform the
         //   rest of the search for nothing
         final boolean validMetaclass =
             this.findMapping(
@@ -391,7 +392,7 @@ public class MetafacadeMappings
                                 {
                                     valid =
                                         getContextHierarchy(context).contains(mapping.getContext()) &&
-                                        stereotypes.containsAll(mapping.getStereotypes());
+                                        stereotypes!=null && stereotypes.containsAll(mapping.getStereotypes());
                                 }
                                 return valid;
                             }
@@ -467,7 +468,7 @@ public class MetafacadeMappings
                                 if (metaclassName.equals(mapping.getMappingClassName()) && mapping.hasStereotypes() &&
                                     !mapping.hasContext() && !mapping.hasMappingProperties())
                                 {
-                                    valid = stereotypes.containsAll(mapping.getStereotypes());
+                                    valid = stereotypes!=null && stereotypes.containsAll(mapping.getStereotypes());
                                 }
                                 return valid;
                             }
@@ -549,7 +550,7 @@ public class MetafacadeMappings
     private MetafacadeMapping findMapping(final Condition condition)
     {
         MetafacadeMapping found = null;
-        for (final Iterator iterator = this.mappings.iterator(); iterator.hasNext();)
+        for (final Iterator<MetafacadeMapping> iterator = this.mappings.iterator(); iterator.hasNext();)
         {
             final MetafacadeMapping mapping = (MetafacadeMapping)iterator.next();
             if (condition.evaluate(mapping))
@@ -601,15 +602,15 @@ public class MetafacadeMappings
     }
 
     /**
-     * The cache containing the hierachies for each context so that we don't
+     * The cache containing the hierarchies for each context so that we don't
      * need to retrieve more than once.
      */
-    private final Map contextHierachyCache = new HashMap();
+    private final Map contextHierarchyCache = new HashMap();
 
     /**
      * Retrieves all inherited contexts (including the root <code>context</code>)
      * from the given <code>context</code> and returns a list containing all
-     * of them. Note that the visibilty of this operation is protected to
+     * of them. Note that the visibility of this operation is protected to
      * improve inner class access performance.
      *
      * @param context the root contexts
@@ -617,7 +618,7 @@ public class MetafacadeMappings
      */
     protected final List getContextHierarchy(final String context)
     {
-        List contexts = (List)this.contextHierachyCache.get(context);
+        List contexts = (List)this.contextHierarchyCache.get(context);
         if (contexts == null)
         {
             contexts = ClassUtils.getInterfaces(context);
@@ -628,7 +629,7 @@ public class MetafacadeMappings
                     iterator.set(((Class)iterator.next()).getName());
                 }
             }
-            this.contextHierachyCache.put(
+            this.contextHierarchyCache.put(
                 context,
                 contexts);
         }
@@ -638,7 +639,7 @@ public class MetafacadeMappings
     /**
      * The cache of interfaces for the given className in reversed order.
      */
-    private final Map reversedInterfaceArrayCache = new HashMap();
+    private final Map<String, Class[]> reversedInterfaceArrayCache = new HashMap<String, Class[]>();
 
     /**
      * Gets the interfaces for the given <code>className</code> in reverse
@@ -685,15 +686,16 @@ public class MetafacadeMappings
      *
      * @param mappingObject the meta object for the mapping we are trying to find.
      * @param namespace the namespace (i.e. a cartridge, name, etc.)
-     * @param context to which the mapping applies (note this takes precendence over stereotypes).
-     * @param stereotypes collection of sterotype names.  We'll check to see if the mapping for the given
+     * @param context to which the mapping applies (note this takes precedence over stereotypes).
+     * @param stereotypes collection of stereotype names.  We'll check to see if the mapping for the given
      *                    <code>mappingClass</code> is defined for it.
+     * @return mapping 
      */
     public MetafacadeMapping getMetafacadeMapping(
         final Object mappingObject,
         final String namespace,
         final String context,
-        final Collection stereotypes)
+        final Collection<String> stereotypes)
     {
         if (this.getLogger().isDebugEnabled())
         {
@@ -723,14 +725,14 @@ public class MetafacadeMappings
         //   references from the shared mapping to the namespace mapping.
         if (mapping != null)
         {
-            final Collection propertyReferences = mapping.getPropertyReferences();
+            final Collection<String> propertyReferences = mapping.getPropertyReferences();
             final MetafacadeMapping defaultMapping = this.getMapping(
                     mappingObject,
                     context,
                     stereotypes);
             if (defaultMapping != null)
             {
-                Collection defaultPropertyReferences = defaultMapping.getPropertyReferences();
+                Collection<String> defaultPropertyReferences = defaultMapping.getPropertyReferences();
                 final Class metafacadeInterface =
                     this.metafacadeClasses.getMetafacadeClass(mapping.getMetafacadeClass().getName());
                 final Class defaultMetafacadeInterface =
@@ -783,7 +785,7 @@ public class MetafacadeMappings
     /**
      * Stores the possible parents of this metafacade mappings instance (i.e. mappings for uml-1.4, emf-uml2, etc).
      */
-    private Map parents = new HashMap();
+    private Map<String, MetafacadeMappings> parents = new HashMap<String, MetafacadeMappings>();
 
     /**
      * Retrieves the appropriate parent based on the current {@link #getNamespace()}.
@@ -825,9 +827,9 @@ public class MetafacadeMappings
      */
     public void initialize()
     {
-        final List modelTypeNamespaces = new ArrayList();
-        final Collection metafacades = ComponentContainer.instance().findComponentsOfType(MetafacadeMappings.class);
-        for (final Iterator iterator = metafacades.iterator(); iterator.hasNext();)
+        final List<String> modelTypeNamespaces = new ArrayList<String>();
+        final Collection<MetafacadeMappings> metafacades = ComponentContainer.instance().findComponentsOfType(MetafacadeMappings.class);
+        for (final Iterator<MetafacadeMappings> iterator = metafacades.iterator(); iterator.hasNext();)
         {
             final MetafacadeMappings mappings = (MetafacadeMappings)iterator.next();
             final String namespace = mappings.getNamespace();
@@ -849,16 +851,16 @@ public class MetafacadeMappings
     {
         // - register all namespace property references defined in the descriptors
         final Namespaces namespaces = Namespaces.instance();
-        for (final Iterator iterator = namespaces.getNamespaces().iterator(); iterator.hasNext();)
+        for (final Iterator<Namespace> iterator = namespaces.getNamespaces().iterator(); iterator.hasNext();)
         {
             final String mappingsNamespace = ((Namespace)iterator.next()).getName();
 
             // - add the default mappings
-            final Collection mappings = new ArrayList(this.mappings);
+            final Collection<MetafacadeMapping> mappings = new ArrayList<MetafacadeMapping>(this.mappings);
             final MetafacadeMappings metafacadeMappings = this.getNamespaceMappings(mappingsNamespace);
 
             // - add all the references from the default namespace
-            final Collection propertyReferences = new ArrayList(this.propertyReferences);
+            final Collection<String> propertyReferences = new ArrayList<String>(this.propertyReferences);
 
             // - if we have namespace mappings, add them
             if (metafacadeMappings != null)
@@ -867,7 +869,7 @@ public class MetafacadeMappings
                 propertyReferences.addAll(metafacadeMappings.propertyReferences);
             }
 
-            for (final Iterator mappingIterator = mappings.iterator(); mappingIterator.hasNext();)
+            for (final Iterator<MetafacadeMapping> mappingIterator = mappings.iterator(); mappingIterator.hasNext();)
             {
                 final MetafacadeMapping mapping = (MetafacadeMapping)mappingIterator.next();
                 final String metafacadeInterface =
@@ -949,19 +951,19 @@ public class MetafacadeMappings
         for (final Iterator iterator = metafacades.iterator(); iterator.hasNext();)
         {
             final MetafacadeMappings mappings = (MetafacadeMappings)iterator.next();
-            for (final Iterator mappingIterator = mappings.mappings.iterator(); mappingIterator.hasNext();)
+            for (final Iterator<MetafacadeMapping> mappingIterator = mappings.mappings.iterator(); mappingIterator.hasNext();)
             {
                 final MetafacadeMapping mapping = (MetafacadeMapping)mappingIterator.next();
                 if (mapping.isMappingClassNamePresent())
                 {
-                    allMetafacadeMappingInstances.put(
+                    MetafacadeMappings.allMetafacadeMappingInstances.put(
                         mapping.getMetafacadeClass(),
                         mapping.getMappingClassName());
                 }
             }
         }
 
-        final List modelNamespaces = new ArrayList(Arrays.asList(metafacadeModelNamespaces));
+        final List<String> modelNamespaces = new ArrayList<String>(Arrays.asList(metafacadeModelNamespaces));
         try
         {
             final Namespaces namespaces = Namespaces.instance();
@@ -988,7 +990,7 @@ public class MetafacadeMappings
                             modelMetafacadeMappings);
                     }
 
-                    for (final Iterator iterator = metafacades.iterator(); iterator.hasNext();)
+                    for (final Iterator<MetafacadeMappings> iterator = metafacades.iterator(); iterator.hasNext();)
                     {
                         final MetafacadeMappings mappings = (MetafacadeMappings)iterator.next();
                         final String namespace = mappings.getNamespace();
@@ -1047,7 +1049,7 @@ public class MetafacadeMappings
     /**
      * Stores all metafacade mapping instances
      */
-    private static Map allMetafacadeMappingInstances = new HashMap();
+    private static Map<Class, String> allMetafacadeMappingInstances = new HashMap<Class, String>();
 
     /**
      * Stores every metafacade mapping instance, this is used from
@@ -1055,7 +1057,7 @@ public class MetafacadeMappings
      *
      * @return all metafacade mapping instances.
      */
-    static Map getAllMetafacadeMappingInstances()
+    static Map<Class, String> getAllMetafacadeMappingInstances()
     {
         return allMetafacadeMappingInstances;
     }
@@ -1068,7 +1070,7 @@ public class MetafacadeMappings
     /**
      * Stores the metafacadeMapping instances by model type.
      */
-    private Map modelMetafacadeMappings = new LinkedHashMap();
+    private Map<String, MetafacadeMappings> modelMetafacadeMappings = new LinkedHashMap<String, MetafacadeMappings>();
 
     /**
      * Should be used used instead of "this", retrieves the appropriate
@@ -1097,7 +1099,7 @@ public class MetafacadeMappings
     /**
      * Gets the defaultMetafacadeClass, first looks for it in the namespace
      * mapping, if it can't find it it then takes the default mappings, setting.
-     *
+     * @param namespace mapping to check for defaultMetafacadeClass
      * @return Returns the defaultMetafacadeClass.
      */
     final Class getDefaultMetafacadeClass(final String namespace)
@@ -1139,7 +1141,7 @@ public class MetafacadeMappings
      *
      * @return the collection of {@link MetafacadeMapping} instances
      */
-    protected Collection getMappings()
+    protected Collection<MetafacadeMapping> getMappings()
     {
         return this.mappings;
     }
@@ -1155,7 +1157,7 @@ public class MetafacadeMappings
      */
     final void registerProperties(
         final String namespace,
-        final Collection propertyReferences,
+        final Collection<String> propertyReferences,
         final String metafacadeName)
     {
         final MetafacadeFactory factory = MetafacadeFactory.getInstance();
@@ -1193,9 +1195,9 @@ public class MetafacadeMappings
         this.inProcessMetafacades.clear();
         this.namespaceMetafacadeMappings.clear();
         this.propertyReferences.clear();
-        this.mappingObjectHierachyCache.clear();
+        this.mappingObjectHierarchyCache.clear();
         this.mappingsByMetafacadeClass.clear();
-        this.contextHierachyCache.clear();
+        this.contextHierarchyCache.clear();
         this.reversedInterfaceArrayCache.clear();
         for (final Iterator iterator = this.modelMetafacadeMappings.values().iterator(); iterator.hasNext();)
         {
@@ -1216,7 +1218,7 @@ public class MetafacadeMappings
     }
 
     /**
-     * @see java.lang.Object#toString()
+     * @see Object#toString()
      */
     public String toString()
     {

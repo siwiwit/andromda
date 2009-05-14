@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.profile.Profile;
@@ -24,6 +23,7 @@ import org.apache.log4j.Logger;
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen </a>
  * @author Chad Brandon
  * @author Peter Friese
+ * @author Bob Fields
  */
 public class MetafacadeFactory
     implements Serializable
@@ -116,7 +116,7 @@ public class MetafacadeFactory
 
     /**
      * Returns a metafacade for a mappingObject, depending on its
-     * <code>mappingClass</code> and (optionally) its <code>sterotypes</code>
+     * <code>mappingClass</code> and (optionally) its <code>stereotypes</code>
      * and <code>context</code>.
      *
      * @param mappingObject the object used to map the metafacade (a meta model
@@ -170,7 +170,7 @@ public class MetafacadeFactory
         }
         try
         {
-            final Collection stereotypes = this.getModel().getStereotypeNames(mappingObject);
+            final Collection<String> stereotypes = this.getModel().getStereotypeNames(mappingObject);
             if (this.getLogger().isDebugEnabled())
             {
                 this.getLogger().debug("mappingObject stereotypes --> '" + stereotypes + "'");
@@ -185,6 +185,10 @@ public class MetafacadeFactory
                     this.getNamespace(),
                     context,
                     stereotypes);
+                if (this.getLogger().isDebugEnabled())
+                {
+                    this.getLogger().debug("mappingObject getModelMetafacadeMappings for " + mappingObject + " namespace " + this.getNamespace() + " context " + context);
+                }
                 if (mapping != null)
                 {
                     metafacadeClass = mapping.getMetafacadeClass();
@@ -195,7 +199,7 @@ public class MetafacadeFactory
                     metafacadeClass = modelMetafacadeMappings.getDefaultMetafacadeClass(this.getNamespace());
                     if (this.getLogger().isDebugEnabled())
                     {
-                        this.getLogger().debug(
+                        this.getLogger().warn(
                             "Meta object model class '" + mappingObject.getClass() +
                             "' has no corresponding meta facade class, default is being used --> '" + metafacadeClass +
                             "'");
@@ -234,7 +238,7 @@ public class MetafacadeFactory
     }
 
     /**
-     * Gets the model metafacade mappings (that is the mappings that corresponding
+     * Gets the model metafacade mappings (the mappings that correspond
      * to the current metafacade model namespace).
      *
      * @return the model metafacade mappings.
@@ -245,22 +249,22 @@ public class MetafacadeFactory
     }
 
     /**
-     * Validates all metafacdes for the current namespace
-     * and collects the messages in the interal validation messages
+     * Validates all metafacades for the current namespace
+     * and collects the messages in the internal validation messages
      * collection.
      *
      * @see #getValidationMessages()
      */
     public void validateAllMetafacades()
     {
-        for (final Iterator iterator = this.getAllMetafacades().iterator(); iterator.hasNext();)
+        for (final Iterator<MetafacadeBase> iterator = this.getAllMetafacades().iterator(); iterator.hasNext();)
         {
             ((MetafacadeBase)iterator.next()).validate(this.validationMessages);
         }
     }
 
     /**
-     * Creates a metacade from the passed in <code>mappingObject</code>, and
+     * Creates a metafacade from the passed in <code>mappingObject</code>, and
      * <code>mapping</code> instance.
      *
      * @param mappingObject the mapping object for which to create the
@@ -369,7 +373,7 @@ public class MetafacadeFactory
      * Stores the metafacades being created, so that we don't get stuck in
      * endless recursion during creation.
      */
-    private final Collection metafacadesInCreation = new ArrayList();
+    private final Collection<MultiKey> metafacadesInCreation = new ArrayList<MultiKey>();
 
     /**
      * Returns a metafacade for a mappingObject, depending on its <code>mappingClass</code>.
@@ -431,7 +435,7 @@ public class MetafacadeFactory
     /**
      * Returns a metafacade for each mappingObject, contained within the
      * <code>mappingObjects</code> collection depending on its
-     * <code>mappingClass</code> and (optionally) its <code>sterotypes</code>,
+     * <code>mappingClass</code> and (optionally) its <code>stereotypes</code>,
      * and <code>contextName</code>.
      *
      * @param mappingObjects the meta model element.
@@ -439,11 +443,11 @@ public class MetafacadeFactory
      *        registered under.
      * @return the Collection of newly created Metafacades.
      */
-    protected Collection createMetafacades(
+    protected Collection<MetafacadeBase> createMetafacades(
         final Collection mappingObjects,
         final String contextName)
     {
-        final Collection metafacades = new ArrayList();
+        final Collection<MetafacadeBase> metafacades = new ArrayList<MetafacadeBase>();
         if (mappingObjects != null && !mappingObjects.isEmpty())
         {
             for (final Iterator iterator = mappingObjects.iterator(); iterator.hasNext();)
@@ -466,7 +470,7 @@ public class MetafacadeFactory
      *        meta model element or an actual metafacade itself).
      * @return Collection of metafacades
      */
-    public Collection createMetafacades(final Collection mappingObjects)
+    public Collection<MetafacadeBase> createMetafacades(final Collection mappingObjects)
     {
         return this.createMetafacades(
             mappingObjects,
@@ -597,15 +601,15 @@ public class MetafacadeFactory
      * @param metafacade the metafacade
      * @return the metafacade's namespace
      */
-    private Map getMetafacadePropertyNamespace(final MetafacadeBase metafacade)
+    private Map<String, Map> getMetafacadePropertyNamespace(final MetafacadeBase metafacade)
     {
-        Map metafacadeNamespace = null;
+        Map<String, Map> metafacadeNamespace = null;
         if (metafacade != null)
         {
-            Map namespace = (Map)this.metafacadeNamespaces.get(this.getNamespace());
+            Map<String, Map> namespace = (Map<String, Map>)this.metafacadeNamespaces.get(this.getNamespace());
             if (namespace != null)
             {
-                metafacadeNamespace = (Map)namespace.get(metafacade.getName());
+                metafacadeNamespace = (Map<String, Map>)namespace.get(metafacade.getName());
             }
         }
         return metafacadeNamespace;
@@ -623,7 +627,7 @@ public class MetafacadeFactory
         final MetafacadeBase metafacade,
         final String name)
     {
-        final Map propertyNamespace = this.getMetafacadePropertyNamespace(metafacade);
+        final Map<String, Map> propertyNamespace = this.getMetafacadePropertyNamespace(metafacade);
         return propertyNamespace != null && propertyNamespace.containsKey(name);
     }
 
@@ -639,7 +643,7 @@ public class MetafacadeFactory
         final MetafacadeBase metafacade,
         final String name)
     {
-        final Map propertyNamespace = this.getMetafacadePropertyNamespace(metafacade);
+        final Map propertyNamespace = this.getMetafacadePropertyNamespace(metafacade); //final Map<String, Map>
         return propertyNamespace != null ? propertyNamespace.get(name) : null;
     }
 
@@ -691,7 +695,7 @@ public class MetafacadeFactory
      * Stores the collection of all metafacades for
      * each namespace.
      */
-    private final Map allMetafacades = new LinkedHashMap();
+    private final Map<String, Collection<MetafacadeBase>> allMetafacades = new LinkedHashMap<String, Collection<MetafacadeBase>>();
 
     /**
      * <p>
@@ -705,13 +709,13 @@ public class MetafacadeFactory
      *
      * @return all metafacades
      */
-    public Collection getAllMetafacades()
+    public Collection<MetafacadeBase> getAllMetafacades()
     {
         final String namespace = this.getNamespace();
-        Collection metafacades = null;
+        Collection<MetafacadeBase> metafacades = null;
         if (this.getModel() != null)
         {
-            metafacades = (Collection)allMetafacades.get(namespace);
+            metafacades = (Collection<MetafacadeBase>)allMetafacades.get(namespace);
             if (metafacades == null)
             {
                 metafacades = this.createMetafacades(this.getModel().getModelElements());
@@ -721,16 +725,17 @@ public class MetafacadeFactory
             }
             if (metafacades != null)
             {
-                metafacades = new ArrayList(metafacades);
+                metafacades = new ArrayList<MetafacadeBase>(metafacades);
             }
         }
         return metafacades;
     }
 
     /**
-     * Caches the metafacdaes by stereotype.
+     * Caches the metafacades by stereotype.
      */
-    private final Map metafacadesByStereotype = new LinkedHashMap();
+    private final Map<String, Map<String, Collection<MetafacadeBase>>> metafacadesByStereotype 
+    = new LinkedHashMap<String, Map<String, Collection<MetafacadeBase>>>();
 
     /**
      * <p>
@@ -745,18 +750,18 @@ public class MetafacadeFactory
      * @param stereotype the stereotype by which to perform the search.
      * @return the metafacades having the given <code>stereotype</code>.
      */
-    public Collection getMetafacadesByStereotype(final String stereotype)
+    public Collection<MetafacadeBase> getMetafacadesByStereotype(final String stereotype)
     {
         final String namespace = this.getNamespace();
-        Collection metafacades = null;
+        Collection<MetafacadeBase> metafacades = null;
         if (this.getModel() != null)
         {
-            Map stereotypeMetafacades = (Map)this.metafacadesByStereotype.get(namespace);
+            Map<String, Collection<MetafacadeBase>> stereotypeMetafacades = (Map<String, Collection<MetafacadeBase>>)this.metafacadesByStereotype.get(namespace);
             if (stereotypeMetafacades == null)
             {
                 stereotypeMetafacades = new LinkedHashMap();
             }
-            metafacades = (Collection)stereotypeMetafacades.get(stereotype);
+            metafacades = (Collection<MetafacadeBase>)stereotypeMetafacades.get(stereotype);
             if (metafacades == null)
             {
                 metafacades = this.createMetafacades(this.getModel().findByStereotype(stereotype));

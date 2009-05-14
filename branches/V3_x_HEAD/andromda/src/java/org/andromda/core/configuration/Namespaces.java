@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
  * namespaces.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  * @see org.andromda.core.configuration.Namespace
  */
 public class Namespaces
@@ -38,7 +39,7 @@ public class Namespaces
     /**
      * Stores all namespaces.
      */
-    private final Map namespaces = new LinkedHashMap();
+    private final Map<String, Namespace> namespaces = new LinkedHashMap<String, Namespace>();
 
     /**
      * The shared instance.
@@ -64,7 +65,7 @@ public class Namespaces
      *
      * @return all namespaces.
      */
-    public Collection getNamespaces()
+    public Collection<Namespace> getNamespaces()
     {
         return this.namespaces.values();
     }
@@ -123,7 +124,7 @@ public class Namespaces
     /**
      * Retrieves a property from the Namespace with the namespaceName. If the <code>ignore</code> attribute of the
      * Property instance is set to <code>true</code> then lookup of the property will not be attempted and null will
-     * just be returned instead. If the propety is not found and <code>ignore<code> is not <code>true</code> a warning
+     * just be returned instead. If the property is not found and <code>ignore<code> is not <code>true</code> a warning
      * message is logged.
      *
      * @param namespaceName name of the Plugin to which the namespace applies
@@ -218,10 +219,10 @@ public class Namespaces
         Namespace defaultNamespace = null;
         if (property == null)
         {
-            if (logger.isDebugEnabled())
+            /*if (logger.isDebugEnabled())
             {
                 logger.debug("no namespace with name '" + namespaceName + "' found, looking for '" + Namespaces.DEFAULT + "'");
-            }
+            }*/
             defaultNamespace = (Namespace)this.namespaces.get(Namespaces.DEFAULT);
             if (defaultNamespace != null)
             {
@@ -261,7 +262,7 @@ public class Namespaces
     /**
      * Stores the namespace registries
      */
-    private final Map registries = new LinkedHashMap();
+    private final Map<String, NamespaceRegistry> registries = new LinkedHashMap<String, NamespaceRegistry>();
 
     /**
      * Gets all available namespace registries (these are namespaces
@@ -269,7 +270,7 @@ public class Namespaces
      *
      * @return the collection of namespace registries
      */
-    public Collection getNamespaceRegistries()
+    public Collection<NamespaceRegistry> getNamespaceRegistries()
     {
         return this.registries.values();
     }
