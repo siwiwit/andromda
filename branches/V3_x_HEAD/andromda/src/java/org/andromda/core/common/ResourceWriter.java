@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-
 import org.apache.commons.lang.StringUtils;
 
 
@@ -19,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
  * generated resources are current.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class ResourceWriter
 {
@@ -68,6 +68,7 @@ public class ResourceWriter
      *
      * @param string the string to write to the file
      * @param fileLocation the location of the file which to write.
+     * @throws IOException 
      */
     public void writeStringToFile(
         final String string,
@@ -85,6 +86,7 @@ public class ResourceWriter
      *
      * @param string the string to write to the file
      * @param file the file which to write.
+     * @throws IOException 
      */
     public void writeStringToFile(
         final String string,
@@ -203,6 +205,7 @@ public class ResourceWriter
      *
      * @param url the URL to read
      * @param fileLocation the location which to write.
+     * @throws IOException 
      */
     public void writeUrlToFile(
         final URL url,

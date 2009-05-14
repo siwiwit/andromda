@@ -2,16 +2,13 @@ package org.andromda.core.mapping;
 
 import java.io.File;
 import java.io.FileReader;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.HashMap;
-
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.ResourceUtils;
 import org.andromda.core.common.XmlObjectFactory;
@@ -30,6 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  *
  * @author Chad Brandon
  * @author Wouter Zoons
+ * @author Bob Fields
  * @see org.andromda.core.common.XmlObjectFactory
  */
 public class Mappings
@@ -495,7 +493,7 @@ public class Mappings
      * Constructs the complete path from the given <code>relativePath</code>
      * and the resource of the parent {@link Mappings#getResource()} as the root
      * of the path.
-     *
+     * @param relativePath 
      * @return the complete path.
      */
     final String getCompletePath(final String relativePath)
@@ -531,7 +529,7 @@ public class Mappings
     }
 
     /**
-     * @see java.lang.Object#toString()
+     * @see Object#toString()
      */
     public String toString()
     {
