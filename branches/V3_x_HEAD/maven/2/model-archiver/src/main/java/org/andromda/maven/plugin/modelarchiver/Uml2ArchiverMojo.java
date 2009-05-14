@@ -3,7 +3,6 @@ package org.andromda.maven.plugin.modelarchiver;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.artifact.Artifact;
@@ -123,10 +122,19 @@ public class Uml2ArchiverMojo
 
         try
         {
+            final File buildDirectory = new File(this.workDirectory);
+            if (!buildDirectory.exists())
+            {
+                buildDirectory.mkdirs();
+            }
+            else
+            {
+                // old files in directory are not automatically deleted. 
+                FileUtils.cleanDirectory(buildDirectory);
+            }
             // - the directory which to extract the model file
             final File modelExtractDirectory = new File(this.workDirectory, "models/xmi");
             modelExtractDirectory.mkdirs();
-            final File buildDirectory = new File(this.workDirectory);
 
             final File modelSourceDir = modelSourceDirectory;
             final String[] replacementExtensions =
@@ -168,6 +176,11 @@ public class Uml2ArchiverMojo
                                         contents = contents.replaceAll(
                                                 extensionPattern,
                                                 newExtension);
+                                        // Fix replacement error for standard UML profiles which follow the _Profile. naming convention.
+                                        contents =
+                                            contents.replaceAll(
+                                                "_Profile\\-" + version,
+                                                "_Profile");
                                     }
                                 }
                                 final FileWriter fileWriter = new FileWriter(newFile);
