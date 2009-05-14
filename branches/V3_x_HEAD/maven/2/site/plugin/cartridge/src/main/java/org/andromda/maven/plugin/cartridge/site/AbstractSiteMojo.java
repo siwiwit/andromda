@@ -1,11 +1,9 @@
 package org.andromda.maven.plugin.cartridge.site;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.UnArchiver;
 import org.codehaus.plexus.archiver.manager.ArchiverManager;
@@ -76,17 +74,17 @@ public abstract class AbstractSiteMojo
         {
             throw new MojoExecutionException("Unknown archiver type", e);
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            throw new MojoExecutionException("Error unpacking file: " + 
-                    file.getAbsolutePath() + " to: " + location + "\r\n" + e.toString(), e);
-        }
         catch (ArchiverException e)
         {
             e.printStackTrace();
             throw new MojoExecutionException("Error unpacking file: " + 
                     file + " to: " + location + "\r\n" + e.toString(), e);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            throw new MojoExecutionException("Error unpacking file: " + 
+                    file.getAbsolutePath() + " to: " + location + "\r\n" + e.toString(), e);
         }
     }
 }
