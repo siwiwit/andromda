@@ -1,7 +1,6 @@
 package org.andromda.repositories.emf.uml2;
 
 import java.util.Map;
-
 import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.metafacade.ModelAccessFacade;
 import org.andromda.core.repository.RepositoryFacadeException;
@@ -96,7 +95,7 @@ public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
                 // get those two famous static fields
                 Object nsURI = ePackageClass.getField("eNS_URI").get(null);
                 Object eInstance = ePackageClass.getField("eINSTANCE").get(null);
-                registry.put(nsURI, eInstance);
+                registry.put((String)nsURI, eInstance);
                 logger.debug("Optional metamodel registered: " + nsURI);
             }
         }
