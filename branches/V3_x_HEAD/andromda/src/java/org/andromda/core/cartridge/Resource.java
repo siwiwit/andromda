@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
  * cartridge resource element. </p>
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class Resource
 {
@@ -45,7 +46,7 @@ public class Resource
     }
     
     /**
-     * Stores the outputCondition that must evalute to true for the template to be written.
+     * Stores the outputCondition that must evaluate to true for the template to be written.
      */
     private String outputCondition;
     
