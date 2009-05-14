@@ -5,15 +5,16 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
 
 
 /**
  * A simple class providing the ability to manipulate properties on java bean objects.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public final class Introspector
 {
@@ -35,6 +36,11 @@ public final class Introspector
         }
         return instance;
     }
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(Introspector.class);
 
     /**
      * <p> Indicates whether or not the given <code>object</code> contains a
@@ -185,7 +191,7 @@ public final class Introspector
         }
         catch (final IntrospectorException throwable)
         {
-            // Dont catch our own exceptions.
+            // Don't catch our own exceptions.
             // Otherwise get Exception/Cause chain which
             // can hide the original exception.
             throw throwable;
@@ -207,7 +213,7 @@ public final class Introspector
 
     /**
      * Gets a nested property, that is it gets the properties
-     * seperated by '.'.
+     * separated by '.'.
      *
      * @param object the object from which to retrieve the nested property.
      * @param name the name of the property
@@ -298,6 +304,7 @@ public final class Introspector
      *
      * @param object the object to check.
      * @param name the property to check for.
+     * @return this.getReadMethod(object, name) != null
      */
     public boolean isReadable(
         final Object object,
@@ -314,6 +321,7 @@ public final class Introspector
      *
      * @param object the object to check.
      * @param name the property to check for.
+     * @return this.getWriteMethod(object, name) != null
      */
     public boolean isWritable(
         final Object object,
@@ -376,7 +384,7 @@ public final class Introspector
     private final Map propertyDescriptorsCache = new HashMap();
 
     /**
-     * Retrives the property descriptor for the given type and name of
+     * Retrieves the property descriptor for the given type and name of
      * the property.
      *
      * @param type the Class of which we'll attempt to retrieve the property
@@ -472,8 +480,8 @@ public final class Introspector
     {
         Object property = null;
 
-        // - prevent stack-over-flows by checking to make sure
-        //   we aren't entering any circular evalutions
+        // - prevent stack overflows by checking to make sure
+        //   we aren't entering any circular evaluations
         final Object value = this.evaluatingObjects.get(object);
         if (value == null || !value.equals(name))
         {
@@ -496,8 +504,20 @@ public final class Introspector
                             object,
                             (Object[])null);
                 }
-                catch (final Throwable throwable)
+                catch (Throwable throwable)
                 {
+                    if (throwable.getCause()!=null)
+                    {
+                        throwable = throwable.getCause();
+                    }
+                    // At least output the location where the error happened, not the entire stack trace.
+                    StackTraceElement[] trace = throwable.getStackTrace();
+                    String location = " AT " + trace[0].getClassName() + "." + trace[0].getMethodName() + ":" + trace[0].getLineNumber();
+                    if (throwable.getMessage()!=null)
+                    {
+                        location += " " + throwable.getMessage();
+                    }
+                    logger.error("Introspector " + throwable + " invoking " + object + " METHOD " + method + " WITH " + name + location);
                     throw new IntrospectorException(throwable);
                 }
             }
@@ -523,7 +543,7 @@ public final class Introspector
         if (object != null || name != null || name.length() > 0)
         {
             Class expectedType = null;
-            if (value != null)
+            if (value != null && object != null)
             {
                 final PropertyDescriptor descriptor = this.getPropertyDescriptor(
                         object.getClass(),
@@ -561,7 +581,7 @@ public final class Introspector
 
     /**
      * Shuts this instance down and reclaims
-     * any resouces used by this instance.
+     * any resources used by this instance.
      */
     public void shutdown()
     {
