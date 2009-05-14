@@ -5,14 +5,12 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.engine.ModelProcessorException;
 import org.andromda.core.mapping.Mappings;
@@ -55,7 +53,7 @@ import org.omg.uml.modelmanagement.ModelManagementPackage;
  */
 public class SchemaTransformer
 {
-    private final static Logger logger = Logger.getLogger(SchemaTransformer.class);
+    private static final Logger logger = Logger.getLogger(SchemaTransformer.class);
     private RepositoryFacade repository = null;
 
     /**
@@ -880,11 +878,11 @@ public class SchemaTransformer
     }
 
     /**
-     * Gets or creates a stereotypes given the specfied comma seperated list of
+     * Gets or creates a stereotypes given the specfied comma separated list of
      * <code>names</code>. If any of the stereotypes can't be found, they
      * will be created.
      *
-     * @param names comma seperated list of stereotype names
+     * @param names comma separated list of stereotype names
      * @param baseClass the base class for which the stereotype applies.
      * @return Collection of Stereotypes
      */

@@ -13,10 +13,11 @@ import org.apache.log4j.Logger;
  * point to expression (OCL, etc) translation.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class ExpressionTranslator
 {
-    private static Logger logger = Logger.getLogger(ExpressionTranslator.class);
+    private static final Logger logger = Logger.getLogger(ExpressionTranslator.class);
     private static ExpressionTranslator translator = new ExpressionTranslator();
 
     /**
