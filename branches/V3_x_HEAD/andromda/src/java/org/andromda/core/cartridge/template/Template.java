@@ -1,8 +1,8 @@
 package org.andromda.core.cartridge.template;
 
 import java.io.File;
-
 import org.andromda.core.cartridge.Resource;
+import org.andromda.core.common.XmlObjectFactory;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -15,6 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen </a>
  * @author Anthony Mowers
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class Template
     extends Resource
@@ -123,7 +124,7 @@ public class Template
     }
 
     /**
-     * Sets the model elements that are suported by this template.
+     * Sets the model elements that are supported by this template.
      *
      * @param supportedModelElements the ModelElements instance.
      * @see org.andromda.core.cartridge.template.ModelElements
@@ -187,7 +188,7 @@ public class Template
     }
 
     /**
-     * @see java.lang.Object#toString()
+     * @see Object#toString()
      */
     public String toString()
     {
