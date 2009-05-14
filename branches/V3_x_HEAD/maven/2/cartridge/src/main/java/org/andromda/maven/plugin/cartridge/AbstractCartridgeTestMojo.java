@@ -25,6 +25,7 @@ import org.codehaus.plexus.util.FileUtils;
  *
  * @author Chad Brandon
  * @author Peter Friese
+ * @author Bob Fields
  */
 public abstract class AbstractCartridgeTestMojo
     extends AbstractMojo
@@ -109,7 +110,7 @@ public abstract class AbstractCartridgeTestMojo
      *
      * @parameter expression="${project.build.plugins}"
      * @required
-     * @readonlya
+     * @readonly
      */
     protected List plugins;
 
@@ -133,6 +134,20 @@ public abstract class AbstractCartridgeTestMojo
      * @parameter expression="${maven.test.skip}"
      */
     protected boolean skip;
+
+    /**
+     *  Set this to 'true' to skip running tests, but still compile them. Its use is NOT RECOMMENDED, but quite convenient on occasion. 
+     *
+     * @parameter expression="${skipTests}"
+     */
+    protected boolean skipTests;
+
+    /**
+     * Set this to true to ignore a failure during testing. Its use is NOT RECOMMENDED, but quite convenient on occasion.
+     *
+     * @parameter expression="${maven.test.failure.ignore}" default-value="false"
+     */
+    protected boolean testFailureIgnore;
 
     /**
      * Adds any dependencies for the cartridge plugin
@@ -226,7 +241,11 @@ public abstract class AbstractCartridgeTestMojo
         }
         catch (Throwable throwable)
         {
-            if (throwable instanceof IOException || throwable instanceof ArchiverException)
+            if (this.testFailureIgnore)
+            {
+                this.getLog().error(this.project.getArtifactId() + "Error unpacking file " + file + "to " + location, throwable);
+            }
+            else if (throwable instanceof IOException || throwable instanceof ArchiverException)
             {
                 throw new MojoExecutionException("Error unpacking file: " + file + "to: " + location, throwable);
             }

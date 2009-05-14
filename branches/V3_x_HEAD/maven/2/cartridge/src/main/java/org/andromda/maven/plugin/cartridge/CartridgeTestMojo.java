@@ -19,11 +19,12 @@ import org.codehaus.plexus.util.FileUtils;
 /**
  * Provides the ability to compare cartridge output with existing output.
  *
- * @phase test
+ * @phase generate-test-sources
  * @goal test
  * @requiresDependencyResolution test
  * @description runs AndroMDA Cartridge tests
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class CartridgeTestMojo
     extends AbstractCartridgeTestMojo
@@ -39,8 +40,16 @@ public class CartridgeTestMojo
             final File expectedOutputArchive = new File(this.expectedOutputArchive);
             if (!expectedOutputArchive.exists() || !expectedOutputArchive.isFile())
             {
-                throw new MojoExecutionException("The path specifying the expectedOutputArchive '" +
-                    this.expectedOutputArchive + "' must be a file");
+                if (this.testFailureIgnore)
+                {
+                    this.getLog().error("The path specifying the expectedOutputArchive '" +
+                            this.expectedOutputArchive + "' must be a file");
+                }
+                else
+                {
+                    throw new MojoExecutionException("The path specifying the expectedOutputArchive '" +
+                            this.expectedOutputArchive + "' must be a file");
+                }
             }
 
             try
@@ -65,39 +74,65 @@ public class CartridgeTestMojo
                     expectedOutputArchive,
                     new File(this.expectedDirectory));
 
-                final CartridgeTest cartridgeTest = CartridgeTest.instance();
-                cartridgeTest.setActualOutputPath(this.actualDirectory);
-                cartridgeTest.setExpectedOutputPath(this.expectedDirectory);
-                cartridgeTest.setBinarySuffixes(this.binaryOutputSuffixes);
-
-                final CartridgeTestFormatter formatter = new CartridgeTestFormatter();
-
-                // - set the report location
-                final File report = new File(this.reportDirectory, this.project.getArtifactId() + ".txt");
-                formatter.setReportFile(report);
-                final TestResult result = new TestResult();
-                result.addListener(formatter);
-                final Test suite = CartridgeTest.suite();
-                formatter.startTestSuite(this.project.getName());
-                suite.run(result);
-                this.getLog().info("");
-                this.getLog().info("Results:");
-                this.getLog().info(formatter.endTestSuite(suite));
-                cartridgeTest.shutdown();
-                if (result.failureCount() > 0 || result.errorCount() > 0)
+                /*// Throws NullPointerException during unpack process, don't know why
+                if (this.skipTests)
                 {
-                    throw new MojoExecutionException("Test are some test failures");
+                    this.getLog().info(this.project.getArtifactId() + " Unpacked expected results, Skipping cartridge comparison tests");
                 }
+                else
+                {*/
+                    final CartridgeTest cartridgeTest = CartridgeTest.instance();
+                    cartridgeTest.setActualOutputPath(this.actualDirectory);
+                    cartridgeTest.setExpectedOutputPath(this.expectedDirectory);
+                    cartridgeTest.setBinarySuffixes(this.binaryOutputSuffixes);
+    
+                    final CartridgeTestFormatter formatter = new CartridgeTestFormatter();
+    
+                    // - set the report location
+                    final File report = new File(this.reportDirectory, this.project.getArtifactId() + ".txt");
+                    formatter.setReportFile(report);
+                    formatter.setTestFailureIgnore(this.testFailureIgnore);
+                    final TestResult result = new TestResult();
+                    result.addListener(formatter);
+                    final Test suite = CartridgeTest.suite();
+                    formatter.startTestSuite(this.project.getName());
+                    suite.run(result);
+                    this.getLog().info("");
+                    this.getLog().info("Results:");
+                    this.getLog().info(formatter.endTestSuite(suite));
+                    cartridgeTest.shutdown();
+                    if (result.failureCount() > 0 || result.errorCount() > 0)
+                    {
+                        if (this.testFailureIgnore)
+                        {
+                            this.getLog().error("There are test failures, failureCount=" + result.failureCount() + " errorCount=" + result.errorCount()
+                                    + ", Cartridge=" + this.project.getArtifactId());
+                        }
+                        else
+                        {
+                            throw new MojoExecutionException("There are test failures, failureCount=" + result.failureCount() + " errorCount=" + result.errorCount());
+                        }
+                    }
+                /*}*/
             }
             catch (final Throwable throwable)
             {
-                if (throwable instanceof MojoExecutionException)
+                if (throwable instanceof MojoExecutionException && !this.testFailureIgnore)
                 {
                     throw (MojoExecutionException)throwable;
                 }
-                throw new MojoExecutionException("An error occured while testing cartridge '" +
-                    this.project.getArtifactId() + "'",
-                    ExceptionUtils.getRootCause(throwable));
+                else if (this.testFailureIgnore)
+                {
+                    this.getLog().error("An error occured while testing cartridge '" +
+                        this.project.getArtifactId() + "'",
+                        ExceptionUtils.getRootCause(throwable));
+                }
+                else
+                {
+                    throw new MojoExecutionException("An error occured while testing cartridge '" +
+                            this.project.getArtifactId() + "'",
+                            ExceptionUtils.getRootCause(throwable));
+                }
             }
         }
         else
@@ -129,9 +164,13 @@ public class CartridgeTestMojo
         }
         catch (Throwable throwable)
         {
-            if (throwable instanceof IOException || throwable instanceof ArchiverException)
+            if (this.testFailureIgnore)
             {
-                throw new MojoExecutionException("Error unpacking file: " + file + "to: " + location, throwable);
+                this.getLog().error(this.project.getArtifactId() + " Error unpacking file " + file + " to " + location, throwable);
+            }
+            else if (throwable instanceof IOException || throwable instanceof ArchiverException)
+            {
+                throw new MojoExecutionException("Error unpacking file: " + file + " to: " + location, throwable);
             }
         }
     }

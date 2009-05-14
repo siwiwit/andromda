@@ -20,6 +20,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @description update AndroMDA Cartridge test archive
  * @author Chad Brandon
  * @author Peter Friese
+ * @author Bob Fields
  */
 public class CartridgeTestUpdaterMojo
         extends AbstractCartridgeTestMojo
@@ -54,12 +55,20 @@ public class CartridgeTestUpdaterMojo
         }
         catch (final Throwable throwable)
         {
-            if (throwable instanceof MojoExecutionException)
+            if (throwable instanceof MojoExecutionException && !this.testFailureIgnore)
             {
                 throw (MojoExecutionException)throwable;
             }
-            throw new MojoExecutionException("An error occured while updating cartridge archive '"
-                    + this.project.getArtifactId() + "'", ExceptionUtils.getRootCause(throwable));
+            else if (this.testFailureIgnore)
+            {
+                this.getLog().error("An error occured while updating cartridge archive '"
+                        + this.project.getArtifactId() + "'", ExceptionUtils.getRootCause(throwable));
+            }
+            else
+            {
+                throw new MojoExecutionException("An error occured while updating cartridge archive '"
+                        + this.project.getArtifactId() + "'", ExceptionUtils.getRootCause(throwable));
+            }
         }
 
     }
@@ -84,7 +93,11 @@ public class CartridgeTestUpdaterMojo
         }
         catch (Throwable throwable)
         {
-            if (throwable instanceof IOException || throwable instanceof ArchiverException)
+            if (this.testFailureIgnore)
+            {
+                this.getLog().error(this.project.getArtifactId() + "Error packing directory: " + location + "to: " + file, throwable);
+            }
+            else if (throwable instanceof IOException || throwable instanceof ArchiverException)
             {
                 throw new MojoExecutionException("Error packing directory: " + location + "to: " + file, throwable);
             }

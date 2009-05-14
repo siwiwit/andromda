@@ -69,6 +69,27 @@ public class InitializeMojo
     protected String bootstrapDirectoryName;
 
     /**
+     * Set this to 'true' to bypass cartridge tests entirely. Its use is NOT RECOMMENDED, but quite convenient on occasion.
+     *
+     * @parameter expression="${maven.test.skip}" default-value="false"
+     */
+    protected boolean skip;
+
+    /**
+     *  Set this to 'true' to skip running tests, but still compile them. Its use is NOT RECOMMENDED, but quite convenient on occasion. 
+     *
+     * @parameter expression="${skipTests}" default-value="false"
+     */
+    protected boolean skipTests;
+
+    /**
+     * Set this to true to ignore a failure during testing. Its use is NOT RECOMMENDED, but quite convenient on occasion.
+     *
+     * @parameter expression="${maven.test.failure.ignore}" default-value="false"
+     */
+    protected boolean testFailureIgnore;
+
+    /**
      * @see org.apache.maven.plugin.Mojo#execute()
      */
     public void execute()
