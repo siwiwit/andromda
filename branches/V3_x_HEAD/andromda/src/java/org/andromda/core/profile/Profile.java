@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.andromda.core.common.ComponentContainer;
 import org.andromda.core.common.XmlObjectFactory;
 import org.andromda.core.configuration.NamespaceProperties;
@@ -20,6 +19,7 @@ import org.andromda.core.namespace.BaseNamespaceComponent;
  * Profiles allow us to extend aspects of a model.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class Profile
     extends BaseNamespaceComponent
@@ -51,6 +51,8 @@ public class Profile
 
     /**
      * Adds a new element to this namespace registry.
+     * @param name 
+     * @param value 
      */
     public void addElement(
         final String name,
@@ -149,12 +151,12 @@ public class Profile
     private final Map allElements = new LinkedHashMap();
 
     /**
-     * Adds the elements to the interal elements map.
+     * Adds the elements to the internal elements map.
      */
     private void addElements(final Profile profile)
     {
         final Collection elements = profile != null ? profile.elements.keySet() : null;
-        if (elements != null)
+        if (elements != null && profile != null)
         {
             final String namespace = profile.getNamespace();
             final Map namespaceElements = this.getNamespaceElements(namespace);
