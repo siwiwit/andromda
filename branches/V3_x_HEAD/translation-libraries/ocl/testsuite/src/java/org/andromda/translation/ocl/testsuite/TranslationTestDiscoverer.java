@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
  */
 public class TranslationTestDiscoverer
 {
-    private static Logger logger = Logger.getLogger(TranslationTestDiscoverer.class);
+    private static final Logger logger = Logger.getLogger(TranslationTestDiscoverer.class);
 
     /**
      * This is the prefix of translation tests, each translation test must start with this in order to be found.

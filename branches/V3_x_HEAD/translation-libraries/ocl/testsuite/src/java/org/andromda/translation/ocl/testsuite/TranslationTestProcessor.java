@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 public class TranslationTestProcessor
     extends TestCase
 {
-    private static Logger logger = Logger.getLogger(TranslationTestProcessor.class);
+    private static final Logger logger = Logger.getLogger(TranslationTestProcessor.class);
 
     /**
      * The shared instance of this class.
