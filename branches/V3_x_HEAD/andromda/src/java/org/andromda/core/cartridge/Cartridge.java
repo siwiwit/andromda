@@ -2,9 +2,7 @@ package org.andromda.core.cartridge;
 
 import java.io.File;
 import java.io.StringWriter;
-
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -12,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-
 import org.andromda.core.cartridge.template.ModelElement;
 import org.andromda.core.cartridge.template.ModelElements;
 import org.andromda.core.cartridge.template.Template;
@@ -28,6 +25,7 @@ import org.andromda.core.configuration.Namespaces;
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.core.metafacade.ModelAccessFacade;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -36,10 +34,14 @@ import org.apache.commons.lang.BooleanUtils;
  *
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen </a>
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class Cartridge
     extends BasePlugin
 {
+    /** The logger instance. */
+    private static final Logger logger = Logger.getLogger(Cartridge.class);
+
     /**
      * Processes all model elements with relevant stereotypes by retrieving the model elements from the model facade
      * contained within the context.
@@ -51,10 +53,10 @@ public class Cartridge
         ExceptionUtils.checkNull(
             "factory",
             factory);
-        final Collection resources = this.getResources();
+        final Collection<Resource> resources = this.getResources();
         if (resources != null && !resources.isEmpty())
         {
-            for (final Iterator iterator = resources.iterator(); iterator.hasNext();)
+            for (final Iterator<Resource> iterator = resources.iterator(); iterator.hasNext();)
             {
                 final Resource resource = (Resource)iterator.next();
                 if (resource instanceof Template)
@@ -138,6 +140,8 @@ public class Cartridge
             try
             {
                 final Collection allMetafacades = modelElements.getAllMetafacades();
+                // Tell us which template is processed against how many metafacade elements
+                logger.info("Processing " + template.getPath() + " with " + allMetafacades.size() + " metafacades from " + modelElements.getModelElements().size() + " model elements");
 
                 // - if outputToSingleFile is true AND outputOnEmptyElements
                 //   is true or we have at least one metafacade in the
@@ -258,7 +262,7 @@ public class Cartridge
      * @param templateContext the template context containing the instance to pass to the template.
      * @param modelElement the model element from which we retrieve the corresponding types and then
      *        properties to determine if any properties have been mapped for template processing.
-     * @return true if any property templates have been evaluated (false othewise).
+     * @return true if any property templates have been evaluated (false otherwise).
      */
     private boolean processPropertyTemplates(
         final Template template,
@@ -339,7 +343,7 @@ public class Cartridge
      * @param template the Template containing the template path to process.
      * @param templateContext the context to which variables are added and made
      *        available to the template engine for processing. This will contain
-     *        any model elements being made avaiable to the template(s) as well
+     *        any model elements being made available to the template(s) as well
      *        as properties/template objects.
      * @param metafacadeName the name of the model element (if we are
      *        processing a single model element, otherwise this will be
@@ -589,16 +593,16 @@ public class Cartridge
     }
 
     /**
-     * Stores the loaded resources to be processed by this cartridge intance.
+     * Stores the loaded resources to be processed by this cartridge instance.
      */
-    private final List resources = new ArrayList();
+    private final List<Resource> resources = new ArrayList<Resource>();
 
     /**
      * Returns the list of templates configured in this cartridge.
      *
      * @return List the template list.
      */
-    public List getResources()
+    public List<Resource> getResources()
     {
         return this.resources;
     }
@@ -631,8 +635,9 @@ public class Cartridge
     }
     
     /**
-     * Stores the global conditions.
+     * Stores the global conditions from cartridge.xml condition expressions
      */
+    //TODO Evaluate String condition as Boolean BEFORE adding to conditions Map. Currently values can be either Boolean or String - confusing.
     private final Map conditions = new LinkedHashMap();
     
     /**
@@ -649,6 +654,7 @@ public class Cartridge
     
     /**
      * Gets the current outputConditions defined within this cartridge
+     * @return this.conditions
      */
     public Map getConditions()
     {
@@ -690,10 +696,10 @@ public class Cartridge
     }
     
     /**
-     * Gets the evaluted outputCondition result of a global outputCondition.
+     * Gets the evaluated outputCondition result of a global outputCondition.
      * 
      * @param templateContext the current template context to pass the template engine if 
-     *        evaluation has yet to occurr.
+     *        evaluation has yet to occur.
      * @return the evaluated outputCondition results.
      */
     private Boolean getGlobalConditionResult(final String outputCondition, final Map templateContext) 
@@ -703,7 +709,7 @@ public class Cartridge
     
     /**
      * Indicates whether or not the given <code>outputCondition</code> is a valid
-     * outputCondition, that is, whether or not it return true.
+     * outputCondition, that is, whether or not it returns true.
      * 
      * @param outputCondition the outputCondition to evaluate.
      * @param templateContext the template context containing the variables to use.
