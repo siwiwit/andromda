@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.andromda.core.ModelValidationException;
 import org.andromda.core.cartridge.Cartridge;
 import org.andromda.core.common.AndroMDALogger;
@@ -43,6 +42,7 @@ import org.apache.log4j.Logger;
  * or multiple models. </p>
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class ModelProcessor
 {
@@ -232,7 +232,7 @@ public class ModelProcessor
                         cartridgeName = cartridge.getNamespace();
                         if (this.shouldProcess(cartridgeName))
                         {
-                            // - set the active namespace on the shared factory and profile instances
+                             // - set the active namespace on the shared factory and profile instances
                             this.factory.setNamespace(cartridgeName);
                             cartridge.initialize();
     
@@ -240,7 +240,8 @@ public class ModelProcessor
                             for (int ctr = 0; ctr < models.length; ctr++)
                             {
                                 final Model model = models[ctr];
-    
+                                AndroMDALogger.info("Processing cartridge " + cartridge.getNamespace() + " on model " + model);
+   
                                 // - set the namespace on the metafacades instance so we know the 
                                 //   correct facades to use
                                 this.factory.setModel(
@@ -336,6 +337,7 @@ public class ModelProcessor
      * later than the last timestamp of the loaded model).
      *
      * @param model the model to be loaded.
+     * @return List validation messages
      */
     protected final List loadModelIfNecessary(final Model model)
     {
@@ -370,9 +372,9 @@ public class ModelProcessor
         final String repositoryName,
         final Model model)
     {
-        final Filters constraints = model != null ? model.getConstraints() : null;
+        final Filters constraints = (model != null ? model.getConstraints() : null);
         final List validationMessages = new ArrayList();
-        if (this.modelValidation)
+        if (ModelProcessor.modelValidation && model != null)
         {
             final long startTime = System.currentTimeMillis();
             AndroMDALogger.info("- validating model -");
@@ -426,7 +428,7 @@ public class ModelProcessor
     }
 
     /**
-     * Calcuates the duration in seconds between the
+     * Calculates the duration in seconds between the
      * given <code>startTime</code> and the current time.
      * @param startTime the time to compare against.
      * @return the duration of time in seconds.
@@ -497,6 +499,7 @@ public class ModelProcessor
      * that need to be reloaded, and if so, re-loads them.
      *
      * @param repositories the repositories from which to load the model(s).
+     * @return messages
      */
     final List loadIfNecessary(final org.andromda.core.configuration.Repository[] repositories)
     {
@@ -554,18 +557,30 @@ public class ModelProcessor
     /**
      * Whether or not model validation should be performed.
      */
-    private boolean modelValidation = true;
+    private static boolean modelValidation = true;
 
     /**
      * Sets whether or not model validation should occur. This is useful for
-     * performance reasons (i.e. if you have a large model it can significatly descrease the amount of time it takes for
+     * performance reasons (i.e. if you have a large model it can significantly decrease the amount of time it takes for
      * AndroMDA to process a model). By default this is set to <code>true</code>.
      *
-     * @param modelValidation true/false on whether model validation should be performed or not.
+     * @param modelValidationIn true/false on whether model validation should be performed or not.
      */
-    public void setModelValidation(final boolean modelValidation)
+    public void setModelValidation(final boolean modelValidationIn)
     {
-        this.modelValidation = modelValidation;
+        ModelProcessor.modelValidation = modelValidationIn;
+    }
+
+    /**
+     * Gets whether or not model validation should occur. This is useful for
+     * performance reasons (i.e. if you have a large model it can significantly decrease the amount of time it takes for
+     * AndroMDA to process a model). By default this is set to <code>true</code>.
+     *
+     * @return modelValidation true/false on whether model validation should be performed or not.
+     */
+    public static boolean getModelValidation()
+    {
+        return ModelProcessor.modelValidation;
     }
 
     /**
@@ -624,13 +639,13 @@ public class ModelProcessor
 
     /**
      * <p/>
-     * Sets the current cartridge filter. This is a comma seperated list of namespaces (matching cartridges names) that
+     * Sets the current cartridge filter. This is a comma separated list of namespaces (matching cartridges names) that
      * should be processed. </p>
      * <p/>
      * If this filter is defined, then any cartridge names found in this list <strong>will be processed </strong>, while
      * any other discovered cartridges <strong>will not be processed </strong>. </p>
      *
-     * @param namespaces a comma seperated list of the cartridge namespaces to be processed.
+     * @param namespaces a comma separated list of the cartridge namespaces to be processed.
      */
     public void setCartridgeFilter(String namespaces)
     {
