@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
 
 
@@ -35,10 +34,11 @@ import org.apache.log4j.Logger;
  * </p>
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class ComponentContainer
 {
-    private static Logger logger = Logger.getLogger(ComponentContainer.class);
+    private static final Logger logger = Logger.getLogger(ComponentContainer.class);
 
     /**
      * Where all component default implementations are found.
@@ -141,6 +141,7 @@ public class ComponentContainer
      * <code>META-INF/services</code> directory and finding its default
      * implementation.
      *
+     * @param type 
      * @return a new instance of the given <code>type</code>
      */
     public Object newDefaultComponent(final Class type)
@@ -387,7 +388,7 @@ public class ComponentContainer
      * a unique (within this container) <code>key</code> is registered.
      *
      * @param key the unique key.
-     * @return boolean true/false depending on whether or not it is registerd.
+     * @return boolean true/false depending on whether or not it is registered.
      */
     public boolean isRegistered(final Object key)
     {
@@ -400,6 +401,7 @@ public class ComponentContainer
      *
      * @param namespace the namespace for which to register the component.
      * @param key the unique key.
+     * @param component 
      */
     public void registerComponentByNamespace(
         final String namespace,
@@ -426,6 +428,7 @@ public class ComponentContainer
      * container) <code>key</code>.
      *
      * @param key the unique key.
+     * @param component 
      * @return Object the registered component.
      */
     public Object registerComponent(
