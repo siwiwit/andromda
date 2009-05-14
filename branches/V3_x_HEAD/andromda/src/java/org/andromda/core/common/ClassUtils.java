@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -19,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
  * Contains utilities for dealing with classes.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class ClassUtils
     extends org.apache.commons.lang.ClassUtils
@@ -145,15 +145,15 @@ public class ClassUtils
             final String className;
             if ("char".equals(name))
             {
-                className = "java.lang.Character";
+                className = "Character";
             }
             else if ("int".equals(name))
             {
-                className = "java.lang.Integer";
+                className = "Integer";
             }
             else
             {
-                className = "java.lang." + StringUtils.capitalize(name);
+                className = StringUtils.capitalize(name);
             }
 
             try
@@ -179,6 +179,7 @@ public class ClassUtils
      * @param clazz  the Class from which to retrieve the static fields
      * @param type the type of static fields to retrieve, if null all are retrieved
      * @return Collection the collection of static field values.
+     * @throws IllegalAccessException - if some aspect of this static field prevents it from being added to this collection.
      */
     public static Collection getStaticFieldValues(
         final Class clazz,
