@@ -15,6 +15,13 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
  */
 public class EMXProxyResolvingResourceSet extends ResourceSetImpl
 {
+    /**
+     * @param uri
+     * @param loadOnDemand
+     * @return {@link org.eclipse.emf.ecore.EObject}
+     * @see org.eclipse.emf.ecore.resource.impl.ResourceSetImpl#getEObject(org.eclipse.emf.common.util.URI, boolean)
+     */
+    @Override
     public EObject getEObject(URI uri, boolean loadOnDemand)
     {
         EObject possiblyResolvedObject = super.getEObject(uri, loadOnDemand);
