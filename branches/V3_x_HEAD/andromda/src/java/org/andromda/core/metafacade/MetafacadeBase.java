@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -15,8 +14,9 @@ import org.apache.log4j.Logger;
  * @author <a href="http://www.mbohlen.de">Matthias Bohlen </a>
  * @author Chad Brandon
  * @author Wouter Zoons
+ * @author Bob Fields
  */
-public class MetafacadeBase
+public class MetafacadeBase implements Comparable
 {
     /**
      * The meta object which this metafacade wraps.
@@ -29,15 +29,15 @@ public class MetafacadeBase
      * this metafacade insulates. The <code>context</code> is the name of the
      * context for this metafacade instance.
      *
-     * @param metaObject the meta object.
-     * @param context the context of this meta object.
+     * @param metaObjectIn the meta object.
+     * @param contextIn the context of this meta object.
      */
     public MetafacadeBase(
-        final Object metaObject,
-        final String context)
+        final Object metaObjectIn,
+        final String contextIn)
     {
-        this.metaObject = metaObject;
-        this.context = context;
+        this.metaObject = metaObjectIn;
+        this.context = contextIn;
     }
 
     /**
@@ -99,9 +99,8 @@ public class MetafacadeBase
      * only once, this is enforced by the caching within the metafacade factory.
      *
      * @param validationMessages any messages generated during validation.
-     * @see MetafacadeFactory#createMetafacade(Object, String, Class)
      */
-    public final void validate(final Collection validationMessages)
+    public final void validate(final Collection<org.andromda.core.metafacade.ModelValidationMessage> validationMessages)
     {
         this.validateInvariants(validationMessages);
     }
@@ -109,11 +108,12 @@ public class MetafacadeBase
     /**
      * <p/>
      * The logic of modeled OCL invariants from derived metafacades will be generated into this method and validation
-     * messages created and collected into the <code>messages</code> collection. This method is called by {@link #validate(Collection)}
+     * messages created and collected into the <code>messages</code> collection. This method is called by {@link #validate(Collection validationMessages)}
      * <p/>
      * By default this method is empty. </p>
+     * @param messages Collection of org.andromda.core.metafacade.ModelValidationMessage
      */
-    public void validateInvariants(final Collection messages)
+    public void validateInvariants(final Collection<org.andromda.core.metafacade.ModelValidationMessage> messages)
     {
         // By default this does nothing
     }
@@ -132,19 +132,19 @@ public class MetafacadeBase
      * metafacade. In certain cases <code>metaObject</code> can also be a metafacade instance; in that case the actual
      * meta model element is retrieved from the metafacade and a metafacade is constructed from that.
      *
-     * @param metaObject the underlying meta model element. A metafacade is created for each.
+     * @param metaObjectIn the underlying meta model element. A metafacade is created for each.
      * @return MetafacadeBase the facade
      * @see MetafacadeFactory
      */
-    protected MetafacadeBase shieldedElement(final Object metaObject)
+    protected MetafacadeBase shieldedElement(final Object metaObjectIn)
     {
         MetafacadeBase metafacade = null;
-        if (metaObject != null)
+        if (metaObjectIn != null)
         {
-            final String context = this.getContext();
+            final String contextIn = this.getContext();
             metafacade = MetafacadeFactory.getInstance().createMetafacade(
-                    metaObject,
-                    context);
+                    metaObjectIn,
+                    contextIn);
 
             // - The metafacade we've just got may have been found in the cache. 
             //   If so, it can have an arbitrary context (because it's cached).
@@ -152,7 +152,7 @@ public class MetafacadeBase
             //   other metafacade mappings based on the context work as expected.
             if(metafacade != null) 
             {
-                metafacade.resetMetafacadeContext(context);
+                metafacade.resetMetafacadeContext(contextIn);
             }
         }
         return metafacade;
@@ -192,12 +192,12 @@ public class MetafacadeBase
      */
     final String getContext()
     {
-        String context = this.context;
-        if (StringUtils.isBlank(context))
+        String contextIn = this.context;
+        if (StringUtils.isBlank(contextIn))
         {
-            context = this.getName();
+            contextIn = this.getName();
         }
-        return context;
+        return contextIn;
     }
 
     /**
@@ -205,22 +205,21 @@ public class MetafacadeBase
      * metafacade (since we use delegate inheritance between shared and non-shared metafacades), as well as to pass the
      * context to a metafacade being created within another.
      *
-     * @param context the metafacade interface name representing the context.
+     * @param contextIn the metafacade interface name representing the context.
      * @see MetafacadeMapping#isContextRoot()
-     * @see MetafacadeFactory#createMetafacade(Object, String, Class)
      */
-    public void setMetafacadeContext(final String context)
+    public void setMetafacadeContext(final String contextIn)
     {
-        this.context = context;
+        this.context = contextIn;
     }
 
     /**
      * Resets the metafacade context after the metafacade was retrieved from the metafacade cache.
      * DO NOT CALL THIS METHOD BY HAND, it is reserved for use in the MetafacadeFactory.
      * @see org.andromda.core.metafacade.MetafacadeFactory 
-     * @param context the context defined by MetafacadeFactory
+     * @param contextIn the context defined by MetafacadeFactory
      */
-    public void resetMetafacadeContext(String context)
+    public void resetMetafacadeContext(String contextIn)
     {
         throw new IllegalStateException("Method resetMetafacadeContext() must be overridden by concrete metafacade class (" + this.getClass().getName() + ")! Please re-generate your metafacades using the new andromda-meta cartridge.");
     }
@@ -243,18 +242,18 @@ public class MetafacadeBase
     /**
      * Sets the namespace for this metafacade.
      *
-     * @param namespace
+     * @param namespaceIn
      */
-    final void setNamespace(final String namespace)
+    final void setNamespace(final String namespaceIn)
     {
-        this.namespace = namespace;
+        this.namespace = namespaceIn;
     }
 
     /**
      * Returns true or false depending on whether the <code>property</code> is registered or not.
      *
      * @param property the name of the property to check.
-     * @return true/false on whether or not its regisgterd.
+     * @return true/false on whether or not its registered.
      */
     protected boolean isConfiguredProperty(final String property)
     {
@@ -278,14 +277,16 @@ public class MetafacadeBase
 
     /**
      * Attempts to set the property with <code>name</code> having the specified <code>value</code> on this metafacade.
+     * @param nameIn 
+     * @param value 
      */
     protected void setProperty(
-        final String name,
+        final String nameIn,
         final Object value)
     {
         MetafacadeFactory.getInstance().registerProperty(
             this.getName(),
-            name,
+            nameIn,
             value);
     }
 
@@ -309,11 +310,11 @@ public class MetafacadeBase
     /**
      * Package-local setter, called by facade factory. Sets the logger to use inside the facade's code.
      *
-     * @param logger the logger to set
+     * @param loggerIn the logger to set
      */
-    final void setLogger(final Logger logger)
+    final void setLogger(final Logger loggerIn)
     {
-        this.logger = logger;
+        this.logger = loggerIn;
     }
 
     /**
@@ -326,11 +327,11 @@ public class MetafacadeBase
      * #getMetafacadeContext()}returns the metafacade interface for this metafacade, otherwise the regular
      * <code>context</code> is returned.
      *
-     * @param contextRoot
+     * @param contextRootIn
      */
-    final void setContextRoot(final boolean contextRoot)
+    final void setContextRoot(final boolean contextRootIn)
     {
-        this.contextRoot = contextRoot;
+        this.contextRoot = contextRootIn;
     }
 
     /**
@@ -338,7 +339,6 @@ public class MetafacadeBase
      * or the regular <code>context</code>.
      *
      * @return the metafacade's context.
-     * @see #setContextRoot(boolean)
      */
     public String getMetafacadeContext()
     {
@@ -370,8 +370,9 @@ public class MetafacadeBase
     }
 
     /**
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @see Object#equals(Object)
      */
+    @Override
     public boolean equals(Object object)
     {
         boolean equals = false;
@@ -384,11 +385,12 @@ public class MetafacadeBase
     }
 
     /**
-     * @see java.lang.Object#hashCode()
+     * @see Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
-        return metaObject.hashCode();
+        return this.metaObject.hashCode();
     }
 
     /**
@@ -400,6 +402,7 @@ public class MetafacadeBase
      * A check to verify whether or not to make use of metafacade property caching. This method check if the {@link
      * MetafacadeProperties#ENABLE_METAFACADE_PROPERTY_CACHING} namespace property has been set, if this is not the case
      * then the caching will be enabled by default.
+     * @return this.metafacadePropertyCachingEnabled.booleanValue()
      */
     public final boolean isMetafacadePropertyCachingEnabled()
     {
@@ -424,9 +427,32 @@ public class MetafacadeBase
      *
      * This <strong>MUST</strong> be used instead of <em>this<em> in order to access the correct
      * metafacade instance in the hierarchy (since we use delegate inheritance).
+     * @return this.shieldedElement(this.metaObject)
      */
     protected final MetafacadeBase THIS()
     {
         return this.THIS == null ? this.THIS = this.shieldedElement(this.metaObject) : this.THIS;
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return super.toString() + "[" + this.name + ": " + this.metaObject.getClass().getName() + "]";
+    }
+
+    /**
+     * Allow sorting and use in TreeSet. ValidationName is overridden in descendants.
+     * @see Comparable#compareTo(Object)
+     */
+    public int compareTo(Object object)
+    {
+        if (object==null || !(object instanceof MetafacadeBase))
+        {
+            return -1;
+        }
+        return ((MetafacadeBase)object).getValidationName().compareTo(this.getValidationName());
     }
 }
