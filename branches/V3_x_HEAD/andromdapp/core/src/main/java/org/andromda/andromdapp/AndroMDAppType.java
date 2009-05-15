@@ -166,10 +166,9 @@ public class AndroMDAppType
      * <code>prompt</code>.
      *
      * @param prompt the prompt from which to format the prompt text.
-     * @return the response of the prompt.
      */
     private void setConditionalProperties(
-        final List conditions,
+        final List<Condition> conditions,
         final Object value)
     {
         for (final Iterator iterator = conditions.iterator(); iterator.hasNext();)
@@ -305,13 +304,14 @@ public class AndroMDAppType
      * Processes the files for the project.
      *
      * @param write whether or not the resources should be written when collected.
+     * @return processedResources
      * @throws Exception
      */
-    protected List processResources(boolean write)
+    protected List<File> processResources(boolean write)
         throws Exception
     {
         // - all resources that have been processed.
-        final List processedResources = new ArrayList();
+        final List<File> processedResources = new ArrayList<File>();
         final File rootDirectory = this.verifyRootDirectory(new File(this.getRoot()));
         final String bannerStart = write ? "G e n e r a t i n g" : "R e m o v i n g";
         this.printLine();
@@ -343,10 +343,10 @@ public class AndroMDAppType
                     for (final ListIterator contentsIterator = contents.listIterator(); contentsIterator.hasNext();)
                     {
                         final String path = (String)contentsIterator.next();
-                        if (!path.endsWith(FORWARD_SLASH))
+                        if (path!=null && !path.endsWith(FORWARD_SLASH))
                         {
                             boolean hasNewPath = false;
-                            for (final Iterator mappingIterator = this.mappings.iterator(); mappingIterator.hasNext();)
+                            for (final Iterator<Mapping> mappingIterator = this.mappings.iterator(); mappingIterator.hasNext();)
                             {
                                 final Mapping mapping = (Mapping)mappingIterator.next();
                                 String newPath = mapping.getMatch(path);
@@ -378,13 +378,13 @@ public class AndroMDAppType
         }
 
         // - second process and write any output from the defined resource locations.
-        for (final Iterator iterator = locations.keySet().iterator(); iterator.hasNext();)
+        for (final Iterator<String> iterator = locations.keySet().iterator(); iterator.hasNext();)
         {
             final String location = (String)iterator.next();
             final Collection contents = (Collection)locations.get(location);
             if (contents != null)
             {
-                for (final Iterator contentsIterator = contents.iterator(); contentsIterator.hasNext();)
+                for (final Iterator<String> contentsIterator = contents.iterator(); contentsIterator.hasNext();)
                 {
                     final String path = (String)contentsIterator.next();
                     final String projectRelativePath = StringUtils.replace(
@@ -609,7 +609,7 @@ public class AndroMDAppType
                 for (int ctr = 0; ctr < numberOfExtensions; ctr++)
                 {
                     final String extension = '.' + this.templateExtensions[ctr];
-                    validTemplate = extension != null && path.endsWith(extension);
+                    validTemplate = path.endsWith(extension);
                     if (validTemplate)
                     {
                         break;
@@ -634,7 +634,7 @@ public class AndroMDAppType
             for (int ctr = 0; ctr < numberOfExtensions; ctr++)
             {
                 final String extension = '.' + this.templateExtensions[ctr];
-                if (extension != null && path.endsWith(extension))
+                if (path.endsWith(extension))
                 {
                     path = path.substring(
                             0,
@@ -810,14 +810,14 @@ public class AndroMDAppType
     /**
      * Stores any configuration information used when running this type.
      */
-    private List configurations;
+    private List<Configuration> configurations;
 
     /**
      * Sets the configuration instance for this type.
      *
      * @param configuration the optional configuration instance.
      */
-    final void setConfigurations(final List configurations)
+    final void setConfigurations(final List<Configuration> configurations)
     {
         this.configurations = configurations;
     }
@@ -825,7 +825,7 @@ public class AndroMDAppType
     /**
      * Stores the available prompts for this andromdapp.
      */
-    private final List prompts = new ArrayList();
+    private final List<Prompt> prompts = new ArrayList<Prompt>();
 
     /**
      * Adds a prompt to the collection of prompts contained within this
@@ -843,7 +843,7 @@ public class AndroMDAppType
      *
      * @return the list of prompts.
      */
-    public List getPrompts()
+    public List<Prompt> getPrompts()
     {
         return this.prompts;
     }
@@ -851,7 +851,7 @@ public class AndroMDAppType
     /**
      * The locations where templates are stored.
      */
-    private List resourceLocations = new ArrayList();
+    private List<String> resourceLocations = new ArrayList<String>();
 
     /**
      * Adds a location where templates and or project files are located.
@@ -867,7 +867,7 @@ public class AndroMDAppType
      * The any empty directories that should be created when generating the
      * application.
      */
-    private List directories = new ArrayList();
+    private List<String> directories = new ArrayList<String>();
 
     /**
      * The relative path to the directory to be created.
@@ -883,12 +883,11 @@ public class AndroMDAppType
      * Stores the output conditions (that is the conditions
      * that must apply for the defined output to be written).
      */
-    private List outputConditions = new ArrayList();
+    private List<Conditions> outputConditions = new ArrayList<Conditions>();
 
     /**
      * Adds an conditions element to the output conditions..
-     *
-     * @param outputCondition the output conditions to add.
+     * @param outputConditions the output conditions to add.
      */
     public void addOutputConditions(final Conditions outputConditions)
     {
@@ -961,7 +960,7 @@ public class AndroMDAppType
     /**
      * Stores any of the mappings available to this type.
      */
-    private List mappings = new ArrayList();
+    private List<Mapping> mappings = new ArrayList<Mapping>();
 
     /**
      * Adds a new mapping to this type.
