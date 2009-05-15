@@ -66,9 +66,9 @@ public class Filter
     private Collection namespaces = new ArrayList();
 
     /**
-     * Sets the comma seperated list of namespaces to which the filter applies.
+     * Sets the comma separated list of namespaces to which the filter applies.
      *
-     * @param namespaces a comma seperated list of namespaces to apply to the filter.
+     * @param namespaces a comma separated list of namespaces to apply to the filter.
      */
     public void setNamespaces(String namespaces)
     {

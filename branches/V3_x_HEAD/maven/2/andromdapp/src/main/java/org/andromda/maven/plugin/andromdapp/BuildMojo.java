@@ -60,7 +60,7 @@ public class BuildMojo
     private File baseDirectory;
 
     /**
-     * A comma seperated list of modules to execute in the form:
+     * A comma separated list of modules to execute in the form:
      * <em>-Dmodules=mda,core,common</em> or if you want to specify the goals
      * to execute as well:
      * <em>-Dmodules=mda:[goal1+goal2+goal3],core:[goal1]<em>.
@@ -361,7 +361,7 @@ public class BuildMojo
     /**
      * Creates all project modules and executes them.
      *
-     * @param modules the comma seperated list of modules to execute.
+     * @param modules the comma separated list of modules to execute.
      * @return true if any modules were executed, false otherwise.
      * @throws MojoExecutionException
      * @throws CycleDetectedException
