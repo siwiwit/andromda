@@ -1,0 +1,11 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.andromda.profiles.uml14</groupId>
+        <artifactId>andromda-profiles-uml14</artifactId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <packaging>xml</packaging>
+    <artifactId>Java_Profile</artifactId>
+    <name>UML 1.4 Java Profile</name>
+</project>
