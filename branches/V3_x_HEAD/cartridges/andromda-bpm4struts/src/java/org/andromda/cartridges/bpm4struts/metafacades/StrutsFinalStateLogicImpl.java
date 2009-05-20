@@ -6,11 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import org.andromda.metafacades.uml.FrontEndAction;
-import org.andromda.metafacades.uml.FrontEndUseCase;
-import org.andromda.metafacades.uml.TransitionFacade;
 import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.metafacades.uml.UseCaseFacade;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -136,7 +132,7 @@ public class StrutsFinalStateLogicImpl
      */
     // TODO StateVertexFacade.handleGetActions calls getOutgoings. Why?
     // Changed from previous handleGetActions because that could never be called by FacadeLogic which delegates to StateVertexFacade.
-    @Override
+    //@Override
     protected List handleGetActions()
     {
         Set<FrontEndAction> actions = new LinkedHashSet<FrontEndAction>();
