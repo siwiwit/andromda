@@ -19,20 +19,26 @@ import org.eclipse.uml2.MultiplicityElement;
  * org.andromda.metafacades.uml.AssociationEndFacade.
  *
  * @see org.andromda.metafacades.uml.AssociationEndFacade
+ * @author Bob Fields
  */
 public class AssociationEndFacadeLogicImpl
     extends AssociationEndFacadeLogic
 {
+    /**
+     * @param metaObjectIn
+     * @param context
+     */
     public AssociationEndFacadeLogicImpl(
-        final AssociationEnd metaObject,
+        final AssociationEnd metaObjectIn,
         final String context)
     {
-        super(metaObject, context);
+        super(metaObjectIn, context);
     }
 
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isOne2One()
      */
+    @Override
     protected boolean handleIsOne2One()
     {
         return !this.isMany() && !this.getOtherEnd().isMany();
@@ -41,6 +47,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isOne2Many()
      */
+    @Override
     protected boolean handleIsOne2Many()
     {
         return !this.isMany() && this.getOtherEnd().isMany();
@@ -49,6 +56,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany2One()
      */
+    @Override
     protected boolean handleIsMany2One()
     {
         return this.isMany() && !this.getOtherEnd().isMany();
@@ -57,6 +65,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany2Many()
      */
+    @Override
     protected boolean handleIsMany2Many()
     {
         return this.isMany() && this.getOtherEnd().isMany();
@@ -65,6 +74,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isAggregation()
      */
+    @Override
     protected boolean handleIsAggregation()
     {
         return UmlUtilities.getOppositeAssociationEnd(this.metaObject).getAggregation().equals(AggregationKind.SHARED_LITERAL);
@@ -73,14 +83,26 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isComposition()
      */
+    @Override
     protected boolean handleIsComposition()
     {
         return UmlUtilities.getOppositeAssociationEnd(this.metaObject).getAggregation().equals(AggregationKind.COMPOSITE_LITERAL);
     }
 
     /**
+     * UML2 Only: Returns false always.
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isLeaf()
+     */
+    //@Override
+    public boolean handleIsLeaf()
+    {
+        return this.metaObject.isLeaf();
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isOrdered()
      */
+    @Override
     protected boolean handleIsOrdered()
     {
         return this.metaObject.isOrdered();
@@ -89,6 +111,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isReadOnly()
      */
+    @Override
     protected boolean handleIsReadOnly()
     {
         return this.metaObject.isReadOnly();
@@ -97,14 +120,26 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isNavigable()
      */
+    @Override
     protected boolean handleIsNavigable()
     {
         return this.metaObject.isNavigable();
     }
 
     /**
-     * @see org.andromda.metafacades.uml14.ModelElementFacadeLogic#handleGetName()
+     * UML2 Only: Returns false always.
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#isUnique()
      */
+    //@Override
+    public boolean handleIsUnique()
+    {
+        return this.metaObject.isUnique();
+    }
+
+    /**
+     * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
+     */
+    @Override
     protected String handleGetName()
     {
         String name = super.handleGetName();
@@ -117,10 +152,10 @@ public class AssociationEndFacadeLogicImpl
             {
                 name = StringUtils.uncapitalize(StringUtils.trimToEmpty(type.getName()));
             }
-            if (this.isMany() && this.isPluralizeAssociationEndNames())
-            {
-                name = StringUtilsHelper.pluralize(name);
-            }
+        }
+        if (this.isMany() && this.isPluralizeAssociationEndNames())
+        {
+            name = StringUtilsHelper.pluralize(name);
         }
         final String nameMask =
             String.valueOf(this.getConfiguredProperty(UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK));
@@ -143,6 +178,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getGetterName()
      */
+    @Override
     protected java.lang.String handleGetGetterName()
     {
         return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtils.capitalize(this.getName());
@@ -151,6 +187,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getSetterName()
      */
+    @Override
     protected java.lang.String handleGetSetterName()
     {
         return "set" + StringUtils.capitalize(this.getName());
@@ -159,6 +196,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getGetterSetterTypeName()
      */
+    @Override
     protected java.lang.String handleGetGetterSetterTypeName()
     {
         String name = null;
@@ -188,6 +226,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany()
      */
+    @Override
     protected boolean handleIsMany()
     {
         // Because of MD11.5 (their multiplicity are String), we cannot use
@@ -198,6 +237,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isRequired()
      */
+    @Override
     protected boolean handleIsRequired()
     {
         return (this.getLower() > 0);
@@ -206,6 +246,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isChild()
      */
+    @Override
     protected boolean handleIsChild()
     {
         return this.getOtherEnd() != null && this.getOtherEnd().isComposition();
@@ -214,6 +255,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getOtherEnd()
      */
+    @Override
     protected java.lang.Object handleGetOtherEnd()
     {
         return UmlUtilities.getOppositeAssociationEnd(this.metaObject);
@@ -222,14 +264,25 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getAssociation()
      */
+    @Override
     protected java.lang.Object handleGetAssociation()
     {
         return this.metaObject.getAssociation();
     }
 
     /**
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#getAggregationKind()
+     */
+    //@Override
+    protected String handleGetAggregationKind()
+    {
+        return this.metaObject.getAggregation().getName();
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getType()
      */
+    @Override
     protected java.lang.Object handleGetType()
     {
         // In uml1.4 facade, it returns getParticipant
@@ -239,6 +292,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.core.metafacade.MetafacadeBase#getValidationOwner()
      */
+    @Override
     public Object getValidationOwner()
     {
         return this.getType();
@@ -247,6 +301,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * Get the UML upper multiplicity Not implemented for UML1.4
      */
+    @Override
     protected int handleGetUpper()
     {
         // MD11.5 Exports multiplicity as String
@@ -256,9 +311,20 @@ public class AssociationEndFacadeLogicImpl
     /**
      * Get the UML lower multiplicity Not implemented for UML1.4
      */
+    @Override
     protected int handleGetLower()
     {
         // MD11.5 Exports multiplicity as String
         return UmlUtilities.parseMultiplicity(this.metaObject.getLowerValue());
+    }
+
+    /**
+     * Get the UML Default Value for this AssociationEnd
+     * @see org.andromda.metafacades.uml.AssociationEndFacade#getDefault()
+     */
+    //@Override
+    protected String handleGetDefault()
+    {
+        return this.metaObject.getDefault();
     }
 }

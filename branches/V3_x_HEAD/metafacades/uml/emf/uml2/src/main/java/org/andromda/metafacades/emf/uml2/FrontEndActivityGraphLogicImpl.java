@@ -15,6 +15,7 @@ import org.eclipse.uml2.StateMachine;
  * org.andromda.metafacades.uml.FrontEndActivityGraph.
  *
  * @see org.andromda.metafacades.uml.FrontEndActivityGraph
+ * @author Bob Fields
  */
 public class FrontEndActivityGraphLogicImpl
     extends FrontEndActivityGraphLogic
@@ -66,7 +67,7 @@ public class FrontEndActivityGraphLogicImpl
         if (!initialStates.isEmpty())
         {
             final PseudostateFacade initialState = (PseudostateFacade)initialStates.iterator().next();
-            final Collection outgoing = initialState.getOutgoing();
+            final Collection outgoing = initialState.getOutgoings();
             firstAction = outgoing.isEmpty() ? null : outgoing.iterator().next();
         }
         return firstAction;

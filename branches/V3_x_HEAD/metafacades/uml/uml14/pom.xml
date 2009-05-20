@@ -56,6 +56,10 @@
                 <artifactId>andromda-bootstrap-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-beautifier-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromda-bootstrap-install-plugin</artifactId>            
             </plugin>

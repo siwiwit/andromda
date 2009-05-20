@@ -9,7 +9,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.andromda.cartridges.jsf.JSFGlobals;
 import org.andromda.cartridges.jsf.JSFProfile;
 import org.andromda.cartridges.jsf.JSFUtils;
@@ -28,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
  * MetafacadeLogic implementation for org.andromda.cartridges.jsf.metafacades.JSFParameter.
  *
  * @see org.andromda.cartridges.jsf.metafacades.JSFParameter
+ * @author Bob Fields
  */
 public class JSFParameterLogicImpl
     extends JSFParameterLogic
@@ -121,14 +121,14 @@ public class JSFParameterLogicImpl
     public String getDefaultValue()
     {
         String defaultValue = super.getDefaultValue();
-        if (StringUtils.isNotBlank(defaultValue))
+        /*if (StringUtils.isNotBlank(defaultValue))
         {
             final ClassifierFacade type = this.getType();
             if (type != null && type.isStringType())
             {
                 defaultValue = "\"" + defaultValue + "\"";
             }
-        }
+        }*/
         return defaultValue;
     }
 

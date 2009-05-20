@@ -21,6 +21,7 @@ import org.eclipse.uml2.State;
  * org.andromda.metafacades.uml.StateMachineFacade.
  *
  * @see org.andromda.metafacades.uml.StateMachineFacade
+ * @author Bob Fields
  */
 public class StateMachineFacadeLogicImpl
     extends StateMachineFacadeLogic
@@ -87,7 +88,7 @@ public class StateMachineFacadeLogicImpl
         final PseudostateFacade initialState = this.getInitialState();
         if (initialState != null)
         {
-            final Collection transitions = initialState.getOutgoing();
+            final Collection transitions = initialState.getOutgoings();
             if (!transitions.isEmpty())
             {
                 transition = transitions.iterator().next();

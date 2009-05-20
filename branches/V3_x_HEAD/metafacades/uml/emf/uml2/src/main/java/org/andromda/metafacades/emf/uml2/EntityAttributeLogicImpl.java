@@ -9,6 +9,7 @@ import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -16,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
  * org.andromda.metafacades.uml.EntityAttribute.
  *
  * @see org.andromda.metafacades.uml.EntityAttribute
+ * @author Bob Fields
  */
 public class EntityAttributeLogicImpl
     extends EntityAttributeLogic
@@ -26,6 +28,11 @@ public class EntityAttributeLogicImpl
     {
         super(metaObject, context);
     }
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(EntityAttributeLogicImpl.class);
 
     /**
      * Overridden to provide name masking.

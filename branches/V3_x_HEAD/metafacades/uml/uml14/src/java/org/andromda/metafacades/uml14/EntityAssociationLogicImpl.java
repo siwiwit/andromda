@@ -1,7 +1,6 @@
 package org.andromda.metafacades.uml14;
 
 import java.util.Collection;
-
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.EntityMetafacadeUtils;
@@ -10,18 +9,22 @@ import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
-
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.EntityAssociationFacade.
  *
  * @see org.andromda.metafacades.uml.EntityAssociation
+ * @author Bob Fields
  */
 public class EntityAssociationLogicImpl
     extends EntityAssociationLogic
 {
+    /**
+     * @param metaObject
+     * @param context
+     */
     public EntityAssociationLogicImpl(
-        java.lang.Object metaObject,
-        java.lang.String context)
+        Object metaObject,
+        String context)
     {
         super(metaObject, context);
     }
@@ -29,10 +32,11 @@ public class EntityAssociationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EntityAssociation#getTableName()
      */
+    @Override
     public String handleGetTableName()
     {
         String tableName = null;
-        final Collection ends = this.getAssociationEnds();
+        final Collection<AssociationEndFacade> ends = this.getAssociationEnds();
         if (ends != null && !ends.isEmpty())
         {
             final AssociationEndFacade end = (AssociationEndFacade)ends.iterator().next();
@@ -62,6 +66,7 @@ public class EntityAssociationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EntityAssociation#getSchema()
      */
+    @Override
     protected String handleGetSchema()
     {
         String schemaName = ObjectUtils.toString(this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_SCHEMA));
@@ -75,6 +80,7 @@ public class EntityAssociationLogicImpl
     /**
      *  @see org.andromda.metafacades.uml.EntityAssociation#isEntityAssociation()
      */
+    @Override
     protected boolean handleIsEntityAssociation()
     {
         boolean isEntityAssociation = false;

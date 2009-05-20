@@ -81,10 +81,12 @@
         <mapping class="org.andromda.metafacades.emf.uml2.AttributeImpl"/>
         <property reference="enumerationLiteralNameMask"/>
         <property reference="defaultMultiplicity"/>
+        <property reference="pluralizeAttributeNames"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.ParameterFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.ParameterImpl"/>
         <property reference="parameterNameMask"/>
+        <property reference="pluralizeParameterNames"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.GeneralizationFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.GeneralizationImpl"/>
@@ -135,7 +137,7 @@
     <metafacade class="org.andromda.metafacades.emf.uml2.PartitionFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.RegionImpl"/>
     </metafacade>
-    <!-- Event are mapped to Activities (Un UML2.0, the semantics of event doesn't allow to add parameters -->
+    <!-- Event are mapped to Activities (In UML2.0, the semantics of event doesn't allow to add parameters -->
     <!-- A call Event is an activity which contain an CallOperationAction -->
     <metafacade class="org.andromda.metafacades.emf.uml2.CallEventFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.ActivityImpl">
@@ -393,5 +395,37 @@
         <mapping class="org.eclipse.uml2.impl.NodeImpl">
             <stereotype>QUEUE</stereotype>
         </mapping>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.PrimitiveTypeImpl"/>
+        <property reference="classifierNameMask"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.DataTypeImpl"/>
+        <property reference="classifierNameMask"/>
+    </metafacade>
+    <!-- metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.ClassImpl"/>
+        <property reference="classifierNameMask"/>
+    </metafacade-->
+    <metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.InterfaceImpl"/>
+        <property reference="classifierNameMask"/>
+    </metafacade>
+    <!--WebService cartridge throws a warning if these are not mapped, even if not used -->
+    <metafacade class="org.andromda.metafacades.emf.uml2.ModelElementFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.LiteralIntegerImpl"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.emf.uml2.ModelElementFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.OpaqueExpressionImpl"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.emf.uml2.ModelElementFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.LiteralUnlimitedNaturalImpl"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.emf.uml2.ModelElementFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.ElementImpl"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.emf.uml2.ModelElementFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.NamedElementImpl"/>
     </metafacade>
 </metafacades>

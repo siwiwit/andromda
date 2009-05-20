@@ -3,9 +3,9 @@ package org.andromda.metafacades.uml14;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-
 import org.andromda.metafacades.uml.DependencyFacade;
 import org.andromda.metafacades.uml.Destination;
+import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.Role;
 import org.andromda.metafacades.uml.Service;
 import org.apache.commons.collections.Closure;
@@ -18,11 +18,16 @@ import org.apache.commons.collections.Transformer;
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.ServiceOperation.
  *
  * @see org.andromda.metafacades.uml.ServiceOperation
+ * @author Bob Fields
  */
 public class ServiceOperationLogicImpl
     extends ServiceOperationLogic
 {
     // ---------------- constructor -------------------------------
+    /**
+     * @param metaObject
+     * @param context
+     */
     public ServiceOperationLogicImpl(
         Object metaObject,
         String context)
@@ -33,7 +38,8 @@ public class ServiceOperationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ServiceOperation#getRoles()
      */
-    public java.util.Collection handleGetRoles()
+    @Override
+    public Collection handleGetRoles()
     {
         final Collection roles = new LinkedHashSet();
         if (this.getOwner() instanceof Service)
@@ -83,7 +89,8 @@ public class ServiceOperationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ServiceOperation#getService()
      */
-    protected Object handleGetService()
+    @Override
+    protected Service handleGetService()
     {
         Service owner = null;
         if (this.getOwner() instanceof Service)
@@ -96,6 +103,7 @@ public class ServiceOperationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ServiceOperation#isMessageOperation()
      */
+    @Override
     public boolean handleIsMessageOperation()
     {
         return this.isIncomingMessageOperation() || this.isOutgoingMessageOperation();
@@ -104,6 +112,7 @@ public class ServiceOperationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ServiceOperation#isIncomingMessageOperation()
      */
+    @Override
     public boolean handleIsIncomingMessageOperation()
     {
         return this.getIncomingDestination() != null;
@@ -112,6 +121,7 @@ public class ServiceOperationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ServiceOperation#isOutgoingMessageOperation()
      */
+    @Override
     public boolean handleIsOutgoingMessageOperation()
     {
         return this.getOutgoingDestination() != null;
@@ -120,9 +130,10 @@ public class ServiceOperationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ServiceOperation#getIncomingDestination()
      */
-    public Object handleGetIncomingDestination()
+    @Override
+    public ModelElementFacade handleGetIncomingDestination()
     {
-        final Collection dependencies = this.getTargetDependencies();
+        final Collection<DependencyFacade> dependencies = this.getTargetDependencies();
         final DependencyFacade dependency = (DependencyFacade)
             CollectionUtils.find(dependencies, 
                 new Predicate() {
@@ -137,9 +148,10 @@ public class ServiceOperationLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ServiceOperation#getOutgoingDestination()
      */
-    public Object handleGetOutgoingDestination()
+    @Override
+    public ModelElementFacade handleGetOutgoingDestination()
     {
-        final Collection dependencies = this.getSourceDependencies();
+        final Collection<DependencyFacade> dependencies = this.getSourceDependencies();
         final DependencyFacade dependency = (DependencyFacade)
         CollectionUtils.find(dependencies, 
             new Predicate() {

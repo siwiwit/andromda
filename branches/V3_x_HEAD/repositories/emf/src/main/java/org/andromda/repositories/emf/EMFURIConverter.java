@@ -1,32 +1,30 @@
 package org.andromda.repositories.emf;
 
 import java.io.InputStream;
-
 import java.net.URL;
-
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.andromda.core.common.AndroMDALogger;
 import org.andromda.core.common.ResourceUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
 
-
 /**
  * Extends the default URIConverterImpl to be able to discover the physical path of URIs when
  * given the moduleSearchPaths.
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class EMFURIConverter
     extends URIConverterImpl
 {
     /**
-     * Creates a new instance of EMFURIConvert taking the <code>moduleSearchPaths</code>
+     * Creates a new instance of EMFURIConverter taking the <code>moduleSearchPaths</code>
      * as an argument. These are the paths used to attempt to normalize a given URI during
      * the call to {@link #normalize(URI)} provided that it couldn't be found in the normal manner.
      *
@@ -57,7 +55,7 @@ public class EMFURIConverter
     /**
      * The logger instance.
      */
-    private static Logger logger = Logger.getLogger(EMFURIConverter.class);
+    private static final Logger logger = Logger.getLogger(EMFURIConverter.class);
 
     /**
      * Overridden to provide the normalization of uris given the module search paths.
@@ -78,11 +76,13 @@ public class EMFURIConverter
                             "");
                     for (final Iterator iterator = this.moduleSearchPaths.iterator(); iterator.hasNext();)
                     {
+                        Date now1 = new Date();
                         final String searchPath = (String)iterator.next();
                         final URI fileURI = EMFRepositoryFacadeUtils.createUri(ResourceUtils.normalizePath(searchPath));
+                        //long ms1 = new Date().getTime() - now1.getTime();
                         if (fileURI.lastSegment().equals(resourceName))
                         {
-                            AndroMDALogger.info("referenced model --> '" + fileURI + "'");
+                            //AndroMDALogger.info("referenced model --> '" + fileURI + "' " + now1 + " ms");
                             normalizedUri = fileURI;
                             this.normalizedUris.put(
                                 uri,
@@ -94,6 +94,7 @@ public class EMFURIConverter
 
                         try
                         {
+                            Date now = new Date();
                             InputStream stream;
                             URL url = ResourceUtils.toURL(completePath);
                             if (url != null)
@@ -102,7 +103,9 @@ public class EMFURIConverter
                                 {
                                     stream = url.openStream();
                                     stream.close();
-                                    AndroMDALogger.info("referenced model --> '" + url + "'");
+                                    //long ms = new Date().getTime() - now.getTime();
+                                    //long ms2 = new Date().getTime() - now.getTime();
+                                    //AndroMDALogger.info("referenced model --> '" + url + "' " + ms + " ms");
                                 }
                                 catch (final Exception exception)
                                 {
@@ -114,10 +117,12 @@ public class EMFURIConverter
                                 }
                                 if (url != null)
                                 {
+                                    long ms2 = new Date().getTime() - now.getTime();
                                     normalizedUri = EMFRepositoryFacadeUtils.createUri(url.toString());
                                     this.normalizedUris.put(
                                         uri,
                                         normalizedUri);
+                                    AndroMDALogger.debug("loaded model --> '" + url + "' " + ms2 + " ms");
                                     break;
                                 }
                             }
@@ -128,6 +133,8 @@ public class EMFURIConverter
                                 "Caught exception in EMFURIConverter",
                                 exception);
                         }
+                        long ms2 = new Date().getTime() - now1.getTime();
+                        AndroMDALogger.debug("loaded model --> '" + fileURI + "' " + ms2 + " ms");
                     }
 
                     // - if the normalized URI isn't part of the module search path,

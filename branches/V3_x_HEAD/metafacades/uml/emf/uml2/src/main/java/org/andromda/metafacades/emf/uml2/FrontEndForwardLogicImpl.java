@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
  * org.andromda.metafacades.uml.FrontEndForward.
  *
  * @see org.andromda.metafacades.uml.FrontEndForward
+ * @author Bob Fields
  */
 public class FrontEndForwardLogicImpl
     extends FrontEndForwardLogic
@@ -267,7 +268,7 @@ public class FrontEndForwardLogicImpl
                     final PseudostateFacade pseudostate = (PseudostateFacade)vertex;
                     if (!pseudostate.isInitialState())
                     {
-                        final Collection incomingForwards = pseudostate.getIncoming();
+                        final Collection incomingForwards = pseudostate.getIncomings();
                         for (final Iterator forwardIterator = incomingForwards.iterator(); forwardIterator.hasNext();)
                         {
                             final FrontEndForward forward = (FrontEndForward)forwardIterator.next();

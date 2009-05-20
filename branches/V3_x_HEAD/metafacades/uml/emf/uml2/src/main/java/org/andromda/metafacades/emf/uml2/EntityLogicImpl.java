@@ -41,6 +41,7 @@ import java.util.Set;
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.Entity.
  *
  * @see org.andromda.metafacades.uml.Entity
+ * @author Bob Fields
  */
 public class EntityLogicImpl
     extends EntityLogic
@@ -397,12 +398,12 @@ public class EntityLogicImpl
     }
 
     /**
-     * Constructs a comma seperated list of attribute type names from the passed
+     * Constructs a comma separated list of attribute type names from the passed
      * in collection of <code>attributes</code>.
      *
      * @param attributes
      *            the attributes to construct the list from.
-     * @return the comma seperated list of attribute types.
+     * @return the comma separated list of attribute types.
      */
     private String getTypeList(final Collection attributes)
     {
@@ -444,12 +445,12 @@ public class EntityLogicImpl
     }
 
     /**
-     * Constructs a comma seperated list of attribute names from the passed in
+     * Constructs a comma separated list of attribute names from the passed in
      * collection of <code>attributes</code>.
      *
      * @param properties
      *            the attributes to construct the list from.
-     * @return the comma seperated list of attribute names.
+     * @return the comma separated list of attribute names.
      */
     private String getNameList(final Collection properties)
     {

@@ -2,7 +2,6 @@ package org.andromda.cartridges.jsf.metafacades;
 
 import java.util.Collection;
 import java.util.Iterator;
-
 import org.andromda.cartridges.jsf.JSFGlobals;
 import org.andromda.cartridges.jsf.JSFProfile;
 import org.andromda.cartridges.jsf.JSFUtils;
@@ -20,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
  * MetafacadeLogic implementation for org.andromda.cartridges.jsf.metafacades.JSFAttribute.
  *
  * @see org.andromda.cartridges.jsf.metafacades.JSFAttribute
+ * @author Bob Fields
  */
 public class JSFAttributeLogicImpl
     extends JSFAttributeLogic
@@ -597,14 +597,14 @@ public class JSFAttributeLogicImpl
     public String getDefaultValue()
     {
         String defaultValue = super.getDefaultValue();
-        if (StringUtils.isNotBlank(defaultValue))
+        /*if (StringUtils.isNotBlank(defaultValue))
         {
             final ClassifierFacade type = this.getType();
             if (type != null && type.isStringType())
             {
                 defaultValue = "\"" + defaultValue + "\"";
             }
-        }
+        }*/
         return defaultValue;
     }
 

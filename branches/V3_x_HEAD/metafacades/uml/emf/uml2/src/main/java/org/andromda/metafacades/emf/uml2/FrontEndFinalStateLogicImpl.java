@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
  * org.andromda.metafacades.uml.FrontEndFinalState.
  *
  * @see org.andromda.metafacades.uml.FrontEndFinalState
+ * @author Bob Fields
  */
 public class FrontEndFinalStateLogicImpl
     extends FrontEndFinalStateLogic
@@ -101,7 +102,7 @@ public class FrontEndFinalStateLogicImpl
         // map
         final Map parameterMap = new LinkedHashMap();
 
-        final Collection transitions = this.getIncoming();
+        final Collection transitions = this.getIncomings();
         for (final Iterator transitionIterator = transitions.iterator(); transitionIterator.hasNext();)
         {
             final FrontEndForward forward = (FrontEndForward)transitionIterator.next();

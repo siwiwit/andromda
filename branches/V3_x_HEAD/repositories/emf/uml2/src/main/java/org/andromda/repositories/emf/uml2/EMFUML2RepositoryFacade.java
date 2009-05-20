@@ -25,19 +25,21 @@ import org.eclipse.uml2.util.UML2Resource;
  * @author Steve Jerman
  * @author Chad Brandon
  * @author Matthias Bohlen (native IBM RSM file reading)
+ * @author Bob Fields (Multiple model support)
  */
 public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
 {
     /**
      * The logger instance.
      */
-    private static Logger logger = Logger.getLogger(EMFUML2RepositoryFacade.class);
+    private static final Logger logger = Logger.getLogger(EMFUML2RepositoryFacade.class);
 
     /**
      * Perform required registrations for EMF/UML2.
      * 
      * @see org.andromda.core.repository.RepositoryFacade#open()
      */
+    @Override
     protected ResourceSet createNewResourceSet()
     {
         if (logger.isDebugEnabled())
@@ -45,24 +47,24 @@ public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
             logger.debug("Registering resource factories");
         }
 
-        final ResourceSet resourceSet = new EMXProxyResolvingResourceSet();
-        final Map extensionToFactoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+        final ResourceSet proxyResourceSet = new EMXProxyResolvingResourceSet();
+        final Map extensionToFactoryMap = proxyResourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
 
         // - we need to perform these registrations in order to load a UML2 model into EMF
         //   see: http://dev.eclipse.org/viewcvs/indextools.cgi/%7Echeckout%7E/uml2-home/faq.html#6
-        resourceSet.getPackageRegistry().put(UML2Package.eNS_URI, UML2Package.eINSTANCE);
+        proxyResourceSet.getPackageRegistry().put(UML2Package.eNS_URI, UML2Package.eINSTANCE);
         extensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, UML2Resource.Factory.INSTANCE);
 
         // if IBM's metamodel jars are on the classpath, we can register the
         // package factories
-        registerOptionalRsmMetamodels(resourceSet.getPackageRegistry());
+        registerOptionalRsmMetamodels(proxyResourceSet.getPackageRegistry());
 
         // - populate the load options
         final Map loadOptions = this.getLoadOptions();
-        loadOptions.put(UML2Resource.OPTION_DISABLE_NOTIFY, Boolean.FALSE);
+        loadOptions.put(XMLResource.OPTION_DISABLE_NOTIFY, Boolean.FALSE);
         loadOptions.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
 
-        return resourceSet;
+        return proxyResourceSet;
     }
 
     /**
@@ -95,7 +97,7 @@ public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
                 // get those two famous static fields
                 Object nsURI = ePackageClass.getField("eNS_URI").get(null);
                 Object eInstance = ePackageClass.getField("eINSTANCE").get(null);
-                registry.put((String)nsURI, eInstance);
+                registry.put((String) nsURI, eInstance);
                 logger.debug("Optional metamodel registered: " + nsURI);
             }
         }
@@ -106,19 +108,23 @@ public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
     }
 
     /**
-     * Overrridden to check that the model is of the correct type.
+     * Overridden to check that the model is of the correct type.
      * 
      * @see org.andromda.repositories.emf.EMFRepositoryFacade#readModel(java.lang.String)
      */
+    @Override
     protected void readModel(final String uri)
     {
         super.readModel(uri);
         // Just to be sure there is a valid "model" inside
-        EObject modelPackage = (EObject) EcoreUtil.getObjectByType(model.getContents(), EcorePackage.eINSTANCE
-                .getEObject());
-        if (!(modelPackage instanceof Model))
+        for (Resource modelResource : this.model)
         {
-            throw new RepositoryFacadeException("Model '" + uri + "' is not a valid EMF UML2 model");
+            EObject modelPackage = (EObject) EcoreUtil.getObjectByType(modelResource.getContents(), EcorePackage.eINSTANCE
+                    .getEObject());
+            if (!(modelPackage instanceof Model))
+            {
+                throw new RepositoryFacadeException("Model '" + uri + "' is not a valid EMF UML2 model");
+            }
         }
     }
 
@@ -126,6 +132,16 @@ public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
      * @see org.andromda.core.repository.RepositoryFacade#getModel()
      */
     public ModelAccessFacade getModel()
+    {
+        return this.getModel(null);
+    }
+
+    /**
+     * @param uri 
+     * @return this.modelFacade
+     * @see org.andromda.core.repository.RepositoryFacade#getModel()
+     */
+    public ModelAccessFacade getModel(String uri)
     {
         if (this.modelFacade == null)
         {
@@ -139,6 +155,12 @@ public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
                 throw new RepositoryFacadeException(throwable);
             }
         }
+        /*if (StringUtils.isNotEmpty(uri))
+        {
+                URI resource = URI.createURI(uri);
+                Resource uriModel = this.resourceSet.getResource(resource, true);
+                this.modelFacade.setModel(uriModel);
+        }*/
         if (this.model != null)
         {
             this.modelFacade.setModel(this.model);

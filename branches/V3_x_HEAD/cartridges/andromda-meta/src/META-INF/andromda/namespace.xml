@@ -75,6 +75,36 @@
                     should not be changed from the default.
                 </documentation>
             </property>
+            <property name="enableTemplating">
+                <default>true</default>
+                <documentation>
+                    Enable Templating
+                </documentation>
+            </property>
+            <property name="typeSafeEnumsEnabled">
+                <default>true</default>
+                <documentation>
+                    TypeSafe Enumerations enabled
+                </documentation>
+            </property>
+            <property name="pluralizeAssociationEndNames">
+                <default>true</default>
+                <documentation>
+                    Pluralize association end names with multiplicity *
+                </documentation>
+            </property>
+            <property name="pluralizeAttributeNames">
+                <default>true</default>
+                <documentation>
+                    Pluralize Attribute Names with multiplicity *
+                </documentation>
+            </property>
+            <property name="pluralizeParameterNames">
+                <default>true</default>
+                <documentation>
+                    Pluralize Operation Parameters with multiplicity *
+                </documentation>
+            </property>
         </propertyGroup>
     </properties>
 </namespace>

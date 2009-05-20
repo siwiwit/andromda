@@ -7,6 +7,7 @@ import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLMetafacadeUtils;
 import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.utils.StringUtilsHelper;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -18,21 +19,23 @@ import org.eclipse.uml2.MultiplicityElement;
  * org.andromda.metafacades.uml.AttributeFacade.
  *
  * @see org.andromda.metafacades.uml.AttributeFacade
+ * @author Bob Fields
  */
 public class AttributeFacadeLogicImpl
     extends AttributeFacadeLogic
 {
     public AttributeFacadeLogicImpl(
-        final Attribute metaObject,
+        final Attribute metaObjectIn,
         final String context)
     {
-        super(metaObject, context);
+        super(metaObjectIn, context);
     }
 
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getGetterName()
      */
-    protected java.lang.String handleGetGetterName()
+    @Override
+    protected String handleGetGetterName()
     {
         return UMLMetafacadeUtils.getGetterPrefix(this.getType()) + StringUtils.capitalize(this.getName());
     }
@@ -40,7 +43,8 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getSetterName()
      */
-    protected java.lang.String handleGetSetterName()
+    @Override
+    protected String handleGetSetterName()
     {
         return "set" + StringUtils.capitalize(this.getName());
     }
@@ -48,6 +52,7 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#isReadOnly()
      */
+    @Override
     protected boolean handleIsReadOnly()
     {
         return this.metaObject.isReadOnly();
@@ -56,23 +61,53 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getDefaultValue()
      */
-    protected java.lang.String handleGetDefaultValue()
+    @Override
+    protected String handleGetDefaultValue()
     {
         String defaultValue = this.metaObject.getDefault();
-        return defaultValue.equals("") ? null : defaultValue;
+        // Put single or double quotes around default in case modeler forgot to do it. Most templates
+        // declare Type attribute = $attribute.defaultValue, requiring quotes around the value
+        if (defaultValue!=null && defaultValue.length()>0 && !this.isMany())
+        {
+            String typeName = this.metaObject.getType().getName();
+            if (typeName.equals("String") && defaultValue.indexOf('"')<0)
+            {
+                defaultValue = '"' + defaultValue + '"';
+            }
+            else if ((typeName.equals("char") || typeName.equals("Character"))
+                && defaultValue.indexOf("'")<0)
+            {
+                defaultValue = "'" + defaultValue.charAt(0) + "'";
+            }
+            //if (!defaultValue.equals("")) System.out.println("Attribute.handleGetDefaultValue " + this.getName() + " typeName=" + typeName + " defaultValue=" + defaultValue + " upper=" + this.metaObject.getUpper());
+        }
+        if (defaultValue==null) defaultValue="";
+        return defaultValue;
     }
 
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#isStatic()
      */
+    @Override
     protected boolean handleIsStatic()
     {
         return this.metaObject.isStatic();
     }
 
     /**
+     * @return this.metaObject.isLeaf()
+     * @see org.andromda.metafacades.uml.AttributeFacade#isLeaf()
+     */
+    //@Override
+    protected boolean handleIsLeaf()
+    {
+        return this.metaObject.isLeaf();
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isMany()
      */
+    @Override
     protected boolean handleIsMany()
     {
         // Because of MD11.5 (their multiplicity are String), we cannot use
@@ -83,6 +118,7 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isRequired()
      */
+    @Override
     protected boolean handleIsRequired()
     {
         return this.getLower() > 0;
@@ -91,6 +127,7 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#isChangeable()
      */
+    @Override
     protected boolean handleIsChangeable()
     {
         return !this.metaObject.isReadOnly();
@@ -99,6 +136,7 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#isAddOnly()
      */
+    @Override
     protected boolean handleIsAddOnly()
     {
         // TODO: really nothing to do here ?
@@ -108,6 +146,7 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#isEnumerationLiteral()
      */
+    @Override
     protected boolean handleIsEnumerationLiteral()
     {
         final ClassifierFacade owner = this.getOwner();
@@ -117,15 +156,16 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getEnumerationValue()
      */
+    @Override
     protected String handleGetEnumerationValue()
     {
         String value = null;
         if (this.isEnumerationLiteral())
         {
             value = this.getDefaultValue();
-            value = (value == null) ? this.getName() : String.valueOf(value);
+            value = (StringUtils.isEmpty(value)) ? this.getName() : String.valueOf(value);
         }
-        if (this.getType().isStringType())
+        if (this.getType().isStringType() && value!=null && value.indexOf('"')<0)
         {
             value = "\"" + value + "\"";
         }
@@ -133,8 +173,9 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationMember()
+     * @see org.andromda.metafacades.uml.AttributeFacade#isEnumerationMember()
      */
+    @Override
     protected boolean handleIsEnumerationMember()
     {
         boolean isMemberVariable = false;
@@ -148,16 +189,18 @@ public class AttributeFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#handleGetEnumerationLiteralParameters()
+     * @see org.andromda.metafacades.uml.AttributeFacade#getEnumerationLiteralParameters()
      */
+    @Override
     protected String handleGetEnumerationLiteralParameters()
     {
         return (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_ENUMERATION_LITERAL_PARAMETERS);
     }
 
     /**
-     * @see org.andromda.metafacades.uml.AttributeFacade#handleIsEnumerationLiteralParametersExist()
+     * @see org.andromda.metafacades.uml.AttributeFacade#isEnumerationLiteralParametersExist()
      */
+    @Override
     protected boolean handleIsEnumerationLiteralParametersExist()
     {
         boolean parametersExist = false;
@@ -171,7 +214,8 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getGetterSetterTypeName()
      */
-    protected java.lang.String handleGetGetterSetterTypeName()
+    @Override
+    protected String handleGetGetterSetterTypeName()
     {
         String name = null;
         if (this.isMany())
@@ -198,15 +242,26 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#isOrdered()
      */
+    @Override
     protected boolean handleIsOrdered()
     {
         return this.metaObject.isOrdered();
     }
 
     /**
+     * @see org.andromda.metafacades.uml.AttributeFacade#isUnique()
+     */
+    @Override
+    protected boolean handleIsUnique()
+    {
+        return this.metaObject.isUnique() || this.hasStereotype(UMLProfile.STEREOTYPE_UNIQUE);
+    }
+
+    /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getOwner()
      */
-    protected java.lang.Object handleGetOwner()
+    @Override
+    protected Object handleGetOwner()
     {
         // This is sure for attribute
         return this.metaObject.getClass_();
@@ -215,6 +270,7 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.core.metafacade.MetafacadeBase#getValidationOwner()
      */
+    @Override
     public Object getValidationOwner()
     {
         return this.getOwner();
@@ -223,7 +279,8 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getType()
      */
-    protected java.lang.Object handleGetType()
+    @Override
+    protected Object handleGetType()
     {
         return this.metaObject.getType();
     }
@@ -231,14 +288,16 @@ public class AttributeFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AttributeFacade#getEnumeration()
      */
+    @Override
     protected Object handleGetEnumeration()
     {
         return this.isEnumerationLiteral() ? this.getOwner() : null;
     }
 
+    @Override
     protected boolean handleIsDefaultValuePresent()
     {
-        return !(this.getDefaultValue() == null || this.getDefaultValue().equals(""));
+        return StringUtils.isNotBlank(this.getDefaultValue());
     }
     
     /**
@@ -246,49 +305,69 @@ public class AttributeFacadeLogicImpl
      *
      * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
      */
+    @Override
     protected String handleGetName()
     {
         final String mask = String.valueOf(this.getConfiguredProperty(
-            this.getOwner() instanceof EnumerationFacade
+            // http://galaxy.andromda.org/jira/browse/UMLMETA-88
+            this.getOwner() instanceof EnumerationFacade && !this.isEnumerationMember()
                 ? UMLMetafacadeProperties.ENUMERATION_LITERAL_NAME_MASK
                 : UMLMetafacadeProperties.CLASSIFIER_PROPERTY_NAME_MASK ));
 
-        return NameMasker.mask(super.handleGetName(), mask);
+        String name = NameMasker.mask(super.handleGetName(), mask);
+        if (this.isMany() && this.isPluralizeAttributeNames() && !this.isEnumerationMember())
+        {
+            name = StringUtilsHelper.pluralize(name);
+        }
+        
+        return name;
+    }
+
+    /**
+     * Indicates whether or not we should pluralize association end names.
+     *
+     * @return true/false
+     */
+    private boolean isPluralizeAttributeNames()
+    {
+        final Object value = this.getConfiguredProperty(UMLMetafacadeProperties.PLURALIZE_ATTRIBUTE_NAMES);
+        return value != null && Boolean.valueOf(String.valueOf(value)).booleanValue();
     }
 
     /*  protected boolean handleIsBindingDependenciesPresent()
       {
           // TODO: Implement this with Templates.
-          // This method has been overriden. Why ?
+          // This method has been overridden. Why ?
           return false;
       }
 
       protected boolean handleIsTemplateParametersPresent()
       {
-          // TODO: This method has been overriden. Why ?
+          // TODO: This method has been overridden. Why ?
           return false;
       }
 
       protected void handleCopyTaggedValues(final ModelElementFacade element)
       {
-          // TODO: This method has been overriden. Why ?
+          // TODO: This method has been overridden. Why ?
       }
 
       protected Object handleGetTemplateParameter(final String parameterName)
       {
-          // TODO: This method has been overriden. Why ?
+          // TODO: This method has been overridden. Why ?
           return null;
       }
 
       protected Collection handleGetTemplateParameters()
       {
-          // TODO: This method has been overriden. Why ?
+          // TODO: This method has been overridden. Why ?
           return null;
       } */
 
     /**
      * Get the UML upper multiplicity Not implemented for UML1.4
      */
+    @Override
     protected int handleGetUpper()
     {
         // MD11.5 Exports multiplicity as String
@@ -298,12 +377,14 @@ public class AttributeFacadeLogicImpl
     /**
      * Get the UML lower multiplicity Not implemented for UML1.4
      */
+    @Override
     protected int handleGetLower()
     {
         // MD11.5 Exports multiplicity as String
         return UmlUtilities.parseMultiplicity(this.metaObject.getLowerValue());
     }
 
+    @Override
     protected Object handleFindTaggedValue(
         String name,
         final boolean follow)

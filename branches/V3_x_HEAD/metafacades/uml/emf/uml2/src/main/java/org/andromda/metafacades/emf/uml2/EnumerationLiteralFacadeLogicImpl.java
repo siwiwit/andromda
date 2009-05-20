@@ -10,20 +10,22 @@ import org.apache.commons.lang.StringUtils;
  * org.andromda.metafacades.uml.EnumerationLiteralFacade.
  *
  * @see org.andromda.metafacades.uml.EnumerationLiteralFacade
+ * @author Bob Fields
  */
 public class EnumerationLiteralFacadeLogicImpl
     extends EnumerationLiteralFacadeLogic
 {
     public EnumerationLiteralFacadeLogicImpl(
-        final org.eclipse.uml2.EnumerationLiteral metaObject,
+        final org.eclipse.uml2.EnumerationLiteral metaObjectIn,
         final String context)
     {
-        super(metaObject, context);
+        super(metaObjectIn, context);
     }
 
     /**
      * @see org.andromda.metafacades.emf.uml2.ModelElementFacadeLogic#handleGetName()
      */
+    @Override
     protected String handleGetName()
     {
         return this.getName(false);
@@ -32,6 +34,7 @@ public class EnumerationLiteralFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getValue()
      */
+    @Override
     protected String handleGetValue()
     {
         return this.getValue(false);
@@ -40,6 +43,7 @@ public class EnumerationLiteralFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getName(boolean)
      */
+    @Override
     protected String handleGetName(boolean modelName)
     {
         String name = super.handleGetName();
@@ -54,6 +58,7 @@ public class EnumerationLiteralFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationLiteralFacade#getValue(boolean)
      */
+    @Override
     protected String handleGetValue(boolean modelValue)
     {
         return StringUtils.trimToEmpty(this.getName(modelValue));
@@ -62,9 +67,13 @@ public class EnumerationLiteralFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.emf.uml2.EnumerationLiteralFacadeLogic#handleGetEnumerationValue()
      */
+    @Override
     protected String handleGetEnumerationValue() {
-        String value = null;
-        value = "\"" + this.getValue() + "\"";
+        String value = this.getValue();
+        if (value!=null && value.length()>0 && value.indexOf('"')<0)
+        {
+            value = "\"" + value + "\"";
+        }
         return value;
     }
 }

@@ -1,7 +1,6 @@
 package org.andromda.metafacades.uml14;
 
 import java.util.Collection;
-
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.EntityAssociationEnd;
@@ -13,15 +12,21 @@ import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 /**
- * <p/>
- * Represents an association end of an entity. </p> Metaclass facade implementation.
+ * Represents an association end of an entity.
+ * Metaclass facade implementation.
+ * @author Bob Fields
  */
 public class EntityAssociationEndLogicImpl
         extends EntityAssociationEndLogic
 {
-    public EntityAssociationEndLogicImpl(java.lang.Object metaObject, String context)
+    /**
+     * @param metaObject
+     * @param context
+     */
+    public EntityAssociationEndLogicImpl(Object metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -31,6 +36,7 @@ public class EntityAssociationEndLogicImpl
      *
      * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
      */
+    @Override
     protected String handleGetName()
     {
         final String nameMask = String.valueOf(
@@ -39,9 +45,15 @@ public class EntityAssociationEndLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.EntityAssociationEnd#getColumnName()()
+     * The logger instance.
      */
-    public java.lang.String handleGetColumnName()
+    private static final Logger logger = Logger.getLogger(EntityAssociationEndLogicImpl.class);
+
+    /**
+     * @see org.andromda.metafacades.uml.EntityAssociationEnd#getColumnName()
+     */
+    @Override
+    public String handleGetColumnName()
     {
         String columnName = null;
         // prevent ClassCastException if the association isn't an Entity
@@ -65,6 +77,7 @@ public class EntityAssociationEndLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EntityAssociationEnd#getForeignKeySuffix()
      */
+    @Override
     public String handleGetForeignKeySuffix()
     {
         return (String)this.getConfiguredProperty(UMLMetafacadeProperties.FOREIGN_KEY_SUFFIX);
@@ -73,6 +86,7 @@ public class EntityAssociationEndLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EntityAssociationEnd#isForeignIdentifier()
      */
+    @Override
     protected boolean handleIsForeignIdentifier()
     {
         final Object value = this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_FOREIGN_IDENTIFIER);
@@ -82,6 +96,7 @@ public class EntityAssociationEndLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EntityAssociationEnd#getForeignKeyConstraintName()
      */
+    @Override
     protected String handleGetForeignKeyConstraintName()
     {
         return EntityMetafacadeUtils.getForeignKeyConstraintName(
@@ -94,7 +109,8 @@ public class EntityAssociationEndLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EntityAssociationEnd#getColumnIndex()
      */
-    public java.lang.String handleGetColumnIndex()
+    @Override
+    public String handleGetColumnIndex()
     {
         final String index = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_COLUMN_INDEX);
         return index != null ? StringUtils.trimToEmpty(index) : null;
@@ -114,7 +130,7 @@ public class EntityAssociationEndLogicImpl
             if (this.getType() instanceof Entity)
             {
                 final Entity type = (Entity)this.getType();
-                final Collection identifiers = type.getIdentifiers();
+                final Collection<EntityAttribute> identifiers = type.getIdentifiers();
                 if (identifiers != null && !identifiers.isEmpty())
                 {
                     AttributeFacade attribute = (AttributeFacade)identifiers.iterator().next();
@@ -178,13 +194,16 @@ public class EntityAssociationEndLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EntityAssociationEnd#isIdentifiersPresent()
      */
+    @Override
     protected boolean handleIsIdentifiersPresent() {
         return this.hasStereotype(UMLProfile.STEREOTYPE_IDENTIFIER);
     }
     
     /**
+     * @return findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_ASSOCIATION_END_UNIQUE_GROUP)
      * @see org.andromda.metafacades.uml.EntityAssociationEnd#getUniqueGroup()
      */
+    //@Override
     protected String handleGetUniqueGroup() {
         final String group = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_PERSISTENCE_ASSOCIATION_END_UNIQUE_GROUP);
         return group != null ? StringUtils.trimToEmpty(group) : null;

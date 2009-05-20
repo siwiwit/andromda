@@ -3,7 +3,7 @@ package org.andromda.metafacades.emf.uml2;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
@@ -45,6 +45,7 @@ import org.eclipse.uml2.VisibilityKind;
  * the original property and we defer almost all method calls to it.
  *
  * @author Cédric Jeanneret
+ * @author Bob Fields
  */
 public class AssociationEndImpl
     implements AssociationEnd
@@ -55,6 +56,11 @@ public class AssociationEndImpl
     {
         this.property = p;
     }
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(AssociationEndImpl.class);
 
     public boolean equals(final Object obj)
     {

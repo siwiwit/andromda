@@ -5,7 +5,6 @@ import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
-
 import org.andromda.core.common.ExceptionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
  * Utilities for dealing with entity metafacades
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class EntityMetafacadeUtils
 {
@@ -236,22 +236,22 @@ public class EntityMetafacadeUtils
      * allowDefaultIdentifiers property is set to true.
      *
      * @param entity the entity for which to retrieve the identifiers
-     * @param follow a flag indicating whether or not the inheritance hiearchy
+     * @param follow a flag indicating whether or not the inheritance hierarchy
      *        should be followed
      * @return the collection of identifiers.
      */
-    public static Collection getIdentifiers(
+    public static Collection<AttributeFacade> getIdentifiers(
         final Entity entity,
         final boolean follow)
     {
-        final Collection identifiers = new ArrayList(entity.getAttributes());
+        final Collection<AttributeFacade> identifiers = new ArrayList<AttributeFacade>(entity.getAttributes());
         MetafacadeUtils.filterByStereotype(
             identifiers,
             UMLProfile.STEREOTYPE_IDENTIFIER);
 
-        return identifiers.isEmpty() && follow && entity.getGeneralization() instanceof Entity
+        return (identifiers.isEmpty() && follow && entity.getGeneralization() instanceof Entity
             ? getIdentifiers((Entity)entity.getGeneralization(), follow)
-            : identifiers;
+            : identifiers);
     }
 
     /**
@@ -297,8 +297,8 @@ public class EntityMetafacadeUtils
      * and <code>maxLengthProperty</code>.
      *
      * @param associationEnd the association end for which to construct the constraint name.
-     * @param suffix the suffix appeneded to the constraint name (if not limited by length).
-     * @param sqlNameSeperator the SQL name seperator to use (i.e. '_').
+     * @param suffix the suffix appended to the constraint name (if not limited by length).
+     * @param sqlNameSeperator the SQL name separator to use (i.e. '_').
      * @param maxLengthProperty the numeric value stored as a string indicating the max length the constraint may be.
      * @return the constructed foreign key constraint name.
      */
@@ -344,11 +344,11 @@ public class EntityMetafacadeUtils
     }
 
     /**
-     * An interal static cache for foreign key names (allows us to keep track
+     * An internal static cache for foreign key names (allows us to keep track
      * of which ones have been used).  Its not great that its static, but for now
      * this is the easiest way to enforce this.
      */
-    private static Collection foreignKeyConstraintNameCache = new ArrayList();
+    private static Collection<String> foreignKeyConstraintNameCache = new ArrayList<String>();
 
     /**
      * Retrieves a unique foreign key constraint name given the proposedName.  Compares the proposedName

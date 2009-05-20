@@ -1,20 +1,5 @@
 package org.andromda.metafacades.uml14;
 
-import org.andromda.metafacades.uml.ActorFacade;
-import org.andromda.metafacades.uml.AssociationEndFacade;
-import org.andromda.metafacades.uml.AttributeFacade;
-import org.andromda.metafacades.uml.ClassifierFacade;
-import org.andromda.metafacades.uml.DependencyFacade;
-import org.andromda.metafacades.uml.Entity;
-import org.andromda.metafacades.uml.EntityAttribute;
-import org.andromda.metafacades.uml.ManageableEntity;
-import org.andromda.metafacades.uml.ModelElementFacade;
-import org.andromda.metafacades.uml.UMLMetafacadeProperties;
-import org.andromda.metafacades.uml.UMLProfile;
-import org.andromda.utils.StringUtilsHelper;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -23,16 +8,35 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
+import org.andromda.metafacades.uml.ActorFacade;
+import org.andromda.metafacades.uml.AssociationEndFacade;
+import org.andromda.metafacades.uml.AttributeFacade;
+import org.andromda.metafacades.uml.ClassifierFacade;
+import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.Entity;
+import org.andromda.metafacades.uml.EntityAttribute;
+import org.andromda.metafacades.uml.GeneralizableElementFacade;
+import org.andromda.metafacades.uml.ManageableEntity;
+import org.andromda.metafacades.uml.ModelElementFacade;
+import org.andromda.metafacades.uml.UMLMetafacadeProperties;
+import org.andromda.metafacades.uml.UMLProfile;
+import org.andromda.utils.StringUtilsHelper;
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.ManageableEntity.
  *
  * @see org.andromda.metafacades.uml.ManageableEntity
+ * @author Bob Fields
  */
 public class ManageableEntityLogicImpl
     extends ManageableEntityLogic
 {
+    /**
+     * @param metaObject
+     * @param context
+     */
     public ManageableEntityLogicImpl(Object metaObject, String context)
     {
         super(metaObject, context);
@@ -47,9 +51,10 @@ public class ManageableEntityLogicImpl
     }
 
     /**
+     * @return manageablePackageName
      * @see org.andromda.metafacades.uml.ManageableEntity#getManageablePackageName()
      */
-    protected java.lang.String handleGetManageablePackageName()
+    protected String handleGetManageablePackageName()
     {
         String manageablePackageName = "";
 
@@ -73,7 +78,7 @@ public class ManageableEntityLogicImpl
         return StringUtils.replace(this.getManageablePackageName(), this.getNamespaceSeparator(), "/");
     }
 
-    protected java.util.List handleGetManageableAssociationEnds()
+    protected List handleGetManageableAssociationEnds()
     {
         final Set manageableAssociationEnds = new LinkedHashSet();// linked hashset to guarantee ordering wo/ duplicates
         collectAssociationEnds(manageableAssociationEnds, this);
@@ -86,12 +91,12 @@ public class ManageableEntityLogicImpl
      * @param manageableAssociationEnds the collection in which to collect the association ends
      * @param entity the entity from which to recursively gather the association ends
      */
-    private static void collectAssociationEnds(Collection manageableAssociationEnds, ManageableEntity entity)
+    private static void collectAssociationEnds(Collection<AssociationEndFacade> manageableAssociationEnds, ManageableEntity entity)
     {
-        final Collection associationEnds = entity.getAssociationEnds();
-        for (final Iterator associationEndIterator = associationEnds.iterator(); associationEndIterator.hasNext();)
+        final Collection<AssociationEndFacade> associationEnds = entity.getAssociationEnds();
+        for (final Iterator<AssociationEndFacade> associationEndIterator = associationEnds.iterator(); associationEndIterator.hasNext();)
         {
-            final AssociationEndFacade associationEnd = (AssociationEndFacade)associationEndIterator.next();
+            final AssociationEndFacade associationEnd = associationEndIterator.next();
             final AssociationEndFacade otherEnd = associationEnd.getOtherEnd();
 
             if (otherEnd.isNavigable() && otherEnd.getType() instanceof Entity)
@@ -101,8 +106,8 @@ public class ManageableEntityLogicImpl
         }
 
         // retrieve all association ends for all parents (recursively)
-        final Collection parentEntities = entity.getAllGeneralizations();
-        for (final Iterator parentEntityIterator = parentEntities.iterator(); parentEntityIterator.hasNext();)
+        final Collection<GeneralizableElementFacade> parentEntities = entity.getAllGeneralizations();
+        for (final Iterator<GeneralizableElementFacade> parentEntityIterator = parentEntities.iterator(); parentEntityIterator.hasNext();)
         {
             final Object parentEntityObject = parentEntityIterator.next();
             if (parentEntityObject instanceof ManageableEntity)
@@ -113,6 +118,7 @@ public class ManageableEntityLogicImpl
     }
 
     /**
+     * @return !this.isAbstract()
      * @see org.andromda.metafacades.uml.ManageableEntity#isCreate()
      */
     protected boolean handleIsCreate()
@@ -252,7 +258,7 @@ public class ManageableEntityLogicImpl
             UMLMetafacadeProperties.ENABLE_MANAGEABLE_ENTITIES)).booleanValue();
     }
 
-    protected java.util.List handleGetReferencingManageables()
+    protected List handleGetReferencingManageables()
     {
         final Set referencingManageables = new LinkedHashSet();
         final Collection associationEnds = getAssociationEnds();
@@ -311,14 +317,14 @@ public class ManageableEntityLogicImpl
         return displayAttribute;
     }
 
-    protected java.util.List handleGetUsers()
+    protected List handleGetUsers()
     {
         final Set users = new LinkedHashSet();
 
-        final Collection dependencies = getTargetDependencies();
-        for (final Iterator dependencyIterator = dependencies.iterator(); dependencyIterator.hasNext();)
+        final Collection<DependencyFacade> dependencies = getTargetDependencies();
+        for (final Iterator<DependencyFacade> dependencyIterator = dependencies.iterator(); dependencyIterator.hasNext();)
         {
-            final DependencyFacade dependency = (DependencyFacade)dependencyIterator.next();
+            final DependencyFacade dependency = dependencyIterator.next();
             final Object dependencyObject = dependency.getSourceElement();
 
             if (!users.contains(dependencyObject) && dependencyObject instanceof ActorFacade)
@@ -336,10 +342,10 @@ public class ManageableEntityLogicImpl
         {
             actors.add(actor);
 
-            final Collection childActors = actor.getGeneralizedByActors();
-            for (final Iterator iterator = childActors.iterator(); iterator.hasNext();)
+            final Collection<ActorFacade> childActors = actor.getGeneralizedByActors();
+            for (final Iterator<ActorFacade> iterator = childActors.iterator(); iterator.hasNext();)
             {
-                final ActorFacade childActor = (ActorFacade)iterator.next();
+                final ActorFacade childActor = iterator.next();
                 collectActors(childActor, actors);
             }
         }
@@ -469,21 +475,21 @@ public class ManageableEntityLogicImpl
         return resolveable;
     }
 
-    protected java.util.List handleGetAllManageables()
+    protected List<ClassifierFacade> handleGetAllManageables()
     {
-        final Set allManageableEntities = new TreeSet(new ManageableComparator());
+        final Set<ClassifierFacade> allManageableEntities = new TreeSet(new ManageableComparator());
 
-        final Collection allClasses = getModel().getAllClasses();
-        for (final Iterator classIterator = allClasses.iterator(); classIterator.hasNext();)
+        final Collection<ClassifierFacade> allClasses = getModel().getAllClasses();
+        for (final Iterator<ClassifierFacade> classIterator = allClasses.iterator(); classIterator.hasNext();)
         {
-            final Object classObject = classIterator.next();
+            final ClassifierFacade classObject = classIterator.next();
             if (classObject instanceof ManageableEntity)
             {
                 allManageableEntities.add(classObject);
             }
         }
 
-        return new ArrayList(allManageableEntities);
+        return new ArrayList<ClassifierFacade>(allManageableEntities);
     }
 
     final static class ManageableComparator

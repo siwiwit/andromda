@@ -26,6 +26,7 @@ import org.andromda.utils.StringUtilsHelper;
  * org.andromda.metafacades.uml.FrontEndActionState.
  * 
  * @see org.andromda.metafacades.uml.FrontEndActionState
+ * @author Bob Fields
  */
 public class FrontEndActionStateLogicImpl extends FrontEndActionStateLogic
 {
@@ -66,7 +67,7 @@ public class FrontEndActionStateLogicImpl extends FrontEndActionStateLogic
     {
         Object forward = null;
 
-        for (final Iterator iterator = this.getOutgoing().iterator(); iterator
+        for (final Iterator iterator = this.getOutgoings().iterator(); iterator
                 .hasNext()
                 && forward == null;)
         {
@@ -109,7 +110,7 @@ public class FrontEndActionStateLogicImpl extends FrontEndActionStateLogic
     protected List handleGetExceptions()
     {
         final Set exceptions = new LinkedHashSet();
-        final Collection outgoing = this.getOutgoing();
+        final Collection outgoing = this.getOutgoings();
         for (final Iterator iterator = outgoing.iterator(); iterator.hasNext();)
         {
             final TransitionFacade transition = (TransitionFacade)iterator

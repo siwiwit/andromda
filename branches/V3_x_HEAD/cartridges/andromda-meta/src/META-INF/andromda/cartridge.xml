@@ -5,13 +5,18 @@
         <!-- cartridge-macrolibrary merge-point-->
     </templateEngine>
 
-    <!-- define the template objects that are made availble to the template -->
+    <!-- define the template objects that are made available to the template -->
     <templateObject name="stringUtils" className="org.apache.commons.lang.StringUtils"/>
     <templateObject name="escapeUtils" className="org.apache.commons.lang.StringEscapeUtils"/>
     <templateObject name="metaUtils" className="org.andromda.cartridges.meta.MetaCartridgeUtils"/>
     
     <property reference="fullyQualifiedMetafacadeRoot"/>
     <property reference="toDoTag"/>
+    <!--property reference="enableTemplating"/>
+    <property reference="typeSafeEnumsEnabled"/>
+    <property reference="pluralizeAssociationEndNames"/>
+    <property reference="pluralizeAttributeNames"/>
+    <property reference="pluralizeParameterNames"/-->
 
     <!-- the template definitions -->
     <template

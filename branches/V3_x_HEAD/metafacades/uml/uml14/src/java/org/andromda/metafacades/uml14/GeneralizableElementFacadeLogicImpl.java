@@ -5,35 +5,42 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 import org.andromda.metafacades.uml.GeneralizableElementFacade;
+import org.andromda.metafacades.uml.GeneralizationFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
+import org.omg.uml.foundation.core.GeneralizableElement;
 import org.omg.uml.foundation.core.Generalization;
 
 /**
  * MetafacadeLogic implementation.
  *
  * @see org.andromda.metafacades.uml.GeneralizableElementFacade
+ * @author Bob Fields
  */
 public class GeneralizableElementFacadeLogicImpl
         extends GeneralizableElementFacadeLogic
 {
 
+    /**
+     * @param metaObject
+     * @param context
+     */
     public GeneralizableElementFacadeLogicImpl(org.omg.uml.foundation.core.GeneralizableElement metaObject,
-                                               java.lang.String context)
+                                               String context)
     {
         super(metaObject, context);
     }
 
     /**
-     * @see org.andromda.metafacades.uml.GeneralizableElementFacade#getAllGeneralizations()()
+     * @see org.andromda.metafacades.uml.GeneralizableElementFacade#getAllGeneralizations()
      */
-    public java.util.Collection handleGetAllGeneralizations()
+    @Override
+    public Collection<GeneralizableElementFacade> handleGetAllGeneralizations()
     {
-        final Collection generalizations = new ArrayList();
-        for (final Iterator iterator = this.getGeneralizations().iterator(); iterator.hasNext();)
+        final Collection<GeneralizableElementFacade> generalizations = new ArrayList();
+        for (final Iterator<GeneralizableElementFacade> iterator = this.getGeneralizations().iterator(); iterator.hasNext();)
         {
             final GeneralizableElementFacade element = (GeneralizableElementFacade)iterator.next();
             generalizations.add(element);
@@ -47,13 +54,14 @@ public class GeneralizableElementFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.GeneralizableElementFacade#getGeneralization()
      */
-    public java.lang.Object handleGetGeneralization()
+    @Override
+    public GeneralizableElement handleGetGeneralization()
     {
-        Object parent = null;
-        Collection generalizations = metaObject.getGeneralization();
+        GeneralizableElement parent = null;
+        Collection<Generalization> generalizations = metaObject.getGeneralization();
         if (generalizations != null)
         {
-            Iterator iterator = generalizations.iterator();
+            Iterator<Generalization> iterator = generalizations.iterator();
             if (iterator.hasNext())
             {
                 parent = ((Generalization)iterator.next()).getParent();
@@ -65,33 +73,36 @@ public class GeneralizableElementFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.GeneralizableElementFacade#getGeneralizations()
      */
-    protected Collection handleGetGeneralizations()
+    @Override
+    protected Collection<GeneralizableElementFacade> handleGetGeneralizations()
     {
-        Collection parents = new LinkedHashSet();
-        Collection generalizations = metaObject.getGeneralization();
+        Collection<GeneralizableElement> parents = new LinkedHashSet();
+        Collection<Generalization> generalizations = metaObject.getGeneralization();
         if (generalizations != null && !generalizations.isEmpty())
         {
-            Iterator iterator = generalizations.iterator();
+            Iterator<Generalization> iterator = generalizations.iterator();
             while (iterator.hasNext())
             {
                 parents.add(((Generalization)iterator.next()).getParent());
             }
         }
-        return parents;
+        return this.shieldedElements(parents);
     }
 
     /**
      * @see org.andromda.metafacades.uml.GeneralizableElementFacade#getGeneralizationLinks()
      */
-    protected Collection handleGetGeneralizationLinks()
+    @Override
+    protected Collection<GeneralizationFacade> handleGetGeneralizationLinks()
     {
-        return metaObject.getGeneralization();
+        return this.shieldedElements(metaObject.getGeneralization());
     }
 
     /**
      * @see org.andromda.metafacades.uml.ClassifierFacade#getSpecializations()
      */
-    public Collection handleGetSpecializations()
+    @Override
+    public Collection<GeneralizableElement> handleGetSpecializations()
     {
         Collection specializations = new ArrayList(UML14MetafacadeUtils.getCorePackage().getAParentSpecialization()
                 .getSpecialization(this.metaObject));
@@ -108,6 +119,7 @@ public class GeneralizableElementFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.GeneralizableElementFacade#getGeneralizationList()
      */
+    @Override
     protected String handleGetGeneralizationList()
     {
         final StringBuffer list = new StringBuffer();
@@ -128,9 +140,10 @@ public class GeneralizableElementFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.GeneralizableElementFacade#getAllSpecializations()
      */
-    protected Collection handleGetAllSpecializations()
+    @Override
+    protected Collection<GeneralizableElementFacade> handleGetAllSpecializations()
     {
-        final Set allSpecializations = new LinkedHashSet();
+        final Set<GeneralizableElementFacade> allSpecializations = new LinkedHashSet<GeneralizableElementFacade>();
         if (this.getSpecializations() != null)
         {
             allSpecializations.addAll(this.getSpecializations());
@@ -144,8 +157,9 @@ public class GeneralizableElementFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.uml.GeneralizableElementFacade#findTaggedValue(java.lang.String, boolean)
+     * @see org.andromda.metafacades.uml.GeneralizableElementFacade#findTaggedValue(String, boolean)
      */
+    @Override
     protected Object handleFindTaggedValue(final String tagName, boolean follow)
     {
         Object value = this.findTaggedValue(tagName);
@@ -160,7 +174,7 @@ public class GeneralizableElementFacadeLogicImpl
         return value;
     }
 
-    protected Object handleGetGeneralizationRoot()
+    protected GeneralizableElementFacade handleGetGeneralizationRoot()
     {
         return this.getGeneralization() == null
             ? (GeneralizableElementFacade)THIS()

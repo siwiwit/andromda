@@ -58,13 +58,14 @@ import org.eclipse.uml2.util.UML2Util;
  * @author Steve Jerman
  * @author Chad Brandon
  * @author Wouter Zoons
+ * @author Bob Fields
  */
 public class UmlUtilities
 {
     /**
      * The logger instance.
      */
-    private static Logger logger = Logger.getLogger(UmlUtilities.class);
+    private static final Logger logger = Logger.getLogger(UmlUtilities.class);
 
     /**
      * A transformer which transforms:
@@ -159,29 +160,41 @@ public class UmlUtilities
      * @return a list of objects owned by model, instance of metaClass
      */
     public static List getAllMetaObjectsInstanceOf(
-        final java.lang.Class metaClass,
+        final Class metaClass,
         final Model model)
     {
-        List metaObjects = (List)allMetaObjectsCache.get(metaClass);
+        // TODO: populate cache from all referenced models, not just the model containing the metaClass
+        String modelName = null; // There are cases where the getModel value might be null
+        if (model==null) modelName=""; else modelName=model.getName();
+        // Workaround - make cache key a combo of class+model names
+        List metaObjects = (List)allMetaObjectsCache.get(metaClass.getCanonicalName()+modelName);
         if (metaObjects == null)
         {
             metaObjects = new ArrayList();
 
-            for (Iterator it = model.eAllContents(); it.hasNext();)
+            if (model!=null)
             {
-                Object metaObject = it.next();
-                if (metaClass.isInstance(metaObject))
+                for (Iterator it = model.eAllContents(); it.hasNext();)
                 {
-                    metaObjects.add(metaObject);
+                    Object metaObject = it.next();
+                    if (metaClass.isInstance(metaObject))
+                    {
+                        metaObjects.add(metaObject);
+                        /*if (logger.isDebugEnabled())
+                        {
+                            logger.debug("getAllMetaObjectsInstanceOf class: " + metaClass.getCanonicalName() + " " + metaClass.getClass() + " Found: " + metaObject.getClass());
+                        }*/
+                    }
                 }
             }
-
-            if (logger.isDebugEnabled())
-            {
-                logger.debug("getAllMetaObjectsInstanceOf class: " + metaClass + ". Found: " + metaObjects.size());
-            }
-            allMetaObjectsCache.put(metaClass, metaObjects);
         }
+
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("getAllMetaObjectsInstanceOf class: " + metaClass.getCanonicalName() + " " + metaClass.getClass() + " Found: " + metaObjects.size());
+        }
+        allMetaObjectsCache.put(metaClass.getCanonicalName()+modelName, metaObjects);
+
         return metaObjects;
     }
 
@@ -328,6 +341,10 @@ public class UmlUtilities
                     }
                 }
             }
+            if (logger.isDebugEnabled() && attachedToType)
+            {
+                logger.debug("isAssociationEndAttachedToType " + classifier.getQualifiedName() + " " + property + " " + property.getQualifiedName() + " " + property.getAssociation() + " " + property.getAssociationEnd() + " " + attachedToType);
+            }
         }
         return attachedToType;
     }
@@ -336,6 +353,7 @@ public class UmlUtilities
      * Gets a collection containing all of the associationEnds for this
      * class/interface. Superclass properties will be included if
      * <code>follow</code> is true. Overridden properties will be omitted.
+     * Finds all Property classes in model and iterates through to see which are of type classifier.
      * <p/>
      * cejeanne: Changed the way association end are found.
      *
@@ -348,9 +366,19 @@ public class UmlUtilities
         final boolean follow)
     {
         final List associationEnds = new ArrayList();
+        // TODO: Iterate through all referenced models, not just the model containing this classifier.
+        if (classifier.getModel()==null)
+        {
+            logger.error(classifier + " getModel was null: " + classifier.getOwner() + " " + classifier.getQualifiedName());            
+        }
+        //logger.info(classifier + " " + classifier.getModel());
         final List allProperties = getAllMetaObjectsInstanceOf(
                 Property.class,
                 classifier.getModel());
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("getAssociationEnds " + classifier.getQualifiedName() + ": getAllMetaObjectsInstanceOf=" + allProperties.size());
+        }
 
         for (final Iterator propertyIterator = allProperties.iterator(); propertyIterator.hasNext();)
         {
@@ -362,7 +390,25 @@ public class UmlUtilities
                     property,
                     follow))
             {
-                associationEnds.add(property);
+                /*int ownedSize = property.getAssociation().getOwnedEnds().size();
+                if (ownedSize==1)
+                {
+                    associationEnds.add(property.getAssociation().getOwnedEnds().get(0));
+                    logger.debug("getAssociationEnds " + classifier.getQualifiedName() + ": addedOwnedAssociationEnd " + property + " " + property.getType() + " " + property.getAssociation() + " AssociationEnd=" + property.getAssociationEnd() + " Qualifiers=" + property.getQualifiers() + " Opposite=" + property.getOpposite());
+                }
+                else if (ownedSize==0 || ownedSize>1)
+                {
+                    logger.error("associationEnds ownedEnds=" + ownedSize);
+                }
+                else
+                {*/
+                    // TODO: associationEnds always show up as non-navigable because the association property (not the end) is added.
+                    associationEnds.add(property);
+                    if (logger.isDebugEnabled())
+                    {
+                        logger.debug("getAssociationEnds " + classifier.getQualifiedName() + ": addedAssociation " + property + " " + property.getType() + " " + property.getAssociation() + " AssociationEnd=" + property.getAssociationEnd() + " OwnedEnds=" + property.getAssociation().getOwnedEnds() + " Qualifiers=" + property.getQualifiers() + " Navigable=" + property.isNavigable());
+                    }
+               /* }*/
             }
         }
 
@@ -466,10 +512,10 @@ public class UmlUtilities
      * @param element the element for which to retrieve the stereotypes.
      * @return all stereotype names
      */
-    public static List getStereotypeNames(final Element element)
+    public static List<String> getStereotypeNames(final Element element)
     {
         final Collection stereotypes = element.getAppliedStereotypes();
-        final List names = new ArrayList();
+        final List<String> names = new ArrayList();
         if (stereotypes != null)
         {
             for (final Iterator iterator = stereotypes.iterator(); iterator.hasNext();)
@@ -522,7 +568,7 @@ public class UmlUtilities
                     stereotypes,
                     new StereotypeFilter()) != null;
         }
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled() && hasStereotype)
         {
             if (element instanceof NamedElement)
             {
@@ -543,6 +589,7 @@ public class UmlUtilities
      *             Note: The uml profile defines it as "AndroMdaTags" and not "AndroMDATags"
      *             Stores the tagged values that may be applied to an element.
      */
+    @Deprecated
     private static final String TAGGED_VALUES_STEREOTYPE = "AndroMdaTags";
 
     /**
@@ -553,20 +600,20 @@ public class UmlUtilities
      */
     public static Collection getTaggedValue(final Element element)
     {
-    	String elementName = "";
+        String elementName = "";
 
-    	if (element instanceof NamedElement) {
-			elementName = ((NamedElement)element).getName();
-		}
-    	else
-    	{
-    		elementName = element.toString();
-    	}
+        if (element instanceof NamedElement) {
+            elementName = ((NamedElement)element).getName();
+        }
+        else
+        {
+            elementName = element.toString();
+        }
 
-    	if (logger.isDebugEnabled())
+        /*if (logger.isDebugEnabled())
         {
             logger.debug("Searching Tagged Values for " + elementName);
-        }
+        }*/
         final Collection tags = new ArrayList();
         final Collection stereotypes = element.getAppliedStereotypes();
         for (Iterator stereoIt = stereotypes.iterator(); stereoIt.hasNext();)
@@ -648,7 +695,7 @@ public class UmlUtilities
             }
         }
 
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled() && tags.size()>0)
         {
             logger.debug("Found " + tags.size() + " tagged values for " + elementName);
         }
@@ -672,9 +719,9 @@ public class UmlUtilities
                 ValueSpecification literal = (ValueSpecification)tagValue;
                 valueAsString = literal.stringValue();
             }
-            else if (tagValue instanceof InstanceSpecification)
+            else if (tagValue instanceof NamedElement)
             {
-                InstanceSpecification instance = (InstanceSpecification)tagValue;
+                NamedElement instance = (NamedElement)tagValue;
                 valueAsString = instance.getName();
             }
         }
@@ -833,7 +880,7 @@ public class UmlUtilities
     }
 
     /**
-     * Find the Model of a ressource (UML2 Model)
+     * Find the Model of a resource (UML2 Model)
      */
     public static Model findModel(final UML2Resource resource)
     {
@@ -1028,7 +1075,7 @@ public class UmlUtilities
      * parse it. MD11.5 uses string, and RSM integers.
      *
      * @param multValue a ValueSpecification, which need to be parsed
-     * @return the parsed intrger
+     * @return the parsed integer
      */
     static int parseMultiplicity(final ValueSpecification multValue)
     {
@@ -1064,10 +1111,10 @@ public class UmlUtilities
                 logger.error("Unable to parse this value as multiplicity: " + multValue);
             }
         }
-        if (logger.isDebugEnabled())
+        /*if (logger.isDebugEnabled())
         {
             logger.debug("Parsing multiplicity: intValue = " + value + " value: " + multValue);
-        }
+        }*/
         return value;
     }
 

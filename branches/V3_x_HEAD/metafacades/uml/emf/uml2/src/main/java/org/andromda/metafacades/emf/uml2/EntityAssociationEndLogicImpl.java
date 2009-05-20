@@ -1,7 +1,6 @@
 package org.andromda.metafacades.emf.uml2;
 
 import java.util.Collection;
-
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.EntityAssociationEnd;
@@ -13,13 +12,14 @@ import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.andromda.metafacades.uml.UMLProfile;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-
+import org.apache.log4j.Logger;
 
 /**
  * MetafacadeLogic implementation for
  * org.andromda.metafacades.uml.EntityAssociationEnd.
  *
  * @see org.andromda.metafacades.uml.EntityAssociationEnd
+ * @author Bob Fields
  */
 public class EntityAssociationEndLogicImpl
     extends EntityAssociationEndLogic
@@ -30,6 +30,11 @@ public class EntityAssociationEndLogicImpl
     {
         super(metaObject, context);
     }
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(EntityAssociationEndLogicImpl.class);
 
     /**
      * Overridden to provide name masking.
@@ -48,7 +53,7 @@ public class EntityAssociationEndLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EntityAssociationEnd#getColumnName()
      */
-    protected java.lang.String handleGetColumnName()
+    protected String handleGetColumnName()
     {
         String columnName = null;
 

@@ -21,6 +21,9 @@
     <property reference="defaultPageSize"/>
     <property reference="defaultMaximumListSize"/>
     <property reference="enableTemplating"/>
+    <property reference="pluralizeAssociationEndNames"/>
+    <property reference="pluralizeAttributeNames"/>
+    <property reference="pluralizeParameterNames"/>
     <metafacade class="org.andromda.metafacades.uml14.PackageFacadeLogicImpl">
         <mapping class="org.omg.uml.modelmanagement.UmlPackage$Impl"/>
     </metafacade>
@@ -71,9 +74,11 @@
         <mapping class="org.omg.uml.foundation.core.Attribute$Impl"/>
         <property reference="enumerationLiteralNameMask"/>
         <property reference="defaultMultiplicity"/>
+        <property reference="pluralizeAttributeNames"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.ParameterFacadeLogicImpl">
         <mapping class="org.omg.uml.foundation.core.Parameter$Impl"/>
+        <property reference="pluralizeParameterNames"/>
         <property reference="parameterNameMask"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.uml14.GeneralizationFacadeLogicImpl">
@@ -369,4 +374,23 @@
             <stereotype>QUEUE</stereotype>
         </mapping>
     </metafacade>
+    <!-- It will map these if it doesn't find earlier mappings above>
+    <metafacade class="org.andromda.metafacades.uml14.EventFacadeLogicImpl">
+        <mapping class="org.omg.uml.behavioralelements.statemachines.SignalEvent$Impl"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.EventFacadeLogicImpl">
+        <mapping class="org.omg.uml.behavioralelements.statemachines.CallEvent$Impl"/>
+    </metafacade>
+    <metafacade class="org.andromda.metafacades.uml14.ClassifierFacadeLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.UmlClass$Impl"/>
+        <property reference="classifierNameMask"/>
+    </metafacade>   
+    <metafacade class="org.andromda.metafacades.uml14.ClassifierFacadeLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.DataType$Impl"/>
+        <property reference="classifierNameMask"/>
+    </metafacade> 
+    <metafacade class="org.andromda.metafacades.uml14.ClassifierFacadeLogicImpl">
+        <mapping class="org.omg.uml.foundation.core.Primitive$Impl"/>
+        <property reference="classifierNameMask"/>
+    </metafacade--> 
 </metafacades>

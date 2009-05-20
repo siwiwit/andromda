@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsGlobals;
 import org.andromda.cartridges.bpm4struts.Bpm4StrutsUtils;
 import org.andromda.metafacades.uml.ActivityGraphFacade;
@@ -22,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
  * MetafacadeLogic implementation.
  *
  * @see org.andromda.cartridges.bpm4struts.metafacades.StrutsJsp
+ * @author Bob Fields
  */
 public class StrutsJspLogicImpl
     extends StrutsJspLogic
@@ -218,9 +218,9 @@ public class StrutsJspLogicImpl
     public List getActions()
     {
         final List actions = new ArrayList();
-        final Collection outgoing = this.getOutgoing();
+        final Collection outgoings = this.getOutgoings();
 
-        for (final Iterator iterator = outgoing.iterator(); iterator.hasNext();)
+        for (final Iterator iterator = outgoings.iterator(); iterator.hasNext();)
         {
             final Object object = iterator.next();
             if (object instanceof StrutsAction)
@@ -233,9 +233,9 @@ public class StrutsJspLogicImpl
     protected List handleGetNonActionForwards()
     {
         final List actions = new ArrayList();
-        final Collection outgoing = getOutgoing();
+        final Collection outgoings = getOutgoings();
 
-        for (final Iterator iterator = outgoing.iterator(); iterator.hasNext();)
+        for (final Iterator iterator = outgoings.iterator(); iterator.hasNext();)
         {
             final Object object = iterator.next();
             if (!(object instanceof StrutsAction))
@@ -270,7 +270,7 @@ public class StrutsJspLogicImpl
         Collection processedTransitions,
         Collection actions)
     {
-        final Collection incomingTransitions = stateVertex.getIncoming();
+        final Collection incomingTransitions = stateVertex.getIncomings();
         for (final Iterator iterator = incomingTransitions.iterator(); iterator.hasNext();)
         {
             final TransitionFacade incomingTransition = (TransitionFacade)iterator.next();
@@ -311,7 +311,7 @@ public class StrutsJspLogicImpl
             }
             else
             {
-                final Collection incomingTransitions = transition.getSource().getIncoming();
+                final Collection incomingTransitions = transition.getSource().getIncomings();
                 for (final Iterator iterator = incomingTransitions.iterator(); iterator.hasNext();)
                 {
                     final TransitionFacade incomingTransition = (TransitionFacade)iterator.next();

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 import org.andromda.metafacades.uml.DependencyFacade;
+import org.andromda.metafacades.uml.Destination;
 import org.andromda.metafacades.uml.Entity;
 import org.andromda.metafacades.uml.FilteredCollection;
 import org.andromda.metafacades.uml.ModelElementFacade;
@@ -19,13 +19,18 @@ import org.apache.commons.collections.Transformer;
 
 /**
  * Metaclass facade implementation.
+ * @author Bob Fields
  */
 public class ServiceLogicImpl
         extends ServiceLogic
 {
     // ---------------- constructor -------------------------------
 
-    public ServiceLogicImpl(java.lang.Object metaObject, String context)
+    /**
+     * @param metaObject
+     * @param context
+     */
+    public ServiceLogicImpl(Object metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -33,7 +38,8 @@ public class ServiceLogicImpl
     /**
      * @see org.andromda.metafacades.uml.Service#getEntityReferences()
      */
-    public Collection handleGetEntityReferences()
+    @Override
+    public Collection<DependencyFacade> handleGetEntityReferences()
     {
         return new FilteredCollection(this.getSourceDependencies())
         {
@@ -48,7 +54,8 @@ public class ServiceLogicImpl
     /**
      * @see org.andromda.metafacades.uml.Service#getServiceReferences()
      */
-    public Collection handleGetServiceReferences()
+    @Override
+    public Collection<DependencyFacade> handleGetServiceReferences()
     {
         return new FilteredCollection(this.getSourceDependencies())
         {
@@ -63,9 +70,10 @@ public class ServiceLogicImpl
     /**
      * @see org.andromda.metafacades.uml.Service#getAllServiceReferences()
      */
-    public Collection handleGetAllServiceReferences()
+    @Override
+    public Collection<DependencyFacade> handleGetAllServiceReferences()
     {
-        final Collection result = new LinkedHashSet();
+        final Collection<DependencyFacade> result = new LinkedHashSet<DependencyFacade>();
 
         // get references of the service itself
         result.addAll(getServiceReferences());
@@ -88,6 +96,7 @@ public class ServiceLogicImpl
     /**
      * @see org.andromda.metafacades.uml.Service#getRoles()
      */
+    @Override
     protected Collection handleGetRoles()
     {
         final Collection roles = new ArrayList(this.getTargetDependencies());
@@ -121,9 +130,10 @@ public class ServiceLogicImpl
     /**
      * @see org.andromda.metafacades.uml.Service#getAllRoles()
      */
-    protected Collection handleGetAllRoles()
+    @Override
+    protected Collection<Role> handleGetAllRoles()
     {
-        final Collection roles = new LinkedHashSet(this.getRoles());
+        final Collection<Role> roles = new LinkedHashSet<Role>(this.getRoles());
         CollectionUtils.forAllDo(this.getOperations(), new Closure()
         {
             public void execute(Object object)
@@ -140,9 +150,10 @@ public class ServiceLogicImpl
     /**
      * @see org.andromda.metafacades.uml.Service#getMessagingDestinations()
      */
-    protected Collection handleGetMessagingDestinations()
+    @Override
+    protected Collection<Destination> handleGetMessagingDestinations()
     {
-        final Set destinations = new LinkedHashSet();
+        final Set<Destination> destinations = new LinkedHashSet<Destination>();
         CollectionUtils.forAllDo(this.getOperations(), new Closure()
         {
             public void execute(Object object)
@@ -167,9 +178,10 @@ public class ServiceLogicImpl
     /**
      * @see org.andromda.metafacades.uml.Service#getAllEntityReferences()
      */
-    protected Collection handleGetAllEntityReferences()
+    @Override
+    protected Collection<DependencyFacade> handleGetAllEntityReferences()
     {
-        final Collection result = new LinkedHashSet();
+        final Collection<DependencyFacade> result = new LinkedHashSet<DependencyFacade>();
 
         // get references of the service itself
         result.addAll(this.getEntityReferences());
@@ -192,9 +204,10 @@ public class ServiceLogicImpl
     /**
      * @see org.andromda.metafacades.uml.Service#getAllMessagingDestinations()
      */
-    protected Collection handleGetAllMessagingDestinations()
+    @Override
+    protected Collection<Destination> handleGetAllMessagingDestinations()
     {
-        final Collection result = new LinkedHashSet();
+        final Collection<Destination> result = new LinkedHashSet<Destination>();
 
         // get references of the service itself
         result.addAll(this.getMessagingDestinations());

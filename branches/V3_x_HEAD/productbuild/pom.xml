@@ -164,6 +164,16 @@
             </roles>
             <timezone>-5</timezone>
         </developer>
+        <developer>
+            <id>bobfields</id>
+            <name>Bob Fields</name>
+            <email>bob@andromda.org</email>
+            <organization>AndroMDA</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
     </developers>
     <build>
         <defaultGoal>install</defaultGoal>

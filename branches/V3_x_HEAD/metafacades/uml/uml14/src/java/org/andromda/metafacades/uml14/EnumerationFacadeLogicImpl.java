@@ -1,5 +1,6 @@
 package org.andromda.metafacades.uml14;
 
+import java.util.Collection;
 import org.andromda.metafacades.uml.AttributeFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.NameMasker;
@@ -8,19 +9,23 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-
-import java.util.Collection;
+import org.omg.uml.foundation.core.Classifier;
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.EnumerationFacade.
  *
  * @see org.andromda.metafacades.uml.EnumerationFacade
+ * @author Bob Fields
  */
 public class EnumerationFacadeLogicImpl
         extends EnumerationFacadeLogic
 {
     
-    public EnumerationFacadeLogicImpl(org.omg.uml.foundation.core.Classifier metaObject, String context)
+    /**
+     * @param metaObject
+     * @param context
+     */
+    public EnumerationFacadeLogicImpl(Classifier metaObject, String context)
     {
         super(metaObject, context);
     }
@@ -30,6 +35,7 @@ public class EnumerationFacadeLogicImpl
      *
      * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
      */
+    @Override
     protected String handleGetName()
     {
         final String nameMask = String.valueOf(
@@ -40,9 +46,10 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getLiterals()
      */
-    protected java.util.Collection handleGetLiterals()
+    @Override
+    protected Collection<AttributeFacade> handleGetLiterals()
     {
-        Collection literals = this.getAttributes();
+        Collection<AttributeFacade> literals = this.getAttributes();
         CollectionUtils.filter(
             literals,
             new Predicate()
@@ -65,9 +72,10 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getMemberVariables()
      */
-    protected java.util.Collection handleGetMemberVariables()
+    @Override
+    protected Collection<AttributeFacade> handleGetMemberVariables()
     {
-        Collection variables = super.getAttributes();
+        Collection<AttributeFacade> variables = super.getAttributes();
         CollectionUtils.filter(
             variables,
             new Predicate()
@@ -90,6 +98,7 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getFromOperationSignature()
      */
+    @Override
     protected String handleGetFromOperationSignature()
     {
         final StringBuffer signature = new StringBuffer(this.getFromOperationName());
@@ -106,6 +115,7 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#isTypeSafe()
      */
+    @Override
     protected boolean handleIsTypeSafe() 
     {
         return BooleanUtils.toBoolean(
@@ -115,6 +125,7 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getFromOperationName()
      */
+    @Override
     protected String handleGetFromOperationName()
     {
         final StringBuffer name = new StringBuffer("from");
@@ -129,13 +140,19 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getLiteralType()
      */
-    protected Object handleGetLiteralType()
+    @Override
+    protected ClassifierFacade handleGetLiteralType()
     {
-        Object type = null;
-        final Collection literals = this.getLiterals();
+        ClassifierFacade type = null;
+        final Collection<AttributeFacade> literals = this.getLiterals();
         if (literals != null && !literals.isEmpty())
         {
             type = ((AttributeFacade)literals.iterator().next()).getType();
+            /*ModelElementFacade literal = (ModelElementFacade)literals.iterator().next();
+            if (literal instanceof AttributeFacade)
+            {
+                type = ((AttributeFacade)literals.iterator().next()).getType();
+            }*/
         }
         return type;
     }

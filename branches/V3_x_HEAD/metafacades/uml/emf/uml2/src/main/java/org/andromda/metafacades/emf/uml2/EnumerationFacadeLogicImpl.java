@@ -22,15 +22,16 @@ import java.util.Collection;
  * org.andromda.metafacades.uml.EnumerationFacade.
  *
  * @see org.andromda.metafacades.uml.EnumerationFacade
+ * @author Bob Fields
  */
 public class EnumerationFacadeLogicImpl
     extends EnumerationFacadeLogic
 {
     public EnumerationFacadeLogicImpl(
-        final Object metaObject,
+        final Object metaObjectIn,
         final String context)
     {
-        super(metaObject, context);
+        super(metaObjectIn, context);
     }
 
     /**
@@ -38,6 +39,7 @@ public class EnumerationFacadeLogicImpl
      *
      * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
      */
+    @Override
     protected String handleGetName()
     {
         final String nameMask =
@@ -50,6 +52,7 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getLiterals()
      */
+    @Override
     protected java.util.Collection handleGetLiterals()
     {
         // To Check: could be sufficient to return the collection of literals only
@@ -78,12 +81,14 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getMemberVariables()
      */
+    @Override
     protected Collection handleGetMemberVariables()
     {
         // To Check: could be sufficient to return the collection of attributes only
         //           without filtering
+        // http://galaxy.andromda.org/jira/browse/UMLMETA-87
         final Collection variables = (this.metaObject instanceof Enumeration
-                ? ((Enumeration)this.metaObject).getOwnedLiterals()
+                ? ((Enumeration)this.metaObject).getOwnedAttributes()
                 : CollectionUtils.collect(this.getAttributes(), UmlUtilities.ELEMENT_TRANSFORMER));
 
         CollectionUtils.filter(
@@ -104,6 +109,7 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getFromOperationSignature()
      */
+    @Override
     protected String handleGetFromOperationSignature()
     {
         final StringBuffer signature = new StringBuffer(this.getFromOperationName());
@@ -120,6 +126,7 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#isTypeSafe()
      */
+    @Override
     protected boolean handleIsTypeSafe() 
     {
         return BooleanUtils.toBoolean(
@@ -129,6 +136,7 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getFromOperationName()
      */
+    @Override
     protected String handleGetFromOperationName()
     {
         final StringBuffer name = new StringBuffer("from");
@@ -143,6 +151,7 @@ public class EnumerationFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.EnumerationFacade#getLiteralType()
      */
+    @Override
     protected Object handleGetLiteralType()
     {
         Object type = null;
@@ -161,6 +170,42 @@ public class EnumerationFacadeLogicImpl
                     "datatype::String", // todo: use this (doesn't work for some reason): UMLMetafacadeProperties.DEFAULT_ENUMERATION_LITERAL_TYPE,
                     MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
                     true);
+                if (type==null)
+                {
+                    // Requires customized mapping in etc/*Mappings.xml files
+                    type = UmlUtilities.findByFullyQualifiedName(
+                    ((NamedElement)this.metaObject).eResource().getResourceSet(),
+                    "UML2::String",
+                    MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
+                    true);
+                }
+                if (type==null)
+                {
+                    // Requires customized mapping in etc/*Mappings.xml files
+                    type = UmlUtilities.findByFullyQualifiedName(
+                    ((NamedElement)this.metaObject).eResource().getResourceSet(),
+                    "PrimitiveTypes::String",
+                    MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
+                    true);
+                }
+                if (type==null)
+                {
+                    // Requires customized mapping in etc/*Mappings.xml files
+                    type = UmlUtilities.findByFullyQualifiedName(
+                    ((NamedElement)this.metaObject).eResource().getResourceSet(),
+                    "UMLTypes::String",
+                    MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
+                    true);
+                }
+                if (type==null)
+                {
+                    // Requires customized mapping in etc/*Mappings.xml files
+                    type = UmlUtilities.findByFullyQualifiedName(
+                    ((NamedElement)this.metaObject).eResource().getResourceSet(),
+                    "String",
+                    MetafacadeConstants.NAMESPACE_SCOPE_OPERATOR,
+                    true);
+                }
             }
         }
         return type;

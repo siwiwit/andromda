@@ -2,17 +2,17 @@ package org.andromda.metafacades.uml14;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.core.metafacade.MetafacadeFactory;
 import org.andromda.metafacades.uml.ActivityGraphFacade;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.andromda.metafacades.uml.EventFacade;
+import org.andromda.metafacades.uml.MetafacadeUtils;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.UMLProfile;
@@ -41,6 +41,7 @@ import org.omg.uml.modelmanagement.UmlPackage;
  * Utilities for dealing with UML 1.4 metafacades
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class UML14MetafacadeUtils
 {
@@ -86,8 +87,9 @@ public class UML14MetafacadeUtils
         return modelElement;
     }
 
+    private static String empty = "";
     /**
-     * Constructs the package name for the given <code>metaObject</code>, seperating the package name by the given
+     * Constructs the package name for the given <code>metaObject</code>, separating the package name by the given
      * <code>separator</code>.
      *
      * @param metaObject the Model Element
@@ -98,11 +100,11 @@ public class UML14MetafacadeUtils
      */
     static String getPackageName(ModelElement metaObject, String separator, boolean modelName)
     {
-        String packageName = "";
+        String packageName = empty;
         for (ModelElement namespace = metaObject.getNamespace(); (namespace instanceof UmlPackage) &&
                 !(namespace instanceof Model); namespace = namespace.getNamespace())
         {
-            packageName = packageName.equals("") ? namespace.getName() : namespace.getName() + separator + packageName;
+            packageName = packageName.equals(empty) ? namespace.getName() : namespace.getName() + separator + packageName;
         }
         if (modelName && StringUtils.isNotBlank(packageName))
         {
@@ -126,7 +128,7 @@ public class UML14MetafacadeUtils
      * Finds and returns the first model element having the given <code>name</code> in the <code>modelPackage</code>,
      * returns <code>null</code> if not found.
      *
-     * @param name         the name to find.
+     * @param name the name to find.
      * @return the found model element.
      */
     static Object findByName(final String name)
@@ -158,8 +160,8 @@ public class UML14MetafacadeUtils
         while (packageIt.hasNext())
         {
             rootPackage = packageIt.next();
-            // get the first package that's a ModelElement
-            // instance
+            // get the first package that's a ModelElement instance
+            // Note: UML2 allows top level ModelElement to be a Package.
             if (rootPackage instanceof ModelElement)
             {
                 break;
@@ -293,8 +295,8 @@ public class UML14MetafacadeUtils
     {
         UseCase useCaseWithNameAndStereotype = null;
 
-        Collection useCases = getModel().getUseCases().getUseCase().refAllOfType();
-        for (final Iterator useCaseIterator = useCases.iterator(); useCaseIterator.hasNext() && useCaseWithNameAndStereotype ==
+        Collection<UseCase> useCases = getModel().getUseCases().getUseCase().refAllOfType();
+        for (final Iterator<UseCase> useCaseIterator = useCases.iterator(); useCaseIterator.hasNext() && useCaseWithNameAndStereotype ==
                 null;)
         {
             UseCase useCase = (UseCase)useCaseIterator.next();
@@ -326,8 +328,8 @@ public class UML14MetafacadeUtils
     {
         ActivityGraph graphWithNameAndStereotype = null;
 
-        Collection graphs = getModel().getActivityGraphs().getActivityGraph().refAllOfType();
-        for (final Iterator graphIterator = graphs.iterator();
+        Collection<ActivityGraph> graphs = getModel().getActivityGraphs().getActivityGraph().refAllOfType();
+        for (final Iterator<ActivityGraph> graphIterator = graphs.iterator();
              graphIterator.hasNext() && graphWithNameAndStereotype == null;)
         {
             ActivityGraph graph = (ActivityGraph)graphIterator.next();
@@ -345,16 +347,24 @@ public class UML14MetafacadeUtils
 
     /**
      * Returns true if the given model element has a tag with the given name and value, returns false otherwise.
+     * @param element 
+     * @param tag 
+     * @param value 
+     * @return tagPresent
      */
     static boolean isTagPresent(ModelElement element, String tag, Object value)
     {
         boolean tagPresent = false;
 
-        Collection taggedValues = element.getTaggedValue();
-        for (final Iterator taggedValueIterator = taggedValues.iterator(); taggedValueIterator.hasNext() && !tagPresent;)
+        Collection<TaggedValue> taggedValues = element.getTaggedValue();
+        for (final Iterator<TaggedValue> taggedValueIterator = taggedValues.iterator(); taggedValueIterator.hasNext() && !tagPresent;)
         {
             TaggedValue taggedValue = (TaggedValue)taggedValueIterator.next();
-            if (tag.equals(taggedValue.getName()))
+            // does this name match the argument tagged value name ?
+            // Check both the UML14 format name @andromda.value and EMF Format andromda_whatever
+            String tagName = taggedValue.getName();
+            if (tag.equals(tagName) || MetafacadeUtils.getEmfTaggedValue(tag).equals(tagName)
+                || MetafacadeUtils.getUml14TaggedValue(tag).equals(tagName))
             {
                 for (final Iterator valueIterator = taggedValue.getDataValue().iterator(); valueIterator.hasNext() &&
                         !tagPresent;)
@@ -391,8 +401,8 @@ public class UML14MetafacadeUtils
     {
         boolean stereotypePresent = false;
 
-        Collection stereotypes = element.getStereotype();
-        for (final Iterator stereotypeIterator = stereotypes.iterator();
+        Collection<Stereotype> stereotypes = element.getStereotype();
+        for (final Iterator<Stereotype> stereotypeIterator = stereotypes.iterator();
              stereotypeIterator.hasNext() && !stereotypePresent;)
         {
             Stereotype stereotype = (Stereotype)stereotypeIterator.next();
@@ -412,8 +422,8 @@ public class UML14MetafacadeUtils
     {
         UseCase useCaseWithTaggedValue = null;
 
-        Collection useCases = getModel().getUseCases().getUseCase().refAllOfType();
-        for (final Iterator useCaseIterator = useCases.iterator(); useCaseIterator.hasNext() && useCaseWithTaggedValue ==
+        Collection<UseCase> useCases = getModel().getUseCases().getUseCase().refAllOfType();
+        for (final Iterator<UseCase> useCaseIterator = useCases.iterator(); useCaseIterator.hasNext() && useCaseWithTaggedValue ==
                 null;)
         {
             // loop over all use-cases
@@ -435,8 +445,8 @@ public class UML14MetafacadeUtils
     {
         UmlClass classWithTaggedValue = null;
 
-        Collection classes = getModel().getCore().getUmlClass().refAllOfType();
-        for (final Iterator classIterator = classes.iterator(); classIterator.hasNext() && classWithTaggedValue == null;)
+        Collection<UmlClass> classes = getModel().getCore().getUmlClass().refAllOfType();
+        for (final Iterator<UmlClass> classIterator = classes.iterator(); classIterator.hasNext() && classWithTaggedValue == null;)
         {
             // loop over all classes
             UmlClass clazz = (UmlClass)classIterator.next();
@@ -449,15 +459,15 @@ public class UML14MetafacadeUtils
         return classWithTaggedValue;
     }
 
-    static Collection findFinalStatesWithNameOrHyperlink(UseCase useCase)
+    static Collection<FinalState> findFinalStatesWithNameOrHyperlink(UseCase useCase)
     {
         List finalStates = new ArrayList();
 
         if (useCase != null && useCase.getName() != null)
         {
             String useCaseName = useCase.getName();
-            Collection allFinalStates = getModel().getStateMachines().getFinalState().refAllOfType();
-            for (final Iterator iterator = allFinalStates.iterator(); iterator.hasNext();)
+            Collection<FinalState> allFinalStates = getModel().getStateMachines().getFinalState().refAllOfType();
+            for (final Iterator<FinalState> iterator = allFinalStates.iterator(); iterator.hasNext();)
             {
                 FinalState finalState = (FinalState)iterator.next();
                 if (useCaseName != null)
@@ -500,8 +510,8 @@ public class UML14MetafacadeUtils
         if (facade != null)
         {
             String id = facade.getId();
-            Collection graphs = getModel().getActivityGraphs().getActivityGraph().refAllOfType();
-            for (final Iterator iterator = graphs.iterator(); iterator.hasNext() && activityGraph == null;)
+            Collection<ModelElement> graphs = getModel().getActivityGraphs().getActivityGraph().refAllOfType();
+            for (final Iterator<ModelElement> iterator = graphs.iterator(); iterator.hasNext() && activityGraph == null;)
             {
                 ModelElement element = (ModelElement)iterator.next();
                 if (id.equals(element.refMofId()))
@@ -526,8 +536,8 @@ public class UML14MetafacadeUtils
         if (facade != null)
         {
             String id = facade.getId();
-            Collection useCases = getModel().getUseCases().getUseCase().refAllOfType();
-            for (final Iterator iterator = useCases.iterator(); iterator.hasNext() && useCase == null;)
+            Collection<ModelElement> useCases = getModel().getUseCases().getUseCase().refAllOfType();
+            for (final Iterator<ModelElement> iterator = useCases.iterator(); iterator.hasNext() && useCase == null;)
             {
                 ModelElement element = (ModelElement)iterator.next();
                 if (id.equals(element.refMofId()))
@@ -552,8 +562,8 @@ public class UML14MetafacadeUtils
         if (facade != null)
         {
             String id = facade.getId();
-            Collection parameters = getModel().getCore().getParameter().refAllOfType();
-            for (final Iterator iterator = parameters.iterator(); iterator.hasNext() && parameter == null;)
+            Collection<ModelElement> parameters = getModel().getCore().getParameter().refAllOfType();
+            for (final Iterator<ModelElement> iterator = parameters.iterator(); iterator.hasNext() && parameter == null;)
             {
                 ModelElement element = (ModelElement)iterator.next();
                 if (id.equals(element.refMofId()))
@@ -578,8 +588,8 @@ public class UML14MetafacadeUtils
         if (facade != null)
         {
             String id = facade.getId();
-            Collection events = getModel().getStateMachines().getEvent().refAllOfType();
-            for (final Iterator iterator = events.iterator(); iterator.hasNext() && event == null;)
+            Collection<ModelElement> events = getModel().getStateMachines().getEvent().refAllOfType();
+            for (final Iterator<ModelElement> iterator = events.iterator(); iterator.hasNext() && event == null;)
             {
                 ModelElement element = (ModelElement)iterator.next();
                 if (id.equals(element.refMofId()))
@@ -604,8 +614,8 @@ public class UML14MetafacadeUtils
         if (facade != null)
         {
             String id = facade.getId();
-            Collection modelElements = getModel().getCore().getModelElement().refAllOfType();
-            for (final Iterator iterator = modelElements.iterator(); iterator.hasNext() && modelElement == null;)
+            Collection<ModelElement> modelElements = getModel().getCore().getModelElement().refAllOfType();
+            for (final Iterator<ModelElement> iterator = modelElements.iterator(); iterator.hasNext() && modelElement == null;)
             {
                 ModelElement element = (ModelElement)iterator.next();
                 if (id.equals(element.refMofId()))
@@ -641,12 +651,12 @@ public class UML14MetafacadeUtils
      * @param elements the elements to remove duplicates and copy tagged values to.
      * @return the elements with duplicates removed.
      */
-    public static List removeDuplicatesAndCopyTaggedValues(final Collection elements)
+    public static List<ModelElementFacade> removeDuplicatesAndCopyTaggedValues(final Collection<ModelElementFacade> elements)
     {
-        final Map map = new LinkedHashMap();
+        final Map<String, ModelElementFacade> map = new LinkedHashMap<String, ModelElementFacade>();
         if (elements != null)
         {
-            for (final Iterator iterator = elements.iterator(); iterator.hasNext();)
+            for (final Iterator<ModelElementFacade> iterator = elements.iterator(); iterator.hasNext();)
             {
                 ModelElementFacade element = (ModelElementFacade)iterator.next();
                 final String name = element.getName();
@@ -661,6 +671,6 @@ public class UML14MetafacadeUtils
                     element);
             }   
         }
-        return new ArrayList(map.values());
+        return new ArrayList<ModelElementFacade>(map.values());
     }
 }

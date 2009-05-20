@@ -21,18 +21,42 @@
     <dependencies> 
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
-			<artifactId>emf-common</artifactId>
-			<version>2.1.0</version>
-		</dependency>
+			<artifactId>common</artifactId>
+            <version>2.1.0</version>
+            <!-- Use version 2.1.0 for emf-uml2>
+            <version>2.3.2</version-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.core</groupId>
+                    <artifactId>runtime</artifactId>
+                </exclusion>
+            </exclusions>
+ 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
-			<artifactId>emf-ecore</artifactId>
-			<version>2.1.0</version>
+			<artifactId>ecore</artifactId>
+            <version>2.1.0</version>
+            <!-- Use version 2.1.0 for emf-uml2>
+            <version>2.3.2</version-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.core</groupId>
+                    <artifactId>runtime</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>emf-ecore.xmi</artifactId>
-			<version>2.1.0</version>
+			<groupId>org.eclipse.emf.ecore</groupId>
+			<artifactId>xmi</artifactId>
+            <version>2.1.0</version>
+            <!-- Use version 2.1.0 for emf-uml2>
+            <version>2.3.2</version-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.core</groupId>
+                    <artifactId>runtime</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 	    <dependency>
 	      	<groupId>commons-lang</groupId>
@@ -47,7 +71,7 @@
         </dependency>
         <dependency>
             <groupId>org.andromda.metafacades</groupId>
-            <artifactId>andromda-metafacades-emf-uml2</artifactId>
+            <artifactId>andromda-metafacades-uml</artifactId>
             <version>${pom.version}</version>
         </dependency>
 	</dependencies>	
@@ -78,6 +102,10 @@
                     <minmemory>128m</minmemory>
                     <maxmemory>512</maxmemory>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

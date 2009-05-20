@@ -21,11 +21,22 @@
         <tag>V3_x_HEAD</tag>
         <url>http://andromda.cvs.sourceforge.net/</url>
     </scm>
+    <dependencies>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>
                 <artifactId>andromda-bootstrap-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-beautifier-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.andromda.maven.plugins</groupId>

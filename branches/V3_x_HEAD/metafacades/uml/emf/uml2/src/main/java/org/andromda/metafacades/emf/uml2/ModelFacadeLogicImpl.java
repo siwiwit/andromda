@@ -3,7 +3,7 @@ package org.andromda.metafacades.emf.uml2;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-
+import org.apache.log4j.Logger;
 import org.andromda.metafacades.uml.ActionStateFacade;
 import org.andromda.metafacades.uml.ActivityGraphFacade;
 import org.andromda.metafacades.uml.UseCaseFacade;
@@ -20,6 +20,7 @@ import org.eclipse.uml2.UseCase;
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.ModelFacade.
  *
  * @see org.andromda.metafacades.uml.ModelFacade
+ * @author Bob Fields
  */
 public class ModelFacadeLogicImpl
     extends ModelFacadeLogic
@@ -30,6 +31,11 @@ public class ModelFacadeLogicImpl
     {
         super(metaObject, context);
     }
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(ModelFacadeLogicImpl.class);
 
     /**
      * @see org.andromda.metafacades.uml.ModelFacade#findUseCaseWithTaggedValueOrHyperlink(java.lang.String,
@@ -87,10 +93,10 @@ public class ModelFacadeLogicImpl
             ActivityGraphFacade agf = (ActivityGraphFacade)this.shieldedElement(it.next());
             if (agf.getName().equals(name))
             {
-            	if(stereotypeName == null || agf.hasStereotype(stereotypeName))
-            	{
+                if(stereotypeName == null || agf.hasStereotype(stereotypeName))
+                {
                 agfFound = agf;
-            	}
+                }
             }
         }
         return agfFound;
@@ -121,9 +127,9 @@ public class ModelFacadeLogicImpl
             UseCaseFacade ucf = (UseCaseFacade)it.next();
             if (ucf.getName().equals(name))
             {
-            	if (stereotypeName == null || ucf.hasStereotype(stereotypeName))
+                if (stereotypeName == null || ucf.hasStereotype(stereotypeName))
                 {
-            		ucfFound = ucf;
+                    ucfFound = ucf;
                 }
             }
         }

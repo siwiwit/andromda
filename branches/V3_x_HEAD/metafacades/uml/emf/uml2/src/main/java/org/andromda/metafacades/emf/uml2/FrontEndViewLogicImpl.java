@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.andromda.metafacades.uml.ActivityGraphFacade;
 import org.andromda.metafacades.uml.EventFacade;
 import org.andromda.metafacades.uml.FrontEndAction;
@@ -23,6 +22,7 @@ import org.andromda.metafacades.uml.UseCaseFacade;
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.FrontEndView.
  *
  * @see org.andromda.metafacades.uml.FrontEndView
+ * @author Bob Fields
  */
 public class FrontEndViewLogicImpl
     extends FrontEndViewLogic
@@ -42,13 +42,12 @@ public class FrontEndViewLogicImpl
         return this.hasStereotype(UMLProfile.STEREOTYPE_FRONT_END_VIEW);
     }
 
-    /**
+    /* Moved to StateVertexFacade
      * @see org.andromda.metafacades.uml.FrontEndView#getActions()
-     */
     protected List handleGetActions()
     {
         final List actions = new ArrayList();
-        final Collection outgoing = this.getOutgoing();
+        final Collection outgoing = this.getOutgoings();
         for (final Iterator iterator = outgoing.iterator(); iterator.hasNext();)
         {
             final Object object = iterator.next();
@@ -59,6 +58,7 @@ public class FrontEndViewLogicImpl
         }
         return actions;
     }
+     */
 
     /**
      * @see org.andromda.metafacades.uml.FrontEndView#getUseCase()
@@ -107,7 +107,7 @@ public class FrontEndViewLogicImpl
     protected List handleGetVariables()
     {
         final Map variablesMap = new LinkedHashMap();
-        final Collection incoming = this.getIncoming();
+        final Collection incoming = this.getIncomings();
         for (final Iterator iterator = incoming.iterator(); iterator.hasNext();)
         {
             final TransitionFacade transition = (TransitionFacade)iterator.next();

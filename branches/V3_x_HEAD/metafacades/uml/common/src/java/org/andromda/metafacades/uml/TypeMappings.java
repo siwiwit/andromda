@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
  * functionality. </p>
  *
  * @author Chad Brandon
+ * @author Bob Fields
  */
 public class TypeMappings
 {
@@ -55,7 +56,6 @@ public class TypeMappings
      *
      * @param mappingsUri the URI to configure the underlying {@link Mappings} instance.
      * @return TypeMappings the configured TypeMappings instance.
-     * @throws MalformedURLException when the mappingsUri is invalid (not a valid URL).
      */
     public static TypeMappings getInstance(String mappingsUri)
     {

@@ -1,6 +1,7 @@
 package org.andromda.metafacades.emf.uml2;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -8,16 +9,22 @@ import org.apache.commons.lang.StringUtils;
  * org.andromda.metafacades.uml.DependencyFacade.
  *
  * @see org.andromda.metafacades.uml.DependencyFacade
+ * @author Bob Fields
  */
 public class DependencyFacadeLogicImpl
     extends DependencyFacadeLogic
 {
     public DependencyFacadeLogicImpl(
-        final org.eclipse.uml2.DirectedRelationship metaObject,
+        final org.eclipse.uml2.DirectedRelationship metaObjectIn,
         final String context)
     {
-        super(metaObject, context);
+        super(metaObjectIn, context);
     }
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(DependencyFacadeLogicImpl.class);
 
     /**
      * Gets the name in the following manner.
@@ -29,6 +36,7 @@ public class DependencyFacadeLogicImpl
      *
      * @see org.andromda.metafacades.uml.ModelElementFacade#getName()
      */
+    @Override
     public String handleGetName()
     {
         String name = super.handleGetName();
@@ -42,6 +50,7 @@ public class DependencyFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.DependencyFacade#getGetterName()
      */
+    @Override
     protected java.lang.String handleGetGetterName()
     {
         return "get" + StringUtils.capitalize(this.getName());
@@ -50,6 +59,7 @@ public class DependencyFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.DependencyFacade#getSetterName()
      */
+    @Override
     protected java.lang.String handleGetSetterName()
     {
         return "set" + StringUtils.capitalize(this.getName());
@@ -58,14 +68,26 @@ public class DependencyFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.DependencyFacade#getTargetElement()
      */
+    @Override
     protected java.lang.Object handleGetTargetElement()
     {
-        return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getTargets().toArray()[0]);
+        Object transform = null;
+        org.eclipse.emf.common.util.EList elist = this.metaObject.getTargets();
+        if (elist != null && elist.size()>0)
+        {
+            transform = UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getTargets().toArray()[0]);
+        }
+        else
+        {
+            this.logger.error("DependencyFacade has no targets: " + this.metaObject.getSources().toString());
+       }
+        return transform;
     }
 
     /**
      * @see org.andromda.metafacades.uml.DependencyFacade#getSourceElement()
      */
+    @Override
     protected java.lang.Object handleGetSourceElement()
     {
         return UmlUtilities.ELEMENT_TRANSFORMER.transform(this.metaObject.getSources().toArray()[0]);

@@ -1,17 +1,22 @@
 package org.andromda.metafacades.uml14;
 
 import java.util.Collection;
-
+import org.omg.uml.behavioralelements.commonbehavior.Instance;
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.InstanceFacade.
  *
  * @see org.andromda.metafacades.uml.InstanceFacade
+ * @author Bob Fields
  */
 public class InstanceFacadeLogicImpl
     extends InstanceFacadeLogic
 {
-    public InstanceFacadeLogicImpl (org.omg.uml.behavioralelements.commonbehavior.Instance metaObject, String context)
+    /**
+     * @param metaObject
+     * @param context
+     */
+    public InstanceFacadeLogicImpl (Instance metaObject, String context)
     {
         super (metaObject, context);
     }
@@ -19,7 +24,8 @@ public class InstanceFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getClassifiers()
      */
-    protected java.util.Collection handleGetClassifiers()
+    @Override
+    protected Collection handleGetClassifiers()
     {
         return metaObject.getClassifier();
     }
@@ -27,7 +33,8 @@ public class InstanceFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getLinkEnds()
      */
-    protected java.util.Collection handleGetLinkEnds()
+    @Override
+    protected Collection handleGetLinkEnds()
     {
         return metaObject.getLinkEnd();
     }
@@ -35,7 +42,8 @@ public class InstanceFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getOwnedInstances()
      */
-    protected java.util.Collection handleGetOwnedInstances()
+    @Override
+    protected Collection handleGetOwnedInstances()
     {
         return metaObject.getOwnedInstance();
     }
@@ -43,7 +51,8 @@ public class InstanceFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getOwnedLinks()
      */
-    protected java.util.Collection handleGetOwnedLinks()
+    @Override
+    protected Collection handleGetOwnedLinks()
     {
         return metaObject.getOwnedLink();
     }
@@ -51,7 +60,8 @@ public class InstanceFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getSlots()
      */
-    protected java.util.Collection handleGetSlots()
+    @Override
+    protected Collection handleGetSlots()
     {
         return metaObject.getSlot();
     }
@@ -59,6 +69,7 @@ public class InstanceFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.InstanceFacade#getAttributeLinks()
      */
+    @Override
     protected Collection handleGetAttributeLinks()
     {
         // wouter: in UML1.4 the slots only convey the attribute links (unless I'm mistaken this is different in UML2)

@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
  * org.andromda.cartridges.hibernate.metafacades.HibernateEntityAttribute.
  *
  * @see org.andromda.cartridges.hibernate.metafacades.HibernateEntityAttribute
+ * @author Bob Fields
  */
 public class HibernateEntityAttributeLogicImpl
     extends HibernateEntityAttributeLogic
@@ -60,7 +61,7 @@ public class HibernateEntityAttributeLogicImpl
             final String fullyQualifiedName = StringUtils.trimToEmpty(type.getFullyQualifiedName());
             if ("java.lang.String".equals(fullyQualifiedName))
             {
-                defaultValue = "\"" + defaultValue + "\"";
+                defaultValue = "\"" + defaultValue.replaceAll("\"", "") + "\"";
             }
             else if (fullyQualifiedName.startsWith("java.lang"))
             {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.configuration.Filters;
@@ -28,6 +29,7 @@ import org.eclipse.uml2.util.UML2Resource;
  *
  * @author Steve Jerman
  * @author Chad Brandon
+ * @author Bob Fields (Multiple model support)
  */
 public class UMLModelAccessFacade
     implements ModelAccessFacade
@@ -40,16 +42,26 @@ public class UMLModelAccessFacade
     /**
      * @see org.andromda.core.metafacade.ModelAccessFacade#setModel(java.lang.Object)
      */
-    public void setModel(final Object model)
+    public void setModel(final Object modelIn)
     {
         ExceptionUtils.checkNull(
             "model",
-            model);
+            modelIn);
         ExceptionUtils.checkAssignable(
-            UML2Resource.class,
+            ArrayList.class,
             "modelElement",
-            model.getClass());
-        this.model = (UML2Resource)model;
+            modelIn.getClass());
+        if (this.model==null)
+        {
+            this.model = new ArrayList<UML2Resource>();
+        }
+        for (UML2Resource modelResource : (ArrayList<UML2Resource>)modelIn)
+        {
+            if (!this.model.contains(modelResource))
+            {
+                this.model.add(modelResource);
+            }
+        }
         // TODO: - clear the meta objects cache (yes this is a performance
         //       hack that at some point should be improved), either that
         //       or since we'll be moving to A4 at some point it might not matter.
@@ -114,26 +126,26 @@ public class UMLModelAccessFacade
     /**
      * The actual underlying model instance.
      */
-    private UML2Resource model;
+    private List<UML2Resource> model;
 
     /**
      * @see org.andromda.core.metafacade.ModelAccessFacade#setPackageFilter(org.andromda.core.configuration.Filters)
      */
-    public void setPackageFilter(final Filters modelPackages)
+    public void setPackageFilter(final Filters modelPackagesIn)
     {
-        this.modelPackages = modelPackages;
+        this.modelPackages = modelPackagesIn;
     }
 
     /**
      * @see org.andromda.core.metafacade.ModelAccessFacade#getStereotypeNames(java.lang.Object)
      */
-    public Collection getStereotypeNames(final Object modelElement)
+    public Collection<String> getStereotypeNames(final Object modelElement)
     {
         ExceptionUtils.checkNull(
             "modelElement",
             modelElement);
 
-        Collection stereotypeNames = Collections.EMPTY_LIST;
+        Collection<String> stereotypeNames = Collections.EMPTY_LIST;
         if (modelElement instanceof Element)
         {
             Element element = (Element)modelElement;
@@ -152,17 +164,20 @@ public class UMLModelAccessFacade
     public Collection findByStereotype(final String name)
     {
         final ArrayList elements = new ArrayList();
-        for (TreeIterator iterator = UmlUtilities.findModel(this.model).eAllContents(); iterator.hasNext();)
+        for (UML2Resource modelResource : this.model)
         {
-            final EObject object = (EObject)iterator.next();
-            if (object instanceof NamedElement)
+            for (TreeIterator iterator = UmlUtilities.findModel(modelResource).eAllContents(); iterator.hasNext();)
             {
-                final NamedElement element = (NamedElement)object;
-                if (UmlUtilities.containsStereotype(
-                        element,
-                        name))
+                final EObject object = (EObject)iterator.next();
+                if (object instanceof NamedElement)
                 {
-                    elements.add(element);
+                    final NamedElement element = (NamedElement)object;
+                    if (UmlUtilities.containsStereotype(
+                            element,
+                            name))
+                    {
+                        elements.add(element);
+                    }
                 }
             }
         }
@@ -179,12 +194,15 @@ public class UMLModelAccessFacade
     {
         final ArrayList elements = new ArrayList();
 
-        for (final Iterator iterator = UmlUtilities.findModel(this.model).eAllContents(); iterator.hasNext();)
+        for (UML2Resource modelResource : this.model)
         {
-            final EObject object = (EObject)iterator.next();
-            if (object instanceof NamedElement)
+            for (final Iterator iterator = UmlUtilities.findModel(modelResource).eAllContents(); iterator.hasNext();)
             {
-                elements.add(object);
+                final EObject object = (EObject)iterator.next();
+                if (object instanceof NamedElement)
+                {
+                    elements.add(object);
+                }
             }
         }
 

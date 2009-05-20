@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
  * org.andromda.metafacades.uml.ManageableEntityAttribute.
  *
  * @see org.andromda.metafacades.uml.ManageableEntityAttribute
+ * @author Bob Fields
  */
 public class ManageableEntityAttributeLogicImpl
     extends ManageableEntityAttributeLogic
@@ -47,7 +48,7 @@ public class ManageableEntityAttributeLogicImpl
                 display = true;
             }
 
-            // only display identifiers when explicitely modeled
+            // only display identifiers when explicitly modeled
             else// if ("auto".equalsIgnoreCase(displayStrategy))
             {
                 display = ((Entity)this.getOwner()).isUsingAssignedIdentifier();

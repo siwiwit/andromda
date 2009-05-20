@@ -5,6 +5,7 @@ import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -12,6 +13,7 @@ import org.apache.commons.lang.ObjectUtils;
  * org.andromda.metafacades.uml.PackageFacade.
  *
  * @see org.andromda.metafacades.uml.PackageFacade
+ * @author Bob Fields
  */
 public class PackageFacadeLogicImpl
     extends PackageFacadeLogic
@@ -22,6 +24,11 @@ public class PackageFacadeLogicImpl
     {
         super(metaObject, context);
     }
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(PackageFacadeLogicImpl.class);
 
     /**
      * @see org.andromda.metafacades.uml.PackageFacade#findModelElement(java.lang.String)

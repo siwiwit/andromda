@@ -1,23 +1,22 @@
 package org.andromda.metafacades.uml;
 
 import java.text.Collator;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.StringUtils;
 
 
 /**
- * A class containing utlities for metafacade manipulation.
+ * A class containing utilities for metafacade manipulation.
  *
  * @author Chad Brandon
  * @author Wouter Zoons
+ * @author Bob Fields
  */
 public class MetafacadeUtils
 {
@@ -57,6 +56,7 @@ public class MetafacadeUtils
         final Collection modelElements,
         final String stereotype)
     {
+        // Should be able to type the Collection as <ModelElementFacade>, but compilation failure results.
         if (StringUtils.isNotEmpty(stereotype))
         {
             CollectionUtils.filter(
@@ -150,7 +150,6 @@ public class MetafacadeUtils
      * Sorts given metafacades by their fully qualified name.
      *
      * @param metafacades the collection of model elements to sort.
-     * @return the sorted collection.
      */
     public static void sortByFullyQualifiedName(final List metafacades)
     {
@@ -191,21 +190,24 @@ public class MetafacadeUtils
      * @param arguments the arguments from which to create the list.
      * @param withArgumentNames whether or not to include the argument names.
      * @param modifier
+     * @return arguments.iterator().getGetterSetterTypeName()
      */
     public static String getTypedArgumentList(
-        final Collection arguments,
+        final Collection<ParameterFacade> arguments,
         final boolean withArgumentNames,
         final String modifier)
     {
         final StringBuffer buffer = new StringBuffer();
         boolean commaNeeded = false;
-        for (final Iterator iterator = arguments.iterator(); iterator.hasNext();)
+        for (final Iterator<ParameterFacade> iterator = arguments.iterator(); iterator.hasNext();)
         {
-            ParameterFacade paramter = (ParameterFacade)iterator.next();
+            ParameterFacade parameter = (ParameterFacade)iterator.next();
             String type = null;
-            ClassifierFacade classifier = paramter.getType();
+            ClassifierFacade classifier = parameter.getType();
             if (classifier != null)
             {
+                // Takes multiplicity and templating into account
+                //type = parameter.getGetterSetterTypeName();
                 type = classifier.getFullyQualifiedName();
             }
 
@@ -222,7 +224,7 @@ public class MetafacadeUtils
             if (withArgumentNames)
             {
                 buffer.append(" ");
-                buffer.append(paramter.getName());
+                buffer.append(parameter.getName());
             }
             commaNeeded = true;
         }
@@ -233,13 +235,15 @@ public class MetafacadeUtils
      * Creates a typed argument list with the given <code>arguments</code>.  If the <code>withArgumentNames</code>
      * flag is true, the argument names are included in the list.
      *
+     * @param name 
      * @param arguments the arguments from which to create the list.
      * @param withArgumentNames whether or not to include the argument names.
-     * @param modifier
+     * @param argumentModifier
+     * @return getTypedArgumentList(arguments, withArgumentNames, argumentModifier)
      */
     public static String getSignature(
         final String name,
-        Collection arguments,
+        Collection<ParameterFacade> arguments,
         final boolean withArgumentNames,
         final String argumentModifier)
     {
@@ -251,5 +255,52 @@ public class MetafacadeUtils
                 argumentModifier));
         signature.append(")");
         return signature.toString();
+    }
+
+    private static final String at = "@";
+    private static final char period = '.';
+    private static final char underscore = '_';
+    /**
+     * Changes andromda standard tag format Strings to EMF standard format Strings
+     * (must be a valid Java identifier). Used for backwards compatibility with UML14 conventions.
+     * For example, @andromda.whatever becomes andromda_whatever.
+     *
+     * @param name 
+     * @return getTypedArgumentList(arguments, withArgumentNames, argumentModifier)
+     */
+    public static String getEmfTaggedValue(String name)
+    {
+        if (name==null)
+        {
+            return name;
+        }
+        if (name.startsWith(at))
+        {
+            name = name.substring(1);
+        }
+        name = name.replace(period, underscore);
+        return name;
+    }
+
+    /**
+     * Changes EMF standard tag format Strings to AndroMDA standard format Strings.
+     * Used for backwards compatibility with UML14 conventions.
+     * For example, andromda_whatever becomes @andromda.whatever.
+     *
+     * @param name 
+     * @return getTypedArgumentList(arguments, withArgumentNames, argumentModifier)
+     */
+    public static String getUml14TaggedValue(String name)
+    {
+        if (name==null)
+        {
+            return name;
+        }
+        if (!name.startsWith(at))
+        {
+            name = at+name;
+        }
+        name = name.replace(underscore, period);
+        return name;
     }
 }

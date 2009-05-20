@@ -36,6 +36,7 @@ import org.apache.commons.lang.StringUtils;
  * org.andromda.metafacades.uml.FrontEndAction.
  *
  * @see org.andromda.metafacades.uml.FrontEndAction
+ * @author Bob Fields
  */
 public class FrontEndActionLogicImpl
     extends FrontEndActionLogic
@@ -228,7 +229,7 @@ public class FrontEndActionLogicImpl
         else if (target instanceof PseudostateFacade && ((PseudostateFacade)target).isDecisionPoint())
         {
             this.decisionTransitions.add(transition);
-            final Collection outcomes = target.getOutgoing();
+            final Collection outcomes = target.getOutgoings();
             for (final Iterator iterator = outcomes.iterator(); iterator.hasNext();)
             {
                 final TransitionFacade outcome = (TransitionFacade)iterator.next();
@@ -251,7 +252,7 @@ public class FrontEndActionLogicImpl
         else// all the rest is ignored but outgoing transitions are further
         // processed
         {
-            final Collection outcomes = target.getOutgoing();
+            final Collection outcomes = target.getOutgoings();
             for (final Iterator iterator = outcomes.iterator(); iterator.hasNext();)
             {
                 final TransitionFacade outcome = (TransitionFacade)iterator.next();
