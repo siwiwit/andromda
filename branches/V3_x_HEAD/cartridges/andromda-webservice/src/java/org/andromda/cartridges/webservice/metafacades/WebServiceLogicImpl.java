@@ -6,17 +6,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
-
 import org.andromda.cartridges.webservice.WebServiceGlobals;
 import org.andromda.cartridges.webservice.WebServiceUtils;
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.common.Introspector;
+import org.andromda.core.metafacade.MetafacadeBase;
 import org.andromda.core.metafacade.MetafacadeException;
 import org.andromda.metafacades.uml.AssociationEndFacade;
 import org.andromda.metafacades.uml.AttributeFacade;
@@ -33,17 +36,23 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
  * MetafacadeLogic implementation for org.andromda.cartridges.webservice.metafacades.WebService.
  *
  * @see org.andromda.cartridges.webservice.metafacades.WebService
+ * @author Bob Fields
  */
 public class WebServiceLogicImpl
     extends WebServiceLogic
 {
     // ---------------- constructor -------------------------------
+    /**
+     * @param metaObject
+     * @param context
+     */
     public WebServiceLogicImpl(
         Object metaObject,
         String context)
@@ -52,11 +61,19 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(WebServiceLogicImpl.class);
+
+    private static final String DEFAULT = "default";
+
+    /**
+     * @return operations filtered by ((WebServiceOperation)object).isExposed()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getAllowedOperations()
      */
-    protected java.util.Collection handleGetAllowedOperations()
+    protected Collection<OperationFacade> handleGetAllowedOperations()
     {
-        List operations = new ArrayList(this.getOperations());
+        List<OperationFacade> operations = new ArrayList<OperationFacade>(this.getOperations());
         CollectionUtils.filter(
             operations,
             new Predicate()
@@ -81,18 +98,19 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getAllowedOperations() separated by " "
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getAllowedMethods()
      */
-    protected java.lang.String handleGetAllowedMethods()
+    protected String handleGetAllowedMethods()
     {
-        Collection methodNames = new ArrayList();
-        Collection operations = this.getAllowedOperations();
+        Collection<String> methodNames = new ArrayList();
+        Collection<WebServiceOperation> operations = this.getAllowedOperations();
         if (operations != null && !operations.isEmpty())
         {
-            Iterator operationIt = operations.iterator();
+            Iterator<WebServiceOperation> operationIt = operations.iterator();
             while (operationIt.hasNext())
             {
-                OperationFacade operation = (OperationFacade)operationIt.next();
+                WebServiceOperation operation = operationIt.next();
                 methodNames.add(StringUtils.trimToEmpty(operation.getName()));
             }
         }
@@ -102,6 +120,7 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getName() formatted as this.getQualifiedNameLocalPartPattern()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getQName()
      */
     protected String handleGetQName()
@@ -112,9 +131,10 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getPackageName() reversed if this.isReverseNamespace()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getNamespace()
      */
-    protected java.lang.String handleGetNamespace()
+    protected String handleGetNamespace()
     {
         String packageName = this.getPackageName();
         if (this.isReverseNamespace())
@@ -132,12 +152,13 @@ public class WebServiceLogicImpl
     private static final String PROPERTY_DEFAULT_STYLE = "defaultStyle";
 
     /**
+     * @return UMLProfile.TAGGEDVALUE_WEBSERVICE_STYLE or this.getConfiguredProperty(PROPERTY_DEFAULT_STYLE)
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getStyle()
      */
-    protected java.lang.String handleGetStyle()
+    protected String handleGetStyle()
     {
         String style = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_WEBSERVICE_STYLE);
-        if (StringUtils.isEmpty(style))
+        if (StringUtils.isEmpty(style) || style.equals(DEFAULT))
         {
             style = String.valueOf(this.getConfiguredProperty(PROPERTY_DEFAULT_STYLE));
         }
@@ -150,17 +171,23 @@ public class WebServiceLogicImpl
     private static final String PROPERTY_DEFAULT_USE = "defaultUse";
 
     /**
+     * @return UMLProfile.TAGGEDVALUE_WEBSERVICE_USE or this.getConfiguredProperty(PROPERTY_DEFAULT_USE
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getUse()
      */
-    protected java.lang.String handleGetUse()
+    protected String handleGetUse()
     {
         String use = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_WEBSERVICE_USE);
-        if (StringUtils.isEmpty(use))
+        if (StringUtils.isEmpty(use) || use.equals(DEFAULT))
         {
             use = String.valueOf(this.getConfiguredProperty(PROPERTY_DEFAULT_USE));
         }
         return use;
     }
+
+    /**
+     * Sorted list of all type mapping elements (package.class), used to iterate through all elements in a service
+     */
+    private Set elementSet = new TreeSet(new TypeComparator());
 
     /**
      * Keeps track of whether or not the type has been checked, keeps us from entering infinite loops when calling
@@ -169,9 +196,10 @@ public class WebServiceLogicImpl
     private Collection checkedTypes = new ArrayList();
 
     /**
+     * @return this.elementSet types
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getTypeMappingElements()
      */
-    protected java.util.Collection handleGetTypeMappingElements()
+    protected Collection handleGetTypeMappingElements()
     {
         final Collection parameterTypes = new LinkedHashSet();
         for (final Iterator iterator = this.getAllowedOperations().iterator(); iterator.hasNext();)
@@ -204,13 +232,16 @@ public class WebServiceLogicImpl
         // (such as association ends) we
         // add the non array types to the types
         types.addAll(nonArrayTypes);
+        
+        this.elementSet = types;
+        //setPkgAbbr(types);
         return types;
     }
 
     /**
      * <p> Loads all <code>types</code> and <code>nonArrayTypes</code> for
      * the specified <code>type</code>. For each array type we collect the
-     * <code>nonArrayType</code>. Non array types are loaded seperately so
+     * <code>nonArrayType</code>. Non array types are loaded separately so
      * that they are added at the end at the type collecting process. Since the
      * types collection is a set (by the fullyQualifiedName) we don't want any
      * non array types to override things such as association ends in the
@@ -235,7 +266,7 @@ public class WebServiceLogicImpl
                 // only continue if the model element has a type
                 if (parameterType != null)
                 {
-                    final Set allTypes = new HashSet();
+                    final Set allTypes = new LinkedHashSet();
                     allTypes.add(parameterType);
 
                     // add all generalizations and specializations of the type
@@ -321,6 +352,320 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * Cross reference between package name and namespace abbreviation, used to annotate foreign schema elements
+     */
+    private Map packageAbbr = new TreeMap();
+
+    /**
+     * Get a unique list of packages populated from the results of GetTypeMappingElements
+     * @return pkgAbbr TreeSet containing unique package list
+     */
+    protected Collection handleGetPackages()
+    {
+        if (this.elementSet == null || this.elementSet.size()<1)
+        {
+            this.elementSet = (TreeSet)handleGetTypeMappingElements();
+        }
+        setPkgAbbr(this.elementSet);
+        String pkgList = "";
+        for (final Iterator iterator = this.packageAbbr.keySet().iterator(); iterator.hasNext();)
+        {
+            pkgList += iterator.next() + ", ";
+        }
+        return this.packageAbbr.keySet();
+    }
+
+    /**
+     * @param pkgName
+     * @return this.packageAbbr.get(pkgName)
+     */
+    protected String handleGetPkgAbbr(String pkgName)
+    {
+        if (StringUtils.isEmpty(pkgName) || pkgName.length()<1)
+        {
+            return "";
+        }
+        if (this.elementSet == null || this.elementSet.size()<1)
+        {
+            this.elementSet = (TreeSet)handleGetTypeMappingElements();
+        }
+        if (this.packageAbbr == null || this.packageAbbr.size()<1)
+        {
+            setPkgAbbr(this.elementSet);
+        }
+        String rtn = (String)this.packageAbbr.get(pkgName);
+        if (StringUtils.isEmpty(rtn))
+        {
+            // Package reference was never added originally - needs to be fixed
+            int namespaceCount = this.packageAbbr.size();
+            rtn = "ns" + namespaceCount;
+            this.packageAbbr.put(pkgName, rtn);
+            logger.info(this.getName() + " missing PkgAbbr for " + pkgName);
+        }
+        return rtn;
+    }
+    
+    /**
+     * Creates a list of sorted unique package names and namespace abbreviations for each one.
+     * Run this after running getTypeMappingElements(), to populate the namespace Map.
+     * Namespaces are in order ns1 through x
+     * @param types
+     * @return pkgAbbr
+     */
+    private Map setPkgAbbr(Set types)
+    {
+        Map pkgAbbr = new TreeMap();
+        int namespaceCount = 1;
+        // Copy package names and abbreviations to package list
+        for (final Iterator iterator = this.getOperations().iterator(); iterator.hasNext();)
+        {
+            WebServiceOperationLogicImpl op = (WebServiceOperationLogicImpl)iterator.next();
+            for (final Iterator opiterator = op.getExceptions().iterator(); opiterator.hasNext();)
+            {
+                ModelElementFacade arg = (ModelElementFacade)opiterator.next();
+                String pkg = arg.getPackageName();
+                if (!pkgAbbr.containsKey(pkg) && pkg != null && pkg.indexOf('.') > 0)
+                {
+                    pkgAbbr.put(pkg, "ns" + namespaceCount);
+                    //System.out.println(this.getName() + " ns" + namespaceCount + " " + pkg + " " + op.getName() + " getExceptions");
+                    namespaceCount++;
+                }
+            }
+            for (final Iterator opiterator = op.getArguments().iterator(); opiterator.hasNext();)
+            {
+                ModelElementFacade arg = (ModelElementFacade)opiterator.next();
+                String pkg = arg.getPackageName();
+                if (!pkgAbbr.containsKey(pkg) && pkg != null && pkg.indexOf('.') > 0)
+                {
+                    pkgAbbr.put(pkg, "ns" + namespaceCount);
+                    //System.out.println(this.getName() + " ns" + namespaceCount + " " + pkg + " " + op.getName() + " getArguments");
+                    namespaceCount++;
+                }
+            }
+            if (op.getReturnType()!=null)
+            {
+                String pkg = op.getReturnType().getPackageName();
+                if (!pkgAbbr.containsKey(pkg) && pkg != null && pkg.indexOf('.') > 0)
+                {
+                    pkgAbbr.put(pkg, "ns" + namespaceCount);
+                    //System.out.println(this.getName() + " ns" + namespaceCount + " " + pkg + " " + op.getName() + " getReturnType");
+                    namespaceCount++;
+                }
+            }
+        }
+        for (final Iterator iterator = types.iterator(); iterator.hasNext();)
+        {
+            ModelElementFacade type = ((ModelElementFacade)iterator.next());
+            String pkg = type.getPackageName();
+            if (!pkgAbbr.containsKey(pkg) && pkg != null && pkg.indexOf('.') > 0)
+            {
+                pkgAbbr.put(pkg, "ns" + namespaceCount);
+                //System.out.println(this.getName() + " ns" + namespaceCount + " " + pkg + " " + type.getName());
+                namespaceCount++;
+            }
+        } 
+        this.packageAbbr = pkgAbbr;
+        return pkgAbbr;
+    }
+
+    /**
+     * Cross reference between package name and collection of foreign package referenced elements
+     */
+    private Map packageRefs = new HashMap();
+    
+    /**
+     * Get a unique list of packages referenced by the referring package
+     * @param pkg PackageName to find related packages for xs:schema import
+     * @param follow Follow Inheritance references $extensionInheritanceDisabled
+     * @return Collection TreeSet containing referenced package list
+     */
+    protected Collection handleGetPackageReferences(String pkg, boolean follow)
+    {
+        //if (this.elementSet == null || this.elementSet.size()<1)
+        //{
+            this.elementSet = (TreeSet)handleGetTypeMappingElements();
+        //}
+        //if (this.packageRefs == null || this.packageRefs.size()<1)
+        //{
+            setPkgRefs(this.elementSet, follow);
+        //}
+        return (TreeSet)this.packageRefs.get(pkg);
+    }
+    
+    /**
+     * Creates a list of referenced packages for each package.
+     * Run this after running getTypeMappingElements(), to populate the namespace Map.
+     * @param types TreeSet of unique packageNames referenced in each package
+     * @param follow Follow Inheritance references $extensionInheritanceDisabled
+     * @return pkgAbbr
+     */
+    private Map setPkgRefs(Set types, boolean follow)
+    {
+        // Copy package names and collection of related packages to package references list
+        // Iterate through previously collected type references to find all packages referenced by each type
+        for (final Iterator iterator = types.iterator(); iterator.hasNext();)
+        {
+            try
+            {
+                MetafacadeBase element = (MetafacadeBase)iterator.next();
+                if (element instanceof WSDLTypeLogicImpl)
+                {
+                    WSDLTypeLogicImpl type = (WSDLTypeLogicImpl)element;
+                    String pkg = type.getPackageName();
+                    if (pkg != null && pkg.indexOf('.') > 0)
+                    {
+                        //System.out.println("WSDLTypeLogicImpl pkg=" + packageName + " refPkg=" + pkg + " name=" + type.getName());
+                        // Duplicates logic in wsdl.vsl so that referenced packages are the same.
+                        for (final Iterator itAttr = type.getAttributes(follow).iterator(); itAttr.hasNext();)
+                        {
+                            try
+                            {
+                                ModelElementFacade attr = ((ModelElementFacade)itAttr.next());
+                                if (getType(attr) != null)
+                                {
+                                    attr = getType(attr);
+                                }
+                                addPkgRef(pkg, attr.getPackageName(), attr);
+                            }
+                            catch (Exception e)
+                            {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                else if (element instanceof WSDLTypeAssociationEndLogicImpl)
+                {
+                    WSDLTypeAssociationEndLogicImpl type = (WSDLTypeAssociationEndLogicImpl)element;
+                    String pkg = type.getPackageName();
+                    if (pkg != null && pkg.indexOf('.') > 0)
+                    {
+                        // Duplicates logic in wsdl.vsl so that referenced packages are the same.
+                        for (final Iterator otherEnds = type.getType().getNavigableConnectingEnds(follow).iterator(); otherEnds.hasNext();)
+                        {
+                            try
+                            {
+                                ModelElementFacade otherEnd = ((ModelElementFacade)otherEnds.next());
+                                if (getType(otherEnd) != null)
+                                {
+                                    otherEnd = getType(otherEnd);
+                                }
+                                addPkgRef(pkg, otherEnd.getPackageName(), otherEnd);
+                            }
+                            catch (RuntimeException e)
+                            {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Log the type so we can extend this logic later...
+                    logger.error("Unexpected element type: " + element);
+                }
+            }
+            catch (Exception e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        // Copy package names and collection of related packages to package references list
+        /* for (final Iterator iterator = types.iterator(); iterator.hasNext();)
+        {
+            TreeSet pkgRef;
+            ClassifierFacade element = ((ClassifierFacade)iterator.next());
+            String pkg = element.getPackageName();
+            if (!packageRefs.containsKey(pkg))
+            {
+                // TypeComparator disallows adding nonunique referenced packageNames
+                pkgRef = new TreeSet(new TypeComparator());
+            }
+            else
+            {
+                // Reference to Set contained in pkgAbbr already, can be changed dynamically
+                pkgRef = (TreeSet)packageRefs.get(pkg);
+            }
+            // Duplicates logic in wsdl.vsl so that referenced packages are the same.
+            for (final Iterator itAttr = element.getAttributes(follow).iterator(); itAttr.hasNext();)
+            {
+                ClassifierFacade attr = ((ClassifierFacade)itAttr.next());
+                if (getType(attr) != null)
+                {
+                    attr = getType(attr);
+                }
+                if (!pkgRef.contains(attr) && attr != null && attr.getPackageName().length() > 0)
+                {
+                    pkgRef.add(attr.getPackageName());
+                }
+            }
+            for (final Iterator otherEnds = element.getNavigableConnectingEnds(follow).iterator(); otherEnds.hasNext();)
+            {
+                ClassifierFacade otherEnd = ((ClassifierFacade)otherEnds.next());
+                if (getType(otherEnd) != null)
+                {
+                    otherEnd = getType(otherEnd);
+                }
+                if (!pkgRef.contains(otherEnd))
+                {
+                    pkgRef.add(otherEnd.getPackageName());
+                }
+            }
+            if (!packageRefs.containsKey(pkg))
+            {
+                packageRefs.put(pkg, pkgRef);
+            }
+        } */
+        
+        // Add references from the operations of the service package itself
+        for (final Iterator iterator = this.getOperations().iterator(); iterator.hasNext();)
+        {
+            WebServiceOperationLogicImpl op = (WebServiceOperationLogicImpl)iterator.next();
+            for (final Iterator opiterator = op.getExceptions().iterator(); opiterator.hasNext();)
+            {
+                ModelElementFacade arg = (ModelElementFacade)opiterator.next();
+                addPkgRef(this.getPackageName(), arg.getPackageName(), arg);
+            }
+            for (final Iterator opiterator = op.getArguments().iterator(); opiterator.hasNext();)
+            {
+                ModelElementFacade arg = (ModelElementFacade)opiterator.next();
+                addPkgRef(this.getPackageName(), arg.getPackageName(), arg);
+            }
+            if (op.getReturnType()!=null)
+            {
+                String pkg = op.getReturnType().getPackageName();
+                addPkgRef(this.getPackageName(), pkg, op.getReturnType());
+            }
+        }
+        return packageRefs;
+    }
+    
+    private void addPkgRef(String pkg, String pkgRef, ModelElementFacade type)
+    {
+        TreeSet pkgRefSet;
+        if (!packageRefs.containsKey(pkg))
+        {
+            // TypeComparator disallows adding nonunique referenced packageNames
+            pkgRefSet = new TreeSet();
+            packageRefs.put(pkg, pkgRefSet);
+        }
+        else
+        {
+            // Reference to Set contained in pkgAbbr already, can be changed dynamically
+            pkgRefSet = (TreeSet)packageRefs.get(pkg);
+        }
+        if (pkgRef!=null && pkg!=null &&  !pkgRef.equals(pkg) && pkgRef.indexOf('.') > 0 && !pkgRefSet.contains(pkgRef))
+        {
+            pkgRefSet.add(pkgRef);
+            logger.debug("Added pkgRef " + pkg + " references " + pkgRef + " in " + type.getName());
+        }
+
+    }
+
+    /**
      * <p> Checks to see if the <code>types</code> collection contains the
      * <code>modelElement</code>. It does this by checking to see if the
      * model element is either an association end or some type of model element
@@ -399,7 +744,7 @@ public class WebServiceLogicImpl
 
     /**
      * Returns true/false depending on whether or not this class represents a valid association end (meaning it has a
-     * multiplicify of many)
+     * multiplicity of many)
      *
      * @param modelElement the model element to check.
      * @return true/false
@@ -410,12 +755,13 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getConfiguredProperty("defaultProvider")
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getProvider()
      */
-    protected java.lang.String handleGetProvider()
+    protected String handleGetProvider()
     {
         String provider = (String)this.findTaggedValue(UMLProfile.TAGGEDVALUE_WEBSERVICE_PROVIDER);
-        if (StringUtils.isEmpty(provider))
+        if (StringUtils.isEmpty(provider) || provider.equals(DEFAULT))
         {
             provider = (String)this.getConfiguredProperty("defaultProvider");
         }
@@ -423,9 +769,10 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getConfiguredProperty(UMLMetafacadeProperties.NAMESPACE_SEPARATOR)
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getWsdlFile()
      */
-    protected java.lang.String handleGetWsdlFile()
+    protected String handleGetWsdlFile()
     {
         return StringUtils.replace(
             this.getFullyQualifiedName(),
@@ -434,18 +781,24 @@ public class WebServiceLogicImpl
     }
 
     /**
-     * We use this comparator to actually elimate duplicates instead of sorting like a comparator is normally used.
+     * We use this comparator to actually eliminate duplicates instead of sorting like a comparator is normally used.
      */
-    final class TypeComparator
+    public final class TypeComparator
         implements Comparator
     {
         private final Collator collator = Collator.getInstance();
 
-        TypeComparator()
+        /**
+         * We use this comparator to actually eliminate duplicates instead of sorting like a comparator is normally used.
+         */
+        public TypeComparator()
         {
             collator.setStrength(Collator.PRIMARY);
         }
 
+        /**
+         * @see java.util.Comparator#compare(Object, Object)
+         */
         public int compare(
             Object objectA,
             Object objectB)
@@ -473,8 +826,9 @@ public class WebServiceLogicImpl
      * returnType).
      *
      * @param modelElement the model element we'll retrieve the type of.
+     * @return ClassifierFacade Type of modelElement Object
      */
-    protected ClassifierFacade getType(Object modelElement)
+    public ClassifierFacade getType(Object modelElement)
     {
         try
         {
@@ -507,6 +861,7 @@ public class WebServiceLogicImpl
     static final String NAMESPACE_PREFIX = "namespacePrefix";
 
     /**
+     * @return this.getConfiguredProperty(NAMESPACE_PREFIX)
      * @see org.andromda.cartridges.webservice.metafacades.WSDLType#getNamespacePrefix()
      */
     protected String handleGetNamespacePrefix()
@@ -518,6 +873,7 @@ public class WebServiceLogicImpl
 
     /**
      * Gets the <code>qualifiedNameLocalPartPattern</code> for this service.
+     * @return this.getConfiguredProperty(QNAME_LOCAL_PART_PATTERN)
      */
     protected String getQualifiedNameLocalPartPattern()
     {
@@ -549,9 +905,10 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getEjbJndiNamePrefix() + ejb/ + this.getFullyQualifiedName()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getEjbJndiName()
      */
-    protected java.lang.String handleGetEjbJndiName()
+    protected String handleGetEjbJndiName()
     {
         StringBuffer jndiName = new StringBuffer();
         String jndiNamePrefix = StringUtils.trimToEmpty(this.getEjbJndiNamePrefix());
@@ -577,9 +934,10 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getEjbHomeInterfacePattern() formatted as this.getPackageName() + this.getName()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getEjbHomeInterface()
      */
-    protected java.lang.String handleGetEjbHomeInterface()
+    protected String handleGetEjbHomeInterface()
     {
         return MessageFormat.format(
             this.getEjbHomeInterfacePattern(),
@@ -597,9 +955,10 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getEjbInterfacePattern() formatted as this.getPackageName() + this.getName()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getEjbInterface()
      */
-    protected java.lang.String handleGetEjbInterface()
+    protected String handleGetEjbInterface()
     {
         return MessageFormat.format(
             this.getEjbInterfacePattern(),
@@ -620,6 +979,7 @@ public class WebServiceLogicImpl
 
     /**
      * Gets the <code>rpcClassNamePattern</code> for this service.
+     * @return this.getConfiguredProperty(RPC_CLASS_NAME_PATTERN)
      */
     protected String getRpcClassNamePattern()
     {
@@ -627,6 +987,7 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getRpcClassNamePattern() formatted as this.getPackageName() + this.getName()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getRpcClassName()
      */
     protected String handleGetRpcClassName()
@@ -686,6 +1047,7 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return !this.getAllRoles().isEmpty()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#isSecured()
      */
     protected boolean handleIsSecured()
@@ -723,6 +1085,7 @@ public class WebServiceLogicImpl
     private static final String TEST_PACKAGE_NAME_PATTERN = "testPackageNamePattern";
 
     /**
+     * @return this.getPackageName() formatted as this.getConfiguredProperty(TEST_PACKAGE_NAME_PATTERN)
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getTestPackageName()
      */
     protected String handleGetTestPackageName()
@@ -733,6 +1096,7 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getTestPackageName() + '.' + this.getTestName()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getFullyQualifiedTestName()
      */
     protected String handleGetFullyQualifiedTestName()
@@ -746,6 +1110,7 @@ public class WebServiceLogicImpl
     private static final String TEST_NAME_PATTERN = "testNamePattern";
 
     /**
+     * @return this.getName() formatted with this.getConfiguredProperty(TEST_NAME_PATTERN)
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getTestName()
      */
     protected String handleGetTestName()
@@ -761,6 +1126,7 @@ public class WebServiceLogicImpl
     private static final String STYLE_WRAPPED = "wrapped";
 
     /**
+     * @return this.getStyle().equalsIgnoreCase(STYLE_WRAPPED)
      * @see org.andromda.cartridges.webservice.metafacades.WebService#isWrappedStyle()
      */
     protected boolean handleIsWrappedStyle()
@@ -774,6 +1140,7 @@ public class WebServiceLogicImpl
     private static final String STYLE_DOCUMENT = "document";
 
     /**
+     * @return this.getStyle().equalsIgnoreCase("document")
      * @see org.andromda.cartridges.webservice.metafacades.WebService#isDocumentStyle()
      */
     protected boolean handleIsDocumentStyle()
@@ -787,6 +1154,7 @@ public class WebServiceLogicImpl
     private static final String STYLE_RPC = "rpc";
 
     /**
+     * @return this.getStyle().equalsIgnoreCase("rpc")
      * @see org.andromda.cartridges.webservice.metafacades.WebService#isRpcStyle()
      */
     protected boolean handleIsRpcStyle()
@@ -800,6 +1168,7 @@ public class WebServiceLogicImpl
     private static final String USE_LITERAL = "literal";
 
     /**
+     * @return this.getStyle().equalsIgnoreCase("literal")
      * @see org.andromda.cartridges.webservice.metafacades.WebService#isLiteralUse()
      */
     protected boolean handleIsLiteralUse()
@@ -813,6 +1182,7 @@ public class WebServiceLogicImpl
     private static final String USE_ENCODED = "encoded";
 
     /**
+     * @return this.getStyle().equalsIgnoreCase("encoded")
      * @see org.andromda.cartridges.webservice.metafacades.WebService#isEncodedUse()
      */
     protected boolean handleIsEncodedUse()
@@ -826,6 +1196,7 @@ public class WebServiceLogicImpl
     private static final String TEST_IMPLEMENTATION_NAME_PATTERN = "testImplementationNamePattern";
 
     /**
+     * @return this.getName() formatted as this.getConfiguredProperty(TEST_IMPLEMENTATION_NAME_PATTERN)
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getTestImplementationName()
      */
     protected String handleGetTestImplementationName()
@@ -836,6 +1207,7 @@ public class WebServiceLogicImpl
     }
 
     /**
+     * @return this.getTestPackageName() + '.' + this.getTestImplementationName()
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getFullyQualifiedTestImplementationName()
      */
     protected String handleGetFullyQualifiedTestImplementationName()
@@ -845,6 +1217,7 @@ public class WebServiceLogicImpl
 
     /**
 
+     * @return TypeMappings from WebServiceGlobals.SCHEMA_TYPE_MAPPINGS_URI "schemaTypeMappingsUri"
      * @see org.andromda.cartridges.webservice.metafacades.WebService#getSchemaMappings()
      */
     protected TypeMappings handleGetSchemaMappings()
@@ -898,5 +1271,74 @@ public class WebServiceLogicImpl
         }
 
         return exceptions;
+    }
+
+    /**
+     * @return packages from this.getAllowedOperations()
+     * @see org.andromda.cartridges.webservice.WebServiceUtils#getPackages(WebServiceLogicImpl, Set, boolean)
+     */
+    public Collection<WebServicePackageLogic> getPackages() {
+        return new WebServiceUtils().getPackages(this, (Set) this.getAllowedOperations(), true);
+    }
+
+    /**
+     * @param pkg 
+     * @return WebServiceUtils().getPkgAbbr(pkg)
+     * @see org.andromda.cartridges.webservice.metafacades.WebServiceLogicImpl#getPkgAbbr(WebServicePackageLogic)
+     */
+    public String getPkgAbbr(WebServicePackageLogic pkg) {
+        return new WebServiceUtils().getPkgAbbr(pkg);
+    }
+
+    /**
+     * The property defining if the web service XML should be validated against the wsdl/xsd schema.
+     */
+    private static final String PROPERTY_SCHEMA_VALIDATION = "schemaValidation";
+
+    @Override
+    protected boolean handleIsSchemaValidation()
+    {
+        String mode = (String)this.findTaggedValue(WebServiceGlobals.XML_SCHEMA_VALIDATION);
+        if (StringUtils.isEmpty(mode) || mode.equals(DEFAULT))
+        {
+            mode = String.valueOf(this.getConfiguredProperty(PROPERTY_SCHEMA_VALIDATION));
+        }
+        if (StringUtils.isEmpty(mode) || mode.equals(DEFAULT))
+        {
+            mode = "false";
+        }
+        return Boolean.parseBoolean(mode);
+    }
+
+    /**
+     * The property defining the default style to give the web services.
+     */
+    private static final String PROPERTY_SIMPLE_BINDING_MODE = "simpleBindingMode";
+
+    @Override
+    protected boolean handleIsSimpleBindingMode()
+    {
+        String mode = (String)this.findTaggedValue(WebServiceGlobals.JAXB_SIMPLE_BINDING_MODE);
+        if (StringUtils.isEmpty(mode) || mode.equals(DEFAULT))
+        {
+            mode = String.valueOf(this.getConfiguredProperty(PROPERTY_SIMPLE_BINDING_MODE));
+        }
+        return Boolean.parseBoolean(mode);
+    }
+
+    /**
+     * The property defining the Jaxb XJC arguments used with wsdl2java utility.
+     */
+    private static final String PROPERTY_XJC_ARGUMENTS = "xjcArguments";
+
+    @Override
+    protected String handleGetXjcArguments()
+    {
+        String mode = (String)this.findTaggedValue(WebServiceGlobals.JAXB_XJC_ARGUMENTS);
+        if (StringUtils.isEmpty(mode) || mode.equals(DEFAULT))
+        {
+            mode = String.valueOf(this.getConfiguredProperty(PROPERTY_XJC_ARGUMENTS));
+        }
+        return mode;
     }
 }

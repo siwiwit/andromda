@@ -10,6 +10,7 @@
           <moduleSearchLocations>
             <location patterns="**/*.xml.zip">${basedir}/../../profiles/uml-1.4</location>
             <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles/uml-1.4</location>
+            <location patterns="**/*.xml">${basedir}/../../profiles/uml-1.4</location>
           </moduleSearchLocations>
         </model>
       </models>
@@ -18,6 +19,7 @@
   <namespaces>
     <namespace name="default">
       <properties>
+        <property name="overwrite">true</property>
         <property name="languageMappingsUri">Java</property>
         <property name="wrapperMappingsUri">JavaWrapper</property>
         <property name="enableTemplating">false</property>
@@ -42,6 +44,8 @@
         <property name="configuration">${test.output.dir}</property>
         <property name="webservice-types">${test.output.dir}</property>
         <property name="java-types">${test.output.dir}</property>
+        <property name="webservice-impl">${test.output.dir}</property>
+        <property name="service-impls">${test.output.dir}</property>
         <property name="axis-tests">${test.output.dir}</property>
         <property name="axis-test-impls">${test.output.dir}</property>
         <property name="wss4j-configuration">${test.output.dir}</property>

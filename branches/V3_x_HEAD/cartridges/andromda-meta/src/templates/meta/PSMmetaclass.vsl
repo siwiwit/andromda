@@ -26,7 +26,7 @@ public#if($abstract) abstract#end class $class.name
 {
 #if ($serializable)
     /**
-     * The serial version UID of this class. Needed for serialization.
+     * The serial version UID of this class. Needed for serialization. ${class.serialVersionUID}L
      */
     private static final long serialVersionUID = ${class.serialVersionUID}L;
 
@@ -50,6 +50,9 @@ public#if($abstract) abstract#end class $class.name
 ##  default constructor
 ##
 #if ($class.requiredConstructorParameters.size() > 0 || $class.allRequiredConstructorParameters.size() > $class.requiredConstructorParameters.size())
+    /**
+     * Public default constructor for ${class.name}
+     */
     public ${class.name}()
     {
 #if($class.generalization)
@@ -65,6 +68,12 @@ public#if($abstract) abstract#end class $class.name
 ##  constructor taking only required properties
 ##
 #if ($class.allProperties.size() > $class.allRequiredConstructorParameters.size())
+    /**
+     * Public constructor for ${class.name} with $class.allRequiredConstructorParameters.size() required properties.
+#foreach ($property in $class.allRequiredConstructorParameters)
+     * @param ${property.name}In ${property.getterSetterTypeName} $property.getDocumentation("")
+#end
+     */
     public ${class.name}(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allRequiredConstructorParameters)
@@ -91,10 +100,16 @@ ${comma}${property.name}## no newline
 ##
 ##  constructor taking all properties
 ##
+    /**
+     * Public constructor for ${class.name} with all properties.
+#foreach ($property in $class.allProperties)
+     * @param ${property.name}In ${property.getterSetterTypeName} $property.getDocumentation("")
+#end
+     */
     public ${class.name}(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allProperties)
-${comma}${property.getterSetterTypeName} ${property.name}## no newline
+${comma}${property.getterSetterTypeName} ${property.name}In## no newline
 #set ($comma = ", ")
 #end
 )
@@ -103,13 +118,13 @@ ${comma}${property.getterSetterTypeName} ${property.name}## no newline
         super(## no newline
 #set ($comma = "")
 #foreach ($property in $class.generalization.allProperties)
-${comma}${property.name}## no newline
+${comma}${property.name}In## no newline
 #set ($comma = ", ")
 #end
 );
 #end
 #foreach ($property in $class.properties)
-        this.${property.name} = ${property.name};
+        this.${property.name} = ${property.name}In;
 #end
     }
 
@@ -117,7 +132,7 @@ ${comma}${property.name}## no newline
      * Copy-constructor from other ${class.name}
      *
      * @param otherBean, cannot be <code>null</code>
-     * @throws java.lang.NullPointerException if the argument is <code>null</code>
+     * @throws NullPointerException if the argument is <code>null</code>
      */
     public ${class.name}(${class.name} otherBean)
     {
@@ -135,6 +150,7 @@ ${comma}otherBean.${property.getterName}()## no newline
 
     /**
 $attribute.getDocumentation("     * ")
+     * @return this.${attribute.name} $attribute.getterSetterTypeName
      */
     public $attribute.getterSetterTypeName ${attribute.getterName}()
     {
@@ -142,9 +158,13 @@ $attribute.getDocumentation("     * ")
     }
 
 #if (!$attribute.readOnly)
-    public void ${attribute.setterName}($attribute.getterSetterTypeName $attribute.name)
+    /**
+$attribute.getDocumentation("     * ")
+     * @param ${attribute.name}In $attribute.getterSetterTypeName
+     */
+    public void ${attribute.setterName}($attribute.getterSetterTypeName ${attribute.name}In)
     {
-        this.${attribute.name} = $attribute.name;
+        this.${attribute.name} = ${attribute.name}In;
     }
 
 #end
@@ -158,6 +178,7 @@ $attribute.getDocumentation("     * ")
     /**
      * Get the $target.name
 $target.getDocumentation("     * ")
+     * @return this.${target.name} $target.getterSetterTypeName
      */
     public $target.getterSetterTypeName ${target.getterName}()
     {
@@ -167,10 +188,11 @@ $target.getDocumentation("     * ")
 #if (!$associationEnd.readOnly)
     /**
      * Sets the $target.name
+     * @param ${target.name}In $target.getterSetterTypeName
      */
-    public void ${target.setterName}($target.getterSetterTypeName $target.name)
+    public void ${target.setterName}($target.getterSetterTypeName ${target.name}In)
     {
-        this.${target.name} = ${target.name};
+        this.${target.name} = ${target.name}In;
     }
 
 #end
@@ -182,6 +204,13 @@ $target.getDocumentation("     * ")
 #set ($signature = $operation.signature)
     /**
 $operation.getDocumentation("     * ")
+#foreach ($argument in $operation.arguments)
+     * @param $argument.name $argument.fullyQualifiedName
+#end
+     * @return $returnType.fullyQualifiedName
+#foreach ($exception in $operation.exceptions)
+     * @throws $exception.fullyQualifiedName
+#end
      */
 #if ($operation.exceptionsPresent)
     $operation.visibility abstract $returnType.fullyQualifiedName $signature
@@ -191,5 +220,4 @@ $operation.getDocumentation("     * ")
 #end
 
 #end
-
 }

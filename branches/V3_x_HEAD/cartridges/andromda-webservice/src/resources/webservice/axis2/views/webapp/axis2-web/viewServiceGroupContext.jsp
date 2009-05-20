@@ -25,7 +25,7 @@
   */
 %>
 <jsp:include page="include/adminheader.jsp"></jsp:include>
-<h1>Runing Context hierachy</h1>
+<h1>Runing Context hierarchy</h1>
 <%
     ConfigurationContext configContext = (ConfigurationContext)request.getSession().getAttribute(Constants.CONFIG_CONTEXT);
     Hashtable serviceGroupContextsMap = configContext.getServiceGroupContexts();

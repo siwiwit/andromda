@@ -21,43 +21,60 @@ public class MethodData implements Comparable
     private final ArrayList arguments = new ArrayList();
     private final ArrayList exceptions = new ArrayList();
 
+    /**
+     * @param metafacadeNameIn
+     * @param visibilityIn
+     * @param isAbstractIn
+     * @param returnTypeNameIn
+     * @param nameIn
+     * @param documentationIn
+     */
     public MethodData(
-        String metafacadeName,
-        String visibility,
-        boolean isAbstract,
-        String returnTypeName,
-        String name,
-        String documentation)
+        String metafacadeNameIn,
+        String visibilityIn,
+        boolean isAbstractIn,
+        String returnTypeNameIn,
+        String nameIn,
+        String documentationIn)
     {
-        this.metafacadeName = metafacadeName;
-        this.visibility = visibility;
-        this.isAbstract = isAbstract;
-        this.name = name;
-        this.returnTypeName = returnTypeName;
-        this.documentation = documentation;
-    }
-
-    public void addArgument(ArgumentData argument)
-    {
-        arguments.add(argument);
+        this.metafacadeName = metafacadeNameIn;
+        this.visibility = visibilityIn;
+        this.isAbstract = isAbstractIn;
+        this.name = nameIn;
+        this.returnTypeName = returnTypeNameIn;
+        this.documentation = documentationIn;
     }
 
     /**
-     * @return
+     * @param argument
+     */
+    public void addArgument(ArgumentData argument)
+    {
+        this.arguments.add(argument);
+    }
+
+    /**
+     * @return arguments
      */
     public Collection getArguments()
     {
-        return arguments;
+        return this.arguments;
     }
 
+    /**
+     * @param typeName
+     */
     public void addException(String typeName)
     {
-        exceptions.add(typeName);
+        this.exceptions.add(typeName);
     }
 
+    /**
+     * @return exceptions
+     */
     public Collection getExceptions()
     {
-        return exceptions;
+        return this.exceptions;
     }
 
     /**
@@ -67,7 +84,7 @@ public class MethodData implements Comparable
      */
     public String getMetafacadeName()
     {
-        return metafacadeName;
+        return this.metafacadeName;
     }
 
     /**
@@ -77,7 +94,7 @@ public class MethodData implements Comparable
      */
     public String getName()
     {
-        return name;
+        return this.name;
     }
 
     /**
@@ -87,7 +104,7 @@ public class MethodData implements Comparable
      */
     public String getReturnTypeName()
     {
-        return returnTypeName;
+        return this.returnTypeName;
     }
 
     /**
@@ -99,11 +116,12 @@ public class MethodData implements Comparable
      */
     public String buildMethodDeclaration(boolean suppressAbstractDeclaration)
     {
-        String declaration = visibility + " "
-                + ((isAbstract && !suppressAbstractDeclaration) ? "abstract " : "")
-                + ((returnTypeName != null) ? (returnTypeName + " ") : "") + name + "(";
+        String declaration = this.visibility + " " 
+                + ((this.isAbstract && !suppressAbstractDeclaration) ? "abstract " : "")
+                + ((this.returnTypeName != null) ? (this.returnTypeName + " ") : "") + this.name + "(";
 
-        for (final Iterator iterator = arguments.iterator(); iterator.hasNext();)
+        declaration += getTypedArgumentList();
+        /*for (final Iterator iterator = this.arguments.iterator(); iterator.hasNext();)
         {
             final ArgumentData argument = (ArgumentData)iterator.next();
             declaration += (argument.getFullyQualifiedTypeName() + " " + argument.getName());
@@ -111,13 +129,13 @@ public class MethodData implements Comparable
             {
                 declaration += ", ";
             }
-        }
+        }*/
         declaration += ")";
 
-        if (exceptions.size() > 0)
+        if (this.exceptions.size() > 0)
         {
             declaration += " throws ";
-            for (final Iterator iterator = exceptions.iterator(); iterator.hasNext();)
+            for (final Iterator iterator = this.exceptions.iterator(); iterator.hasNext();)
             {
                 String exception = (String)iterator.next();
                 declaration += exception;
@@ -132,6 +150,42 @@ public class MethodData implements Comparable
     }
 
     /**
+     * Builds a string representing a comma separated parameter type + name list.
+     *
+     * @return String the declaration
+     */
+    public String getTypedArgumentList()
+    {
+        return getTypedArgumentList(null);
+    }
+
+    /**
+     * Builds a string representing a comma separated parameter type + name list.
+     *
+     * @param modifier Optional modifier before each parameter
+     * @return String the declaration
+     */
+    public String getTypedArgumentList(String modifier)
+    {
+        String declaration = "";
+
+        for (final Iterator iterator = this.arguments.iterator(); iterator.hasNext();)
+        {
+            final ArgumentData argument = (ArgumentData)iterator.next();
+            if (modifier!=null)
+            {
+                declaration += modifier + " ";
+            }
+            declaration += (argument.getFullyQualifiedTypeName() + " " + argument.getName());
+            if (iterator.hasNext())
+            {
+                declaration += ", ";
+            }
+        }
+        return declaration;
+    }
+
+    /**
      * Builds a string representing a call to the method.
      * 
      * @return String how a call would look like
@@ -140,7 +194,7 @@ public class MethodData implements Comparable
     {
         String call = getName() + "(";
 
-        for (final Iterator iterator = arguments.iterator(); iterator.hasNext();)
+        for (final Iterator iterator = this.arguments.iterator(); iterator.hasNext();)
         {
             final ArgumentData argument = (ArgumentData)iterator.next();
             call += argument.getName();
@@ -154,16 +208,16 @@ public class MethodData implements Comparable
     }
 
     /**
-     * Builds a signature which can be used as a key into a map. Consists of the return type, the name and the f.q.
-     * types of the arguements.
+     * Builds a signature which can be used as a key into a map. Consists of the methodName, number of arguments, 
+     * return type, the name and the f.q. types of the arguments.
      * 
      * @return String the key that identifies this method
      */
     public String buildCharacteristicKey()
     {
-        String key = ((returnTypeName != null) ? (returnTypeName + " ") : "") + name + "(";
+        String key = ((this.returnTypeName != null) ? (this.returnTypeName + " ") : "") + this.name + "(";
 
-        for (final Iterator iterator = arguments.iterator(); iterator.hasNext();)
+        for (final Iterator iterator = this.arguments.iterator(); iterator.hasNext();)
         {
             final ArgumentData argument = (ArgumentData)iterator.next();
             key += argument.getFullyQualifiedTypeName();
@@ -184,7 +238,7 @@ public class MethodData implements Comparable
      */
     public boolean isAbstract()
     {
-        return isAbstract;
+        return this.isAbstract;
     }
 
     /**
@@ -194,7 +248,7 @@ public class MethodData implements Comparable
      */
     public String getVisibility()
     {
-        return visibility;
+        return this.visibility;
     }
 
     /**
@@ -204,7 +258,7 @@ public class MethodData implements Comparable
      */
     public String getDocumentation()
     {
-        return documentation;
+        return this.documentation;
     }
 
     /**
@@ -214,19 +268,19 @@ public class MethodData implements Comparable
      */
     public boolean isReturnTypePresent()
     {
-        return returnTypeName != null && !returnTypeName.equals("void");
+        return this.returnTypeName != null && !this.returnTypeName.equals("void");
     }
 
     /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     * @see Comparable#compareTo(Object)
      */
     public int compareTo(final Object object)
     {
         MethodData other = (MethodData)object;
         int result = getMetafacadeName().compareTo(other.getMetafacadeName());
 
-        // Use the characteristic key in order to have a deterministic order
-        return (result != 0) ? result : buildCharacteristicKey().compareTo(
-                other.buildCharacteristicKey());
+        // Use the characteristic key in order to have a deterministic order, starting with method name and number of arguments
+        return (result != 0) ? result : (name + arguments.size() + ", " + buildCharacteristicKey())
+            .compareTo(other.getName() + other.getArguments().size() + ", " + other.buildCharacteristicKey());
     }
 }

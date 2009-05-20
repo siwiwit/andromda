@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.andromda.cartridges.jsf.JSFGlobals;
 import org.andromda.cartridges.jsf.JSFProfile;
 import org.andromda.cartridges.jsf.JSFUtils;
@@ -23,16 +22,23 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-
+import org.apache.log4j.Logger;
 
 /**
  * MetafacadeLogic implementation for org.andromda.cartridges.jsf.metafacades.JSFAction.
  *
  * @see org.andromda.cartridges.jsf.metafacades.JSFAction
+ * @author Bob Fields
  */
 public class JSFActionLogicImpl
     extends JSFActionLogic
 {
+    /**
+     * Public constructor for JSFActionLogicImpl
+     * @param metaObject 
+     * @param context 
+     * @see org.andromda.cartridges.jsf.metafacades.JSFAction
+     */
     public JSFActionLogicImpl(
         Object metaObject,
         String context)
@@ -41,9 +47,15 @@ public class JSFActionLogicImpl
     }
 
     /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(JSFActionLogicImpl.class);
+
+    /**
+     * @return getFormBeanName(true)
      * @see org.andromda.cartridges.jsf.metafacades.JSFAction#getFormBeanName()
      */
-    protected java.lang.String handleGetFormBeanName()
+    protected String handleGetFormBeanName()
     {
         return this.getFormBeanName(true);
     }
@@ -75,6 +87,7 @@ public class JSFActionLogicImpl
     }
 
     /**
+     * @return useCase.getName()
      * @see org.andromda.cartridges.jsf.metafacades.JSFAction#getTriggerName()
      */
     protected String handleGetTriggerName()
@@ -98,9 +111,10 @@ public class JSFActionLogicImpl
     }
 
     /**
+     * @return getConfiguredProperty(JSFGlobals.FORM_IMPLEMENTATION_PATTERN)
      * @see org.andromda.cartridges.jsf.metafacades.JSFAction#getFormImplementationName()
      */
-    protected java.lang.String handleGetFormImplementationName()
+    protected String handleGetFormImplementationName()
     {
         final String pattern =
             ObjectUtils.toString(this.getConfiguredProperty(JSFGlobals.FORM_IMPLEMENTATION_PATTERN));
@@ -110,6 +124,7 @@ public class JSFActionLogicImpl
     }
 
     /**
+     * @return findTaggedValue(JSFProfile.TAGGEDVALUE_ACTION_TYPE)
      * @see org.andromda.cartridges.jsf.metafacades.JSFAction#getFullyQualifiedFormImplementationName()
      */
     protected boolean handleIsTableAction()
@@ -118,9 +133,10 @@ public class JSFActionLogicImpl
     }
 
     /**
+     * @return this.getPackageName().append(this.getFormImplementationName())
      * @see org.andromda.cartridges.jsf.metafacades.JSFAction#getFullyQualifiedFormImplementationName()
      */
-    protected java.lang.String handleGetFullyQualifiedFormImplementationName()
+    protected String handleGetFullyQualifiedFormImplementationName()
     {
         final StringBuffer fullyQualifiedName = new StringBuffer();
         final String packageName = this.getPackageName();
@@ -132,9 +148,10 @@ public class JSFActionLogicImpl
     }
 
     /**
+     * @return getFullyQualifiedFormImplementationName().replace( '.', '/')
      * @see org.andromda.cartridges.jsf.metafacades.JSFAction#getFullyQualifiedFormImplementationPath()
      */
-    protected java.lang.String handleGetFullyQualifiedFormImplementationPath()
+    protected String handleGetFullyQualifiedFormImplementationPath()
     {
         return this.getFullyQualifiedFormImplementationName().replace(
             '.',

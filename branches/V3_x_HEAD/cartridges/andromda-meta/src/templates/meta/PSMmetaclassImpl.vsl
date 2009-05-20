@@ -1,6 +1,6 @@
 // license-header java merge-point
 /**
- * This is only generated once! It will never be overwritten.
+ * This is only generated once by PSMmetaclassImpl.vsl! It will never be overwritten.
  * You can (and have to!) safely modify it by hand.
  */
 #if ($stringUtils.isNotBlank($class.packageName))
@@ -17,6 +17,9 @@ public#if($class.implMustBeAbstract) abstract#end class ${class.name}Impl
 ##  default constructor
 ##
 #if ($class.requiredConstructorParameters.size() > 0 || $class.allRequiredConstructorParameters.size() > $class.requiredConstructorParameters.size())
+    /**
+     * Public default constructor for ${class.name}Impl
+     */
     public ${class.name}Impl()
     {
         super();
@@ -27,6 +30,12 @@ public#if($class.implMustBeAbstract) abstract#end class ${class.name}Impl
 ##  constructor taking only required properties
 ##
 #if ($class.allProperties.size() > $class.allRequiredConstructorParameters.size())
+    /**
+     * Public constructor for ${class.name}Impl with $class.allRequiredConstructorParameters.size() required properties.
+#foreach ($property in $class.allRequiredConstructorParameters)
+     * @param ${property.name}In ${property.getterSetterTypeName} $property.getDocumentation("")
+#end
+     */
     public ${class.name}Impl(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allRequiredConstructorParameters)
@@ -48,6 +57,12 @@ ${comma}${property.name}## no newline
 ##
 ##  constructor taking all properties
 ##
+    /**
+     * Public constructor for ${class.name}Impl with all properties.
+#foreach ($property in $class.allProperties)
+     * @param ${property.name}In ${property.getterSetterTypeName} $property.getDocumentation("")
+#end
+     */
     public ${class.name}Impl(## no newline
 #set ($comma = "")
 #foreach ($property in $class.allProperties)
@@ -69,7 +84,7 @@ ${comma}${property.name}## no newline
      * Copy-constructor from other ${class.name}
      *
      * @param otherBean, cannot be <code>null</code>
-     * @throws java.lang.NullPointerException if the argument is <code>null</code>
+     * @throws NullPointerException if the argument is <code>null</code>
      */
     public ${class.name}Impl(${class.name} otherBean)
     {
@@ -99,7 +114,7 @@ ${comma}otherBean.${property.getterName}()## no newline
 #end
     {
         // ${toDoTag} implement $operation.visibility $returnType.fullyQualifiedName $signature
-        throw new java.lang.UnsupportedOperationException("${class.fullyQualifiedName}.${signature} Not implemented!");
+        throw new UnsupportedOperationException("${class.fullyQualifiedName}.${signature} Not implemented!");
     }
 
 #end

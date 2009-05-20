@@ -1,3 +1,4 @@
+// license-header java merge-point
 //
 // Attention: generated code (by Metafacade.vsl) - do not modify!
 //
@@ -17,7 +18,7 @@ public interface $metafacade.name
     /**
      * Indicates the metafacade type (used for metafacade mappings).
      *
-     * @return always <code>true</code>
+     * @return boolean always <code>true</code>
      */
     public boolean is${metafacade.name}MetaType();
 #if ($metafacade.generalizations.empty)
@@ -32,12 +33,14 @@ public interface $metafacade.name
      * (for example: an operation is an owner of its parameters, etc). This is used
      * by AndroMDA's validation framework to provide more context as to where the
      * error has occurred.
+     * @return Object the Validation Owner
      */
     public Object getValidationOwner();
 
     /**
      * Gets the name of the metafacade used within validation messages.  This provides
      * the full name of the metafacade.
+     * @return String the Validation Name
      */
     public String getValidationName();
 
@@ -50,14 +53,21 @@ public interface $metafacade.name
      *        validation messages will be added if invariants are broken.
      */
     void validateInvariants(java.util.Collection validationMessages);
-    
 #end
 #foreach ($method in $metafacade.methodDataForPSM)
 
    /**
 $method.documentation
+#foreach ($argument in $method.arguments)
+    * @param $argument.name $argument.fullyQualifiedTypeName
+#end
+#if (!$method.returnTypeName.equals("void"))
+    * @return $method.returnTypeName
+#end
+#foreach ($exception in $method.exceptions)
+    * @throws $exception.typeName
+#end
     */
     ${method.buildMethodDeclaration(true)};
 #end
-
 }

@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import org.andromda.cartridges.ejb.EJBGlobals;
 import org.andromda.cartridges.ejb.EJBProfile;
 import org.andromda.core.common.ExceptionRecorder;
@@ -19,11 +18,13 @@ import org.andromda.metafacades.uml.UMLMetafacadeProperties;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
  * <p>
  * Represents an entity EJB. </p> Metaclass facade implementation.
+ * @author Bob Fields
  */
 public class EJBEntityFacadeLogicImpl
     extends EJBEntityFacadeLogic
@@ -35,6 +36,11 @@ public class EJBEntityFacadeLogicImpl
     {
         super(metaObject, context);
     }
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(EJBEntityFacadeLogicImpl.class);
 
     public Collection handleGetIdentifiers()
     {
