@@ -3,7 +3,8 @@ package org.andromda.metafacades.emf.uml2;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
-
+import org.andromda.metafacades.uml.GeneralizableElementFacade;
+import org.andromda.metafacades.uml.StereotypeFacade;
 
 /**
  * MetafacadeLogic implementation for org.andromda.metafacades.uml.ValueObject.
