@@ -182,7 +182,7 @@ public abstract class AbstractConfigurationMojo
                 {
                     getLog().debug("adding to classpath '" + file + "'");
                 }
-                classpathUrls[ctr] = file.toURL();
+                classpathUrls[ctr] = file.toURI().toURL();
             }
 
             final URLClassLoader loader =
