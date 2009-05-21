@@ -189,7 +189,7 @@ public class OperationFacadeLogicImpl
      * @return fully qualified return type, including multiplicity
      * @see org.andromda.metafacades.uml.OperationFacade#getGetterSetterReturnTypeName()
      */
-    //@Override
+    @Override
     protected String handleGetGetterSetterReturnTypeName()
     {
         String type = null;
@@ -303,7 +303,7 @@ public class OperationFacadeLogicImpl
      * @return metaObject.isLeaf()
      * @see org.andromda.metafacades.uml.OperationFacade#isLeaf()
      */
-    //@Override
+    @Override
     protected boolean handleIsLeaf()
     {
         return metaObject.isLeaf();

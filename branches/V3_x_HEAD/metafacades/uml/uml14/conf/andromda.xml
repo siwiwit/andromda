@@ -15,6 +15,10 @@
             <location patterns="**/*.xml.zip">${pom.basedir}/../common/src/uml</location>
             <location patterns="**/*.xml.zip">${pom.basedir}/../../../profiles/uml-1.4</location>
             <location patterns="**/*.xml">${pom.basedir}/../../../profiles/uml-1.4</location>
+            <location patterns="**/*.xml">${pom.basedir}/../../uml14/uml/src</location>
+            <!--location>${maven.repo.local}/andromda/xml.zips</location>
+            <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/metafacades</location>
+            <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles</location-->
           </moduleSearchLocations>
         </model>
       </models>
@@ -29,13 +33,13 @@
         <property name="facade-logics">${maven.build.src}</property>
         <property name="facade-logic-impls">${maven.src.dir}/java</property>
         <property name="metamodelVersionPackage">org.andromda.metafacades.uml14</property>
-        <property name="enableTemplating">false</property>
-        <property name="enableAnnotations">false</property>
-        <property name="typeSafeEnumsEnabled">false</property>
+        <property name="enableTemplating">true</property>
+        <property name="enableAnnotations">true</property>
+        <property name="typeSafeEnumsEnabled">true</property>
         <property name="enumerationLiteralNameMask">upperunderscore</property>
-        <property name="pluralizeAssociationEndNames">false</property>
-        <property name="pluralizeAttributeNames">false</property>
-        <property name="pluralizeParameterNames">false</property>
+        <property name="pluralizeAssociationEndNames">true</property>
+        <property name="pluralizeAttributeNames">true</property>
+        <property name="pluralizeParameterNames">true</property>
         <property name="toDoTag">TODO</property>
       </properties>
     </namespace>

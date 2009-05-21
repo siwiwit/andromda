@@ -1,7 +1,5 @@
 package org.andromda.metafacades.emf.uml2;
 
-import org.andromda.metafacades.uml.ClassifierFacade;
-import org.andromda.metafacades.uml.EnumerationFacade;
 import org.andromda.metafacades.uml.NameMasker;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.andromda.metafacades.uml.UMLMetafacadeProperties;
@@ -24,6 +22,10 @@ import org.eclipse.uml2.MultiplicityElement;
 public class AttributeFacadeLogicImpl
     extends AttributeFacadeLogic
 {
+    /**
+     * @param metaObjectIn
+     * @param context
+     */
     public AttributeFacadeLogicImpl(
         final Attribute metaObjectIn,
         final String context)
@@ -98,7 +100,7 @@ public class AttributeFacadeLogicImpl
      * @return this.metaObject.isLeaf()
      * @see org.andromda.metafacades.uml.AttributeFacade#isLeaf()
      */
-    //@Override
+    @Override
     protected boolean handleIsLeaf()
     {
         return this.metaObject.isLeaf();

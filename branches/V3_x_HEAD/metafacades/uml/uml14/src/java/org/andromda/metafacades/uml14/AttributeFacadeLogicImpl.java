@@ -392,7 +392,7 @@ public class AttributeFacadeLogicImpl
      * @return false
      * @see org.andromda.metafacades.uml.AttributeFacade#isLeaf()
      */
-    //@Override
+    @Override
     public boolean handleIsLeaf()
     {
         return false;

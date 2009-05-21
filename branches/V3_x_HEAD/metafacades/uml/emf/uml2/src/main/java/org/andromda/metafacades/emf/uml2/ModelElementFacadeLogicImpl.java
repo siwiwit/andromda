@@ -926,7 +926,7 @@ public class ModelElementFacadeLogicImpl
      * @return this.metaObject.getKeywords()
      * @see org.andromda.metafacades.uml.ModelElementFacade#getKeywords()
      */
-    //@Override
+    @Override
     protected Collection<String> handleGetKeywords()
     {
         return this.metaObject.getKeywords();
@@ -936,7 +936,7 @@ public class ModelElementFacadeLogicImpl
      * @return element.getLabel()
      * @see org.andromda.metafacades.uml.ModelElementFacade#getLabel()
      */
-    //@Override
+    @Override
     protected String handleGetLabel()
     {
         final NamedElement element = (NamedElement)this.metaObject;

@@ -32,8 +32,9 @@
         <property name="facades">${maven.build.src}</property>
         <property name="facade-logics" ignore="true"/>
         <property name="facade-logic-impls" ignore="true"/>
-        <property name="enableTemplating">false</property>
-        <property name="typeSafeEnumsEnabled">false</property>
+        <property name="enableTemplating">true</property>
+        <property name="enableAnnotations">true</property>
+        <property name="typeSafeEnumsEnabled">true</property>
         <property name="pluralizeAssociationEndNames">true</property>
         <property name="pluralizeAttributeNames">true</property>
         <property name="pluralizeParameterNames">true</property>

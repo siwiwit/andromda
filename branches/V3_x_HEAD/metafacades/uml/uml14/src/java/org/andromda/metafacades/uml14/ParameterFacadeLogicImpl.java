@@ -166,7 +166,7 @@ public class ParameterFacadeLogicImpl
      * @return "NONE"
      * @see org.andromda.metafacades.uml.ParameterFacade#isException()
      */
-    //@Override
+    @Override
     public String handleGetEffect()
     {
         return "NONE";
@@ -177,7 +177,7 @@ public class ParameterFacadeLogicImpl
      * @return false
      * @see org.andromda.metafacades.uml.ParameterFacade#isException()
      */
-    //@Override
+    @Override
     public boolean handleIsException()
     {
         return false;
@@ -188,7 +188,7 @@ public class ParameterFacadeLogicImpl
      * @return false
      * @see org.andromda.metafacades.uml.ParameterFacade#isOrdered()
      */
-    //@Override
+    @Override
     protected boolean handleIsOrdered()
     {
         return false;
@@ -216,7 +216,7 @@ public class ParameterFacadeLogicImpl
      * @return !this.hasStereotype(UMLProfile.STEREOTYPE_UNIQUE)
      * @see org.andromda.metafacades.uml.ParameterFacade#isUnique()
      */
-    //@Override
+    @Override
     protected boolean handleIsUnique()
     {
         return !this.hasStereotype(UMLProfile.STEREOTYPE_UNIQUE);

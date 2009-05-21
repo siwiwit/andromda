@@ -152,7 +152,7 @@ public class AssociationFacadeLogicImpl
      * @return true always
      * @see org.andromda.metafacades.uml.AssociationFacade#isBinary()
      */
-    //@Override
+    @Override
     protected boolean handleIsBinary()
     {
         return true;
@@ -163,7 +163,7 @@ public class AssociationFacadeLogicImpl
      * @return false always
      * @see org.andromda.metafacades.uml.AssociationFacade#isDerived()
      */
-    //@Override
+    @Override
     protected boolean handleIsDerived()
     {
         return false;

@@ -111,7 +111,7 @@ public class ParameterFacadeLogicImpl
      * UML2 Only: Returns "NONE" if no effect specified.
      * @see org.andromda.metafacades.uml.ParameterFacade#isException()
      */
-    //@Override
+    @Override
     public String handleGetEffect()
     {
         ParameterEffectKind effect = this.metaObject.getEffect();
@@ -129,7 +129,7 @@ public class ParameterFacadeLogicImpl
      * UML2 Only: Returns false always.
      * @see org.andromda.metafacades.uml.ParameterFacade#isException()
      */
-    //@Override
+    @Override
     public boolean handleIsException()
     {
         return this.metaObject.isException();
@@ -138,7 +138,7 @@ public class ParameterFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ParameterFacade#isOrdered()
      */
-    //@Override
+    @Override
     protected boolean handleIsOrdered()
     {
         return this.metaObject.isOrdered();
@@ -147,7 +147,7 @@ public class ParameterFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ParameterFacade#isUnique()
      */
-    //@Override
+    @Override
     protected boolean handleIsUnique()
     {
         return this.metaObject.isUnique();
@@ -283,7 +283,7 @@ public class ParameterFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.ParameterFacade#getGetterSetterTypeName()
      */
-    //@Override
+    @Override
     protected String handleGetGetterSetterTypeName()
     {
         String name = null;

@@ -30,7 +30,7 @@ public class ValueObjectLogicImpl
      * @return specializations
      * @see org.andromda.metafacades.uml.ValueObject#getTypeSpecializations()
      */
-    //@Override
+    @Override
     protected Collection<ValueObjectLogic> handleGetTypeSpecializations()
     {
         System.out.println("TypeSpecializations " + this.getAllSpecializations().size() + " with stereotypes " + this.getStereotypes().size());

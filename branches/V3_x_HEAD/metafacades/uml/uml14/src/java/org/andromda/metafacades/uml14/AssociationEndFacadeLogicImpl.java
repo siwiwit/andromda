@@ -108,7 +108,6 @@ public class AssociationEndFacadeLogicImpl
      * @return metaObject.getAggregation().toString()
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getAggregationKind()
      */
-    //@Override
     protected String handleGetAggregationKind()
     {
         return metaObject.getAggregation().toString();
@@ -119,7 +118,6 @@ public class AssociationEndFacadeLogicImpl
      * @return "" always
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getDefault()
      */
-    //@Override
     protected String handleGetDefault()
     {
         return "";
@@ -202,7 +200,7 @@ public class AssociationEndFacadeLogicImpl
      * @return false
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isLeaf()
      */
-    //@Override
+    @Override
     public boolean handleIsLeaf()
     {
         return false;
@@ -232,7 +230,7 @@ public class AssociationEndFacadeLogicImpl
      * @return hasStereotype(UMLProfile.STEREOTYPE_UNIQUE)
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isUnique()
      */
-    //@Override
+    @Override
     public boolean handleIsUnique()
     {
         return this.hasStereotype(UMLProfile.STEREOTYPE_UNIQUE);

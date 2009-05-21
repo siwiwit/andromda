@@ -90,7 +90,7 @@ public class StateVertexFacadeLogicImpl
      * @return Outgoings FrontEndActions
      * @see org.andromda.metafacades.uml.FrontEndView#getActions()
      */
-    //@Override
+    @Override
     protected List<FrontEndAction> handleGetActions()
     {
         final List<FrontEndAction> actions = new ArrayList<FrontEndAction>();

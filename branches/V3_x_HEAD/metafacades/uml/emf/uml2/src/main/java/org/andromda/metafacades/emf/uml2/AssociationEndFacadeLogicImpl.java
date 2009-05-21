@@ -93,7 +93,7 @@ public class AssociationEndFacadeLogicImpl
      * UML2 Only: Returns false always.
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isLeaf()
      */
-    //@Override
+    @Override
     public boolean handleIsLeaf()
     {
         return this.metaObject.isLeaf();
@@ -130,7 +130,7 @@ public class AssociationEndFacadeLogicImpl
      * UML2 Only: Returns false always.
      * @see org.andromda.metafacades.uml.AssociationEndFacade#isUnique()
      */
-    //@Override
+    @Override
     public boolean handleIsUnique()
     {
         return this.metaObject.isUnique();
@@ -273,7 +273,7 @@ public class AssociationEndFacadeLogicImpl
     /**
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getAggregationKind()
      */
-    //@Override
+    @Override
     protected String handleGetAggregationKind()
     {
         return this.metaObject.getAggregation().getName();
@@ -322,7 +322,7 @@ public class AssociationEndFacadeLogicImpl
      * Get the UML Default Value for this AssociationEnd
      * @see org.andromda.metafacades.uml.AssociationEndFacade#getDefault()
      */
-    //@Override
+    @Override
     protected String handleGetDefault()
     {
         return this.metaObject.getDefault();

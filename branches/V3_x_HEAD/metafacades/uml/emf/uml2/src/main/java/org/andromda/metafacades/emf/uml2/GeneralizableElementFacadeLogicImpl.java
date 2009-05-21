@@ -5,9 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import org.andromda.metafacades.uml.GeneralizableElementFacade;
-import org.andromda.metafacades.uml.ModelElementFacade;
 import org.eclipse.uml2.Classifier;
 import org.eclipse.uml2.Generalization;
 
@@ -21,6 +18,10 @@ import org.eclipse.uml2.Generalization;
 public class GeneralizableElementFacadeLogicImpl
     extends GeneralizableElementFacadeLogic
 {
+    /**
+     * @param metaObject
+     * @param context
+     */
     public GeneralizableElementFacadeLogicImpl(
         final Object metaObject,
         final String context)

@@ -207,8 +207,7 @@ public class MetafacadeUtils
             if (classifier != null)
             {
                 // Takes multiplicity and templating into account
-                //type = parameter.getGetterSetterTypeName();
-                type = classifier.getFullyQualifiedName();
+                type = parameter.getGetterSetterTypeName();
             }
 
             if (commaNeeded)
