@@ -1,6 +1,5 @@
 package org.andromda.cartridges.webservice.metafacades;
 
-import java.util.Collection;
 import org.andromda.cartridges.webservice.WebServiceGlobals;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.lang.StringUtils;
@@ -118,58 +117,4 @@ public class WebServiceParameterLogicImpl
         }
         return !isAttribute;
     }
-    
-    /* Unnecessary method
-     * @see org.andromda.cartridges.webservice.metafacades.WebServiceParameterLogic#isUnique()
-     */
-    public boolean isUnique()
-    {
-        return true;
-    }
-    
-    public boolean isOrdered()
-    {
-        return true;
-    }
-    
-    public boolean isMany()
-    {
-        return false;
-    }
-    
-    public boolean isException()
-    {
-        return false;
-    }
-    
-    public String getGetterSetterTypeName()
-    {
-        return this.getGetterName();
-    }
-    
-    public String getEffect()
-    {
-        return null;
-    }
-    
-    public String getQualifiedName()
-    {
-        return null;
-    }
-    
-    public String getLabel()
-    {
-        return null;
-    }
-    
-    public Collection getKeywords()
-    {
-        return null;
-    }
-    
-    public boolean hasKeyword(String keyword)
-    {
-        return false;
-    }
-
 }
