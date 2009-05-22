@@ -121,8 +121,21 @@ public class WebServiceParameterLogicImpl
     /* Unnecessary method
      * @see org.andromda.cartridges.webservice.metafacades.WebServiceParameterLogic#isUnique()
      */
+    @Override
     public boolean isUnique()
     {
-        return super.isUnique();
+        return true;
+    }
+    
+    @Override
+    public boolean isOrdered()
+    {
+        return true;
+    }
+    
+    @Override
+    public boolean isMany()
+    {
+        return false;
     }
 }
