@@ -147,6 +147,11 @@ public class WebServiceParameterLogicImpl
         return this.getGetterName();
     }
     
+    public String getEffect()
+    {
+        return null;
+    }
+    
     public Collection getKeywords()
     {
         return null;
