@@ -3,6 +3,7 @@ package org.andromda.cartridges.hibernate.metafacades;
 import org.andromda.core.common.ExceptionRecorder;
 import org.andromda.metafacades.uml.TypeMappings;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -14,6 +15,11 @@ import org.apache.commons.lang.StringUtils;
 public class HibernateTypeLogicImpl
     extends HibernateTypeLogic
 {
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = Logger.getLogger(HibernateTypeLogicImpl.class);
+    
     // ---------------- constructor -------------------------------
     public HibernateTypeLogicImpl(
         Object metaObject,
