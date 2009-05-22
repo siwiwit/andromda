@@ -65,12 +65,13 @@ public class EnumerationLiteralFacadeLogicImpl
     }
 
     /**
-     * @see org.andromda.metafacades.emf.uml2.EnumerationLiteralFacadeLogic#handleGetEnumerationValue()
+     * @see org.andromda.metafacades.emf.uml2.EnumerationLiteralFacade#getEnumerationValue()
      */
     @Override
-    protected String handleGetEnumerationValue() {
+    protected String handleGetEnumerationValue() 
+    {
         String value = this.getValue();
-        if (value!=null && value.length()>0 && value.indexOf('"')<0)
+        if (value != null && value.length() > 0 && value.indexOf('"') < 0)
         {
             value = "\"" + value + "\"";
         }
