@@ -1,6 +1,10 @@
 package org.andromda.maven.plugin.modelarchiver;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -112,7 +116,8 @@ public class XmlArchiverMojo
             else
             {
                 // old files in directory are not automatically deleted. 
-                FileUtils.cleanDirectory(buildDirectory);
+                FileUtils.forceDelete(buildDirectory.getAbsolutePath() + "/*.xml");
+                FileUtils.forceDelete(buildDirectory.getAbsolutePath() + "/models");
             }
             // - the directory which to extract the model file
 
@@ -145,8 +150,9 @@ public class XmlArchiverMojo
                                         this.finalName + '.' + FileUtils.getExtension(extractedFile.toString()));
                                 boolean renamed = extractedFile.renameTo(newFile);
                                 getLog().info("Renamed xml " + extractedFile.getAbsolutePath() + " to " + newFile.getAbsolutePath() + " " + renamed);
-                                /*String contents = IOUtils.toString(new FileReader(newFile));
-                                if (replaceExtensions)
+                                String contents = IOUtils.toString(new FileReader(newFile));
+                                final String version = escapePattern(this.project.getVersion());
+                            /*if (replaceExtensions)
                                 {
                                     for (int ctr3 = 0; ctr3 < replacementExtensions.length; ctr3++)
                                     {
@@ -155,17 +161,17 @@ public class XmlArchiverMojo
                                         final String newExtension = "\\-" + version + extension;
                                         contents = contents.replaceAll(
                                                 extensionPattern,
-                                                newExtension);
+                                                newExtension); */
                                         // Fix replacement error for standard UML profiles which follow the _Profile. naming convention.
                                         contents =
                                             contents.replaceAll(
                                                 "_Profile\\-" + version,
                                                 "_Profile");
-                                    }
-                                }
+                                    /*}
+                                }*/
                                 final FileWriter fileWriter = new FileWriter(newFile);
                                 fileWriter.write(contents);
-                                fileWriter.flush();*/
+                                fileWriter.flush();
                             }
                         }
                     }

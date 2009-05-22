@@ -246,6 +246,11 @@ public class XmiZipArchiverMojo
                                             contents.replaceAll(
                                                 extensionPattern,
                                                 newExtension);
+                                        // Put original versions back for standard _Profile references
+                                        contents =
+                                            contents.replaceAll(
+                                                "_Profile\\-" + version,
+                                                "_Profile");
                                     }
                                 }
                                 final FileWriter fileWriter = new FileWriter(newFile);

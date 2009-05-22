@@ -133,7 +133,8 @@ public class UmlArchiverMojo
             else
             {
                 // old files in directory are not automatically deleted. 
-                FileUtils.cleanDirectory(buildDirectory);
+                FileUtils.forceDelete(buildDirectory.getAbsolutePath() + "/*.uml");
+                FileUtils.forceDelete(buildDirectory.getAbsolutePath() + "/models");
             }
 
             String packaging = this.project.getPackaging();

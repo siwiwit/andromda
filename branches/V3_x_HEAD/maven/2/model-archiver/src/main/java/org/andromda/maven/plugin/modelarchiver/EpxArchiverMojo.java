@@ -130,7 +130,8 @@ public class EpxArchiverMojo
             else
             {
                 // old files in directory are not automatically deleted. 
-                FileUtils.cleanDirectory(buildDirectory);
+                FileUtils.forceDelete(buildDirectory.getAbsolutePath() + "/*.epx");
+                FileUtils.forceDelete(buildDirectory.getAbsolutePath() + "/models");
             }
             // - the directory which to extract the model file
             final File modelExtractDirectory = new File(this.workDirectory, "models/xmi");
