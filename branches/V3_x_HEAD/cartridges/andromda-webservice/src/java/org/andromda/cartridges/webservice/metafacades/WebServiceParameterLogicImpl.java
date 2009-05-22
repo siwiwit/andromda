@@ -152,6 +152,16 @@ public class WebServiceParameterLogicImpl
         return null;
     }
     
+    public String getQualifiedName()
+    {
+        return null;
+    }
+    
+    public String getLabel()
+    {
+        return null;
+    }
+    
     public Collection getKeywords()
     {
         return null;
