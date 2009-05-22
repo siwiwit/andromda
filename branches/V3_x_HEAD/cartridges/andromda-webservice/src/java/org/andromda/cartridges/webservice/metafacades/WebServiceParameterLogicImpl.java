@@ -1,5 +1,6 @@
 package org.andromda.cartridges.webservice.metafacades;
 
+import java.util.Collection;
 import org.andromda.cartridges.webservice.WebServiceGlobals;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.lang.StringUtils;
@@ -145,4 +146,10 @@ public class WebServiceParameterLogicImpl
     {
         return this.getGetterName();
     }
+    
+    public Collection getKeywords()
+    {
+        return null;
+    }
+
 }
