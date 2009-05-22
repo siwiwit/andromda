@@ -3,6 +3,7 @@ package org.andromda.cartridges.webservice.metafacades;
 import org.andromda.cartridges.webservice.WebServiceGlobals;
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.uml2.MultiplicityElement;
 
 /**
  * MetafacadeLogic implementation for org.andromda.cartridges.webservice.metafacades.WebServiceParameter.
@@ -116,5 +117,18 @@ public class WebServiceParameterLogicImpl
             isAttribute = Boolean.parseBoolean(attributes);
         }
         return !isAttribute;
+    }
+
+    // Temporary, to work around build circular dependency error when adding new metafacade attribute.
+    /**
+     * <p>
+    * If upper>1 or upper==unlimited. Only applies to UML2. For UML14,
+    * always false.
+    * </p>
+     * @see org.andromda.metafacades.uml.ParameterFacade#isMany()
+     */
+    public boolean isMany()
+    {
+        return this.getUpper() > 1 || this.getUpper() == MultiplicityElement.UNLIMITED_UPPER_BOUND;
     }
 }
