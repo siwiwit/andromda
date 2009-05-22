@@ -156,5 +156,10 @@ public class WebServiceParameterLogicImpl
     {
         return null;
     }
+    
+    public boolean hasKeyword(String keyword)
+    {
+        return false;
+    }
 
 }
