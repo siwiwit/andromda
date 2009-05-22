@@ -33,6 +33,6 @@
         <module>service</module>
         <module>webservice</module>
         <module>xml</module>
-        <!--module>UML_Standard_Profile</module-->
+        <module>UML_Standard_Profile</module>
     </modules>
 </project>
