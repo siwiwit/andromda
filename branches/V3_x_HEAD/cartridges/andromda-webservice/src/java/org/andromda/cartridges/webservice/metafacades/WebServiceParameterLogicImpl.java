@@ -140,4 +140,9 @@ public class WebServiceParameterLogicImpl
     {
         return false;
     }
+    
+    public String getGetterSetterTypeName()
+    {
+        return this.getGetterName();
+    }
 }
