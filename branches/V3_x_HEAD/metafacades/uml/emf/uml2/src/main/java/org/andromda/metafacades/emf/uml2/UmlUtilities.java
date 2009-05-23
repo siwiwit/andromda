@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.metafacade.MetafacadeConstants;
 import org.andromda.metafacades.uml.ClassifierFacade;
@@ -1148,6 +1147,22 @@ public class UmlUtilities
                 // let's try emf normalization
                 String emfName = EMFNormalizer.getEMFName(requestedName);
                 result = emfName.equals(tagValueName);
+            }
+        }
+        if (!result && tagValueName.startsWith("@"))
+        {
+            // let's try rsm guess
+            String rsmName = tagValueName.substring(1);
+            rsmName =
+                rsmName.replace(
+                    '.',
+                    '_');
+            result = requestedName.equals(rsmName);
+            if (!result)
+            {
+                // let's try emf normalization
+                String emfName = EMFNormalizer.getEMFName(tagValueName);
+                result = requestedName.equals(emfName);
             }
         }
         return result;
