@@ -18,7 +18,7 @@
 #end
 #if (!$entity.compositeIdentifier)
 #set ($identifier = $entity.identifiers.iterator().next())
-        <id name="$identifier.name" type="$identifier.type.fullyQualifiedHibernateType" unsaved-value="$identifier.type.javaNullString"#if ($identifier.xmlTagName) node="$identifier.xmlTagName"#end>
+        <id name="$identifier.name" type="$identifier.fullyQualifiedHibernateType" unsaved-value="$identifier.type.javaNullString"#if ($identifier.xmlTagName) node="$identifier.xmlTagName"#end>
             <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end/>
             <generator class="$entity.hibernateGeneratorClass">
 #if ($entity.sequenceHibernateGeneratorClass)
