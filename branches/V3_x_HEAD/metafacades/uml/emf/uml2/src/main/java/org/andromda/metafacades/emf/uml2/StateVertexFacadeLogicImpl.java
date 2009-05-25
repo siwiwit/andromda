@@ -2,9 +2,7 @@ package org.andromda.metafacades.emf.uml2;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import org.andromda.metafacades.uml.FrontEndAction;
+
 import org.eclipse.uml2.Element;
 import org.eclipse.uml2.StateMachine;
 
@@ -83,24 +81,5 @@ public class StateVertexFacadeLogicImpl
     public Object getValidationOwner()
     {
         return getStateMachine();
-    }
-
-    /**
-     * @see org.andromda.metafacades.uml.FrontEndView#getActions()
-     */
-    @Override
-    protected List handleGetActions()
-    {
-        final List actions = new ArrayList();
-        final Collection outgoing = this.getOutgoings();
-        for (final Iterator iterator = outgoing.iterator(); iterator.hasNext();)
-        {
-            final Object object = iterator.next();
-            if (object instanceof FrontEndAction)
-            {
-                actions.add(object);
-            }
-        }
-        return actions;
     }
 }

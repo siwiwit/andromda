@@ -180,4 +180,34 @@ public class FrontEndViewLogicImpl
         }
         return variables;
     }
+    
+    /**
+     * @return Outgoings FrontEndActions
+     * @see org.andromda.metafacades.uml.FrontEndView#getActions()
+     */
+    @Override
+    protected List<FrontEndAction> handleGetActions()
+    {
+        final List<FrontEndAction> actions = new ArrayList<FrontEndAction>();
+        final Collection<TransitionFacade> outgoings = getOutgoings();
+        for (final Iterator<TransitionFacade> iterator = outgoings.iterator(); iterator.hasNext();)
+        {
+            final TransitionFacade object = iterator.next();
+            if (object instanceof FrontEndAction)
+            {
+                actions.add((FrontEndAction)object);
+            }
+        }
+        // TODO StrutsFinalStateLogicImpl uses getIncomings INSTEAD OF getOutgoings - why?
+        /*final Collection<TransitionFacade> incomings = getIncomings();
+        for (final Iterator<TransitionFacade> iterator = incomings.iterator(); iterator.hasNext();)
+        {
+            final TransitionFacade object = iterator.next();
+            if (object instanceof FrontEndAction)
+            {
+                actions.add((FrontEndAction)object);
+            }
+        }*/
+        return actions;
+    }
 }

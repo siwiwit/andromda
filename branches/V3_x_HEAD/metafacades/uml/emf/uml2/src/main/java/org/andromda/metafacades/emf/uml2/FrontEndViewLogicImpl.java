@@ -173,4 +173,23 @@ public class FrontEndViewLogicImpl
         }
         return variables;
     }
+    
+    /**
+     * @see org.andromda.metafacades.uml.FrontEndView#getActions()
+     */
+    @Override
+    protected List handleGetActions()
+    {
+        final List actions = new ArrayList();
+        final Collection outgoing = this.getOutgoings();
+        for (final Iterator iterator = outgoing.iterator(); iterator.hasNext();)
+        {
+            final Object object = iterator.next();
+            if (object instanceof FrontEndAction)
+            {
+                actions.add(object);
+            }
+        }
+        return actions;
+    }
 }
