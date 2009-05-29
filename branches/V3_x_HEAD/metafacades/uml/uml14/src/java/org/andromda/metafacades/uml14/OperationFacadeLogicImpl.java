@@ -192,18 +192,8 @@ public class OperationFacadeLogicImpl
     @Override
     protected String handleGetGetterSetterReturnTypeName()
     {
-        String type = null;
-        final Collection<Parameter> parms = metaObject.getParameter();
-        for (final Iterator<Parameter> iterator = parms.iterator(); iterator.hasNext();)
-        {
-            final Parameter parameter = iterator.next();
-            if (ParameterDirectionKindEnum.PDK_RETURN.equals(parameter.getKind()))
-            {
-                type = parameter.getType().getName();
-                break;
-            }
-        }
-        return type;
+        // Multiplicity in return type is only supported in UML2
+        return getReturnType().getFullyQualifiedName();
     }
 
     /**
