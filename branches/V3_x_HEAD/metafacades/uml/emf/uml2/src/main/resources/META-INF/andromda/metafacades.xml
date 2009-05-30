@@ -23,6 +23,9 @@
     <property reference="defaultPageSize"/>
     <property reference="defaultMaximumListSize"/>
     <property reference="enableTemplating"/>
+    <property reference="pluralizeAssociationEndNames"/>
+    <property reference="pluralizeAttributeNames"/>
+    <property reference="pluralizeParameterNames"/>
 
     <!-- Base structural elements -->
 
