@@ -399,23 +399,24 @@
             <stereotype>QUEUE</stereotype>
         </mapping>
     </metafacade>
-    <metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
+    <!-- DO NOT UNCOMMENT these - it will mess up the cartridge metafacade mappings! -->
+     <!--metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.PrimitiveTypeImpl"/>
         <property reference="classifierNameMask"/>
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.DataTypeImpl"/>
         <property reference="classifierNameMask"/>
-    </metafacade>
+    </metafacade-->
     <!-- metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.ClassImpl"/>
         <property reference="classifierNameMask"/>
     </metafacade-->
-    <metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
+    <!--metafacade class="org.andromda.metafacades.emf.uml2.ClassifierFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.InterfaceImpl"/>
         <property reference="classifierNameMask"/>
-    </metafacade>
-    <!--WebService cartridge throws a warning if these are not mapped, even if not used -->
+    </metafacade-->
+    <!--WebService cartridge throws a warning if these are not mapped, even if not used-->
     <metafacade class="org.andromda.metafacades.emf.uml2.ModelElementFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.LiteralIntegerImpl"/>
     </metafacade>
@@ -430,5 +431,5 @@
     </metafacade>
     <metafacade class="org.andromda.metafacades.emf.uml2.ModelElementFacadeLogicImpl">
         <mapping class="org.eclipse.uml2.impl.NamedElementImpl"/>
-    </metafacade>
+    </metafacade >
 </metafacades>
