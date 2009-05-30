@@ -135,7 +135,7 @@ public abstract class $service.baseName
 #foreach ($attribute in $argument.type.getAttributes(true))
 #if ($attribute.required && !$attribute.type.primitive)
 #if (!$attribute.type.stringType)
-        if (${argument.name}.get${stringUtils.capitalize($attribute.name)}() == null)
+        if (${argument.name}#if ($attribute.type.booleanType).is#else.get#end${stringUtils.capitalize($attribute.name)}() == null)
         {
             throw new IllegalArgumentException(
                 "${service.fullyQualifiedName}.${operation.signature} - '$argument.name.$attribute.name' can not be null");
