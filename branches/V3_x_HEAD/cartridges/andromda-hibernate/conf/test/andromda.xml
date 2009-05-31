@@ -3,20 +3,21 @@
     <property name="failOnValidationErrors">false</property>
   </properties>
   <repositories>
-    <!--repository name="netBeansMDR">
+    <repository name="netBeansMDR">
       <models>
         <model>
           <uri>${test.model.uri}</uri>
           <moduleSearchLocations>
             <location patterns="**/*.xml.zip">${basedir}/../../profiles/uml-1.4</location>
             <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles/uml-1.4</location>
-            <location patterns="**/*.xml">jar:file:${settings.localRepository}/org/omg/profiles/uml14/UML_Standard_Profile/1.0/UML_Standard_Profile-1.0.jar!/</location-->
-    <repository name="emf-uml22">
-        <models>
-            <model type="emf-uml22">
-                <uri>file:${test.src.dir}/uml/HibernateCartridgeTestModel.uml</uri>
-            </model>
-        </models>
+            <location patterns="**/*.xml">jar:file:${settings.localRepository}/org/omg/profiles/uml14/UML_Standard_Profile/1.0/UML_Standard_Profile-1.0.jar!/</location>
+          </moduleSearchLocations>
+    <!--repository name="emf-uml22">
+      <models>
+         <model type="emf-uml22">
+           <uri>file:${test.src.dir}/uml/HibernateCartridgeTestModel.uml</uri-->
+        </model>
+      </models>
     </repository>
   </repositories>
   <namespaces>
