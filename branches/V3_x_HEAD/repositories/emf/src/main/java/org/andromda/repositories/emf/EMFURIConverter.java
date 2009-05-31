@@ -80,7 +80,7 @@ public class EMFURIConverter
                         final String searchPath = (String)iterator.next();
                         final URI fileURI = EMFRepositoryFacadeUtils.createUri(ResourceUtils.normalizePath(searchPath));
                         //long ms1 = new Date().getTime() - now1.getTime();
-                        if (fileURI.lastSegment().equals(resourceName))
+                        if (fileURI != null && fileURI.lastSegment() != null && fileURI.lastSegment().equals(resourceName))
                         {
                             //AndroMDALogger.info("referenced model --> '" + fileURI + "' " + now1 + " ms");
                             normalizedUri = fileURI;
