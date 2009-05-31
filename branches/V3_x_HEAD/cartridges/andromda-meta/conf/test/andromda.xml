@@ -10,11 +10,11 @@
           <moduleSearchLocations>
             <location patterns="**/*.xml.zip">${basedir}/../../profiles/uml-1.4</location>
             <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles/uml-1.4</location>
-            <location patterns="**/*.xml">${basedir}/../../profiles/uml-1.4</location>
             <location patterns="**/*.xml.zip">${basedir}/../../metafacades/uml/common</location>
             <location patterns="**/*.xml.zip">${pom.basedir}/../../metafacades/uml/common</location>
             <location patterns="**/3.4-SNAPSHOT/*-3.4-SNAPSHOT.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
             <location patterns="**/3.4-SNAPSHOT/*-3.4-SNAPSHOT.xml.zip">${settings.localRepository}/org/andromda/metafacades</location>
+            <location patterns="**/*.xml">jar:file:${settings.localRepository}/org/omg/profiles/uml14/UML_Standard_Profile/1.0/UML_Standard_Profile-1.0.jar!/</location>
           </moduleSearchLocations>
           <modelPackages>
             <modelPackage process="false">org::andromda::metafacades::uml</modelPackage>

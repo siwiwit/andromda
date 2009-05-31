@@ -31,8 +31,5 @@
         <module>service</module>
         <module>webservice</module>
         <module>xml</module>
-        <module>Java_Profile</module>
-        <module>MagicDraw_Profile</module>
-        <module>UML_Standard_Profile</module>
     </modules>
 </project>
