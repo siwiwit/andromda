@@ -9,13 +9,11 @@
         <model>
           <uri>${test.model.uri}</uri>
           <moduleSearchLocations>
-            <!--location patterns="**/*.xml.zip">C:/Programming/andromda/V3/andromda-all/profiles/uml-1.4</location-->
             <location patterns="**/*.xml.zip">${pom.basedir}/src/uml</location>
             <location patterns="**/*.xml.zip">${pom.basedir}/../profiles/uml-1.4</location>
-            <location patterns="**/*.xml">${pom.basedir}/../profiles/uml-1.4</location>
             <location patterns="**/3.4-SNAPSHOT/*-3.4-SNAPSHOT.xml.zip">${settings.localRepository}/org/andromda/metafacades</location>
             <location patterns="**/3.4-SNAPSHOT/*-3.4-SNAPSHOT.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
-            <location patterns="**/3.4-SNAPSHOT/*-3.4-SNAPSHOT.xml">${settings.localRepository}/org/andromda/profiles/uml14</location>
+            <location patterns="**/*.xml">jar:file:${settings.localRepository}/org/omg/profiles/uml14/UML_Standard_Profile/1.0/UML_Standard_Profile-1.0.jar!/</location>
           </moduleSearchLocations>
         </model>
       </models>
