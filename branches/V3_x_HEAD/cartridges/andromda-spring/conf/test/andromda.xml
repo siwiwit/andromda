@@ -1,6 +1,7 @@
 <andromda xmlns="http://andromda.org/core/configuration">
   <properties>
     <property name="failOnValidationErrors">false</property>
+    <!--property name="loggingConfigurationUri">file:${basedir}/../../log4j.xml</property-->
   </properties>
   <repositories>
     <repository name="netBeansMDR">

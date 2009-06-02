@@ -1,12 +1,15 @@
 <andromda xmlns="http://andromda.org/core/configuration">
   <properties>
+    <!--property name="modelValidation">false</property>
+    <property name="xmlValidation">false</property-->
     <property name="failOnValidationErrors">false</property>
+    <!--property name="loggingConfigurationUri">file:${pom.basedir}/../../log4j.xml</property-->
   </properties>
   <repositories>
     <repository name="netBeansMDR">
       <models>
         <model>
-          <uri>${test.model.uri}</uri>
+          <uri>jar:file:${test.src.dir}/uml/HibernateCartridgeTestModel.xml.zip!/HibernateCartridgeTestModel.xml</uri>
           <moduleSearchLocations>
             <location patterns="**/*.xml.zip">${basedir}/../../profiles/uml-1.4</location>
             <location patterns="**/*.xml.zip">${pom.basedir}/../../profiles/uml-1.4</location>
