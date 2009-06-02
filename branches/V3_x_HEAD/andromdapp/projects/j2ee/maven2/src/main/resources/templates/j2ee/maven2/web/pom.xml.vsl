@@ -210,6 +210,18 @@
             <artifactId>icefaces-facelets</artifactId>
         </dependency>
 #end
+        <dependency>
+            <groupId>com.sun.facelets</groupId>
+            <artifactId>jsf-facelets</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.trinidad</groupId>
+            <artifactId>trinidad-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.myfaces.trinidad</groupId>
+            <artifactId>trinidad-impl</artifactId>
+        </dependency>
 #else
         <dependency>
             <groupId>com.sun.facelets</groupId>
@@ -249,6 +261,11 @@
         </dependency>
 #end
         <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
 #if ($ejb3)
             <groupId>org.jboss</groupId>
 #else
@@ -269,10 +286,12 @@
             <groupId>org.jboss</groupId>
             <artifactId>ejb3-persistence</artifactId>
         </dependency>
+#if($hibernate)
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
         </dependency>
+#end
 #end
     </dependencies>
     <build>
@@ -362,6 +381,10 @@
                     <deployLocation>${tomcat.home}/webapps</deployLocation>
                 </configuration>
 #end
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId> 
+                <artifactId>maven-source-plugin</artifactId> 
             </plugin>
         </plugins>
     </build>

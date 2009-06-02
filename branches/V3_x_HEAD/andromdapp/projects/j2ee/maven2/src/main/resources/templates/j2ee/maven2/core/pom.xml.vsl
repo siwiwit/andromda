@@ -8,7 +8,8 @@
         <version>$applicationVersion</version>
     </parent>
     <artifactId>${applicationId}-core</artifactId>
-#if ($ear)
+## Spring assumes EJB implementation
+#if ($ejb || $ejb3)
     <packaging>ejb</packaging>
 #else
     <packaging>jar</packaging>
@@ -32,14 +33,17 @@
         <dependency>
             <groupId>org.andromda</groupId>
             <artifactId>andromda-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.andromda.translationlibraries</groupId>
             <artifactId>andromda-ocl-translation-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.andromda.translationlibraries</groupId>
             <artifactId>andromda-ocl-validation-library</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -124,41 +128,58 @@
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-ejb3-client</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-ejb3x</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>ejb3-persistence</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-annotations-ejb3</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-remoting</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-aop-jdk50-client</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-aspect-jdk50-client</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+            <classifier>jdk15</classifier>
         </dependency>
 #if ($jsr181Webservice)
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jbossws-client</artifactId>
+            <scope>provided</scope>
         </dependency>
 #end
+#if ($hibernate)
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>
@@ -171,6 +192,7 @@
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
         </dependency>
+#end
         <dependency>
             <groupId>org.jboss.microcontainer</groupId>
             <artifactId>hibernate-all</artifactId>
@@ -178,6 +200,7 @@
         <dependency>
             <groupId>org.jboss.microcontainer</groupId>
             <artifactId>jboss-ejb3-all</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.microcontainer</groupId>
@@ -186,6 +209,7 @@
         <dependency>
             <groupId>org.jboss.microcontainer</groupId>
             <artifactId>jms-ra</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.microcontainer</groupId>
@@ -195,7 +219,11 @@
         <dependency>
             <groupId>jboss</groupId>
             <artifactId>jboss-j2ee</artifactId>
+            <scope>provided</scope>
         </dependency>
+#end
+#if ($jbossSeam.equals("no"))
+#set ($jbossSeam=false)
 #end
 #if ($jbossSeam)
         <dependency>
@@ -206,6 +234,11 @@
             <systemPath>${pom.basedir}/../app/target/src/resources/lib/jboss-seam.jar</systemPath>
         </dependency>
 #end
+        <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-script-wrappers</artifactId>
+            <scope>provided</scope>
+        </dependency>
 #if ($axis)
         <dependency>
             <groupId>wsdl4j</groupId>
@@ -291,7 +324,7 @@
             <artifactId>wsdl4j</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.ws.commons</groupId>
+            <groupId>org.apache.ws.commons.schema</groupId>
             <artifactId>XmlSchema</artifactId>
         </dependency>
         <dependency>
@@ -305,6 +338,11 @@
             <artifactId>xfire-all</artifactId>
         </dependency>
 #end
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>4.7</version>
+        </dependency>  
     </dependencies>
     <build>
         <plugins>
@@ -330,7 +368,7 @@
                     <jdbcUsername>${jdbc.username}</jdbcUsername>
                     <jdbcPassword>${jdbc.password}</jdbcPassword>
                     <!-- set this to false if you don't want to execute
-                         the generated SQL scripts -->
+                         the generated SQL scripts (creates and saves DDL under app/target/schema*.sql -->
                     <executeScripts>true</executeScripts>
                     <properties>
                         <property>
@@ -368,7 +406,7 @@
                 </configuration>
             </plugin>
 #end
-#if ($ear)
+#if ($ejb || $ejb3)
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
@@ -379,9 +417,26 @@
                         </manifest>
                     </archive>
                     <generateClient>true</generateClient>
+                    <excludes>
+                        <exclude>**/*.ref</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+#else
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId> 
+                <artifactId>maven-jar-plugin</artifactId> 
+                <configuration>
+                    <excludes>
+                        <exclude>**/*.ref</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
 #end
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId> 
+                <artifactId>maven-source-plugin</artifactId> 
+            </plugin>
         </plugins>
         <resources>
 #if ($groovy)
