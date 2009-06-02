@@ -1,16 +1,16 @@
 package org.andromda.maven.plugin.modelarchiver;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
@@ -180,6 +180,9 @@ public class XmiZipArchiverMojo
      */
     protected ArtifactRepository localRepository;
 
+    /**
+     * @see org.apache.maven.plugin.Mojo#execute()
+     */
     public void execute()
         throws MojoExecutionException
     {
@@ -189,6 +192,10 @@ public class XmiZipArchiverMojo
         getLog().debug("outputDirectory[" + outputDirectory + "]");
         getLog().debug("finalName[" + finalName + "]");
         getLog().debug("replaceExtensions[" + replaceExtensions + "]");
+        getLog().debug("version[" + this.project.getVersion() + "]");
+        getLog().debug("extension[" + this.replacementExtensions + "]");
+        getLog().debug("extensionPattern[" + "((\\-" + this.project.getVersion() + ")?)" + this.replacementExtensions + "]");
+        getLog().debug("newExtension[" + "\\-" + this.project.getVersion() + this.replacementExtensions + "]");
 
         try
         {
@@ -242,6 +249,7 @@ public class XmiZipArchiverMojo
                                         final String extension = escapePattern(replacementExtensions[ctr3]);
                                         final String extensionPattern = "((\\-" + version + ")?)" + extension;
                                         final String newExtension = "\\-" + version + extension;
+                                        getLog().debug("replacing " + extensionPattern + " with " + newExtension + " in " + extractedFile.getName() + " from " + file.getAbsolutePath());
                                         contents =
                                             contents.replaceAll(
                                                 extensionPattern,
@@ -373,6 +381,7 @@ public class XmiZipArchiverMojo
      *
      * @param file File to be unpacked.
      * @param location Location where to put the unpacked files.
+     * @throws MojoExecutionException if IOException or ArchiverException from unArchiver.extract()
      */
     protected void unpack(
         final File file,
@@ -419,11 +428,11 @@ public class XmiZipArchiverMojo
         final String name = path.replaceAll(
                 PATH_REMOVE_PATTERN,
                 "");
-        final ZipOutputStream zipOutputStream = new ZipOutputStream(new java.io.FileOutputStream(modelArchive));
+        final ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(modelArchive));
         final ZipEntry zipEntry = new ZipEntry(name);
         zipEntry.setMethod(ZipEntry.DEFLATED);
         zipOutputStream.putNextEntry(zipEntry);
-        final java.io.FileInputStream inputStream = new java.io.FileInputStream(path);
+        final FileInputStream inputStream = new FileInputStream(path);
         final byte[] buffer = new byte[1024];
         int n = 0;
         while ((n =
