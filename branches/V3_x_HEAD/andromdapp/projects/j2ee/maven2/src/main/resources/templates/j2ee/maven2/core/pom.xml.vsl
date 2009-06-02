@@ -165,13 +165,13 @@
             <artifactId>jboss-aspect-jdk50-client</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>4.7</version>
             <scope>test</scope>
             <classifier>jdk15</classifier>
-        </dependency>
+        </dependency-->
 #if ($jsr181Webservice)
         <dependency>
             <groupId>org.jboss</groupId>
