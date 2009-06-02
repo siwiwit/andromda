@@ -57,7 +57,7 @@
          |-- pom.xml
          |        contains information about this project, you may add more information
          |        as long as you do not violate the Maven POM schema, see
-         |        http://maven.apache.org/reference/project-descriptor.htmlt
+         |        http://maven.apache.org/ref/current/maven-model/maven.html
          |
          |      Generated sources are in target/src/main/java in each subdirectory
          |      Implementation sources are under /src in each subdirectory

@@ -4,7 +4,7 @@
         <property name="modelValidation">true</property>
         <property name="xmlValidation">true</property>
         <!-- property name="failOnModelValidationErrors">true</property-->
-        <!-- Comma separated list of cartridges to be processed by namespace name, such as java,webservice,wdw-java-supp. Empty = true = process all -->
+        <!-- Comma separated list of cartridges to be processed by namespace name, such as java,webservice. Empty = true = process all -->
         <property name="cartridgeFilter"></property>
         <!-- Debug andromda processing using example log4j.xml file -->
         <!--property name="loggingConfigurationUri">file:${applicationParentDirectory}/${applicationId}/mda/log4j.xml</property-->
