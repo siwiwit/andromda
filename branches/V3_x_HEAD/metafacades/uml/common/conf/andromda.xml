@@ -17,7 +17,8 @@
             <location patterns="**/*.xml">jar:file:${settings.localRepository}/org/omg/profiles/uml14/UML_Standard_Profile/1.0/UML_Standard_Profile-1.0.jar!/</location>
           </moduleSearchLocations>
           <constraints>
-                        <constraint enforce="false">org::andromda::cartridges::meta::metafacades::Metafacade::a metafacade must either extend an existing metafacade or have a direct dependency to a metaclass</constraint>
+            <constraint enforce="false">org::andromda::cartridges::meta::metafacades::Metafacade::a metafacade must either extend an existing metafacade or have a direct dependency to a metaclass</constraint>
+            <constraint enforce="false">org::andromda::cartridges::meta::metafacades::Metafacade::a metafacade must either extend an existing metafacade or have a directy dependency to a metaclass</constraint>
           </constraints>
         </model>
       </models>
