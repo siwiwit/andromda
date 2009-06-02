@@ -131,6 +131,7 @@ public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
         }
         
         //TODO This doesn't seem to help to resolve the pathmap.
+        // moduleSearchLocations values must be added to andromda.xml
         //TODO Enable <pathmaps><pathmap name= value=/> in andromda.xml configuration
         // pathmap://m2repository is used in starter models to reference profiles deployed in maven local repository
         String m2repository = System.getenv("M2_REPO");
@@ -139,6 +140,8 @@ public class EMFUML2RepositoryFacade extends EMFRepositoryFacade
             URI uri = URI.createURI(m2repository.replace("\\", "/") + "/");
             // This doesn't seem to load the pathmap resources from the m2repository.
             uriMap.put(URI.createURI("pathmap://m2repository/"), uri.appendSegment(""));
+            // m2repository conflicts with pathmap variable added by Sonatype eclipse plugin, use M2_REPO instead.
+            uriMap.put(URI.createURI("pathmap://M2_REPO/"), uri.appendSegment(""));
         }
 
         // - populate the load options
