@@ -26,7 +26,7 @@
             <models>
                 <model type="emf-uml2">
 #if ($modelType.equals("uml2"))
-                    <uri>jar:file:${pom.basedir}/src/main/uml/${applicationId}.xml.zip!${applicationId}.xml</uri>
+                    <uri>file:${pom.basedir}/src/main/uml/${applicationId}.uml2</uri>
 #elseif ($modelType.equals("emf-uml2"))
                     <uri>file:${pom.basedir}/src/main/uml/${applicationId}.uml2</uri>
 #end
