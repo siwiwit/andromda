@@ -42,7 +42,7 @@
                     <uri>file:${pom.basedir}/src/main/uml/${applicationId}.emx</uri>
 #end
                     <moduleSearchLocations>
-#if ($modelType.equals("uml1.4") || $modelType.equals("uml2"))
+#if ($modelType.equals("uml1.4"))
                         <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
                         <location patterns="**/*.xml">jar:file:${settings.localRepository}/org/omg/profiles/uml14/UML_Standard_Profile/1.0/UML_Standard_Profile-1.0.jar!/</location>
 						<!-- Change to UML_Standard_Profile in local MagicDraw installation directory:
