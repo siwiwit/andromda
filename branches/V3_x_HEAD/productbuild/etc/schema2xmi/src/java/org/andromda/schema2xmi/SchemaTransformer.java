@@ -4,13 +4,18 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+
 import org.andromda.core.common.ExceptionUtils;
 import org.andromda.core.engine.ModelProcessorException;
 import org.andromda.core.mapping.Mappings;
@@ -50,6 +55,7 @@ import org.omg.uml.modelmanagement.ModelManagementPackage;
  *       elements) moved to the metafacades.
  * @todo This class should be refactored into smaller classes.
  * @author Chad Brandon
+ * @author Joel Kozikowski
  */
 public class SchemaTransformer
 {
@@ -125,6 +131,32 @@ public class SchemaTransformer
      */
     private String tableTaggedValue = null;
 
+    /**
+     * The metadata column name needed to retrieve the database column type field.
+     */
+    private String metaColumnTypeName = "TYPE_NAME";
+
+    
+    /**
+     * The metadata column name needed to retrieve the database column size field.
+     */
+    private String metaColumnColumnSize = "COLUMN_SIZE";
+//    private String metaColumnColumnSize = "PRECISION";
+    
+    
+    /**
+     * The metadata column name needed to retrieve the database column number of decimal places
+     */
+    private String metaColumnDecPlaces = null;
+//    private String metaColumnDecPlaces = "SCALE";
+    
+    
+    /**
+     * The set of additional tagged values that are (optionally) added to each attribute
+     * in the generated model.
+     */
+    private HashMap attributeTaggedValues = new HashMap();
+    
     /**
      * Stores the version of XMI that will be produced.
      */
@@ -325,6 +357,23 @@ public class SchemaTransformer
         this.tableTaggedValue = StringUtils.trimToEmpty(tableTaggedValue);
     }
 
+    
+    public void setAttributeTaggedValues(String taggedValues) {
+        if (StringUtils.isNotEmpty(taggedValues)) {
+            StringTokenizer tokList = new StringTokenizer(taggedValues, ",");
+            while (tokList.hasMoreTokens()) {
+               String tok = tokList.nextToken();
+               String parts[] = StringUtils.split(tok, "=");
+               if (parts.length == 2) {
+                   String tag = parts[0];
+                   String value = parts[1];
+                   attributeTaggedValues.put(tag, value);
+               }
+            } // while
+        }
+    }
+    
+    
     /**
      * Sets the version of XMI that will be produced.
      *
@@ -344,6 +393,7 @@ public class SchemaTransformer
      * The model thats currently being processed
      */
     private Model model;
+    
 
     /**
      * Performs the actual translation of the Schema to the XMI and returns the
@@ -550,9 +600,20 @@ public class SchemaTransformer
         final Collection attributes = new ArrayList();
         final ResultSet columnRs = metadata.getColumns(null, this.schema, tableName, null);
         final Collection primaryKeyColumns = this.getPrimaryKeyColumns(metadata, tableName);
+        
+        ResultSetMetaData colMeta = columnRs.getMetaData();
+        int colCount = colMeta.getColumnCount();
+
         while (columnRs.next())
         {
             final String columnName = columnRs.getString("COLUMN_NAME");
+
+            if (logger.isDebugEnabled()) {
+                for (int c = 1; c <= colCount; c++) {
+                    logger.debug("Meta column " + colMeta.getColumnName(c) + " = " + columnRs.getString(c));
+                }
+            }
+
             if (this.columnNamePattern == null || columnName.matches(this.columnNamePattern))
             {
                 final String attributeName = SqlToModelNameFormatter.toAttributeName(columnName);
@@ -569,10 +630,18 @@ public class SchemaTransformer
 
                     // first we try to find a mapping that maps to the
                     // database proprietary type
+                    String typeName = columnRs.getString(this.getMetaColumnTypeName());
+                    String colSize = columnRs.getString(this.getMetaColumnColumnSize());
+                    String decPlaces = null;
+                    if (StringUtils.isNotEmpty(this.getMetaColumnDecPlaces()))
+                    {
+                        decPlaces = columnRs.getString(this.getMetaColumnDecPlaces());
+                    }
+
                     String type =
                         Schema2XMIUtils.constructTypeName(
-                            columnRs.getString("TYPE_NAME"),
-                            columnRs.getString("COLUMN_SIZE"));
+                            typeName,
+                            colSize, decPlaces);
                     logger.info("  -  searching for type mapping '" + type + "'");
                     if (typeMappings.containsFrom(type))
                     {
@@ -591,7 +660,7 @@ public class SchemaTransformer
                         }
                         else
                         {
-                            logger.info("  !  no mapping found, type not added to '" + attributeName + "'");
+                            logger.warn("  !  no mapping found, type not added to '" + attributeName + "'");
                         }
                     }
 
@@ -622,6 +691,25 @@ public class SchemaTransformer
                             attribute.getTaggedValue().add(taggedValue);
                         }
                     }
+                    
+                    // Add the attribute specific tagged values (if any)...
+                    if (attributeTaggedValues.size() > 0) 
+                    {
+                        Set keys = attributeTaggedValues.keySet();
+                        Iterator iter = keys.iterator();
+                        while (iter.hasNext())
+                        {
+                            String tag = (String)iter.next();
+                            String value = (String)attributeTaggedValues.get(tag);
+                            TaggedValue taggedValue =
+                                this.createTaggedValue(corePackage, tag, value);
+                            if (taggedValue != null)
+                            {
+                                attribute.getTaggedValue().add(taggedValue);
+                            }
+                        } // while
+                    }
+                    
                     if (primaryKeyColumns.contains(columnName))
                     {
                         attribute.getStereotype().addAll(
@@ -633,6 +721,31 @@ public class SchemaTransformer
         }
         DbUtils.closeQuietly(columnRs);
         return attributes;
+    }
+
+    
+    public void setMetaColumnDecPlaces(String metaColumnDecPlaces) {
+        this.metaColumnDecPlaces = metaColumnDecPlaces;
+    }
+
+    public String getMetaColumnDecPlaces() {
+        return metaColumnDecPlaces;
+    }
+
+    public void setMetaColumnColumnSize(String metaColumnColumnSize) {
+        this.metaColumnColumnSize = metaColumnColumnSize;
+    }
+
+    public String getMetaColumnColumnSize() {
+        return metaColumnColumnSize;
+    }
+
+    public void setMetaColumnTypeName(String metaColumnTypeName) {
+        this.metaColumnTypeName = metaColumnTypeName;
+    }
+    
+    public String getMetaColumnTypeName() {
+        return metaColumnTypeName;
     }
 
     /**
@@ -1014,4 +1127,5 @@ public class SchemaTransformer
         mult.getRange().add(range);
         return mult;
     }
+
 }
