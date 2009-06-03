@@ -223,7 +223,6 @@
                 <configuration>
                     <excludes>
                         <exclude>app/pom.xml</exclude>
-                        <exclude>mda/pom.xml</exclude>
                     </excludes>
 #if ($ejb3)
                     <classpathMerge>
