@@ -2,6 +2,7 @@ package org.andromda.cartridges.hibernate.metafacades;
 
 import org.andromda.core.common.ExceptionRecorder;
 import org.andromda.metafacades.uml.TypeMappings;
+import org.andromda.utils.JavaTypeConverter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -21,6 +22,10 @@ public class HibernateTypeLogicImpl
     private static final Logger logger = Logger.getLogger(HibernateTypeLogicImpl.class);
     
     // ---------------- constructor -------------------------------
+    /**
+     * @param metaObject
+     * @param context
+     */
     public HibernateTypeLogicImpl(
         Object metaObject,
         String context)
@@ -28,6 +33,7 @@ public class HibernateTypeLogicImpl
         super(metaObject, context);
     }
 
+    @Override
     /**
      * @see org.andromda.cartridges.hibernate.metafacades.HibernateType#getFullyQualifiedHibernateType()
      */
@@ -43,6 +49,7 @@ public class HibernateTypeLogicImpl
                 fullyQualifiedName = mappings.getTo(fullyQualifiedModelName);
             }
         }
+        fullyQualifiedName = new JavaTypeConverter().getJavaLangTypeName(fullyQualifiedName);
         return fullyQualifiedName;
     }
 
