@@ -29,6 +29,7 @@ import org.andromda.metafacades.uml.EnumerationFacade;
 import org.andromda.metafacades.uml.GeneralizableElementFacade;
 import org.andromda.metafacades.uml.ModelElementFacade;
 import org.andromda.metafacades.uml.OperationFacade;
+import org.andromda.metafacades.uml.PackageFacade;
 import org.andromda.metafacades.uml.ParameterFacade;
 import org.andromda.metafacades.uml.Role;
 import org.andromda.metafacades.uml.Service;
@@ -553,13 +554,13 @@ public class WebServiceUtils
      * @param follow Follow Inheritance references $extensionInheritanceDisabled
      * @return pkgRefs
      */
-    public Collection<WebServicePackageLogic> getPackageReferences(WebServiceLogicImpl service, Set<MetafacadeBase> types, String packageName, boolean follow)
+    public Collection<PackageFacade> getPackageReferences(WebServiceLogicImpl service, Set<MetafacadeBase> types, String packageName, boolean follow)
     {
-        Collection<WebServicePackageLogic> pkgRef = new TreeSet<WebServicePackageLogic>();
+        Collection<PackageFacade> pkgRef = new TreeSet<PackageFacade>();
         if (StringUtils.isNotEmpty(packageName))
         {
             String name = null;
-            WebServicePackageLogic pkg = null;
+            PackageFacade pkg = null;
             String pkgRefs = "";
             if (types!=null)
             {
@@ -574,7 +575,7 @@ public class WebServiceUtils
                     ClassifierFacade facade = service.getType(element);
                     if (facade != null)
                     {
-                        pkg = (WebServicePackageLogic) facade.getPackage();
+                        pkg = (PackageFacade) facade.getPackage();
                         if (logger.isDebugEnabled())
                         {
                             name = facade.getName();
@@ -592,7 +593,7 @@ public class WebServiceUtils
                                     {
                                         attr = getType(attr);
                                     }
-                                    pkg = (WebServicePackageLogic) attr.getPackage();
+                                    pkg = (PackageFacade) attr.getPackage();
                                     name = attr.getName();
                                     if (pkg!=null && !pkg.getFullyQualifiedName().equals(packageName) && !pkgRef.contains(pkg) && pkg.getFullyQualifiedName().indexOf('.') > 0)
                                     {
@@ -618,7 +619,7 @@ public class WebServiceUtils
                                     {
                                         otherEnd = getType(otherEnd);
                                     }
-                                    pkg = (WebServicePackageLogic) otherEnd.getPackage();
+                                    pkg = (PackageFacade) otherEnd.getPackage();
                                     name = otherEnd.getName();
                                     if (pkg!=null && !pkg.getFullyQualifiedName().equals(packageName) && !pkgRef.contains(pkg) && pkg.getFullyQualifiedName().indexOf('.') > 0)
                                     {
@@ -645,7 +646,7 @@ public class WebServiceUtils
                         {
                             type = (ClassifierFacade)getType(type);
                         }
-                        pkg = (WebServicePackageLogic) type.getPackage();
+                        pkg = (PackageFacade) type.getPackage();
                         if (logger.isDebugEnabled())
                         {
                             logger.debug("getPackageReferences packageName=" + packageName + " ClassifierFacade " + pkg + "." + name);
@@ -662,7 +663,7 @@ public class WebServiceUtils
                                     {
                                         attr = getType(attr);
                                     }
-                                    pkg = (WebServicePackageLogic) attr.getPackage();
+                                    pkg = (PackageFacade) attr.getPackage();
                                     name = attr.getName();
                                     if (pkg!=null && !pkg.getFullyQualifiedName().equals(packageName) && !pkgRef.contains(pkg) && pkg.getFullyQualifiedName().indexOf('.') > 0)
                                     {
@@ -688,7 +689,7 @@ public class WebServiceUtils
                                     {
                                         otherEnd = getType(otherEnd);
                                     }
-                                    pkg = (WebServicePackageLogic) otherEnd.getPackage();
+                                    pkg = (PackageFacade) otherEnd.getPackage();
                                     name = otherEnd.getName();
                                     if (pkg!=null && !pkg.getFullyQualifiedName().equals(packageName) && !pkgRef.contains(pkg) && pkg.getFullyQualifiedName().indexOf('.') > 0)
                                     {
@@ -715,7 +716,7 @@ public class WebServiceUtils
                         {
                             type = (AssociationEndFacade)facade;
                         }
-                        pkg = (WebServicePackageLogic) type.getPackage();
+                        pkg = (PackageFacade) type.getPackage();
                         if (logger.isDebugEnabled())
                         {
                             logger.debug("getPackageReferences packageName=" + packageName + " AssociationEndFacade " + pkg + "." + name);
@@ -725,7 +726,7 @@ public class WebServiceUtils
                             if (facade != null && facade instanceof ClassifierFacade)
                             {
                                 ClassifierFacade typeLogic = (ClassifierFacade)facade;
-                                pkg = (WebServicePackageLogic) typeLogic.getPackage();
+                                pkg = (PackageFacade) typeLogic.getPackage();
                                 if (logger.isDebugEnabled())
                                 {
                                     name = typeLogic.getName();
@@ -758,7 +759,7 @@ public class WebServiceUtils
                                         {
                                             otherEnd = getType(otherEnd);
                                         }
-                                        pkg = (WebServicePackageLogic) otherEnd.getPackage();
+                                        pkg = (PackageFacade) otherEnd.getPackage();
                                         name = otherEnd.getName();
                                         if (pkg!=null && !pkg.getFullyQualifiedName().equals(packageName) && !pkgRef.contains(pkg) && pkg.getFullyQualifiedName().indexOf('.') > 0)
                                         {
@@ -785,7 +786,7 @@ public class WebServiceUtils
                         {
                             type = (EnumerationFacade)getType(type);
                         }
-                        pkg = (WebServicePackageLogic) type.getPackage();
+                        pkg = (PackageFacade) type.getPackage();
                         if (pkg != null && pkg.getFullyQualifiedName().indexOf('.') > 0 && pkg.getFullyQualifiedName().equals(packageName))
                         {
                             for (final Iterator properties = type.getAllProperties().iterator(); properties.hasNext();)
@@ -795,7 +796,7 @@ public class WebServiceUtils
                                 {
                                     attr = getType(attr);
                                 }
-                                pkg = (WebServicePackageLogic) attr.getPackage();
+                                pkg = (PackageFacade) attr.getPackage();
                                 name = attr.getName();
                                 if (pkg!=null && !pkg.getFullyQualifiedName().equals(packageName) && !pkgRef.contains(pkg) && pkg.getFullyQualifiedName().indexOf('.') > 0)
                                 {
@@ -819,14 +820,27 @@ public class WebServiceUtils
             if (packageName.equals(service.getPackageName()))
             {
                 // Add references from the operations of the service package itself
-                for (final Iterator iterator = service.getAllowedOperations().iterator(); iterator.hasNext();)
+                for (final Iterator<WebServiceOperation> iterator = service.getAllowedOperations().iterator(); iterator.hasNext();)
                 {
-                    WebServiceOperationLogicImpl op = (WebServiceOperationLogicImpl)iterator.next();
+                    WebServiceOperation op = (WebServiceOperation)iterator.next();
                     for (final Iterator opiterator = op.getExceptions().iterator(); opiterator.hasNext();)
                     {
-                        ModelElementFacade arg = (ModelElementFacade)opiterator.next();
-                        pkg = (WebServicePackageLogic) arg.getPackage();
-                        name = arg.getName();
+                        Object opit = opiterator.next();
+                        System.out.println(opit);
+                        if (opit instanceof ModelElementFacade)
+                        {
+                            ModelElementFacade arg = (ModelElementFacade)opit;
+                            pkg = (PackageFacade) arg.getPackage();
+                            name = arg.getName();
+                        }
+                        else if (opit instanceof PackageFacade)
+                        {
+                            pkg = (PackageFacade) opit;
+                        }
+                        else
+                        {
+                            pkg = null;
+                        }
                         if (pkg!=null && !pkg.getFullyQualifiedName().equals(service.getPackageName()) && pkg.getFullyQualifiedName().indexOf('.') > 0 && !pkgRef.contains(pkg))
                         {
                             pkgRef.add(pkg);
@@ -840,7 +854,7 @@ public class WebServiceUtils
                     for (final Iterator opiterator = op.getParameters().iterator(); opiterator.hasNext();)
                     {
                         WebServiceParameterLogicImpl arg = (WebServiceParameterLogicImpl)opiterator.next();
-                        pkg = (WebServicePackageLogic) arg.getType().getPackage();
+                        pkg = (PackageFacade) arg.getType().getPackage();
                         name = arg.getType().getName();
                         if (pkg!=null && !pkg.getFullyQualifiedName().equals(service.getPackageName()) && pkg.getFullyQualifiedName().indexOf('.') > 0 && !pkgRef.contains(pkg))
                         {
@@ -854,7 +868,7 @@ public class WebServiceUtils
                     }
                     if (op.getReturnType()!=null)
                     {
-                        pkg = (WebServicePackageLogic) op.getReturnType().getPackage();
+                        pkg = (PackageFacade) op.getReturnType().getPackage();
                         name = op.getReturnType().getName();
                         if (logger.isDebugEnabled())
                         {
@@ -894,13 +908,13 @@ public class WebServiceUtils
      * @param follow Follow Inheritance references $extensionInheritanceDisabled
      * @return pkgRefs Collection<String> package names
      */
-    public Collection<WebServicePackageLogic> getPackageReferences(WebServicePackageLogic packageFacade, boolean follow)
+    public Collection<PackageFacade> getPackageReferences(PackageFacade packageFacade, boolean follow)
     {
-        Collection<WebServicePackageLogic> pkgRef = new TreeSet<WebServicePackageLogic>();
+        Collection<PackageFacade> pkgRef = new TreeSet<PackageFacade>();
         if (packageFacade != null)
         {
             String name = null;
-            WebServicePackageLogic pkg = null;
+            PackageFacade pkg = null;
             String packageName = packageFacade.getFullyQualifiedName();
             String pkgRefs = "";
             // Copy package names and collection of related packages to package references list
@@ -911,7 +925,7 @@ public class WebServiceUtils
                 ClassifierFacade facade = (ClassifierFacade)iterator.next();
                 if (facade != null)
                 {
-                    pkg = (WebServicePackageLogic) facade.getPackage();
+                    pkg = (PackageFacade) facade.getPackage();
                     if (logger.isDebugEnabled())
                     {
                         name = facade.getName();
@@ -930,7 +944,7 @@ public class WebServiceUtils
                                 {
                                     attr = getType(attr);
                                 }
-                                pkg = (WebServicePackageLogic) attr.getPackage();
+                                pkg = (PackageFacade) attr.getPackage();
                                 name = attr.getName();
                                 if (pkg!=null && !pkg.getFullyQualifiedName().equals(packageName) && !pkgRef.contains(pkg) && pkg.getFullyQualifiedName().indexOf('.') > 0)
                                 {
@@ -956,7 +970,7 @@ public class WebServiceUtils
                                 {
                                     otherEnd = getType(otherEnd);
                                 }
-                                pkg = (WebServicePackageLogic) otherEnd.getPackage();
+                                pkg = (PackageFacade) otherEnd.getPackage();
                                 name = otherEnd.getName();
                                 if (pkg!=null && !pkg.getFullyQualifiedName().equals(packageName) && !pkgRef.contains(pkg) && pkg.getFullyQualifiedName().indexOf('.') > 0)
                                 {
@@ -983,7 +997,7 @@ public class WebServiceUtils
                             for (final Iterator opiterator = op.getExceptions().iterator(); opiterator.hasNext();)
                             {
                                 ModelElementFacade arg = (ModelElementFacade)opiterator.next();
-                                pkg = (WebServicePackageLogic) arg.getPackage();
+                                pkg = (PackageFacade) arg.getPackage();
                                 name = arg.getName();
                                 if (pkg!=null && !pkg.getFullyQualifiedName().equals(facade.getPackageName()) && pkg.getFullyQualifiedName().indexOf('.') > 0 && !pkgRef.contains(pkg))
                                 {
@@ -998,7 +1012,7 @@ public class WebServiceUtils
                             for (final Iterator opiterator = op.getParameters().iterator(); opiterator.hasNext();)
                             {
                                 WebServiceParameterLogicImpl arg = (WebServiceParameterLogicImpl)opiterator.next();
-                                pkg = (WebServicePackageLogic) arg.getType().getPackage();
+                                pkg = (PackageFacade) arg.getType().getPackage();
                                 name = arg.getType().getName();
                                 if (pkg!=null && !pkg.getFullyQualifiedName().equals(facade.getPackageName()) && pkg.getFullyQualifiedName().indexOf('.') > 0 && !pkgRef.contains(pkg))
                                 {
@@ -1012,7 +1026,7 @@ public class WebServiceUtils
                             }
                             if (op.getReturnType()!=null)
                             {
-                                pkg = (WebServicePackageLogic) op.getReturnType().getPackage();
+                                pkg = (PackageFacade) op.getReturnType().getPackage();
                                 name = op.getReturnType().getName();
                                 if (pkg!=null && !pkg.getFullyQualifiedName().equals(facade.getPackageName()) && pkg.getFullyQualifiedName().indexOf('.') > 0 && !pkgRef.contains(pkg))
                                 {
