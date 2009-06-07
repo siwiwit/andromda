@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
  * from one data type to another.
  *
  * @author Joel Kozikowski
+ * @author Bob Fields
  */
 public class JavaTypeConverter
 {
@@ -21,6 +22,7 @@ public class JavaTypeConverter
     /** 
      * Specifies a list of one or more fully qualified java types that should be ignored 
      * whenever a type conversion is done.  See Spring namespace property "javaTypeConversionIgnoreList" 
+     * @param commaSeparatedIgnoreList comma separated list of types to be ignored
      */
     public void setJavaTypeConversionIgnoreList(String commaSeparatedIgnoreList)
     {
@@ -49,7 +51,6 @@ public class JavaTypeConverter
             this.targetType = targetType;
             this.conversionPattern = conversionPattern;
         }
-
     }
 
     private static ConversionEntry[] conversionTable =
@@ -204,7 +205,7 @@ public class JavaTypeConverter
         };
 
     /**
-     * Attemps to code a type conversion from the specified source value to the target
+     * Attempts to code a type conversion from the specified source value to the target
      * type that can be used on the right hand side of an assignment. If such a conversion
      * exists, the Java code fragment to do that will be returned. If no such conversion exists,
      * null is returned.
@@ -231,7 +232,6 @@ public class JavaTypeConverter
         }
         else
         {
-            logger.debug("Attempting to convert " + sourceType + " to " + targetType);
             convertedValue = null;
 
             for (int i = 0; i < conversionTable.length && convertedValue == null; i++)
@@ -304,4 +304,52 @@ public class JavaTypeConverter
         return convertedValue;
     }
 
+    private static ArrayList<String> javaLangList = new ArrayList<String>();
+    /**
+     * Creates a java.lang. fully qualified name from the given <code>name</code>,
+     * inserting 'java.lang.' in front if needed. Many EJB3 and Hibernate configuration files
+     * require java.lang. in the type name, where Java code does not (gives compiler warning).
+     * This allows UML Primitive types to be modeled and mapped without java.lang. implementation.
+     *
+     * @param name the name of the model element.
+     * @return the java.lang. fully qualified name, if needed.
+     */
+    public String getJavaLangTypeName(String name)
+    {
+        if (StringUtils.isBlank(name))
+        {
+            return name;
+        }
+        synchronized (javaLangList)
+        {
+            if (javaLangList.isEmpty())
+            {
+                javaLangList.add("String");
+                javaLangList.add("Boolean");
+                javaLangList.add("Integer");
+                javaLangList.add("Long");
+                javaLangList.add("Double");
+                javaLangList.add("Object");
+                javaLangList.add("Short");
+                javaLangList.add("Character");
+                javaLangList.add("Byte");
+                javaLangList.add("Float");
+                javaLangList.add("Number");
+                javaLangList.add("Math");
+                javaLangList.add("Class");
+                javaLangList.add("Exception");
+                javaLangList.add("Enum");
+            }
+        }
+        // If type has no package and is not the same as lowercase (i.e. primitive type)...
+        if (!(name.indexOf('.')>-1) && !(name.equals(name.toLowerCase())))
+        {
+            if (javaLangList.contains(name) 
+                || (name.endsWith("[]") && javaLangList.contains(name.substring(0, name.length()-2))))
+            {
+                name = "java.lang." + name;
+            }
+        }
+        return name;
+    }
 }
