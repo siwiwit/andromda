@@ -168,7 +168,7 @@
         <fragment name="&lt;&gt;\s+.*"
                   handlerMethod="handleRelationalExpression">
             <kind name="body">
-                {0} not {1}
+                {0} &lt;&gt; {1}
             </kind>
         </fragment>
 
