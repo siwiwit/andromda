@@ -71,7 +71,7 @@ public class UMLMetafacadeUtils
      */
     public static String getGetterPrefix(final ClassifierFacade type)
     {
-        return type != null && type.isBooleanType() ? "is" : "get";
+        return type != null && type.isBooleanType() && type.isPrimitive() ? "is" : "get";
     }
 
     /**
