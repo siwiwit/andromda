@@ -276,7 +276,7 @@
                 <property name="hibernateQueryCacheFactory">org.hibernate.cache.StandardQueryCacheFactory</property>
 #end
 #if ($war)
-                <property name="transactionManager">org.springframework.jdbc.datasource.DataSourceTransactionManager</property>
+                <property name="transactionManager">org.springframework.orm.hibernate3.HibernateTransactionManager</property>
 #end
                 <property name="hibernateInheritanceStrategy">${hibernate.inheritance.strategy}</property>
                 <property name="springTypesPackage">${application.package}</property>
