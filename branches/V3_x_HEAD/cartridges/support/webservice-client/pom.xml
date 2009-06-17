@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.apache.ws.commons.axiom</groupId>
             <artifactId>axiom-api</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.7</version>
             <optional>true</optional>
             <exclusions>
                 <exclusion>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.apache.ws.commons.axiom</groupId>
             <artifactId>axiom-impl</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.7</version>
             <optional>true</optional>
             <exclusions>
                 <exclusion>
@@ -57,30 +57,27 @@
         <dependency>
             <groupId>woodstox</groupId>
             <artifactId>wstx-asl</artifactId>
-            <version>3.2.1</version>
+            <version>3.2.7</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.3</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.7.0</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
-            <version>3.0.1</version>
+            <version>3.1</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -92,13 +89,19 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring</artifactId>
-            <version>2.0.5</version>
+            <version>2.0.8</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.tonicsystems</groupId>
             <artifactId>jarjar</artifactId>
             <version>0.6</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0.1</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
