@@ -34,18 +34,16 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>1.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-settings</artifactId>
-            <version>2.0.4</version>
+            <version>${maven.version}</version>
         </dependency>
         <!-- Comment out uml14 dependencies for faster performance, if not using uml14 models -->
         <dependency>
