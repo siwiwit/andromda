@@ -34,6 +34,14 @@
         <property name="facades">${maven.build.src}</property>
         <property name="facade-logics">${maven.build.src}</property>
         <property name="facade-logic-impls">${java.src.dir}</property>
+        <property name="enableTemplating">true</property>
+        <property name="enableAnnotations">true</property>
+        <property name="typeSafeEnumsEnabled">true</property>
+        <property name="enumerationLiteralNameMask">upperunderscore</property>
+        <property name="pluralizeAssociationEndNames">true</property>
+        <property name="pluralizeAttributeNames">true</property>
+        <property name="pluralizeParameterNames">true</property>
+        <property name="toDoTag">TODO</property>
       </properties>
     </namespace>
     <namespace name="java">
