@@ -654,4 +654,10 @@
     <prerequisites>
         <maven>2.0.1</maven>
     </prerequisites>
+    <distributionManagement>
+        <repository>
+            <url>file:/var/www/andromda/maven2</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+    </distributionManagement>
 </project>
