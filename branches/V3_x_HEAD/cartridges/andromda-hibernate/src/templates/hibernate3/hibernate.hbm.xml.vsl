@@ -36,7 +36,7 @@
 #else
         <composite-id name="$stringUtils.uncapitalize($entity.name)Pk" class="${entity.fullyQualifiedEntityName}PK">
 #foreach ($identifier in $entity.identifiers)
-            <key-property name="$identifier.name" type="$identifier.type.fullyQualifiedName">
+            <key-property name="$identifier.name" type="$identifier.type.fullyQualifiedHibernateType">
                 <column name="$identifier.columnName"#if ($generateDatabaseDependentCode) sql-type="$identifier.sqlType"#end not-null="true"/>
             </key-property>
 #end
