@@ -1,7 +1,6 @@
 package org.andromda.cartridges.java.metafacades;
 
 import java.util.Iterator;
-
 import org.andromda.metafacades.uml.ClassifierFacade;
 import org.apache.commons.lang.StringUtils;
 
@@ -14,6 +13,10 @@ import org.apache.commons.lang.StringUtils;
 public class JavaClassLogicImpl
     extends JavaClassLogic
 {
+    /**
+     * @param metaObject
+     * @param context
+     */
     public JavaClassLogicImpl(
         Object metaObject,
         String context)
@@ -22,9 +25,11 @@ public class JavaClassLogicImpl
     }
 
     /**
+     * @return InterfaceImplementionName
      * @see org.andromda.cartridges.java.metafacades.JavaClass#getInterfaceImplementationName()
      */
-    protected java.lang.String handleGetInterfaceImplementationName()
+    @Override
+    protected String handleGetInterfaceImplementationName()
     {
         return this.getInterfaceImplementionName().replaceAll(
             "\\{0\\}",
@@ -42,8 +47,10 @@ public class JavaClassLogicImpl
     }
 
     /**
+     * @return InterfaceImplementationName
      * @see org.andromda.cartridges.java.metafacades.JavaClass#getFullyQualifiedInterfaceImplementationName()
      */
+    @Override
     protected String handleGetFullyQualifiedInterfaceImplementationName()
     {
         final StringBuffer fullName = new StringBuffer();
@@ -56,8 +63,10 @@ public class JavaClassLogicImpl
     }
 
     /**
+     * @return abstractImplementation
      * @see org.andromda.cartridges.java.metafacades.JavaClass#isAbstractInterfaceImplementation()
      */
+    @Override
     protected boolean handleIsAbstractInterfaceImplementation()
     {
         boolean abstractImplementation = !this.getOperations().isEmpty();
