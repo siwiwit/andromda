@@ -13,6 +13,7 @@
     <name>AndroMDA Documentation</name>
     <description>The top level module for all AndroMDA documentation</description>
     <modules>
+        <module>samples/time-tracker-java-maven2/timetracker</module>
         <module>main</module>
         <module>getting-started</module>
     </modules>
