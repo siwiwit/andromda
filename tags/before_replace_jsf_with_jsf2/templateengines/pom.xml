@@ -1,0 +1,37 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.andromda</groupId>
+        <artifactId>andromda</artifactId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <groupId>org.andromda.templateengines</groupId>
+    <artifactId>andromda-templateengines</artifactId>
+    <packaging>pom</packaging>
+    <name>AndroMDA Template Engines</name>
+    <description>The collection of Template Engine implementations.</description>
+    <scm>
+        <connection>scm:svn:http://andromda.svn.sourceforge.net/svnroot/andromda/trunk/templateengines</connection>
+        <developerConnection>scm:svn:https://andromda.svn.sourceforge.net/svnroot/andromda/trunk/templateengines</developerConnection>
+        <url>http://andromda.svn.sourceforge.net/</url>
+    </scm>
+    <dependencies>
+        <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>            
+        </dependency>
+    </dependencies>
+    <modules>
+        <module>velocity</module>
+        <module>freemarker</module>
+    </modules>
+	<build>		
+		<sourceDirectory>src/main/java</sourceDirectory>
+	</build>
+</project>

@@ -1,0 +1,32 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.andromda</groupId>
+        <artifactId>andromda</artifactId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <groupId>org.andromda.ant</groupId>
+    <artifactId>andromda-ant-support</artifactId>
+    <packaging>pom</packaging>
+    <name>AndroMDA Ant Support</name>
+    <description>The collection of AndroMDA libraries supporting Ant.</description>
+    <scm>
+        <connection>scm:svn:https://andromda.svn.sourceforge.net/svnroot/andromda/trunk/ant</connection>
+        <developerConnection>scm:svn:https://andromda.svn.sourceforge.net/svnroot/andromda/trunk/ant</developerConnection>
+        <url>http://andromda.svn.sourceforge.net/</url>
+    </scm>    
+    <build>
+        <resources>
+            <resource>
+                <directory>target/resources</directory>
+                <includes>
+                    <include>*.zip</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+    <modules>
+        <module>andromda</module>
+        <module>task</module>
+    </modules>
+</project>

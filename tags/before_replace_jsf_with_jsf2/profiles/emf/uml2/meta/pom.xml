@@ -1,0 +1,19 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.andromda.profiles.emf.uml2</groupId>
+        <artifactId>andromda-profiles-emf-uml2</artifactId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <packaging>uml2</packaging>
+    <artifactId>andromda-profile-meta</artifactId>
+    <name>AndroMDA EMF-UML2 Meta Profile</name>
+    <description>
+        Contains the AndroMDA EMF-UML2 1.X meta profile.
+    </description>
+    <scm>
+      <connection>scm:svn:https://andromda.svn.sourceforge.net/svnroot/andromda/trunk/profiles/emf/uml2/meta</connection>
+      <developerConnection>scm:svn:https://andromda.svn.sourceforge.net/svnroot/andromda/trunk/profiles/emf/uml2/meta</developerConnection>
+      <url>http://andromda.svn.sourceforge.net/</url>
+    </scm>
+</project>

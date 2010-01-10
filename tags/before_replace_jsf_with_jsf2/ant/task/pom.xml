@@ -1,0 +1,36 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.andromda.ant</groupId>
+        <artifactId>andromda-ant-support</artifactId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <artifactId>andromda-ant-task</artifactId>
+    <packaging>jar</packaging>
+    <name>AndroMDA Ant Task</name>
+    <description>Provides an Ant Task for running AndroMDA</description>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://galaxy.andromda.org/jira/BrowseProject.jspa?id=10001</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:svn:https://andromda.svn.sourceforge.net/svnroot/andromda/trunk/ant/task</connection>
+        <developerConnection>scm:svn:https://andromda.svn.sourceforge.net/svnroot/andromda/trunk/ant/task</developerConnection>
+        <url>http://andromda.svn.sourceforge.net/</url>
+    </scm>    
+    <dependencies>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>                
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>            
+        </dependency>
+        <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>        
+    </dependencies>
+</project>
