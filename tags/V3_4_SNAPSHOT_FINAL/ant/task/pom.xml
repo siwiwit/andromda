@@ -1,0 +1,37 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.andromda.ant</groupId>
+        <artifactId>andromda-ant-support</artifactId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <artifactId>andromda-ant-task</artifactId>
+    <packaging>jar</packaging>
+    <name>AndroMDA Ant Task</name>
+    <description>Provides an Ant Task for running AndroMDA</description>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://www.andromda.org/jira/browse/ant</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:svn:http://andromda.svn.sourceforge.net/svnroot/andromda/trunk/ant/task</connection>
+        <developerConnection>scm:svn:https://andromda.svn.sourceforge.net/svnroot/andromda/trunk/ant/task</developerConnection>
+        <url>http://andromda.svn.sourceforge.net/</url>
+    </scm>
+    <dependencies>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda</groupId>
+            <artifactId>andromda-core</artifactId>
+            <version>${andromda.version}</version>
+        </dependency>
+    </dependencies>
+</project>
